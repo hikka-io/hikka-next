@@ -30,11 +30,7 @@ import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { cn } from '@/utils/cn';
 import { Link, useParams } from '@/utils/navigation';
 
-import {
-    COLLECTIONS_PREVIEW_SIZE,
-    userCollectionsPreviewBody,
-    userCollectionsPreviewOptions,
-} from '../queries';
+import { COLLECTIONS_PREVIEW_SIZE, userCollectionsOptions } from '../queries';
 
 type Props = {
     className?: string;
@@ -47,11 +43,11 @@ const UserCollections: FC<Props> = ({ className }) => {
 
     const { user: loggedUser } = useSession();
 
-    const body = userCollectionsPreviewBody(String(params.username));
+    const username = String(params.username);
 
     const { ref, visible } = useVisibleOnce();
     const { list: collections, isPending } = useInfiniteList(
-        userCollectionsPreviewOptions(String(params.username)),
+        userCollectionsOptions(username, { preview: true }),
         { enabled: visible },
     );
 
@@ -137,7 +133,7 @@ const UserCollections: FC<Props> = ({ className }) => {
             <ResponsiveModal open={open} onOpenChange={setOpen} type="sheet">
                 <ResponsiveModalContent side="right" title="Колекції">
                     <CollectionListModal
-                        body={body}
+                        options={userCollectionsOptions(username)}
                         emptyState={
                             <EmptyState
                                 icon={<MaterialSymbolsGridViewRounded />}

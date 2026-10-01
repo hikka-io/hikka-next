@@ -17,7 +17,7 @@ import {
 } from '@/features/users';
 import {
     userArticlesPreviewOptions,
-    userFavouritesPreviewOptions,
+    userFavouritesOptions,
     userHistoryPreviewOptions,
 } from '@/features/users/queries';
 
@@ -37,9 +37,10 @@ export const Route = createFileRoute('/_pages/u/$username/')({
                 serviceUserActivityOptions({ path, client: apiClient }),
             ),
             queryClient.prefetchInfiniteQuery(
-                userFavouritesPreviewOptions(
+                userFavouritesOptions(
                     username,
                     ContentTypeEnum.ANIME,
+                    { preview: true },
                     apiClient,
                 ),
             ),

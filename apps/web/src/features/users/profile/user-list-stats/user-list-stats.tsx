@@ -2,12 +2,7 @@ import { useState } from 'react';
 
 import { useQueryClient } from '@tanstack/react-query';
 
-import {
-    ContentTypeEnum,
-    type MainContentTypeEnum,
-    type ReadContentTypeEnum,
-    userReadStatsOptions,
-} from '@hikka/api';
+import { ContentTypeEnum, type MainContentTypeEnum } from '@hikka/api';
 
 import Card from '@/components/ui/card';
 import {
@@ -19,6 +14,7 @@ import {
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useParams } from '@/utils/navigation';
 
+import { userListStatsOptions } from '../../queries';
 import ListTabContent from './list-tab-content';
 
 type ListContentType = MainContentTypeEnum;
@@ -50,10 +46,8 @@ const UserListStats = () => {
     const tabConfig = TAB_LIST_CONFIG[activeTab];
     const queryClient = useQueryClient();
 
-    const warmReadStats = (content_type: ReadContentTypeEnum) => () =>
-        queryClient.prefetchQuery(
-            userReadStatsOptions({ path: { username, content_type } }),
-        );
+    const warmStats = (content_type: MainContentTypeEnum) => () =>
+        queryClient.prefetchQuery(userListStatsOptions(username, content_type));
 
     return (
         <Card className="p-0 py-4" id="user-list-stats">
@@ -79,24 +73,20 @@ const UserListStats = () => {
                             </TabsTrigger>
                             <TabsTrigger
                                 value={ContentTypeEnum.MANGA}
-                                onPointerEnter={warmReadStats(
-                                    ContentTypeEnum.MANGA as ReadContentTypeEnum,
+                                onPointerEnter={warmStats(
+                                    ContentTypeEnum.MANGA,
                                 )}
-                                onFocus={warmReadStats(
-                                    ContentTypeEnum.MANGA as ReadContentTypeEnum,
-                                )}
+                                onFocus={warmStats(ContentTypeEnum.MANGA)}
                                 aria-label="Манґа"
                             >
                                 Манґа
                             </TabsTrigger>
                             <TabsTrigger
                                 value={ContentTypeEnum.NOVEL}
-                                onPointerEnter={warmReadStats(
-                                    ContentTypeEnum.NOVEL as ReadContentTypeEnum,
+                                onPointerEnter={warmStats(
+                                    ContentTypeEnum.NOVEL,
                                 )}
-                                onFocus={warmReadStats(
-                                    ContentTypeEnum.NOVEL as ReadContentTypeEnum,
-                                )}
+                                onFocus={warmStats(ContentTypeEnum.NOVEL)}
                                 aria-label="Ранобе"
                             >
                                 Ранобе

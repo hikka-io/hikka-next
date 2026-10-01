@@ -2,11 +2,7 @@ import { type FC, useState } from 'react';
 
 import { range } from '@antfu/utils';
 
-import {
-    type CollectionContentTypeEnum,
-    type CollectionsListArgs,
-    getCollectionsInfiniteOptions,
-} from '@hikka/api';
+import type { CollectionContentTypeEnum } from '@hikka/api';
 
 import MaterialSymbolsStack from '@/components/icons/material-symbols/MaterialSymbolsStack';
 import {
@@ -33,8 +29,7 @@ import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { useParams } from '@/utils/navigation';
 
 import ContentRailSkeleton from './content-rail-skeleton';
-
-const PREVIEW_SIZE = 3;
+import { COLLECTIONS_PREVIEW_SIZE, contentCollectionsOptions } from './queries';
 
 type Props = {
     content_type: CollectionContentTypeEnum;
@@ -45,17 +40,11 @@ const ContentCollections: FC<Props> = ({ content_type }) => {
     const [open, setOpen] = useState(false);
     useCloseOnRouteChange(setOpen);
 
-    const body: CollectionsListArgs = {
-        content_type,
-        content: [String(params.slug)],
-    };
+    const slug = String(params.slug);
 
     const { ref, visible } = useVisibleOnce();
     const { list, isPending } = useInfiniteList(
-        getCollectionsInfiniteOptions({
-            body,
-            query: { size: PREVIEW_SIZE },
-        }),
+        contentCollectionsOptions(content_type, slug, { preview: true }),
         { enabled: visible },
     );
 
@@ -63,7 +52,7 @@ const ContentCollections: FC<Props> = ({ content_type }) => {
         return isPending ? (
             <div ref={ref}>
                 <ContentRailSkeleton className="gap-6">
-                    {range(0, PREVIEW_SIZE).map((index) => (
+                    {range(0, COLLECTIONS_PREVIEW_SIZE).map((index) => (
                         <CollectionItemSkeleton key={index} />
                     ))}
                 </ContentRailSkeleton>
@@ -98,7 +87,7 @@ const ContentCollections: FC<Props> = ({ content_type }) => {
             <ResponsiveModal open={open} onOpenChange={setOpen} type="sheet">
                 <ResponsiveModalContent side="left" title="Колекції">
                     <CollectionListModal
-                        body={body}
+                        options={contentCollectionsOptions(content_type, slug)}
                         emptyState={
                             <EmptyState
                                 icon={<MaterialSymbolsStack />}

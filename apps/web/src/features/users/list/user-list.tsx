@@ -1,10 +1,9 @@
 import type { FC } from 'react';
 
-import {
-    ContentTypeEnum,
-    type MainContentTypeEnum,
-    type ReadStatusEnum,
-    type WatchStatusEnum,
+import type {
+    MainContentTypeEnum,
+    ReadStatusEnum,
+    WatchStatusEnum,
 } from '@hikka/api';
 
 import LoadMoreButton from '@/components/load-more-button';
@@ -17,8 +16,7 @@ import GridView from './components/grid-view';
 import RecordsNotFound from './components/records-not-found';
 import UserListSkeleton from './components/user-list-skeleton';
 import TableView from './table-view';
-import { useReadList } from './use-read-list';
-import { useWatchList } from './use-watch-list';
+import { useUserList } from './use-user-list';
 
 type Props = {
     content_type: MainContentTypeEnum;
@@ -28,12 +26,9 @@ type Props = {
 const UserList: FC<Props> = ({ content_type, extendedSize }) => {
     const search = useRouteSearch<Pick<UserlistSearch, 'status'>>();
     const { view } = useCatalogView('userlist');
-    const isAnime = content_type === ContentTypeEnum.ANIME;
 
     const status = search.status as ReadStatusEnum | WatchStatusEnum | 'all';
 
-    const watchList = useWatchList({ enabled: isAnime });
-    const readList = useReadList({ enabled: !isAnime });
     const {
         list,
         pagination,
@@ -43,7 +38,7 @@ const UserList: FC<Props> = ({ content_type, extendedSize }) => {
         isFetchingNextPage,
         hasNextPage,
         ref,
-    } = isAnime ? watchList : readList;
+    } = useUserList(content_type);
 
     if (!list || !status) {
         return isPending && status ? (

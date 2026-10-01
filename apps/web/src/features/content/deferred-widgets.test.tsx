@@ -18,8 +18,13 @@ import {
 import ContentArticles from './articles/articles';
 import ContentCollections from './collections';
 import Followings from './followings/followings';
+import FollowingsModal from './followings/followings-modal';
 import Franchise from './franchise/franchise';
-import { contentRelatedFranchiseOptions } from './queries';
+import {
+    contentCollectionsOptions,
+    contentFollowingOptions,
+    contentRelatedFranchiseOptions,
+} from './queries';
 import ContentStaff from './staff';
 
 (
@@ -217,20 +222,24 @@ describe('deferred overview widgets', () => {
         expect(requests[0].searchParams.get('page')).toBe('1');
     });
 
-    it('keys the collections preview as the modal body plus a size of 3', async () => {
+    it('keys the collections preview as the modal key plus a size of 3', async () => {
         await render(<ContentCollections content_type="anime" />);
         await scrollIntoView();
 
-        const body = { content_type: 'anime' as const, content: [SLUG] };
-        const previewKey = getCollectionsInfiniteOptions({
-            body,
-            query: { size: 3 },
+        const previewKey = contentCollectionsOptions('anime', SLUG, {
+            preview: true,
         }).queryKey;
-        const modalKey = getCollectionsInfiniteOptions({ body }).queryKey;
+        const modalKey = contentCollectionsOptions('anime', SLUG).queryKey;
         const cached = queryClient.getQueryCache().getAll();
 
         expect(cached.map((query) => query.queryKey)).toEqual([previewKey]);
         expect(previewKey[0]).toEqual({ ...modalKey[0], query: { size: 3 } });
+        expect(previewKey).toEqual(
+            getCollectionsInfiniteOptions({
+                body: { content_type: 'anime', content: [SLUG] },
+                query: { size: 3 },
+            }).queryKey,
+        );
     });
 
     it('requests the articles list once after it becomes visible', async () => {
@@ -246,6 +255,46 @@ describe('deferred overview widgets', () => {
 
         expect(pathsRequested()).toEqual([`/watch/${SLUG}/following`]);
         expect(requests[0].searchParams.get('size')).toBe('3');
+    });
+
+    const singleObserverOn = (queryKey: readonly unknown[]) => {
+        const queries = queryClient.getQueryCache().getAll();
+
+        expect(queries.map((query) => query.queryHash)).toEqual([
+            hashKey(queryKey),
+        ]);
+        expect(queries[0].getObserversCount()).toBe(1);
+    };
+
+    it.each([
+        ContentTypeEnum.ANIME,
+        ContentTypeEnum.MANGA,
+        ContentTypeEnum.NOVEL,
+    ] as const)(
+        'holds one followings preview observer for %s, before and after it is visible',
+        async (type) => {
+            await render(<Followings content_type={type} />);
+            singleObserverOn(
+                contentFollowingOptions(type, SLUG, { preview: true }).queryKey,
+            );
+
+            await scrollIntoView();
+            singleObserverOn(
+                contentFollowingOptions(type, SLUG, { preview: true }).queryKey,
+            );
+            expect(fetchMock).toHaveBeenCalledTimes(1);
+        },
+    );
+
+    it.each([
+        ContentTypeEnum.ANIME,
+        ContentTypeEnum.MANGA,
+        ContentTypeEnum.NOVEL,
+    ] as const)('holds one followings modal observer for %s', async (type) => {
+        await render(<FollowingsModal content_type={type} />);
+
+        singleObserverOn(contentFollowingOptions(type, SLUG).queryKey);
+        expect(fetchMock).toHaveBeenCalledTimes(1);
     });
 
     it('requests the read followings for manga', async () => {

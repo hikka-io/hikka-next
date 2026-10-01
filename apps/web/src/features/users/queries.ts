@@ -1,23 +1,42 @@
+import type {
+    InfiniteData,
+    UseInfiniteQueryOptions,
+    UseQueryOptions,
+} from '@tanstack/react-query';
+
 import {
     type AnimeAgeRatingEnum,
     type AnimeMediaEnum,
     type AnimeStatusEnum,
     type Client,
-    type CollectionsListArgs,
     type ContentStatusEnum,
+    ContentTypeEnum,
     type FavouriteContentTypeEnum,
     favouriteListInfiniteOptions,
+    followersListInfiniteOptions,
+    followingListInfiniteOptions,
     getArticlesInfiniteOptions,
     getCollectionsInfiniteOptions,
+    type MainContentTypeEnum,
     type MangaMediaEnum,
     type NovelMediaEnum,
     paginationPageParam,
     type ReadContentTypeEnum,
     type ReadStatusEnum,
     type SeasonEnum,
+    type UserReadListError,
+    type UserReadListResponse,
+    type UserReadStatsError,
+    type UserReadStatsResponse,
+    type UserWatchListError,
+    type UserWatchListResponse,
+    type UserWatchStatsError,
+    type UserWatchStatsResponse,
     userHistoryInfiniteOptions,
     userReadListInfiniteOptions,
+    userReadStatsOptions,
     userWatchListInfiniteOptions,
+    userWatchStatsOptions,
     type WatchStatusEnum,
 } from '@hikka/api';
 
@@ -27,7 +46,7 @@ import { expandSort } from '@/utils/sort';
 const HISTORY_PREVIEW_SIZE = 3;
 const ARTICLES_PREVIEW_SIZE = 3;
 export const COLLECTIONS_PREVIEW_SIZE = 3;
-export const FAVORITE_PREVIEW_SIZE = 6;
+export const FAVOURITES_PREVIEW_SIZE = 6;
 
 function listYears(search: UserlistSearch) {
     return (search.years ?? []) as [number | null, number | null];
@@ -39,7 +58,7 @@ function listScore(search: UserlistSearch) {
         : undefined;
 }
 
-export function userWatchListOptions(
+function userWatchListOptions(
     username: string,
     search: UserlistSearch,
     client?: Client,
@@ -68,7 +87,7 @@ export function userWatchListOptions(
     };
 }
 
-export function userReadListOptions(
+function userReadListOptions(
     username: string,
     contentType: ReadContentTypeEnum,
     search: UserlistSearch,
@@ -100,6 +119,57 @@ export function userReadListOptions(
     };
 }
 
+type UserListPage = UserWatchListResponse | UserReadListResponse;
+
+type UserListOptions = UseInfiniteQueryOptions<
+    UserListPage,
+    UserWatchListError | UserReadListError,
+    InfiniteData<UserListPage>,
+    | ReturnType<typeof userWatchListOptions>['queryKey']
+    | ReturnType<typeof userReadListOptions>['queryKey'],
+    number
+>;
+
+export function userListOptions(
+    username: string,
+    contentType: MainContentTypeEnum,
+    search: UserlistSearch,
+    client?: Client,
+): UserListOptions {
+    const options =
+        contentType === ContentTypeEnum.ANIME
+            ? userWatchListOptions(username, search, client)
+            : userReadListOptions(username, contentType, search, client);
+
+    return options as unknown as UserListOptions;
+}
+
+type UserListStats = UserWatchStatsResponse | UserReadStatsResponse;
+
+type UserListStatsOptions = UseQueryOptions<
+    UserListStats,
+    UserWatchStatsError | UserReadStatsError,
+    UserListStats,
+    | ReturnType<typeof userWatchStatsOptions>['queryKey']
+    | ReturnType<typeof userReadStatsOptions>['queryKey']
+>;
+
+export function userListStatsOptions(
+    username: string,
+    contentType: MainContentTypeEnum,
+    client?: Client,
+): UserListStatsOptions {
+    const options =
+        contentType === ContentTypeEnum.ANIME
+            ? userWatchStatsOptions({ path: { username }, client })
+            : userReadStatsOptions({
+                  path: { username, content_type: contentType },
+                  client,
+              });
+
+    return options as unknown as UserListStatsOptions;
+}
+
 export function userArticlesPreviewOptions(username: string, client?: Client) {
     return {
         ...getArticlesInfiniteOptions({
@@ -111,24 +181,19 @@ export function userArticlesPreviewOptions(username: string, client?: Client) {
     };
 }
 
-export function userCollectionsPreviewBody(
+export function userCollectionsOptions(
     username: string,
-): CollectionsListArgs {
-    return {
-        author: username,
-        sort: ['created:desc'],
-        only_public: false,
-    };
-}
-
-export function userCollectionsPreviewOptions(
-    username: string,
+    { preview = false }: { preview?: boolean } = {},
     client?: Client,
 ) {
     return {
         ...getCollectionsInfiniteOptions({
-            body: userCollectionsPreviewBody(username),
-            query: { size: COLLECTIONS_PREVIEW_SIZE },
+            body: {
+                author: username,
+                sort: ['created:desc'],
+                only_public: false,
+            },
+            query: preview ? { size: COLLECTIONS_PREVIEW_SIZE } : undefined,
             client,
         }),
         ...paginationPageParam(),
@@ -146,31 +211,39 @@ export function userHistoryPreviewOptions(username: string, client?: Client) {
     };
 }
 
-export function userFavouritesPreviewOptions(
+export function userFavouritesOptions(
     username: string,
     contentType: FavouriteContentTypeEnum,
+    { preview = false }: { preview?: boolean } = {},
     client?: Client,
 ) {
     return {
         ...favouriteListInfiniteOptions({
             path: { username, content_type: contentType },
-            query: { size: FAVORITE_PREVIEW_SIZE },
+            query: preview ? { size: FAVOURITES_PREVIEW_SIZE } : undefined,
             client,
         }),
         ...paginationPageParam(),
     };
 }
 
-export function userFavouritesListOptions(
+export type FollowListKind = 'followers' | 'followings';
+
+const FOLLOW_LISTS = {
+    followers: followersListInfiniteOptions,
+    followings: followingListInfiniteOptions,
+} satisfies Record<FollowListKind, unknown>;
+
+export function followListOptions(
+    kind: FollowListKind,
     username: string,
-    contentType: FavouriteContentTypeEnum,
     client?: Client,
 ) {
+    // Both endpoints return one page type, so one options type covers them.
+    const build = FOLLOW_LISTS[kind] as typeof followersListInfiniteOptions;
+
     return {
-        ...favouriteListInfiniteOptions({
-            path: { username, content_type: contentType },
-            client,
-        }),
+        ...build({ path: { username }, client }),
         ...paginationPageParam(),
     };
 }

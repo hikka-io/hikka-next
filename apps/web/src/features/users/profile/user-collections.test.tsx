@@ -6,7 +6,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { configureBrowserClient, getBrowserClient } from '@hikka/api';
 
-import { userCollectionsPreviewOptions } from '../queries';
+import { userCollectionsOptions } from '../queries';
 import UserCollections from './user-collections';
 
 (
@@ -101,10 +101,13 @@ const queryClient = new QueryClient({
 });
 
 const seedCache = (list: { reference: string }[]) => {
-    queryClient.setQueryData(userCollectionsPreviewOptions(USERNAME).queryKey, {
-        pages: [{ pagination: PAGE, list }],
-        pageParams: [1],
-    } as never);
+    queryClient.setQueryData(
+        userCollectionsOptions(USERNAME, { preview: true }).queryKey,
+        {
+            pages: [{ pagination: PAGE, list }],
+            pageParams: [1],
+        } as never,
+    );
 };
 
 const scrollIntoView = async () => {

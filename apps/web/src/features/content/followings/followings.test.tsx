@@ -10,6 +10,7 @@ import {
     type ReadContentTypeEnum,
 } from '@hikka/api';
 
+import { contentFollowingOptions } from '../queries';
 import Followings from './followings';
 
 type ListCall = [{ queryKey: unknown }, { enabled?: boolean } | undefined];
@@ -57,33 +58,26 @@ vi.mock('@/utils/api/use-infinite-list', () => ({
 
 const PREVIEW_QUERY = { size: 3 };
 
-const watchKey = () =>
-    getWatchFollowingInfiniteOptions({
-        path: { slug: SLUG },
-        query: PREVIEW_QUERY,
-    }).queryKey;
-
-const readKey = (type: MainContentTypeEnum) =>
-    getReadFollowingInfiniteOptions({
-        path: { slug: SLUG, content_type: type as ReadContentTypeEnum },
-        query: PREVIEW_QUERY,
-    }).queryKey;
+const headPreviewKey = (type: MainContentTypeEnum) =>
+    type === ContentTypeEnum.ANIME
+        ? getWatchFollowingInfiniteOptions({
+              path: { slug: SLUG },
+              query: PREVIEW_QUERY,
+          }).queryKey
+        : getReadFollowingInfiniteOptions({
+              path: { slug: SLUG, content_type: type as ReadContentTypeEnum },
+              query: PREVIEW_QUERY,
+          }).queryKey;
 
 const withoutQuery = (queryKey: unknown) => {
     const [{ query: _query, ...rest }] = queryKey as [{ query?: unknown }];
     return rest;
 };
 
-const callsWithKey = (queryKey: unknown) =>
-    (mocks.calls as ListCall[]).filter(
-        ([options]) =>
-            JSON.stringify(options.queryKey) === JSON.stringify(queryKey),
-    );
-
-const enabledFor = (queryKey: unknown) => {
-    const calls = callsWithKey(queryKey);
+const onlyCall = () => {
+    const calls = mocks.calls as ListCall[];
     expect(calls).toHaveLength(1);
-    return calls[0][1]?.enabled;
+    return calls[0];
 };
 
 beforeEach(() => {
@@ -98,51 +92,50 @@ describe.each([
     ContentTypeEnum.MANGA,
     ContentTypeEnum.NOVEL,
 ] as const)('Followings (%s)', (type: MainContentTypeEnum) => {
-    const isAnime = type === ContentTypeEnum.ANIME;
     const render = () =>
         renderToStaticMarkup(<Followings content_type={type} />);
 
-    it('enables neither following query for a logged-out visitor', () => {
+    it('disables the preview for a logged-out visitor', () => {
         mocks.visible = true;
         render();
 
-        expect(enabledFor(watchKey())).toBe(false);
-        expect(enabledFor(readKey(type))).toBe(false);
+        expect(onlyCall()[1]).toEqual({ enabled: false });
     });
 
-    it('enables neither following query until the block is visible', () => {
+    it('disables the preview until the block is visible', () => {
         mocks.user = { username: 'someone' };
         render();
 
-        expect(enabledFor(watchKey())).toBe(false);
-        expect(enabledFor(readKey(type))).toBe(false);
+        expect(onlyCall()[1]).toEqual({ enabled: false });
     });
 
-    it('enables only the query for its content type when logged in and visible', () => {
+    it('enables one preview query when logged in and visible', () => {
         mocks.user = { username: 'someone' };
         mocks.visible = true;
         render();
 
-        expect(enabledFor(watchKey())).toBe(isAnime);
-        expect(enabledFor(readKey(type))).toBe(!isAnime);
+        expect(onlyCall()[1]).toEqual({ enabled: true });
     });
 
-    it('keys the previews by the modal key plus a size of 3', () => {
+    it('keeps the HEAD preview key for its content type', () => {
         render();
 
-        const [[watch], [read]] = mocks.calls as ListCall[];
-        const modalWatch = getWatchFollowingInfiniteOptions({
-            path: { slug: SLUG },
-        }).queryKey;
-        const modalRead = getReadFollowingInfiniteOptions({
-            path: { slug: SLUG, content_type: type as ReadContentTypeEnum },
-        }).queryKey;
+        const [options] = onlyCall();
+        expect(options.queryKey).toEqual(headPreviewKey(type));
+        expect(options.queryKey).toEqual(
+            contentFollowingOptions(type, SLUG, { preview: true }).queryKey,
+        );
+    });
 
-        expect(watch.queryKey).not.toEqual(modalWatch);
-        expect(read.queryKey).not.toEqual(modalRead);
-        expect(withoutQuery(watch.queryKey)).toEqual(withoutQuery(modalWatch));
-        expect(withoutQuery(read.queryKey)).toEqual(withoutQuery(modalRead));
-        expect((watch.queryKey as [{ query: unknown }])[0].query).toEqual(
+    it('keys the preview by the modal key plus a size of 3', () => {
+        render();
+
+        const [options] = onlyCall();
+        const modalKey = contentFollowingOptions(type, SLUG).queryKey;
+
+        expect(options.queryKey).not.toEqual(modalKey);
+        expect(withoutQuery(options.queryKey)).toEqual(withoutQuery(modalKey));
+        expect((options.queryKey as [{ query: unknown }])[0].query).toEqual(
             PREVIEW_QUERY,
         );
     });

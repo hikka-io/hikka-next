@@ -1,19 +1,22 @@
 import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
 
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import {
+    hashKey,
+    QueryClient,
+    QueryClientProvider,
+} from '@tanstack/react-query';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import {
     ContentTypeEnum,
     configureBrowserClient,
     getBrowserClient,
-    type ReadContentTypeEnum,
 } from '@hikka/api';
 
 import type { UserlistSearch } from '@/utils/search-schemas';
 
-import { userReadListOptions, userWatchListOptions } from '../queries';
+import { userListOptions } from '../queries';
 import UserList from './user-list';
 
 (
@@ -117,7 +120,11 @@ describe('UserList', () => {
     it('keeps the current list while a filter change loads', async () => {
         mocks.params = { username: 'someone', content_type: 'anime' };
         mocks.search = COMPLETED;
-        seed(userWatchListOptions('someone', COMPLETED).queryKey, 'completed');
+        seed(
+            userListOptions('someone', ContentTypeEnum.ANIME, COMPLETED)
+                .queryKey,
+            'completed',
+        );
         await render(ContentTypeEnum.ANIME);
 
         expect(grid()).toBe('completed');
@@ -132,7 +139,11 @@ describe('UserList', () => {
     it('does not show another user list while the new one loads', async () => {
         mocks.params = { username: 'someone', content_type: 'anime' };
         mocks.search = COMPLETED;
-        seed(userWatchListOptions('someone', COMPLETED).queryKey, 'someone');
+        seed(
+            userListOptions('someone', ContentTypeEnum.ANIME, COMPLETED)
+                .queryKey,
+            'someone',
+        );
         await render(ContentTypeEnum.ANIME);
 
         mocks.params = { username: 'other', content_type: 'anime' };
@@ -146,11 +157,7 @@ describe('UserList', () => {
         mocks.params = { username: 'someone', content_type: 'manga' };
         mocks.search = search;
         seed(
-            userReadListOptions(
-                'someone',
-                ContentTypeEnum.MANGA as ReadContentTypeEnum,
-                search,
-            ).queryKey,
+            userListOptions('someone', ContentTypeEnum.MANGA, search).queryKey,
             'manga',
         );
         await render(ContentTypeEnum.MANGA);
@@ -172,5 +179,23 @@ describe('UserList', () => {
             container.querySelector('[data-summary="loading"]'),
         ).not.toBeNull();
         expect(container.querySelector('.animate-pulse')).not.toBeNull();
+    });
+
+    it.each([
+        [ContentTypeEnum.ANIME, 'watch_score'],
+        [ContentTypeEnum.MANGA, 'read_score'],
+        [ContentTypeEnum.NOVEL, 'read_score'],
+    ] as const)('holds one list observer for %s', async (type, sort) => {
+        const search = { status: 'completed', sort };
+        mocks.params = { username: 'someone', content_type: type };
+        mocks.search = search;
+        await render(type);
+
+        const queries = queryClient.getQueryCache().getAll();
+        expect(queries.map((query) => query.queryHash)).toEqual([
+            hashKey(userListOptions('someone', type, search).queryKey),
+        ]);
+        expect(queries[0].getObserversCount()).toBe(1);
+        expect(fetchMock).toHaveBeenCalledTimes(1);
     });
 });

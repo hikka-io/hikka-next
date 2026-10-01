@@ -1,13 +1,9 @@
 import type { FC } from 'react';
 
-import {
-    ContentTypeEnum,
-    getReadFollowingInfiniteOptions,
-    getWatchFollowingInfiniteOptions,
-    type MainContentTypeEnum,
-    type ReadContentTypeEnum,
-    type UserResponseWithRead,
-    type UserResponseWithWatch,
+import type {
+    MainContentTypeEnum,
+    UserResponseWithRead,
+    UserResponseWithWatch,
 } from '@hikka/api';
 
 import MaterialSymbolsPerson2OutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsPerson2OutlineRounded';
@@ -16,6 +12,7 @@ import EmptyState from '@/components/ui/empty-state';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { useParams } from '@/utils/navigation';
 
+import { contentFollowingOptions } from '../queries';
 import FollowingItem from './components/following-item';
 import FollowingItemSkeleton from './components/following-item-skeleton';
 
@@ -26,23 +23,6 @@ type Props = {
 const FollowingsModal: FC<Props> = ({ content_type }) => {
     const params = useParams();
 
-    const watchListQuery = useInfiniteList(
-        getWatchFollowingInfiniteOptions({
-            path: { slug: String(params.slug) },
-        }),
-        { enabled: content_type === ContentTypeEnum.ANIME },
-    );
-
-    const readListQuery = useInfiniteList(
-        getReadFollowingInfiniteOptions({
-            path: {
-                slug: String(params.slug),
-                content_type: content_type as ReadContentTypeEnum,
-            },
-        }),
-        { enabled: content_type !== ContentTypeEnum.ANIME },
-    );
-
     const {
         list,
         hasNextPage,
@@ -50,7 +30,9 @@ const FollowingsModal: FC<Props> = ({ content_type }) => {
         isLoading,
         fetchNextPage,
         ref,
-    } = content_type === 'anime' ? watchListQuery : readListQuery;
+    } = useInfiniteList(
+        contentFollowingOptions(content_type, String(params.slug)),
+    );
 
     return (
         <InfiniteListSheet<UserResponseWithWatch | UserResponseWithRead>

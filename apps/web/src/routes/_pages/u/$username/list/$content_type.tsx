@@ -1,13 +1,7 @@
 import { createFileRoute, redirect } from '@tanstack/react-router';
 import { zodValidator } from '@tanstack/zod-adapter';
 
-import {
-    ContentTypeEnum,
-    type MainContentTypeEnum,
-    type ReadContentTypeEnum,
-    userReadStatsOptions,
-    userWatchStatsOptions,
-} from '@hikka/api';
+import { ContentTypeEnum, type MainContentTypeEnum } from '@hikka/api';
 
 import ContentTypeTabs from '@/components/content-type-tabs';
 import Block from '@/components/ui/block';
@@ -26,8 +20,8 @@ import {
     UserListNavbar,
 } from '@/features/users';
 import {
-    userReadListOptions,
-    userWatchListOptions,
+    userListOptions,
+    userListStatsOptions,
 } from '@/features/users/queries';
 import { awaitOnServer } from '@/utils/api/loader-prefetch';
 import { CONTENT_TYPES } from '@/utils/labels';
@@ -59,40 +53,15 @@ export const Route = createFileRoute('/_pages/u/$username/list/$content_type')({
     },
     loader: async ({ params, context: { queryClient, apiClient }, deps }) => {
         const { username, content_type } = params;
-        await awaitOnServer(
-            content_type === ContentTypeEnum.ANIME
-                ? [
-                      queryClient.prefetchInfiniteQuery(
-                          userWatchListOptions(username, deps, apiClient),
-                      ),
-                      queryClient.prefetchQuery(
-                          userWatchStatsOptions({
-                              path: { username },
-                              client: apiClient,
-                          }),
-                      ),
-                  ]
-                : [
-                      queryClient.prefetchInfiniteQuery(
-                          userReadListOptions(
-                              username,
-                              content_type as ReadContentTypeEnum,
-                              deps,
-                              apiClient,
-                          ),
-                      ),
-                      queryClient.prefetchQuery(
-                          userReadStatsOptions({
-                              path: {
-                                  username,
-                                  content_type:
-                                      content_type as ReadContentTypeEnum,
-                              },
-                              client: apiClient,
-                          }),
-                      ),
-                  ],
-        );
+        const type = content_type as MainContentTypeEnum;
+        await awaitOnServer([
+            queryClient.prefetchInfiniteQuery(
+                userListOptions(username, type, deps, apiClient),
+            ),
+            queryClient.prefetchQuery(
+                userListStatsOptions(username, type, apiClient),
+            ),
+        ]);
     },
     head: ({ params }) =>
         generateHeadMeta({ title: `Список / ${params.username}` }),

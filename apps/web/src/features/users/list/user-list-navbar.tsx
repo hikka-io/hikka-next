@@ -11,8 +11,6 @@ import {
     type ReadStatusEnum,
     randomReadNovel,
     randomWatchEntry,
-    userReadStatsOptions,
-    userWatchStatsOptions,
     type WatchStatsResponse,
     type WatchStatusEnum,
 } from '@hikka/api';
@@ -47,6 +45,7 @@ import { CONTENT_TYPES, LIST_STATUS } from '@/utils/labels';
 import { useParams, useRouteSearch } from '@/utils/navigation';
 import type { UserlistSearch } from '@/utils/search-schemas';
 
+import { userListStatsOptions } from '../queries';
 import { USER_LIST_FILTERS_SIDEBAR_KEY } from './filters-sidebar-key';
 import UserListFiltersModal from './user-list-filters-modal';
 
@@ -69,22 +68,9 @@ const UserListNavbar: FC<Props> = ({ content_type }) => {
         | WatchStatusEnum
         | 'all';
 
-    const { data: watchData } = useQuery({
-        ...userWatchStatsOptions({
-            path: { username: String(params.username) },
-        }),
-        enabled: isAnime,
-    });
-    const { data: readData } = useQuery({
-        ...userReadStatsOptions({
-            path: {
-                username: String(params.username),
-                content_type: content_type as ReadContentTypeEnum,
-            },
-        }),
-        enabled: !isAnime,
-    });
-    const listData = isAnime ? watchData : readData;
+    const { data: listData } = useQuery(
+        userListStatsOptions(String(params.username), content_type),
+    );
     const statuses = LIST_STATUS[isAnime ? 'watch' : 'read'];
     const randomLabel = `${content_type === ContentTypeEnum.MANGA ? 'Випадкова' : 'Випадкове'} ${CONTENT_TYPES[content_type].title_ua.toLowerCase()}`;
 

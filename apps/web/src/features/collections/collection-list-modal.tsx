@@ -1,9 +1,6 @@
 import type { FC, ReactNode } from 'react';
 
-import {
-    type CollectionsListArgs,
-    getCollectionsInfiniteOptions,
-} from '@hikka/api';
+import type { getCollectionsInfiniteOptions } from '@hikka/api';
 
 import InfiniteListSheet from '@/components/infinite-list-sheet';
 import {
@@ -13,11 +10,11 @@ import {
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 
 type Props = {
-    body: CollectionsListArgs;
+    options: ReturnType<typeof getCollectionsInfiniteOptions>;
     emptyState: ReactNode;
 };
 
-const CollectionListModal: FC<Props> = ({ body, emptyState }) => {
+const CollectionListModal: FC<Props> = ({ options, emptyState }) => {
     const {
         list,
         hasNextPage,
@@ -25,7 +22,7 @@ const CollectionListModal: FC<Props> = ({ body, emptyState }) => {
         isLoading,
         fetchNextPage,
         ref,
-    } = useInfiniteList(getCollectionsInfiniteOptions({ body }));
+    } = useInfiniteList(options);
 
     return (
         <InfiniteListSheet

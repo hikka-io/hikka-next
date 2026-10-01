@@ -1,10 +1,5 @@
 import type { FC } from 'react';
 
-import {
-    followersListInfiniteOptions,
-    followingListInfiniteOptions,
-} from '@hikka/api';
-
 import MaterialSymbolsPerson2OutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsPerson2OutlineRounded';
 import InfiniteListSheet from '@/components/infinite-list-sheet';
 import EmptyState from '@/components/ui/empty-state';
@@ -15,11 +10,12 @@ import {
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { useParams } from '@/utils/navigation';
 
+import { type FollowListKind, followListOptions } from '../queries';
 import FollowUserItem from './components/follow-user-item';
 import FollowUserItemSkeleton from './components/follow-user-item-skeleton';
 
 type BodyProps = {
-    type: 'followers' | 'followings';
+    type: FollowListKind;
     username?: string;
 };
 
@@ -32,20 +28,6 @@ const FollowListModalBody: FC<BodyProps> = ({ type, username }) => {
     const params = useParams();
     const resolvedUsername = username ?? String(params.username);
 
-    const followersQuery = useInfiniteList(
-        followersListInfiniteOptions({
-            path: { username: resolvedUsername },
-        }),
-        { enabled: type === 'followers' },
-    );
-
-    const followingsQuery = useInfiniteList(
-        followingListInfiniteOptions({
-            path: { username: resolvedUsername },
-        }),
-        { enabled: type === 'followings' },
-    );
-
     const {
         list,
         fetchNextPage,
@@ -53,7 +35,7 @@ const FollowListModalBody: FC<BodyProps> = ({ type, username }) => {
         isFetchingNextPage,
         isLoading,
         ref,
-    } = type === 'followers' ? followersQuery : followingsQuery;
+    } = useInfiniteList(followListOptions(type, resolvedUsername));
 
     return (
         <InfiniteListSheet

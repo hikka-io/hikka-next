@@ -2,13 +2,7 @@ import { type FC, useState } from 'react';
 
 import { range } from '@antfu/utils';
 
-import {
-    ContentTypeEnum,
-    getReadFollowingInfiniteOptions,
-    getWatchFollowingInfiniteOptions,
-    type MainContentTypeEnum,
-    type ReadContentTypeEnum,
-} from '@hikka/api';
+import type { MainContentTypeEnum } from '@hikka/api';
 
 import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
@@ -29,11 +23,10 @@ import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { useParams } from '@/utils/navigation';
 
 import ContentRailSkeleton from '../content-rail-skeleton';
+import { contentFollowingOptions, FOLLOWING_PREVIEW_SIZE } from '../queries';
 import FollowingItem from './components/following-item';
 import FollowingItemSkeleton from './components/following-item-skeleton';
 import FollowingsModal from './followings-modal';
-
-const PREVIEW_SIZE = 3;
 
 type Props = {
     content_type: MainContentTypeEnum;
@@ -46,36 +39,18 @@ const Followings: FC<Props> = ({ content_type }) => {
     useCloseOnRouteChange(setOpen);
 
     const { ref, visible } = useVisibleOnce();
-    const isAnime = content_type === ContentTypeEnum.ANIME;
-
-    const watchListQuery = useInfiniteList(
-        getWatchFollowingInfiniteOptions({
-            path: { slug: String(params.slug) },
-            query: { size: PREVIEW_SIZE },
+    const { list, pagination, isPending } = useInfiniteList(
+        contentFollowingOptions(content_type, String(params.slug), {
+            preview: true,
         }),
-        { enabled: !!user && isAnime && visible },
+        { enabled: !!user && visible },
     );
-
-    const readListQuery = useInfiniteList(
-        getReadFollowingInfiniteOptions({
-            path: {
-                slug: String(params.slug),
-                content_type: content_type as ReadContentTypeEnum,
-            },
-            query: { size: PREVIEW_SIZE },
-        }),
-        { enabled: !!user && !isAnime && visible },
-    );
-
-    const { list, pagination, isPending } = isAnime
-        ? watchListQuery
-        : readListQuery;
 
     if (!list) {
         return user && isPending ? (
             <div ref={ref}>
                 <ContentRailSkeleton className="gap-6">
-                    {range(0, PREVIEW_SIZE).map((index) => (
+                    {range(0, FOLLOWING_PREVIEW_SIZE).map((index) => (
                         <FollowingItemSkeleton key={index} />
                     ))}
                 </ContentRailSkeleton>

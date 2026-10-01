@@ -4,7 +4,7 @@ import { zodValidator } from '@tanstack/zod-adapter';
 import { ContentTypeEnum, serviceUserStatsOptions } from '@hikka/api';
 
 import { UserFavorites } from '@/features/users';
-import { userFavouritesListOptions } from '@/features/users/queries';
+import { userFavouritesOptions } from '@/features/users/queries';
 import { awaitOnServer } from '@/utils/api/loader-prefetch';
 import { generateHeadMeta } from '@/utils/metadata';
 import { favoritesSearchSchema } from '@/utils/search-schemas';
@@ -18,9 +18,10 @@ export const Route = createFileRoute('/_pages/u/$username/favorites')({
             path: { username },
             client: apiClient,
         });
-        const list = userFavouritesListOptions(
+        const list = userFavouritesOptions(
             username,
             deps.type ?? ContentTypeEnum.ANIME,
+            {},
             apiClient,
         );
 

@@ -1,14 +1,22 @@
 import { renderToStaticMarkup } from 'react-dom/server';
 
-import { describe, expect, it, vi } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { ContentTypeEnum, type MainContentTypeEnum } from '@hikka/api';
 
+import { userListStatsOptions } from '../queries';
 import UserListNavbar from './user-list-navbar';
+
+const mocks = vi.hoisted(() => ({
+    queries: [] as { queryKey: unknown; enabled?: unknown }[],
+}));
 
 vi.mock('@tanstack/react-query', async (importOriginal) => ({
     ...(await importOriginal<typeof import('@tanstack/react-query')>()),
-    useQuery: () => ({ data: undefined }),
+    useQuery: (options: { queryKey: unknown }) => {
+        mocks.queries.push(options);
+        return { data: undefined };
+    },
     useMutation: () => ({ mutate: vi.fn() }),
 }));
 
@@ -43,5 +51,25 @@ describe('UserListNavbar random button', () => {
         [ContentTypeEnum.NOVEL, 'Випадкове ранобе'],
     ] as const)('labels the %s button "%s"', (contentType, label) => {
         expect(render(contentType)).toContain(`aria-label="${label}"`);
+    });
+});
+
+describe('UserListNavbar stats', () => {
+    beforeEach(() => {
+        mocks.queries = [];
+    });
+
+    it.each([
+        ContentTypeEnum.ANIME,
+        ContentTypeEnum.MANGA,
+        ContentTypeEnum.NOVEL,
+    ] as const)('holds one stats query for %s', (contentType) => {
+        render(contentType);
+
+        expect(mocks.queries).toHaveLength(1);
+        expect(mocks.queries[0].queryKey).toStrictEqual(
+            userListStatsOptions('someone', contentType).queryKey,
+        );
+        expect(mocks.queries[0]).not.toHaveProperty('enabled');
     });
 });

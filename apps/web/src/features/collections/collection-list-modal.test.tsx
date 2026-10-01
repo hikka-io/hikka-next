@@ -166,9 +166,9 @@ describe.each(Object.keys(VARIANTS) as Variant[])(
     'CollectionListModal(%s)',
     (variant) => {
         const { body, icon, title, description } = VARIANTS[variant];
-        const modal = (
+        const modal = () => (
             <CollectionListModal
-                body={body}
+                options={getCollectionsInfiniteOptions({ body })}
                 emptyState={
                     <EmptyState
                         icon={icon}
@@ -184,7 +184,7 @@ describe.each(Object.keys(VARIANTS) as Variant[])(
             (_, next) => {
                 Object.assign(state, next);
 
-                expect(renderToString(modal)).toBe(
+                expect(renderToString(modal())).toBe(
                     renderToString(
                         <LegacyCollectionsModal variant={variant} />,
                     ),
@@ -193,7 +193,7 @@ describe.each(Object.keys(VARIANTS) as Variant[])(
         );
 
         it('keeps the legacy query key', () => {
-            renderToString(modal);
+            renderToString(modal());
             renderToString(<LegacyCollectionsModal variant={variant} />);
 
             const [[options], [legacy]] = vi.mocked(useInfiniteList).mock.calls;

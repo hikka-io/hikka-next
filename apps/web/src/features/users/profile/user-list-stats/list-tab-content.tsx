@@ -6,10 +6,8 @@ import { useQuery } from '@tanstack/react-query';
 import {
     ContentTypeEnum,
     type MainContentTypeEnum,
-    type ReadContentTypeEnum,
     ReadStatusEnum,
-    userReadStatsOptions,
-    userWatchStatsOptions,
+    type UserWatchStatsResponse,
     WatchStatusEnum,
 } from '@hikka/api';
 
@@ -29,6 +27,7 @@ import { DAY_FORMS, HOUR_FORMS, MONTH_FORMS } from '@/utils/i18n/word-forms';
 import { LIST_STATUS } from '@/utils/labels';
 import { Link } from '@/utils/navigation';
 
+import { userListStatsOptions } from '../../queries';
 import StatusProgressBar from './status-progress-bar';
 
 type Props = {
@@ -59,24 +58,9 @@ const ListTabContent: FC<Props> = ({ type, username, className }) => {
     const sortParam = isAnime ? 'watch_score' : 'read_score';
     const statusCount = (isAnime ? WATCH_ORDER : READ_ORDER).length;
 
-    const { data: watchData } = useQuery({
-        ...userWatchStatsOptions({ path: { username } }),
-        enabled: isAnime,
-    });
+    const { data } = useQuery(userListStatsOptions(username, type));
 
-    const { data: readData } = useQuery({
-        ...userReadStatsOptions({
-            path: {
-                username,
-                content_type: (type === ContentTypeEnum.MANGA
-                    ? ContentTypeEnum.MANGA
-                    : ContentTypeEnum.NOVEL) as ReadContentTypeEnum,
-            },
-        }),
-        enabled: !isAnime,
-    });
-
-    if ((isAnime && !watchData) || (!isAnime && !readData)) {
+    if (!data) {
         return (
             <div className={cn('flex grow flex-col gap-2', className)}>
                 <div className="px-4">
@@ -95,7 +79,6 @@ const ListTabContent: FC<Props> = ({ type, username, className }) => {
 
     const statuses = isAnime ? WATCH_ORDER : READ_ORDER;
     const statusMap = LIST_STATUS[isAnime ? 'watch' : 'read'];
-    const data = isAnime ? watchData! : readData!;
 
     const total = statuses.reduce(
         (acc, s) => acc + (data[s as keyof typeof data] as number),
@@ -115,7 +98,7 @@ const ListTabContent: FC<Props> = ({ type, username, className }) => {
     });
 
     const watchHours = isAnime
-        ? Math.round((watchData!.duration || 0) / 60)
+        ? Math.round(((data as UserWatchStatsResponse).duration || 0) / 60)
         : null;
 
     const watchTotalDays =

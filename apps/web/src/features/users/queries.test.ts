@@ -50,23 +50,19 @@ import { Route as FavoritesRoute } from '../../routes/_pages/u/$username/favorit
 import { Route as HistoryRoute } from '../../routes/_pages/u/$username/history';
 import { Route as ProfileRoute } from '../../routes/_pages/u/$username/index';
 import { Route as ListRoute } from '../../routes/_pages/u/$username/list/$content_type';
-import { useReadList } from './list/use-read-list';
-import { useWatchList } from './list/use-watch-list';
+import { useUserList } from './list/use-user-list';
 import UserArticles from './profile/user-articles';
 import UserCollections from './profile/user-collections';
 import FavoriteSection from './profile/user-favorites/components/favorite-section';
 import HistoryModal from './profile/user-history/history-modal';
 import UserHistory from './profile/user-history/user-history';
 import {
-    FAVORITE_PREVIEW_SIZE,
+    FAVOURITES_PREVIEW_SIZE,
     userArticlesPreviewOptions,
-    userCollectionsPreviewBody,
-    userCollectionsPreviewOptions,
-    userFavouritesListOptions,
-    userFavouritesPreviewOptions,
+    userCollectionsOptions,
+    userFavouritesOptions,
     userHistoryPreviewOptions,
-    userReadListOptions,
-    userWatchListOptions,
+    userListOptions,
 } from './queries';
 
 const mocks = vi.hoisted(() => ({
@@ -855,49 +851,51 @@ describe('list hooks', () => {
     ];
 
     it.each(HOOK_SEARCHES)(
-        'useWatchList passes the HEAD options: $name',
+        'useUserList passes the HEAD anime options: $name',
         ({ raw }) => {
             const search = userlistSearchSchema.parse(raw);
             mocks.params = { username, content_type: 'anime' };
             mocks.search = search;
 
-            useWatchList({ enabled: true });
-            useWatchList();
+            useUserList('anime');
 
-            const [[options, extra], [, noExtra]] = mocks.infiniteListCalls as [
-                [CapturedOptions, unknown],
+            const [[options, extra]] = mocks.infiniteListCalls as [
                 [CapturedOptions, unknown],
             ];
             const head = headUseWatchListOptions(search, mocks.params).queryKey;
 
+            expect(mocks.infiniteListCalls).toHaveLength(1);
             expect(options.queryKey).toStrictEqual(head);
             expect(hashKey(options.queryKey)).toBe(hashKey(head));
-            expect(extra).toStrictEqual({ enabled: true });
-            expect(noExtra).toStrictEqual({ enabled: undefined });
+            expect(extra).toBeUndefined();
         },
     );
 
     it.each(
         HOOK_SEARCHES.flatMap((search) => [
-            { ...search, type: 'manga' },
-            { ...search, type: 'novel' },
+            { ...search, type: 'manga' as const },
+            { ...search, type: 'novel' as const },
         ]),
-    )('useReadList passes the HEAD options: $type, $name', ({ raw, type }) => {
-        const search = userlistSearchSchema.parse(raw);
-        mocks.params = { username, content_type: type };
-        mocks.search = search;
+    )(
+        'useUserList passes the HEAD read options: $type, $name',
+        ({ raw, type }) => {
+            const search = userlistSearchSchema.parse(raw);
+            mocks.params = { username, content_type: type };
+            mocks.search = search;
 
-        useReadList({ enabled: false });
+            useUserList(type);
 
-        const [[options, extra]] = mocks.infiniteListCalls as [
-            [CapturedOptions, unknown],
-        ];
-        const head = headUseReadListOptions(search, mocks.params).queryKey;
+            const [[options, extra]] = mocks.infiniteListCalls as [
+                [CapturedOptions, unknown],
+            ];
+            const head = headUseReadListOptions(search, mocks.params).queryKey;
 
-        expect(options.queryKey).toStrictEqual(head);
-        expect(hashKey(options.queryKey)).toBe(hashKey(head));
-        expect(extra).toStrictEqual({ enabled: false });
-    });
+            expect(mocks.infiniteListCalls).toHaveLength(1);
+            expect(options.queryKey).toStrictEqual(head);
+            expect(hashKey(options.queryKey)).toBe(hashKey(head));
+            expect(extra).toBeUndefined();
+        },
+    );
 });
 
 describe('profile previews', () => {
@@ -925,7 +923,7 @@ describe('profile previews', () => {
                 [CapturedOptions, unknown],
             ];
             expect(options.queryKey).toStrictEqual(
-                userCollectionsPreviewOptions(username).queryKey,
+                userCollectionsOptions(username, { preview: true }).queryKey,
             );
             expect(extra).toStrictEqual({ enabled: visible });
         },
@@ -991,8 +989,9 @@ describe('profile previews', () => {
         ];
         expect(options.queryKey).toStrictEqual(
             extended
-                ? userFavouritesListOptions(username, type).queryKey
-                : userFavouritesPreviewOptions(username, type).queryKey,
+                ? userFavouritesOptions(username, type).queryKey
+                : userFavouritesOptions(username, type, { preview: true })
+                      .queryKey,
         );
         expect(extra).toBeUndefined();
     });
@@ -1008,13 +1007,17 @@ const READ_SEARCHES = [
     ...PREFETCHED_LIST_CASES.filter(({ type }) => type !== 'anime'),
 ];
 
-describe('userWatchListOptions', () => {
+describe('userListOptions (anime)', () => {
     it.each(WATCH_SEARCHES)(
         'equals the HEAD component key: $name',
         ({ raw }) => {
             const search = userlistSearchSchema.parse(raw);
             const params = { username, content_type: 'anime' };
-            const component = userWatchListOptions(username, search).queryKey;
+            const component = userListOptions(
+                username,
+                'anime',
+                search,
+            ).queryKey;
             const head = headUseWatchListOptions(search, params).queryKey;
 
             expect(component).toStrictEqual(head);
@@ -1026,12 +1029,17 @@ describe('userWatchListOptions', () => {
         'keys the loader like the component: $name',
         ({ raw }) => {
             const search = userlistSearchSchema.parse(raw);
-            const loader = userWatchListOptions(
+            const loader = userListOptions(
                 username,
+                'anime',
                 search,
                 ssrRequestClient(),
             ).queryKey;
-            const component = userWatchListOptions(username, search).queryKey;
+            const component = userListOptions(
+                username,
+                'anime',
+                search,
+            ).queryKey;
 
             expect(loader).toStrictEqual(component);
             expect(hashKey(loader)).toBe(hashKey(component));
@@ -1050,9 +1058,9 @@ describe('userWatchListOptions', () => {
         });
 
         expect(pageTwo.page).toBe(2);
-        expect(userWatchListOptions(username, pageTwo).queryKey).toStrictEqual(
-            userWatchListOptions(username, pageOne).queryKey,
-        );
+        expect(
+            userListOptions(username, 'anime', pageTwo).queryKey,
+        ).toStrictEqual(userListOptions(username, 'anime', pageOne).queryKey);
     });
 
     it.each([
@@ -1063,12 +1071,14 @@ describe('userWatchListOptions', () => {
         ['score', { score: ['7', '10'] }],
     ] as const)('hashes a different %s differently', (_, change) => {
         const base = { status: 'completed', sort: 'watch_score' };
-        const baseKey = userWatchListOptions(
+        const baseKey = userListOptions(
             username,
+            'anime',
             userlistSearchSchema.parse(base),
         ).queryKey;
-        const changedKey = userWatchListOptions(
+        const changedKey = userListOptions(
             username,
+            'anime',
             userlistSearchSchema.parse({ ...base, ...change }),
         ).queryKey;
 
@@ -1083,7 +1093,7 @@ describe('userWatchListOptions', () => {
         );
         const client = loaderRequestClient();
         const fromLoader = await sentRequest(
-            userWatchListOptions(username, search, client),
+            userListOptions(username, 'anime', search, client),
             client,
         );
         const fromComponent = await sentRequest(
@@ -1097,7 +1107,7 @@ describe('userWatchListOptions', () => {
     });
 });
 
-describe('userReadListOptions', () => {
+describe('userListOptions (manga, novel)', () => {
     it.each(
         READ_SEARCHES.flatMap((search) => [
             { ...search, contentType: 'manga' as ReadContentTypeEnum },
@@ -1108,12 +1118,12 @@ describe('userReadListOptions', () => {
         ({ raw, contentType }) => {
             const search = userlistSearchSchema.parse(raw);
             const params = { username, content_type: contentType };
-            const component = userReadListOptions(
+            const component = userListOptions(
                 username,
                 contentType,
                 search,
             ).queryKey;
-            const loader = userReadListOptions(
+            const loader = userListOptions(
                 username,
                 contentType,
                 search,
@@ -1136,7 +1146,7 @@ describe('userReadListOptions', () => {
 
         expect(
             hashKey(
-                userReadListOptions(
+                userListOptions(
                     username,
                     'manga' as ReadContentTypeEnum,
                     search,
@@ -1144,7 +1154,7 @@ describe('userReadListOptions', () => {
             ),
         ).not.toBe(
             hashKey(
-                userReadListOptions(
+                userListOptions(
                     username,
                     'novel' as ReadContentTypeEnum,
                     search,
@@ -1159,7 +1169,7 @@ describe('userReadListOptions', () => {
 
         expect(
             hashKey(
-                userReadListOptions(
+                userListOptions(
                     username,
                     contentType,
                     userlistSearchSchema.parse(base),
@@ -1167,7 +1177,7 @@ describe('userReadListOptions', () => {
             ),
         ).not.toBe(
             hashKey(
-                userReadListOptions(
+                userListOptions(
                     username,
                     contentType,
                     userlistSearchSchema.parse({ ...base, status: 'reading' }),
@@ -1185,7 +1195,7 @@ describe('userReadListOptions', () => {
         const contentType = 'manga' as ReadContentTypeEnum;
         const client = loaderRequestClient();
         const fromLoader = await sentRequest(
-            userReadListOptions(username, contentType, search, client),
+            userListOptions(username, contentType, search, client),
             client,
         );
         const fromComponent = await sentRequest(
@@ -1239,15 +1249,26 @@ describe('userArticlesPreviewOptions', () => {
     });
 });
 
-describe('userCollectionsPreviewOptions', () => {
-    it('builds the HEAD body', () => {
-        expect(userCollectionsPreviewBody(username)).toStrictEqual(
-            headUserCollectionsBody({ username }),
+describe('userCollectionsOptions', () => {
+    it('keys the modal list like HEAD', () => {
+        expect(userCollectionsOptions(username).queryKey).toStrictEqual(
+            headUserCollectionsOptions({ username }).queryKey,
         );
     });
 
+    it('keys the modal loader like the component', () => {
+        expect(
+            hashKey(
+                userCollectionsOptions(username, {}, ssrRequestClient())
+                    .queryKey,
+            ),
+        ).toBe(hashKey(userCollectionsOptions(username).queryKey));
+    });
+
     it('adds the preview size to the HEAD key', () => {
-        expect(userCollectionsPreviewOptions(username).queryKey).toStrictEqual(
+        expect(
+            userCollectionsOptions(username, { preview: true }).queryKey,
+        ).toStrictEqual(
             getCollectionsInfiniteOptions({
                 body: headUserCollectionsBody({ username }),
                 query: { size: 3 },
@@ -1256,9 +1277,12 @@ describe('userCollectionsPreviewOptions', () => {
     });
 
     it('keys the loader like the component', () => {
-        const component = userCollectionsPreviewOptions(username).queryKey;
-        const loader = userCollectionsPreviewOptions(
+        const component = userCollectionsOptions(username, {
+            preview: true,
+        }).queryKey;
+        const loader = userCollectionsOptions(
             username,
+            { preview: true },
             ssrRequestClient(),
         ).queryKey;
 
@@ -1269,7 +1293,11 @@ describe('userCollectionsPreviewOptions', () => {
     it('keeps the collection list modal on its own unsized key', () => {
         expect(
             hashKey(headUserCollectionsOptions({ username }).queryKey),
-        ).not.toBe(hashKey(userCollectionsPreviewOptions(username).queryKey));
+        ).not.toBe(
+            hashKey(
+                userCollectionsOptions(username, { preview: true }).queryKey,
+            ),
+        );
     });
 
     it('hashes a public-only body differently', () => {
@@ -1277,23 +1305,27 @@ describe('userCollectionsPreviewOptions', () => {
             hashKey(
                 getCollectionsInfiniteOptions({
                     body: {
-                        ...userCollectionsPreviewBody(username),
+                        ...headUserCollectionsBody({ username }),
                         only_public: true,
                     },
                     query: { size: 3 },
                 }).queryKey,
             ),
-        ).not.toBe(hashKey(userCollectionsPreviewOptions(username).queryKey));
+        ).not.toBe(
+            hashKey(
+                userCollectionsOptions(username, { preview: true }).queryKey,
+            ),
+        );
     });
 
     it('sends the component request from the loader', async () => {
         const client = loaderRequestClient();
         const fromLoader = await sentRequest(
-            userCollectionsPreviewOptions(username, client),
+            userCollectionsOptions(username, { preview: true }, client),
             client,
         );
         const fromComponent = await sentRequest(
-            userCollectionsPreviewOptions(username),
+            userCollectionsOptions(username, { preview: true }),
             getBrowserClient(),
         );
 
@@ -1352,13 +1384,14 @@ describe('userHistoryPreviewOptions', () => {
     });
 });
 
-describe('userFavouritesPreviewOptions', () => {
+describe('userFavouritesOptions', () => {
     it('sizes the preview to the collapsed stack', () => {
-        expect(FAVORITE_PREVIEW_SIZE).toBe(6);
+        expect(FAVOURITES_PREVIEW_SIZE).toBe(6);
         expect(
-            userFavouritesPreviewOptions(
+            userFavouritesOptions(
                 username,
                 'anime' as FavouriteContentTypeEnum,
+                { preview: true },
             ).queryKey,
         ).toStrictEqual(
             favouriteListInfiniteOptions({
@@ -1372,17 +1405,17 @@ describe('userFavouritesPreviewOptions', () => {
     });
 
     it.each(['anime', 'manga', 'novel', 'character', 'person', 'collection'])(
-        'keys the %s loader like the component on both builders',
+        'keys the %s loader like the component for the preview and the list',
         (type) => {
             const contentType = type as FavouriteContentTypeEnum;
-            for (const build of [
-                userFavouritesPreviewOptions,
-                userFavouritesListOptions,
-            ]) {
-                const component = build(username, contentType).queryKey;
-                const loader = build(
+            for (const preview of [true, false]) {
+                const component = userFavouritesOptions(username, contentType, {
+                    preview,
+                }).queryKey;
+                const loader = userFavouritesOptions(
                     username,
                     contentType,
+                    { preview },
                     ssrRequestClient(),
                 ).queryKey;
 
@@ -1399,11 +1432,12 @@ describe('userFavouritesPreviewOptions', () => {
         }).queryKey;
 
         expect(
-            userFavouritesListOptions(username, contentType).queryKey,
+            userFavouritesOptions(username, contentType).queryKey,
         ).toStrictEqual(head);
         expect(hashKey(head)).not.toBe(
             hashKey(
-                userFavouritesPreviewOptions(username, contentType).queryKey,
+                userFavouritesOptions(username, contentType, { preview: true })
+                    .queryKey,
             ),
         );
     });
@@ -1412,11 +1446,16 @@ describe('userFavouritesPreviewOptions', () => {
         const contentType = 'anime' as FavouriteContentTypeEnum;
         const client = loaderRequestClient();
         const fromLoader = await sentRequest(
-            userFavouritesPreviewOptions(username, contentType, client),
+            userFavouritesOptions(
+                username,
+                contentType,
+                { preview: true },
+                client,
+            ),
             client,
         );
         const fromComponent = await sentRequest(
-            userFavouritesPreviewOptions(username, contentType),
+            userFavouritesOptions(username, contentType, { preview: true }),
             getBrowserClient(),
         );
 

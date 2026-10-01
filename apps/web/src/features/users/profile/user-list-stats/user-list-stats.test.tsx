@@ -1,7 +1,11 @@
 import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
 
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import {
+    hashKey,
+    QueryClient,
+    QueryClientProvider,
+} from '@tanstack/react-query';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import {
@@ -120,4 +124,29 @@ describe('UserListStats', () => {
             ).toBe('fetching');
         },
     );
+
+    it('holds one stats observer per shown tab', async () => {
+        const watchKey = userWatchStatsOptions({
+            path: { username: USERNAME },
+        }).queryKey;
+        const observers = () =>
+            Object.fromEntries(
+                queryClient
+                    .getQueryCache()
+                    .getAll()
+                    .map((query) => [
+                        query.queryHash,
+                        query.getObserversCount(),
+                    ]),
+            );
+
+        expect(observers()).toEqual({ [hashKey(watchKey)]: 1 });
+
+        await act(async () => trigger('Манґа').click());
+
+        expect(observers()).toEqual({
+            [hashKey(watchKey)]: 0,
+            [hashKey(readStatsKey(ContentTypeEnum.MANGA))]: 1,
+        });
+    });
 });

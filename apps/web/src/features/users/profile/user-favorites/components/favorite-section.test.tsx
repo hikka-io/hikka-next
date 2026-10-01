@@ -36,10 +36,7 @@ import { cn } from '@/utils/cn';
 import { useParams } from '@/utils/navigation';
 import { getTitle } from '@/utils/title/get-title';
 
-import {
-    userFavouritesListOptions,
-    userFavouritesPreviewOptions,
-} from '../../../queries';
+import { userFavouritesOptions } from '../../../queries';
 import { favoritePreview } from '../favorite-preview';
 import FavoriteMoreCard from './favorite-more-card';
 import FavoriteSection from './favorite-section';
@@ -437,7 +434,7 @@ describe.each(TYPES)('FavoriteSection(%s)', (type) => {
             authToken: 'token',
         });
 
-        expect(userFavouritesListOptions('emp_ua', type).queryKey).toEqual([
+        expect(userFavouritesOptions('emp_ua', type).queryKey).toEqual([
             {
                 _id: 'favouriteList',
                 _infinite: true,
@@ -445,11 +442,14 @@ describe.each(TYPES)('FavoriteSection(%s)', (type) => {
                 path: { content_type: type, username: 'emp_ua' },
             },
         ]);
-        expect(userFavouritesListOptions('emp_ua', type).queryKey).toEqual(
-            userFavouritesListOptions('emp_ua', type, client).queryKey,
+        expect(userFavouritesOptions('emp_ua', type).queryKey).toEqual(
+            userFavouritesOptions('emp_ua', type, {}, client).queryKey,
         );
-        expect(userFavouritesPreviewOptions('emp_ua', type).queryKey).toEqual(
-            userFavouritesPreviewOptions('emp_ua', type, client).queryKey,
+        expect(
+            userFavouritesOptions('emp_ua', type, { preview: true }).queryKey,
+        ).toEqual(
+            userFavouritesOptions('emp_ua', type, { preview: true }, client)
+                .queryKey,
         );
     });
 });

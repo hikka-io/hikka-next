@@ -31,10 +31,7 @@ import { cn } from '@/utils/cn';
 import { useParams } from '@/utils/navigation';
 import { getTitle } from '@/utils/title/get-title';
 
-import {
-    userFavouritesListOptions,
-    userFavouritesPreviewOptions,
-} from '../../../queries';
+import { userFavouritesOptions } from '../../../queries';
 import { favoritePreview } from '../favorite-preview';
 import FavoriteMoreCard from './favorite-more-card';
 import FavoriteSkeleton from './favorite-skeleton';
@@ -163,9 +160,7 @@ const FavoriteSection: FC<Props> = ({ type, extended }) => {
         isPending,
         ref,
     } = useInfiniteList(
-        extended
-            ? userFavouritesListOptions(username, type)
-            : userFavouritesPreviewOptions(username, type),
+        userFavouritesOptions(username, type, { preview: !extended }),
     );
 
     const list = rawList as FavoriteItem[] | undefined;
