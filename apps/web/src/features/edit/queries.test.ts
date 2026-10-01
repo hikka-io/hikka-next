@@ -147,4 +147,21 @@ describe('edit list route', () => {
             );
         },
     );
+
+    it('skips every prefetch on a hover preload', async () => {
+        const queryClient = new QueryClient();
+        const prefetchInfiniteQuery = vi.fn(async () => {});
+        Object.assign(queryClient, { prefetchInfiniteQuery });
+        const loader = Route.options.loader as (
+            ctx: unknown,
+        ) => Promise<unknown>;
+
+        await loader({
+            deps: editSearchSchema.parse({ page: 1 }),
+            preload: true,
+            context: { queryClient, apiClient: undefined },
+        });
+
+        expect(prefetchInfiniteQuery).not.toHaveBeenCalled();
+    });
 });

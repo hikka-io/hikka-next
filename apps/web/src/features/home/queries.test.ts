@@ -219,6 +219,7 @@ async function runHomeLoader(
     type: string | undefined,
     loggedIn: boolean,
     ui?: UserCustomizationResponse,
+    preload = false,
 ) {
     const queryClient = new QueryClient();
     const calls: string[] = [];
@@ -248,6 +249,7 @@ async function runHomeLoader(
     ) => Promise<unknown>;
     await loader({
         deps: { type },
+        preload,
         context: {
             queryClient,
             apiClient: ssrRequestClient(loggedIn ? 'token' : undefined),
@@ -422,6 +424,17 @@ describe('loadHomePage', () => {
             'getArticles',
         ]);
     });
+});
+
+describe('home loader preload', () => {
+    it.each([false, true])(
+        'skips every prefetch on a hover preload (logged in: %s)',
+        async (loggedIn) => {
+            expect(
+                await runHomeLoader(undefined, loggedIn, undefined, true),
+            ).toEqual([]);
+        },
+    );
 });
 
 describe('OngoingsWidget', () => {

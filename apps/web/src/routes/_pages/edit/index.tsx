@@ -31,7 +31,9 @@ export const Route = createFileRoute('/_pages/edit/')({
         }
     },
     loaderDeps: ({ search }) => search,
-    loader: async ({ context: { queryClient, apiClient }, deps }) => {
+    loader: async ({ context: { queryClient, apiClient }, deps, preload }) => {
+        if (preload) return;
+
         await Promise.all([
             queryClient.prefetchInfiniteQuery(editListOptions(deps, apiClient)),
             queryClient.prefetchInfiniteQuery({

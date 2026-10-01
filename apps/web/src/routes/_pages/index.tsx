@@ -24,7 +24,11 @@ export const Route = createFileRoute('/_pages/')({
             title: 'Hikka - енциклопедія аніме, манґи та ранобе українською',
             url: SITE_ORIGIN,
         }),
-    loader: ({ context }) => loadHomePage(context),
+    loader: async ({ context, preload }) => {
+        if (preload) return;
+
+        await loadHomePage(context);
+    },
     component: HomePage,
 });
 
