@@ -293,7 +293,7 @@ const CommentList: FC<Props> = ({
                                 description="Ви можете розпочати обговорення першим"
                             />
                         ))}
-                    {list && (
+                    {list && list.length > 0 && (
                         <CommentTree
                             slug={slug}
                             content_type={content_type}
