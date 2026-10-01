@@ -1,5 +1,6 @@
 import { type FC, useMemo, useState } from 'react';
 
+import { clamp } from '@antfu/utils';
 import { Star } from 'lucide-react';
 
 import type { CommentContentTypeEnum, CommentTypeEnum } from '@hikka/api';
@@ -33,7 +34,7 @@ import { CommentListSkeleton } from './comment-skeleton';
 import CommentTree from './comment-tree';
 import { COMMENT_TYPE_OPTIONS } from './comment-type-options';
 import CommentsProvider from './comments-provider';
-import { commentListOptions } from './queries';
+import { COMMENT_PREVIEW_SIZE, commentListOptions } from './queries';
 import { getReviewTotal, supportsReviews, type Verdict } from './review/review';
 import ReviewStatsCard from './review/review-stats-card';
 import { useReviewStats } from './review/use-review-stats';
@@ -119,6 +120,11 @@ const CommentList: FC<Props> = ({
     }, [commentsCount, reviewsTotal]);
 
     const showTypeTabs = hasReviews && !comment_reference;
+
+    const previewTotal =
+        preview && !verdict
+            ? chipOptions.find((option) => option.value === commentType)?.count
+            : undefined;
 
     const reviewStats =
         showTypeTabs && commentType !== 'comment' && reviewsTotal > 0
@@ -250,8 +256,20 @@ const CommentList: FC<Props> = ({
                             }
                         />
                     )}
-                    {isLoading && <CommentListSkeleton />}
-                    {isLoading && preview && (
+                    {isLoading && (
+                        <CommentListSkeleton
+                            count={
+                                previewTotal === undefined
+                                    ? undefined
+                                    : clamp(
+                                          previewTotal,
+                                          1,
+                                          COMMENT_PREVIEW_SIZE,
+                                      )
+                            }
+                        />
+                    )}
+                    {isLoading && preview && previewTotal !== 0 && (
                         <Skeleton className="h-12 w-full rounded-lg" />
                     )}
                     {list &&
