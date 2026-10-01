@@ -4,7 +4,6 @@ import { setupRouterSsrQueryIntegration } from '@tanstack/react-router-ssr-query
 import { toast } from 'sonner';
 
 import {
-    type Client as ApiClient,
     configureBrowserClient,
     createRequestClient,
     getBrowserClient,
@@ -15,6 +14,7 @@ import {
 import { ErrorPage } from '@/features/app-shell';
 import { getInternalApiUrl, PUBLIC_API_URL } from '@/utils/api/base-url';
 import { getClientIpFn } from '@/utils/api/client-ip';
+import type { LoaderContext } from '@/utils/api/loader-prefetch';
 import { shouldSkipGlobalErrorToast } from '@/utils/api/mutation-meta';
 import {
     applyQueryDefaults,
@@ -25,10 +25,7 @@ import { isServer } from '@/utils/is-server';
 
 import { routeTree } from './routeTree.gen';
 
-export interface RouterContext {
-    queryClient: QueryClient;
-    apiClient: ApiClient;
-}
+export type RouterContext = LoaderContext;
 
 export async function createRouter() {
     const queryClient = new QueryClient({
