@@ -764,12 +764,17 @@ main {
 }
 
 /* Modal scroll must not chain to the page (Android pull-to-refresh).
-   Descendant-wide because only the actually-scrolling element counts;
-   inert everywhere else. */
-[data-slot="drawer-content"],
-[data-slot="sheet-content"],
-[data-slot="drawer-content"] *,
-[data-slot="sheet-content"] * {
+   Scrollers only: an overflow-hidden box (truncate, line-clamp, a cover) is a scroll
+   container too, and `contain` on it stops a wheel over it from reaching the list. */
+:is([data-slot="drawer-content"], [data-slot="sheet-content"])
+:is(
+    .overflow-auto,
+    .overflow-scroll,
+    .overflow-y-auto,
+    .overflow-y-scroll,
+    [data-slot="scroll-area-viewport"],
+    textarea
+) {
     overscroll-behavior-y: contain;
 }
 
