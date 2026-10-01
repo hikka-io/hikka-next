@@ -9,6 +9,8 @@ import {
 import type { EditSearch } from '@/utils/search-schemas';
 import { expandSort } from '@/utils/sort';
 
+export const EDIT_LIST_PAGE_SIZE = 15;
+
 export function editListOptions(search: EditSearch, client?: Client) {
     return paginatedInfiniteOptions(
         getEditsInfiniteOptions({
@@ -20,6 +22,7 @@ export function editListOptions(search: EditSearch, client?: Client) {
                 author: search.author,
                 moderator: search.moderator,
             },
+            query: { size: EDIT_LIST_PAGE_SIZE },
             client,
         }),
         Number(search.page || 1),

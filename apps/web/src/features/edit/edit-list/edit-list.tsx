@@ -22,11 +22,7 @@ const EditList: FC<Props> = () => {
         editListOptions(search),
     );
 
-    if (isLoading) {
-        return <EditSkeleton />;
-    }
-
-    if (!list) return null;
+    if (!isLoading && !list) return null;
 
     if (list && list.length === 0) {
         return <FiltersNotFound />;
@@ -38,9 +34,13 @@ const EditList: FC<Props> = () => {
                 <Table className="max-md:table-fixed max-md:[&_td]:px-2 max-md:[&_th]:px-2 max-md:[&_td:nth-child(2)]:pl-4 max-md:[&_th:nth-child(2)]:pl-4 max-md:[&_td:last-child]:pr-4 max-md:[&_th:last-child]:pr-4">
                     <EditHead />
                     <TableBody>
-                        {list.map((edit) => (
-                            <EditRow key={edit.edit_id} edit={edit} />
-                        ))}
+                        {isLoading ? (
+                            <EditSkeleton />
+                        ) : (
+                            list?.map((edit) => (
+                                <EditRow key={edit.edit_id} edit={edit} />
+                            ))
+                        )}
                     </TableBody>
                 </Table>
             </div>

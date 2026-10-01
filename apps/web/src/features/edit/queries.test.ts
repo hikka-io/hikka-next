@@ -15,7 +15,7 @@ import { type EditSearch, editSearchSchema } from '@/utils/search-schemas';
 import { expandSort } from '@/utils/sort';
 
 import { Route } from '../../routes/_pages/edit/index';
-import { editListOptions } from './queries';
+import { EDIT_LIST_PAGE_SIZE, editListOptions } from './queries';
 
 const BASE_URL = 'https://api.example.test';
 
@@ -35,6 +35,7 @@ function componentOptions(search: EditSearch) {
                 author: search.author,
                 moderator: search.moderator,
             },
+            query: { size: EDIT_LIST_PAGE_SIZE },
         }),
         Number(search.page || 1),
     );
