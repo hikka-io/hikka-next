@@ -39,9 +39,6 @@ import {
     watchGetOptions,
 } from '@hikka/api';
 
-import { ensureOr404 } from './ensure-or-404';
-import type { LoaderContext } from './loader-prefetch';
-
 function nullOn404<TData, TError, TKey extends QueryKey>(
     generated: UseQueryOptions<TData, TError, TData, TKey>,
 ) {
@@ -173,20 +170,6 @@ export function contentInfoOptions<T extends ContentInfoType>(
 
 export const isContentInfoType = (type: string): type is ContentInfoType =>
     Object.hasOwn(CONTENT_INFO_OPTIONS, type);
-
-export async function loadContentForComments(
-    type: ContentTypeEnum,
-    slug: string,
-    { queryClient, apiClient }: LoaderContext,
-) {
-    if (!isContentInfoType(type)) {
-        return null;
-    }
-
-    return await ensureOr404(() =>
-        queryClient.ensureQueryData(contentInfoOptions(type, slug, apiClient)),
-    );
-}
 
 export const ENTITY_PREVIEW_SIZE = 4;
 

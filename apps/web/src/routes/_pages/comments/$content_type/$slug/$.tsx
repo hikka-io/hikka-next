@@ -1,14 +1,19 @@
+import { useQuery } from '@tanstack/react-query';
 import { createFileRoute, redirect } from '@tanstack/react-router';
 
 import type { CommentContentTypeEnum, ContentTypeEnum } from '@hikka/api';
 
 import { usePageHeader } from '@/features/app-shell';
 import { CommentList } from '@/features/comments';
-import { commentThreadOptions } from '@/features/comments/queries';
+import {
+    commentThreadOptions,
+    loadCommentsContent,
+} from '@/features/comments/queries';
 import { ContentSubpage, useContentTitle } from '@/features/content';
 import {
+    type ContentInfoType,
+    contentInfoOptions,
     isContentInfoType,
-    loadContentForComments,
 } from '@/utils/api/content-queries';
 import { generateHeadMeta } from '@/utils/metadata';
 
@@ -21,20 +26,14 @@ export const Route = createFileRoute('/_pages/comments/$content_type/$slug/$')({
         const { queryClient, apiClient } = context;
         const { content_type, slug, _splat: commentReference } = params;
 
-        const [content] = await Promise.all([
-            loadContentForComments(
-                content_type as CommentContentTypeEnum,
-                slug,
-                context,
-            ),
+        await Promise.all([
+            loadCommentsContent(content_type as ContentInfoType, slug, context),
             commentReference
                 ? queryClient.prefetchInfiniteQuery(
                       commentThreadOptions(commentReference, apiClient),
                   )
                 : undefined,
         ]);
-
-        return { content, commentReference };
     },
     head: () =>
         generateHeadMeta({
@@ -46,7 +45,9 @@ export const Route = createFileRoute('/_pages/comments/$content_type/$slug/$')({
 
 function CommentsThreadPage() {
     const { content_type, slug, _splat: commentReference } = Route.useParams();
-    const { content } = Route.useLoaderData();
+    const { data: content } = useQuery(
+        contentInfoOptions(content_type as ContentInfoType, slug),
+    );
     const contentTitle = useContentTitle(
         content_type as ContentTypeEnum,
         content,

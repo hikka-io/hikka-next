@@ -1,5 +1,6 @@
-import { hashKey, QueryClient } from '@tanstack/react-query';
-import { beforeAll, describe, expect, it } from 'vitest';
+import { CancelledError, hashKey, QueryClient } from '@tanstack/react-query';
+import { isNotFound } from '@tanstack/react-router';
+import { beforeAll, describe, expect, it, vi } from 'vitest';
 
 import {
     API_LIMITS,
@@ -12,9 +13,14 @@ import {
     getBrowserClient,
     getCommentsListInfiniteOptions,
     getCommentsUserInfiniteOptions,
+    HikkaApiError,
     paginationPageParam,
 } from '@hikka/api';
 
+import {
+    type ContentInfoType,
+    contentInfoOptions,
+} from '@/utils/api/content-queries';
 import { commentsSearchSchema } from '@/utils/search-schemas';
 import {
     type CommentOrder,
@@ -28,6 +34,7 @@ import { Route as EditViewRoute } from '../../routes/_pages/edit/$editId/index';
 import {
     commentListOptions,
     commentThreadOptions,
+    loadCommentsContent,
     THREAD_PAGE_SIZE,
     userCommentListOptions,
 } from './queries';
@@ -359,4 +366,71 @@ describe('commentThreadOptions', () => {
         expect(loaderKey).toStrictEqual(hookKey);
         expect(hashKey(loaderKey)).toBe(hashKey(hookKey));
     });
+});
+
+describe('loadCommentsContent', () => {
+    const run = (type: ContentInfoType, ensureQueryData: () => unknown) =>
+        loadCommentsContent(type, slug, {
+            queryClient: { ensureQueryData } as unknown as QueryClient,
+            apiClient: ssrRequestClient(),
+        });
+
+    it('retries a fetch cancelled by an unmounting observer', async () => {
+        const ensureQueryData = vi
+            .fn()
+            .mockRejectedValueOnce(new CancelledError())
+            .mockResolvedValueOnce({ slug });
+
+        await expect(
+            run(ContentTypeEnum.ANIME, ensureQueryData),
+        ).resolves.toEqual({ slug });
+        expect(ensureQueryData).toHaveBeenCalledTimes(2);
+    });
+
+    it('turns a 404 into the router not-found', async () => {
+        const ensureQueryData = vi
+            .fn()
+            .mockRejectedValue(
+                new HikkaApiError('Not found', 404, 'not_found'),
+            );
+
+        expect(
+            isNotFound(
+                await run(ContentTypeEnum.MANGA, ensureQueryData).catch(
+                    (error: unknown) => error,
+                ),
+            ),
+        ).toBe(true);
+    });
+
+    it('rethrows any other API error unchanged', async () => {
+        const apiError = new HikkaApiError('Server error', 500, 'server_error');
+
+        await expect(
+            run(ContentTypeEnum.USER, vi.fn().mockRejectedValue(apiError)),
+        ).rejects.toBe(apiError);
+    });
+
+    it.each([
+        ContentTypeEnum.ANIME,
+        ContentTypeEnum.MANGA,
+        ContentTypeEnum.NOVEL,
+        ContentTypeEnum.CHARACTER,
+        ContentTypeEnum.PERSON,
+        ContentTypeEnum.COLLECTION,
+        ContentTypeEnum.EDIT,
+        ContentTypeEnum.ARTICLE,
+        ContentTypeEnum.USER,
+    ] as ContentInfoType[])(
+        'ensures the key the page reads for %s',
+        async (type) => {
+            const ensureQueryData = vi.fn().mockResolvedValue({ type });
+
+            await run(type, ensureQueryData);
+
+            expect(hashKey(ensureQueryData.mock.lastCall?.[0].queryKey)).toBe(
+                hashKey(contentInfoOptions(type, slug).queryKey),
+            );
+        },
+    );
 });

@@ -10,6 +10,12 @@ import {
     threadInfiniteOptions,
 } from '@hikka/api';
 
+import {
+    type ContentInfoType,
+    contentInfoOptions,
+} from '@/utils/api/content-queries';
+import { ensureOr404 } from '@/utils/api/ensure-or-404';
+import type { LoaderContext } from '@/utils/api/loader-prefetch';
 import { type CommentOrder, getCommentSort } from '@/utils/sort';
 
 export const THREAD_PAGE_SIZE = API_LIMITS.pageSize.max;
@@ -88,4 +94,14 @@ export function userCommentListOptions(
         }),
         ...paginationPageParam(),
     };
+}
+
+export function loadCommentsContent(
+    type: ContentInfoType,
+    slug: string,
+    { queryClient, apiClient }: LoaderContext,
+) {
+    return ensureOr404(() =>
+        queryClient.ensureQueryData(contentInfoOptions(type, slug, apiClient)),
+    );
 }

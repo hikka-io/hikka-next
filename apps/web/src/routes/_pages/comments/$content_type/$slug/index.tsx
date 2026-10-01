@@ -1,3 +1,4 @@
+import { useQuery } from '@tanstack/react-query';
 import { createFileRoute, redirect } from '@tanstack/react-router';
 import { zodValidator } from '@tanstack/zod-adapter';
 
@@ -15,13 +16,15 @@ import {
 } from '@/features/comments';
 import {
     commentListOptions,
+    loadCommentsContent,
     userCommentListOptions,
 } from '@/features/comments/queries';
 import { ContentSubpage, useContentTitle } from '@/features/content';
 import { useChangeParam } from '@/features/filters';
 import {
+    type ContentInfoType,
+    contentInfoOptions,
     isContentInfoType,
-    loadContentForComments,
 } from '@/utils/api/content-queries';
 import { contentPath } from '@/utils/content-paths';
 import { generateHeadMeta } from '@/utils/metadata';
@@ -79,11 +82,7 @@ export const Route = createFileRoute('/_pages/comments/$content_type/$slug/')({
                   );
 
         const [content] = await Promise.all([
-            loadContentForComments(
-                content_type as ContentTypeEnum,
-                slug,
-                context,
-            ),
+            loadCommentsContent(content_type as ContentInfoType, slug, context),
             prefetchComments,
         ]);
 
@@ -105,7 +104,9 @@ function CommentsPage() {
     const { content_type, slug } = Route.useParams();
     const { comment_type, recommended, sort, order, first_level_only } =
         Route.useSearch();
-    const { content } = Route.useLoaderData();
+    const { data: content } = useQuery(
+        contentInfoOptions(content_type as ContentInfoType, slug),
+    );
     const navigate = Route.useNavigate();
     const changeParam = useChangeParam();
     const contentTitle =

@@ -138,10 +138,7 @@ describe('comment thread loader', () => {
 
         info.resolve({ slug: 'test-slug' });
         list.resolve();
-        await expect(result).resolves.toEqual({
-            content: { slug: 'test-slug' },
-            commentReference: 'abc-123',
-        });
+        await expect(result).resolves.toBeUndefined();
     });
 
     it('requests only the content without a comment reference', async () => {
@@ -152,7 +149,7 @@ describe('comment thread loader', () => {
         expect(started).toEqual(['animeSlug']);
 
         info.resolve({ slug: 'test-slug' });
-        await expect(result).resolves.toBeDefined();
+        await expect(result).resolves.toBeUndefined();
     });
 });
 
