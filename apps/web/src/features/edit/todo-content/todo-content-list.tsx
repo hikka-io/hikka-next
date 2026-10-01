@@ -2,13 +2,15 @@ import type { FC } from 'react';
 
 import { range } from '@antfu/utils';
 
+import { ContentTypeEnum } from '@hikka/api';
+
 import FiltersNotFound from '@/components/filters-not-found';
 import LoadMoreButton from '@/components/load-more-button';
 import PagePagination from '@/components/page-pagination';
 
 import { TodoContentCard } from './todo-content-card';
 import TodoContentCardSkeleton from './todo-content-card-skeleton';
-import { useTodoContentQuery } from './use-todo-content-query';
+import { TODO_PAGE_SIZE, useTodoContentQuery } from './use-todo-content-query';
 import { useTodoFilters } from './use-todo-filters';
 
 const LIST_CLASSNAME =
@@ -30,10 +32,14 @@ const TodoContentList: FC = () => {
     const hasMultiplePages = Boolean(data && data.pages.length > 1);
 
     if (isLoading) {
+        const media =
+            contentType !== ContentTypeEnum.CHARACTER &&
+            contentType !== ContentTypeEnum.PERSON;
+
         return (
             <div className={LIST_CLASSNAME}>
-                {range(1, 7).map((v) => (
-                    <TodoContentCardSkeleton key={v} />
+                {range(0, TODO_PAGE_SIZE).map((index) => (
+                    <TodoContentCardSkeleton key={index} media={media} />
                 ))}
             </div>
         );
