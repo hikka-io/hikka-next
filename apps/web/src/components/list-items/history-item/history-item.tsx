@@ -9,7 +9,6 @@ import {
     HorizontalCardTitle,
 } from '@/components/horizontal-card';
 import MaterialSymbolsInfoRounded from '@/components/icons/material-symbols/MaterialSymbolsInfoRounded';
-import { MDViewer } from '@/components/markdown';
 import RelativeTime from '@/components/relative-time';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
@@ -21,7 +20,8 @@ import { useTitle } from '@/services/session';
 import { CONTENT_TYPE_LINKS } from '@/utils/content-paths';
 import { Link } from '@/utils/navigation';
 
-import { convertActivity } from './convert-activity';
+import { convertHistory } from './convert-history';
+import HistoryFacts from './history-facts';
 
 type Props = {
     data: HistoryResponse;
@@ -51,7 +51,7 @@ const HistoryItem: FC<Props> = (props) => {
     const { data, withUser, className } = props;
     const title = useTitle(data.content);
 
-    const activity = convertActivity(data);
+    const { facts } = convertHistory(data);
 
     return (
         <HorizontalCard className={className}>
@@ -79,14 +79,7 @@ const HistoryItem: FC<Props> = (props) => {
                 >
                     {title || 'Загальне'}
                 </HorizontalCardTitle>
-                {activity.length > 0 && (
-                    <MDViewer
-                        className="prose-inline line-clamp-2 text-muted-foreground text-xs!"
-                        preview
-                    >
-                        {activity.join(', ')}
-                    </MDViewer>
-                )}
+                <HistoryFacts facts={facts} />
                 <RelativeTime value={data.created} className="opacity-60" />
             </HorizontalCardContainer>
             {withUser && <User {...props} />}
