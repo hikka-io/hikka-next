@@ -2,7 +2,6 @@ import { createFileRoute, redirect } from '@tanstack/react-router';
 import { zodValidator } from '@tanstack/zod-adapter';
 
 import MaterialSymbolsAddRounded from '@/components/icons/material-symbols/MaterialSymbolsAddRounded';
-import PagePagination from '@/components/page-pagination';
 import Block from '@/components/ui/block';
 import { Button } from '@/components/ui/button';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
@@ -12,7 +11,6 @@ import {
     collectionListOptions,
     DEFAULT_COLLECTION_SORT,
 } from '@/features/collections/queries';
-import { retryOnCancel } from '@/utils/api/retry-on-cancel';
 import { generateHeadMeta } from '@/utils/metadata';
 import { Link } from '@/utils/navigation';
 import { collectionsSearchSchema } from '@/utils/search-schemas';
@@ -29,32 +27,12 @@ export const Route = createFileRoute('/_pages/collections/')({
         }
     },
     loaderDeps: ({ search }) => search,
-    // A hover preload skips the list, so a click must rerun the loader and wait for it.
-    preloadStaleTime: 0,
-    loader: {
-        staleReloadMode: 'blocking',
-        handler: async ({
-            context: { queryClient, apiClient },
-            deps,
-            preload,
-        }) => {
-            const { page, sort = DEFAULT_COLLECTION_SORT } = deps;
+    loader: async ({ context: { queryClient, apiClient }, deps, preload }) => {
+        if (preload) return;
 
-            if (preload)
-                return { page: Number(page), sort, pagination: undefined };
-
-            const collections = await retryOnCancel(() =>
-                queryClient.ensureInfiniteQueryData(
-                    collectionListOptions({ page, sort }, apiClient),
-                ),
-            );
-
-            return {
-                page: Number(page),
-                sort,
-                pagination: collections.pages[0].pagination,
-            };
-        },
+        await queryClient.prefetchInfiniteQuery(
+            collectionListOptions(deps, apiClient),
+        );
     },
     head: () =>
         generateHeadMeta({
@@ -66,7 +44,7 @@ export const Route = createFileRoute('/_pages/collections/')({
 });
 
 function CollectionsPage() {
-    const { page, sort, pagination } = Route.useLoaderData();
+    const { page, sort = DEFAULT_COLLECTION_SORT } = Route.useSearch();
 
     const titleAnchor = usePageTitleAnchor();
 
@@ -91,8 +69,7 @@ function CollectionsPage() {
                 </Header>
                 <CollectionSort />
             </div>
-            <CollectionList page={page} sort={sort} />
-            {pagination && <PagePagination pagination={pagination} />}
+            <CollectionList page={Number(page)} sort={sort} />
         </Block>
     );
 }

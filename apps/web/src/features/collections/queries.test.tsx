@@ -26,26 +26,18 @@ beforeAll(() => {
     configureBrowserClient({ baseUrl: BASE_URL });
 });
 
-type LoaderOptions = { handler: (ctx: unknown) => Promise<unknown> };
+type Loader = (ctx: unknown) => Promise<unknown>;
 
-async function loaderKey(deps: object) {
+async function loaderKey(deps: { page: number; sort?: 'created' }) {
     const keys: Options['queryKey'][] = [];
     const queryClient = new QueryClient();
     Object.assign(queryClient, {
-        ensureInfiniteQueryData: vi.fn(async (options: Options) => {
+        prefetchInfiniteQuery: vi.fn(async (options: Options) => {
             keys.push(options.queryKey);
-            return {
-                pages: [
-                    { list: [], pagination: { page: 1, pages: 1, total: 0 } },
-                ],
-                pageParams: [1],
-            };
         }),
     });
 
-    const data = (await (
-        Route.options.loader as unknown as LoaderOptions
-    ).handler({
+    await (Route.options.loader as unknown as Loader)({
         deps,
         preload: false,
         context: {
@@ -55,9 +47,9 @@ async function loaderKey(deps: object) {
                 internalBaseUrl: 'http://backend:8000',
             }),
         },
-    })) as { page: number; sort: 'system_ranking' | 'created' };
+    });
 
-    return { key: keys[0], data };
+    return keys[0];
 }
 
 describe('collectionListOptions', () => {
@@ -65,10 +57,13 @@ describe('collectionListOptions', () => {
         'keys the loader like the list: %o',
         async (deps) => {
             mocks.calls = [];
-            const { key, data } = await loaderKey(deps);
+            const key = await loaderKey(deps);
 
             renderToStaticMarkup(
-                <CollectionList page={data.page} sort={data.sort} />,
+                <CollectionList
+                    page={deps.page}
+                    sort={deps.sort ?? 'system_ranking'}
+                />,
             );
 
             expect(hashKey(key)).toBe(hashKey(mocks.calls[0].queryKey));

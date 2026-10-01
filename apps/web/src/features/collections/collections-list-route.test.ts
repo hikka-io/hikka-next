@@ -1,4 +1,7 @@
-import { QueryClient } from '@tanstack/react-query';
+import { createElement } from 'react';
+import { renderToStaticMarkup } from 'react-dom/server';
+
+import { hashKey, QueryClient } from '@tanstack/react-query';
 import {
     createMemoryHistory,
     createRootRouteWithContext,
@@ -6,11 +9,36 @@ import {
     createRouter,
     isRedirect,
 } from '@tanstack/react-router';
-import { describe, expect, it, vi } from 'vitest';
+import { beforeAll, beforeEach, describe, expect, it, vi } from 'vitest';
+
+import { configureBrowserClient } from '@hikka/api';
 
 import { Route } from '../../routes/_pages/collections/index';
+import CollectionList from './collection-list/collection-list';
+import { collectionListOptions } from './queries';
 
 const PAGINATION = { page: 1, pages: 4, total: 60 };
+
+const mocks = vi.hoisted(() => ({
+    pagination: undefined as { page: number; pages: number } | undefined,
+}));
+
+vi.mock('@/utils/api/use-infinite-list', () => ({
+    useInfiniteList: () => ({ list: [], pagination: mocks.pagination }),
+}));
+
+vi.mock('@/components/page-pagination', () => ({
+    default: ({ pagination }: { pagination: { page: number } }) =>
+        createElement('nav', { 'data-page': pagination.page }),
+}));
+
+beforeAll(() => {
+    configureBrowserClient({ baseUrl: 'https://api.example.test' });
+});
+
+beforeEach(() => {
+    mocks.pagination = undefined;
+});
 
 function redirectFor(search: object) {
     const beforeLoad = Route.options.beforeLoad as (ctx: object) => unknown;
@@ -23,25 +51,18 @@ function redirectFor(search: object) {
     return undefined;
 }
 
-type LoaderOptions = {
-    handler: (ctx: unknown) => Promise<unknown>;
-    staleReloadMode: string;
-};
+type Loader = (ctx: unknown) => Promise<unknown>;
 
 async function runLoader(deps: object, preload = false) {
     const queryClient = new QueryClient();
-    const ensureInfiniteQueryData = vi.fn(async () => ({
-        pages: [{ list: [], pagination: PAGINATION }],
-        pageParams: [1],
-    }));
-    Object.assign(queryClient, { ensureInfiniteQueryData });
-    const loader = Route.options.loader as unknown as LoaderOptions;
-    const data = await loader.handler({
+    const prefetchInfiniteQuery = vi.fn(async () => {});
+    Object.assign(queryClient, { prefetchInfiniteQuery });
+    const data = await (Route.options.loader as unknown as Loader)({
         deps,
         preload,
         context: { queryClient, apiClient: undefined },
     });
-    return { data, ensureInfiniteQueryData };
+    return { data, prefetchInfiniteQuery };
 }
 
 describe('collections list route', () => {
@@ -60,52 +81,47 @@ describe('collections list route', () => {
         expect(redirectFor({ page: 2 })).toBeUndefined();
     });
 
-    it('has no redirect in the loader and returns only pagination', async () => {
-        const { data, ensureInfiniteQueryData } = await runLoader({});
-
-        expect(ensureInfiniteQueryData).toHaveBeenCalledTimes(1);
-        expect(data).toMatchObject({
-            sort: 'system_ranking',
-            pagination: PAGINATION,
-        });
-    });
-
-    it('returns the page and sort from the search', async () => {
-        const { data } = await runLoader({ page: 3, sort: 'created' });
-
-        expect(data).toEqual({
+    it('prefetches the list of the search and returns no loader data', async () => {
+        const { data, prefetchInfiniteQuery } = await runLoader({
             page: 3,
             sort: 'created',
-            pagination: PAGINATION,
         });
+
+        expect(data).toBeUndefined();
+        expect(prefetchInfiniteQuery).toHaveBeenCalledTimes(1);
+        const [[options]] = prefetchInfiniteQuery.mock.calls as unknown as [
+            [{ queryKey: readonly unknown[] }],
+        ];
+        expect(hashKey(options.queryKey)).toBe(
+            hashKey(
+                collectionListOptions({ page: 3, sort: 'created' }).queryKey,
+            ),
+        );
+    });
+
+    it('keeps the default preload stale time', () => {
+        expect(Route.options.preloadStaleTime).toBeUndefined();
     });
 });
 
 describe('collections list route preload', () => {
     it('skips the list fetch on a preload', async () => {
-        const { data, ensureInfiniteQueryData } = await runLoader(
+        const { data, prefetchInfiniteQuery } = await runLoader(
             { page: 1 },
             true,
         );
 
-        expect(ensureInfiniteQueryData).not.toHaveBeenCalled();
-        expect(data).toEqual({
-            page: 1,
-            sort: 'system_ranking',
-            pagination: undefined,
-        });
+        expect(prefetchInfiniteQuery).not.toHaveBeenCalled();
+        expect(data).toBeUndefined();
     });
 
-    it('reruns a blocking loader on the click that follows a preload', async () => {
+    it('waits for the list on a navigation without a preload', async () => {
         const queryClient = new QueryClient();
-        const ensureInfiniteQueryData = vi.fn(async () => {
-            await new Promise((resolve) => setTimeout(resolve, 20));
-            return {
-                pages: [{ list: [], pagination: PAGINATION }],
-                pageParams: [1],
-            };
-        });
-        Object.assign(queryClient, { ensureInfiniteQueryData });
+        let resolve!: () => void;
+        const prefetchInfiniteQuery = vi.fn(
+            () => new Promise<void>((done) => (resolve = done)),
+        );
+        Object.assign(queryClient, { prefetchInfiniteQuery });
 
         const root = createRootRouteWithContext<{
             queryClient: QueryClient;
@@ -117,7 +133,6 @@ describe('collections list route preload', () => {
             path: '/collections',
             validateSearch: Route.options.validateSearch,
             loaderDeps: Route.options.loaderDeps,
-            preloadStaleTime: Route.options.preloadStaleTime,
             loader: Route.options.loader,
         } as never);
         const router = createRouter({
@@ -127,20 +142,45 @@ describe('collections list route preload', () => {
         });
         await router.load();
 
-        await router.preloadRoute({
-            to: '/collections',
-            search: { page: 1 },
-        } as never);
-        expect(ensureInfiniteQueryData).not.toHaveBeenCalled();
+        let settled = false;
+        const navigation = router
+            .navigate({ to: '/collections', search: { page: 2 } } as never)
+            .then(() => {
+                settled = true;
+            });
+        await new Promise((done) => setTimeout(done, 10));
 
-        await router.navigate({
-            to: '/collections',
-            search: { page: 1 },
-        } as never);
+        expect(prefetchInfiniteQuery).toHaveBeenCalledTimes(1);
+        expect(settled).toBe(false);
 
-        expect(ensureInfiniteQueryData).toHaveBeenCalledTimes(1);
-        expect(router.state.matches.at(-1)?.loaderData).toMatchObject({
-            pagination: PAGINATION,
-        });
+        resolve();
+        await navigation;
+        expect(router.state.location.search).toMatchObject({ page: 2 });
+    });
+});
+
+describe('CollectionList pagination', () => {
+    it('renders the pagination of the loaded page', () => {
+        mocks.pagination = PAGINATION;
+
+        expect(
+            renderToStaticMarkup(
+                createElement(CollectionList, {
+                    page: 1,
+                    sort: 'system_ranking',
+                }),
+            ),
+        ).toContain('data-page="1"');
+    });
+
+    it('renders no pagination before the list loads', () => {
+        expect(
+            renderToStaticMarkup(
+                createElement(CollectionList, {
+                    page: 1,
+                    sort: 'system_ranking',
+                }),
+            ),
+        ).not.toContain('<nav');
     });
 });
