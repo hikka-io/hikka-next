@@ -7,7 +7,7 @@ const FollowingItemSkeleton: FC = () => (
     <HorizontalCardSkeleton
         imageClassName="w-10"
         imageRatio={1}
-        action={<Skeleton className="h-6 w-12 shrink-0 rounded-md" />}
+        action={<Skeleton className="h-5.5 w-11 shrink-0 rounded-sm" />}
     />
 );
 
