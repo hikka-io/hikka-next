@@ -130,23 +130,23 @@ describe('convertHistory: progress', () => {
     it('watches one episode', () => {
         const entry = convert(watch({ episodes: 10 }, { episodes: 11 }));
 
-        expect(lines(entry)).toEqual(['Переглянуто епізод 11 із 28']);
+        expect(lines(entry)).toEqual(['Переглянуто епізод 11 з 28']);
         expect(entry.icon).toEqual({ kind: 'progress' });
     });
 
     it('watches a range of episodes', () => {
         expect(lines(convert(watch({ episodes: 3 }, { episodes: 5 })))).toEqual(
-            ['Переглянуто епізоди 4–5 із 28'],
+            ['Переглянуто епізоди 4–5 з 28'],
         );
     });
 
     it('starts the range at 1 from zero or null', () => {
         expect(lines(convert(watch({ episodes: 0 }, { episodes: 5 })))).toEqual(
-            ['Переглянуто епізоди 1–5 із 28'],
+            ['Переглянуто епізоди 1–5 з 28'],
         );
         expect(
             lines(convert(watch({ episodes: null }, { episodes: 5 }))),
-        ).toEqual(['Переглянуто епізоди 1–5 із 28']);
+        ).toEqual(['Переглянуто епізоди 1–5 з 28']);
     });
 
     it('drops the total when it is unknown', () => {
@@ -202,7 +202,7 @@ describe('convertHistory: progress', () => {
                     }),
                 ),
             ),
-        ).toEqual(['Додано в Дивлюсь', '5 епізодів із 28']);
+        ).toEqual(['Додано в Дивлюсь', '5 епізодів з 28']);
     });
 
     it('says "усі" when a completed entry reaches the total', () => {
@@ -266,12 +266,12 @@ describe('convertHistory: progress', () => {
     it('reads chapters and volumes', () => {
         expect(
             lines(convert(read({ chapters: 16 }, { chapters: 22 }))),
-        ).toEqual(['Прочитано розділи 17–22 із 327']);
+        ).toEqual(['Прочитано розділи 17–22 з 327']);
         expect(
             lines(convert(read({ chapters: 8 }, { chapters: 9 }, NO_CHAPTERS))),
         ).toEqual(['Прочитано розділ 9']);
         expect(lines(convert(read({ volumes: 1 }, { volumes: 3 })))).toEqual([
-            'Прочитано томи 2–3 із 37',
+            'Прочитано томи 2–3 з 37',
         ]);
         expect(lines(convert(read({ chapters: 10 }, { chapters: 8 })))).toEqual(
             ['Прогрес повернуто з 10 до 8 розділів'],
@@ -354,7 +354,7 @@ describe('convertHistory: repeats', () => {
                 ),
             ),
         ).toEqual([
-            'Переглянуто епізоди 1–5 із 37',
+            'Переглянуто епізоди 1–5 з 37',
             'оцінка 7',
             'повторний перегляд',
         ]);
@@ -568,7 +568,7 @@ describe('convertHistory: typography', () => {
             ),
         );
 
-        expect(first).toBe('Переглянуто епізод 2 із 28');
+        expect(first).toBe('Переглянуто епізод 2 з 28');
         expect(rest).toEqual(['оцінку змінено з 6 на 8']);
     });
 
@@ -586,13 +586,13 @@ describe('convertHistory: typography', () => {
         ]);
     });
 
-    it('keeps the total and "із" together', () => {
+    it('keeps the total and "з" together', () => {
         const [progress] = convert(
             watch({ episodes: 10 }, { episodes: 11 }),
         ).facts;
 
         expect(progress.map((part) => part.text).join('')).toBe(
-            'Переглянуто епізод 11\u00A0із\u00A028',
+            'Переглянуто епізод 11\u00A0з\u00A028',
         );
     });
 });

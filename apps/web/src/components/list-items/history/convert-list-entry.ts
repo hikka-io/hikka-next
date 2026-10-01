@@ -127,7 +127,7 @@ function describeProgress(
     const { forms, genitive } = UNITS[unit];
     const progress: HistoryIcon = { kind: 'progress' };
     const word = getDeclensionWord(after, forms);
-    const ofTotal = total ? ` із ${total}` : '';
+    const ofTotal = total ? ` з ${total}` : '';
 
     if (after < before) {
         return {
