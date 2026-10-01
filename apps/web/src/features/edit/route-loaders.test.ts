@@ -5,6 +5,8 @@ import { describe, expect, it, vi } from 'vitest';
 import { createRequestClient, HikkaApiError } from '@hikka/api';
 
 import { Route as EditRoute } from '../../routes/_pages/edit/$editId';
+import { Route as EditViewRoute } from '../../routes/_pages/edit/$editId/index';
+import { Route as EditUpdateRoute } from '../../routes/_pages/edit/$editId/update';
 
 type QueryOptions = { queryKey: [{ _id: string }] };
 
@@ -44,25 +46,21 @@ function fakeContext() {
 
 const flush = () => new Promise((resolve) => setTimeout(resolve, 0));
 
-const runLoader = (pathname: string, context: unknown) =>
-    (EditRoute.options.loader as (ctx: unknown) => Promise<unknown>)({
+type Loader = (ctx: unknown) => Promise<unknown>;
+
+const runLoader = (
+    route: { options: { loader?: unknown } },
+    context: unknown,
+) =>
+    (route.options.loader as Loader)({
         params: { editId: '132128' },
-        location: { pathname },
         context,
     });
 
 describe('edit layout loader', () => {
-    it('starts the edit and its comments together', async () => {
-        const { context, started } = fakeContext();
-        runLoader('/edit/132128', context);
-
-        await flush();
-        expect(started).toEqual(['getEdit', 'getCommentsList']);
-    });
-
-    it('skips the comments on the update page', async () => {
+    it('loads only the edit', async () => {
         const { context, started, resolveEdit } = fakeContext();
-        const result = runLoader('/edit/132128/update', context);
+        const result = runLoader(EditRoute, context);
 
         await flush();
         expect(started).toEqual(['getEdit']);
@@ -75,7 +73,7 @@ describe('edit layout loader', () => {
 
     it('renders not found for an unknown edit', async () => {
         const { context, rejectEdit } = fakeContext();
-        const result = runLoader('/edit/132128', context);
+        const result = runLoader(EditRoute, context);
 
         rejectEdit(new HikkaApiError('Not found', 404, 'system:not_found'));
         const error = await result.catch((caught: unknown) => caught);
@@ -85,11 +83,25 @@ describe('edit layout loader', () => {
 
     it('rethrows any other error', async () => {
         const { context, rejectEdit } = fakeContext();
-        const result = runLoader('/edit/132128', context);
+        const result = runLoader(EditRoute, context);
         const failure = new HikkaApiError('Server', 500, 'system:error');
 
         rejectEdit(failure);
 
         await expect(result).rejects.toBe(failure);
+    });
+});
+
+describe('edit view loader', () => {
+    it('prefetches the comments of the edit', async () => {
+        const { context, started } = fakeContext();
+        void runLoader(EditViewRoute, context);
+
+        await flush();
+        expect(started).toEqual(['getCommentsList']);
+    });
+
+    it('leaves the comments out of the update page', () => {
+        expect(EditUpdateRoute.options.loader).toBeUndefined();
     });
 });

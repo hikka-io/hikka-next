@@ -1,11 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
 import { createFileRoute, Outlet } from '@tanstack/react-router';
 
-import { type CommentContentTypeEnum, getEditOptions } from '@hikka/api';
+import { getEditOptions } from '@hikka/api';
 
 import Block from '@/components/ui/block';
 import { usePageHeader } from '@/features/app-shell';
-import { commentListOptions } from '@/features/comments/queries';
 import { EditContent, EditTimeline } from '@/features/edit';
 import { useTitle } from '@/services/session';
 import { ensureOr404 } from '@/utils/api/ensure-or-404';
@@ -13,34 +12,15 @@ import { generateHeadMeta } from '@/utils/metadata';
 import { usePathname } from '@/utils/navigation';
 
 export const Route = createFileRoute('/_pages/edit/$editId')({
-    loader: async ({
-        params,
-        location,
-        context: { queryClient, apiClient },
-    }) => {
-        const editId = Number(params.editId);
-        const isUpdate = /\/update\/?$/.test(location.pathname);
-
-        const [edit] = await Promise.all([
-            ensureOr404(() =>
-                queryClient.ensureQueryData(
-                    getEditOptions({
-                        path: { edit_id: editId },
-                        client: apiClient,
-                    }),
-                ),
+    loader: async ({ params, context: { queryClient, apiClient } }) => {
+        const edit = await ensureOr404(() =>
+            queryClient.ensureQueryData(
+                getEditOptions({
+                    path: { edit_id: Number(params.editId) },
+                    client: apiClient,
+                }),
             ),
-            isUpdate
-                ? undefined
-                : queryClient.prefetchInfiniteQuery(
-                      commentListOptions(
-                          'edit' as CommentContentTypeEnum,
-                          params.editId,
-                          {},
-                          apiClient,
-                      ),
-                  ),
-        ]);
+        );
 
         return { edit };
     },

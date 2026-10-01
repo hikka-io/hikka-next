@@ -24,7 +24,7 @@ import {
 } from '@/utils/sort';
 
 import { Route as CommentsRoute } from '../../routes/_pages/comments/$content_type/$slug/index';
-import { Route as EditRoute } from '../../routes/_pages/edit/$editId';
+import { Route as EditViewRoute } from '../../routes/_pages/edit/$editId/index';
 import {
     commentListOptions,
     commentThreadOptions,
@@ -315,9 +315,8 @@ describe('comments page loader keys', () => {
     });
 
     it('match the edit comments', async () => {
-        const [key] = await loaderKeys(EditRoute, {
+        const [key] = await loaderKeys(EditViewRoute, {
             params: { editId },
-            location: { pathname: `/edit/${editId}` },
         });
 
         expect(hashKey(key)).toBe(

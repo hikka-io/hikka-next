@@ -5,9 +5,20 @@ import { ContentTypeEnum } from '@hikka/api';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import { usePageTitleAnchor } from '@/features/app-shell';
 import { CommentList } from '@/features/comments';
+import { commentListOptions } from '@/features/comments/queries';
 import { EditActions, EditViewForm } from '@/features/edit';
 
 export const Route = createFileRoute('/_pages/edit/$editId/')({
+    loader: async ({ params, context: { queryClient, apiClient } }) => {
+        await queryClient.prefetchInfiniteQuery(
+            commentListOptions(
+                ContentTypeEnum.EDIT,
+                params.editId,
+                {},
+                apiClient,
+            ),
+        );
+    },
     component: EditPage,
 });
 
