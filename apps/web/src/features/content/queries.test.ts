@@ -6,6 +6,7 @@ import {
     ContentTypeEnum,
     configureBrowserClient,
     createRequestClient,
+    getArticlesInfiniteOptions,
     getCollectionsInfiniteOptions,
     getReadFollowingInfiniteOptions,
     getWatchFollowingInfiniteOptions,
@@ -14,7 +15,9 @@ import {
 } from '@hikka/api';
 
 import {
+    ARTICLES_PREVIEW_SIZE,
     COLLECTIONS_PREVIEW_SIZE,
+    contentArticlesOptions,
     contentCollectionsOptions,
     contentFollowingOptions,
     FOLLOWING_PREVIEW_SIZE,
@@ -161,3 +164,43 @@ describe.each([
         });
     },
 );
+
+describe.each(MAIN_TYPES)('contentArticlesOptions(%s)', (type) => {
+    const body = { content_type: type, content_slug: SLUG };
+
+    it.each([true, false])(
+        'keys the loader like the component (preview %s)',
+        (preview) => {
+            expect(
+                hashKey(
+                    contentArticlesOptions(type, SLUG, { preview }, ssrClient())
+                        .queryKey,
+                ),
+            ).toBe(
+                hashKey(
+                    contentArticlesOptions(type, SLUG, { preview }).queryKey,
+                ),
+            );
+        },
+    );
+
+    it('keeps the HEAD unsized key for the modal', () => {
+        expect(contentArticlesOptions(type, SLUG).queryKey).toStrictEqual(
+            getArticlesInfiniteOptions({ body }).queryKey,
+        );
+    });
+
+    it('differs from the modal key only by the preview size', () => {
+        const preview = contentArticlesOptions(type, SLUG, {
+            preview: true,
+        }).queryKey;
+        const modal = contentArticlesOptions(type, SLUG).queryKey;
+
+        expect(ARTICLES_PREVIEW_SIZE).toBe(3);
+        expect(withoutQuery(preview)).toStrictEqual(withoutQuery(modal));
+        expect(preview[0].query).toStrictEqual({
+            size: ARTICLES_PREVIEW_SIZE,
+        });
+        expect(modal[0]).not.toHaveProperty('query');
+    });
+});

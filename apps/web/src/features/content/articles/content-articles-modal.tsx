@@ -2,10 +2,7 @@ import type { FC } from 'react';
 
 import { range } from '@antfu/utils';
 
-import {
-    getArticlesInfiniteOptions,
-    type MainContentTypeEnum,
-} from '@hikka/api';
+import type { MainContentTypeEnum } from '@hikka/api';
 
 import MaterialSymbolsDynamicFeedRounded from '@/components/icons/material-symbols/MaterialSymbolsDynamicFeedRounded';
 import {
@@ -16,6 +13,8 @@ import LoadMoreButton from '@/components/load-more-button';
 import EmptyState from '@/components/ui/empty-state';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { useParams } from '@/utils/navigation';
+
+import { contentArticlesOptions } from '../queries';
 
 const SKELETON_COUNT = 5;
 
@@ -34,12 +33,7 @@ const ContentArticlesModal: FC<Props> = ({ content_type }) => {
         fetchNextPage,
         ref,
     } = useInfiniteList(
-        getArticlesInfiniteOptions({
-            body: {
-                content_type,
-                content_slug: String(params.slug),
-            },
-        }),
+        contentArticlesOptions(content_type, String(params.slug)),
     );
 
     return (

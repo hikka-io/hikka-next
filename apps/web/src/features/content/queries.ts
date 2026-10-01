@@ -15,6 +15,7 @@ import {
     type GetReadFollowingResponse,
     type GetWatchFollowingError,
     type GetWatchFollowingResponse,
+    getArticlesInfiniteOptions,
     getCollectionsInfiniteOptions,
     getReadFollowingInfiniteOptions,
     getWatchFollowingInfiniteOptions,
@@ -27,6 +28,7 @@ import {
 
 export const FOLLOWING_PREVIEW_SIZE = 3;
 export const COLLECTIONS_PREVIEW_SIZE = 3;
+export const ARTICLES_PREVIEW_SIZE = 3;
 
 const CONTENT_CHARACTERS = {
     [ContentTypeEnum.ANIME]: animeCharactersInfiniteOptions,
@@ -111,6 +113,22 @@ export function contentCollectionsOptions(
         ...getCollectionsInfiniteOptions({
             body: { content_type, content: [slug] },
             query: preview ? { size: COLLECTIONS_PREVIEW_SIZE } : undefined,
+            client,
+        }),
+        ...paginationPageParam(),
+    };
+}
+
+export function contentArticlesOptions(
+    content_type: MainContentTypeEnum,
+    slug: string,
+    { preview = false }: { preview?: boolean } = {},
+    client?: Client,
+) {
+    return {
+        ...getArticlesInfiniteOptions({
+            body: { content_type, content_slug: slug },
+            query: preview ? { size: ARTICLES_PREVIEW_SIZE } : undefined,
             client,
         }),
         ...paginationPageParam(),

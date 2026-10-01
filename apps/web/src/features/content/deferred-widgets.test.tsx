@@ -16,11 +16,13 @@ import {
 } from '@hikka/api';
 
 import ContentArticles from './articles/articles';
+import ContentArticlesModal from './articles/content-articles-modal';
 import ContentCollections from './collections';
 import Followings from './followings/followings';
 import FollowingsModal from './followings/followings-modal';
 import Franchise from './franchise/franchise';
 import {
+    contentArticlesOptions,
     contentCollectionsOptions,
     contentFollowingOptions,
     contentRelatedFranchiseOptions,
@@ -242,13 +244,6 @@ describe('deferred overview widgets', () => {
         );
     });
 
-    it('requests the articles list once after it becomes visible', async () => {
-        await render(<ContentArticles content_type={ContentTypeEnum.ANIME} />);
-        await scrollIntoView();
-
-        expect(pathsRequested()).toEqual(['/articles']);
-    });
-
     it('requests the followings preview with a size of 3, once', async () => {
         await render(<Followings content_type={ContentTypeEnum.ANIME} />);
         await scrollIntoView();
@@ -265,6 +260,32 @@ describe('deferred overview widgets', () => {
         ]);
         expect(queries[0].getObserversCount()).toBe(1);
     };
+
+    it('requests the articles preview with a size of 3, once', async () => {
+        await render(<ContentArticles content_type={ContentTypeEnum.ANIME} />);
+        await scrollIntoView();
+
+        expect(pathsRequested()).toEqual(['/articles']);
+        expect(requests[0].searchParams.get('size')).toBe('3');
+        expect(requests[0].searchParams.get('page')).toBe('1');
+        singleObserverOn(
+            contentArticlesOptions(ContentTypeEnum.ANIME, SLUG, {
+                preview: true,
+            }).queryKey,
+        );
+    });
+
+    it('requests the articles modal unsized', async () => {
+        await render(
+            <ContentArticlesModal content_type={ContentTypeEnum.ANIME} />,
+        );
+
+        expect(pathsRequested()).toEqual(['/articles']);
+        expect(requests[0].searchParams.get('size')).toBeNull();
+        singleObserverOn(
+            contentArticlesOptions(ContentTypeEnum.ANIME, SLUG).queryKey,
+        );
+    });
 
     it.each([
         ContentTypeEnum.ANIME,

@@ -2,10 +2,7 @@ import { type FC, useState } from 'react';
 
 import { range } from '@antfu/utils';
 
-import {
-    getArticlesInfiniteOptions,
-    type MainContentTypeEnum,
-} from '@hikka/api';
+import type { MainContentTypeEnum } from '@hikka/api';
 
 import {
     ArticlePreviewCard,
@@ -29,9 +26,8 @@ import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { useParams } from '@/utils/navigation';
 
 import ContentRailSkeleton from '../content-rail-skeleton';
+import { ARTICLES_PREVIEW_SIZE, contentArticlesOptions } from '../queries';
 import ContentArticlesModal from './content-articles-modal';
-
-const PREVIEW_COUNT = 3;
 
 type Props = {
     content_type: MainContentTypeEnum;
@@ -44,11 +40,8 @@ const ContentArticles: FC<Props> = ({ content_type }) => {
 
     const { ref, visible } = useVisibleOnce();
     const { list, isPending } = useInfiniteList(
-        getArticlesInfiniteOptions({
-            body: {
-                content_type,
-                content_slug: String(params.slug),
-            },
+        contentArticlesOptions(content_type, String(params.slug), {
+            preview: true,
         }),
         { enabled: visible },
     );
@@ -57,7 +50,7 @@ const ContentArticles: FC<Props> = ({ content_type }) => {
         return isPending ? (
             <div ref={ref}>
                 <ContentRailSkeleton className="-mx-2">
-                    {range(0, PREVIEW_COUNT).map((index) => (
+                    {range(0, ARTICLES_PREVIEW_SIZE).map((index) => (
                         <ArticlePreviewCardSkeleton key={index} />
                     ))}
                 </ContentRailSkeleton>
@@ -66,8 +59,6 @@ const ContentArticles: FC<Props> = ({ content_type }) => {
     }
 
     if (list.length === 0) return null;
-
-    const filteredNews = list.slice(0, PREVIEW_COUNT);
 
     return (
         <>
@@ -81,7 +72,7 @@ const ContentArticles: FC<Props> = ({ content_type }) => {
                             <HeaderNavButton />
                         </Header>
                         <div className="-mx-2 flex flex-col">
-                            {filteredNews.map((article) => (
+                            {list.map((article) => (
                                 <ArticlePreviewCard
                                     key={article.slug}
                                     article={article}
