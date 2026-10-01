@@ -10,12 +10,14 @@ import { generateHeadMeta } from '@/utils/metadata';
 export const Route = createFileRoute('/_pages/articles/$slug/update')({
     beforeLoad: async ({ params, context: { queryClient, apiClient } }) => {
         const article = await retryOnCancel(() =>
-            queryClient.ensureQueryData(
-                getArticleOptions({
+            queryClient.fetchQuery({
+                ...getArticleOptions({
                     path: { slug: params.slug },
                     client: apiClient,
                 }),
-            ),
+                // biome-ignore lint/plugin/no-query-policy: the editor seeds its form once from this snapshot, so a cached copy must be revalidated
+                staleTime: 0,
+            }),
         ).catch(() => undefined);
 
         requireOwner(

@@ -25,15 +25,19 @@ function setup(role: string, entity: unknown) {
         role,
     } as UserResponse);
     const ensured: unknown[][] = [];
-    const ensureQueryData = vi.fn(
-        async (options: { queryKey: readonly unknown[] }) => {
+    const fetchQuery = vi.fn(
+        async (options: {
+            queryKey: readonly unknown[];
+            staleTime?: number;
+        }) => {
             ensured.push([...options.queryKey]);
+            expect(options.staleTime).toBe(0);
             if (entity instanceof Error) throw entity;
             queryClient.setQueryData(options.queryKey, entity);
             return entity;
         },
     );
-    Object.assign(queryClient, { ensureQueryData });
+    Object.assign(queryClient, { fetchQuery });
     return { queryClient, ensured };
 }
 
@@ -94,6 +98,38 @@ describe('collection update owner guard on a cold cache', () => {
 
         expect(await redirectFor(queryClient)).toMatchObject({
             to: '/collections/abc',
+        });
+    });
+});
+
+describe('collection update freshness', () => {
+    it('revalidates a fresh cached collection before the editor seeds from it', async () => {
+        const queryClient = new QueryClient();
+        queryClient.setQueryData(profileQueryKey(), {
+            username: 'owner',
+            role: 'user',
+        } as UserResponse);
+        const { queryKey } = getCollectionOptions({
+            path: { reference: 'abc' },
+        });
+        queryClient.setQueryData(queryKey, {
+            author: { username: 'owner' },
+            title: 'Old',
+        } as never);
+        const fetchQuery = queryClient.fetchQuery.bind(queryClient);
+        const queryFn = vi.fn(async () => ({
+            author: { username: 'owner' },
+            title: 'New',
+        }));
+        Object.assign(queryClient, {
+            fetchQuery: (options: Parameters<typeof fetchQuery>[0]) =>
+                fetchQuery({ ...options, queryFn }),
+        });
+
+        expect(await redirectFor(queryClient)).toBeUndefined();
+        expect(queryFn).toHaveBeenCalledTimes(1);
+        expect(queryClient.getQueryData(queryKey)).toMatchObject({
+            title: 'New',
         });
     });
 });

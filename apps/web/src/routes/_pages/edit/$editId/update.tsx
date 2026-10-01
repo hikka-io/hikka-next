@@ -12,12 +12,14 @@ import { generateHeadMeta } from '@/utils/metadata';
 export const Route = createFileRoute('/_pages/edit/$editId/update')({
     beforeLoad: async ({ params, context: { queryClient, apiClient } }) => {
         const edit = await retryOnCancel(() =>
-            queryClient.ensureQueryData(
-                getEditOptions({
+            queryClient.fetchQuery({
+                ...getEditOptions({
                     path: { edit_id: Number(params.editId) },
                     client: apiClient,
                 }),
-            ),
+                // biome-ignore lint/plugin/no-query-policy: the editor seeds its form once from this snapshot, so a cached copy must be revalidated
+                staleTime: 0,
+            }),
         ).catch(() => undefined);
 
         requireOwner(
