@@ -3,11 +3,11 @@ import type { FC } from 'react';
 import { range } from '@antfu/utils';
 
 import PagePagination from '@/components/page-pagination';
-import { Skeleton } from '@/components/ui/skeleton';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 
 import { collectionListOptions } from '../queries';
 import CollectionCard from './collection-card';
+import CollectionCardSkeleton from './collection-card-skeleton';
 
 type Props = {
     page: number;
@@ -15,6 +15,9 @@ type Props = {
 };
 
 const SKELETON_COUNT = 3;
+const PREVIEW_ITEMS = 6;
+const LIST_CLASSNAME =
+    'grid grid-cols-1 gap-x-16 max-md:[&>*+*]:-mt-px md:gap-y-8';
 
 const CollectionList: FC<Props> = ({ page, sort }) => {
     const { list, pagination } = useInfiniteList(
@@ -23,9 +26,12 @@ const CollectionList: FC<Props> = ({ page, sort }) => {
 
     if (!list) {
         return (
-            <div className="grid grid-cols-1 gap-x-16 gap-y-8">
+            <div className={LIST_CLASSNAME}>
                 {range(0, SKELETON_COUNT).map((index) => (
-                    <Skeleton key={index} className="h-64 rounded-lg" />
+                    <CollectionCardSkeleton
+                        key={index}
+                        maxPreviewItems={PREVIEW_ITEMS}
+                    />
                 ))}
             </div>
         );
@@ -33,10 +39,10 @@ const CollectionList: FC<Props> = ({ page, sort }) => {
 
     return (
         <>
-            <div className="grid grid-cols-1 gap-x-16 max-md:[&>*+*]:-mt-px md:gap-y-8">
+            <div className={LIST_CLASSNAME}>
                 {list?.map((collection, _index) => (
                     <CollectionCard
-                        maxPreviewItems={6}
+                        maxPreviewItems={PREVIEW_ITEMS}
                         collection={collection}
                         key={collection.reference}
                     />
