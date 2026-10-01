@@ -23,6 +23,13 @@ import {
     profileQueryKey,
 } from '@hikka/api';
 
+import {
+    ENTITY_APPEARANCE_LISTS,
+    type EntityAppearanceList,
+    type EntityType,
+    entityAppearanceOptions,
+} from '@/utils/api/content-queries';
+
 import { Route as CharacterAnimeRoute } from '../../routes/_pages/characters/$slug/anime';
 import { Route as CharacterOverviewRoute } from '../../routes/_pages/characters/$slug/index';
 import { Route as CharacterMangaRoute } from '../../routes/_pages/characters/$slug/manga';
@@ -33,13 +40,6 @@ import { Route as PersonCharactersRoute } from '../../routes/_pages/people/$slug
 import { Route as PersonOverviewRoute } from '../../routes/_pages/people/$slug/index';
 import { Route as PersonMangaRoute } from '../../routes/_pages/people/$slug/manga';
 import { Route as PersonNovelRoute } from '../../routes/_pages/people/$slug/novel';
-import {
-    ENTITY_APPEARANCE_LISTS,
-    ENTITY_PREVIEW_SIZE,
-    type EntityAppearanceList,
-    type EntityType,
-    entityAppearanceOptions,
-} from './queries';
 
 const BASE_URL = 'https://api.example.test';
 const slug = 'test-slug';
@@ -121,9 +121,8 @@ describe.each(CASES)('entityAppearanceOptions(%s, %s)', (type, list) => {
         const [{ query, ...preview }] = keyOf(type, list, true);
         const [full] = keyOf(type, list, false);
 
-        expect(query).toEqual({ size: ENTITY_PREVIEW_SIZE });
+        expect(query).toEqual({ size: 4 });
         expect(preview).toEqual(full);
-        expect(ENTITY_PREVIEW_SIZE).toBe(4);
     });
 
     it.each([true, false])(
@@ -148,7 +147,7 @@ describe.each(CASES)('entityAppearanceOptions(%s, %s)', (type, list) => {
             await requestedUrl(
                 entityAppearanceOptions(type, list, slug, { preview: true }),
             ),
-        ).toBe(`${base}?size=${ENTITY_PREVIEW_SIZE}&page=1`);
+        ).toBe(`${base}?size=4&page=1`);
         expect(
             await requestedUrl(entityAppearanceOptions(type, list, slug)),
         ).toBe(`${base}?page=1`);

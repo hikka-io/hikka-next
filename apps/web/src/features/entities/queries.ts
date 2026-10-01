@@ -8,13 +8,7 @@ import {
 } from '@/utils/api/content-queries';
 import type { LoaderContext } from '@/utils/api/loader-prefetch';
 
-export {
-    ENTITY_APPEARANCE_LISTS,
-    ENTITY_PREVIEW_SIZE,
-    type EntityAppearanceList,
-    type EntityType,
-    entityAppearanceOptions,
-} from '@/utils/api/content-queries';
+export { entityAppearanceOptions } from '@/utils/api/content-queries';
 
 // The appearance lists differ in page type; a prefetch discards the data, so it only needs the common shape.
 type InfinitePrefetchOptions = Parameters<

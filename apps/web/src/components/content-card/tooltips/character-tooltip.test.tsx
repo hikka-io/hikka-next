@@ -11,8 +11,10 @@ import {
     characterInfoOptions,
 } from '@hikka/api';
 
-import { ENTITY_PREVIEW_SIZE } from '@/features/entities/queries';
-import { entityAppearanceOptions } from '@/utils/api/content-queries';
+import {
+    ENTITY_PREVIEW_SIZE,
+    entityAppearanceOptions,
+} from '@/utils/api/content-queries';
 
 import CharacterTooltip from './character-tooltip';
 
