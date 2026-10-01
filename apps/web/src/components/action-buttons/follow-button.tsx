@@ -15,7 +15,7 @@ import MaterialSymbolsPersonRemoveOutlineRounded from '@/components/icons/materi
 import { Button, type buttonVariants } from '@/components/ui/button';
 import Spinner from '@/components/ui/spinner';
 import { useSession } from '@/services/session';
-import { invalidateFollow } from '@/utils/api/invalidate-content-state';
+import { applyFollowChange } from '@/utils/api/invalidate-content-state';
 import { cn } from '@/utils/cn';
 import { Link } from '@/utils/navigation';
 
@@ -47,7 +47,7 @@ const FollowButton: FC<Props> = ({
     const { mutate: mutateFollow, isPending: followLoading } = useMutation({
         ...followMutation(),
         onSuccess: (_data, { path }) => {
-            invalidateFollow(queryClient, {
+            applyFollowChange(queryClient, {
                 username: path.username,
                 is_followed: true,
             });
@@ -57,7 +57,7 @@ const FollowButton: FC<Props> = ({
     const { mutate: mutateUnfollow, isPending: unfollowLoading } = useMutation({
         ...unfollowMutation(),
         onSuccess: (_data, { path }) => {
-            invalidateFollow(queryClient, {
+            applyFollowChange(queryClient, {
                 username: path.username,
                 is_followed: false,
             });

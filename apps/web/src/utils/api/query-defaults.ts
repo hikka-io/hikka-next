@@ -4,15 +4,7 @@ import type {
     QueryObserverOptions,
 } from '@tanstack/react-query';
 
-type ApiExport = keyof typeof import('@hikka/api');
-
-type QueryId = {
-    [K in ApiExport]: K extends `${string}InfiniteQueryKey`
-        ? never
-        : K extends `${infer Id}QueryKey`
-          ? Id
-          : never;
-}[ApiExport];
+import type { QueryId } from './query-id';
 
 type TierOptions = Pick<
     QueryObserverOptions,

@@ -19,16 +19,14 @@ import {
     watchGetQueryKey,
 } from '@hikka/api';
 
-type ApiExport = keyof typeof import('@hikka/api');
-
-// Generated `xxxQueryKey` builders set `_id: 'xxx'`; infinite builders reuse the base id.
-type QueryId = {
-    [K in ApiExport]: K extends `${string}InfiniteQueryKey`
-        ? never
-        : K extends `${infer Id}QueryKey`
-          ? Id
-          : never;
-}[ApiExport];
+import {
+    type FollowChange,
+    patchEmbeddedFollow,
+    patchEmbeddedStatus,
+    patchEmbeddedVote,
+    type StatusField,
+} from './patch-embedded';
+import { matchesPath, type QueryId, queryId } from './query-id';
 
 // The user's own watch list — refetched on every change so the entry reorders
 // (sorted by updated-at). Its status is top-level, so the patcher below skips it.
@@ -164,27 +162,11 @@ const FOLLOW_EMBED_SET = new Set<QueryId>([
     USER_PROFILE_ID,
 ]);
 
+const WATCH_EMBED_SET = new Set(WATCH_EMBED_IDS);
+const READ_EMBED_SET = new Set(READ_EMBED_IDS);
 const COMMENT_LIST_SET = new Set(COMMENT_LIST_IDS);
 
-export type FollowChange = { username: string; is_followed: boolean };
-
-/** Read the generated query key's leading `_id` discriminator (`[{ _id, ... }]`). */
-export function queryId(queryKey: readonly unknown[]): string | undefined {
-    return (queryKey[0] as { _id?: string } | undefined)?._id;
-}
-
-function matchesPath(
-    queryKey: readonly unknown[],
-    id: string,
-    field: string,
-    value: string,
-): boolean {
-    if (queryId(queryKey) !== id) return false;
-    const path = (queryKey[0] as { path?: Record<string, unknown> }).path;
-    return path?.[field] === value;
-}
-
-export type InvalidateOptions = {
+type InvalidateOptions = {
     /**
      * When `false`, matching queries are marked stale but not refetched
      * immediately (`refetchType: 'none'`) — used by the debounced trackers to
@@ -199,11 +181,9 @@ function refetchTypeFor(options?: InvalidateOptions): 'none' | undefined {
 
 /**
  * Invalidate every cached query whose generated `_id` is in `ids`, plus any
- * query the optional `extraMatch` predicate accepts (OR-combined). Call it (or
- * a named helper below) from a mutation `onSuccess` instead of hand-rolling a
- * `predicate`.
+ * query the optional `extraMatch` predicate accepts (OR-combined).
  */
-export function invalidateByIds(
+function invalidateByIds(
     queryClient: QueryClient,
     ids: readonly string[],
     options?: InvalidateOptions,
@@ -223,7 +203,7 @@ export function invalidateByIds(
 /**
  * Reconcile every cache reflecting the user's anime watch status: refetch the
  * user's own list (it reorders/filters by status) and mark the status-embedding
- * lists stale as a refetch-on-focus backstop. The on-screen update is handled
+ * lists stale so they refetch on their next mount. The on-screen update is handled
  * optimistically by `writeWatchToCaches`; pass `{ refetch: false }` to also skip
  * the own-list refetch (debounced trackers, to avoid mid-interaction reorder).
  */
@@ -248,115 +228,6 @@ export function invalidateReadState(
     ]).then(() => undefined);
 }
 
-// --- Optimistic status patching ------------------------------------------
-//
-// Cards read the user's status from the object embedded per content item
-// (`item.watch[0]` / `item.read[0]`). Those queries aren't refetched on a change
-// (WATCH_EMBED_IDS), so we patch the cache directly. The same `{ slug, watch|read }`
-// object sits at different depths per query — top-level in catalogs, `item.content`
-// in collections, `item.anime` in character/person rows — so one recursive walk
-// patches it wherever it lives, instead of a patcher per shape.
-
-type StatusField = 'watch' | 'read';
-
-const WATCH_EMBED_SET = new Set(WATCH_EMBED_IDS);
-const READ_EMBED_SET = new Set(READ_EMBED_IDS);
-
-/**
- * Walk arbitrary nesting and let `patchNode` replace object nodes: it returns
- * the replacement (the record itself to keep it and stop descending) or
- * `undefined` to descend into its children. Preserves referential identity for
- * unchanged branches — so `setQueriesData` skips notifying observers of queries
- * that didn't contain the target, and React only re-renders what changed.
- */
-function patchTree<T>(
-    node: T,
-    patchNode: (record: Record<string, unknown>) => unknown,
-): T {
-    if (Array.isArray(node)) {
-        let changed = false;
-        const mapped = node.map((child) => {
-            const patched = patchTree(child, patchNode);
-            if (patched !== child) changed = true;
-            return patched;
-        });
-        return (changed ? mapped : node) as T;
-    }
-
-    if (node === null || typeof node !== 'object') return node;
-    const record = node as Record<string, unknown>;
-
-    const replaced = patchNode(record);
-    if (replaced !== undefined) return replaced as T;
-
-    let out: Record<string, unknown> | undefined;
-    for (const key in record) {
-        const patched = patchTree(record[key], patchNode);
-        if (patched !== record[key]) out ??= { ...record };
-        if (out) out[key] = patched;
-    }
-    return (out ?? node) as T;
-}
-
-/**
- * Return `node` with the embedded `field` array of every `{ slug, [field] }`
- * content object matching `slug` replaced by `next` (or cleared). A
- * status-bearing content node is never descended into: its children hold no
- * other matching content.
- */
-function patchEmbeddedStatus<T>(
-    node: T,
-    slug: string,
-    field: StatusField,
-    next: object | undefined,
-): T {
-    return patchTree(node, (record) => {
-        if (typeof record.slug !== 'string' || !Array.isArray(record[field]))
-            return undefined;
-        if (record.slug !== slug) return record;
-        return { ...record, [field]: next ? [next] : [] };
-    });
-}
-
-/** Set `is_followed` on every embedded user object of `username`. */
-export function patchEmbeddedFollow<T>(
-    node: T,
-    { username, is_followed }: FollowChange,
-): T {
-    return patchTree(node, (record) => {
-        if (
-            typeof record.username !== 'string' ||
-            typeof record.is_followed !== 'boolean'
-        )
-            return undefined;
-        if (record.username !== username || record.is_followed === is_followed)
-            return record;
-        return { ...record, is_followed };
-    });
-}
-
-/** Apply the user's new `score` to every embedded copy of the voted entity. */
-export function patchEmbeddedVote<T>(
-    node: T,
-    reference: string,
-    score: number,
-): T {
-    return patchTree(node, (record) => {
-        if (
-            record.reference !== reference ||
-            typeof record.my_score !== 'number' ||
-            typeof record.vote_score !== 'number'
-        )
-            return undefined;
-        if (record.my_score === score) return record;
-        return {
-            ...record,
-            my_score: score,
-            vote_score: record.vote_score + score - record.my_score,
-        };
-    });
-}
-
 /**
  * Patch every query whose `_id` is in `ids`, leaving the ones the patch does
  * not change untouched: `setQueryData` would otherwise mark them fresh.
@@ -378,14 +249,13 @@ function patchQueries(
 /** Patch the embedded status of `slug` across every query whose `_id` is in `ids`. */
 function patchEmbeddedStatusInQueries(
     queryClient: QueryClient,
-    ids: Set<string>,
+    ids: ReadonlySet<string>,
     slug: string,
     field: StatusField,
     next: object | undefined,
 ): void {
-    queryClient.setQueriesData<unknown>(
-        { predicate: (query) => ids.has(queryId(query.queryKey) ?? '') },
-        (data: unknown) => patchEmbeddedStatus(data, slug, field, next),
+    patchQueries(queryClient, ids, (data) =>
+        patchEmbeddedStatus(data, slug, field, next),
     );
 }
 
@@ -683,7 +553,7 @@ export async function applyFavouriteDeletion(
  * and the target's profile, and only stale-mark the article/collection lists
  * (they order by followed authors) so one click never reloads a large list.
  */
-export function invalidateFollow(
+export function applyFollowChange(
     queryClient: QueryClient,
     change: FollowChange,
     options?: InvalidateOptions,
@@ -726,7 +596,7 @@ export function applyVoteMutation(
     return invalidateVote(queryClient, target, options);
 }
 
-export function invalidateVote(
+function invalidateVote(
     queryClient: QueryClient,
     { content_type, slug }: SetVoteData['path'],
     options?: InvalidateOptions,
@@ -746,24 +616,18 @@ export function invalidateVote(
 /**
  * Invalidate the content-detail queries for a slug — used when an accepted edit
  * mutates the underlying content; refetches inactive queries too, since the
- * detail loaders serve cached data. Matches the slug on the typed `path.slug` key
- * field (not a `JSON.stringify` substring, which both false-matches one slug
- * inside another — `one` in `one-piece` — and re-serializes every cached key).
+ * detail loaders serve cached data.
  */
 export function invalidateContentBySlug(
     queryClient: QueryClient,
     slug: string,
     options?: InvalidateOptions,
 ): Promise<void> {
-    const idSet = new Set<string>(CONTENT_DETAIL_IDS);
     return queryClient.invalidateQueries({
-        predicate: (query) => {
-            const id = queryId(query.queryKey);
-            if (id === undefined || !idSet.has(id)) return false;
-            const path = (query.queryKey[0] as { path?: { slug?: string } })
-                .path;
-            return path?.slug === slug;
-        },
-        refetchType: options?.refetch === false ? 'none' : 'all',
+        predicate: (query) =>
+            CONTENT_DETAIL_IDS.some((id) =>
+                matchesPath(query.queryKey, id, 'slug', slug),
+            ),
+        refetchType: refetchTypeFor(options) ?? 'all',
     });
 }

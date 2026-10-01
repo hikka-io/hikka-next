@@ -6,6 +6,7 @@ import * as api from '@hikka/api';
 import {
     applyFavouriteDeletion,
     applyFavouriteMutation,
+    applyFollowChange,
     applyReadDeletion,
     applyVoteMutation,
     applyWatchDeletion,
@@ -15,16 +16,12 @@ import {
     invalidateComments,
     invalidateContentBySlug,
     invalidateEdits,
-    invalidateFollow,
     invalidateNotifications,
     invalidateReadState,
     invalidateSession,
     invalidateUserClients,
     invalidateUserProfile,
-    invalidateVote,
     invalidateWatchState,
-    patchEmbeddedFollow,
-    patchEmbeddedVote,
     resetPageList,
     writeIgnoredNotifications,
     writeReadToCaches,
@@ -276,39 +273,55 @@ describe('invalidation helpers', () => {
             [expected([]), expected(AVATAR_EMBED_IDS, 'none')],
         ],
         [
-            'invalidateVote for a comment',
+            'applyVoteMutation for a comment',
             (queryClient) =>
-                invalidateVote(queryClient, {
-                    content_type: api.VoteContentTypeEnum.COMMENT,
-                    slug: SLUG,
-                }),
+                applyVoteMutation(
+                    queryClient,
+                    {
+                        content_type: api.VoteContentTypeEnum.COMMENT,
+                        slug: SLUG,
+                    },
+                    { score: 1 },
+                ),
             [expected(COMMENT_LIST_IDS, 'none')],
         ],
         [
-            'invalidateVote for an article',
+            'applyVoteMutation for an article',
             (queryClient) =>
-                invalidateVote(queryClient, {
-                    content_type: api.VoteContentTypeEnum.ARTICLE,
-                    slug: SLUG,
-                }),
+                applyVoteMutation(
+                    queryClient,
+                    {
+                        content_type: api.VoteContentTypeEnum.ARTICLE,
+                        slug: SLUG,
+                    },
+                    { score: 1 },
+                ),
             [expected(['getArticle'])],
         ],
         [
-            'invalidateVote for a collection',
+            'applyVoteMutation for a collection',
             (queryClient) =>
-                invalidateVote(queryClient, {
-                    content_type: api.VoteContentTypeEnum.COLLECTION,
-                    slug: SLUG,
-                }),
+                applyVoteMutation(
+                    queryClient,
+                    {
+                        content_type: api.VoteContentTypeEnum.COLLECTION,
+                        slug: SLUG,
+                    },
+                    { score: 1 },
+                ),
             [expected(['getCollection'])],
         ],
         [
-            'invalidateVote for another article',
+            'applyVoteMutation for another article',
             (queryClient) =>
-                invalidateVote(queryClient, {
-                    content_type: api.VoteContentTypeEnum.ARTICLE,
-                    slug: 'other-article',
-                }),
+                applyVoteMutation(
+                    queryClient,
+                    {
+                        content_type: api.VoteContentTypeEnum.ARTICLE,
+                        slug: 'other-article',
+                    },
+                    { score: 1 },
+                ),
             [expected([])],
         ],
         [
@@ -323,9 +336,9 @@ describe('invalidation helpers', () => {
             [expected(['favouriteList'])],
         ],
         [
-            'invalidateFollow for the profile owner',
+            'applyFollowChange for the profile owner',
             (queryClient) =>
-                invalidateFollow(queryClient, {
+                applyFollowChange(queryClient, {
                     username: USERNAME,
                     is_followed: true,
                 }),
@@ -335,9 +348,9 @@ describe('invalidation helpers', () => {
             ],
         ],
         [
-            'invalidateFollow for another user',
+            'applyFollowChange for another user',
             (queryClient) =>
-                invalidateFollow(queryClient, {
+                applyFollowChange(queryClient, {
                     username: 'someone-else',
                     is_followed: true,
                 }),
@@ -347,9 +360,9 @@ describe('invalidation helpers', () => {
             ],
         ],
         [
-            'invalidateFollow for a username prefix',
+            'applyFollowChange for a username prefix',
             (queryClient) =>
-                invalidateFollow(queryClient, {
+                applyFollowChange(queryClient, {
                     username: 'target',
                     is_followed: false,
                 }),
@@ -396,10 +409,10 @@ describe('invalidation helpers', () => {
         expect(patches.map(summarize)).toEqual([expected(READ_EMBED_IDS)]);
     });
 
-    it('invalidateFollow patches the author-embedding queries', async () => {
+    it('applyFollowChange patches the author-embedding queries', async () => {
         const { queryClient, patches } = createRecordingClient();
 
-        await invalidateFollow(queryClient, {
+        await applyFollowChange(queryClient, {
             username: USERNAME,
             is_followed: true,
         });
@@ -536,107 +549,6 @@ const author = (username: string, is_followed: boolean) => ({
     avatar: `${username}.png`,
 });
 
-describe('patchEmbeddedFollow', () => {
-    it('flips the target user at any depth and keeps the rest', () => {
-        const other = author('other', false);
-        const untouchedPage = { list: [{ reference: 'b', author: other }] };
-        const data = {
-            pages: [
-                {
-                    list: [
-                        { reference: 'a', author: author(USERNAME, false) },
-                        { reference: 'c', author: other },
-                    ],
-                },
-                untouchedPage,
-            ],
-            pageParams: [1, 2],
-        };
-
-        const patched = patchEmbeddedFollow(data, {
-            username: USERNAME,
-            is_followed: true,
-        });
-
-        expect(patched.pages[0].list[0].author).toEqual(author(USERNAME, true));
-        expect(patched.pages[0].list[1]).toBe(data.pages[0].list[1]);
-        expect(patched.pages[1]).toBe(untouchedPage);
-        expect(patched.pageParams).toBe(data.pageParams);
-        expect(data.pages[0].list[0].author.is_followed).toBe(false);
-    });
-
-    it('patches a top-level user and the popular-authors shape', () => {
-        expect(
-            patchEmbeddedFollow(author(USERNAME, false), {
-                username: USERNAME,
-                is_followed: true,
-            }),
-        ).toEqual(author(USERNAME, true));
-        expect(
-            patchEmbeddedFollow(
-                { authors: [{ user: author(USERNAME, true), accepted: 3 }] },
-                { username: USERNAME, is_followed: false },
-            ),
-        ).toEqual({
-            authors: [{ user: author(USERNAME, false), accepted: 3 }],
-        });
-    });
-
-    it.each([
-        ['another user', author('other', false)],
-        ['an already matching state', author(USERNAME, true)],
-        ['a user without is_followed', { username: USERNAME }],
-    ])('returns the same object for %s', (_, user) => {
-        const data = { list: [{ author: user }] };
-
-        expect(
-            patchEmbeddedFollow(data, {
-                username: USERNAME,
-                is_followed: true,
-            }),
-        ).toBe(data);
-    });
-});
-
-describe('patchEmbeddedVote', () => {
-    const comment = (
-        reference: string,
-        my_score: number,
-        vote_score: number,
-    ) => ({
-        reference,
-        my_score,
-        vote_score,
-    });
-
-    it('moves the score by the change of my_score, also in nested replies', () => {
-        const sibling = comment('sibling', 0, 2);
-        const data = {
-            list: [
-                {
-                    ...comment('parent', 0, 5),
-                    replies: [comment('target', 1, 4), sibling],
-                },
-            ],
-        };
-
-        const patched = patchEmbeddedVote(data, 'target', -1);
-
-        expect(patched.list[0].replies[0]).toEqual(comment('target', -1, 2));
-        expect(patched.list[0]).toMatchObject(comment('parent', 0, 5));
-        expect(patched.list[0].replies[1]).toBe(sibling);
-    });
-
-    it('returns the same object when nothing changes', () => {
-        const data = {
-            list: [comment('target', 1, 4), comment('other', 0, 1)],
-        };
-
-        expect(patchEmbeddedVote(data, 'target', 1)).toBe(data);
-        expect(patchEmbeddedVote(data, 'missing', 1)).toBe(data);
-    });
-});
-
 function observe(
     queryClient: QueryClient,
     queryKey: readonly unknown[],
@@ -652,7 +564,7 @@ function observe(
     return { queryFn, unsubscribe };
 }
 
-describe('invalidateFollow on a live cache', () => {
+describe('applyFollowChange on a live cache', () => {
     it('patches the lists in place, stale-marks them and refetches only the follow data', async () => {
         const queryClient = new QueryClient();
         const collectionsKey = api.getCollectionsQueryKey({ body: {} });
@@ -680,7 +592,7 @@ describe('invalidateFollow on a live cache', () => {
         queryClient.setQueryData(targetProfileKey, author(USERNAME, false));
         const otherProfileState = queryClient.getQueryState(otherProfileKey);
 
-        await invalidateFollow(queryClient, {
+        await applyFollowChange(queryClient, {
             username: USERNAME,
             is_followed: true,
         });
@@ -702,6 +614,33 @@ describe('invalidateFollow on a live cache', () => {
         );
         list.unsubscribe();
         stats.unsubscribe();
+    });
+});
+
+describe('writeWatchToCaches on a live cache', () => {
+    it('patches the embedding query and leaves the others stale', async () => {
+        const queryClient = new QueryClient();
+        const matchKey = api.searchAnimeQueryKey({ body: {} });
+        const otherKey = api.getCollectionsQueryKey({ body: {} });
+        queryClient.setQueryData(matchKey, {
+            list: [{ slug: SLUG, watch: [] }],
+        });
+        queryClient.setQueryData(otherKey, {
+            list: [{ content: { slug: 'other', watch: [] } }],
+        });
+        await queryClient.invalidateQueries({ refetchType: 'none' });
+        const otherState = queryClient.getQueryState(otherKey);
+
+        writeWatchToCaches(queryClient, {
+            anime: { slug: SLUG },
+            status: 'watching',
+        } as api.WatchResponse);
+
+        expect(queryClient.getQueryData(matchKey)).toEqual({
+            list: [{ slug: SLUG, watch: [{ status: 'watching' }] }],
+        });
+        expect(queryClient.getQueryState(otherKey)).toBe(otherState);
+        expect(queryClient.getQueryState(otherKey)?.isInvalidated).toBe(true);
     });
 });
 
