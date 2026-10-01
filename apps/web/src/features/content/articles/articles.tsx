@@ -25,7 +25,6 @@ import { useVisibleOnce } from '@/services/hooks/use-visible-once';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { useParams } from '@/utils/navigation';
 
-import ContentRailSkeleton from '../content-rail-skeleton';
 import { ARTICLES_PREVIEW_SIZE, contentArticlesOptions } from '../queries';
 import ContentArticlesModal from './content-articles-modal';
 
@@ -46,19 +45,7 @@ const ContentArticles: FC<Props> = ({ content_type }) => {
         { enabled: visible },
     );
 
-    if (!list) {
-        return isPending ? (
-            <div ref={ref}>
-                <ContentRailSkeleton className="-mx-2">
-                    {range(0, ARTICLES_PREVIEW_SIZE).map((index) => (
-                        <ArticlePreviewCardSkeleton key={index} />
-                    ))}
-                </ContentRailSkeleton>
-            </div>
-        ) : null;
-    }
-
-    if (list.length === 0) return null;
+    if (!list ? !isPending : list.length === 0) return null;
 
     return (
         <>
@@ -72,12 +59,20 @@ const ContentArticles: FC<Props> = ({ content_type }) => {
                             <HeaderNavButton />
                         </Header>
                         <div className="-mx-2 flex flex-col">
-                            {list.map((article) => (
-                                <ArticlePreviewCard
-                                    key={article.slug}
-                                    article={article}
-                                />
-                            ))}
+                            {list
+                                ? list.map((article) => (
+                                      <ArticlePreviewCard
+                                          key={article.slug}
+                                          article={article}
+                                      />
+                                  ))
+                                : range(0, ARTICLES_PREVIEW_SIZE).map(
+                                      (index) => (
+                                          <ArticlePreviewCardSkeleton
+                                              key={index}
+                                          />
+                                      ),
+                                  )}
                         </div>
                     </Block>
                 </Card>

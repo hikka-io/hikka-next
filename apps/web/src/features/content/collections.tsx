@@ -28,7 +28,6 @@ import { useVisibleOnce } from '@/services/hooks/use-visible-once';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { useParams } from '@/utils/navigation';
 
-import ContentRailSkeleton from './content-rail-skeleton';
 import { COLLECTIONS_PREVIEW_SIZE, contentCollectionsOptions } from './queries';
 
 type Props = {
@@ -48,19 +47,7 @@ const ContentCollections: FC<Props> = ({ content_type }) => {
         { enabled: visible },
     );
 
-    if (!list) {
-        return isPending ? (
-            <div ref={ref}>
-                <ContentRailSkeleton className="gap-6">
-                    {range(0, COLLECTIONS_PREVIEW_SIZE).map((index) => (
-                        <CollectionItemSkeleton key={index} />
-                    ))}
-                </ContentRailSkeleton>
-            </div>
-        ) : null;
-    }
-
-    if (list.length === 0) return null;
+    if (!list ? !isPending : list.length === 0) return null;
 
     return (
         <>
@@ -74,12 +61,18 @@ const ContentCollections: FC<Props> = ({ content_type }) => {
                             <HeaderNavButton />
                         </Header>
                         <div className="flex flex-col gap-6">
-                            {list.map((collection) => (
-                                <CollectionItem
-                                    key={collection.reference}
-                                    data={collection}
-                                />
-                            ))}
+                            {list
+                                ? list.map((collection) => (
+                                      <CollectionItem
+                                          key={collection.reference}
+                                          data={collection}
+                                      />
+                                  ))
+                                : range(0, COLLECTIONS_PREVIEW_SIZE).map(
+                                      (index) => (
+                                          <CollectionItemSkeleton key={index} />
+                                      ),
+                                  )}
                         </div>
                     </Block>
                 </Card>

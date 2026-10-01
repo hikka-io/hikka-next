@@ -1,5 +1,6 @@
 import type { FC } from 'react';
 
+import { range } from '@antfu/utils';
 import { useQuery } from '@tanstack/react-query';
 
 import type { RelatedContentTypeEnum } from '@hikka/api';
@@ -27,7 +28,7 @@ import { useParams } from '@/utils/navigation';
 import { contentRelatedFranchiseOptions } from '../queries';
 import FranchiseFilters from './components/franchise-filters';
 import FranchiseItem from './components/franchise-item';
-import FranchiseSkeleton from './components/franchise-skeleton';
+import FranchiseItemSkeleton from './components/franchise-item-skeleton';
 
 const PREVIEW_SIZE = 2;
 
@@ -67,29 +68,25 @@ const Franchise: FC<Props> = ({ extended, content_type }) => {
         }),
     });
 
-    if (!franchise) {
-        return !extended && !error && isPending ? (
-            <div ref={ref}>
-                <FranchiseSkeleton count={PREVIEW_SIZE} />
-            </div>
-        ) : null;
+    if (!franchise && (extended || error || !isPending)) {
+        return null;
     }
 
-    const sortedList = franchise.list.sort((a, b) => {
+    const sortedList = franchise?.list.sort((a, b) => {
         if (a.status === 'announced') return -1;
         if (b.status === 'announced') return 1;
         return (b?.year ?? 0) - (a?.year ?? 0);
     });
     const filteredData = extended
-        ? sortedList.filter((v) => contentTypes.includes(v.data_type))
+        ? sortedList?.filter((v) => contentTypes.includes(v.data_type))
         : sortedList
-              .filter((v) => v.slug !== params.slug)
+              ?.filter((v) => v.slug !== params.slug)
               .slice(0, PREVIEW_SIZE);
 
     const title = (
         <span>
             <span className="truncate">Пов’язане</span>{' '}
-            {sortedList && (
+            {sortedList && filteredData && (
                 <span className="text-muted-foreground">
                     ({extended ? filteredData.length : sortedList.length})
                 </span>
@@ -121,8 +118,13 @@ const Franchise: FC<Props> = ({ extended, content_type }) => {
                 extendedSize={view === 'list' ? 2 : 5}
                 className="grid-min-20"
             >
+                {!filteredData &&
+                    range(0, PREVIEW_SIZE).map((index) => (
+                        <FranchiseItemSkeleton key={index} />
+                    ))}
+
                 {view === 'list' &&
-                    filteredData.map((content) => (
+                    filteredData?.map((content) => (
                         <FranchiseItem
                             preview={!extended && !isDesktop}
                             key={content.slug}
@@ -131,7 +133,7 @@ const Franchise: FC<Props> = ({ extended, content_type }) => {
                     ))}
 
                 {view === 'grid' &&
-                    filteredData.map((content) => {
+                    filteredData?.map((content) => {
                         if (content.data_type === 'anime') {
                             return (
                                 <AnimeCard key={content.slug} item={content} />

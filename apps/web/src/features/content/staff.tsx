@@ -1,5 +1,6 @@
 import type { FC, ReactNode } from 'react';
 
+import { range } from '@antfu/utils';
 import { useQuery } from '@tanstack/react-query';
 
 import {
@@ -60,19 +61,11 @@ const StaffBlock: FC<StaffBlockProps> = ({
     isPending,
     loadMore,
 }) => {
-    if (!list) {
-        return !extended && isPending ? (
-            <div ref={visibleRef}>
-                <StaffSkeleton count={PREVIEW_SIZE} />
-            </div>
-        ) : null;
-    }
-
-    if (list.length === 0) {
+    if (!list ? extended || !isPending : list.length === 0) {
         return null;
     }
 
-    const filteredData = extended ? list : list.slice(0, PREVIEW_SIZE);
+    const filteredData = extended ? list : list?.slice(0, PREVIEW_SIZE);
 
     const block = (
         <Block id="content-staff">
@@ -95,13 +88,17 @@ const StaffBlock: FC<StaffBlockProps> = ({
                 extended={extended}
                 imagePreset="card"
             >
-                {filteredData.map((staff) => (
-                    <PersonCard
-                        key={staff.person.slug}
-                        person={staff.person}
-                        roles={staff.roles}
-                    />
-                ))}
+                {filteredData
+                    ? filteredData.map((staff) => (
+                          <PersonCard
+                              key={staff.person.slug}
+                              person={staff.person}
+                              roles={staff.roles}
+                          />
+                      ))
+                    : range(0, PREVIEW_SIZE).map((index) => (
+                          <StaffSkeleton key={index} />
+                      ))}
             </Stack>
             {loadMore}
         </Block>

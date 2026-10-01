@@ -22,7 +22,6 @@ import { useSession } from '@/services/session';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { useParams } from '@/utils/navigation';
 
-import ContentRailSkeleton from '../content-rail-skeleton';
 import { contentFollowingOptions, FOLLOWING_PREVIEW_SIZE } from '../queries';
 import FollowingItem from './components/following-item';
 import FollowingItemSkeleton from './components/following-item-skeleton';
@@ -46,19 +45,7 @@ const Followings: FC<Props> = ({ content_type }) => {
         { enabled: !!user && visible },
     );
 
-    if (!list) {
-        return user && isPending ? (
-            <div ref={ref}>
-                <ContentRailSkeleton className="gap-6">
-                    {range(0, FOLLOWING_PREVIEW_SIZE).map((index) => (
-                        <FollowingItemSkeleton key={index} />
-                    ))}
-                </ContentRailSkeleton>
-            </div>
-        ) : null;
-    }
-
-    if (list.length === 0) {
+    if (!list ? !user || !isPending : list.length === 0) {
         return null;
     }
 
@@ -85,7 +72,13 @@ const Followings: FC<Props> = ({ content_type }) => {
                             <HeaderNavButton />
                         </Header>
                         <div className="flex flex-col gap-6">
-                            {list.map((item) => (
+                            {!list &&
+                                range(0, FOLLOWING_PREVIEW_SIZE).map(
+                                    (index) => (
+                                        <FollowingItemSkeleton key={index} />
+                                    ),
+                                )}
+                            {list?.map((item) => (
                                 <FollowingItem
                                     data={{
                                         type:
