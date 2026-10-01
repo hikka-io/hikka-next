@@ -1,5 +1,7 @@
 import type { FC } from 'react';
 
+import { range } from '@antfu/utils';
+
 import type { ArticleCategoryEnum } from '@hikka/api';
 
 import FiltersNotFound from '@/components/filters-not-found';
@@ -25,6 +27,8 @@ import ArticleItem from './article-item';
 import ArticleItemSkeleton from './article-item-skeleton';
 
 type Props = {};
+
+const SKELETON_COUNT = 3;
 
 const ArticleList: FC<Props> = () => {
     const titleAnchor = usePageTitleAnchor();
@@ -85,10 +89,13 @@ const ArticleList: FC<Props> = () => {
             <div
                 className={cn(
                     '-mx-4 flex flex-col max-md:[&>*+*]:-mt-px md:mx-0 md:gap-6',
-                    (!list || list.length === 0) && 'mx-0',
+                    !isPending && (!list || list.length === 0) && 'mx-0',
                 )}
             >
-                {isPending && <ArticleItemSkeleton />}
+                {isPending &&
+                    range(0, SKELETON_COUNT).map((index) => (
+                        <ArticleItemSkeleton key={index} />
+                    ))}
                 {list?.map((article) => (
                     <ArticleItem article={article} key={article.slug} />
                 ))}
