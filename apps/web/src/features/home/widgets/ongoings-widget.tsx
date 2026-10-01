@@ -31,7 +31,7 @@ import { Link } from '@/utils/navigation';
 import { getCurrentSeason } from '@/utils/season';
 import { getTitle } from '@/utils/title/get-title';
 
-import { ONGOINGS_SIZE, ongoingsOptions } from '../queries';
+import { homeOngoingsOptions, ONGOINGS_SIZE } from '../queries';
 import type { WidgetProps } from '../types';
 
 const OngoingItemSkeleton = () => (
@@ -51,7 +51,7 @@ const OngoingsWidget: FC<WidgetProps> = ({ side }) => {
     const year = new Date().getFullYear();
     const isCenter = side === 'center';
 
-    const { list, isLoading } = useInfiniteList(ongoingsOptions());
+    const { list, isLoading } = useInfiniteList(homeOngoingsOptions());
 
     const search = {
         statuses: ['ongoing'],

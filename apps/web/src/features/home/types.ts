@@ -1,5 +1,7 @@
 import type { UiFeedWidget } from '@hikka/api';
 
+export type HomeCollectionsTab = 'popular' | 'newest' | 'own';
+
 export type UIFeedWidgetSide = UiFeedWidget['side'];
 export type UIFeedWidgetSlug = UiFeedWidget['slug'];
 

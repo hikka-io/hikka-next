@@ -3,11 +3,7 @@ import { type FC, useEffect, useMemo, useState } from 'react';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { useInView } from 'react-intersection-observer';
 
-import {
-    ContentTypeEnum,
-    feedPageParam,
-    getFeedInfiniteOptions,
-} from '@hikka/api';
+import { ContentTypeEnum } from '@hikka/api';
 
 import MaterialSymbolsDynamicFeedRounded from '@/components/icons/material-symbols/MaterialSymbolsDynamicFeedRounded';
 import LoadMoreButton from '@/components/load-more-button';
@@ -23,7 +19,7 @@ import {
 } from '@/services/session';
 import { cn } from '@/utils/cn';
 
-import { buildFeedArgs, isFeedDisabled } from '../../queries';
+import { buildFeedArgs, homeFeedOptions, isFeedDisabled } from '../../queries';
 import type { WidgetProps } from '../../types';
 import FeedItem, { type FeedItemResponse } from './components/feed-item';
 import FeedItemSkeleton from './components/feed-item-skeleton';
@@ -92,8 +88,7 @@ const FeedWidget: FC<WidgetProps> = ({ isLast, side }) => {
 
     // biome-ignore lint/plugin/no-raw-infinite-query: cursor pagination (feedPageParam); useInfiniteList assumes page numbers
     const feedQuery = useInfiniteQuery({
-        ...getFeedInfiniteOptions({ body: feedArgs }),
-        ...feedPageParam(),
+        ...homeFeedOptions(feedArgs),
         enabled: !allSectionsDisabled,
     });
     const {

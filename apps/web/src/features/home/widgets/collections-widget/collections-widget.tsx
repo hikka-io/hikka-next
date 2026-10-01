@@ -2,8 +2,6 @@ import { type FC, useState } from 'react';
 
 import { range } from '@antfu/utils';
 
-import { getCollectionsInfiniteOptions } from '@hikka/api';
-
 import MaterialSymbolsAddRounded from '@/components/icons/material-symbols/MaterialSymbolsAddRounded';
 import MaterialSymbolsStack from '@/components/icons/material-symbols/MaterialSymbolsStack';
 import Block from '@/components/ui/block';
@@ -22,38 +20,23 @@ import { useSession } from '@/services/session';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { Link } from '@/utils/navigation';
 
-import type { WidgetProps } from '../../types';
+import {
+    COLLECTIONS_PREVIEW_SIZE,
+    homeCollectionsOptions,
+} from '../../queries';
+import type { HomeCollectionsTab, WidgetProps } from '../../types';
 import CollectionWidgetItem from './components/collection-widget-item';
 import CollectionWidgetSkeleton from './components/collection-widget-skeleton';
 
-const SIZE = 3;
-
-const POPULAR_SORT = ['system_ranking:desc', 'created:desc'];
-const NEWEST_SORT = ['created:desc'];
-
-type CollectionsTab = 'popular' | 'newest' | 'own';
-
 const CollectionsWidget: FC<WidgetProps> = () => {
     const { user } = useSession();
-    const [tab, setTab] = useState<CollectionsTab>('newest');
+    const [tab, setTab] = useState<HomeCollectionsTab>('newest');
 
     const isOwn = Boolean(user) && tab === 'own';
 
     const { ref, visible } = useVisibleOnce();
     const { list, isPending } = useInfiniteList(
-        getCollectionsInfiniteOptions({
-            body:
-                isOwn && user
-                    ? {
-                          sort: NEWEST_SORT,
-                          author: user.username,
-                          only_public: false,
-                      }
-                    : {
-                          sort: tab === 'popular' ? POPULAR_SORT : NEWEST_SORT,
-                      },
-            query: { size: SIZE },
-        }),
+        homeCollectionsOptions(tab, user?.username ?? undefined),
         { enabled: visible },
     );
 
@@ -78,7 +61,9 @@ const CollectionsWidget: FC<WidgetProps> = () => {
 
                 <Tabs
                     value={tab}
-                    onValueChange={(value) => setTab(value as CollectionsTab)}
+                    onValueChange={(value) =>
+                        setTab(value as HomeCollectionsTab)
+                    }
                     className="mx-4"
                 >
                     <TabsList size="sm" className="w-full">
@@ -90,7 +75,7 @@ const CollectionsWidget: FC<WidgetProps> = () => {
 
                 <div className="flex flex-col gap-1 px-2">
                     {isPending &&
-                        range(0, SIZE).map((i) => (
+                        range(0, COLLECTIONS_PREVIEW_SIZE).map((i) => (
                             <CollectionWidgetSkeleton key={i} />
                         ))}
 

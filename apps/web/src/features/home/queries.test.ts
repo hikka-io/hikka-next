@@ -24,7 +24,9 @@ import {
     FeedCollectionContentTypeEnum,
     FeedCommentContentTypeEnum,
     FeedContentTypeEnum,
+    feedPageParam,
     getBrowserClient,
+    getCollectionsInfiniteOptions,
     getFeedInfiniteOptions,
     type ProfileResponse,
     paginationPageParam,
@@ -36,6 +38,7 @@ import {
     type UserCustomizationResponse,
 } from '@hikka/api';
 
+import { scheduleOptions } from '@/features/schedule/queries';
 import { DEFAULT_USER_UI } from '@/utils/customization';
 import { getCurrentSeason } from '@/utils/season';
 import { getOngoingsSort } from '@/utils/sort';
@@ -43,17 +46,21 @@ import { getOngoingsSort } from '@/utils/sort';
 import { Route as HomeRoute } from '../../routes/_pages/index';
 import {
     buildFeedArgs,
-    followingHistoryPreviewOptions,
+    COLLECTIONS_PREVIEW_SIZE,
     HOME_ARTICLES_NEWEST_SORT,
     HOME_ARTICLES_POPULAR_SORT,
     homeArticlesOptions,
+    homeCollectionsOptions,
+    homeFeedOptions,
+    homeFollowingHistoryOptions,
+    homeOngoingsOptions,
     homeScheduleOptions,
     homeWatchingOptions,
     isFeedDisabled,
+    loadHomePage,
     ONGOINGS_SIZE,
-    ongoingsOptions,
 } from './queries';
-import type { UIFeedWidgetSide } from './types';
+import type { HomeCollectionsTab, UIFeedWidgetSide } from './types';
 import ArticlesWidget from './widgets/articles-widget';
 import CollectionsWidget from './widgets/collections-widget';
 import FeedWidget from './widgets/feed-widget';
@@ -384,6 +391,39 @@ describe('home loader', () => {
     );
 });
 
+describe('loadHomePage', () => {
+    it('starts every prefetch before any of them settles', async () => {
+        useFakeDate(DATES.september);
+        const queryClient = new QueryClient();
+        queryClient.setQueryData(profileQueryKey(), PROFILE);
+        const started: string[] = [];
+        const pending = (options: RecordedOptions) => {
+            started.push((options.queryKey[0] as { _id: string })._id);
+            return new Promise(() => {});
+        };
+        Object.assign(queryClient, {
+            prefetchQuery: pending,
+            prefetchInfiniteQuery: pending,
+        });
+
+        void loadHomePage({
+            queryClient,
+            apiClient: ssrRequestClient('token'),
+        });
+        await Promise.resolve();
+
+        expect(started).toEqual([
+            'userWatchList',
+            'followingHistory',
+            'followStats',
+            'getFeed',
+            'animeSchedule',
+            'searchAnime',
+            'getArticles',
+        ]);
+    });
+});
+
 describe('OngoingsWidget', () => {
     it.each([
         ['center', DATES.september],
@@ -401,7 +441,7 @@ describe('OngoingsWidget', () => {
     });
 });
 
-describe('ongoingsOptions', () => {
+describe('homeOngoingsOptions', () => {
     it.each(
         Object.entries(DATES).flatMap(([name, date]) =>
             (['center', 'left', 'right'] as const).map((side) => ({
@@ -412,7 +452,7 @@ describe('ongoingsOptions', () => {
         ),
     )('equals the HEAD widget key: $side, $name', ({ date, side }) => {
         useFakeDate(date);
-        const component = ongoingsOptions().queryKey;
+        const component = homeOngoingsOptions().queryKey;
         const head = headOngoingsWidgetOptions(side).queryKey;
 
         expect(component).toStrictEqual(head);
@@ -441,10 +481,10 @@ describe('ongoingsOptions', () => {
 
     it('hashes another season differently', () => {
         useFakeDate(DATES.september);
-        const september = ongoingsOptions().queryKey;
+        const september = homeOngoingsOptions().queryKey;
         vi.setSystemTime(new Date(DATES.spring));
 
-        expect(hashKey(ongoingsOptions().queryKey)).not.toBe(
+        expect(hashKey(homeOngoingsOptions().queryKey)).not.toBe(
             hashKey(september),
         );
     });
@@ -455,7 +495,10 @@ describe('ongoingsOptions', () => {
             baseUrl: BASE_URL,
             authToken: 'token',
         });
-        const fromLoader = await sentRequest(ongoingsOptions(client), client);
+        const fromLoader = await sentRequest(
+            homeOngoingsOptions(client),
+            client,
+        );
         const fromWidget = await sentRequest(
             headOngoingsWidgetOptions('center'),
             getBrowserClient(),
@@ -484,6 +527,26 @@ describe('homeScheduleOptions', () => {
             expect(
                 calls.find((call) => call.includes('animeSchedule')),
             ).toContain(serialize(loader.queryKey));
+        },
+    );
+
+    it.each(Object.entries(DATES))(
+        'keys the list like the schedule page builder (%s)',
+        (_, date) => {
+            useFakeDate(date);
+
+            for (const onlyWatch of [false, true]) {
+                const home = homeScheduleOptions(onlyWatch).queryKey;
+                const page = scheduleOptions({
+                    only_watch: onlyWatch || undefined,
+                }).queryKey;
+
+                expect(serialize(home)).toBe(serialize(page));
+                expect(hashKey(home)).toBe(hashKey(page));
+            }
+            expect(hashKey(homeScheduleOptions(false).queryKey)).toBe(
+                hashKey(scheduleOptions({}).queryKey),
+            );
         },
     );
 
@@ -684,6 +747,28 @@ const FEED_PREFETCH_CASES = [
     },
 ];
 
+describe('homeFeedOptions', () => {
+    it.each(FEED_ARGS_CASES)(
+        'keys the loader like the widget: $name',
+        ({ onlyFollowed, filters }) => {
+            const args = buildFeedArgs(filters, onlyFollowed);
+            const loader = homeFeedOptions(args, ssrRequestClient('token'));
+            const widget = homeFeedOptions(args);
+
+            expect(hashKey(loader.queryKey)).toBe(hashKey(widget.queryKey));
+            expect(loader.queryKey).toStrictEqual(
+                getFeedInfiniteOptions({ body: args }).queryKey,
+            );
+        },
+    );
+
+    it('pages by cursor', () => {
+        expect(homeFeedOptions({}).initialPageParam).toStrictEqual(
+            feedPageParam().initialPageParam,
+        );
+    });
+});
+
 describe('home feed prefetch', () => {
     beforeEach(() => {
         useFakeDate(DATES.september);
@@ -761,9 +846,9 @@ type WidgetCall = [
 const widgetCalls = () => mocks.infiniteListCalls as WidgetCall[];
 const side: UIFeedWidgetSide = 'left';
 
-describe('followingHistoryPreviewOptions', () => {
+describe('homeFollowingHistoryOptions', () => {
     it('asks for 3 items', () => {
-        expect(followingHistoryPreviewOptions().queryKey[0]).toMatchObject({
+        expect(homeFollowingHistoryOptions().queryKey[0]).toMatchObject({
             query: { size: 3 },
         });
     });
@@ -773,7 +858,7 @@ describe('followingHistoryPreviewOptions', () => {
         renderToStaticMarkup(createElement(HistoryWidget, { side }));
 
         const [[options]] = widgetCalls();
-        const loader = followingHistoryPreviewOptions(
+        const loader = homeFollowingHistoryOptions(
             ssrRequestClient('token'),
         ).queryKey;
         expect(hashKey(loader)).toBe(hashKey(options.queryKey));
@@ -784,7 +869,7 @@ describe('followingHistoryPreviewOptions', () => {
         const used = calls.find((call) => call.includes('followingHistory'));
 
         expect(used).toContain(
-            serialize(followingHistoryPreviewOptions().queryKey),
+            serialize(homeFollowingHistoryOptions().queryKey),
         );
     });
 });
@@ -893,6 +978,69 @@ describe('home loader stats', () => {
         );
         expect(calls.some((call) => call.includes('userWatchStats'))).toBe(
             false,
+        );
+    });
+});
+
+const HEAD_COLLECTIONS_POPULAR_SORT = ['system_ranking:desc', 'created:desc'];
+const HEAD_COLLECTIONS_NEWEST_SORT = ['created:desc'];
+
+// Copy of the list query in HEAD collections-widget.tsx.
+function headCollectionsWidgetOptions(
+    tab: HomeCollectionsTab,
+    user: ProfileResponse | undefined,
+) {
+    const isOwn = Boolean(user) && tab === 'own';
+
+    return getCollectionsInfiniteOptions({
+        body:
+            isOwn && user
+                ? {
+                      sort: HEAD_COLLECTIONS_NEWEST_SORT,
+                      author: user.username,
+                      only_public: false,
+                  }
+                : {
+                      sort:
+                          tab === 'popular'
+                              ? HEAD_COLLECTIONS_POPULAR_SORT
+                              : HEAD_COLLECTIONS_NEWEST_SORT,
+                  },
+        query: { size: 3 },
+    });
+}
+
+describe('homeCollectionsOptions', () => {
+    it.each(
+        (['newest', 'popular', 'own'] as const).flatMap((tab) =>
+            [PROFILE, undefined].map((user) => ({
+                tab,
+                user,
+                name: `${tab}, ${user ? 'logged in' : 'anonymous'}`,
+            })),
+        ),
+    )('equals the HEAD widget key: $name', ({ tab, user }) => {
+        const key = homeCollectionsOptions(
+            tab,
+            user?.username ?? undefined,
+        ).queryKey;
+        const head = headCollectionsWidgetOptions(tab, user).queryKey;
+
+        expect(key).toStrictEqual(head);
+        expect(hashKey(key)).toBe(hashKey(head));
+    });
+
+    it('asks for the preview size', () => {
+        expect(COLLECTIONS_PREVIEW_SIZE).toBe(3);
+    });
+
+    it('is the query of the widget on its default tab', () => {
+        mocks.user = PROFILE;
+        renderToStaticMarkup(createElement(CollectionsWidget, { side }));
+
+        const [[options]] = widgetCalls();
+        expect(hashKey(options.queryKey)).toBe(
+            hashKey(homeCollectionsOptions('newest', 'tester').queryKey),
         );
     });
 });

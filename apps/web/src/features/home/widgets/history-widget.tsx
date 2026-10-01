@@ -15,7 +15,7 @@ import { useVisible } from '@/services/hooks/use-visible';
 import { useSession } from '@/services/session';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 
-import { followingHistoryPreviewOptions } from '../queries';
+import { homeFollowingHistoryOptions } from '../queries';
 import type { WidgetProps } from '../types';
 
 const HISTORY_REFETCH_INTERVAL_MS = 60_000;
@@ -25,7 +25,7 @@ const HistoryWidget: FC<WidgetProps> = () => {
     const { ref, visible } = useVisible();
     const { list } = useInfiniteList(
         {
-            ...followingHistoryPreviewOptions(),
+            ...homeFollowingHistoryOptions(),
             refetchInterval: HISTORY_REFETCH_INTERVAL_MS,
         },
         { enabled: visible && Boolean(user) },

@@ -4,11 +4,14 @@ import {
     AnimeMediaEnum,
     AnimeStatusEnum,
     type ArticlesListArgs,
-    animeScheduleInfiniteOptions,
     type Client,
     type FeedArgs,
+    feedPageParam,
     followingHistoryInfiniteOptions,
+    followStatsOptions,
     getArticlesInfiniteOptions,
+    getCollectionsInfiniteOptions,
+    getFeedInfiniteOptions,
     paginationPageParam,
     profileUiQueryKey,
     type SeasonEnum,
@@ -20,21 +23,29 @@ import {
     WatchStatusEnum,
 } from '@hikka/api';
 
+import { scheduleOptions } from '@/features/schedule/queries';
+import type { LoaderContext } from '@/utils/api/loader-prefetch';
 import { getSessionFromPagesCache } from '@/utils/auth';
 import { DEFAULT_USER_UI, mergePreferences } from '@/utils/customization';
 import { getCurrentSeason } from '@/utils/season';
 import { getOngoingsSort } from '@/utils/sort';
 
+import type { HomeCollectionsTab } from './types';
+
 const HISTORY_PREVIEW_SIZE = 3;
+export const COLLECTIONS_PREVIEW_SIZE = 3;
 export const HOME_ARTICLES_SIZE = 3;
 export const ONGOINGS_SIZE = 5;
 
 export const HOME_ARTICLES_NEWEST_SORT = ['created:desc'];
 export const HOME_ARTICLES_POPULAR_SORT = ['vote_score:desc'];
 
+const COLLECTIONS_POPULAR_SORT = ['system_ranking:desc', 'created:desc'];
+const COLLECTIONS_NEWEST_SORT = ['created:desc'];
+
 type FeedFilters = Omit<UiFeedSettingsOutput, 'only_followed' | 'widgets'>;
 
-export function ongoingsOptions(client?: Client) {
+export function homeOngoingsOptions(client?: Client) {
     const season = getCurrentSeason() as SeasonEnum;
     const year = new Date().getFullYear();
 
@@ -70,23 +81,10 @@ export function homeWatchingOptions(username: string, client?: Client) {
 }
 
 export function homeScheduleOptions(onlyWatch: boolean, client?: Client) {
-    const season = getCurrentSeason() as SeasonEnum;
-    const year = new Date().getFullYear();
-
-    return {
-        ...animeScheduleInfiniteOptions({
-            body: {
-                airing_season: [season, year],
-                status: [AnimeStatusEnum.ONGOING, AnimeStatusEnum.ANNOUNCED],
-                only_watch: onlyWatch || undefined,
-            },
-            client,
-        }),
-        ...paginationPageParam(),
-    };
+    return scheduleOptions({ only_watch: onlyWatch || undefined }, client);
 }
 
-export function followingHistoryPreviewOptions(client?: Client) {
+export function homeFollowingHistoryOptions(client?: Client) {
     return {
         ...followingHistoryInfiniteOptions({
             query: { size: HISTORY_PREVIEW_SIZE },
@@ -104,6 +102,40 @@ export function homeArticlesOptions(body: ArticlesListArgs, client?: Client) {
             client,
         }),
         ...paginationPageParam(),
+    };
+}
+
+export function homeCollectionsOptions(
+    tab: HomeCollectionsTab,
+    username?: string,
+    client?: Client,
+) {
+    return {
+        ...getCollectionsInfiniteOptions({
+            body:
+                tab === 'own' && username
+                    ? {
+                          sort: COLLECTIONS_NEWEST_SORT,
+                          author: username,
+                          only_public: false,
+                      }
+                    : {
+                          sort:
+                              tab === 'popular'
+                                  ? COLLECTIONS_POPULAR_SORT
+                                  : COLLECTIONS_NEWEST_SORT,
+                      },
+            query: { size: COLLECTIONS_PREVIEW_SIZE },
+            client,
+        }),
+        ...paginationPageParam(),
+    };
+}
+
+export function homeFeedOptions(feedArgs: FeedArgs, client?: Client) {
+    return {
+        ...getFeedInfiniteOptions({ body: feedArgs, client }),
+        ...feedPageParam(),
     };
 }
 
@@ -162,4 +194,48 @@ export function feedHasWidget(
         : DEFAULT_USER_UI.preferences.feed;
 
     return !!feed?.widgets?.some((widget) => widget.slug === slug);
+}
+
+export async function loadHomePage({ queryClient, apiClient }: LoaderContext) {
+    const session = getSessionFromPagesCache(queryClient);
+    const username = session?.username;
+    const feedArgs = initialFeedArgs(queryClient);
+
+    await Promise.all([
+        username
+            ? queryClient.prefetchInfiniteQuery(
+                  homeWatchingOptions(username, apiClient),
+              )
+            : undefined,
+        session
+            ? queryClient.prefetchInfiniteQuery(
+                  homeFollowingHistoryOptions(apiClient),
+              )
+            : undefined,
+        username
+            ? queryClient.prefetchQuery(
+                  followStatsOptions({
+                      path: { username },
+                      client: apiClient,
+                  }),
+              )
+            : undefined,
+        feedArgs
+            ? queryClient.prefetchInfiniteQuery(
+                  homeFeedOptions(feedArgs, apiClient),
+              )
+            : undefined,
+        queryClient.prefetchInfiniteQuery(
+            homeScheduleOptions(false, apiClient),
+        ),
+        queryClient.prefetchInfiniteQuery(homeOngoingsOptions(apiClient)),
+        feedHasWidget(queryClient, 'articles')
+            ? queryClient.prefetchInfiniteQuery(
+                  homeArticlesOptions(
+                      { sort: HOME_ARTICLES_NEWEST_SORT },
+                      apiClient,
+                  ),
+              )
+            : undefined,
+    ]);
 }
