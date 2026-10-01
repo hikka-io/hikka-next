@@ -79,17 +79,58 @@ export function catalogPageSize(
     return columns === 1 ? undefined : columns * 4;
 }
 
-export function catalogSearchArgs(
+export function catalogSearchQuery(
     contentType: MainContentTypeEnum,
     search: CatalogSearch,
+    size?: number,
+    client?: Client,
 ) {
     switch (contentType) {
-        case ContentTypeEnum.ANIME:
-            return buildAnimeSearchArgs(search);
-        case ContentTypeEnum.MANGA:
-            return buildMangaSearchArgs(search);
-        case ContentTypeEnum.NOVEL:
-            return buildNovelSearchArgs(search);
+        case ContentTypeEnum.ANIME: {
+            const { args, page } = buildAnimeSearchArgs(search);
+
+            return {
+                args,
+                options: paginatedInfiniteOptions(
+                    searchAnimeInfiniteOptions({
+                        body: args,
+                        query: { size },
+                        client,
+                    }),
+                    page,
+                ) as CatalogSearchOptions,
+            };
+        }
+        case ContentTypeEnum.MANGA: {
+            const { args, page } = buildMangaSearchArgs(search);
+
+            return {
+                args,
+                options: paginatedInfiniteOptions(
+                    searchMangaInfiniteOptions({
+                        body: args,
+                        query: { size },
+                        client,
+                    }),
+                    page,
+                ) as CatalogSearchOptions,
+            };
+        }
+        case ContentTypeEnum.NOVEL: {
+            const { args, page } = buildNovelSearchArgs(search);
+
+            return {
+                args,
+                options: paginatedInfiniteOptions(
+                    searchNovelInfiniteOptions({
+                        body: args,
+                        query: { size },
+                        client,
+                    }),
+                    page,
+                ) as CatalogSearchOptions,
+            };
+        }
     }
 }
 
@@ -99,44 +140,7 @@ export function catalogSearchOptions(
     size?: number,
     client?: Client,
 ): CatalogSearchOptions {
-    switch (contentType) {
-        case ContentTypeEnum.ANIME: {
-            const { args, page } = buildAnimeSearchArgs(search);
-
-            return paginatedInfiniteOptions(
-                searchAnimeInfiniteOptions({
-                    body: args,
-                    query: { size },
-                    client,
-                }),
-                page,
-            ) as CatalogSearchOptions;
-        }
-        case ContentTypeEnum.MANGA: {
-            const { args, page } = buildMangaSearchArgs(search);
-
-            return paginatedInfiniteOptions(
-                searchMangaInfiniteOptions({
-                    body: args,
-                    query: { size },
-                    client,
-                }),
-                page,
-            ) as CatalogSearchOptions;
-        }
-        case ContentTypeEnum.NOVEL: {
-            const { args, page } = buildNovelSearchArgs(search);
-
-            return paginatedInfiniteOptions(
-                searchNovelInfiniteOptions({
-                    body: args,
-                    query: { size },
-                    client,
-                }),
-                page,
-            ) as CatalogSearchOptions;
-        }
-    }
+    return catalogSearchQuery(contentType, search, size, client).options;
 }
 
 async function prefetchCatalogFirstPage(

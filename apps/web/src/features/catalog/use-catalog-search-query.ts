@@ -3,11 +3,7 @@ import type { MainContentTypeEnum } from '@hikka/api';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { useRouteSearch } from '@/utils/navigation';
 
-import {
-    type CatalogSearch,
-    catalogSearchArgs,
-    catalogSearchOptions,
-} from './queries';
+import { type CatalogSearch, catalogSearchQuery } from './queries';
 
 /**
  * Shared catalog query. CatalogList and CatalogListSummary call it with the
@@ -18,13 +14,13 @@ export function useCatalogSearchQuery(
     size?: number,
 ) {
     const search = useRouteSearch<CatalogSearch>();
-    const options = catalogSearchOptions(contentType, search, size);
+    const { args, options } = catalogSearchQuery(contentType, search, size);
     const queryResult = useInfiniteList(options);
 
     return {
         ...queryResult,
         queryKey: options.queryKey,
-        args: catalogSearchArgs(contentType, search).args,
+        args,
         search,
     };
 }
