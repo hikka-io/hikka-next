@@ -49,7 +49,7 @@ import {
 import {
     animeStaffOptions,
     contentCharactersOptions,
-    franchiseOptions,
+    contentRelatedFranchiseOptions,
 } from './queries';
 
 const cookies = vi.hoisted(() => ({
@@ -601,9 +601,11 @@ describe('content tab loader keys', () => {
         ContentTypeEnum.MANGA,
         ContentTypeEnum.NOVEL,
     ] as const)('match the %s franchise query', (content_type) => {
-        expect(hashKey(franchiseOptions(content_type, slug).queryKey)).toBe(
-            loaderKey(franchiseKey(content_type)),
-        );
+        expect(
+            hashKey(
+                contentRelatedFranchiseOptions(content_type, slug).queryKey,
+            ),
+        ).toBe(loaderKey(franchiseKey(content_type)));
     });
 });
 

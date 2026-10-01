@@ -24,7 +24,7 @@ import {
 import { CONTENT_TYPE_LINKS } from '@/utils/content-paths';
 import { useParams } from '@/utils/navigation';
 
-import { franchiseOptions } from '../queries';
+import { contentRelatedFranchiseOptions } from '../queries';
 import FranchiseFilters from './components/franchise-filters';
 import FranchiseItem from './components/franchise-item';
 import FranchiseSkeleton from './components/franchise-skeleton';
@@ -60,7 +60,7 @@ const Franchise: FC<Props> = ({ extended, content_type }) => {
         error,
         isPending,
     } = useQuery({
-        ...franchiseOptions(content_type, String(params.slug)),
+        ...contentRelatedFranchiseOptions(content_type, String(params.slug)),
         enabled: extended || visible,
         select: (data) => ({
             list: [...data.anime, ...data.manga, ...data.novel],

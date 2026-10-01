@@ -19,7 +19,7 @@ import ContentArticles from './articles/articles';
 import ContentCollections from './collections';
 import Followings from './followings/followings';
 import Franchise from './franchise/franchise';
-import { franchiseOptions } from './queries';
+import { contentRelatedFranchiseOptions } from './queries';
 import ContentStaff from './staff';
 
 (
@@ -281,7 +281,9 @@ describe('deferred overview widgets', () => {
                 .getQueryCache()
                 .getAll()
                 .map((query) => query.queryHash),
-        ).toEqual([hashKey(franchiseOptions('anime', SLUG).queryKey)]);
+        ).toEqual([
+            hashKey(contentRelatedFranchiseOptions('anime', SLUG).queryKey),
+        ]);
     });
 
     it('requests the staff list once after it becomes visible', async () => {

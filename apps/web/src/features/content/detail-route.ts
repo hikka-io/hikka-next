@@ -32,7 +32,7 @@ import { getPublicSiteUrl, SITE_ORIGIN } from '@/utils/url';
 import {
     animeStaffOptions,
     contentCharactersOptions,
-    franchiseOptions,
+    contentRelatedFranchiseOptions,
 } from './queries';
 
 type Prefetch = (slug: string, ctx: LoaderContext) => Promise<void>;
@@ -51,7 +51,7 @@ const franchise =
     (content_type: MainContentTypeEnum): Prefetch =>
     (slug, { queryClient, apiClient }) =>
         queryClient.prefetchQuery(
-            franchiseOptions(content_type, slug, apiClient),
+            contentRelatedFranchiseOptions(content_type, slug, apiClient),
         );
 
 const listEntry =

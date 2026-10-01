@@ -17,11 +17,13 @@ const CONTENT_CHARACTERS = {
     [ContentTypeEnum.NOVEL]: novelCharactersInfiniteOptions,
 } satisfies Record<MainContentTypeEnum, unknown>;
 
-export const franchiseOptions = (
+export function contentRelatedFranchiseOptions(
     content_type: RelatedContentTypeEnum,
     slug: string,
     client?: Client,
-) => contentFranchiseOptions({ path: { slug, content_type }, client });
+) {
+    return contentFranchiseOptions({ path: { slug, content_type }, client });
+}
 
 export function contentCharactersOptions(
     content_type: MainContentTypeEnum,
