@@ -154,6 +154,7 @@ const UserFavorites: FC<Props> = ({ extended, type }) => {
                 key={activeContent}
                 type={activeContent}
                 extended={extended}
+                total={counts?.[activeContent]}
             />
         </Block>
     );

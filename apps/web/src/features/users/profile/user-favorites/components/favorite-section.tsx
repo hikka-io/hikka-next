@@ -145,9 +145,10 @@ const SECTIONS: {
 type Props = {
     type: FavouriteContentTypeEnum;
     extended?: boolean;
+    total?: number;
 };
 
-const FavoriteSection: FC<Props> = ({ type, extended }) => {
+const FavoriteSection: FC<Props> = ({ type, extended, total }) => {
     const params = useParams();
     const username = String(params.username);
     const section = SECTIONS[type] as SectionConfig<FavoriteItem>;
@@ -166,7 +167,7 @@ const FavoriteSection: FC<Props> = ({ type, extended }) => {
     const list = rawList as FavoriteItem[] | undefined;
 
     if (isPending) {
-        return <FavoriteSkeleton extended={extended} />;
+        return <FavoriteSkeleton extended={extended} total={total} />;
     }
 
     if (!list && !extended) {
