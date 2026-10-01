@@ -49,7 +49,7 @@ const PROGRESS_ICONS: Record<HistoryEntry['medium'], Icon> = {
 };
 
 const ACTION_TONES: Partial<Record<HistoryIcon['kind'], string>> = {
-    'favourite-add': 'bg-primary text-primary-foreground',
+    'favourite-add': 'bg-red-500/15 text-red-500',
     delete: 'bg-destructive text-destructive-foreground',
 };
 
