@@ -85,9 +85,7 @@
         "zustand": "^5.0.15"
     },
     "devDependencies": {
-        "@babel/core": "^7.29.0",
         "@csstools/postcss-oklab-function": "^5.0.13",
-        "@rolldown/plugin-babel": "^0.2.4",
         "@tailwindcss/vite": "^4.3.3",
         "@tanstack/devtools-vite": "^0.8.0",
         "@tanstack/react-devtools": "^0.10.7",
@@ -100,8 +98,8 @@
         "@types/react-avatar-editor": "^13.0.3",
         "@types/react-dom": "19.3.0",
         "@vitejs/plugin-react": "^6.1.1",
-        "babel-plugin-react-compiler": "^1.0.0",
         "jsdom": "^29.1.1",
+        "oxc-transform-react": "~0.145.0",
         "rimraf": "^5.0.1",
         "tailwindcss": "^4.3.3",
         "typescript": "6.0.3",
