@@ -1,5 +1,3 @@
-import { notFound } from '@tanstack/react-router';
-
 import {
     type AnimeInfoResponse,
     type CharacterInfoResponse,
@@ -14,6 +12,7 @@ import {
 import {
     type ContentInfo,
     contentInfoOptions,
+    type EntityType,
     favouriteEntryOptions,
     listEntryOptions,
 } from '@/utils/api/content-queries';
@@ -91,10 +90,6 @@ type ContentDetail = AnimeInfoResponse | MangaInfoResponse | NovelInfoResponse;
 
 type EntityDetail = CharacterInfoResponse | PersonInfoResponse;
 
-type EntityType =
-    | typeof ContentTypeEnum.CHARACTER
-    | typeof ContentTypeEnum.PERSON;
-
 type ContentDetailData<T extends MainContentTypeEnum> = {
     [K in T]: ContentInfo<K>;
 } & { nsfwConsented: boolean };
@@ -118,8 +113,6 @@ export async function loadContentDetail<T extends MainContentTypeEnum>(
         : undefined;
 
     let content = await ensureOr404(() => queryClient.ensureQueryData(options));
-
-    if (!content) throw notFound();
 
     if (!session) {
         content = cacheWithoutRestrictedExternal(
@@ -168,8 +161,6 @@ export async function loadEntityDetail<T extends EntityType>(
             contentInfoOptions<EntityType>(type, slug, apiClient),
         ),
     );
-
-    if (!entity) throw notFound();
 
     await userValues;
 

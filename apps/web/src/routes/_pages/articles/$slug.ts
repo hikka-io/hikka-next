@@ -1,4 +1,4 @@
-import { createFileRoute, notFound } from '@tanstack/react-router';
+import { createFileRoute } from '@tanstack/react-router';
 
 import { type ArticleCategoryEnum, getArticleOptions } from '@hikka/api';
 
@@ -16,8 +16,6 @@ export const Route = createFileRoute('/_pages/articles/$slug')({
                 getArticleOptions({ path: { slug }, client: apiClient }),
             ),
         );
-
-        if (!article) throw notFound();
 
         return { article };
     },

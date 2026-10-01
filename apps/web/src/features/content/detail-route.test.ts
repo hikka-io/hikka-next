@@ -500,7 +500,7 @@ describe.each(Object.keys(CONTENT_ROUTES) as (keyof typeof CONTENT_ROUTES)[])(
             expect(settled).toBe(true);
         });
 
-        it('maps a 404 and an empty info response to notFound', async () => {
+        it('maps a 404 to notFound', async () => {
             const infoId = {
                 anime: 'animeSlug',
                 manga: 'mangaInfo',
@@ -513,9 +513,6 @@ describe.each(Object.keys(CONTENT_ROUTES) as (keyof typeof CONTENT_ROUTES)[])(
             });
 
             await expect(missing).rejects.toSatisfy(isNotFound);
-            await expect(runLoader(route, null, 'anonymous')).rejects.toSatisfy(
-                isNotFound,
-            );
         });
     },
 );
