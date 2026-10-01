@@ -22,6 +22,7 @@ import {
     ResponsiveModal,
     ResponsiveModalContent,
 } from '@/components/ui/responsive-modal';
+import { Skeleton } from '@/components/ui/skeleton';
 import { CollectionListModal } from '@/features/collections';
 import { useCloseOnRouteChange } from '@/services/hooks/use-close-on-route-change';
 import { useVisibleOnce } from '@/services/hooks/use-visible-once';
@@ -84,7 +85,11 @@ const UserCollections: FC<Props> = ({ className }) => {
                                         </Button>
                                     )}
                                 </HeaderContainer>
-                                {collections && <HeaderNavButton />}
+                                {isPending ? (
+                                    <Skeleton className="size-8 rounded-md" />
+                                ) : (
+                                    <HeaderNavButton />
+                                )}
                             </Header>
 
                             <div className="flex flex-col gap-6">
