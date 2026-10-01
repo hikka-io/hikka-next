@@ -15,7 +15,7 @@ import {
 import { LIST_STATUS } from '@/utils/labels/enum-labels';
 
 import { fact, into, joinFacts, outOf, status, value } from './fact-builder';
-import { formatHistoryDate } from './history-dates';
+import { formatHistoryDate, isSameHistoryDay } from './history-dates';
 import type { HistoryFact, HistoryIcon, HistoryMedium } from './types';
 
 type Unit = 'episodes' | 'chapters' | 'volumes';
@@ -34,14 +34,26 @@ export type ListEntryData = {
     new_read?: boolean;
 };
 
-export type ListEntryTotals = Partial<Record<Unit, number | null>>;
+type ListEntryTotals = Partial<Record<Unit, number | null>>;
+
+export type ListEntryContext = {
+    totals: ListEntryTotals;
+    recordedAt: number[];
+    timeZone?: string;
+};
 
 type Step = { fact: HistoryFact; icon: HistoryIcon };
 
-const UNITS: Record<Unit, { forms: WordForms; genitive: string }> = {
-    episodes: { forms: EPISODE_FORMS, genitive: 'епізоду' },
-    chapters: { forms: CHAPTER_FORMS, genitive: 'розділу' },
-    volumes: { forms: VOLUME_FORMS, genitive: 'тому' },
+const UNITS: Record<Unit, { forms: WordForms; genitive: WordForms }> = {
+    episodes: {
+        forms: EPISODE_FORMS,
+        genitive: ['епізоду', 'епізодів', 'епізодів'],
+    },
+    chapters: {
+        forms: CHAPTER_FORMS,
+        genitive: ['розділу', 'розділів', 'розділів'],
+    },
+    volumes: { forms: VOLUME_FORMS, genitive: ['тому', 'томів', 'томів'] },
 };
 
 const MEDIUMS = {
@@ -119,7 +131,7 @@ function describeProgress(
 
     if (after < before) {
         return {
-            fact: fact`прогрес повернуто з ${value(before)} до ${value(after)} ${genitive}`,
+            fact: fact`прогрес повернуто з ${value(before)} до ${value(after)} ${getDeclensionWord(after, genitive)}`,
             icon: { kind: 'rollback' },
         };
     }
@@ -184,13 +196,18 @@ function describeRepeats(
 function describeDates(
     before: ListEntryState,
     after: ListEntryState,
-    timeZone?: string,
+    statusChanged: boolean,
+    { recordedAt, timeZone }: ListEntryContext,
 ): Step[] {
+    const impliedByStatus = (date: number) =>
+        statusChanged &&
+        recordedAt.some((at) => isSameHistoryDay(at, date, timeZone));
+
     return DATES.flatMap(({ key, set, removed }) => {
         const previous = before[key] ?? null;
         const next = after[key] ?? null;
 
-        if (previous === next) return [];
+        if (previous === next || (next && impliedByStatus(next))) return [];
 
         return {
             fact: next
@@ -217,8 +234,7 @@ const mergeSteps = (steps: Step[]): Step[] =>
 export function convertListEntry(
     medium: HistoryMedium,
     data: ListEntryData,
-    totals: ListEntryTotals,
-    timeZone?: string,
+    context: ListEntryContext,
 ): { icon: HistoryIcon; facts: HistoryFact[] } {
     const before = data.before ?? {};
     const after = data.after ?? {};
@@ -239,7 +255,7 @@ export function convertListEntry(
                 unit,
                 before[unit] ?? 0,
                 after[unit] ?? 0,
-                totals[unit] || null,
+                context.totals[unit] || null,
                 { verb: config.verb, isNew, completed },
             ) ?? [],
     );
@@ -253,7 +269,14 @@ export function convertListEntry(
             before[config.repeats] ?? 0,
             after[config.repeats] ?? 0,
         ),
-        ...(isNew ? [] : describeDates(before, after, timeZone)),
+        ...(isNew
+            ? []
+            : describeDates(
+                  before,
+                  after,
+                  Boolean(before.status && after.status !== before.status),
+                  context,
+              )),
     ].filter((step): step is Step => step !== null);
 
     if (steps.length === 0) {

@@ -158,8 +158,20 @@ describe('convertHistory: progress', () => {
     it('rolls progress back', () => {
         const entry = convert(watch({ episodes: 12 }, { episodes: 10 }));
 
-        expect(lines(entry)).toEqual(['Прогрес повернуто з 12 до 10 епізоду']);
+        expect(lines(entry)).toEqual(['Прогрес повернуто з 12 до 10 епізодів']);
         expect(entry.icon).toEqual({ kind: 'rollback' });
+    });
+
+    it('declines the rollback target as a count', () => {
+        expect(lines(convert(watch({ episodes: 3 }, { episodes: 1 })))).toEqual(
+            ['Прогрес повернуто з 3 до 1 епізоду'],
+        );
+        expect(
+            lines(convert(watch({ episodes: 24 }, { episodes: 21 }))),
+        ).toEqual(['Прогрес повернуто з 24 до 21 епізоду']);
+        expect(lines(convert(read({ volumes: 5 }, { volumes: 2 })))).toEqual([
+            'Прогрес повернуто з 5 до 2 томів',
+        ]);
     });
 
     it('skips progress reset to zero', () => {
@@ -262,7 +274,7 @@ describe('convertHistory: progress', () => {
             'Прочитано томи 2–3 із 37',
         ]);
         expect(lines(convert(read({ chapters: 10 }, { chapters: 8 })))).toEqual(
-            ['Прогрес повернуто з 10 до 8 розділу'],
+            ['Прогрес повернуто з 10 до 8 розділів'],
         );
     });
 
@@ -385,6 +397,42 @@ describe('convertHistory: dates', () => {
         ).toEqual(['Дату закінчення прибрано']);
     });
 
+    it('skips a date the status change set on the same day', () => {
+        expect(
+            lines(
+                convert(
+                    watch(
+                        { status: 'watching', end_date: null },
+                        { status: 'completed', end_date: MAY_28 },
+                    ),
+                ),
+            ),
+        ).toEqual(['Перенесено з Дивлюсь в Завершено']);
+        expect(
+            lines(
+                convert(
+                    read(
+                        { status: 'planned', start_date: null },
+                        { status: 'reading', start_date: MAY_28 },
+                    ),
+                ),
+            ),
+        ).toEqual(['Перенесено із Заплановано в Читаю']);
+    });
+
+    it('keeps a date the status change set on another day', () => {
+        expect(
+            lines(
+                convert(
+                    watch(
+                        { status: 'watching', end_date: null },
+                        { status: 'completed', end_date: MAY_17 },
+                    ),
+                ),
+            ),
+        ).toEqual(['Перенесено з Дивлюсь в Завершено', 'закінчено 17 травня']);
+    });
+
     it('ignores the start date a new entry sets on its own', () => {
         expect(
             lines(
@@ -411,7 +459,7 @@ describe('convertHistory: dates', () => {
                 ),
             ),
         ).toEqual([
-            'Прогрес повернуто з 12 до 10 епізоду',
+            'Прогрес повернуто з 12 до 10 епізодів',
             'оцінку 8 прибрано',
             'почато 28 травня',
         ]);
@@ -462,13 +510,19 @@ describe('convertHistory: import', () => {
             lines(convert(history(HistoryTypeEnum.READ_IMPORT, data, null)));
 
         expect(readImport({ imported_manga: 42, imported_novel: 7 })).toEqual([
-            'Додано 42 манґи і 7 ранобе',
+            'Додано 42 манґи та 7 ранобе',
         ]);
         expect(readImport({ imported_manga: 42, imported_novel: 0 })).toEqual([
             'Додано 42 манґи',
         ]);
         expect(readImport({ imported_manga: 0, imported_novel: 7 })).toEqual([
             'Додано 7 ранобе',
+        ]);
+        expect(readImport({ imported_manga: 1, imported_novel: 0 })).toEqual([
+            'Додано 1 манґу',
+        ]);
+        expect(readImport({ imported_manga: 5, imported_novel: 2 })).toEqual([
+            'Додано 5 манґ та 2 ранобе',
         ]);
     });
 });
@@ -524,7 +578,7 @@ describe('convertHistory: typography', () => {
         ).facts;
 
         expect(progress.map((part) => part.text).join('')).toBe(
-            'Прогрес повернуто з\u00A012\u00A0до\u00A010\u00A0епізоду',
+            'Прогрес повернуто з\u00A012\u00A0до\u00A010\u00A0епізодів',
         );
         expect(progress.filter((part) => part.type === 'value')).toEqual([
             { type: 'value', text: '12' },

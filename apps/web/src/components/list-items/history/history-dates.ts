@@ -48,6 +48,9 @@ const previousDayKey = (key: string) => {
     return dayKey(Date.UTC(year, month - 1, day - 1), 'UTC');
 };
 
+export const isSameHistoryDay = (a: number, b: number, timeZone?: string) =>
+    dayKey(a * 1000, timeZone) === dayKey(b * 1000, timeZone);
+
 export const formatHistoryDate = (seconds: number, timeZone?: string) =>
     formatter('dayMonth', timeZone).format(seconds * 1000);
 

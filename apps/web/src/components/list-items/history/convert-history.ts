@@ -1,9 +1,11 @@
 import { type HistoryResponse, HistoryTypeEnum } from '@hikka/api';
 
+import { getDeclensionWord, type WordForms } from '@/utils/i18n/declension';
+
 import {
     convertListEntry,
+    type ListEntryContext,
     type ListEntryData,
-    type ListEntryTotals,
 } from './convert-list-entry';
 import {
     capitalizeFirst,
@@ -22,6 +24,9 @@ type ReadImportData = {
     overwrite?: boolean;
 };
 
+const MANGA_FORMS = ['манґу', 'манґи', 'манґ'] as const satisfies WordForms;
+const NOVEL_FORMS = ['ранобе', 'ранобе', 'ранобе'] as const satisfies WordForms;
+
 const WATCH_TYPES: HistoryTypeEnum[] = [
     HistoryTypeEnum.WATCH,
     HistoryTypeEnum.WATCH_DELETE,
@@ -33,7 +38,9 @@ const WATCH_TYPES: HistoryTypeEnum[] = [
 const getHistoryMedium = (type: HistoryTypeEnum): HistoryMedium =>
     WATCH_TYPES.includes(type) ? 'watch' : 'read';
 
-const getTotals = (content: HistoryResponse['content']): ListEntryTotals => {
+const getTotals = (
+    content: HistoryResponse['content'],
+): ListEntryContext['totals'] => {
     if (!content) return {};
     if (content.data_type === 'anime') {
         return { episodes: content.episodes_total };
@@ -56,15 +63,16 @@ function convertImport(
     }
 
     const counts = [
-        [data.imported_manga ?? 0, 'манґи'],
-        [data.imported_novel ?? 0, 'ранобе'],
+        [data.imported_manga ?? 0, MANGA_FORMS],
+        [data.imported_novel ?? 0, NOVEL_FORMS],
     ] as const;
     const imported = counts.filter(([count]) => count > 0);
     const parts = (imported.length ? imported : counts).map(
-        ([count, word]) => fact`${value(count)} ${word}`,
+        ([count, forms]) =>
+            fact`${value(count)} ${getDeclensionWord(count, forms)}`,
     );
 
-    return [fact`додано ${joinFacts(parts, ' і ')}`, ...overwrite];
+    return [fact`додано ${joinFacts(parts, ' та ')}`, ...overwrite];
 }
 
 function convertEntry(
@@ -87,8 +95,11 @@ function convertEntry(
             return convertListEntry(
                 getHistoryMedium(type),
                 history.data as ListEntryData,
-                getTotals(history.content),
-                timeZone,
+                {
+                    totals: getTotals(history.content),
+                    recordedAt: [history.created, history.updated],
+                    timeZone,
+                },
             );
         case HistoryTypeEnum.WATCH_IMPORT:
         case HistoryTypeEnum.READ_IMPORT:
