@@ -1,8 +1,8 @@
 import { createElement } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 
-import { hashKey, QueryClient } from '@tanstack/react-query';
-import { afterEach, beforeAll, describe, expect, it, vi } from 'vitest';
+import { hashKey } from '@tanstack/react-query';
+import { beforeAll, describe, expect, it } from 'vitest';
 
 import {
     type Client,
@@ -32,9 +32,6 @@ import {
     novelSearchSchema,
 } from '@/utils/search-schemas';
 
-import { Route as AnimeRoute } from '../../routes/_pages/anime/index';
-import { Route as MangaRoute } from '../../routes/_pages/manga/index';
-import { Route as NovelRoute } from '../../routes/_pages/novel/index';
 import {
     CATALOG_VIEW_KEY,
     catalogColumns,
@@ -48,30 +45,17 @@ import {
 } from './search-args';
 import { useCatalogView } from './use-catalog-view';
 
-const cookies = vi.hoisted(() => ({
-    uiPrefs: null as UiPreferences | null,
-    unreadable: false,
-}));
-
-vi.mock('@/utils/cookies/read', async (importOriginal) => ({
-    ...(await importOriginal<typeof import('@/utils/cookies/read')>()),
-    readUiPrefs: async () => {
-        if (cookies.unreadable) throw new Error('cookie read failed');
-        return cookies.uiPrefs;
-    },
-}));
-
 const BASE_URL = 'https://api.example.test';
 
 beforeAll(() => {
     configureBrowserClient({ baseUrl: BASE_URL });
 });
 
-afterEach(() => {
-    cookies.uiPrefs = null;
-    cookies.unreadable = false;
-    vi.unstubAllGlobals();
-});
+const requestClient = (): Client =>
+    createRequestClient({
+        baseUrl: BASE_URL,
+        internalBaseUrl: 'http://backend:8000',
+    });
 
 const prefs = (
     view: View | undefined,
@@ -192,53 +176,6 @@ function componentOptions(
     }
 }
 
-const ROUTES = {
-    [ContentTypeEnum.ANIME]: AnimeRoute,
-    [ContentTypeEnum.MANGA]: MangaRoute,
-    [ContentTypeEnum.NOVEL]: NovelRoute,
-};
-
-const requestClient = (): Client =>
-    createRequestClient({
-        baseUrl: BASE_URL,
-        internalBaseUrl: 'http://backend:8000',
-    });
-
-function fakeQueryClient() {
-    const calls: { method: string; hash: string }[] = [];
-    let resolvePrefetch!: () => void;
-    const prefetched = new Promise<void>((resolve) => {
-        resolvePrefetch = resolve;
-    });
-
-    const queryClient = new QueryClient();
-    Object.assign(queryClient, {
-        prefetchInfiniteQuery: vi.fn(
-            (options: { queryKey: readonly unknown[] }) => {
-                calls.push({
-                    method: 'prefetch',
-                    hash: hashKey(options.queryKey),
-                });
-                return prefetched;
-            },
-        ),
-    });
-
-    return { queryClient, calls, resolvePrefetch };
-}
-
-const runLoader = (
-    type: MainContentTypeEnum,
-    ctx: { queryClient: QueryClient; search: object; preload?: boolean },
-) =>
-    (ROUTES[type].options.loader as (ctx: unknown) => Promise<unknown>)({
-        deps: ctx.search,
-        preload: ctx.preload ?? false,
-        context: { queryClient: ctx.queryClient, apiClient: requestClient() },
-    });
-
-const flush = () => new Promise((resolve) => setTimeout(resolve, 0));
-
 describe('catalog page size', () => {
     it.each(LAYOUTS)('$name', ({ prefs, columns, size }) => {
         expect(catalogColumns(prefs, CATALOG_VIEW_KEY)).toBe(columns);
@@ -320,151 +257,5 @@ describe('catalogSearchOptions', () => {
         const options = catalogSearchOptions(type, search, 20);
 
         expect(options.initialPageParam).toBe(3);
-    });
-});
-
-describe('catalog route loaders', () => {
-    const cases = TYPES.flatMap((type) =>
-        LAYOUTS.map((layout) => ({ type, ...layout })),
-    );
-
-    it.each(cases)(
-        'awaits the component key prefetch on the server: $type, $name',
-        async ({ type, prefs }) => {
-            vi.stubGlobal('window', undefined);
-            cookies.uiPrefs = prefs;
-            const { queryClient, calls, resolvePrefetch } = fakeQueryClient();
-            const search = parseSearch(type, RAW_SEARCH);
-
-            let settled = false;
-            const result = runLoader(type, { queryClient, search }).then(() => {
-                settled = true;
-            });
-
-            await flush();
-            expect(calls).toEqual([
-                {
-                    method: 'prefetch',
-                    hash: hashKey(
-                        componentOptions(
-                            type,
-                            RAW_SEARCH,
-                            catalogPageSize(prefs, CATALOG_VIEW_KEY),
-                        ).queryKey,
-                    ),
-                },
-            ]);
-            expect(settled).toBe(false);
-
-            resolvePrefetch();
-            await result;
-            expect(settled).toBe(true);
-        },
-    );
-
-    it.each(TYPES)(
-        'renders the page when the server fetch fails: %s',
-        async (type) => {
-            vi.stubGlobal('window', undefined);
-            const queryClient = new QueryClient();
-            Object.assign(queryClient, {
-                fetchInfiniteQuery: vi.fn(async () => {
-                    throw new Error('backend down');
-                }),
-            });
-
-            await expect(
-                runLoader(type, {
-                    queryClient,
-                    search: parseSearch(type, RAW_SEARCH),
-                }),
-            ).resolves.toBeUndefined();
-        },
-    );
-
-    it.each(TYPES)(
-        'renders the page when the ui prefs cannot be read: %s',
-        async (type) => {
-            vi.stubGlobal('window', undefined);
-            cookies.unreadable = true;
-            const { queryClient, calls } = fakeQueryClient();
-
-            await expect(
-                runLoader(type, {
-                    queryClient,
-                    search: parseSearch(type, RAW_SEARCH),
-                }),
-            ).resolves.toBeUndefined();
-            expect(calls).toEqual([]);
-        },
-    );
-
-    it.each(TYPES)(
-        'skips the client prefetch when the ui prefs cannot be read: %s',
-        async (type) => {
-            cookies.unreadable = true;
-            const { queryClient, calls } = fakeQueryClient();
-
-            await expect(
-                runLoader(type, {
-                    queryClient,
-                    search: parseSearch(type, RAW_SEARCH),
-                }),
-            ).resolves.toBeUndefined();
-            await flush();
-            expect(calls).toEqual([]);
-        },
-    );
-
-    it.each(cases)(
-        'prefetches without blocking on the client: $type, $name',
-        async ({ type, prefs }) => {
-            cookies.uiPrefs = prefs;
-            const { queryClient, calls } = fakeQueryClient();
-            const search = parseSearch(type, RAW_SEARCH);
-
-            await expect(
-                runLoader(type, { queryClient, search }),
-            ).resolves.toBeUndefined();
-            expect(calls).toEqual([
-                {
-                    method: 'prefetch',
-                    hash: hashKey(
-                        componentOptions(
-                            type,
-                            RAW_SEARCH,
-                            catalogPageSize(prefs, CATALOG_VIEW_KEY),
-                        ).queryKey,
-                    ),
-                },
-            ]);
-        },
-    );
-
-    it.each(TYPES)('skips a preload: %s', async (type) => {
-        const { queryClient, calls } = fakeQueryClient();
-
-        await runLoader(type, {
-            queryClient,
-            search: parseSearch(type, RAW_SEARCH),
-            preload: true,
-        });
-        vi.stubGlobal('window', undefined);
-        await runLoader(type, {
-            queryClient,
-            search: parseSearch(type, RAW_SEARCH),
-            preload: true,
-        });
-
-        expect(calls).toEqual([]);
-    });
-
-    it.each(TYPES)('keys the loader deps on the search: %s', (type) => {
-        const loaderDeps = ROUTES[type].options.loaderDeps as (ctx: {
-            search: object;
-        }) => unknown;
-        const search = parseSearch(type, RAW_SEARCH);
-
-        expect(loaderDeps({ search })).toEqual(search);
     });
 });

@@ -2,16 +2,11 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { configureBrowserClient, setAuthToken } from '@hikka/api';
 
-import { readAuthToken, readNsfwConsent, readUiPrefs } from './read';
+import { readAuthToken, readNsfwConsent } from './read';
 
 const server = vi.hoisted(() => ({
     getAuthTokenFn: vi.fn(async () => 'server-token' as string | null),
     getNsfwConsentFn: vi.fn(async () => '1' as string | null),
-    getUiPrefsCookieFn: vi.fn(async () => ({
-        views: { catalog: 'grid' },
-        filters: {},
-        collapsibles: {},
-    })),
 }));
 
 vi.mock('./server', () => server);
@@ -106,40 +101,5 @@ describe('readNsfwConsent', () => {
 
         await expect(readNsfwConsent()).resolves.toBe('1');
         expect(server.getNsfwConsentFn).toHaveBeenCalledTimes(1);
-    });
-});
-
-describe('readUiPrefs', () => {
-    it('parses the ui-prefs cookie from the document in the browser', async () => {
-        const value = { views: { catalog: 'list' }, filters: {} };
-        setDocumentCookie(
-            `ui-prefs=${encodeURIComponent(JSON.stringify(value))}`,
-        );
-
-        await expect(readUiPrefs()).resolves.toStrictEqual({
-            views: { catalog: 'list' },
-            filters: {},
-            collapsibles: {},
-        });
-        expect(server.getUiPrefsCookieFn).not.toHaveBeenCalled();
-    });
-
-    it('returns null in the browser when the cookie is absent or malformed', async () => {
-        await expect(readUiPrefs()).resolves.toBeNull();
-
-        setDocumentCookie('ui-prefs=%7Bnot-json');
-
-        await expect(readUiPrefs()).resolves.toBeNull();
-    });
-
-    it('uses the server function on the server', async () => {
-        vi.stubGlobal('window', undefined);
-
-        await expect(readUiPrefs()).resolves.toStrictEqual({
-            views: { catalog: 'grid' },
-            filters: {},
-            collapsibles: {},
-        });
-        expect(server.getUiPrefsCookieFn).toHaveBeenCalledTimes(1);
     });
 });

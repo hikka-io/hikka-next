@@ -3,8 +3,7 @@ import { getAuthToken } from '@hikka/api';
 import { isServer } from '@/utils/is-server';
 
 import { COOKIE } from './constants';
-import { getAuthTokenFn, getNsfwConsentFn, getUiPrefsCookieFn } from './server';
-import { parseUiPrefs, type UiPreferences } from './ui-prefs';
+import { getAuthTokenFn, getNsfwConsentFn } from './server';
 
 function readDocumentCookie(name: string): string | null {
     const prefix = `${name}=`;
@@ -26,10 +25,4 @@ export async function readNsfwConsent(): Promise<string | null> {
     if (isServer()) return getNsfwConsentFn();
 
     return readDocumentCookie(COOKIE.nsfwConsent.name);
-}
-
-export async function readUiPrefs(): Promise<UiPreferences | null> {
-    if (isServer()) return getUiPrefsCookieFn();
-
-    return parseUiPrefs(readDocumentCookie(COOKIE.uiPrefs.name));
 }

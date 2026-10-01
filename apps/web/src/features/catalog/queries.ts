@@ -17,10 +17,8 @@ import {
     searchNovelInfiniteOptions,
 } from '@hikka/api';
 
-import { awaitOnServer, type LoaderContext } from '@/utils/api/loader-prefetch';
 import {
     CATALOG_FILTERS_SIDEBAR_KEY,
-    readUiPrefs,
     type UiPreferences,
 } from '@/utils/cookies';
 import type {
@@ -141,43 +139,4 @@ export function catalogSearchOptions(
     client?: Client,
 ): CatalogSearchOptions {
     return catalogSearchQuery(contentType, search, size, client).options;
-}
-
-async function prefetchCatalogFirstPage(
-    contentType: MainContentTypeEnum,
-    search: CatalogSearch,
-    { queryClient, apiClient }: LoaderContext,
-) {
-    let prefs: UiPreferences | null;
-    try {
-        prefs = await readUiPrefs();
-    } catch {
-        return;
-    }
-
-    await queryClient.prefetchInfiniteQuery(
-        catalogSearchOptions(
-            contentType,
-            search,
-            catalogPageSize(prefs, CATALOG_VIEW_KEY),
-            apiClient,
-        ),
-    );
-}
-
-export async function loadCatalogFirstPage(
-    {
-        contentType,
-        search,
-        preload,
-    }: {
-        contentType: MainContentTypeEnum;
-        search: CatalogSearch;
-        preload: boolean;
-    },
-    ctx: LoaderContext,
-) {
-    if (preload) return;
-
-    await awaitOnServer([prefetchCatalogFirstPage(contentType, search, ctx)]);
 }

@@ -4,19 +4,12 @@ import { zodValidator } from '@tanstack/zod-adapter';
 import { ContentTypeEnum } from '@hikka/api';
 
 import { CatalogPage } from '@/features/catalog';
-import { loadCatalogFirstPage } from '@/features/catalog/queries';
 import { generateHeadMeta } from '@/utils/metadata';
 import { novelSearchSchema } from '@/utils/search-schemas';
 import { SITE_ORIGIN } from '@/utils/url';
 
 export const Route = createFileRoute('/_pages/novel/')({
     validateSearch: zodValidator(novelSearchSchema),
-    loaderDeps: ({ search }) => search,
-    loader: ({ context, deps, preload }) =>
-        loadCatalogFirstPage(
-            { contentType: ContentTypeEnum.NOVEL, search: deps, preload },
-            context,
-        ),
     head: () =>
         generateHeadMeta({
             title: 'Ранобе',
