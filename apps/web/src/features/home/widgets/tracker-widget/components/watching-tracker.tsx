@@ -28,6 +28,7 @@ import { Link, useRouter } from '@/utils/navigation';
 import { getTitle } from '@/utils/title/get-title';
 
 import { homeWatchingOptions } from '../../../queries';
+import ProgressTrackerSkeleton from './progress-tracker-skeleton';
 import ProgressTrackerView from './progress-tracker-view';
 
 type PendingWatch = {
@@ -46,10 +47,10 @@ const WatchingTracker = () => {
     const [selectedSlug, setSelectedSlug] = useState<string>();
     const [pending, setPending] = useState<PendingWatch | null>(null);
 
-    const { list, ref, isFetchingNextPage, hasNextPage } = useInfiniteList(
-        homeWatchingOptions(String(loggedUser?.username)),
-        { enabled: Boolean(loggedUser?.username) },
-    );
+    const { list, ref, isFetchingNextPage, hasNextPage, isPending } =
+        useInfiniteList(homeWatchingOptions(String(loggedUser?.username)), {
+            enabled: Boolean(loggedUser?.username),
+        });
 
     const selectedWatch =
         list?.find((item) => item.anime.slug === selectedSlug) || list?.[0];
@@ -148,6 +149,10 @@ const WatchingTracker = () => {
             { onSuccess: () => invalidateWatchLists(args.episodes !== total) },
         );
     }, [debouncedPending, mutateCreateWatch, invalidateWatchLists]);
+
+    if (isPending) {
+        return <ProgressTrackerSkeleton />;
+    }
 
     if (!list || list.length === 0) {
         return (

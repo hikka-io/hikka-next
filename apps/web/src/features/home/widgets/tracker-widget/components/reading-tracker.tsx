@@ -29,6 +29,7 @@ import { getMediaTypeLabel } from '@/utils/labels';
 import { Link, useRouter } from '@/utils/navigation';
 import { getTitle } from '@/utils/title/get-title';
 
+import ProgressTrackerSkeleton from './progress-tracker-skeleton';
 import ProgressTrackerView from './progress-tracker-view';
 
 const CONTENT_TYPE_CONFIG = {
@@ -66,19 +67,20 @@ const ReadingTracker = ({ contentType }: ReadingTrackerProps) => {
     // the `ContentTypeEnum.MANGA | NOVEL` values are identical strings.
     const apiContentType = contentType as unknown as ReadContentTypeEnum;
 
-    const { list, ref, isFetchingNextPage, hasNextPage } = useInfiniteList(
-        userReadListInfiniteOptions({
-            path: {
-                content_type: apiContentType,
-                username: String(loggedUser?.username),
-            },
-            body: {
-                read_status: ReadStatusEnum.READING,
-                sort: ['read_updated:desc'],
-            },
-        }),
-        { enabled: Boolean(loggedUser?.username) },
-    );
+    const { list, ref, isFetchingNextPage, hasNextPage, isPending } =
+        useInfiniteList(
+            userReadListInfiniteOptions({
+                path: {
+                    content_type: apiContentType,
+                    username: String(loggedUser?.username),
+                },
+                body: {
+                    read_status: ReadStatusEnum.READING,
+                    sort: ['read_updated:desc'],
+                },
+            }),
+            { enabled: Boolean(loggedUser?.username) },
+        );
 
     const selectedRead =
         list?.find((item) => item.content.slug === selectedSlug) || list?.[0];
@@ -183,6 +185,10 @@ const ReadingTracker = ({ contentType }: ReadingTrackerProps) => {
         apiContentType,
         invalidateReadLists,
     ]);
+
+    if (isPending) {
+        return <ProgressTrackerSkeleton />;
+    }
 
     if (!list || list.length === 0) {
         return (
