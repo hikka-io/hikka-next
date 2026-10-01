@@ -1,15 +1,21 @@
 import type { FC } from 'react';
 
-import { Skeleton } from '@/components/ui/skeleton';
+import { Skeleton, SkeletonText } from '@/components/ui/skeleton';
 
 const NotificationItemSkeleton: FC = () => {
     return (
-        <div className="flex gap-3 px-3 py-2.5">
-            <Skeleton className="size-10 shrink-0 rounded-full" />
-            <div className="flex flex-1 flex-col gap-2">
-                <Skeleton className="h-3.5 w-32" />
-                <Skeleton className="h-3 w-full" />
-                <Skeleton className="h-2.5 w-20 opacity-60" />
+        <div className="flex gap-3 border-border border-t border-l-4 border-l-transparent px-3 py-2.5 first:border-t-0">
+            <Skeleton className="size-10 shrink-0 rounded-md" />
+            <div className="flex min-w-0 flex-1 flex-col gap-1">
+                <SkeletonText
+                    className="text-sm leading-tight"
+                    barClassName="w-32"
+                />
+                <SkeletonText
+                    className="text-xs leading-relaxed"
+                    barClassName="w-full"
+                />
+                <SkeletonText className="text-xs" barClassName="w-20" />
             </div>
         </div>
     );

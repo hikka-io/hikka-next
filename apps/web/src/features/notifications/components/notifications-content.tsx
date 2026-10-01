@@ -1,6 +1,7 @@
 import { type FC, Fragment, type Ref } from 'react';
 
 import LoadMoreButton from '@/components/load-more-button';
+import { SkeletonText } from '@/components/ui/skeleton';
 
 import type { Notification } from '../types';
 import type { GroupedNotifications } from '../utils/group-notifications-by-day';
@@ -30,6 +31,9 @@ const SECTION_ORDER: (keyof GroupedNotifications)[] = [
     'earlier',
 ];
 
+const SECTION_LABEL_CLASSNAME =
+    'border-border border-b surface-inset px-3 py-1.5 font-medium text-muted-foreground text-xs';
+
 const NotificationsContent: FC<Props> = ({
     normalized,
     grouped,
@@ -43,6 +47,9 @@ const NotificationsContent: FC<Props> = ({
         <div className="no-scrollbar -m-4 flex h-full flex-1 flex-col overflow-y-auto md:m-0">
             {normalized === undefined ? (
                 <>
+                    <div className={SECTION_LABEL_CLASSNAME}>
+                        <SkeletonText barClassName="w-16" />
+                    </div>
                     <NotificationItemSkeleton />
                     <NotificationItemSkeleton />
                     <NotificationItemSkeleton />
@@ -55,7 +62,7 @@ const NotificationsContent: FC<Props> = ({
                     if (items.length === 0) return null;
                     return (
                         <Fragment key={sectionKey}>
-                            <div className="border-border border-b surface-inset px-3 py-1.5 font-medium text-muted-foreground text-xs">
+                            <div className={SECTION_LABEL_CLASSNAME}>
                                 {SECTION_LABELS[sectionKey]}
                             </div>
                             {items.map((item) => (
