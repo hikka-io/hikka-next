@@ -273,7 +273,15 @@ const LegacySection = ({ type, extended }: SectionProps) => {
     const list = rawList as Item[] | undefined;
 
     if (isPending) {
-        return <FavoriteSkeleton extended={extended} />;
+        return (
+            <FavoriteSkeleton
+                extended={extended}
+                subtitles={
+                    type !== ContentTypeEnum.CHARACTER &&
+                    type !== ContentTypeEnum.PERSON
+                }
+            />
+        );
     }
 
     if (!list && !extended) {

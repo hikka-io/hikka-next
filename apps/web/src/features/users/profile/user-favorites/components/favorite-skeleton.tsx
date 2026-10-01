@@ -10,9 +10,10 @@ import { DEFAULT_PAGE_SIZE, FAVOURITES_PREVIEW_SIZE } from '../../../queries';
 type Props = {
     extended?: boolean;
     total?: number;
+    subtitles?: boolean;
 };
 
-const FavoriteSkeleton: FC<Props> = ({ extended, total }) => {
+const FavoriteSkeleton: FC<Props> = ({ extended, total, subtitles }) => {
     const size = extended ? DEFAULT_PAGE_SIZE : FAVOURITES_PREVIEW_SIZE;
     const count = Math.min(total || size, size);
 
@@ -24,7 +25,7 @@ const FavoriteSkeleton: FC<Props> = ({ extended, total }) => {
             className="grid-min-10"
         >
             {range(0, count).map((index) => (
-                <SkeletonCard key={index} />
+                <SkeletonCard key={index} subtitles={subtitles} />
             ))}
         </Stack>
     );

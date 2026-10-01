@@ -167,7 +167,16 @@ const FavoriteSection: FC<Props> = ({ type, extended, total }) => {
     const list = rawList as FavoriteItem[] | undefined;
 
     if (isPending) {
-        return <FavoriteSkeleton extended={extended} total={total} />;
+        return (
+            <FavoriteSkeleton
+                extended={extended}
+                total={total}
+                subtitles={
+                    type !== ContentTypeEnum.CHARACTER &&
+                    type !== ContentTypeEnum.PERSON
+                }
+            />
+        );
     }
 
     if (!list && !extended) {
