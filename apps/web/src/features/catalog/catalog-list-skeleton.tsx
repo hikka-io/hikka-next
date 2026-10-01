@@ -6,13 +6,14 @@ import PosterCardSkeleton from '@/components/content-card/poster-card-skeleton';
 import Stack, { type StackSize } from '@/components/ui/stack';
 
 type Props = {
+    count: number;
     extendedSize?: StackSize;
 };
 
-const CatalogListSkeleton: FC<Props> = ({ extendedSize = 5 }) => {
+const CatalogListSkeleton: FC<Props> = ({ count, extendedSize = 5 }) => {
     return (
         <Stack extended size={5} extendedSize={extendedSize}>
-            {range(1, 20).map((v) => (
+            {range(0, count).map((v) => (
                 <PosterCardSkeleton key={v} />
             ))}
         </Stack>

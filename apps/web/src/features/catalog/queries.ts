@@ -35,6 +35,9 @@ import {
 
 export const CATALOG_VIEW_KEY = 'catalog';
 
+/** The search endpoints' default `size`, which the list view relies on. */
+export const SEARCH_DEFAULT_PAGE_SIZE = 15;
+
 export type CatalogItems = {
     [ContentTypeEnum.ANIME]: AnimeResponseWithWatch;
     [ContentTypeEnum.MANGA]: MangaResponseWithRead;

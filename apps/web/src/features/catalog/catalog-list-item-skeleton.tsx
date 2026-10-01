@@ -15,11 +15,14 @@ const CatalogListItemSkeleton: FC = () => {
                 </div>
                 <div className="flex min-w-0 flex-1 flex-col gap-4 md:flex-row md:items-stretch">
                     <div className="flex min-w-0 flex-1 flex-col justify-start gap-3 md:justify-center">
-                        <Skeleton className="h-4 w-2/3 rounded-lg" />
-                        <Skeleton className="h-3 w-1/2 rounded-lg" />
-                        <div className="flex gap-2">
-                            <Skeleton className="h-6 w-16 rounded-md" />
-                            <Skeleton className="h-6 w-16 rounded-md" />
+                        <Skeleton className="h-4.5 w-2/3 rounded-lg" />
+                        <div className="flex h-11 flex-col justify-center gap-2 md:h-6">
+                            <Skeleton className="h-3 w-1/2 rounded-lg" />
+                            <Skeleton className="h-3 w-1/3 rounded-lg md:hidden" />
+                        </div>
+                        <div className="flex gap-1.5">
+                            <Skeleton className="h-5.5 w-16 rounded-sm" />
+                            <Skeleton className="h-5.5 w-16 rounded-sm" />
                         </div>
                     </div>
                     <Separator

@@ -97,6 +97,7 @@ const CatalogList: FC<Props> = ({
             pagination={pagination}
             removeQueryKey={queryKey}
             extendedSize={extendedSize}
+            pageSize={pageSize}
             renderGridItem={renderers.renderGridItem}
             renderListItem={(item) =>
                 renderers.renderListItem(

@@ -1,5 +1,6 @@
 import type { FC } from 'react';
 
+import { Skeleton } from '@/components/ui/skeleton';
 import { ActiveFilters, useActiveFilters } from '@/features/filters';
 import { cn } from '@/utils/cn';
 import { APP_LOCALE_TAG } from '@/utils/i18n/locale';
@@ -22,7 +23,7 @@ const CatalogSummary: FC<Props> = ({ total, isLoading, className }) => {
         >
             <div className="shrink-0 text-muted-foreground text-sm">
                 {isLoading ? (
-                    <span className="inline-block h-4 w-40 animate-pulse rounded bg-secondary/40" />
+                    <Skeleton className="my-0.5 h-4 w-48" />
                 ) : (
                     <>
                         Знайдено{' '}

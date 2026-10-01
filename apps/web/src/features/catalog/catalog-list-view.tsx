@@ -11,6 +11,7 @@ import type { View } from '@/utils/cookies';
 
 import CatalogListItemSkeleton from './catalog-list-item-skeleton';
 import CatalogListSkeleton from './catalog-list-skeleton';
+import { SEARCH_DEFAULT_PAGE_SIZE } from './queries';
 
 type Props<T> = {
     list: T[] | undefined;
@@ -25,6 +26,7 @@ type Props<T> = {
     renderGridItem: (item: T) => ReactNode;
     renderListItem: (item: T) => ReactNode;
     extendedSize?: StackSize;
+    pageSize?: number;
 };
 
 function CatalogListView<T>({
@@ -40,18 +42,21 @@ function CatalogListView<T>({
     renderGridItem,
     renderListItem,
     extendedSize = 5,
+    pageSize = SEARCH_DEFAULT_PAGE_SIZE,
 }: Props<T>) {
     if (isLoading && !isFetchingNextPage) {
         if (view === 'list') {
             return (
                 <div className="flex flex-col max-md:[&>*+*]:-mt-px md:gap-6">
-                    {range(1, 7).map((v) => (
+                    {range(0, pageSize).map((v) => (
                         <CatalogListItemSkeleton key={v} />
                     ))}
                 </div>
             );
         }
-        return <CatalogListSkeleton extendedSize={extendedSize} />;
+        return (
+            <CatalogListSkeleton count={pageSize} extendedSize={extendedSize} />
+        );
     }
 
     if (list === undefined || list.length === 0) {

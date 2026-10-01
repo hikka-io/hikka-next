@@ -477,7 +477,7 @@ const EXPECTED_COMPONENTS: Record<
         queryKey:
             '[{"_id":"searchAnime","baseUrl":"https://api.example.test","_infinite":true,"body":{"query":"<undefined>","media_type":[],"status":["ongoing"],"season":[],"rating":[],"years":[],"genres":[],"studios":[],"score":"<undefined>","only_translated":false,"sort":["score:desc","scored_by:desc"]},"query":{"size":28,"page":2}}]',
         viewProps:
-            '{"list":"<undefined>","view":"grid","isLoading":"<undefined>","isFetchingNextPage":"<undefined>","hasNextPage":"<undefined>","fetchNextPage":"<undefined>","hasMultiplePages":false,"pagination":"<undefined>","extendedSize":7}',
+            '{"list":"<undefined>","view":"grid","isLoading":"<undefined>","isFetchingNextPage":"<undefined>","hasNextPage":"<undefined>","fetchNextPage":"<undefined>","hasMultiplePages":false,"pagination":"<undefined>","extendedSize":7,"pageSize":28}',
         grid: 'AnimeCard key=anime-slug {"item":{"slug":"anime-slug","data_type":"anime","title_ua":"Аніме","title_en":"Anime EN","title_ja":"Anime JA"}}',
         list: 'CatalogListItem key=anime-slug {"item":{"slug":"anime-slug","data_type":"anime","title_ua":"Аніме","title_en":"Anime EN","title_ja":"Anime JA"},"title":"Anime EN","type":"anime"}',
         summary: '[{"total":"<undefined>","isLoading":"<undefined>"}]',
@@ -486,7 +486,7 @@ const EXPECTED_COMPONENTS: Record<
         queryKey:
             '[{"_id":"searchAnime","baseUrl":"https://api.example.test","_infinite":true,"body":{"query":"<undefined>","media_type":[],"status":["ongoing"],"season":[],"rating":[],"years":[],"genres":[],"studios":[],"score":"<undefined>","only_translated":false,"sort":["score:desc","scored_by:desc"]},"query":{"size":"<undefined>","page":2}}]',
         viewProps:
-            '{"list":"<undefined>","view":"list","isLoading":"<undefined>","isFetchingNextPage":"<undefined>","hasNextPage":"<undefined>","fetchNextPage":"<undefined>","hasMultiplePages":false,"pagination":"<undefined>","extendedSize":1}',
+            '{"list":"<undefined>","view":"list","isLoading":"<undefined>","isFetchingNextPage":"<undefined>","hasNextPage":"<undefined>","fetchNextPage":"<undefined>","hasMultiplePages":false,"pagination":"<undefined>","extendedSize":1,"pageSize":"<undefined>"}',
         grid: 'AnimeCard key=anime-slug {"item":{"slug":"anime-slug","data_type":"anime","title_ua":"Аніме","title_en":"Anime EN","title_ja":"Anime JA"}}',
         list: 'CatalogListItem key=anime-slug {"item":{"slug":"anime-slug","data_type":"anime","title_ua":"Аніме","title_en":"Anime EN","title_ja":"Anime JA"},"title":"Anime EN","type":"anime"}',
         summary: '[{"total":"<undefined>","isLoading":"<undefined>"}]',
@@ -495,7 +495,7 @@ const EXPECTED_COMPONENTS: Record<
         queryKey:
             '[{"_id":"searchAnime","baseUrl":"https://api.example.test","_infinite":true,"body":{"query":"<undefined>","media_type":[],"status":["ongoing"],"season":[],"rating":[],"years":[],"genres":[],"studios":[],"score":"<undefined>","only_translated":false,"sort":["score:desc","scored_by:desc"]},"query":{"size":"<undefined>","page":2}}]',
         viewProps:
-            '{"list":"<undefined>","view":"grid","isLoading":"<undefined>","isFetchingNextPage":"<undefined>","hasNextPage":"<undefined>","fetchNextPage":"<undefined>","hasMultiplePages":false,"pagination":"<undefined>","extendedSize":5}',
+            '{"list":"<undefined>","view":"grid","isLoading":"<undefined>","isFetchingNextPage":"<undefined>","hasNextPage":"<undefined>","fetchNextPage":"<undefined>","hasMultiplePages":false,"pagination":"<undefined>","extendedSize":5,"pageSize":"<undefined>"}',
         grid: 'AnimeCard key=anime-slug {"item":{"slug":"anime-slug","data_type":"anime","title_ua":"Аніме","title_en":"Anime EN","title_ja":"Anime JA"}}',
         list: 'CatalogListItem key=anime-slug {"item":{"slug":"anime-slug","data_type":"anime","title_ua":"Аніме","title_en":"Anime EN","title_ja":"Anime JA"},"title":"Anime EN","type":"anime"}',
         summary: '[{"total":"<undefined>","isLoading":"<undefined>"}]',
@@ -504,7 +504,7 @@ const EXPECTED_COMPONENTS: Record<
         queryKey:
             '[{"_id":"searchManga","baseUrl":"https://api.example.test","_infinite":true,"body":{"query":"<undefined>","media_type":[],"status":["ongoing"],"years":[],"genres":[],"score":"<undefined>","only_translated":false,"sort":["score:desc","scored_by:desc"]},"query":{"size":28,"page":2}}]',
         viewProps:
-            '{"list":"<undefined>","view":"grid","isLoading":"<undefined>","isFetchingNextPage":"<undefined>","hasNextPage":"<undefined>","fetchNextPage":"<undefined>","hasMultiplePages":false,"pagination":"<undefined>","extendedSize":7}',
+            '{"list":"<undefined>","view":"grid","isLoading":"<undefined>","isFetchingNextPage":"<undefined>","hasNextPage":"<undefined>","fetchNextPage":"<undefined>","hasMultiplePages":false,"pagination":"<undefined>","extendedSize":7,"pageSize":28}',
         grid: 'MangaCard key=manga-slug {"item":{"slug":"manga-slug","data_type":"manga","title_ua":"Манґа","title_en":null,"title_original":"Manga Original"}}',
         list: 'CatalogListItem key=manga-slug {"item":{"slug":"manga-slug","data_type":"manga","title_ua":"Манґа","title_en":null,"title_original":"Manga Original"},"title":"Манґа","type":"manga"}',
         summary: '[{"total":"<undefined>","isLoading":"<undefined>"}]',
@@ -513,7 +513,7 @@ const EXPECTED_COMPONENTS: Record<
         queryKey:
             '[{"_id":"searchManga","baseUrl":"https://api.example.test","_infinite":true,"body":{"query":"<undefined>","media_type":[],"status":["ongoing"],"years":[],"genres":[],"score":"<undefined>","only_translated":false,"sort":["score:desc","scored_by:desc"]},"query":{"size":"<undefined>","page":2}}]',
         viewProps:
-            '{"list":"<undefined>","view":"list","isLoading":"<undefined>","isFetchingNextPage":"<undefined>","hasNextPage":"<undefined>","fetchNextPage":"<undefined>","hasMultiplePages":false,"pagination":"<undefined>","extendedSize":1}',
+            '{"list":"<undefined>","view":"list","isLoading":"<undefined>","isFetchingNextPage":"<undefined>","hasNextPage":"<undefined>","fetchNextPage":"<undefined>","hasMultiplePages":false,"pagination":"<undefined>","extendedSize":1,"pageSize":"<undefined>"}',
         grid: 'MangaCard key=manga-slug {"item":{"slug":"manga-slug","data_type":"manga","title_ua":"Манґа","title_en":null,"title_original":"Manga Original"}}',
         list: 'CatalogListItem key=manga-slug {"item":{"slug":"manga-slug","data_type":"manga","title_ua":"Манґа","title_en":null,"title_original":"Manga Original"},"title":"Манґа","type":"manga"}',
         summary: '[{"total":"<undefined>","isLoading":"<undefined>"}]',
@@ -522,7 +522,7 @@ const EXPECTED_COMPONENTS: Record<
         queryKey:
             '[{"_id":"searchManga","baseUrl":"https://api.example.test","_infinite":true,"body":{"query":"<undefined>","media_type":[],"status":["ongoing"],"years":[],"genres":[],"score":"<undefined>","only_translated":false,"sort":["score:desc","scored_by:desc"]},"query":{"size":"<undefined>","page":2}}]',
         viewProps:
-            '{"list":"<undefined>","view":"grid","isLoading":"<undefined>","isFetchingNextPage":"<undefined>","hasNextPage":"<undefined>","fetchNextPage":"<undefined>","hasMultiplePages":false,"pagination":"<undefined>","extendedSize":5}',
+            '{"list":"<undefined>","view":"grid","isLoading":"<undefined>","isFetchingNextPage":"<undefined>","hasNextPage":"<undefined>","fetchNextPage":"<undefined>","hasMultiplePages":false,"pagination":"<undefined>","extendedSize":5,"pageSize":"<undefined>"}',
         grid: 'MangaCard key=manga-slug {"item":{"slug":"manga-slug","data_type":"manga","title_ua":"Манґа","title_en":null,"title_original":"Manga Original"}}',
         list: 'CatalogListItem key=manga-slug {"item":{"slug":"manga-slug","data_type":"manga","title_ua":"Манґа","title_en":null,"title_original":"Manga Original"},"title":"Манґа","type":"manga"}',
         summary: '[{"total":"<undefined>","isLoading":"<undefined>"}]',
@@ -531,7 +531,7 @@ const EXPECTED_COMPONENTS: Record<
         queryKey:
             '[{"_id":"searchNovel","baseUrl":"https://api.example.test","_infinite":true,"body":{"query":"<undefined>","media_type":[],"status":["ongoing"],"years":[],"genres":[],"score":"<undefined>","only_translated":false,"sort":["score:desc","scored_by:desc"]},"query":{"size":28,"page":2}}]',
         viewProps:
-            '{"list":"<undefined>","view":"grid","isLoading":"<undefined>","isFetchingNextPage":"<undefined>","hasNextPage":"<undefined>","fetchNextPage":"<undefined>","hasMultiplePages":false,"pagination":"<undefined>","extendedSize":7}',
+            '{"list":"<undefined>","view":"grid","isLoading":"<undefined>","isFetchingNextPage":"<undefined>","hasNextPage":"<undefined>","fetchNextPage":"<undefined>","hasMultiplePages":false,"pagination":"<undefined>","extendedSize":7,"pageSize":28}',
         grid: 'NovelCard key=novel-slug {"item":{"slug":"novel-slug","data_type":"novel","title_ua":"Ранобе","title_en":"Novel EN","title_original":"Novel Original"}}',
         list: 'CatalogListItem key=novel-slug {"item":{"slug":"novel-slug","data_type":"novel","title_ua":"Ранобе","title_en":"Novel EN","title_original":"Novel Original"},"title":"Novel EN","type":"novel"}',
         summary: '[{"total":"<undefined>","isLoading":"<undefined>"}]',
@@ -540,7 +540,7 @@ const EXPECTED_COMPONENTS: Record<
         queryKey:
             '[{"_id":"searchNovel","baseUrl":"https://api.example.test","_infinite":true,"body":{"query":"<undefined>","media_type":[],"status":["ongoing"],"years":[],"genres":[],"score":"<undefined>","only_translated":false,"sort":["score:desc","scored_by:desc"]},"query":{"size":"<undefined>","page":2}}]',
         viewProps:
-            '{"list":"<undefined>","view":"list","isLoading":"<undefined>","isFetchingNextPage":"<undefined>","hasNextPage":"<undefined>","fetchNextPage":"<undefined>","hasMultiplePages":false,"pagination":"<undefined>","extendedSize":1}',
+            '{"list":"<undefined>","view":"list","isLoading":"<undefined>","isFetchingNextPage":"<undefined>","hasNextPage":"<undefined>","fetchNextPage":"<undefined>","hasMultiplePages":false,"pagination":"<undefined>","extendedSize":1,"pageSize":"<undefined>"}',
         grid: 'NovelCard key=novel-slug {"item":{"slug":"novel-slug","data_type":"novel","title_ua":"Ранобе","title_en":"Novel EN","title_original":"Novel Original"}}',
         list: 'CatalogListItem key=novel-slug {"item":{"slug":"novel-slug","data_type":"novel","title_ua":"Ранобе","title_en":"Novel EN","title_original":"Novel Original"},"title":"Novel EN","type":"novel"}',
         summary: '[{"total":"<undefined>","isLoading":"<undefined>"}]',
@@ -549,7 +549,7 @@ const EXPECTED_COMPONENTS: Record<
         queryKey:
             '[{"_id":"searchNovel","baseUrl":"https://api.example.test","_infinite":true,"body":{"query":"<undefined>","media_type":[],"status":["ongoing"],"years":[],"genres":[],"score":"<undefined>","only_translated":false,"sort":["score:desc","scored_by:desc"]},"query":{"size":"<undefined>","page":2}}]',
         viewProps:
-            '{"list":"<undefined>","view":"grid","isLoading":"<undefined>","isFetchingNextPage":"<undefined>","hasNextPage":"<undefined>","fetchNextPage":"<undefined>","hasMultiplePages":false,"pagination":"<undefined>","extendedSize":5}',
+            '{"list":"<undefined>","view":"grid","isLoading":"<undefined>","isFetchingNextPage":"<undefined>","hasNextPage":"<undefined>","fetchNextPage":"<undefined>","hasMultiplePages":false,"pagination":"<undefined>","extendedSize":5,"pageSize":"<undefined>"}',
         grid: 'NovelCard key=novel-slug {"item":{"slug":"novel-slug","data_type":"novel","title_ua":"Ранобе","title_en":"Novel EN","title_original":"Novel Original"}}',
         list: 'CatalogListItem key=novel-slug {"item":{"slug":"novel-slug","data_type":"novel","title_ua":"Ранобе","title_en":"Novel EN","title_original":"Novel Original"},"title":"Novel EN","type":"novel"}',
         summary: '[{"total":"<undefined>","isLoading":"<undefined>"}]',
@@ -703,6 +703,7 @@ describe('CatalogList and CatalogListSummary', () => {
                 'pagination',
                 'removeQueryKey',
                 'extendedSize',
+                'pageSize',
                 'renderGridItem',
                 'renderListItem',
             ]);
