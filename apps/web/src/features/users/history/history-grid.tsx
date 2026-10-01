@@ -52,7 +52,7 @@ const HistoryGrid: FC<Props> = ({ source }) => {
                 {isPending &&
                     range(0, SKELETON_COUNT).map((index) => (
                         <Card key={index}>
-                            <HistoryItemSkeleton />
+                            <HistoryItemSkeleton withUser={isFollowing} />
                         </Card>
                     ))}
                 {list?.map((item, index) => (

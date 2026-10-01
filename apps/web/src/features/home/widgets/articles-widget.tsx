@@ -117,7 +117,10 @@ const ArticlesWidget: FC<WidgetProps> = () => {
                 <div className="flex flex-col px-2">
                     {isLoading &&
                         range(0, HOME_ARTICLES_SIZE).map((i) => (
-                            <ArticlePreviewCardSkeleton key={i} />
+                            <ArticlePreviewCardSkeleton
+                                key={i}
+                                titleLines={1}
+                            />
                         ))}
 
                     {!isLoading &&
