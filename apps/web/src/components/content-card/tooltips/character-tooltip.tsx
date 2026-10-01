@@ -1,12 +1,16 @@
 import { type FC, memo, type PropsWithChildren, type ReactNode } from 'react';
 
-import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 
-import { ContentTypeEnum, characterInfoOptions } from '@hikka/api';
+import { ContentTypeEnum } from '@hikka/api';
 
 import { MDViewer } from '@/components/markdown';
 import { useTitle } from '@/services/session';
-import { entityAppearanceOptions } from '@/utils/api/content-queries';
+import {
+    contentInfoOptions,
+    entityAppearanceOptions,
+} from '@/utils/api/content-queries';
+import { useInfiniteList } from '@/utils/api/use-infinite-list';
 
 import PosterCard from '../poster-card';
 import HoverCardWrapper from './hover-card-wrapper';
@@ -21,16 +25,17 @@ type Props = PropsWithChildren & {
 };
 
 const TooltipData: FC<TooltipDataProps> = ({ slug }) => {
-    const { data } = useQuery(characterInfoOptions({ path: { slug } }));
-    // biome-ignore lint/plugin/no-raw-infinite-query: reads only the first page, under the preview key the character page already fetches
-    const { data: characterAnimeData } = useInfiniteQuery(
+    const { data } = useQuery(
+        contentInfoOptions(ContentTypeEnum.CHARACTER, slug),
+    );
+    const { list: characterAnimeList } = useInfiniteList(
         entityAppearanceOptions(ContentTypeEnum.CHARACTER, 'anime', slug, {
             preview: true,
         }),
     );
 
-    const characterAnime = characterAnimeData?.pages[0]?.list
-        .slice()
+    const characterAnime = characterAnimeList
+        ?.slice()
         .sort((a, b) => b.anime.score - a.anime.score)[0];
 
     const name = useTitle(data);

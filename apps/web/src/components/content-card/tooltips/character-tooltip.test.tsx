@@ -110,6 +110,65 @@ describe('CharacterTooltip anime poster', () => {
         unmount();
     });
 
+    it('never loads a further appearance page', async () => {
+        const queryClient = new QueryClient({
+            defaultOptions: { queries: { staleTime: Infinity } },
+        });
+        queryClient.setQueryData(
+            characterInfoOptions({ path: { slug: SLUG } }).queryKey,
+            {
+                slug: SLUG,
+                image: null,
+                description_ua: 'Опис',
+            } as unknown as CharacterCountResponse,
+        );
+        queryClient.setQueryData(
+            entityAppearanceOptions(ContentTypeEnum.CHARACTER, 'anime', SLUG, {
+                preview: true,
+            }).queryKey,
+            {
+                pages: [
+                    {
+                        list: [anime('first', 7)],
+                        pagination: { page: 1, pages: 3, total: 9 },
+                    },
+                ],
+                pageParams: [1],
+            },
+        );
+
+        const { container, unmount } = renderTooltip(queryClient);
+        await act(() => new Promise((resolve) => setTimeout(resolve, 10)));
+
+        const hrefs = [...container.querySelectorAll('a')].map((a) =>
+            a.getAttribute('href'),
+        );
+        expect(hrefs).toContain('/anime/first');
+        expect(
+            queryClient
+                .getQueryCache()
+                .getAll()
+                .map((query) => [
+                    query.getObserversCount(),
+                    query.state.fetchStatus,
+                ]),
+        ).toEqual([
+            [1, 'idle'],
+            [1, 'idle'],
+        ]);
+        expect(
+            queryClient.getQueryData<{ pages: unknown[] }>(
+                entityAppearanceOptions(
+                    ContentTypeEnum.CHARACTER,
+                    'anime',
+                    SLUG,
+                    { preview: true },
+                ).queryKey,
+            )?.pages,
+        ).toHaveLength(1);
+        unmount();
+    });
+
     it('requests only the preview-sized first page', () => {
         expect(
             entityAppearanceOptions(ContentTypeEnum.CHARACTER, 'anime', SLUG, {
