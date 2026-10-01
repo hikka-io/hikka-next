@@ -428,6 +428,28 @@ export function invalidateSession(
     return invalidateByIds(queryClient, SESSION_IDS, options);
 }
 
+// Queries whose response depends on the viewer; the anonymous content info also lacks the restricted links.
+const SESSION_DEPENDENT_IDS: readonly QueryId[] = [
+    'animeSlug',
+    'mangaInfo',
+    'novelInfo',
+    'watchGet',
+    'readGet',
+    'getFavourite',
+    'getVote',
+    ...WATCH_EMBED_IDS,
+    ...READ_EMBED_IDS,
+    ...COMMENT_LIST_IDS,
+    ...FOLLOW_EMBED_SET,
+];
+
+/** After a login: refetch the on-screen per-viewer queries and stale-mark the rest. */
+export function invalidateSessionDependentQueries(
+    queryClient: QueryClient,
+): Promise<void> {
+    return invalidateByIds(queryClient, SESSION_DEPENDENT_IDS);
+}
+
 // Queries that embed a user's avatar; stale-marked so a changed avatar shows on the next mount.
 const AVATAR_EMBED_IDS: readonly QueryId[] = [
     ...COMMENT_LIST_IDS,

@@ -19,6 +19,7 @@ import {
     invalidateNotifications,
     invalidateReadState,
     invalidateSession,
+    invalidateSessionDependentQueries,
     invalidateUserClients,
     invalidateUserProfile,
     invalidateWatchState,
@@ -110,6 +111,19 @@ const AVATAR_EMBED_IDS = [
     'followingList',
     'followersList',
 ];
+const SESSION_DEPENDENT_IDS = [
+    'animeSlug',
+    'mangaInfo',
+    'novelInfo',
+    'watchGet',
+    'readGet',
+    'getFavourite',
+    'getVote',
+    ...WATCH_EMBED_IDS,
+    ...READ_EMBED_IDS,
+    ...COMMENT_LIST_IDS,
+    ...FOLLOW_EMBED_IDS,
+];
 const CONTENT_DETAIL_IDS = [
     'animeSlug',
     'mangaInfo',
@@ -184,12 +198,13 @@ describe('invalidation registry ids', () => {
             'unseenNotificationsCount',
             'listUserClients',
             'userProfile',
+            ...SESSION_DEPENDENT_IDS,
         ]);
         const drifted = [...registered].filter(
             (id) => builders[`${id}QueryKey`]?.()[0]._id !== id,
         );
 
-        expect(registered.size).toBe(56);
+        expect(registered.size).toBe(60);
         expect(drifted).toEqual([]);
     });
 });
@@ -246,6 +261,11 @@ describe('invalidation helpers', () => {
             'invalidateSession',
             (queryClient) => invalidateSession(queryClient),
             [expected(['profile'])],
+        ],
+        [
+            'invalidateSessionDependentQueries',
+            (queryClient) => invalidateSessionDependentQueries(queryClient),
+            [expected(SESSION_DEPENDENT_IDS)],
         ],
         [
             'invalidateAuthTokens',
