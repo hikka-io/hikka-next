@@ -18,7 +18,6 @@ import HistoryRow, { type HistorySize } from './history-row';
 type Props = {
     data: HistoryResponse;
     size: HistorySize;
-    compact?: boolean;
     withUser?: boolean;
     timeZone?: string;
 };
@@ -28,13 +27,7 @@ const IMPORT_TITLES: Partial<Record<HistoryTypeEnum, string>> = {
     [HistoryTypeEnum.READ_IMPORT]: 'Імпорт манґи та ранобе',
 };
 
-const HistoryItem: FC<Props> = ({
-    data,
-    size,
-    compact,
-    withUser,
-    timeZone,
-}) => {
+const HistoryItem: FC<Props> = ({ data, size, withUser, timeZone }) => {
     const title = useTitle(data.content);
     const entry = convertHistory(data, timeZone);
 
@@ -78,7 +71,7 @@ const HistoryItem: FC<Props> = ({
                 </time>
             </div>
             <HistoryFacts
-                facts={compact ? entry.facts.slice(0, 1) : entry.facts}
+                facts={entry.facts}
                 className={cn(size === 'lg' && 'md:text-sm')}
             />
         </HistoryRow>

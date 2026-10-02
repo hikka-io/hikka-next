@@ -17,7 +17,6 @@ const SERVER_TIME_ZONE = 'Europe/Kyiv';
 type Props = {
     items: HistoryResponse[];
     size?: HistorySize;
-    compact?: boolean;
     withUser?: boolean;
     className?: string;
 };
@@ -25,7 +24,6 @@ type Props = {
 const HistoryTimeline: FC<Props> = ({
     items,
     size = 'default',
-    compact,
     withUser,
     className,
 }) => {
@@ -54,7 +52,6 @@ const HistoryTimeline: FC<Props> = ({
                                 key={item.reference}
                                 data={item}
                                 size={size}
-                                compact={compact}
                                 withUser={withUser}
                                 timeZone={timeZone}
                             />
