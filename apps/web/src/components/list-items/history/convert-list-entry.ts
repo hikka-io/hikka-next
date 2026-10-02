@@ -92,7 +92,7 @@ function describeStatus(
     medium: HistoryMedium,
     before: ListEntryState,
     after: ListEntryState,
-    isNew: boolean,
+    { isNew, withProgress }: { isNew: boolean; withProgress: boolean },
 ): Step | null {
     if (!after.status || after.status === before.status) return null;
 
@@ -100,7 +100,12 @@ function describeStatus(
     const next = statusLabel(medium, after.status);
 
     if (isNew || !before.status) {
-        return { fact: fact`додано ${into(next)} ${status(next)}`, icon };
+        return {
+            fact: withProgress
+                ? fact`${status(next)}`
+                : fact`додано ${into(next)} ${status(next)}`,
+            icon,
+        };
     }
 
     const previous = statusLabel(medium, before.status);
@@ -138,7 +143,12 @@ function describeProgress(
 
     if (completed && after === total) {
         if (total === 1) return null;
-        return { fact: fact`усі ${value(after)} ${word}`, icon: progress };
+        return {
+            fact: isNew
+                ? fact`всі ${value(after)} ${word}`
+                : fact`${verb} всі ${value(after)} ${word}`,
+            icon: progress,
+        };
     }
 
     if (isNew) {
@@ -218,14 +228,14 @@ function describeDates(
     });
 }
 
-const mergeSteps = (steps: Step[]): Step[] =>
-    steps.length > 1
+const joinNewProgress = (steps: Step[], verb: string): Step[] =>
+    steps.length > 0
         ? [
               {
-                  fact: joinFacts(
+                  fact: fact`${verb} ${joinFacts(
                       steps.map((step) => step.fact),
                       ', ',
-                  ),
+                  )}`,
                   icon: steps[0].icon,
               },
           ]
@@ -261,8 +271,11 @@ export function convertListEntry(
     );
 
     const steps = [
-        describeStatus(medium, before, after, isNew),
-        ...(isNew ? mergeSteps(progress) : progress),
+        describeStatus(medium, before, after, {
+            isNew,
+            withProgress: progress.length > 0,
+        }),
+        ...(isNew ? joinNewProgress(progress, config.verb) : progress),
         describeScore(before.score ?? 0, after.score ?? 0, isNew),
         describeRepeats(
             medium,

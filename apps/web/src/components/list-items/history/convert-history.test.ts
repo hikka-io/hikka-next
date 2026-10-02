@@ -193,7 +193,7 @@ describe('convertHistory: progress', () => {
                     ),
                 ),
             ),
-        ).toEqual(['Додано в Завершено', '3 епізоди', 'оцінка 7']);
+        ).toEqual(['Завершено', 'переглянуто 3 епізоди', 'оцінка 7']);
         expect(
             lines(
                 convert(
@@ -202,10 +202,10 @@ describe('convertHistory: progress', () => {
                     }),
                 ),
             ),
-        ).toEqual(['Додано в Дивлюсь', '5 епізодів з 28']);
+        ).toEqual(['Дивлюсь', 'переглянуто 5 епізодів з 28']);
     });
 
-    it('says "усі" when a completed entry reaches the total', () => {
+    it('says "всі" when a completed entry reaches the total', () => {
         expect(
             lines(
                 convert(
@@ -217,7 +217,7 @@ describe('convertHistory: progress', () => {
                     ),
                 ),
             ),
-        ).toEqual(['Додано в Завершено', 'усі 24 епізоди']);
+        ).toEqual(['Завершено', 'переглянуто всі 24 епізоди']);
         expect(
             lines(
                 convert(
@@ -228,7 +228,10 @@ describe('convertHistory: progress', () => {
                     ),
                 ),
             ),
-        ).toEqual(['Перенесено із Заплановано в Завершено', 'усі 12 епізодів']);
+        ).toEqual([
+            'Перенесено із Заплановано в Завершено',
+            'переглянуто всі 12 епізодів',
+        ]);
     });
 
     it('skips the count of a completed single-episode title', () => {
@@ -297,8 +300,8 @@ describe('convertHistory: progress', () => {
                 ),
             ),
         ).toEqual([
-            'Додано в Заплановано',
-            '20 розділів, 3 томи',
+            'Заплановано',
+            'прочитано 20 розділів, 3 томи',
             'оцінка 8',
             'перечитано 1 раз',
         ]);
