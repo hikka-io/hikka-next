@@ -1,4 +1,9 @@
-import { format, isSameYear, type Locale } from 'date-fns';
+import {
+    format,
+    formatDistanceStrict,
+    isSameYear,
+    type Locale,
+} from 'date-fns';
 
 import { APP_LOCALE } from './locale';
 
@@ -57,3 +62,13 @@ export const formatTimestamp = (
 
     return { label, full, iso };
 };
+
+export const formatTimeAgo = (
+    unixSeconds: number,
+    nowMs: number,
+    locale: Locale = APP_LOCALE,
+) =>
+    formatDistanceStrict(unixSeconds * 1000, nowMs, {
+        addSuffix: true,
+        locale,
+    });

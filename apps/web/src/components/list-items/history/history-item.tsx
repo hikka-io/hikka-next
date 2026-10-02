@@ -4,9 +4,15 @@ import { type HistoryResponse, HistoryTypeEnum } from '@hikka/api';
 
 import { labelVariants } from '@/components/ui/label';
 import TextLink from '@/components/ui/text-link';
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipTrigger,
+} from '@/components/ui/tooltip';
 import { useTitle } from '@/services/session';
 import { cn } from '@/utils/cn';
 import { contentPath } from '@/utils/content-paths';
+import { formatTimeAgo } from '@/utils/i18n/relative-time';
 
 import { convertHistory } from './convert-history';
 import { formatHistoryTime } from './history-dates';
@@ -62,13 +68,24 @@ const HistoryItem: FC<Props> = ({ data, size, withUser, timeZone }) => {
                 >
                     {title || IMPORT_TITLES[data.history_type] || 'Загальне'}
                 </TextLink>
-                <time
-                    dateTime={new Date(data.created * 1000).toISOString()}
-                    className="ml-auto shrink-0 text-muted-foreground text-xs tabular-nums opacity-60"
-                    suppressHydrationWarning
-                >
-                    {formatHistoryTime(data.created, timeZone)}
-                </time>
+                <Tooltip>
+                    <TooltipTrigger
+                        render={
+                            <time
+                                dateTime={new Date(
+                                    data.created * 1000,
+                                ).toISOString()}
+                                className="ml-auto shrink-0 text-muted-foreground text-xs tabular-nums opacity-60"
+                                suppressHydrationWarning
+                            />
+                        }
+                    >
+                        {formatHistoryTime(data.created, timeZone)}
+                    </TooltipTrigger>
+                    <TooltipContent>
+                        {formatTimeAgo(data.created, Date.now())}
+                    </TooltipContent>
+                </Tooltip>
             </div>
             <HistoryFacts
                 facts={entry.facts}
