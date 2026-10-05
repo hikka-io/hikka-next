@@ -1,8 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
-import { createFileRoute } from '@tanstack/react-router';
+import { createFileRoute, redirect } from '@tanstack/react-router';
 
-import type { GetCollectionResponse } from '@hikka/api';
-import { getCollectionOptions, getCollectionQueryKey } from '@hikka/api';
+import { getCollectionOptions, UserRoleEnum } from '@hikka/api';
 
 import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
@@ -14,20 +13,31 @@ import {
 } from '@/features/collections';
 import CollectionProvider from '@/services/providers/collection-provider';
 import type { CollectionState } from '@/services/stores/collection-store';
-import { requireOwner } from '@/utils/auth';
+import { retryOnCancel } from '@/utils/api/retry-on-cancel';
+import { requireAuth } from '@/utils/auth';
 import { generateHeadMeta } from '@/utils/metadata';
 
 export const Route = createFileRoute('/_pages/collections/$reference/update')({
-    beforeLoad: async ({ params, context: { queryClient } }) => {
-        const collection = queryClient.getQueryData<GetCollectionResponse>(
-            getCollectionQueryKey({ path: { reference: params.reference } }),
-        );
+    beforeLoad: async ({ params, context: { queryClient, apiClient } }) => {
+        const session = requireAuth(queryClient);
 
-        requireOwner(
-            queryClient,
-            collection?.author?.username ?? '',
-            `/collections/${params.reference}`,
-        );
+        // beforeLoad runs before the parent loader, so the cache may be empty
+        const collection = await retryOnCancel(() =>
+            queryClient.ensureQueryData(
+                getCollectionOptions({
+                    path: { reference: params.reference },
+                    client: apiClient,
+                }),
+            ),
+        ).catch(() => undefined);
+
+        const isPrivileged =
+            session.role === UserRoleEnum.ADMIN ||
+            session.role === UserRoleEnum.MODERATOR;
+
+        if (!collection?.my_role && !isPrivileged) {
+            throw redirect({ to: `/collections/${params.reference}` });
+        }
     },
     head: () =>
         generateHeadMeta({

@@ -1,4 +1,4 @@
-import { type FC, useEffect } from 'react';
+import { type FC, useEffect, useRef } from 'react';
 
 import { useQuery } from '@tanstack/react-query';
 
@@ -27,8 +27,11 @@ const CollectionGroups: FC<Props> = ({ mode = 'create' }) => {
         enabled: mode === 'edit',
     });
 
+    const hydrated = useRef(false);
+
     useEffect(() => {
-        if (data) {
+        if (data && !hydrated.current) {
+            hydrated.current = true;
             setApiData(data as Parameters<typeof setApiData>[0]);
         }
     }, [data]);

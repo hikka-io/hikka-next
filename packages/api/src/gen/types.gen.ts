@@ -1698,6 +1698,12 @@ export type CollectionArgs = {
      * Nsfw
      */
     nsfw: boolean;
+    /**
+     * Updated
+     *
+     * Unix timestamp the client started editing from
+     */
+    updated?: number | null;
 };
 
 /**
@@ -1768,6 +1774,63 @@ export type CollectionContentTypeEnum =
     (typeof CollectionContentTypeEnum)[keyof typeof CollectionContentTypeEnum];
 
 /**
+ * CollectionMemberResponse
+ */
+export type CollectionMemberResponse = {
+    status: CollectionMemberStatusEnum;
+    role: CollectionMemberRoleEnum;
+    invited_by: UserResponse | null;
+    /**
+     * Owner Offered At
+     */
+    owner_offered_at: number | null;
+    /**
+     * Created
+     */
+    created: number;
+    user: UserResponse;
+};
+
+/**
+ * CollectionMemberRoleEnum
+ */
+export const CollectionMemberRoleEnum = {
+    OWNER: 'owner',
+    EDITOR: 'editor',
+} as const;
+
+/**
+ * CollectionMemberRoleEnum
+ */
+export type CollectionMemberRoleEnum =
+    (typeof CollectionMemberRoleEnum)[keyof typeof CollectionMemberRoleEnum];
+
+/**
+ * CollectionMemberStatusEnum
+ */
+export const CollectionMemberStatusEnum = {
+    PENDING: 'pending',
+    ACCEPTED: 'accepted',
+} as const;
+
+/**
+ * CollectionMemberStatusEnum
+ */
+export type CollectionMemberStatusEnum =
+    (typeof CollectionMemberStatusEnum)[keyof typeof CollectionMemberStatusEnum];
+
+/**
+ * CollectionMembersResponse
+ */
+export type CollectionMembersResponse = {
+    pagination: PaginationResponse;
+    /**
+     * List
+     */
+    list: Array<CollectionMemberResponse>;
+};
+
+/**
  * CollectionResponse
  */
 export type CollectionResponse = {
@@ -1810,6 +1873,7 @@ export type CollectionResponse = {
      * Reference
      */
     reference: string;
+    my_role: CollectionMemberRoleEnum | null;
     /**
      * My Score
      */
@@ -2831,6 +2895,7 @@ export type FavouriteCollectionResponse = {
      * Reference
      */
     reference: string;
+    my_role: CollectionMemberRoleEnum | null;
     /**
      * My Score
      */
@@ -4233,6 +4298,8 @@ export const NotificationTypeEnum = {
     SCHEDULE_ANIME: 'schedule_anime',
     FOLLOW: 'follow',
     THIRDPARTY_LOGIN: 'thirdparty_login',
+    COLLECTION_INVITE: 'collection_invite',
+    COLLECTION_OWNER: 'collection_owner',
 } as const;
 
 /**
@@ -7305,6 +7372,293 @@ export type UpdateCollectionResponses = {
 
 export type UpdateCollectionResponse =
     UpdateCollectionResponses[keyof UpdateCollectionResponses];
+
+export type GetCollectionMembersData = {
+    body?: never;
+    headers?: {
+        /**
+         * Auth
+         */
+        auth?: string | null;
+    };
+    path: {
+        /**
+         * Reference
+         */
+        reference: string;
+    };
+    query?: {
+        /**
+         * Page
+         */
+        page?: number;
+        /**
+         * Size
+         */
+        size?: number;
+    };
+    url: '/collections/{reference}/members';
+};
+
+export type GetCollectionMembersErrors = {
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type GetCollectionMembersError =
+    GetCollectionMembersErrors[keyof GetCollectionMembersErrors];
+
+export type GetCollectionMembersResponses = {
+    /**
+     * Successful Response
+     */
+    200: CollectionMembersResponse;
+};
+
+export type GetCollectionMembersResponse =
+    GetCollectionMembersResponses[keyof GetCollectionMembersResponses];
+
+export type AcceptCollectionInviteData = {
+    body?: never;
+    headers?: {
+        /**
+         * Auth
+         */
+        auth?: string | null;
+    };
+    path: {
+        /**
+         * Reference
+         */
+        reference: string;
+    };
+    query?: never;
+    url: '/collections/{reference}/members/accept';
+};
+
+export type AcceptCollectionInviteErrors = {
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type AcceptCollectionInviteError =
+    AcceptCollectionInviteErrors[keyof AcceptCollectionInviteErrors];
+
+export type AcceptCollectionInviteResponses = {
+    /**
+     * Successful Response
+     */
+    200: CollectionMemberResponse;
+};
+
+export type AcceptCollectionInviteResponse =
+    AcceptCollectionInviteResponses[keyof AcceptCollectionInviteResponses];
+
+export type DeleteCollectionMemberData = {
+    body?: never;
+    headers?: {
+        /**
+         * Auth
+         */
+        auth?: string | null;
+    };
+    path: {
+        /**
+         * Reference
+         */
+        reference: string;
+        /**
+         * Username
+         */
+        username: string;
+    };
+    query?: never;
+    url: '/collections/{reference}/members/{username}';
+};
+
+export type DeleteCollectionMemberErrors = {
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type DeleteCollectionMemberError =
+    DeleteCollectionMemberErrors[keyof DeleteCollectionMemberErrors];
+
+export type DeleteCollectionMemberResponses = {
+    /**
+     * Successful Response
+     */
+    200: SuccessResponse;
+};
+
+export type DeleteCollectionMemberResponse =
+    DeleteCollectionMemberResponses[keyof DeleteCollectionMemberResponses];
+
+export type InviteCollectionMemberData = {
+    body?: never;
+    headers?: {
+        /**
+         * Auth
+         */
+        auth?: string | null;
+    };
+    path: {
+        /**
+         * Reference
+         */
+        reference: string;
+        /**
+         * Username
+         */
+        username: string;
+    };
+    query?: never;
+    url: '/collections/{reference}/members/{username}';
+};
+
+export type InviteCollectionMemberErrors = {
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type InviteCollectionMemberError =
+    InviteCollectionMemberErrors[keyof InviteCollectionMemberErrors];
+
+export type InviteCollectionMemberResponses = {
+    /**
+     * Successful Response
+     */
+    200: CollectionMemberResponse;
+};
+
+export type InviteCollectionMemberResponse =
+    InviteCollectionMemberResponses[keyof InviteCollectionMemberResponses];
+
+export type AcceptCollectionOwnershipData = {
+    body?: never;
+    headers?: {
+        /**
+         * Auth
+         */
+        auth?: string | null;
+    };
+    path: {
+        /**
+         * Reference
+         */
+        reference: string;
+    };
+    query?: never;
+    url: '/collections/{reference}/owner/accept';
+};
+
+export type AcceptCollectionOwnershipErrors = {
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type AcceptCollectionOwnershipError =
+    AcceptCollectionOwnershipErrors[keyof AcceptCollectionOwnershipErrors];
+
+export type AcceptCollectionOwnershipResponses = {
+    /**
+     * Successful Response
+     */
+    200: SuccessResponse;
+};
+
+export type AcceptCollectionOwnershipResponse =
+    AcceptCollectionOwnershipResponses[keyof AcceptCollectionOwnershipResponses];
+
+export type OfferCollectionOwnershipData = {
+    body?: never;
+    headers?: {
+        /**
+         * Auth
+         */
+        auth?: string | null;
+    };
+    path: {
+        /**
+         * Reference
+         */
+        reference: string;
+        /**
+         * Username
+         */
+        username: string;
+    };
+    query?: never;
+    url: '/collections/{reference}/owner/{username}';
+};
+
+export type OfferCollectionOwnershipErrors = {
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type OfferCollectionOwnershipError =
+    OfferCollectionOwnershipErrors[keyof OfferCollectionOwnershipErrors];
+
+export type OfferCollectionOwnershipResponses = {
+    /**
+     * Successful Response
+     */
+    200: CollectionMemberResponse;
+};
+
+export type OfferCollectionOwnershipResponse =
+    OfferCollectionOwnershipResponses[keyof OfferCollectionOwnershipResponses];
+
+export type CancelCollectionOwnershipOfferData = {
+    body?: never;
+    headers?: {
+        /**
+         * Auth
+         */
+        auth?: string | null;
+    };
+    path: {
+        /**
+         * Reference
+         */
+        reference: string;
+    };
+    query?: never;
+    url: '/collections/{reference}/owner';
+};
+
+export type CancelCollectionOwnershipOfferErrors = {
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type CancelCollectionOwnershipOfferError =
+    CancelCollectionOwnershipOfferErrors[keyof CancelCollectionOwnershipOfferErrors];
+
+export type CancelCollectionOwnershipOfferResponses = {
+    /**
+     * Successful Response
+     */
+    200: SuccessResponse;
+};
+
+export type CancelCollectionOwnershipOfferResponse =
+    CancelCollectionOwnershipOfferResponses[keyof CancelCollectionOwnershipOfferResponses];
 
 export type CharacterInfoData = {
     body?: never;

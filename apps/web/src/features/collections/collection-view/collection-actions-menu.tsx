@@ -1,12 +1,13 @@
 import { type FC, useState } from 'react';
 
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
-import { deleteCollectionMutation, getCollectionOptions } from '@hikka/api';
+import { deleteCollectionMutation } from '@hikka/api';
 
 import MaterialSymbolsDeleteForeverRounded from '@/components/icons/material-symbols/MaterialSymbolsDeleteForeverRounded';
 import MaterialSymbolsEditRounded from '@/components/icons/material-symbols/MaterialSymbolsEditRounded';
+import MaterialSymbolsPerson2OutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsPerson2OutlineRounded';
 import PageActionsMenu from '@/components/page-actions-menu';
 import {
     AlertDialog,
@@ -19,11 +20,18 @@ import {
     AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
 import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
+import {
+    ResponsiveModal,
+    ResponsiveModalContent,
+} from '@/components/ui/responsive-modal';
 import { useSession } from '@/features/auth/hooks/use-session';
 import { invalidateCollections } from '@/utils/api/invalidate-content-state';
 import { MUTATION_META_SKIP_ERROR_TOAST } from '@/utils/api/mutation-meta';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 import { Link, useParams, useRouter } from '@/utils/navigation';
+
+import CollectionMembersModal from '../collection-members/collection-members-modal';
+import { useCollectionAccess } from '../collection-members/use-collection-access';
 
 type Props = {
     className?: string;
@@ -34,13 +42,12 @@ const CollectionActionsMenu: FC<Props> = ({ className }) => {
     const reference = String(params.reference);
     const router = useRouter();
     const queryClient = useQueryClient();
-    const { user: loggedUser, isAdmin, isModerator } = useSession();
+    const { isModerator } = useSession();
 
-    const { data: collection } = useQuery(
-        getCollectionOptions({ path: { reference } }),
-    );
+    const { collection, myRole, isOwner } = useCollectionAccess(reference);
 
     const [deleteOpen, setDeleteOpen] = useState(false);
+    const [membersOpen, setMembersOpen] = useState(false);
 
     const deleteCollection = useMutation({
         ...deleteCollectionMutation(),
@@ -57,33 +64,46 @@ const CollectionActionsMenu: FC<Props> = ({ className }) => {
     });
 
     const collectionUrl = `${CONTENT_TYPE_LINKS.collection}/${reference}`;
-    const canManage =
-        !!collection &&
-        (loggedUser?.username === collection.author.username ||
-            isAdmin() ||
-            isModerator());
+    // isModerator() is true for admins as well
+    const canEdit = !!collection && (!!myRole || isModerator());
+    const canDelete = !!collection && (isOwner || isModerator());
 
     return (
         <>
             <PageActionsMenu url={collectionUrl} className={className}>
-                {canManage && (
-                    <>
-                        <DropdownMenuItem
-                            render={<Link to={`${collectionUrl}/update`} />}
-                        >
-                            <MaterialSymbolsEditRounded />
-                            Редагувати
-                        </DropdownMenuItem>
-                        <DropdownMenuItem
-                            onClick={() => setDeleteOpen(true)}
-                            className="text-destructive-foreground"
-                        >
-                            <MaterialSymbolsDeleteForeverRounded />
-                            Видалити
-                        </DropdownMenuItem>
-                    </>
+                {canEdit && (
+                    <DropdownMenuItem
+                        render={<Link to={`${collectionUrl}/update`} />}
+                    >
+                        <MaterialSymbolsEditRounded />
+                        Редагувати
+                    </DropdownMenuItem>
+                )}
+                {myRole && (
+                    <DropdownMenuItem onClick={() => setMembersOpen(true)}>
+                        <MaterialSymbolsPerson2OutlineRounded />
+                        Учасники
+                    </DropdownMenuItem>
+                )}
+                {canDelete && (
+                    <DropdownMenuItem
+                        onClick={() => setDeleteOpen(true)}
+                        className="text-destructive-foreground"
+                    >
+                        <MaterialSymbolsDeleteForeverRounded />
+                        Видалити
+                    </DropdownMenuItem>
                 )}
             </PageActionsMenu>
+            <ResponsiveModal
+                open={membersOpen}
+                onOpenChange={setMembersOpen}
+                type="sheet"
+            >
+                <ResponsiveModalContent side="right" title="Учасники">
+                    <CollectionMembersModal reference={reference} />
+                </ResponsiveModalContent>
+            </ResponsiveModal>
             <AlertDialog open={deleteOpen} onOpenChange={setDeleteOpen}>
                 <AlertDialogContent>
                     <AlertDialogHeader>

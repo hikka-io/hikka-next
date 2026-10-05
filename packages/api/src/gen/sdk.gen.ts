@@ -10,6 +10,12 @@ import {
 } from './client';
 import { client } from './client.gen';
 import type {
+    AcceptCollectionInviteData,
+    AcceptCollectionInviteErrors,
+    AcceptCollectionInviteResponses,
+    AcceptCollectionOwnershipData,
+    AcceptCollectionOwnershipErrors,
+    AcceptCollectionOwnershipResponses,
     AcceptEditData,
     AcceptEditErrors,
     AcceptEditResponses,
@@ -49,6 +55,9 @@ import type {
     AuthInfoData,
     AuthInfoErrors,
     AuthInfoResponses,
+    CancelCollectionOwnershipOfferData,
+    CancelCollectionOwnershipOfferErrors,
+    CancelCollectionOwnershipOfferResponses,
     ChangeDescriptionData,
     ChangeDescriptionErrors,
     ChangeDescriptionResponses,
@@ -117,6 +126,9 @@ import type {
     DeleteArticleResponses,
     DeleteCollectionData,
     DeleteCollectionErrors,
+    DeleteCollectionMemberData,
+    DeleteCollectionMemberErrors,
+    DeleteCollectionMemberResponses,
     DeleteCollectionResponses,
     DeleteReadData,
     DeleteReadErrors,
@@ -190,6 +202,9 @@ import type {
     GetClientByReferenceResponses,
     GetCollectionData,
     GetCollectionErrors,
+    GetCollectionMembersData,
+    GetCollectionMembersErrors,
+    GetCollectionMembersResponses,
     GetCollectionResponses,
     GetCollectionsData,
     GetCollectionsErrors,
@@ -266,6 +281,9 @@ import type {
     ImportWatchData,
     ImportWatchErrors,
     ImportWatchResponses,
+    InviteCollectionMemberData,
+    InviteCollectionMemberErrors,
+    InviteCollectionMemberResponses,
     LatestCommentsData,
     LatestCommentsResponses,
     ListAllClientsData,
@@ -304,6 +322,9 @@ import type {
     OauthTokenData,
     OauthTokenErrors,
     OauthTokenResponses,
+    OfferCollectionOwnershipData,
+    OfferCollectionOwnershipErrors,
+    OfferCollectionOwnershipResponses,
     PasswordResetData,
     PasswordResetErrors,
     PasswordResetResponses,
@@ -458,6 +479,8 @@ import type {
     WriteCommentResponses,
 } from './types.gen';
 import {
+    zAcceptCollectionInviteResponse,
+    zAcceptCollectionOwnershipResponse,
     zAcceptEditResponse,
     zActivationResendResponse,
     zActivationResponse,
@@ -471,6 +494,7 @@ import {
     zAnimeStaffResponse2,
     zAnitubeAnimeResponse,
     zAuthInfoResponse,
+    zCancelCollectionOwnershipOfferResponse,
     zChangeDescriptionResponse,
     zChangeEmailResponse,
     zChangeIgnoredNotificationsResponse,
@@ -493,6 +517,7 @@ import {
     zCreateEditResponse,
     zCreateUserClientResponse,
     zDeleteArticleResponse,
+    zDeleteCollectionMemberResponse,
     zDeleteCollectionResponse,
     zDeleteReadResponse,
     zDeleteUserClientResponse,
@@ -517,6 +542,7 @@ import {
     zGetArticlesResponse,
     zGetArticleTopResponse,
     zGetClientByReferenceResponse,
+    zGetCollectionMembersResponse,
     zGetCollectionResponse,
     zGetCollectionsResponse,
     zGetCommentsListLegacyResponse,
@@ -543,6 +569,7 @@ import {
     zHideCommentResponse,
     zImportReadResponse,
     zImportWatchResponse,
+    zInviteCollectionMemberResponse,
     zLatestCommentsResponse,
     zListAllClientsResponse,
     zListUserClientsResponse,
@@ -556,6 +583,7 @@ import {
     zNovelCharactersResponse,
     zNovelInfoResponse2,
     zOauthTokenResponse,
+    zOfferCollectionOwnershipResponse,
     zPasswordResetResponse,
     zPersonAnimeResponse2,
     zPersonInfoResponse,
@@ -849,6 +877,155 @@ export const updateCollection = <ThrowOnError extends boolean = false>(
             'Content-Type': 'application/json',
             ...options.headers,
         },
+    });
+
+/**
+ * Get Collection Members
+ */
+export const getCollectionMembers = <ThrowOnError extends boolean = false>(
+    options: Options<GetCollectionMembersData, ThrowOnError>,
+): RequestResult<
+    GetCollectionMembersResponses,
+    GetCollectionMembersErrors,
+    ThrowOnError
+> =>
+    (options.client ?? client).get<
+        GetCollectionMembersResponses,
+        GetCollectionMembersErrors,
+        ThrowOnError
+    >({
+        responseValidator: async (data) =>
+            await zGetCollectionMembersResponse.parseAsync(data),
+        url: '/collections/{reference}/members',
+        ...options,
+    });
+
+/**
+ * Accept Collection Invite
+ */
+export const acceptCollectionInvite = <ThrowOnError extends boolean = false>(
+    options: Options<AcceptCollectionInviteData, ThrowOnError>,
+): RequestResult<
+    AcceptCollectionInviteResponses,
+    AcceptCollectionInviteErrors,
+    ThrowOnError
+> =>
+    (options.client ?? client).post<
+        AcceptCollectionInviteResponses,
+        AcceptCollectionInviteErrors,
+        ThrowOnError
+    >({
+        responseValidator: async (data) =>
+            await zAcceptCollectionInviteResponse.parseAsync(data),
+        url: '/collections/{reference}/members/accept',
+        ...options,
+    });
+
+/**
+ * Delete Collection Member
+ */
+export const deleteCollectionMember = <ThrowOnError extends boolean = false>(
+    options: Options<DeleteCollectionMemberData, ThrowOnError>,
+): RequestResult<
+    DeleteCollectionMemberResponses,
+    DeleteCollectionMemberErrors,
+    ThrowOnError
+> =>
+    (options.client ?? client).delete<
+        DeleteCollectionMemberResponses,
+        DeleteCollectionMemberErrors,
+        ThrowOnError
+    >({
+        responseValidator: async (data) =>
+            await zDeleteCollectionMemberResponse.parseAsync(data),
+        url: '/collections/{reference}/members/{username}',
+        ...options,
+    });
+
+/**
+ * Invite Collection Member
+ */
+export const inviteCollectionMember = <ThrowOnError extends boolean = false>(
+    options: Options<InviteCollectionMemberData, ThrowOnError>,
+): RequestResult<
+    InviteCollectionMemberResponses,
+    InviteCollectionMemberErrors,
+    ThrowOnError
+> =>
+    (options.client ?? client).put<
+        InviteCollectionMemberResponses,
+        InviteCollectionMemberErrors,
+        ThrowOnError
+    >({
+        responseValidator: async (data) =>
+            await zInviteCollectionMemberResponse.parseAsync(data),
+        url: '/collections/{reference}/members/{username}',
+        ...options,
+    });
+
+/**
+ * Accept Collection Ownership
+ */
+export const acceptCollectionOwnership = <ThrowOnError extends boolean = false>(
+    options: Options<AcceptCollectionOwnershipData, ThrowOnError>,
+): RequestResult<
+    AcceptCollectionOwnershipResponses,
+    AcceptCollectionOwnershipErrors,
+    ThrowOnError
+> =>
+    (options.client ?? client).post<
+        AcceptCollectionOwnershipResponses,
+        AcceptCollectionOwnershipErrors,
+        ThrowOnError
+    >({
+        responseValidator: async (data) =>
+            await zAcceptCollectionOwnershipResponse.parseAsync(data),
+        url: '/collections/{reference}/owner/accept',
+        ...options,
+    });
+
+/**
+ * Offer Collection Ownership
+ */
+export const offerCollectionOwnership = <ThrowOnError extends boolean = false>(
+    options: Options<OfferCollectionOwnershipData, ThrowOnError>,
+): RequestResult<
+    OfferCollectionOwnershipResponses,
+    OfferCollectionOwnershipErrors,
+    ThrowOnError
+> =>
+    (options.client ?? client).put<
+        OfferCollectionOwnershipResponses,
+        OfferCollectionOwnershipErrors,
+        ThrowOnError
+    >({
+        responseValidator: async (data) =>
+            await zOfferCollectionOwnershipResponse.parseAsync(data),
+        url: '/collections/{reference}/owner/{username}',
+        ...options,
+    });
+
+/**
+ * Cancel Collection Ownership Offer
+ */
+export const cancelCollectionOwnershipOffer = <
+    ThrowOnError extends boolean = false,
+>(
+    options: Options<CancelCollectionOwnershipOfferData, ThrowOnError>,
+): RequestResult<
+    CancelCollectionOwnershipOfferResponses,
+    CancelCollectionOwnershipOfferErrors,
+    ThrowOnError
+> =>
+    (options.client ?? client).delete<
+        CancelCollectionOwnershipOfferResponses,
+        CancelCollectionOwnershipOfferErrors,
+        ThrowOnError
+    >({
+        responseValidator: async (data) =>
+            await zCancelCollectionOwnershipOfferResponse.parseAsync(data),
+        url: '/collections/{reference}/owner',
+        ...options,
     });
 
 /**

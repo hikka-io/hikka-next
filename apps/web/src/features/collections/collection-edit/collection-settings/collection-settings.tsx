@@ -1,10 +1,15 @@
-import type { FC } from 'react';
+import { type FC, useState } from 'react';
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
 import type { CollectionArgs } from '@hikka/api';
-import { createCollectionMutation, updateCollectionMutation } from '@hikka/api';
+import {
+    createCollectionMutation,
+    getCollectionOptions,
+    HikkaApiError,
+    updateCollectionMutation,
+} from '@hikka/api';
 
 import MaterialSymbolsAddRounded from '@/components/icons/material-symbols/MaterialSymbolsAddRounded';
 import MaterialSymbolsRefreshRounded from '@/components/icons/material-symbols/MaterialSymbolsRefreshRounded';
@@ -33,6 +38,7 @@ import {
 } from '@/components/ui/tooltip';
 import { useCollectionContext } from '@/services/providers/collection-provider';
 import { invalidateCollections } from '@/utils/api/invalidate-content-state';
+import { MUTATION_META_SKIP_ERROR_TOAST } from '@/utils/api/mutation-meta';
 import {
     COLLECTION_CONTENT_TYPE_OPTIONS,
     COLLECTION_VISIBILITY_OPTIONS,
@@ -40,6 +46,8 @@ import {
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 import { Link, useParams, useRouter } from '@/utils/navigation';
 
+import { useCollectionAccess } from '../../collection-members/use-collection-access';
+import CollectionOutdatedDialog from '../collection-outdated-dialog';
 import GroupInputs from './components/group-inputs';
 
 type Props = {
@@ -49,7 +57,15 @@ type Props = {
 const CollectionSettings: FC<Props> = ({ mode = 'create' }) => {
     const router = useRouter();
     const params = useParams();
+    const reference = String(params.reference);
     const queryClient = useQueryClient();
+    const [outdatedOpen, setOutdatedOpen] = useState(false);
+    const [isResolving, setIsResolving] = useState(false);
+
+    // Moderators edit with my_role null and keep the full form as before
+    const { isEditor } = useCollectionAccess(reference, {
+        enabled: mode === 'edit',
+    });
 
     const groups = useCollectionContext((state) => state.groups);
     const title = useCollectionContext((state) => state.title);
@@ -60,6 +76,8 @@ const CollectionSettings: FC<Props> = ({ mode = 'create' }) => {
     const description = useCollectionContext((state) => state.description);
     const tags = useCollectionContext((state) => state.tags);
     const getApiData = useCollectionContext((state) => state.getApiData);
+    const setApiData = useCollectionContext((state) => state.setApiData);
+    const setUpdated = useCollectionContext((state) => state.setUpdated);
 
     const addGroup = useCollectionContext((state) => state.addGroup);
     const setTitle = useCollectionContext((state) => state.setTitle);
@@ -90,11 +108,60 @@ const CollectionSettings: FC<Props> = ({ mode = 'create' }) => {
     const { mutate: mutateUpdateCollection, isPending: isUpdatePending } =
         useMutation({
             ...updateCollectionMutation(),
-            onSuccess: (_data) => {
+            meta: MUTATION_META_SKIP_ERROR_TOAST,
+            onSuccess: (data) => {
+                setApiData(data);
                 invalidateCollections(queryClient);
                 toast.success('Ви успішно оновили колекцію.');
             },
+            onError: (error) => {
+                if (
+                    error instanceof HikkaApiError &&
+                    error.code === 'collections:outdated'
+                ) {
+                    setOutdatedOpen(true);
+                    return;
+                }
+
+                toast.error(error.message);
+            },
         });
+
+    const saveCollection = () =>
+        mutateUpdateCollection({
+            path: { reference },
+            body: getApiData() as CollectionArgs,
+        });
+
+    const fetchLatest = () =>
+        queryClient.fetchQuery({
+            ...getCollectionOptions({ path: { reference } }),
+            staleTime: 0,
+        });
+
+    const resolveOutdated = async (overwrite: boolean) => {
+        setIsResolving(true);
+
+        try {
+            const latest = await fetchLatest();
+
+            if (overwrite) {
+                setUpdated(latest.updated);
+
+                if (isEditor) setVisibility(latest.visibility);
+
+                saveCollection();
+            } else {
+                setApiData(latest);
+            }
+
+            setOutdatedOpen(false);
+        } catch (error) {
+            toast.error((error as Error).message);
+        } finally {
+            setIsResolving(false);
+        }
+    };
 
     return (
         <ScrollArea className="flex flex-col items-start gap-8 lg:max-h-[calc(100vh-6rem)]">
@@ -181,6 +248,7 @@ const CollectionSettings: FC<Props> = ({ mode = 'create' }) => {
                     </Label>
 
                     <Select
+                        disabled={isEditor}
                         value={[visibility]}
                         onValueChange={(value) =>
                             setVisibility(
@@ -208,6 +276,11 @@ const CollectionSettings: FC<Props> = ({ mode = 'create' }) => {
                             </SelectList>
                         </SelectContent>
                     </Select>
+                    {isEditor && (
+                        <p className="text-muted-foreground text-xs">
+                            Видимість змінює лише власник колекції.
+                        </p>
+                    )}
                 </div>
 
                 <div className="flex items-center justify-between gap-4">
@@ -245,12 +318,7 @@ const CollectionSettings: FC<Props> = ({ mode = 'create' }) => {
                             description.trim().length < 3
                         }
                         variant="default"
-                        onClick={() =>
-                            mutateUpdateCollection({
-                                path: { reference: String(params.reference) },
-                                body: getApiData() as CollectionArgs,
-                            })
-                        }
+                        onClick={saveCollection}
                     >
                         {isUpdatePending ? (
                             <Spinner />
@@ -297,7 +365,7 @@ const CollectionSettings: FC<Props> = ({ mode = 'create' }) => {
                                     render={
                                         <Link
                                             target="_blank"
-                                            to={`${CONTENT_TYPE_LINKS.collection}/${params.reference}`}
+                                            to={`${CONTENT_TYPE_LINKS.collection}/${reference}`}
                                         />
                                     }
                                 />
@@ -309,6 +377,15 @@ const CollectionSettings: FC<Props> = ({ mode = 'create' }) => {
                     </Tooltip>
                 )}
             </FooterBar>
+            {mode === 'edit' && (
+                <CollectionOutdatedDialog
+                    open={outdatedOpen}
+                    onOpenChange={setOutdatedOpen}
+                    onReload={() => resolveOutdated(false)}
+                    onOverwrite={() => resolveOutdated(true)}
+                    isPending={isResolving || isUpdatePending}
+                />
+            )}
         </ScrollArea>
     );
 };

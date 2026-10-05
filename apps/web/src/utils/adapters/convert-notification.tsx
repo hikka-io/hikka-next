@@ -19,6 +19,7 @@ import MaterialSymbolsInfoRounded from '@/components/icons/material-symbols/Mate
 import MaterialSymbolsLiveTvRounded from '@/components/icons/material-symbols/MaterialSymbolsLiveTvRounded';
 import MaterialSymbolsLockOpenRightOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsLockOpenRightOutlineRounded';
 import MaterialSymbolsPersonAddRounded from '@/components/icons/material-symbols/MaterialSymbolsPersonAddRounded';
+import MaterialSymbolsShieldPerson from '@/components/icons/material-symbols/MaterialSymbolsShieldPerson';
 import { getTitle } from '@/utils/title/get-title';
 
 // @hikka/api types `NotificationResponse.data` as a loose `{ [key]: unknown }`.
@@ -77,6 +78,13 @@ interface NotificationEditData {
     edit_id: number;
 }
 
+interface NotificationCollectionMemberData {
+    slug: string;
+    title: string;
+    username: string;
+    avatar: string;
+}
+
 interface NotificationHikkaData {
     description: string;
     title: string;
@@ -107,7 +115,8 @@ type NotificationData =
     | NotificationScheduleAnimeData
     | NotificationFollowData
     | NotificationVoteData
-    | NotificationThirdpartyLoginData;
+    | NotificationThirdpartyLoginData
+    | NotificationCollectionMemberData;
 
 const NOTIFICATION_TITLES: Record<NotificationTypeEnum, string> = {
     [NotificationTypeEnum.EDIT_ACCEPTED]: 'Правка прийнята',
@@ -125,6 +134,8 @@ const NOTIFICATION_TITLES: Record<NotificationTypeEnum, string> = {
     [NotificationTypeEnum.COLLECTION_VOTE]: 'Нова оцінка у колекції',
     [NotificationTypeEnum.THIRDPARTY_LOGIN]: 'Стороння авторизація',
     [NotificationTypeEnum.ARTICLE_COMMENT]: 'Новий коментар у статті',
+    [NotificationTypeEnum.COLLECTION_INVITE]: 'Запрошення до колекції',
+    [NotificationTypeEnum.COLLECTION_OWNER]: 'Передача колекції',
 };
 
 const NOTIFICATION_ICONS: Record<NotificationTypeEnum, ReactNode> = {
@@ -149,6 +160,10 @@ const NOTIFICATION_ICONS: Record<NotificationTypeEnum, ReactNode> = {
         <MaterialSymbolsAddCommentRounded />
     ),
     [NotificationTypeEnum.ARTICLE_VOTE]: <MaterialSymbolsFavoriteRounded />,
+    [NotificationTypeEnum.COLLECTION_INVITE]: (
+        <MaterialSymbolsPersonAddRounded />
+    ),
+    [NotificationTypeEnum.COLLECTION_OWNER]: <MaterialSymbolsShieldPerson />,
 };
 
 // Vote types are `neutral` here and overridden by vote handlers based on score sign.
@@ -171,6 +186,8 @@ const NOTIFICATION_ACCENTS: Record<
     [NotificationTypeEnum.COMMENT_VOTE]: 'neutral',
     [NotificationTypeEnum.ARTICLE_VOTE]: 'neutral',
     [NotificationTypeEnum.COLLECTION_VOTE]: 'neutral',
+    [NotificationTypeEnum.COLLECTION_INVITE]: 'primary',
+    [NotificationTypeEnum.COLLECTION_OWNER]: 'warning',
 };
 
 const getCommentLink = (
@@ -300,6 +317,17 @@ const FOLLOW_COPY: ActorCopy = {
     withoutActor: 'Хтось підписався на Ваш профіль',
 };
 
+const COLLECTION_INVITE_COPY: ActorCopy = {
+    withActor: (u) =>
+        `Користувач **${u}** запрошує Вас стати співавтором колекції`,
+    withoutActor: 'Вас запрошують стати співавтором колекції',
+};
+const COLLECTION_OWNER_COPY: ActorCopy = {
+    withActor: (u) =>
+        `Користувач **${u}** пропонує Вам стати власником колекції`,
+    withoutActor: 'Вам пропонують стати власником колекції',
+};
+
 type EditActionType =
     | typeof NotificationTypeEnum.EDIT_ACCEPTED
     | typeof NotificationTypeEnum.EDIT_DENIED
@@ -396,6 +424,25 @@ const createFollowNotification = (
     };
 };
 
+// Both need an answer, and the accept/decline banner lives on the collection
+const createCollectionMemberNotification = (
+    notification: NotificationOf<NotificationCollectionMemberData>,
+    copy: ActorCopy,
+): Hikka.Notification => {
+    const { slug, title } = notification.data;
+    const actor = resolveActor(notification);
+
+    return {
+        ...getBaseNotification(notification),
+        description: actor
+            ? copy.withActor(actor.username!)
+            : copy.withoutActor,
+        href: `/collections/${slug}`,
+        actor,
+        preview: title || undefined,
+    };
+};
+
 const createThirdpartyLoginNotification = (
     notification: NotificationOf<NotificationThirdpartyLoginData>,
 ): Hikka.Notification => {
@@ -483,6 +530,18 @@ export const convertNotification = (
         case NotificationTypeEnum.THIRDPARTY_LOGIN:
             return createThirdpartyLoginNotification(
                 notification as NotificationOf<NotificationThirdpartyLoginData>,
+            );
+
+        case NotificationTypeEnum.COLLECTION_INVITE:
+            return createCollectionMemberNotification(
+                notification as NotificationOf<NotificationCollectionMemberData>,
+                COLLECTION_INVITE_COPY,
+            );
+
+        case NotificationTypeEnum.COLLECTION_OWNER:
+            return createCollectionMemberNotification(
+                notification as NotificationOf<NotificationCollectionMemberData>,
+                COLLECTION_OWNER_COPY,
             );
 
         default:

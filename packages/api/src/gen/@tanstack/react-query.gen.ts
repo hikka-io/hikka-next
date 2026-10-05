@@ -10,6 +10,8 @@ import {
 
 import { client } from '../client.gen';
 import {
+    acceptCollectionInvite,
+    acceptCollectionOwnership,
     acceptEdit,
     activation,
     activationResend,
@@ -23,6 +25,7 @@ import {
     animeStaff,
     anitubeAnime,
     authInfo,
+    cancelCollectionOwnershipOffer,
     changeDescription,
     changeEmail,
     changeIgnoredNotifications,
@@ -46,6 +49,7 @@ import {
     createUserClient,
     deleteArticle,
     deleteCollection,
+    deleteCollectionMember,
     deleteRead,
     deleteUserClient,
     deleteUserImage,
@@ -71,6 +75,7 @@ import {
     getArticleTop,
     getClientByReference,
     getCollection,
+    getCollectionMembers,
     getCollections,
     getCommentsList,
     getCommentsListLegacy,
@@ -96,6 +101,7 @@ import {
     hideComment,
     importRead,
     importWatch,
+    inviteCollectionMember,
     latestComments,
     listAllClients,
     listUserClients,
@@ -109,6 +115,7 @@ import {
     novelCharacters,
     novelInfo,
     oauthToken,
+    offerCollectionOwnership,
     type Options,
     passwordReset,
     personAnime,
@@ -163,6 +170,12 @@ import {
     writeComment,
 } from '../sdk.gen';
 import type {
+    AcceptCollectionInviteData,
+    AcceptCollectionInviteError,
+    AcceptCollectionInviteResponse,
+    AcceptCollectionOwnershipData,
+    AcceptCollectionOwnershipError,
+    AcceptCollectionOwnershipResponse,
     AcceptEditData,
     AcceptEditError,
     AcceptEditResponse,
@@ -202,6 +215,9 @@ import type {
     AuthInfoData,
     AuthInfoError,
     AuthInfoResponse,
+    CancelCollectionOwnershipOfferData,
+    CancelCollectionOwnershipOfferError,
+    CancelCollectionOwnershipOfferResponse,
     ChangeDescriptionData,
     ChangeDescriptionError,
     ChangeDescriptionResponse,
@@ -270,6 +286,9 @@ import type {
     DeleteArticleResponse,
     DeleteCollectionData,
     DeleteCollectionError,
+    DeleteCollectionMemberData,
+    DeleteCollectionMemberError,
+    DeleteCollectionMemberResponse,
     DeleteCollectionResponse,
     DeleteReadData,
     DeleteReadError,
@@ -342,6 +361,9 @@ import type {
     GetClientByReferenceResponse,
     GetCollectionData,
     GetCollectionError,
+    GetCollectionMembersData,
+    GetCollectionMembersError,
+    GetCollectionMembersResponse,
     GetCollectionResponse,
     GetCollectionsData,
     GetCollectionsError,
@@ -418,6 +440,9 @@ import type {
     ImportWatchData,
     ImportWatchError,
     ImportWatchResponse,
+    InviteCollectionMemberData,
+    InviteCollectionMemberError,
+    InviteCollectionMemberResponse,
     LatestCommentsData,
     LatestCommentsResponse,
     ListAllClientsData,
@@ -456,6 +481,9 @@ import type {
     OauthTokenData,
     OauthTokenError,
     OauthTokenResponse,
+    OfferCollectionOwnershipData,
+    OfferCollectionOwnershipError,
+    OfferCollectionOwnershipResponse,
     PasswordResetData,
     PasswordResetError,
     PasswordResetResponse,
@@ -1092,6 +1120,248 @@ export const updateCollectionMutation = (
     > = {
         mutationFn: async (fnOptions) => {
             const { data } = await updateCollection({
+                ...options,
+                ...fnOptions,
+                throwOnError: true,
+            });
+            return data;
+        },
+    };
+    return mutationOptions;
+};
+
+export const getCollectionMembersQueryKey = (
+    options: Options<GetCollectionMembersData>,
+) => createQueryKey('getCollectionMembers', options);
+
+/**
+ * Get Collection Members
+ */
+export const getCollectionMembersOptions = (
+    options: Options<GetCollectionMembersData>,
+) =>
+    queryOptions<
+        GetCollectionMembersResponse,
+        GetCollectionMembersError,
+        GetCollectionMembersResponse,
+        ReturnType<typeof getCollectionMembersQueryKey>
+    >({
+        queryFn: async ({ queryKey, signal }) => {
+            const { data } = await getCollectionMembers({
+                ...options,
+                ...queryKey[0],
+                signal,
+                throwOnError: true,
+            });
+            return data;
+        },
+        queryKey: getCollectionMembersQueryKey(options),
+    });
+
+export const getCollectionMembersInfiniteQueryKey = (
+    options: Options<GetCollectionMembersData>,
+): QueryKey<Options<GetCollectionMembersData>> =>
+    createQueryKey('getCollectionMembers', options, true);
+
+/**
+ * Get Collection Members
+ */
+export const getCollectionMembersInfiniteOptions = (
+    options: Options<GetCollectionMembersData>,
+) => {
+    const opts = infiniteQueryOptions<
+        GetCollectionMembersResponse,
+        GetCollectionMembersError,
+        InfiniteData<GetCollectionMembersResponse>,
+        QueryKey<Options<GetCollectionMembersData>>,
+        | number
+        | Pick<
+              QueryKey<Options<GetCollectionMembersData>>[0],
+              'body' | 'headers' | 'path' | 'query'
+          >
+    >(
+        // @ts-ignore
+        {
+            queryFn: async ({ pageParam, queryKey, signal }) => {
+                // @ts-ignore
+                const page: Pick<
+                    QueryKey<Options<GetCollectionMembersData>>[0],
+                    'body' | 'headers' | 'path' | 'query'
+                > =
+                    typeof pageParam === 'object'
+                        ? pageParam
+                        : {
+                              query: {
+                                  page: pageParam,
+                              },
+                          };
+                const params = createInfiniteParams(queryKey, page);
+                const { data } = await getCollectionMembers({
+                    ...options,
+                    ...params,
+                    signal,
+                    throwOnError: true,
+                });
+                return data;
+            },
+            queryKey: getCollectionMembersInfiniteQueryKey(options),
+        },
+    );
+    return opts as Omit<typeof opts, 'initialData'>;
+};
+
+/**
+ * Accept Collection Invite
+ */
+export const acceptCollectionInviteMutation = (
+    options?: Partial<Options<AcceptCollectionInviteData>>,
+): UseMutationOptions<
+    AcceptCollectionInviteResponse,
+    AcceptCollectionInviteError,
+    Options<AcceptCollectionInviteData>
+> => {
+    const mutationOptions: UseMutationOptions<
+        AcceptCollectionInviteResponse,
+        AcceptCollectionInviteError,
+        Options<AcceptCollectionInviteData>
+    > = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await acceptCollectionInvite({
+                ...options,
+                ...fnOptions,
+                throwOnError: true,
+            });
+            return data;
+        },
+    };
+    return mutationOptions;
+};
+
+/**
+ * Delete Collection Member
+ */
+export const deleteCollectionMemberMutation = (
+    options?: Partial<Options<DeleteCollectionMemberData>>,
+): UseMutationOptions<
+    DeleteCollectionMemberResponse,
+    DeleteCollectionMemberError,
+    Options<DeleteCollectionMemberData>
+> => {
+    const mutationOptions: UseMutationOptions<
+        DeleteCollectionMemberResponse,
+        DeleteCollectionMemberError,
+        Options<DeleteCollectionMemberData>
+    > = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await deleteCollectionMember({
+                ...options,
+                ...fnOptions,
+                throwOnError: true,
+            });
+            return data;
+        },
+    };
+    return mutationOptions;
+};
+
+/**
+ * Invite Collection Member
+ */
+export const inviteCollectionMemberMutation = (
+    options?: Partial<Options<InviteCollectionMemberData>>,
+): UseMutationOptions<
+    InviteCollectionMemberResponse,
+    InviteCollectionMemberError,
+    Options<InviteCollectionMemberData>
+> => {
+    const mutationOptions: UseMutationOptions<
+        InviteCollectionMemberResponse,
+        InviteCollectionMemberError,
+        Options<InviteCollectionMemberData>
+    > = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await inviteCollectionMember({
+                ...options,
+                ...fnOptions,
+                throwOnError: true,
+            });
+            return data;
+        },
+    };
+    return mutationOptions;
+};
+
+/**
+ * Accept Collection Ownership
+ */
+export const acceptCollectionOwnershipMutation = (
+    options?: Partial<Options<AcceptCollectionOwnershipData>>,
+): UseMutationOptions<
+    AcceptCollectionOwnershipResponse,
+    AcceptCollectionOwnershipError,
+    Options<AcceptCollectionOwnershipData>
+> => {
+    const mutationOptions: UseMutationOptions<
+        AcceptCollectionOwnershipResponse,
+        AcceptCollectionOwnershipError,
+        Options<AcceptCollectionOwnershipData>
+    > = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await acceptCollectionOwnership({
+                ...options,
+                ...fnOptions,
+                throwOnError: true,
+            });
+            return data;
+        },
+    };
+    return mutationOptions;
+};
+
+/**
+ * Offer Collection Ownership
+ */
+export const offerCollectionOwnershipMutation = (
+    options?: Partial<Options<OfferCollectionOwnershipData>>,
+): UseMutationOptions<
+    OfferCollectionOwnershipResponse,
+    OfferCollectionOwnershipError,
+    Options<OfferCollectionOwnershipData>
+> => {
+    const mutationOptions: UseMutationOptions<
+        OfferCollectionOwnershipResponse,
+        OfferCollectionOwnershipError,
+        Options<OfferCollectionOwnershipData>
+    > = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await offerCollectionOwnership({
+                ...options,
+                ...fnOptions,
+                throwOnError: true,
+            });
+            return data;
+        },
+    };
+    return mutationOptions;
+};
+
+/**
+ * Cancel Collection Ownership Offer
+ */
+export const cancelCollectionOwnershipOfferMutation = (
+    options?: Partial<Options<CancelCollectionOwnershipOfferData>>,
+): UseMutationOptions<
+    CancelCollectionOwnershipOfferResponse,
+    CancelCollectionOwnershipOfferError,
+    Options<CancelCollectionOwnershipOfferData>
+> => {
+    const mutationOptions: UseMutationOptions<
+        CancelCollectionOwnershipOfferResponse,
+        CancelCollectionOwnershipOfferError,
+        Options<CancelCollectionOwnershipOfferData>
+    > = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await cancelCollectionOwnershipOffer({
                 ...options,
                 ...fnOptions,
                 throwOnError: true,
