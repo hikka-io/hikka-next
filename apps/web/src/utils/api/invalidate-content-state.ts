@@ -64,6 +64,9 @@ const EDIT_LIST_IDS = ['getEdits', 'editsTop', 'getContentEditTodo'];
 /** Collection list + detail queries. */
 const COLLECTION_IDS = ['getCollections', 'getCollection'];
 
+/** Collection co-author list (`my_role` on the collection changes with it). */
+const COLLECTION_MEMBER_IDS = ['getCollectionMembers'];
+
 /** Article list + detail queries. */
 const ARTICLE_IDS = ['getArticles', 'getArticleTop', 'getArticle'];
 
@@ -374,6 +377,21 @@ export function invalidateCollections(
     options?: InvalidateOptions,
 ): Promise<void> {
     return invalidateByIds(queryClient, COLLECTION_IDS, options);
+}
+
+/**
+ * Invalidate the co-author list together with the collections, since every
+ * membership change can flip `my_role` on the collection itself.
+ */
+export function invalidateCollectionMembers(
+    queryClient: QueryClient,
+    options?: InvalidateOptions,
+): Promise<void> {
+    return invalidateByIds(
+        queryClient,
+        [...COLLECTION_IDS, ...COLLECTION_MEMBER_IDS],
+        options,
+    );
 }
 
 /** Invalidate article list/detail queries after an article mutation. */

@@ -35,3 +35,5 @@ export const COLLECTION_VISIBILITY_OPTIONS = [
         label: 'Лише у профілі',
     },
 ];
+
+export const COLLECTION_MEMBERS_LIMIT = 10;

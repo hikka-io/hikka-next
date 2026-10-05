@@ -9,6 +9,7 @@ import {
     CollectionViewActionsMenu as CollectionActionsMenu,
     CollectionViewAuthor as CollectionAuthor,
     CollectionViewGroups as CollectionGroups,
+    CollectionMembershipBanner,
     CollectionViewNavbar as CollectionNavbar,
     CollectionViewTitle as CollectionTitle,
     TableOfContents,
@@ -45,6 +46,7 @@ function CollectionPage() {
 
                 {/* central column — author, content and comments share one width */}
                 <div className="mx-auto flex w-full max-w-[52rem] flex-col gap-12">
+                    <CollectionMembershipBanner reference={reference} />
                     <CollectionAuthor />
                     <Block className="w-full">
                         <CollectionTitle />

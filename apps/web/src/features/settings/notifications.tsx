@@ -30,6 +30,8 @@ const formSchema = z.object({
     hikka_update: z.boolean().default(true),
     schedule_anime: z.boolean().default(true),
     follow: z.boolean().default(true),
+    collection_invite: z.boolean().default(true),
+    collection_owner: z.boolean().default(true),
     thirdparty_login: z.boolean().optional().nullable().default(true),
 });
 
@@ -199,6 +201,33 @@ const NotificationsSettings = () => {
                         <field.SwitchField
                             label="Відхилена правка"
                             description="Ви отримаєте сповіщення, коли ваша правка відхилена"
+                            className="w-full"
+                        />
+                    )}
+                />
+            </div>
+            <div className="flex w-full flex-col gap-6">
+                <Header>
+                    <HeaderContainer>
+                        <HeaderTitle variant="h4">Колекції</HeaderTitle>
+                    </HeaderContainer>
+                </Header>
+                <form.AppField
+                    name="collection_invite"
+                    children={(field) => (
+                        <field.SwitchField
+                            label="Запрошення до колекції"
+                            description="Ви отримаєте сповіщення, коли вас запросили стати співавтором колекції"
+                            className="w-full"
+                        />
+                    )}
+                />
+                <form.AppField
+                    name="collection_owner"
+                    children={(field) => (
+                        <field.SwitchField
+                            label="Передача колекції"
+                            description="Ви отримаєте сповіщення, коли вам запропонували стати власником колекції"
                             className="w-full"
                         />
                     )}

@@ -260,6 +260,16 @@ export const zCollectionContentTypeEnum = z.enum([
 ]);
 
 /**
+ * CollectionMemberRoleEnum
+ */
+export const zCollectionMemberRoleEnum = z.enum(['owner', 'editor']);
+
+/**
+ * CollectionMemberStatusEnum
+ */
+export const zCollectionMemberStatusEnum = z.enum(['pending', 'accepted']);
+
+/**
  * CollectionVisibilityEnum
  */
 export const zCollectionVisibilityEnum = z.enum([
@@ -281,6 +291,7 @@ export const zCollectionArgs = z.object({
     labels_order: z.array(z.string()),
     spoiler: z.boolean(),
     nsfw: z.boolean(),
+    updated: z.number().int().nullish(),
 });
 
 /**
@@ -961,6 +972,8 @@ export const zNotificationTypeEnum = z.enum([
     'schedule_anime',
     'follow',
     'thirdparty_login',
+    'collection_invite',
+    'collection_owner',
 ]);
 
 /**
@@ -2440,6 +2453,26 @@ export const zClientPaginationResponse = z.object({
 });
 
 /**
+ * CollectionMemberResponse
+ */
+export const zCollectionMemberResponse = z.object({
+    status: zCollectionMemberStatusEnum,
+    role: zCollectionMemberRoleEnum,
+    invited_by: zUserResponse.nullable(),
+    owner_offered_at: z.number().int().nullable(),
+    created: z.number().int(),
+    user: zUserResponse,
+});
+
+/**
+ * CollectionMembersResponse
+ */
+export const zCollectionMembersResponse = z.object({
+    pagination: zPaginationResponse,
+    list: z.array(zCollectionMemberResponse),
+});
+
+/**
  * CommentResponse
  */
 export const zCommentResponse: z.AnyZodObject = z.object({
@@ -2885,6 +2918,7 @@ export const zCollectionResponse = z.object({
     vote_score: z.number().int(),
     tags: z.array(z.string()),
     reference: z.string(),
+    my_role: zCollectionMemberRoleEnum.nullable(),
     my_score: z.number().int(),
     spoiler: z.boolean(),
     entries: z.number().int(),
@@ -2954,6 +2988,7 @@ export const zFavouriteCollectionResponse = z.object({
     vote_score: z.number().int(),
     tags: z.array(z.string()),
     reference: z.string(),
+    my_role: zCollectionMemberRoleEnum.nullable(),
     my_score: z.number().int(),
     spoiler: z.boolean(),
     entries: z.number().int(),
@@ -3444,6 +3479,105 @@ export const zUpdateCollectionPath = z.object({
  * Successful Response
  */
 export const zUpdateCollectionResponse = zCollectionResponse;
+
+export const zGetCollectionMembersHeaders = z.object({
+    auth: z.string().nullish(),
+});
+
+export const zGetCollectionMembersPath = z.object({
+    reference: z.string().uuid(),
+});
+
+export const zGetCollectionMembersQuery = z.object({
+    page: z.number().int().gt(0).lte(10000).optional().default(1),
+    size: z.number().int().gte(1).lte(100).optional().default(15),
+});
+
+/**
+ * Successful Response
+ */
+export const zGetCollectionMembersResponse = zCollectionMembersResponse;
+
+export const zAcceptCollectionInviteHeaders = z.object({
+    auth: z.string().nullish(),
+});
+
+export const zAcceptCollectionInvitePath = z.object({
+    reference: z.string().uuid(),
+});
+
+/**
+ * Successful Response
+ */
+export const zAcceptCollectionInviteResponse = zCollectionMemberResponse;
+
+export const zDeleteCollectionMemberHeaders = z.object({
+    auth: z.string().nullish(),
+});
+
+export const zDeleteCollectionMemberPath = z.object({
+    reference: z.string().uuid(),
+    username: z.string(),
+});
+
+/**
+ * Successful Response
+ */
+export const zDeleteCollectionMemberResponse = zSuccessResponse;
+
+export const zInviteCollectionMemberHeaders = z.object({
+    auth: z.string().nullish(),
+});
+
+export const zInviteCollectionMemberPath = z.object({
+    reference: z.string().uuid(),
+    username: z.string(),
+});
+
+/**
+ * Successful Response
+ */
+export const zInviteCollectionMemberResponse = zCollectionMemberResponse;
+
+export const zAcceptCollectionOwnershipHeaders = z.object({
+    auth: z.string().nullish(),
+});
+
+export const zAcceptCollectionOwnershipPath = z.object({
+    reference: z.string().uuid(),
+});
+
+/**
+ * Successful Response
+ */
+export const zAcceptCollectionOwnershipResponse = zSuccessResponse;
+
+export const zOfferCollectionOwnershipHeaders = z.object({
+    auth: z.string().nullish(),
+});
+
+export const zOfferCollectionOwnershipPath = z.object({
+    reference: z.string().uuid(),
+    username: z.string(),
+});
+
+/**
+ * Successful Response
+ */
+export const zOfferCollectionOwnershipResponse = zCollectionMemberResponse;
+
+export const zCancelCollectionOwnershipOfferHeaders = z.object({
+    auth: z.string().nullish(),
+});
+
+export const zCancelCollectionOwnershipOfferPath = z.object({
+    reference: z.string().uuid(),
+});
+
+/**
+ * Successful Response
+ */
+export const zCancelCollectionOwnershipOfferResponse = zSuccessResponse;
 
 export const zCharacterInfoPath = z.object({
     slug: z.string(),

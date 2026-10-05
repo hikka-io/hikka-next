@@ -36,6 +36,7 @@ export type CollectionState = {
     spoiler: boolean;
     visibility: CollectionVisibilityEnum;
     tags: string[];
+    updated?: number;
 };
 
 export type CollectionActions = {
@@ -46,6 +47,7 @@ export type CollectionActions = {
     setNsfw: (nsfw: boolean) => void;
     setSpoiler: (spoiler: boolean) => void;
     setVisibility: (visibility: CollectionVisibilityEnum) => void;
+    setUpdated: (updated: number) => void;
 
     setGroups: (groups: Group[]) => void;
     addGroup: () => void;
@@ -118,6 +120,7 @@ export const createCollectionStore = (initProps?: Partial<CollectionState>) => {
         setNsfw: (nsfw) => set({ nsfw }),
         setSpoiler: (spoiler) => set({ spoiler }),
         setVisibility: (visibility) => set({ visibility }),
+        setUpdated: (updated) => set({ updated }),
         setGroups: (groups) => set({ groups }),
 
         addGroup: () => {
@@ -273,6 +276,7 @@ export const createCollectionStore = (initProps?: Partial<CollectionState>) => {
                 spoiler: data.spoiler,
                 visibility: data.visibility,
                 tags: data.tags,
+                updated: data.updated,
             });
         },
 
@@ -300,6 +304,7 @@ export const createCollectionStore = (initProps?: Partial<CollectionState>) => {
                     .filter(Boolean),
                 content,
                 tags: state.tags,
+                updated: state.updated,
             };
         },
     }));
