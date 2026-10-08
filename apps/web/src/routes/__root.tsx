@@ -15,20 +15,32 @@ import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools';
 
 import { profileUiQueryKey, type UserCustomizationResponse } from '@hikka/api';
 
-import NotFoundPage from '@/components/not-found-page';
-import RouterProgressBar from '@/components/router-progress-bar';
-import { Providers } from '@/features/app-shell';
-import { UiPreferencesProvider } from '@/services/stores/ui-preferences-store';
+import JsonLd from '@/components/json-ld';
+import {
+    NotFoundPage,
+    Providers,
+    RouterProgressBar,
+} from '@/features/app-shell';
+import { UiPreferencesProvider } from '@/services/ui-preferences-store';
 import {
     getThemeCookieFn,
     getUiPrefsCookieFn,
     refreshAuthCookieFn,
 } from '@/utils/cookies';
+import {
+    backdropVars,
+    DEFAULT_USER_UI,
+    getUserStyles,
+    STYLE_ELEMENT_ID,
+    THEME_BOOTSTRAP_SCRIPT,
+} from '@/utils/customization';
+import { websiteJsonLd } from '@/utils/json-ld';
 import { usePlausiblePageviews } from '@/utils/plausible';
-import { backdropVars, DEFAULT_USER_UI, STYLE_ELEMENT_ID } from '@/utils/ui';
-import { getUserStyles } from '@/utils/ui/server';
 
 import '../globals.css';
+
+import { isServer } from '@/utils/is-server';
+
 import type { RouterContext } from '../router';
 
 export const Route = createRootRouteWithContext<RouterContext>()({
@@ -57,10 +69,11 @@ export const Route = createRootRouteWithContext<RouterContext>()({
         // here (not createRouter) so it skips server routes like /auth/logout —
         // otherwise it re-sets the cookie logout is clearing. No-ops without an
         // auth cookie; server-only (client calls become RPCs).
-        await refreshAuthCookieFn();
-
-        const theme = await getThemeCookieFn();
-        const uiPrefs = await getUiPrefsCookieFn();
+        const [theme, uiPrefs] = await Promise.all([
+            getThemeCookieFn(),
+            getUiPrefsCookieFn(),
+            isServer() ? refreshAuthCookieFn() : undefined,
+        ]);
 
         // Already prefetched in createRouter; read from cache, no extra call.
         const userUI =
@@ -89,45 +102,14 @@ function RootLayout() {
         >
             <head>
                 <script
-                    // Also creates the theme-color meta (hexes must match
-                    // THEME_COLOR): head() must not own it, or HeadContent
-                    // reverts theme switches on client navigation.
+                    // Also creates the theme-color meta: head() must not own
+                    // it, or HeadContent reverts theme switches on client
+                    // navigation.
                     // biome-ignore lint/security/noDangerouslySetInnerHtml: static inline theme script to prevent FOUC; contains no user input.
-                    dangerouslySetInnerHTML={{
-                        __html: `(function(){var t='dark';try{var c=document.cookie.match(/(?:^|;\\s*)theme=([^;]*)/);t=c?decodeURIComponent(c[1]):'dark';if(t==='system'){t=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}}catch(e){t='dark';}if(t!=='light'&&t!=='dark'){t='dark';}document.documentElement.classList.add(t);document.documentElement.style.colorScheme=t;var m=document.createElement('meta');m.name='theme-color';m.content=t==='light'?'#ffffff':'#000000';document.head.appendChild(m);})();`,
-                    }}
+                    dangerouslySetInnerHTML={{ __html: THEME_BOOTSTRAP_SCRIPT }}
                 />
                 <HeadContent />
-                <script
-                    type="application/ld+json"
-                    // biome-ignore lint/security/noDangerouslySetInnerHtml: static JSON-LD structured data, no user input.
-                    dangerouslySetInnerHTML={{
-                        __html: JSON.stringify({
-                            '@context': 'https://schema.org',
-                            '@type': 'WebSite',
-                            name: 'Hikka',
-                            url: 'https://hikka.io',
-                            description:
-                                'Українська онлайн енциклопедія аніме, манґи та ранобе',
-                            inLanguage: 'uk',
-                            potentialAction: {
-                                '@type': 'SearchAction',
-                                target: 'https://hikka.io/anime?search={search_term_string}',
-                                'query-input':
-                                    'required name=search_term_string',
-                            },
-                            publisher: {
-                                '@type': 'Organization',
-                                name: 'Hikka',
-                                url: 'https://hikka.io',
-                                logo: {
-                                    '@type': 'ImageObject',
-                                    url: 'https://hikka.io/logo-icon.png',
-                                },
-                            },
-                        }),
-                    }}
-                />
+                <JsonLd data={websiteJsonLd()} />
                 {userStylesCSS && (
                     <style
                         id={STYLE_ELEMENT_ID}

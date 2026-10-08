@@ -1,9 +1,7 @@
-import { type FC, useMemo } from 'react';
-
-import { followingHistoryInfiniteOptions } from '@hikka/api';
+import type { FC } from 'react';
 
 import MaterialSymbolsHistoryRounded from '@/components/icons/material-symbols/MaterialSymbolsHistoryRounded';
-import { HistoryItem } from '@/components/list-items';
+import { HistoryTimeline } from '@/components/list-items';
 import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
 import EmptyState from '@/components/ui/empty-state';
@@ -13,30 +11,30 @@ import {
     HeaderNavButton,
     HeaderTitle,
 } from '@/components/ui/header';
-import { useSession } from '@/features/auth/hooks/use-session';
+import { useVisible } from '@/services/hooks/use-visible';
+import { useSession } from '@/services/session';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 
-import type { WidgetProps } from '../constants';
+import { homeFollowingHistoryOptions } from '../queries';
+import type { WidgetProps } from '../types';
 
-const HISTORY_SIZE = 3;
-const HISTORY_REFETCH_INTERVAL_MS = 30_000;
+const HISTORY_REFETCH_INTERVAL_MS = 60_000;
 
 const HistoryWidget: FC<WidgetProps> = () => {
     const { user } = useSession();
+    const { ref, visible } = useVisible();
     const { list } = useInfiniteList(
         {
-            ...followingHistoryInfiniteOptions(),
+            ...homeFollowingHistoryOptions(),
             refetchInterval: HISTORY_REFETCH_INTERVAL_MS,
         },
-        { enabled: Boolean(user) },
+        { enabled: visible && Boolean(user) },
     );
-
-    const filteredHistory = useMemo(() => list?.slice(0, HISTORY_SIZE), [list]);
 
     if (!user) return null;
 
     return (
-        <Card className="p-0" id="history">
+        <Card ref={ref} className="p-0" id="history">
             <Block className="w-full gap-4 py-4">
                 <Header
                     href={`/u/${user.username}/history`}
@@ -49,15 +47,11 @@ const HistoryWidget: FC<WidgetProps> = () => {
                     <HeaderNavButton />
                 </Header>
 
-                <div className="flex flex-col gap-6 px-4">
-                    {filteredHistory?.map((item) => (
-                        <HistoryItem
-                            data={item}
-                            key={item.reference}
-                            withUser
-                        />
-                    ))}
-                    {filteredHistory?.length === 0 && (
+                <div className="px-4">
+                    {list && list.length > 0 && (
+                        <HistoryTimeline items={list} withUser />
+                    )}
+                    {list?.length === 0 && (
                         <EmptyState
                             icon={<MaterialSymbolsHistoryRounded />}
                             title="Історія відсутня"

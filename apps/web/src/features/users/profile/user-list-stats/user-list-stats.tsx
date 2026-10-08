@@ -1,5 +1,7 @@
 import { useState } from 'react';
 
+import { useQueryClient } from '@tanstack/react-query';
+
 import { ContentTypeEnum, type MainContentTypeEnum } from '@hikka/api';
 
 import Card from '@/components/ui/card';
@@ -12,9 +14,8 @@ import {
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useParams } from '@/utils/navigation';
 
+import { userListStatsOptions } from '../../queries';
 import ListTabContent from './list-tab-content';
-
-export { ListTabContent };
 
 type ListContentType = MainContentTypeEnum;
 
@@ -43,6 +44,10 @@ const UserListStats = () => {
         ContentTypeEnum.ANIME,
     );
     const tabConfig = TAB_LIST_CONFIG[activeTab];
+    const queryClient = useQueryClient();
+
+    const warmStats = (content_type: MainContentTypeEnum) => () =>
+        queryClient.prefetchQuery(userListStatsOptions(username, content_type));
 
     return (
         <Card className="p-0 py-4" id="user-list-stats">
@@ -68,12 +73,20 @@ const UserListStats = () => {
                             </TabsTrigger>
                             <TabsTrigger
                                 value={ContentTypeEnum.MANGA}
+                                onPointerEnter={warmStats(
+                                    ContentTypeEnum.MANGA,
+                                )}
+                                onFocus={warmStats(ContentTypeEnum.MANGA)}
                                 aria-label="Манґа"
                             >
                                 Манґа
                             </TabsTrigger>
                             <TabsTrigger
                                 value={ContentTypeEnum.NOVEL}
+                                onPointerEnter={warmStats(
+                                    ContentTypeEnum.NOVEL,
+                                )}
+                                onFocus={warmStats(ContentTypeEnum.NOVEL)}
                                 aria-label="Ранобе"
                             >
                                 Ранобе

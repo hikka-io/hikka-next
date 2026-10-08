@@ -1,70 +1,52 @@
-import { createFileRoute, Outlet, redirect } from '@tanstack/react-router';
+import { useQuery } from '@tanstack/react-query';
+import { createFileRoute, Outlet } from '@tanstack/react-router';
 
-import {
-    type CommentContentTypeEnum as CommentsContentType,
-    getCommentsListInfiniteOptions,
-    getEditOptions,
-    paginationPageParam,
-} from '@hikka/api';
+import { getEditOptions } from '@hikka/api';
 
 import Block from '@/components/ui/block';
 import { usePageHeader } from '@/features/app-shell';
-import { useTitle } from '@/features/auth/hooks/use-title';
-import { getCommentSort } from '@/features/comments/utils/comment-sort';
-import { EditContent as Content, EditTimeline } from '@/features/edit';
-import { retryOnCancel } from '@/utils/api/retry-on-cancel';
+import { EditContent, EditTimeline } from '@/features/edit';
+import { useTitle } from '@/services/session';
+import { ensureOr404 } from '@/utils/api/ensure-or-404';
+import { generateHeadMeta } from '@/utils/metadata';
 import { usePathname } from '@/utils/navigation';
 
 export const Route = createFileRoute('/_pages/edit/$editId')({
     loader: async ({ params, context: { queryClient, apiClient } }) => {
-        const editId = Number(params.editId);
-
-        const edit = await retryOnCancel(() =>
+        const edit = await ensureOr404(() =>
             queryClient.ensureQueryData(
                 getEditOptions({
-                    path: { edit_id: editId },
+                    path: { edit_id: Number(params.editId) },
                     client: apiClient,
                 }),
             ),
         );
 
-        if (!edit) throw redirect({ to: '/edit' });
-
-        await queryClient.prefetchInfiniteQuery({
-            ...getCommentsListInfiniteOptions({
-                path: {
-                    content_type: 'edit' as CommentsContentType,
-                    slug: params.editId,
-                },
-                body: { comment_type: 'all', sort: getCommentSort() },
-                client: apiClient,
-            }),
-            ...paginationPageParam(),
-        });
-
         return { edit };
     },
-    head: ({ loaderData }) => ({
-        meta: [
-            {
-                title: loaderData?.edit
-                    ? `#${loaderData.edit.edit_id} / Правки / Hikka`
-                    : 'Правки / Hikka',
-            },
-        ],
-    }),
+    head: ({ loaderData }) =>
+        generateHeadMeta({
+            title: loaderData?.edit
+                ? `#${loaderData.edit.edit_id} / Правки`
+                : 'Правки',
+            description: loaderData?.edit
+                ? `Правка #${loaderData.edit.edit_id} у системі правок спільноти Hikka`
+                : 'Система правок спільноти Hikka',
+        }),
     component: EditLayout,
 });
 
 function EditLayout() {
     const { editId } = Route.useParams();
-    const { edit } = Route.useLoaderData();
+    const { data: edit } = useQuery(
+        getEditOptions({ path: { edit_id: Number(editId) } }),
+    );
     const pathname = usePathname();
-    const contentTitle = useTitle(edit.content);
+    const contentTitle = useTitle(edit?.content);
     const editUrl = `/edit/${editId}`;
 
     usePageHeader({
-        title: `Правка #${edit.edit_id}`,
+        title: `Правка #${edit?.edit_id ?? editId}`,
         subtitle: pathname === editUrl ? contentTitle : 'Редагування',
         parent: pathname === editUrl ? '/edit' : editUrl,
         anchored: true,
@@ -77,11 +59,13 @@ function EditLayout() {
             </Block>
             <div className="flex flex-col gap-6 [&>*:first-child]:backdrop-blur">
                 <EditTimeline editId={editId} />
-                <Content
-                    slug={edit.content.slug as string}
-                    content_type={edit.content_type}
-                    content={edit.content}
-                />
+                {edit && (
+                    <EditContent
+                        slug={edit.content.slug as string}
+                        content_type={edit.content_type}
+                        content={edit.content}
+                    />
+                )}
             </div>
         </div>
     );

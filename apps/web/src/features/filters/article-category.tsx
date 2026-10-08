@@ -2,19 +2,22 @@ import type { FC } from 'react';
 
 import { SquareLibrary } from 'lucide-react';
 
+import { ARTICLE_CATEGORY_ICONS } from '@/components/icons/article-category-icons';
 import { BadgeFilter } from '@/components/ui/badge-filter';
 import { Label } from '@/components/ui/label';
-import { ARTICLE_CATEGORY_OPTIONS } from '@/utils/constants/common';
+import { ARTICLE_CATEGORY } from '@/utils/labels/enum-labels';
+import { useRouteSearch } from '@/utils/navigation';
+import type { ArticlesSearch } from '@/utils/search-schemas';
 
-import useChangeParam from './hooks/use-change-param';
-import { useFilterSearch } from './hooks/use-filter-search';
+import { useChangeParam } from './use-change-param';
 
 type Props = {
     className?: string;
 };
 
-const ArticleCategory: FC<Props> = () => {
-    const { categories = [] } = useFilterSearch<{ categories?: string[] }>();
+const ArticleCategoryFilter: FC<Props> = () => {
+    const { categories = [] } =
+        useRouteSearch<Pick<ArticlesSearch, 'categories'>>();
 
     const handleChangeParam = useChangeParam();
 
@@ -26,10 +29,11 @@ const ArticleCategory: FC<Props> = () => {
             </div>
             <BadgeFilter
                 properties={Object.fromEntries(
-                    Object.entries(ARTICLE_CATEGORY_OPTIONS).filter(
+                    Object.entries(ARTICLE_CATEGORY).filter(
                         ([, value]) => !value.admin,
                     ),
                 )}
+                icons={ARTICLE_CATEGORY_ICONS}
                 selected={categories}
                 property="categories"
                 onParamChange={handleChangeParam}
@@ -38,4 +42,4 @@ const ArticleCategory: FC<Props> = () => {
     );
 };
 
-export default ArticleCategory;
+export default ArticleCategoryFilter;

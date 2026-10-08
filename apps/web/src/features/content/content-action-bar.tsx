@@ -1,73 +1,27 @@
 import type { FC } from 'react';
 
+import { useQuery } from '@tanstack/react-query';
 import { MessageCircle } from 'lucide-react';
 
 import { ContentTypeEnum, type MainContentTypeEnum } from '@hikka/api';
 
-import FavoriteButton from '@/components/action-buttons/favorite-button';
-import ReadlistButton from '@/components/action-buttons/readlist-button';
-import WatchlistButton from '@/components/action-buttons/watchlist-button';
+import { FavoriteButton } from '@/components/action-buttons';
 import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
 import { usePageTitleReveal } from '@/features/app-shell';
-import { useSession } from '@/features/auth/hooks/use-session';
-import EditButton from '@/features/edit/edit-button';
+import { ContentEditsButton } from '@/features/edit';
+import { useSession } from '@/services/session';
+import { contentInfoOptions } from '@/utils/api/content-queries';
 import { cn } from '@/utils/cn';
-import { COMMENT_DECLENSIONS, CONTENT_CONFIG } from '@/utils/constants/common';
 import { getDeclensionWord } from '@/utils/i18n/declension';
+import { COMMENT_FORMS } from '@/utils/i18n/word-forms';
 import { Link, useParams } from '@/utils/navigation';
+
+import ListEntryButton from './list-entry-button';
 
 type Props = {
     className?: string;
     content_type: MainContentTypeEnum | 'character' | 'person';
-};
-
-/** Whatever `CONTENT_CONFIG[type].useInfo` resolves to, across every type. */
-type ContentInfo = NonNullable<
-    ReturnType<
-        (typeof CONTENT_CONFIG)[keyof typeof CONTENT_CONFIG]['useInfo']
-    >['data']
->;
-
-const UserlistButton = ({
-    content_type,
-    content,
-    disabled,
-}: Props & { content?: ContentInfo; disabled?: boolean }) => {
-    const params = useParams();
-
-    switch (content_type) {
-        case ContentTypeEnum.ANIME:
-            return (
-                <WatchlistButton
-                    slug={String(params.slug)}
-                    size="icon-md"
-                    anime={content?.data_type === 'anime' ? content : undefined}
-                    disabled={disabled}
-                />
-            );
-        case ContentTypeEnum.MANGA:
-        case ContentTypeEnum.NOVEL:
-            return (
-                <ReadlistButton
-                    slug={String(params.slug)}
-                    size="icon-md"
-                    content_type={content_type}
-                    content={
-                        content?.data_type === 'manga' ||
-                        content?.data_type === 'novel'
-                            ? content
-                            : undefined
-                    }
-                    disabled={disabled}
-                />
-            );
-        case ContentTypeEnum.PERSON:
-        case ContentTypeEnum.CHARACTER:
-            return null;
-        default:
-            return null;
-    }
 };
 
 const ContentActionBar: FC<Props> = ({ className, content_type }) => {
@@ -75,7 +29,9 @@ const ContentActionBar: FC<Props> = ({ className, content_type }) => {
     const { user: loggedUser } = useSession();
     const { visible: titleVisible, animated } = usePageTitleReveal();
 
-    const { data } = CONTENT_CONFIG[content_type].useInfo(String(params.slug));
+    const { data } = useQuery(
+        contentInfoOptions(content_type, String(params.slug)),
+    );
     // data_type is a per-response literal; widen to string so the
     // character/person checks below typecheck across the content-type union.
     const dataType = data?.data_type as string | undefined;
@@ -97,10 +53,11 @@ const ContentActionBar: FC<Props> = ({ className, content_type }) => {
                 className="flex-row gap-2 px-3 py-2"
                 id="navbar-card"
             >
-                <UserlistButton
+                <ListEntryButton
                     content_type={content_type}
                     content={data}
                     disabled={!loggedUser}
+                    size="icon-md"
                 />
                 <FavoriteButton
                     slug={String(params.slug)}
@@ -124,7 +81,7 @@ const ContentActionBar: FC<Props> = ({ className, content_type }) => {
                                 <span className="hidden sm:inline">
                                     {getDeclensionWord(
                                         commentsCount ?? 0,
-                                        COMMENT_DECLENSIONS,
+                                        COMMENT_FORMS,
                                     )}
                                 </span>
                             </span>
@@ -138,7 +95,7 @@ const ContentActionBar: FC<Props> = ({ className, content_type }) => {
                 {loggedUser && (
                     <>
                         <div className="h-full w-px bg-border" />
-                        <EditButton
+                        <ContentEditsButton
                             key={String(params.slug)}
                             slug={String(params.slug)}
                             content_type={content_type}

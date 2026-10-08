@@ -8,17 +8,18 @@ import {
     TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { cn } from '@/utils/cn';
+import { USER_ROLE } from '@/utils/labels';
 
 const ROLE = {
     admin: {
         icon: MaterialSymbolsSecurity,
         className: 'text-role-admin',
-        label: 'Адміністратор',
+        label: USER_ROLE.admin.label,
     },
     moderator: {
         icon: MaterialSymbolsShieldPerson,
         className: 'text-role-moderator',
-        label: 'Модератор',
+        label: USER_ROLE.moderator.label,
     },
 } as const;
 
@@ -29,7 +30,7 @@ type Props = {
     variant?: 'boxed' | 'inline';
 };
 
-export const RoleBadge: FC<Props> = ({ role, variant = 'boxed' }) => {
+const RoleBadge: FC<Props> = ({ role, variant = 'boxed' }) => {
     const config =
         role === 'admin' || role === 'moderator' ? ROLE[role] : undefined;
     if (!config) return null;
@@ -57,3 +58,5 @@ export const RoleBadge: FC<Props> = ({ role, variant = 'boxed' }) => {
         </Tooltip>
     );
 };
+
+export default RoleBadge;

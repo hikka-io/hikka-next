@@ -3,8 +3,7 @@ import { type FC, useState } from 'react';
 import { Film } from 'lucide-react';
 import { useEditorRef } from 'platejs/react';
 
-import { useTextForm } from '@/components/form/use-text-form';
-import { VideoPlugin } from '@/components/plate/editor/plugins/video-kit';
+import { useAppForm } from '@/components/form';
 import { Button } from '@/components/ui/button';
 import {
     ResponsiveModal,
@@ -12,28 +11,14 @@ import {
     ResponsiveModalFooter,
 } from '@/components/ui/responsive-modal';
 import { z } from '@/utils/i18n/zod';
+import { isYouTubeVideoUrl, normalizeYouTubeVideoUrl } from '@/utils/youtube';
 
+import { VideoPlugin } from '../editor/plugins/video-kit';
 import { ToolbarButton } from './toolbar';
 
-const urlSchema = z
-    .string()
-    .url()
-    .refine(
-        (url) => {
-            try {
-                const parsedUrl = new URL(url);
-                return (
-                    parsedUrl.hostname.includes('youtube.com') ||
-                    parsedUrl.hostname.includes('youtu.be')
-                );
-            } catch {
-                return false;
-            }
-        },
-        {
-            message: 'Невірне посилання на YouTube',
-        },
-    );
+const urlSchema = z.string().url().refine(isYouTubeVideoUrl, {
+    message: 'Невірне посилання на YouTube',
+});
 
 const formSchema = z.object({
     url: urlSchema,
@@ -45,17 +30,17 @@ type AddVideoModalProps = {
 };
 
 const AddVideoModal: FC<AddVideoModalProps> = ({ editor, onClose }) => {
-    const form = useTextForm({
+    const form = useAppForm({
         defaultValues: {
             url: '',
         },
         validators: { onSubmit: formSchema },
         onSubmit: async ({ value }) => {
-            if (!value.url.trim()) return;
+            const url = normalizeYouTubeVideoUrl(value.url);
 
-            editor
-                .getTransforms(VideoPlugin)
-                .insert.video({ url: value.url.trim() });
+            if (!url) return;
+
+            editor.getTransforms(VideoPlugin).insert.video({ url });
             editor.tf.focus();
 
             onClose();
@@ -63,41 +48,36 @@ const AddVideoModal: FC<AddVideoModalProps> = ({ editor, onClose }) => {
     });
 
     return (
-        <form
-            onSubmit={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                form.handleSubmit();
-            }}
-            className="contents"
-        >
-            <div className="-m-4 flex flex-1 flex-col gap-6 overflow-y-auto p-4">
-                <form.AppField
-                    name="url"
-                    children={(field) => (
-                        <field.TextField
-                            label="Посилання на відео"
-                            placeholder="Введіть посилання"
-                            className="flex-1"
-                            description="Підтримуються посилання на YouTube"
-                        />
-                    )}
-                />
-            </div>
-            <ResponsiveModalFooter>
-                <Button
-                    onClick={onClose}
-                    type="button"
-                    variant="outline"
-                    size="md"
-                >
-                    Скасувати
-                </Button>
-                <Button type="submit" size="md">
-                    Прийняти
-                </Button>
-            </ResponsiveModalFooter>
-        </form>
+        <form.AppForm>
+            <form.Form className="contents">
+                <div className="-m-4 flex flex-1 flex-col gap-6 overflow-y-auto p-4">
+                    <form.AppField
+                        name="url"
+                        children={(field) => (
+                            <field.TextField
+                                label="Посилання на відео"
+                                placeholder="Введіть посилання"
+                                className="flex-1"
+                                description="Підтримуються посилання на YouTube"
+                            />
+                        )}
+                    />
+                </div>
+                <ResponsiveModalFooter>
+                    <Button
+                        onClick={onClose}
+                        type="button"
+                        variant="outline"
+                        size="md"
+                    >
+                        Скасувати
+                    </Button>
+                    <Button type="submit" size="md">
+                        Прийняти
+                    </Button>
+                </ResponsiveModalFooter>
+            </form.Form>
+        </form.AppForm>
     );
 };
 

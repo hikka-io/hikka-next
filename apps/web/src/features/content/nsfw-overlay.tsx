@@ -5,11 +5,14 @@ import { getAuthToken } from '@hikka/api';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import Image from '@/components/ui/image';
-import { useUpdateSessionUI } from '@/features/auth/hooks/use-update-session-ui';
-import { setNsfwConsentFn } from '@/utils/cookies/server';
+import { useUpdateSessionUI } from '@/services/session';
+import {
+    COOKIE,
+    grantNsfwSessionConsent,
+    hasNsfwSessionConsent,
+    setNsfwConsentFn,
+} from '@/utils/cookies';
 import { useRouter } from '@/utils/navigation';
-
-import { grantNsfwSessionConsent, hasNsfwSessionConsent } from './nsfw-consent';
 
 const NsfwOverlay: FC = () => {
     const router = useRouter();
@@ -17,7 +20,7 @@ const NsfwOverlay: FC = () => {
     const [dismissed, setDismissed] = useState(() => {
         if (hasNsfwSessionConsent()) return true;
         if (typeof document === 'undefined') return false;
-        return document.cookie.includes('nsfw_confirmed=');
+        return document.cookie.includes(`${COOKIE.nsfwConsent.name}=`);
     });
     const [remember, setRemember] = useState(false);
 

@@ -2,18 +2,21 @@ import type { FC } from 'react';
 
 import { Tag as TagIcon } from 'lucide-react';
 
+import { API_LIMITS } from '@hikka/api';
+
 import { InputTags } from '@/components/ui/input-tags';
 import { Label } from '@/components/ui/label';
+import { useRouteSearch } from '@/utils/navigation';
+import type { ArticlesSearch } from '@/utils/search-schemas';
 
-import useChangeParam from './hooks/use-change-param';
-import { useFilterSearch } from './hooks/use-filter-search';
+import { useChangeParam } from './use-change-param';
 
 type Props = {
     className?: string;
 };
 
-const Tag: FC<Props> = () => {
-    const { tags = [] } = useFilterSearch<{ tags?: string[] }>();
+const TagFilter: FC<Props> = () => {
+    const { tags = [] } = useRouteSearch<Pick<ArticlesSearch, 'tags'>>();
 
     const handleChangeParam = useChangeParam();
 
@@ -24,7 +27,7 @@ const Tag: FC<Props> = () => {
                 <Label>Теги</Label>
             </div>
             <InputTags
-                disabled={tags.length === 3}
+                disabled={tags.length === API_LIMITS.tags.max}
                 id="tags"
                 value={tags}
                 onChange={(tags) => handleChangeParam('tags', tags as string[])}
@@ -33,4 +36,4 @@ const Tag: FC<Props> = () => {
     );
 };
 
-export default Tag;
+export default TagFilter;

@@ -6,19 +6,17 @@ import type {
     NovelResponseWithRead,
 } from '@hikka/api';
 
-import ReadlistButton from '@/components/action-buttons/readlist-button';
-import WatchlistButton from '@/components/action-buttons/watchlist-button';
-import Card from '@/components/ui/card';
 import {
     HorizontalCard,
     HorizontalCardContainer,
     HorizontalCardDescription,
     HorizontalCardImage,
     HorizontalCardTitle,
-} from '@/components/ui/horizontal-card';
-import { useSession } from '@/features/auth/hooks/use-session';
-import { useTitle } from '@/features/auth/hooks/use-title';
-import { MEDIA_TYPE } from '@/utils/constants/common';
+} from '@/components/horizontal-card';
+import { ReadListButton, WatchListButton } from '@/components/tracking';
+import Card from '@/components/ui/card';
+import { useSession, useTitle } from '@/services/session';
+import { getMediaTypeLabel } from '@/utils/labels';
 
 type Props = {
     content:
@@ -51,19 +49,13 @@ const FranchiseItem: FC<Props> = ({ content, preview }) => {
                             <div className="size-1 rounded-full bg-muted-foreground" />
                         )}
                         {content.media_type && (
-                            <p>
-                                {
-                                    MEDIA_TYPE[
-                                        content.media_type as keyof typeof MEDIA_TYPE
-                                    ].title_ua
-                                }
-                            </p>
+                            <p>{getMediaTypeLabel(content.media_type)}</p>
                         )}
                     </HorizontalCardDescription>
                 </HorizontalCardContainer>
             </HorizontalCard>
             {content.data_type === 'anime' && !preview && (
-                <WatchlistButton
+                <WatchListButton
                     slug={content.slug}
                     anime={content}
                     watch={content.watch?.[0] ?? null}
@@ -72,7 +64,7 @@ const FranchiseItem: FC<Props> = ({ content, preview }) => {
                 />
             )}
             {content.data_type !== 'anime' && !preview && (
-                <ReadlistButton
+                <ReadListButton
                     content_type={content.data_type}
                     slug={content.slug}
                     content={content}

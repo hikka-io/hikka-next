@@ -4,7 +4,6 @@ import { setupRouterSsrQueryIntegration } from '@tanstack/react-router-ssr-query
 import { toast } from 'sonner';
 
 import {
-    type Client as ApiClient,
     configureBrowserClient,
     createRequestClient,
     getBrowserClient,
@@ -12,19 +11,21 @@ import {
     profileUiOptions,
 } from '@hikka/api';
 
-import ErrorPage from '@/components/error-page';
+import { ErrorPage } from '@/features/app-shell';
 import { getInternalApiUrl, PUBLIC_API_URL } from '@/utils/api/base-url';
+import { getClientIpFn } from '@/utils/api/client-ip';
+import type { LoaderContext } from '@/utils/api/loader-prefetch';
 import { shouldSkipGlobalErrorToast } from '@/utils/api/mutation-meta';
+import {
+    applyQueryDefaults,
+    QUERY_CLIENT_DEFAULTS,
+} from '@/utils/api/query-defaults';
+import { getAuthTokenFn } from '@/utils/cookies';
+import { isServer } from '@/utils/is-server';
 
 import { routeTree } from './routeTree.gen';
-import { getAuthTokenFn, getClientIpFn } from './utils/cookies';
 
-export interface RouterContext {
-    queryClient: QueryClient;
-    apiClient: ApiClient;
-}
-
-const isServer = typeof window === 'undefined';
+export type RouterContext = LoaderContext;
 
 export async function createRouter() {
     const queryClient = new QueryClient({
@@ -34,24 +35,19 @@ export async function createRouter() {
                 toast.error(error.message);
             },
         }),
-        defaultOptions: {
-            queries: {
-                staleTime: 60 * 1000,
-                gcTime: Infinity,
-                retry: false,
-            },
-        },
+        defaultOptions: { queries: QUERY_CLIENT_DEFAULTS },
     });
+    applyQueryDefaults(queryClient);
 
     const authToken = await getAuthTokenFn();
-    const clientIp = isServer ? await getClientIpFn() : null;
+    const clientIp = isServer() ? await getClientIpFn() : null;
 
     configureBrowserClient({
         baseUrl: PUBLIC_API_URL,
-        authToken: isServer ? undefined : (authToken ?? undefined),
+        authToken: isServer() ? undefined : (authToken ?? undefined),
     });
 
-    const apiClient = isServer
+    const apiClient = isServer()
         ? createRequestClient({
               baseUrl: PUBLIC_API_URL,
               internalBaseUrl: getInternalApiUrl(),
@@ -75,7 +71,7 @@ export async function createRouter() {
         wrapQueryClient: true,
     });
 
-    if (isServer && authToken) {
+    if (isServer() && authToken) {
         await Promise.all([
             queryClient.prefetchQuery(profileOptions({ client: apiClient })),
             queryClient.prefetchQuery(profileUiOptions({ client: apiClient })),

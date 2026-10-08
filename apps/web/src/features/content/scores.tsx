@@ -1,11 +1,14 @@
+import { useQuery } from '@tanstack/react-query';
+
 import type { MainContentTypeEnum } from '@hikka/api';
 
-import Hikka from '@/components/icons/custom/Hikka';
+import HikkaLogoGradient from '@/components/icons/custom/HikkaLogoGradient';
 import MAL from '@/components/icons/custom/MAL';
 import MaterialSymbolsStarRounded from '@/components/icons/material-symbols/MaterialSymbolsStarRounded';
 import { Separator } from '@/components/ui/separator';
+import { contentInfoOptions } from '@/utils/api/content-queries';
 import { cn } from '@/utils/cn';
-import { CONTENT_CONFIG } from '@/utils/constants/common';
+import { formatCompactNumber } from '@/utils/i18n/number';
 import { useParams } from '@/utils/navigation';
 
 type ScoresProps = {
@@ -13,15 +16,11 @@ type ScoresProps = {
     content_type: MainContentTypeEnum;
 };
 
-const Scores = ({ className, content_type }: ScoresProps) => {
+const ContentScores = ({ className, content_type }: ScoresProps) => {
     const params = useParams();
-    const { data } = CONTENT_CONFIG[content_type].useInfo(String(params.slug));
-
-    const compact = (n: number) =>
-        new Intl.NumberFormat('en', {
-            notation: 'compact',
-            maximumFractionDigits: 1,
-        }).format(n);
+    const { data } = useQuery(
+        contentInfoOptions(content_type, String(params.slug)),
+    );
 
     if (!data || (data.score === 0 && data.native_score === 0)) {
         return null;
@@ -50,7 +49,7 @@ const Scores = ({ className, content_type }: ScoresProps) => {
                         </div>
 
                         <p className="line-clamp-1 text-muted-foreground text-xs tracking-wider">
-                            {compact(data.scored_by)} оцінок
+                            {formatCompactNumber(data.scored_by)} оцінок
                         </p>
                     </div>
                 </div>
@@ -62,7 +61,7 @@ const Scores = ({ className, content_type }: ScoresProps) => {
 
             {!!data.native_score && (
                 <div className="flex flex-1 items-center justify-center gap-4">
-                    <Hikka className="h-4 w-4 shrink-0" />
+                    <HikkaLogoGradient className="h-4 w-4 shrink-0" />
                     <div className="flex flex-col items-start justify-start">
                         <div className="flex items-center gap-1">
                             <p className="font-bold font-display">
@@ -72,7 +71,7 @@ const Scores = ({ className, content_type }: ScoresProps) => {
                             <MaterialSymbolsStarRounded className="text-lg text-yellow-400" />
                         </div>
                         <p className="line-clamp-1 text-muted-foreground text-xs tracking-wider">
-                            {compact(data.native_scored_by)} оцінок
+                            {formatCompactNumber(data.native_scored_by)} оцінок
                         </p>
                     </div>
                 </div>
@@ -81,4 +80,4 @@ const Scores = ({ className, content_type }: ScoresProps) => {
     );
 };
 
-export default Scores;
+export default ContentScores;

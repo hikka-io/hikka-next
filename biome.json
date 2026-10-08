@@ -1,5 +1,5 @@
 {
-    "$schema": "https://biomejs.dev/schemas/2.5.1/schema.json",
+    "$schema": "https://biomejs.dev/schemas/2.5.14/schema.json",
     "vcs": {
         "enabled": true,
         "clientKind": "git",
@@ -7,17 +7,7 @@
     },
     "files": {
         "ignoreUnknown": true,
-        "includes": [
-            "**",
-            "!**/dist",
-            "!**/.output",
-            "!**/.nitro",
-            "!**/.vinxi",
-            "!**/.turbo",
-            "!**/coverage",
-            "!**/public",
-            "!**/routeTree.gen.ts"
-        ]
+        "includes": ["**", "!**/.nitro", "!**/public", "!**/routeTree.gen.ts"]
     },
     "formatter": {
         "enabled": true,
@@ -42,14 +32,20 @@
     "linter": {
         "enabled": true,
         "rules": {
-            "recommended": true,
+            "preset": "recommended",
             "correctness": {
                 "noChildrenProp": "off",
+                "noUnsafeOptionalChaining": "warn",
                 "useExhaustiveDependencies": "warn"
             },
             "suspicious": {
-                "noArrayIndexKey": "warn"
+                "noArrayIndexKey": "warn",
+                "noImportCycles": {
+                    "level": "error",
+                    "options": { "ignoreTypes": true }
+                }
             },
+            "style": { "noEnum": "error" },
             "nursery": {
                 "useSortedClasses": {
                     "level": "warn",
@@ -60,6 +56,79 @@
             }
         }
     },
+    "plugins": [
+        {
+            "path": "./apps/web/biome-plugins/feature-relative-escape.grit",
+            "includes": [
+                "**/apps/web/src/**",
+                "!**/*.test.ts",
+                "!**/*.test.tsx"
+            ]
+        },
+        {
+            "path": "./apps/web/biome-plugins/component-group-barrels.grit",
+            "includes": [
+                "**/apps/web/src/**",
+                "!**/*.test.ts",
+                "!**/*.test.tsx"
+            ]
+        },
+        {
+            "path": "./apps/web/biome-plugins/no-const-component.grit",
+            "includes": ["**/apps/web/src/**/*.tsx", "!**/*.test.tsx"]
+        },
+        {
+            "path": "./apps/web/biome-plugins/no-cache-writes.grit",
+            "includes": [
+                "**/apps/web/src/**",
+                "!**/apps/web/src/utils/api/**",
+                "!**/*.test.ts",
+                "!**/*.test.tsx"
+            ]
+        },
+        {
+            "path": "./apps/web/biome-plugins/no-query-policy.grit",
+            "includes": [
+                "**/apps/web/src/**",
+                "!**/*.test.ts",
+                "!**/*.test.tsx"
+            ]
+        },
+        {
+            "path": "./apps/web/biome-plugins/no-literal-query-key.grit",
+            "includes": [
+                "**/apps/web/src/**",
+                "!**/*.test.ts",
+                "!**/*.test.tsx"
+            ]
+        },
+        {
+            "path": "./apps/web/biome-plugins/no-raw-infinite-query.grit",
+            "includes": [
+                "**/apps/web/src/**",
+                "!**/apps/web/src/utils/api/**",
+                "!**/*.test.ts",
+                "!**/*.test.tsx"
+            ]
+        },
+        {
+            "path": "./apps/web/biome-plugins/no-loader-redirect.grit",
+            "includes": [
+                "**/apps/web/src/**",
+                "!**/*.test.ts",
+                "!**/*.test.tsx"
+            ]
+        },
+        {
+            "path": "./apps/web/biome-plugins/no-page-reload.grit",
+            "includes": [
+                "**/apps/web/src/**",
+                "!**/apps/web/src/utils/**",
+                "!**/*.test.ts",
+                "!**/*.test.tsx"
+            ]
+        }
+    ],
     "overrides": [
         {
             "includes": ["packages/api/src/gen/**"],
@@ -73,6 +142,962 @@
                     "a11y": {
                         "noSvgWithoutTitle": "off",
                         "useAltText": "off"
+                    }
+                }
+            }
+        },
+        {
+            "includes": ["apps/web/src/**"],
+            "linter": { "rules": { "style": { "noProcessEnv": "error" } } }
+        },
+        {
+            "includes": [
+                "apps/web/src/**",
+                "!apps/web/src/utils/**",
+                "!**/*.test.ts",
+                "!**/*.test.tsx"
+            ],
+            "linter": {
+                "rules": {
+                    "style": {
+                        "noRestrictedGlobals": {
+                            "level": "error",
+                            "options": {
+                                "deniedGlobals": {
+                                    "fetch": "[R6] Requests go through @hikka/api or a utils/ module, not a raw fetch."
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "includes": [
+                "apps/web/src/components/content-card/context-menu-overlay.tsx",
+                "apps/web/src/components/content-card/entity-card.tsx",
+                "apps/web/src/components/content-card/tooltips/character-tooltip.tsx",
+                "apps/web/src/components/content-card/tooltips/index.ts",
+                "apps/web/src/components/content-card/tooltips/media-tooltip-content.tsx",
+                "apps/web/src/components/content-card/tooltips/media-tooltip.tsx",
+                "apps/web/src/components/content-card/tooltips/person-tooltip.tsx",
+                "apps/web/src/components/content-card/tooltips/user-tooltip.tsx",
+                "apps/web/src/components/markdown/index.ts",
+                "apps/web/src/components/markdown/link.tsx",
+                "apps/web/src/components/markdown/md-viewer.tsx",
+                "apps/web/src/components/plate/editor/diff-viewer.tsx",
+                "apps/web/src/components/plate/editor/markdown-editor.tsx",
+                "apps/web/src/components/plate/editor/plugins/link-base-kit.tsx",
+                "apps/web/src/components/plate/editor/static-kit.tsx",
+                "apps/web/src/components/plate/ui/link-node-static.tsx",
+                "apps/web/src/features/comments/comment-tree.tsx",
+                "apps/web/src/features/comments/comment.tsx",
+                "apps/web/src/features/edit/edit-forms/components/edit-group.tsx",
+                "apps/web/src/features/edit/edit-forms/edit-form-fields.tsx",
+                "apps/web/src/features/edit/edit-forms/params/edit-param-utils.ts",
+                "apps/web/src/features/edit/edit-forms/params/markdown-param.tsx",
+                "apps/web/src/features/edit/quick-edit/index.ts",
+                "apps/web/src/features/edit/quick-edit/quick-edit-modal.tsx",
+                "apps/web/src/features/edit/quick-edit/use-quick-edit.tsx"
+            ],
+            "linter": { "rules": { "suspicious": { "noImportCycles": "off" } } }
+        },
+        {
+            "includes": [
+                "apps/web/src/utils/api/base-url.ts",
+                "apps/web/src/utils/cookies/domain.ts"
+            ],
+            "linter": { "rules": { "style": { "noProcessEnv": "off" } } }
+        },
+        {
+            "includes": [
+                "apps/web/src/routes/**",
+                "apps/web/src/*.tsx",
+                "apps/web/src/*.ts"
+            ],
+            "linter": {
+                "rules": {
+                    "style": {
+                        "noRestrictedImports": {
+                            "level": "error",
+                            "options": {
+                                "patterns": [
+                                    {
+                                        "group": [
+                                            "@/features/*/**",
+                                            "!@/features/*/queries",
+                                            "!@/features/content/detail-route"
+                                        ],
+                                        "message": "[D7] Import another feature only through its root barrel (@/features/x) or a named loader-safe entry (@/features/x/queries, @/features/content/detail-route); inside a feature use relative paths."
+                                    },
+                                    {
+                                        "group": ["@/features/*"],
+                                        "importNamePattern": "prefetch.*|load[A-Z].*|fetch[A-Z].*|.*Options",
+                                        "message": "[D11] Loader helpers (xxxOptions, prefetchX, loadX, fetchX) come from @/features/x/queries or utils/api, never from a feature UI barrel."
+                                    },
+                                    {
+                                        "group": [
+                                            "@/utils/constants",
+                                            "@/utils/constants/**",
+                                            "**/utils/constants",
+                                            "**/utils/constants/**"
+                                        ],
+                                        "message": "[C1] utils/constants/ is dissolved: import the owner module (utils/labels, utils/sort, a domain-named file or the owning feature)."
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "includes": ["apps/web/src/features/**"],
+            "linter": {
+                "rules": {
+                    "style": {
+                        "noRestrictedImports": {
+                            "level": "error",
+                            "options": {
+                                "patterns": [
+                                    {
+                                        "group": [
+                                            "@/routes/**",
+                                            "**/routes/**"
+                                        ],
+                                        "message": "[D1] Nothing imports routes/; routes are the top of the DAG."
+                                    },
+                                    {
+                                        "group": [
+                                            "@/features/*/**",
+                                            "!@/features/*/queries",
+                                            "!@/features/content/detail-route"
+                                        ],
+                                        "message": "[D7] Import another feature only through its root barrel (@/features/x) or a named loader-safe entry (@/features/x/queries, @/features/content/detail-route); inside a feature use relative paths."
+                                    },
+                                    {
+                                        "group": [
+                                            "@/utils/constants",
+                                            "@/utils/constants/**",
+                                            "**/utils/constants",
+                                            "**/utils/constants/**"
+                                        ],
+                                        "message": "[C1] utils/constants/ is dissolved: import the owner module (utils/labels, utils/sort, a domain-named file or the owning feature)."
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "includes": ["apps/web/src/components/**"],
+            "linter": {
+                "rules": {
+                    "style": {
+                        "noRestrictedImports": {
+                            "level": "error",
+                            "options": {
+                                "patterns": [
+                                    {
+                                        "group": [
+                                            "@/routes/**",
+                                            "**/routes/**"
+                                        ],
+                                        "message": "[D1] Nothing imports routes/; routes are the top of the DAG."
+                                    },
+                                    {
+                                        "group": [
+                                            "@/features/**",
+                                            "**/features/**"
+                                        ],
+                                        "message": "[D2] components/ must not import features/; only the sanctioned entries (content-card -> @/features/edit/quick-edit, plate -> @/features/search) are allowed."
+                                    },
+                                    {
+                                        "group": [
+                                            "@/utils/constants",
+                                            "@/utils/constants/**",
+                                            "**/utils/constants",
+                                            "**/utils/constants/**"
+                                        ],
+                                        "message": "[C1] utils/constants/ is dissolved: import the owner module (utils/labels, utils/sort, a domain-named file or the owning feature)."
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "includes": ["apps/web/src/components/content-card/**"],
+            "linter": {
+                "rules": {
+                    "style": {
+                        "noRestrictedImports": {
+                            "level": "error",
+                            "options": {
+                                "patterns": [
+                                    {
+                                        "group": [
+                                            "@/routes/**",
+                                            "**/routes/**"
+                                        ],
+                                        "message": "[D1] Nothing imports routes/; routes are the top of the DAG."
+                                    },
+                                    {
+                                        "group": [
+                                            "@/features/**",
+                                            "**/features/**",
+                                            "!@/features/edit/quick-edit"
+                                        ],
+                                        "message": "[D2] components/ must not import features/; only the sanctioned entries (content-card -> @/features/edit/quick-edit, plate -> @/features/search) are allowed."
+                                    },
+                                    {
+                                        "group": [
+                                            "@/utils/constants",
+                                            "@/utils/constants/**",
+                                            "**/utils/constants",
+                                            "**/utils/constants/**"
+                                        ],
+                                        "message": "[C1] utils/constants/ is dissolved: import the owner module (utils/labels, utils/sort, a domain-named file or the owning feature)."
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "includes": ["apps/web/src/components/plate/**"],
+            "linter": {
+                "rules": {
+                    "style": {
+                        "noRestrictedImports": {
+                            "level": "error",
+                            "options": {
+                                "patterns": [
+                                    {
+                                        "group": [
+                                            "@/routes/**",
+                                            "**/routes/**"
+                                        ],
+                                        "message": "[D1] Nothing imports routes/; routes are the top of the DAG."
+                                    },
+                                    {
+                                        "group": [
+                                            "@/features/**",
+                                            "**/features/**",
+                                            "!@/features/search"
+                                        ],
+                                        "message": "[D2] components/ must not import features/; only the sanctioned entries (content-card -> @/features/edit/quick-edit, plate -> @/features/search) are allowed."
+                                    },
+                                    {
+                                        "group": [
+                                            "@/utils/constants",
+                                            "@/utils/constants/**",
+                                            "**/utils/constants",
+                                            "**/utils/constants/**"
+                                        ],
+                                        "message": "[C1] utils/constants/ is dissolved: import the owner module (utils/labels, utils/sort, a domain-named file or the owning feature)."
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "includes": ["apps/web/src/components/ui/**"],
+            "linter": {
+                "rules": {
+                    "style": {
+                        "noRestrictedImports": {
+                            "level": "error",
+                            "options": {
+                                "patterns": [
+                                    {
+                                        "group": [
+                                            "@/routes/**",
+                                            "**/routes/**"
+                                        ],
+                                        "message": "[D1] Nothing imports routes/; routes are the top of the DAG."
+                                    },
+                                    {
+                                        "group": [
+                                            "@/components/**",
+                                            "../**",
+                                            "!@/components/ui/**",
+                                            "!@/components/icons/**",
+                                            "!../ui/**",
+                                            "!../icons/**"
+                                        ],
+                                        "message": "[D3] components/ui is primitive-only: import only ui, icons, utils and services."
+                                    },
+                                    {
+                                        "group": ["@/features/**"],
+                                        "message": "[D3] components/ui is primitive-only: import only ui, icons, utils and services."
+                                    },
+                                    {
+                                        "group": [
+                                            "@/utils/constants",
+                                            "@/utils/constants/**",
+                                            "**/utils/constants",
+                                            "**/utils/constants/**"
+                                        ],
+                                        "message": "[C1] utils/constants/ is dissolved: import the owner module (utils/labels, utils/sort, a domain-named file or the owning feature)."
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "includes": ["apps/web/src/components/icons/**"],
+            "linter": {
+                "rules": {
+                    "style": {
+                        "noRestrictedImports": {
+                            "level": "error",
+                            "options": {
+                                "patterns": [
+                                    {
+                                        "group": [
+                                            "@/**",
+                                            "!@/components/icons/**",
+                                            "../../**"
+                                        ],
+                                        "message": "[D4] components/icons are leaves: they import nothing from the app."
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "includes": ["apps/web/src/services/**"],
+            "linter": {
+                "rules": {
+                    "style": {
+                        "noRestrictedImports": {
+                            "level": "error",
+                            "options": {
+                                "patterns": [
+                                    {
+                                        "group": [
+                                            "@/routes/**",
+                                            "**/routes/**"
+                                        ],
+                                        "message": "[D1] Nothing imports routes/; routes are the top of the DAG."
+                                    },
+                                    {
+                                        "group": [
+                                            "@/components/**",
+                                            "**/components/**",
+                                            "!@/components/icons/**",
+                                            "!**/components/icons/**"
+                                        ],
+                                        "message": "[D5] utils/ and services/ import no components (icons excepted)."
+                                    },
+                                    {
+                                        "group": [
+                                            "@/features/**",
+                                            "**/features/**"
+                                        ],
+                                        "message": "[D5] utils/ and services/ import no features."
+                                    },
+                                    {
+                                        "group": [
+                                            "@/utils/constants",
+                                            "@/utils/constants/**",
+                                            "**/utils/constants",
+                                            "**/utils/constants/**"
+                                        ],
+                                        "message": "[C1] utils/constants/ is dissolved: import the owner module (utils/labels, utils/sort, a domain-named file or the owning feature)."
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "includes": ["apps/web/src/utils/**"],
+            "linter": {
+                "rules": {
+                    "style": {
+                        "noRestrictedImports": {
+                            "level": "error",
+                            "options": {
+                                "patterns": [
+                                    {
+                                        "group": [
+                                            "@/routes/**",
+                                            "**/routes/**"
+                                        ],
+                                        "message": "[D1] Nothing imports routes/; routes are the top of the DAG."
+                                    },
+                                    {
+                                        "group": [
+                                            "@/components/**",
+                                            "**/components/**",
+                                            "!@/components/icons/**",
+                                            "!**/components/icons/**"
+                                        ],
+                                        "message": "[D5] utils/ and services/ import no components (icons excepted)."
+                                    },
+                                    {
+                                        "group": [
+                                            "@/features/**",
+                                            "**/features/**"
+                                        ],
+                                        "message": "[D5] utils/ and services/ import no features."
+                                    },
+                                    {
+                                        "group": [
+                                            "@/services/**",
+                                            "**/services/**"
+                                        ],
+                                        "message": "[D5] utils/ sits below services/ and must not import it."
+                                    },
+                                    {
+                                        "group": [
+                                            "@/utils/constants",
+                                            "@/utils/constants/**",
+                                            "**/utils/constants",
+                                            "**/utils/constants/**"
+                                        ],
+                                        "message": "[C1] utils/constants/ is dissolved: import the owner module (utils/labels, utils/sort, a domain-named file or the owning feature)."
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "includes": ["apps/web/src/features/filters/**"],
+            "linter": {
+                "rules": {
+                    "style": {
+                        "noRestrictedImports": {
+                            "level": "error",
+                            "options": {
+                                "patterns": [
+                                    {
+                                        "group": [
+                                            "@/routes/**",
+                                            "**/routes/**"
+                                        ],
+                                        "message": "[D1] Nothing imports routes/; routes are the top of the DAG."
+                                    },
+                                    {
+                                        "group": [
+                                            "@/features/**",
+                                            "!@/features/filters",
+                                            "!@/features/filters/**"
+                                        ],
+                                        "message": "[D8] Leaf feature: imports no other feature."
+                                    },
+                                    {
+                                        "group": [
+                                            "@/features/filters",
+                                            "@/features/filters/**"
+                                        ],
+                                        "message": "[D7] Inside a feature use relative paths, never the own barrel or an @/features self-alias."
+                                    },
+                                    {
+                                        "group": [
+                                            "@/utils/constants",
+                                            "@/utils/constants/**",
+                                            "**/utils/constants",
+                                            "**/utils/constants/**"
+                                        ],
+                                        "message": "[C1] utils/constants/ is dissolved: import the owner module (utils/labels, utils/sort, a domain-named file or the owning feature)."
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "includes": ["apps/web/src/features/notifications/**"],
+            "linter": {
+                "rules": {
+                    "style": {
+                        "noRestrictedImports": {
+                            "level": "error",
+                            "options": {
+                                "patterns": [
+                                    {
+                                        "group": [
+                                            "@/routes/**",
+                                            "**/routes/**"
+                                        ],
+                                        "message": "[D1] Nothing imports routes/; routes are the top of the DAG."
+                                    },
+                                    {
+                                        "group": [
+                                            "@/features/**",
+                                            "!@/features/notifications",
+                                            "!@/features/notifications/**"
+                                        ],
+                                        "message": "[D8] Leaf feature: imports no other feature."
+                                    },
+                                    {
+                                        "group": [
+                                            "@/features/notifications",
+                                            "@/features/notifications/**"
+                                        ],
+                                        "message": "[D7] Inside a feature use relative paths, never the own barrel or an @/features self-alias."
+                                    },
+                                    {
+                                        "group": [
+                                            "@/utils/constants",
+                                            "@/utils/constants/**",
+                                            "**/utils/constants",
+                                            "**/utils/constants/**"
+                                        ],
+                                        "message": "[C1] utils/constants/ is dissolved: import the owner module (utils/labels, utils/sort, a domain-named file or the owning feature)."
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "includes": ["apps/web/src/features/auth/**"],
+            "linter": {
+                "rules": {
+                    "style": {
+                        "noRestrictedImports": {
+                            "level": "error",
+                            "options": {
+                                "patterns": [
+                                    {
+                                        "group": [
+                                            "@/routes/**",
+                                            "**/routes/**"
+                                        ],
+                                        "message": "[D1] Nothing imports routes/; routes are the top of the DAG."
+                                    },
+                                    {
+                                        "group": [
+                                            "@/features/**",
+                                            "!@/features/auth",
+                                            "!@/features/auth/**"
+                                        ],
+                                        "message": "[D8] Leaf feature: imports no other feature."
+                                    },
+                                    {
+                                        "group": [
+                                            "@/features/auth",
+                                            "@/features/auth/**"
+                                        ],
+                                        "message": "[D7] Inside a feature use relative paths, never the own barrel or an @/features self-alias."
+                                    },
+                                    {
+                                        "group": [
+                                            "@/utils/constants",
+                                            "@/utils/constants/**",
+                                            "**/utils/constants",
+                                            "**/utils/constants/**"
+                                        ],
+                                        "message": "[C1] utils/constants/ is dissolved: import the owner module (utils/labels, utils/sort, a domain-named file or the owning feature)."
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "includes": ["apps/web/src/features/search/**"],
+            "linter": {
+                "rules": {
+                    "style": {
+                        "noRestrictedImports": {
+                            "level": "error",
+                            "options": {
+                                "patterns": [
+                                    {
+                                        "group": [
+                                            "@/routes/**",
+                                            "**/routes/**"
+                                        ],
+                                        "message": "[D1] Nothing imports routes/; routes are the top of the DAG."
+                                    },
+                                    {
+                                        "group": [
+                                            "@/features/**",
+                                            "!@/features/search",
+                                            "!@/features/search/**"
+                                        ],
+                                        "message": "[D8] Leaf feature: imports no other feature."
+                                    },
+                                    {
+                                        "group": [
+                                            "@/features/search",
+                                            "@/features/search/**"
+                                        ],
+                                        "message": "[D7] Inside a feature use relative paths, never the own barrel or an @/features self-alias."
+                                    },
+                                    {
+                                        "group": [
+                                            "@/utils/constants",
+                                            "@/utils/constants/**",
+                                            "**/utils/constants",
+                                            "**/utils/constants/**"
+                                        ],
+                                        "message": "[C1] utils/constants/ is dissolved: import the owner module (utils/labels, utils/sort, a domain-named file or the owning feature)."
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "includes": ["apps/web/src/features/effects/**"],
+            "linter": {
+                "rules": {
+                    "style": {
+                        "noRestrictedImports": {
+                            "level": "error",
+                            "options": {
+                                "patterns": [
+                                    {
+                                        "group": [
+                                            "@/routes/**",
+                                            "**/routes/**"
+                                        ],
+                                        "message": "[D1] Nothing imports routes/; routes are the top of the DAG."
+                                    },
+                                    {
+                                        "group": [
+                                            "@/features/**",
+                                            "!@/features/effects",
+                                            "!@/features/effects/**"
+                                        ],
+                                        "message": "[D8] Leaf feature: imports no other feature."
+                                    },
+                                    {
+                                        "group": [
+                                            "@/features/effects",
+                                            "@/features/effects/**"
+                                        ],
+                                        "message": "[D7] Inside a feature use relative paths, never the own barrel or an @/features self-alias."
+                                    },
+                                    {
+                                        "group": [
+                                            "@/utils/constants",
+                                            "@/utils/constants/**",
+                                            "**/utils/constants",
+                                            "**/utils/constants/**"
+                                        ],
+                                        "message": "[C1] utils/constants/ is dissolved: import the owner module (utils/labels, utils/sort, a domain-named file or the owning feature)."
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "includes": ["apps/web/src/features/oauth/**"],
+            "linter": {
+                "rules": {
+                    "style": {
+                        "noRestrictedImports": {
+                            "level": "error",
+                            "options": {
+                                "patterns": [
+                                    {
+                                        "group": [
+                                            "@/routes/**",
+                                            "**/routes/**"
+                                        ],
+                                        "message": "[D1] Nothing imports routes/; routes are the top of the DAG."
+                                    },
+                                    {
+                                        "group": [
+                                            "@/features/**",
+                                            "!@/features/oauth",
+                                            "!@/features/oauth/**",
+                                            "!@/features/auth"
+                                        ],
+                                        "message": "[D8] Leaf feature: imports no other feature."
+                                    },
+                                    {
+                                        "group": ["@/features/auth"],
+                                        "importNamePattern": "LoginButton",
+                                        "invertImportNamePattern": true,
+                                        "message": "[D8] Leaf feature: from @/features/auth only LoginButton is sanctioned."
+                                    },
+                                    {
+                                        "group": [
+                                            "@/features/oauth",
+                                            "@/features/oauth/**"
+                                        ],
+                                        "message": "[D7] Inside a feature use relative paths, never the own barrel or an @/features self-alias."
+                                    },
+                                    {
+                                        "group": [
+                                            "@/utils/constants",
+                                            "@/utils/constants/**",
+                                            "**/utils/constants",
+                                            "**/utils/constants/**"
+                                        ],
+                                        "message": "[C1] utils/constants/ is dissolved: import the owner module (utils/labels, utils/sort, a domain-named file or the owning feature)."
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "includes": [
+                "apps/web/src/features/*/queries.ts",
+                "apps/web/src/features/catalog/search-args.ts",
+                "apps/web/src/features/content/detail-route.ts"
+            ],
+            "linter": {
+                "rules": {
+                    "style": {
+                        "noRestrictedImports": {
+                            "level": "error",
+                            "options": {
+                                "patterns": [
+                                    {
+                                        "group": [
+                                            "@/routes/**",
+                                            "**/routes/**"
+                                        ],
+                                        "message": "[D1] Nothing imports routes/; routes are the top of the DAG."
+                                    },
+                                    {
+                                        "group": [
+                                            "react",
+                                            "react/**",
+                                            "react-dom",
+                                            "react-dom/**",
+                                            "@/components/**",
+                                            "**/components/**",
+                                            "@/services/**",
+                                            "**/services/**",
+                                            "**/use-*"
+                                        ],
+                                        "message": "[D12] Loader-safe module: no React, components (not even icons), services or hooks."
+                                    },
+                                    {
+                                        "group": [
+                                            "@/features/**",
+                                            "!@/features/*/queries"
+                                        ],
+                                        "message": "[D12] Loader-safe module: other features only through their queries.ts."
+                                    },
+                                    {
+                                        "group": [
+                                            "@/utils/constants",
+                                            "@/utils/constants/**",
+                                            "**/utils/constants",
+                                            "**/utils/constants/**"
+                                        ],
+                                        "message": "[C1] utils/constants/ is dissolved: import the owner module (utils/labels, utils/sort, a domain-named file or the owning feature)."
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "includes": [
+                "apps/web/src/features/filters/queries.ts",
+                "apps/web/src/features/notifications/queries.ts",
+                "apps/web/src/features/auth/queries.ts",
+                "apps/web/src/features/search/queries.ts",
+                "apps/web/src/features/effects/queries.ts",
+                "apps/web/src/features/oauth/queries.ts"
+            ],
+            "linter": {
+                "rules": {
+                    "style": {
+                        "noRestrictedImports": {
+                            "level": "error",
+                            "options": {
+                                "patterns": [
+                                    {
+                                        "group": [
+                                            "@/routes/**",
+                                            "**/routes/**"
+                                        ],
+                                        "message": "[D1] Nothing imports routes/; routes are the top of the DAG."
+                                    },
+                                    {
+                                        "group": [
+                                            "react",
+                                            "react/**",
+                                            "react-dom",
+                                            "react-dom/**",
+                                            "@/components/**",
+                                            "**/components/**",
+                                            "@/services/**",
+                                            "**/services/**",
+                                            "**/use-*"
+                                        ],
+                                        "message": "[D12] Loader-safe module: no React, components (not even icons), services or hooks."
+                                    },
+                                    {
+                                        "group": ["@/features/**"],
+                                        "message": "[D8] Leaf feature: imports no other feature."
+                                    },
+                                    {
+                                        "group": [
+                                            "@/utils/constants",
+                                            "@/utils/constants/**",
+                                            "**/utils/constants",
+                                            "**/utils/constants/**"
+                                        ],
+                                        "message": "[C1] utils/constants/ is dissolved: import the owner module (utils/labels, utils/sort, a domain-named file or the owning feature)."
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "includes": [
+                "apps/web/src/utils/sort/**",
+                "apps/web/src/utils/api/content-queries.ts",
+                "apps/web/src/utils/api/ensure-or-404.ts",
+                "apps/web/src/utils/api/loader-prefetch.ts",
+                "apps/web/src/utils/api/retry-on-cancel.ts",
+                "apps/web/src/utils/api/strip-restricted-external.ts",
+                "apps/web/src/utils/auth/**",
+                "apps/web/src/utils/cookies/**",
+                "apps/web/src/utils/customization/**",
+                "apps/web/src/utils/title/get-title.ts",
+                "apps/web/src/utils/content-paths.ts",
+                "apps/web/src/utils/is-server.ts",
+                "apps/web/src/utils/markdown.ts",
+                "apps/web/src/utils/metadata.ts",
+                "apps/web/src/utils/text.ts",
+                "apps/web/src/utils/url.ts",
+                "apps/web/src/utils/season.ts",
+                "apps/web/src/utils/search-schemas.ts",
+                "apps/web/src/utils/labels/**"
+            ],
+            "linter": {
+                "rules": {
+                    "style": {
+                        "noRestrictedImports": {
+                            "level": "error",
+                            "options": {
+                                "patterns": [
+                                    {
+                                        "group": [
+                                            "@/routes/**",
+                                            "**/routes/**"
+                                        ],
+                                        "message": "[D1] Nothing imports routes/; routes are the top of the DAG."
+                                    },
+                                    {
+                                        "group": [
+                                            "react",
+                                            "react/**",
+                                            "react-dom",
+                                            "react-dom/**",
+                                            "@/components/**",
+                                            "**/components/**",
+                                            "@/services/**",
+                                            "**/services/**",
+                                            "**/use-*"
+                                        ],
+                                        "message": "[D12] Loader-safe module: no React, components (not even icons), services or hooks."
+                                    },
+                                    {
+                                        "group": [
+                                            "@/features/**",
+                                            "**/features/**"
+                                        ],
+                                        "message": "[D5] utils/ and services/ import no features."
+                                    },
+                                    {
+                                        "group": [
+                                            "@/utils/constants",
+                                            "@/utils/constants/**",
+                                            "**/utils/constants",
+                                            "**/utils/constants/**"
+                                        ],
+                                        "message": "[C1] utils/constants/ is dissolved: import the owner module (utils/labels, utils/sort, a domain-named file or the owning feature)."
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "includes": [
+                "apps/web/src/**/*.test.ts",
+                "apps/web/src/**/*.test.tsx"
+            ],
+            "linter": { "rules": { "style": { "noRestrictedImports": "off" } } }
+        },
+        {
+            "includes": [
+                "apps/web/src/features/**/index.tsx",
+                "apps/web/src/components/**/index.tsx",
+                "apps/web/src/services/**/index.tsx",
+                "apps/web/src/utils/**/index.tsx"
+            ],
+            "linter": {
+                "rules": {
+                    "style": {
+                        "useFilenamingConvention": {
+                            "level": "error",
+                            "options": {
+                                "match": "G2-no-index-tsx-outside-routes-(.+)"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "includes": ["apps/web/src/utils/constants/**"],
+            "linter": {
+                "rules": {
+                    "style": {
+                        "useFilenamingConvention": {
+                            "level": "error",
+                            "options": {
+                                "match": "G3-utils-constants-is-dissolved-(.+)"
+                            }
+                        }
                     }
                 }
             }
@@ -103,7 +1128,6 @@
                             ["@/features/**"],
                             ["@/services/**"],
                             ["@/utils/**"],
-                            ["@/types/**"],
                             [":ALIAS:"],
                             ":BLANK_LINE:",
                             [":PATH:"]

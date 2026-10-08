@@ -1,4 +1,4 @@
-import type { SETTINGS_MENU } from '@/utils/constants/navigation';
+import type { SETTINGS_MENU } from './settings-menu';
 
 type SettingsMenu = typeof SETTINGS_MENU;
 

@@ -12,8 +12,9 @@ import MaterialSymbolsRemoveRounded from '@/components/icons/material-symbols/Ma
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import Rating from '@/components/ui/rating';
+import { CHAPTER_FORMS, EPISODE_FORMS } from '@/utils/i18n/word-forms';
 
-import { useUserlistManager } from '../../hooks/use-list-manager';
+import { useListEntryEditor } from '../use-list-entry-editor';
 import UserNote from './user-note';
 
 const UserContentStats = ({
@@ -29,10 +30,11 @@ const UserContentStats = ({
         setScore,
         setNote,
         isSaving,
+        isSavingNote,
         score,
         progress,
         total,
-    } = useUserlistManager({
+    } = useListEntryEditor({
         listItem,
         content_type,
     });
@@ -41,7 +43,10 @@ const UserContentStats = ({
         return null;
     }
 
-    const unit = content_type === ContentTypeEnum.ANIME ? 'епізод' : 'розділ';
+    const unit =
+        content_type === ContentTypeEnum.ANIME
+            ? EPISODE_FORMS[0]
+            : CHAPTER_FORMS[0];
 
     return (
         <div className="surface flex flex-col divide-y divide-border overflow-hidden rounded-md border">
@@ -60,6 +65,7 @@ const UserContentStats = ({
                     totalStars={5}
                     precision={0.5}
                     value={score ? score / 2 : 0}
+                    disabled={isSavingNote}
                 />
             </div>
             <div className="flex items-center justify-between gap-4 p-4">
@@ -72,8 +78,8 @@ const UserContentStats = ({
                             </span>
                             /{total ?? '?'}{' '}
                             {content_type === ContentTypeEnum.ANIME
-                                ? 'епізодів'
-                                : 'розділів'}
+                                ? EPISODE_FORMS[2]
+                                : CHAPTER_FORMS[2]}
                         </span>
                     </p>
                     <Progress
@@ -87,6 +93,7 @@ const UserContentStats = ({
                         variant="secondary"
                         size="icon-md"
                         onClick={removeProgress}
+                        disabled={isSavingNote}
                         aria-label={`Прибрати ${unit}`}
                         className="rounded-r-none"
                     >
@@ -96,6 +103,7 @@ const UserContentStats = ({
                         variant="secondary"
                         size="icon-md"
                         onClick={addProgress}
+                        disabled={isSavingNote}
                         aria-label={`Додати ${unit}`}
                         className="rounded-l-none"
                     >

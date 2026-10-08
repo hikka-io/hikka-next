@@ -2,13 +2,10 @@ import { type FC, useEffect, useState } from 'react';
 
 import { Plate } from 'platejs/react';
 
-import type {
-    CommentResponse,
-    CommentContentTypeEnum as CommentsContentType,
-} from '@hikka/api';
+import type { CommentContentTypeEnum, CommentResponse } from '@hikka/api';
 
-import { usePlateMarkdownSetup } from '@/components/plate/editor/markdown-editor-kit';
-import { EditorPreview } from '@/components/plate/editor/plate-editor';
+import { EditorPreview } from '@/components/plate/editor/markdown-editor';
+import { usePlateMarkdownSetup } from '@/components/plate/editor/use-plate-markdown-setup';
 import { Editor, EditorContainer } from '@/components/plate/ui/editor';
 import {
     PageSheet,
@@ -17,17 +14,17 @@ import {
     PageSheetTrigger,
 } from '@/components/ui/page-sheet';
 import { useVisualViewportOffset } from '@/services/hooks/use-visual-viewport';
-import { useCommentsContext } from '@/services/providers/comments-provider';
 import { cn } from '@/utils/cn';
 
 import CommentInputBottomBar from './comment-input-bottom-bar';
-import CommentVerdictPicker from './comment-verdict-picker';
-import type { Verdict } from './utils/review';
-import { canToggleReview, getPlainTextLength } from './utils/review';
+import { useCommentsContext } from './comments-provider';
+import type { Verdict } from './review/review';
+import { canToggleReview, getPlainTextLength } from './review/review';
+import VerdictPicker from './review/verdict-picker';
 
 type Props = {
     slug: string;
-    content_type: CommentsContentType;
+    content_type: CommentContentTypeEnum;
     comment?: CommentResponse;
     className?: string;
     isEdit?: boolean;
@@ -126,7 +123,7 @@ const CommentInput: FC<Props> = ({
     };
 
     const verdictCard = showVerdictPicker && (
-        <CommentVerdictPicker value={verdict} onChange={setVerdict} />
+        <VerdictPicker value={verdict} onChange={setVerdict} />
     );
 
     return (

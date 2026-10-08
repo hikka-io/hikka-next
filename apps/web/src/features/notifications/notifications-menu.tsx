@@ -1,0 +1,179 @@
+import { type FC, type ReactNode, useMemo, useState } from 'react';
+
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+
+import {
+    type NotificationResponse,
+    notificationSeenMutation,
+    notificationsInfiniteOptions,
+    paginationPageParam,
+    unseenNotificationsCountOptions,
+} from '@hikka/api';
+
+import MaterialSymbolsNotificationsRounded from '@/components/icons/material-symbols/MaterialSymbolsNotificationsRounded';
+import { Button } from '@/components/ui/button';
+import {
+    Drawer,
+    DrawerContent,
+    DrawerHeader,
+    DrawerTitle,
+    DrawerTrigger,
+} from '@/components/ui/drawer';
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import { useIsDesktop } from '@/services/hooks/use-media-query';
+import { invalidateNotifications } from '@/utils/api/invalidate-content-state';
+import { useInfiniteList } from '@/utils/api/use-infinite-list';
+
+import NotificationsContent from './components/notifications-content';
+import NotificationsHeader from './components/notifications-header';
+import NotificationCountBadge from './notification-count-badge';
+import type { Notification } from './types';
+import { convertNotification } from './utils/convert-notification';
+import { groupNotificationsByDay } from './utils/group-notifications-by-day';
+
+type Props = {
+    trigger?: (unseenCount: number) => ReactNode;
+};
+
+const NotificationsMenu: FC<Props> = ({ trigger }) => {
+    const isDesktop = useIsDesktop();
+    const [isOpen, setIsOpen] = useState(false);
+    const [isBulkMarking, setIsBulkMarking] = useState(false);
+
+    const queryClient = useQueryClient();
+
+    const { data: countData } = useQuery(unseenNotificationsCountOptions());
+
+    const { list, hasNextPage, isFetchingNextPage, fetchNextPage, ref } =
+        useInfiniteList(notificationsInfiniteOptions(), { enabled: isOpen });
+
+    const { mutateAsync: markSeen } = useMutation(notificationSeenMutation());
+
+    const warmList = () => {
+        if (isOpen) return;
+        void queryClient.prefetchInfiniteQuery({
+            ...notificationsInfiniteOptions(),
+            ...paginationPageParam(),
+        });
+    };
+
+    const { normalized, grouped } = useMemo(() => {
+        const items = (list as NotificationResponse[] | undefined)
+            ?.map((n) => convertNotification(n))
+            .filter((n): n is Notification => n !== null);
+        return {
+            normalized: items,
+            grouped: groupNotificationsByDay(items ?? []),
+        };
+    }, [list]);
+
+    const unseenCount = countData?.unseen ?? 0;
+
+    const handleMarkAllSeen = async () => {
+        if (!normalized) return;
+        const unseen = normalized.filter((n) => !n.seen);
+        if (unseen.length === 0) return;
+        setIsBulkMarking(true);
+        try {
+            await Promise.allSettled(
+                unseen.map((n) =>
+                    markSeen({
+                        path: { notification_reference: n.reference },
+                    }),
+                ),
+            );
+            await invalidateNotifications(queryClient);
+        } finally {
+            setIsBulkMarking(false);
+        }
+    };
+
+    const triggerButton = trigger ? (
+        trigger(unseenCount)
+    ) : (
+        <Button
+            variant="outline"
+            size="icon-md"
+            className="lifted-edges relative rounded-md"
+        >
+            <MaterialSymbolsNotificationsRounded />
+            {unseenCount > 0 && (
+                <NotificationCountBadge
+                    count={unseenCount}
+                    className="-right-1 -bottom-1 absolute"
+                />
+            )}
+        </Button>
+    );
+
+    if (isDesktop) {
+        return (
+            <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
+                <DropdownMenuTrigger
+                    render={triggerButton as React.ReactElement}
+                    onPointerEnter={warmList}
+                    onFocus={warmList}
+                />
+                <DropdownMenuContent
+                    align="end"
+                    className="flex max-h-128 w-80 flex-col p-0 sm:w-96"
+                >
+                    <NotificationsHeader
+                        unseenCount={unseenCount}
+                        isBulkMarking={isBulkMarking}
+                        onMarkAllSeen={handleMarkAllSeen}
+                        className="surface-inset px-3 py-3.5"
+                    />
+                    <DropdownMenuSeparator className="m-0" />
+                    <NotificationsContent
+                        normalized={normalized}
+                        grouped={grouped}
+                        hasNextPage={hasNextPage}
+                        isFetchingNextPage={isFetchingNextPage}
+                        fetchNextPage={fetchNextPage}
+                        loadMoreRef={ref}
+                        onNavigate={() => setIsOpen(false)}
+                    />
+                </DropdownMenuContent>
+            </DropdownMenu>
+        );
+    }
+
+    return (
+        <Drawer open={isOpen} onOpenChange={setIsOpen}>
+            <DrawerTrigger
+                render={triggerButton as React.ReactElement}
+                onPointerEnter={warmList}
+                onFocus={warmList}
+            />
+            <DrawerContent className="max-h-[85dvh]">
+                <DrawerHeader className="border-border border-b p-0">
+                    <DrawerTitle className="sr-only">Сповіщення</DrawerTitle>
+
+                    <NotificationsHeader
+                        unseenCount={unseenCount}
+                        isBulkMarking={isBulkMarking}
+                        onMarkAllSeen={handleMarkAllSeen}
+                        className="px-4 py-4"
+                    />
+                </DrawerHeader>
+                <NotificationsContent
+                    normalized={normalized}
+                    grouped={grouped}
+                    hasNextPage={hasNextPage}
+                    isFetchingNextPage={isFetchingNextPage}
+                    fetchNextPage={fetchNextPage}
+                    loadMoreRef={ref}
+                    onNavigate={() => setIsOpen(false)}
+                />
+            </DrawerContent>
+        </Drawer>
+    );
+};
+
+export default NotificationsMenu;

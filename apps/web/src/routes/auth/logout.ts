@@ -1,6 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router';
 
-import { clearCookieHeader, getCookieDomain } from '@/utils/cookies';
+import { COOKIE, clearCookieHeader, getCookieDomain } from '@/utils/cookies';
+import { getSiteUrl, resolveSameOriginUrl } from '@/utils/url';
 
 export const Route = createFileRoute('/auth/logout')({
     server: {
@@ -8,24 +9,26 @@ export const Route = createFileRoute('/auth/logout')({
             GET: async ({ request }) => {
                 const url = new URL(request.url);
                 const callbackUrl = url.searchParams.get('callbackUrl') ?? '/';
-                const siteUrl =
-                    import.meta.env.VITE_SITE_URL ?? 'http://localhost:3000';
+                const siteUrl = getSiteUrl();
 
                 const domain = getCookieDomain();
 
-                const target = new URL(callbackUrl, siteUrl);
-                const isSafe = target.origin === new URL(siteUrl).origin;
-                const redirectTo = isSafe ? target.toString() : siteUrl;
+                const redirectTo =
+                    resolveSameOriginUrl(callbackUrl, siteUrl)?.toString() ??
+                    siteUrl;
 
                 const headers = new Headers({
                     Location: redirectTo,
                     'Cache-Control': 'no-store',
                 });
                 // Clear host-only cookies (in case they were set without Domain)
-                headers.append('Set-Cookie', clearCookieHeader('auth'));
                 headers.append(
                     'Set-Cookie',
-                    clearCookieHeader('username', undefined, {
+                    clearCookieHeader(COOKIE.auth.name),
+                );
+                headers.append(
+                    'Set-Cookie',
+                    clearCookieHeader(COOKIE.legacyUsername.name, undefined, {
                         httpOnly: false,
                     }),
                 );
@@ -33,11 +36,11 @@ export const Route = createFileRoute('/auth/logout')({
                 if (domain) {
                     headers.append(
                         'Set-Cookie',
-                        clearCookieHeader('auth', domain),
+                        clearCookieHeader(COOKIE.auth.name, domain),
                     );
                     headers.append(
                         'Set-Cookie',
-                        clearCookieHeader('username', domain, {
+                        clearCookieHeader(COOKIE.legacyUsername.name, domain, {
                             httpOnly: false,
                         }),
                     );

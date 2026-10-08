@@ -6,13 +6,13 @@ import { getArticleOptions } from '@hikka/api';
 
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import { usePageTitleAnchor } from '@/features/app-shell';
-import { useTitle } from '@/features/auth/hooks/use-title';
-import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
+import { useTitle } from '@/services/session';
+import { CONTENT_TYPE_LINKS } from '@/utils/content-paths';
 import { Link, useParams } from '@/utils/navigation';
 
 type Props = {};
 
-const ArticleTitle: FC<Props> = () => {
+const ArticleViewTitle: FC<Props> = () => {
     const params = useParams();
 
     const { data: article } = useQuery(
@@ -43,4 +43,4 @@ const ArticleTitle: FC<Props> = () => {
     );
 };
 
-export default ArticleTitle;
+export default ArticleViewTitle;

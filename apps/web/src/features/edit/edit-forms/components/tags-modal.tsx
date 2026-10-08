@@ -6,7 +6,8 @@ import MaterialSymbolsCheckSmallRounded from '@/components/icons/material-symbol
 import MaterialSymbolsDeleteForeverRounded from '@/components/icons/material-symbols/MaterialSymbolsDeleteForeverRounded';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { useSettingsStore } from '@/services/stores/settings-store';
+
+import { useEditTagsStore } from '../edit-tags-store';
 
 type Props = {
     setFieldValue: (name: string, value: string) => void;
@@ -16,7 +17,7 @@ type Props = {
 
 const TagsModal: FC<Props> = ({ setFieldValue, getFieldValue, onClose }) => {
     const [newTag, setNewTag] = React.useState('');
-    const settings = useSettingsStore();
+    const settings = useEditTagsStore();
 
     const handleAddTag = () => {
         settings.setEditTags([...settings.editTags, newTag]);

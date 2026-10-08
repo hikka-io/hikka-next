@@ -19,17 +19,17 @@ import {
     AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
 import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
-import { useSession } from '@/features/auth/hooks/use-session';
+import { useSession } from '@/services/session';
 import { invalidateCollections } from '@/utils/api/invalidate-content-state';
 import { MUTATION_META_SKIP_ERROR_TOAST } from '@/utils/api/mutation-meta';
-import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
+import { CONTENT_TYPE_LINKS } from '@/utils/content-paths';
 import { Link, useParams, useRouter } from '@/utils/navigation';
 
 type Props = {
     className?: string;
 };
 
-const CollectionActionsMenu: FC<Props> = ({ className }) => {
+const CollectionViewActionsMenu: FC<Props> = ({ className }) => {
     const params = useParams();
     const reference = String(params.reference);
     const router = useRouter();
@@ -113,4 +113,4 @@ const CollectionActionsMenu: FC<Props> = ({ className }) => {
     );
 };
 
-export default CollectionActionsMenu;
+export default CollectionViewActionsMenu;

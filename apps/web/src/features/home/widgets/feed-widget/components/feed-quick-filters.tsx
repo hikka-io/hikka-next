@@ -2,7 +2,7 @@ import { type ComponentType, type FC, useRef } from 'react';
 
 import { LayoutGrid, MessageCircle, Star } from 'lucide-react';
 
-import type { UiFeedSettingsOutput } from '@hikka/api';
+import { FeedContentTypeEnum } from '@hikka/api';
 
 import MaterialSymbolsDynamicFeedRounded from '@/components/icons/material-symbols/MaterialSymbolsDynamicFeedRounded';
 import MaterialSymbolsStack from '@/components/icons/material-symbols/MaterialSymbolsStack';
@@ -13,15 +13,11 @@ import { cn } from '@/utils/cn';
 
 import type { FeedSubTypeFilters } from './feed-sub-type-select';
 
-type FeedContentType = NonNullable<
-    UiFeedSettingsOutput['feed_content_types']
->[number];
-
 type IconComponent = ComponentType<{ className?: string }>;
 
 type Option = {
     label: string;
-    value: FeedContentType | null;
+    value: FeedContentTypeEnum | null;
     icon: IconComponent;
     activeClass: string;
 };
@@ -35,28 +31,28 @@ const OPTIONS: Option[] = [
     },
     {
         label: 'Відгуки',
-        value: 'review',
+        value: FeedContentTypeEnum.REVIEW,
         icon: Star,
         activeClass:
             'border border-feed-review/40 bg-feed-review/15 text-feed-review',
     },
     {
         label: 'Коментарі',
-        value: 'comment',
+        value: FeedContentTypeEnum.COMMENT,
         icon: MessageCircle,
         activeClass:
             'border border-feed-comment/40 bg-feed-comment/15 text-feed-comment',
     },
     {
         label: 'Колекції',
-        value: 'collection',
+        value: FeedContentTypeEnum.COLLECTION,
         icon: MaterialSymbolsStack,
         activeClass:
             'border border-feed-collection/40 bg-feed-collection/15 text-feed-collection',
     },
     {
         label: 'Статті',
-        value: 'article',
+        value: FeedContentTypeEnum.ARTICLE,
         icon: MaterialSymbolsDynamicFeedRounded,
         activeClass:
             'border border-feed-article/40 bg-feed-article/15 text-feed-article',
@@ -76,12 +72,12 @@ const FeedQuickFilters: FC<Props> = ({ value, onChange }) => {
     );
 
     const active = value.feed_content_types;
-    const isChipActive = (chip: FeedContentType | null): boolean =>
+    const isChipActive = (chip: FeedContentTypeEnum | null): boolean =>
         chip === null
             ? active === null
             : active !== null && active.length === 1 && active[0] === chip;
 
-    const handleSelect = (next: FeedContentType | null) => {
+    const handleSelect = (next: FeedContentTypeEnum | null) => {
         onChange({
             ...value,
             feed_content_types: next ? [next] : null,

@@ -8,15 +8,14 @@ import {
     type UserResponseFollowed,
     unfollowMutation,
     userProfileOptions,
-    userProfileQueryKey,
 } from '@hikka/api';
 
 import MaterialSymbolsPersonAddOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsPersonAddOutlineRounded';
 import MaterialSymbolsPersonRemoveOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsPersonRemoveOutlineRounded';
 import { Button, type buttonVariants } from '@/components/ui/button';
 import Spinner from '@/components/ui/spinner';
-import { useSession } from '@/features/auth/hooks/use-session';
-import { invalidateFollow } from '@/utils/api/invalidate-content-state';
+import { useSession } from '@/services/session';
+import { applyFollowChange } from '@/utils/api/invalidate-content-state';
 import { cn } from '@/utils/cn';
 import { Link } from '@/utils/navigation';
 
@@ -39,34 +38,29 @@ const FollowButton: FC<Props> = ({
     const queryClient = useQueryClient();
 
     const { data: userQuery } = useQuery({
-        ...userProfileOptions({ path: { username: username! } }),
+        ...userProfileOptions({ path: { username: String(username) } }),
         enabled: username !== undefined,
     });
 
     const user = userProp || userQuery;
 
-    const updateFollowState = (is_followed: boolean) => {
-        if (!user?.username) return;
-        queryClient.setQueryData(
-            userProfileQueryKey({ path: { username: user.username } }),
-            (prev: UserResponseFollowed | undefined) =>
-                prev ? { ...prev, is_followed } : prev,
-        );
-    };
-
     const { mutate: mutateFollow, isPending: followLoading } = useMutation({
         ...followMutation(),
         onSuccess: (_data, { path }) => {
-            updateFollowState(true);
-            invalidateFollow(queryClient, path.username);
+            applyFollowChange(queryClient, {
+                username: path.username,
+                is_followed: true,
+            });
         },
     });
 
     const { mutate: mutateUnfollow, isPending: unfollowLoading } = useMutation({
         ...unfollowMutation(),
         onSuccess: (_data, { path }) => {
-            updateFollowState(false);
-            invalidateFollow(queryClient, path.username);
+            applyFollowChange(queryClient, {
+                username: path.username,
+                is_followed: false,
+            });
         },
     });
 

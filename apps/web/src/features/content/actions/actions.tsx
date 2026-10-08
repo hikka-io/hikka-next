@@ -1,15 +1,19 @@
 import type { FC } from 'react';
 
-import { ContentTypeEnum, type MainContentTypeEnum } from '@hikka/api';
+import { useQuery } from '@tanstack/react-query';
 
-import FavoriteButton from '@/components/action-buttons/favorite-button';
-import ReadListButton from '@/components/action-buttons/readlist-button';
-import WatchlistButton from '@/components/action-buttons/watchlist-button';
-import { useSession } from '@/features/auth/hooks/use-session';
+import type { MainContentTypeEnum } from '@hikka/api';
+
+import { FavoriteButton } from '@/components/action-buttons';
+import { useSession } from '@/services/session';
+import {
+    contentInfoOptions,
+    listEntryOptions,
+} from '@/utils/api/content-queries';
 import { cn } from '@/utils/cn';
-import { CONTENT_CONFIG } from '@/utils/constants/common';
 import { useParams } from '@/utils/navigation';
 
+import ListEntryButton from '../list-entry-button';
 import UserContentStats from './components/user-content-stats';
 
 type Props = {
@@ -17,46 +21,27 @@ type Props = {
     className?: string;
 };
 
-const Actions: FC<Props> = ({ content_type, className }) => {
+const ContentActions: FC<Props> = ({ content_type, className }) => {
     const params = useParams();
     const { user } = useSession();
 
-    const { data: userlist, isError } = CONTENT_CONFIG[
-        content_type
-    ].useUserlistRecord(String(params.slug));
-    const { data: content } = CONTENT_CONFIG[content_type].useInfo(
-        String(params.slug),
+    const { data: userlist } = useQuery({
+        ...listEntryOptions(content_type, String(params.slug)),
+        enabled: !!user,
+    });
+    const { data: content } = useQuery(
+        contentInfoOptions(content_type, String(params.slug)),
     );
-
-    const hasList = !!userlist && !isError;
 
     return (
         <div className={cn('flex flex-col gap-4', className)}>
             <div className="flex gap-4">
                 <div className="min-w-0 flex-1">
-                    {content_type === ContentTypeEnum.ANIME ? (
-                        <WatchlistButton
-                            disabled={!user}
-                            slug={String(params.slug)}
-                            anime={
-                                content?.data_type === 'anime'
-                                    ? content
-                                    : undefined
-                            }
-                        />
-                    ) : (
-                        <ReadListButton
-                            content_type={content_type}
-                            disabled={!user}
-                            slug={String(params.slug)}
-                            content={
-                                content?.data_type === 'manga' ||
-                                content?.data_type === 'novel'
-                                    ? content
-                                    : undefined
-                            }
-                        />
-                    )}
+                    <ListEntryButton
+                        content_type={content_type}
+                        content={content}
+                        disabled={!user}
+                    />
                 </div>
                 <FavoriteButton
                     slug={String(params.slug)}
@@ -68,10 +53,10 @@ const Actions: FC<Props> = ({ content_type, className }) => {
             </div>
             <UserContentStats
                 content_type={content_type}
-                listItem={hasList ? userlist : undefined}
+                listItem={userlist ?? undefined}
             />
         </div>
     );
 };
 
-export default Actions;
+export default ContentActions;

@@ -12,9 +12,9 @@ import {
 } from '@/components/ui/collapsible';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import { cn } from '@/utils/cn';
-import { SETTINGS_MENU } from '@/utils/constants/navigation';
 import { Link, usePathname } from '@/utils/navigation';
 
+import { SETTINGS_MENU } from './settings-menu';
 import {
     getActiveTopLevelHref,
     isGroupActive,
@@ -65,7 +65,7 @@ const SettingsSidebar: FC<Props> = ({ className }) => {
                     {SETTINGS_MENU.map((item) => (
                         <div key={item.href} className="flex flex-col gap-1">
                             <Link
-                                to={item.href}
+                                to={item.children?.[0]?.href ?? item.href}
                                 className={
                                     item.children
                                         ? parentRowClass(

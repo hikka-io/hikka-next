@@ -1,0 +1,80 @@
+import { useQueries } from '@tanstack/react-query';
+
+import {
+    type AppReadSchemasReadStatsResponse,
+    userReadStatsOptions,
+    userWatchStatsOptions,
+    type WatchStatsResponse,
+} from '@hikka/api';
+
+import { useSession } from '@/services/session';
+import { type NavRoute, useCurrentUrl } from '@/utils/navigation';
+
+import { PROFILE_MENU } from '../nav-config';
+
+export type ProfileMenuItem = NavRoute & { count?: number };
+
+const watchTotal = (stats: WatchStatsResponse) =>
+    stats.completed +
+    stats.watching +
+    stats.planned +
+    stats.on_hold +
+    stats.dropped;
+
+const readTotal = (stats: AppReadSchemasReadStatsResponse) =>
+    stats.completed +
+    stats.reading +
+    stats.planned +
+    stats.on_hold +
+    stats.dropped;
+
+export function useProfileMenu({ enabled = true }: { enabled?: boolean } = {}) {
+    const { user } = useSession();
+    const username = user?.username;
+
+    const currentUrl = useCurrentUrl();
+
+    const [anime, manga, novel] = useQueries({
+        queries: [
+            {
+                ...userWatchStatsOptions({
+                    path: { username: String(username) },
+                }),
+                enabled: enabled && !!username,
+                select: watchTotal,
+            },
+            {
+                ...userReadStatsOptions({
+                    path: { content_type: 'manga', username: String(username) },
+                }),
+                enabled: enabled && !!username,
+                select: readTotal,
+            },
+            {
+                ...userReadStatsOptions({
+                    path: { content_type: 'novel', username: String(username) },
+                }),
+                enabled: enabled && !!username,
+                select: readTotal,
+            },
+        ],
+    });
+
+    const counts: Record<string, number | undefined> = {
+        'anime-list': anime.data,
+        'manga-list': manga.data,
+        'novel-list': novel.data,
+    };
+
+    const items: ProfileMenuItem[] = PROFILE_MENU.map((item) => ({
+        ...item,
+        url: item.url.replace('{username}', username ?? ''),
+        count: counts[item.slug],
+    }));
+
+    const logout = () => {
+        window.location.href = `/auth/logout?callbackUrl=${encodeURIComponent(currentUrl)}`;
+    };
+
+    return { user, items, logout };
+}

@@ -12,13 +12,17 @@ import type {
     TodoPersonIssuesInfo,
 } from '@hikka/api';
 
+import CompanyTitleLink from '@/components/company-title-link';
 import { contentEntity, EntityCard } from '@/components/content-card';
-import { CompanyTitleLink } from '@/components/content-list/company-title-link';
-import { MagazineTitleLink } from '@/components/content-list/magazine-title-link';
+import {
+    HorizontalCardDescription,
+    HorizontalCardTitle,
+} from '@/components/horizontal-card';
 import MaterialSymbolsEditRounded from '@/components/icons/material-symbols/MaterialSymbolsEditRounded';
 import MaterialSymbolsFace3 from '@/components/icons/material-symbols/MaterialSymbolsFace3';
 import MaterialSymbolsMoreHoriz from '@/components/icons/material-symbols/MaterialSymbolsMoreHoriz';
 import MaterialSymbolsPerson from '@/components/icons/material-symbols/MaterialSymbolsPerson';
+import MagazineTitleLink from '@/components/magazine-title-link';
 import { badgeVariants } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
@@ -27,17 +31,13 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import {
-    HorizontalCardDescription,
-    HorizontalCardTitle,
-} from '@/components/ui/horizontal-card';
-import { useSession, useTitle } from '@/features/auth';
+import { useSession, useTitle } from '@/services/session';
 import { cn } from '@/utils/cn';
-import { MEDIA_TYPE, RELEASE_STATUS } from '@/utils/constants/common';
-import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
+import { contentPath } from '@/utils/content-paths';
+import { getMediaTypeLabel, RELEASE_STATUS } from '@/utils/labels';
 import { Link } from '@/utils/navigation';
 
-import { QuickEditButton } from '../quick-edit';
+import QuickEditButton from '../quick-edit/quick-edit-button';
 
 type TodoContentItem =
     | AnimeResponse
@@ -192,7 +192,7 @@ export function TodoContentCard(props: Props) {
     const { user } = useSession();
     const title = useTitle(item);
     const contentType: EditContentTypeEnum = item.data_type;
-    const href = `${CONTENT_TYPE_LINKS[contentType]}/${item.slug}`;
+    const href = contentPath(contentType, item.slug);
 
     let CompanyView: ReactNode;
     let mediaType: string | undefined;
@@ -221,9 +221,7 @@ export function TodoContentCard(props: Props) {
             }
         }
 
-        mediaType = item.media_type
-            ? MEDIA_TYPE[item.media_type as keyof typeof MEDIA_TYPE]?.title_ua
-            : undefined;
+        mediaType = getMediaTypeLabel(item.media_type);
         year = item.year;
         status = item.status
             ? RELEASE_STATUS[item.status as keyof typeof RELEASE_STATUS]

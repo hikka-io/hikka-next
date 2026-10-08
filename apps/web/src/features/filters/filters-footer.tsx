@@ -1,7 +1,5 @@
 import { type FC, useState } from 'react';
 
-import { useRouter, useRouterState } from '@tanstack/react-router';
-
 import type { ContentTypeEnum } from '@hikka/api';
 
 import AntDesignClearOutlined from '@/components/icons/ant-design/AntDesignClearOutlined';
@@ -18,9 +16,12 @@ import {
     TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { cn } from '@/utils/cn';
+import { useRouteSearch } from '@/utils/navigation';
 
-// Deep import (not the @/features/content barrel) avoids a module-init cycle that broke hydration.
+import { presetFromSearch } from './preset-search-mapper';
 import FilterPresetEditModal from './presets/filter-preset-edit-modal';
+import type { FilterPreset } from './presets/types';
+import { useClearFilters } from './use-clear-filters';
 
 export type FiltersFooterProps = {
     className?: string;
@@ -36,89 +37,17 @@ const FiltersFooter: FC<FiltersFooterProps> = ({
     contentType,
     onDone,
 }) => {
-    const router = useRouter();
     const [open, setOpen] = useState(false);
     const [currentFilters, setCurrentFilters] =
-        useState<Partial<Hikka.FilterPreset> | null>(null);
-    const search = useRouterState({
-        select: (s) => (s.resolvedLocation ?? s.location).search,
-    }) as Record<string, unknown>;
+        useState<Partial<FilterPreset> | null>(null);
+    const search = useRouteSearch();
 
-    const clearFilters = () => {
-        // Clear filters only — keep the text query and sort, matching the
-        // "Очистити все" action in active-filters.
-        router.navigate({
-            to: '.',
-            search: (prev: Record<string, unknown>) => {
-                const next: Record<string, unknown> = {};
-                if (prev.search) next.search = prev.search;
-                if (prev.sort) next.sort = prev.sort;
-                if (prev.order) next.order = prev.order;
-                return next;
-            },
-            replace: true,
-        } as any);
-    };
+    const clearFilters = useClearFilters({
+        preserve: ['search', 'sort', 'order'],
+    });
 
     const handleCreateFromCurrent = () => {
-        const next: Partial<Hikka.FilterPreset> = {
-            name: '',
-            description: '',
-        };
-
-        const arrayStringKeys = [
-            'content_types',
-            'statuses',
-            'seasons',
-            'types',
-            'genres',
-            'ratings',
-            'studios',
-        ] as const;
-
-        arrayStringKeys.forEach((key) => {
-            const values = search[key];
-            if (Array.isArray(values) && values.length > 0) {
-                (next as Record<string, unknown>)[key] = values;
-            }
-        });
-
-        const arrayNumberKeys = ['years', 'date_range'] as const;
-        arrayNumberKeys.forEach((key) => {
-            const values = search[key];
-            if (Array.isArray(values) && values.length > 0) {
-                const numberValues = values.map((v: unknown) => Number(v));
-                next[key] = numberValues as unknown as NonNullable<
-                    Hikka.FilterPreset[typeof key]
-                >;
-            }
-        });
-
-        if ('only_translated' in search && search.only_translated != null) {
-            next.only_translated =
-                search.only_translated === true ||
-                search.only_translated === 'true';
-        }
-        if (
-            'date_range_enabled' in search &&
-            search.date_range_enabled != null
-        ) {
-            next.date_range_enabled =
-                search.date_range_enabled === true ||
-                search.date_range_enabled === 'true';
-        }
-
-        const sort = search.sort;
-        if (typeof sort === 'string' && sort) next.sort = sort;
-
-        const order = search.order;
-        if (order) next.order = order as string;
-
-        if (!next.content_types && contentType) {
-            next.content_types = [contentType];
-        }
-
-        setCurrentFilters(next);
+        setCurrentFilters(presetFromSearch(search, contentType));
         setOpen(true);
     };
 
@@ -171,9 +100,7 @@ const FiltersFooter: FC<FiltersFooterProps> = ({
                     >
                         {currentFilters && (
                             <FilterPresetEditModal
-                                filterPreset={
-                                    currentFilters as Hikka.FilterPreset
-                                }
+                                filterPreset={currentFilters as FilterPreset}
                                 onClose={() => setOpen(false)}
                             />
                         )}

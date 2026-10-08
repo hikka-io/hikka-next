@@ -1,19 +1,18 @@
 import type { FC, MouseEvent } from 'react';
 
 import { useNavigate } from '@tanstack/react-router';
-import { uk } from 'date-fns/locale/uk';
 import { CornerDownRight } from 'lucide-react';
 
 import type { CommentResponse, ContentTypeEnum } from '@hikka/api';
 
 import AuthorMetaRow from '@/components/author-meta-row';
 import { ReviewBadge } from '@/components/badges';
-import MDViewer from '@/components/markdown/viewer/md-viewer';
+import ContentRefChip from '@/components/content-ref-chip';
+import { HorizontalCardImage } from '@/components/horizontal-card';
+import { MDViewer } from '@/components/markdown';
 import TextExpand from '@/components/text-expand';
 import { Chip } from '@/components/ui/chip';
-import { HorizontalCardImage } from '@/components/ui/horizontal-card';
 import { StatItemGroup } from '@/components/ui/stat-item';
-import FeedContentRef from '@/features/home/widgets/feed-widget/components/feed-content-ref';
 import { Link } from '@/utils/navigation';
 
 import CommentMenu from './comment-menu';
@@ -55,7 +54,6 @@ const UserComment: FC<Props> = ({ comment }) => {
                         username={comment.author.username}
                         role={comment.author.role}
                         created={comment.created}
-                        locale={uk}
                     />
                     {!comment.hidden && (
                         <div className="absolute top-0 right-0">
@@ -87,7 +85,7 @@ const UserComment: FC<Props> = ({ comment }) => {
                                 Відповідь
                             </Chip>
                         )}
-                        <FeedContentRef
+                        <ContentRefChip
                             contentType={
                                 comment.content_type as ContentTypeEnum
                             }

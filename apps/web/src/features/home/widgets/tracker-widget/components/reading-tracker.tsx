@@ -11,41 +11,34 @@ import {
     userReadListInfiniteOptions,
 } from '@hikka/api';
 
-import { ReadEditModal } from '@/components/action-buttons';
 import MaterialSymbolsBookmarkOutline from '@/components/icons/material-symbols/MaterialSymbolsBookmarkOutline';
+import { ListEntryEditDialog } from '@/components/tracking';
 import { Button } from '@/components/ui/button';
 import EmptyState from '@/components/ui/empty-state';
-import { useSession } from '@/features/auth/hooks/use-session';
-import { useSessionUI } from '@/features/auth/hooks/use-session-ui';
-import useDebounce from '@/services/hooks/use-debounce';
+import { DEBOUNCE_MS, useDebounce } from '@/services/hooks/use-debounce';
+import { useSession, useSessionUI } from '@/services/session';
 import {
     invalidateReadState,
     writeReadToCaches,
 } from '@/utils/api/invalidate-content-state';
 import { carryOverReadArgs } from '@/utils/api/tracking-args';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
-import { MANGA_MEDIA_TYPE, NOVEL_MEDIA_TYPE } from '@/utils/constants/common';
 import { getDeclensionWord } from '@/utils/i18n/declension';
+import { CHAPTER_FORMS } from '@/utils/i18n/word-forms';
+import { getMediaTypeLabel } from '@/utils/labels';
 import { Link, useRouter } from '@/utils/navigation';
 import { getTitle } from '@/utils/title/get-title';
 
+import ProgressTrackerSkeleton from './progress-tracker-skeleton';
 import ProgressTrackerView from './progress-tracker-view';
-
-const CHAPTERS_DECLENSION: [string, string, string] = [
-    'розділ',
-    'розділи',
-    'розділів',
-];
 
 const CONTENT_TYPE_CONFIG = {
     [ContentTypeEnum.MANGA]: {
         route: '/manga',
-        mediaTypeMap: MANGA_MEDIA_TYPE,
         emptyDescription: 'Додайте манґу у список Читаю',
     },
     [ContentTypeEnum.NOVEL]: {
         route: '/novel',
-        mediaTypeMap: NOVEL_MEDIA_TYPE,
         emptyDescription: 'Додайте ранобе у список Читаю',
     },
 } as const;
@@ -74,24 +67,28 @@ const ReadingTracker = ({ contentType }: ReadingTrackerProps) => {
     // the `ContentTypeEnum.MANGA | NOVEL` values are identical strings.
     const apiContentType = contentType as unknown as ReadContentTypeEnum;
 
-    const { list, ref, isFetchingNextPage, hasNextPage } = useInfiniteList(
-        userReadListInfiniteOptions({
-            path: {
-                content_type: apiContentType,
-                username: String(loggedUser?.username),
-            },
-            body: {
-                read_status: ReadStatusEnum.READING,
-                sort: ['read_updated:desc'],
-            },
-        }),
-        { enabled: Boolean(loggedUser?.username) },
-    );
+    const { list, ref, isFetchingNextPage, hasNextPage, isPending } =
+        useInfiniteList(
+            userReadListInfiniteOptions({
+                path: {
+                    content_type: apiContentType,
+                    username: String(loggedUser?.username),
+                },
+                body: {
+                    read_status: ReadStatusEnum.READING,
+                    sort: ['read_updated:desc'],
+                },
+            }),
+            { enabled: Boolean(loggedUser?.username) },
+        );
 
     const selectedRead =
         list?.find((item) => item.content.slug === selectedSlug) || list?.[0];
 
-    const [debouncedPending] = useDebounce({ value: pending, delay: 500 });
+    const [debouncedPending] = useDebounce({
+        value: pending,
+        delay: DEBOUNCE_MS.commit,
+    });
 
     const invalidateReadLists = useCallback(
         (refetch: boolean) => invalidateReadState(queryClient, { refetch }),
@@ -189,6 +186,10 @@ const ReadingTracker = ({ contentType }: ReadingTrackerProps) => {
         invalidateReadLists,
     ]);
 
+    if (isPending) {
+        return <ProgressTrackerSkeleton />;
+    }
+
     if (!list || list.length === 0) {
         return (
             <EmptyState
@@ -208,7 +209,7 @@ const ReadingTracker = ({ contentType }: ReadingTrackerProps) => {
                     >
                         Знайти{' '}
                         {contentType === ContentTypeEnum.MANGA
-                            ? 'мангу'
+                            ? 'манґу'
                             : 'ранобе'}
                     </Button>
                 }
@@ -249,24 +250,16 @@ const ReadingTracker = ({ contentType }: ReadingTrackerProps) => {
                               preferences.name_language,
                           ),
                           year: selectedRead.content.year,
-                          mediaTypeLabel: selectedRead.content.media_type
-                              ? (
-                                    config.mediaTypeMap as Record<
-                                        string,
-                                        { title_ua: string }
-                                    >
-                                )[selectedRead.content.media_type]?.title_ua
-                              : undefined,
+                          mediaTypeLabel: getMediaTypeLabel(
+                              selectedRead.content.media_type,
+                          ),
                           total: totalChapters ?? undefined,
                           totalDeclension: totalChapters
-                              ? getDeclensionWord(
-                                    totalChapters,
-                                    CHAPTERS_DECLENSION,
-                                )
+                              ? getDeclensionWord(totalChapters, CHAPTER_FORMS)
                               : undefined,
                           current: currentChapters,
-                          progressUnit: 'розділів',
-                          addUnitLabel: 'розділ',
+                          progressUnit: CHAPTER_FORMS[2],
+                          addUnitLabel: CHAPTER_FORMS[0],
                           onAdd: handleAddChapter,
                           onRemove: handleRemoveChapter,
                           onOpenEdit: openReadEditModal,
@@ -274,25 +267,16 @@ const ReadingTracker = ({ contentType }: ReadingTrackerProps) => {
                     : undefined
             }
             editModal={
-                selectedRead
-                    ? {
-                          open,
-                          onOpenChange: setOpen,
-                          title: getTitle(
-                              selectedRead.content,
-                              preferences.title_language,
-                              preferences.name_language,
-                          ),
-                          children: (
-                              <ReadEditModal
-                                  read={selectedRead}
-                                  slug={selectedRead.content.slug}
-                                  content_type={contentType}
-                                  onClose={() => setOpen(false)}
-                              />
-                          ),
-                      }
-                    : undefined
+                selectedRead ? (
+                    <ListEntryEditDialog
+                        open={open}
+                        onOpenChange={setOpen}
+                        content={selectedRead.content}
+                        slug={selectedRead.content.slug}
+                        contentType={contentType}
+                        read={selectedRead}
+                    />
+                ) : undefined
             }
         />
     );

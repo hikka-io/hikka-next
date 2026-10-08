@@ -2,7 +2,7 @@ import type { FC } from 'react';
 
 import { ContentTypeEnum, type WatchResponseBase } from '@hikka/api';
 
-import { ANIME_MEDIA_TYPE } from '@/utils/constants/common';
+import { getMediaTypeLabel } from '@/utils/labels';
 
 import EntityCard, { type EntityCardProps } from './entity-card';
 import type { MediaTooltipItemOf } from './tooltips';
@@ -17,13 +17,7 @@ const AnimeCard: FC<Props> = ({ item, watch, ...props }) => (
         entity={{ type: ContentTypeEnum.ANIME, data: item, watch }}
         withContextMenu
         leftSubtitle={item.year ? String(item.year) : undefined}
-        rightSubtitle={
-            item.media_type
-                ? ANIME_MEDIA_TYPE[
-                      item.media_type as keyof typeof ANIME_MEDIA_TYPE
-                  ]?.title_ua
-                : undefined
-        }
+        rightSubtitle={getMediaTypeLabel(item.media_type)}
         {...props}
     />
 );

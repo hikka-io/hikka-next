@@ -38,7 +38,7 @@ import {
     SheetTitle,
     SheetTrigger,
 } from '@/components/ui/sheet';
-import { useMediaQuery } from '@/services/hooks/use-media-query';
+import { useIsDesktop } from '@/services/hooks/use-media-query';
 import { cn } from '@/utils/cn';
 
 type ModalType = 'dialog' | 'sheet';
@@ -68,7 +68,7 @@ function ResponsiveModal({
     mobile = 'drawer',
     disablePointerDismissal,
 }: ResponsiveModalProps) {
-    const isDesktop = useMediaQuery('(min-width: 768px)');
+    const isDesktop = useIsDesktop();
     const surface: Surface = isDesktop ? type : mobile;
 
     const root =

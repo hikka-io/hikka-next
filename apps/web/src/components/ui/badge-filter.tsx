@@ -1,4 +1,4 @@
-import { createElement, type FC } from 'react';
+import { type ComponentType, createElement, type FC } from 'react';
 
 import MaterialSymbolsInfoRounded from '@/components/icons/material-symbols/MaterialSymbolsInfoRounded';
 import { Button } from '@/components/ui/button';
@@ -8,11 +8,13 @@ import {
     TooltipPortal,
     TooltipTrigger,
 } from '@/components/ui/tooltip';
+import type { FilterProperty } from '@/utils/labels/enum-labels';
 
 export type BadgeFilterProps = {
     property: string;
     title?: string;
-    properties: Hikka.FilterProperty<string> | string[];
+    properties: FilterProperty<string> | string[];
+    icons?: Record<string, ComponentType | null>;
     selected: string[];
     disabled?: boolean;
     onParamChange: (key: string, value: string | string[]) => void;
@@ -21,6 +23,7 @@ export type BadgeFilterProps = {
 export const BadgeFilter: FC<BadgeFilterProps> = ({
     title,
     properties,
+    icons,
     selected,
     disabled,
     onParamChange,
@@ -58,9 +61,7 @@ export const BadgeFilter: FC<BadgeFilterProps> = ({
                             selected.includes(slug) ? 'default' : 'outline'
                         }
                     >
-                        {!isPropertiesArray &&
-                            properties[slug].icon &&
-                            createElement(properties[slug].icon)}
+                        {icons?.[slug] && createElement(icons[slug])}
                         {isPropertiesArray ? slug : properties[slug].title_ua}
 
                         {!isPropertiesArray && properties[slug].description && (

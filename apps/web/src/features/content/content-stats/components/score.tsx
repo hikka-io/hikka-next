@@ -1,12 +1,15 @@
+import { useQuery } from '@tanstack/react-query';
+
 import type {
     AnimeStatsResponse,
     MainContentTypeEnum,
     AppSchemasReadStatsResponse as ReadStatsResponse,
 } from '@hikka/api';
 
-import { CONTENT_CONFIG } from '@/utils/constants/common';
+import { contentInfoOptions } from '@/utils/api/content-queries';
 import { useParams } from '@/utils/navigation';
 
+import type { ListStat } from '../types';
 import Stats from './stats';
 
 type Props = {
@@ -15,7 +18,9 @@ type Props = {
 
 const Score = ({ content_type }: Props) => {
     const params = useParams();
-    const { data } = CONTENT_CONFIG[content_type].useInfo(String(params.slug));
+    const { data } = useQuery(
+        contentInfoOptions(content_type, String(params.slug)),
+    );
 
     if (!data) {
         return null;
@@ -33,7 +38,7 @@ const Score = ({ content_type }: Props) => {
         (data.stats.score_9 ?? 0) +
         (data.stats.score_10 ?? 0);
 
-    const stats: Hikka.ListStat[] = Object.keys(data.stats)
+    const stats: ListStat[] = Object.keys(data.stats)
         .filter(
             (stat) =>
                 stat.includes('score') &&

@@ -1,8 +1,11 @@
 import type { FC } from 'react';
 
+import { API_LIMITS } from '@hikka/api';
+
 import { InputTags } from '@/components/ui/input-tags';
 import { Label } from '@/components/ui/label';
-import { useArticleContext } from '@/services/providers/article-provider';
+
+import { useArticleContext } from '../../article-provider';
 
 type Props = {};
 
@@ -16,7 +19,7 @@ const TagsInput: FC<Props> = () => {
                 Теги
             </Label>
             <InputTags
-                disabled={tags.length === 3}
+                disabled={tags.length === API_LIMITS.tags.max}
                 id="tags"
                 value={tags}
                 onChange={(tags) => setTags(tags as string[])}

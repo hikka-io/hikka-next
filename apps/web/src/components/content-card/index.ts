@@ -12,10 +12,7 @@ export type { PosterCardProps } from './poster-card';
 export { default as PosterCard } from './poster-card';
 export { default as PosterCardSkeleton } from './poster-card-skeleton';
 export {
-    CharacterTooltip,
     MediaTooltip,
     type MediaTooltipItem,
-    PersonTooltip,
-    UserTooltip,
 } from './tooltips';
 export { default as VoiceCard } from './voice-card';

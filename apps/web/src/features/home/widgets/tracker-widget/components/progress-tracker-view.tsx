@@ -7,10 +7,6 @@ import MaterialSymbolsSettingsOutlineRounded from '@/components/icons/material-s
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Progress } from '@/components/ui/progress';
-import {
-    ResponsiveModal,
-    ResponsiveModalContent,
-} from '@/components/ui/responsive-modal';
 import Spinner from '@/components/ui/spinner';
 import Stack from '@/components/ui/stack';
 import {
@@ -47,26 +43,19 @@ type SelectedEntry = {
     onOpenEdit: () => void;
 };
 
-type EditModalState = {
-    open: boolean;
-    onOpenChange: (open: boolean) => void;
-    title: string;
-    children: ReactNode;
-};
-
 type Props = {
     items: TrackerItem[];
     listRef: Ref<HTMLDivElement>;
     hasNextPage: boolean;
     isFetchingNextPage: boolean;
     selected?: SelectedEntry;
-    editModal?: EditModalState;
+    editModal?: ReactNode;
 };
 
 /**
  * Shared presentation for the home watch/read progress trackers: the content
- * grid, the selected-entry header/progress/controls, and the edit modal
- * wrapper. All data, debounce, and mutation logic lives in the caller.
+ * grid, the selected-entry header/progress/controls, and the edit dialog
+ * slot. All data, debounce, and mutation logic lives in the caller.
  */
 const ProgressTrackerView = ({
     items,
@@ -200,20 +189,7 @@ const ProgressTrackerView = ({
                     </>
                 )}
             </div>
-            {selected && editModal && (
-                <ResponsiveModal
-                    open={editModal.open}
-                    onOpenChange={editModal.onOpenChange}
-                    mobile="page"
-                >
-                    <ResponsiveModalContent
-                        className="md:max-w-xl"
-                        title={editModal.title}
-                    >
-                        {editModal.children}
-                    </ResponsiveModalContent>
-                </ResponsiveModal>
-            )}
+            {selected && editModal}
         </>
     );
 };

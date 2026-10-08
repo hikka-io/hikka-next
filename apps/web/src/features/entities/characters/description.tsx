@@ -5,7 +5,7 @@ import { characterInfoOptions } from '@hikka/api';
 import DescriptionBlock from '@/components/description-block';
 import { useParams } from '@/utils/navigation';
 
-const Description = () => {
+const CharacterDescription = () => {
     const params = useParams();
     const { data: character } = useQuery(
         characterInfoOptions({ path: { slug: String(params.slug) } }),
@@ -18,4 +18,4 @@ const Description = () => {
     return <DescriptionBlock options={[{ text: character.description_ua }]} />;
 };
 
-export default Description;
+export default CharacterDescription;

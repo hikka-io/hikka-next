@@ -2,14 +2,14 @@ import type { FC } from 'react';
 
 import type { FollowUserResponse } from '@hikka/api';
 
-import FollowButton from '@/components/action-buttons/follow-button';
+import { FollowButton } from '@/components/action-buttons';
 import {
     HorizontalCard,
     HorizontalCardContainer,
-    HorizontalCardDescription,
     HorizontalCardImage,
     HorizontalCardTitle,
-} from '@/components/ui/horizontal-card';
+} from '@/components/horizontal-card';
+import { MDViewer } from '@/components/markdown';
 
 type Props = {
     user: FollowUserResponse;
@@ -27,9 +27,12 @@ const FollowUserItem: FC<Props> = ({ user }) => {
                 <HorizontalCardTitle href={`/u/${user.username}`}>
                     {user.username}
                 </HorizontalCardTitle>
-                <HorizontalCardDescription>
+                <MDViewer
+                    className="prose-inline line-clamp-1 text-muted-foreground text-xs!"
+                    preview
+                >
                     {user.description}
-                </HorizontalCardDescription>
+                </MDViewer>
             </HorizontalCardContainer>
             <FollowButton size="md" user={user} />
         </HorizontalCard>

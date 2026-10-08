@@ -1,34 +1,43 @@
-import type { FC } from 'react';
+import { type FC, useMemo } from 'react';
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Minimize2, Send } from 'lucide-react';
-import { useEditorSelector } from 'platejs/react';
+import type { Value } from 'platejs';
+import { useEditorRef, useEditorSelector, useEditorValue } from 'platejs/react';
 
 import {
+    API_LIMITS,
+    type CommentContentTypeEnum,
     type CommentResponse,
-    type CommentContentTypeEnum as CommentsContentType,
     editCommentMutation,
     writeCommentMutation,
 } from '@hikka/api';
 
-import { useMarkdownEditor } from '@/components/plate/editor/markdown-editor-kit';
+import CharacterCounter from '@/components/character-counter';
+import {
+    getCommentText,
+    getCommentValue,
+} from '@/components/plate/editor/value/submit-value';
 import { FixedToolbar } from '@/components/plate/ui/fixed-toolbar';
 import { FixedMarkdownToolbarButtons } from '@/components/plate/ui/fixed-toolbar-buttons';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Field, FieldLabel, FieldTitle } from '@/components/ui/field';
 import Spinner from '@/components/ui/spinner';
-import { useCommentsContext } from '@/services/providers/comments-provider';
+import { DEBOUNCE_MS, useDebounce } from '@/services/hooks/use-debounce';
 import { invalidateComments } from '@/utils/api/invalidate-content-state';
-import { MAX_COMMENT_DEPTH } from '@/utils/constants/common';
-import { getCommentText, getCommentValue } from '@/utils/plate';
 
-import type { Verdict } from './utils/review';
-import { toReviewArgs } from './utils/review';
+import { useCommentsContext } from './comments-provider';
+import type { Verdict } from './review/review';
+import { toReviewArgs } from './review/review';
+
+const MAX_COMMENT_DEPTH = 5;
+
+const codePointLength = (text: string) => Array.from(text).length;
 
 type Props = {
     slug: string;
-    content_type: CommentsContentType;
+    content_type: CommentContentTypeEnum;
     comment?: CommentResponse;
     className?: string;
     isEdit?: boolean;
@@ -53,13 +62,28 @@ const CommentInputBottomBar: FC<Props> = ({
     const { clearActive, addPendingReply, updatePendingReply } =
         useCommentsContext();
     const queryClient = useQueryClient();
-    const editor = useMarkdownEditor();
+    const editor = useEditorRef();
 
     // Mirrors the onSubmit guard so send stays disabled until there is content.
     const hasContent = useEditorSelector(
         (editor) => getCommentValue(editor).length > 0,
         [],
     );
+
+    const replyMention =
+        !isEdit && comment?.depth && comment.depth >= MAX_COMMENT_DEPTH
+            ? `@${comment.author.username} `
+            : '';
+    const [countedValue] = useDebounce<Value>({
+        value: useEditorValue(),
+        delay: DEBOUNCE_MS.input,
+    });
+    const textLength = useMemo(
+        () => codePointLength(getCommentText(editor, countedValue)),
+        [editor, countedValue],
+    );
+    const sentLength = replyMention.length + textLength;
+    const isTooLong = sentLength > API_LIMITS.commentText.max;
 
     const onEditSuccess = async (data: CommentResponse) => {
         editor.tf.reset();
@@ -121,6 +145,13 @@ const CommentInputBottomBar: FC<Props> = ({
             return;
         }
 
+        if (
+            replyMention.length + codePointLength(text) >
+            API_LIMITS.commentText.max
+        ) {
+            return;
+        }
+
         if (isReview && !verdict) {
             return;
         }
@@ -147,10 +178,7 @@ const CommentInputBottomBar: FC<Props> = ({
                             ? comment?.reference
                             : comment.parent!
                         : undefined,
-                    text:
-                        comment?.depth && comment?.depth >= MAX_COMMENT_DEPTH
-                            ? `@${comment.author.username} ${text}`
-                            : text,
+                    text: `${replyMention}${text}`,
                     review: toReviewArgs(isReview, verdict),
                 },
             });
@@ -192,12 +220,18 @@ const CommentInputBottomBar: FC<Props> = ({
                     </FieldLabel>
                 )}
 
+                <CharacterCounter
+                    length={sentLength}
+                    max={API_LIMITS.commentText.max}
+                />
+
                 <Button
                     onClick={onSubmit}
                     disabled={
                         isAddPending ||
                         isEditPending ||
                         !hasContent ||
+                        isTooLong ||
                         (isReview && !verdict)
                     }
                     size="sm"

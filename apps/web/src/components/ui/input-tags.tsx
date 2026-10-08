@@ -2,7 +2,8 @@ import { forwardRef, useState } from 'react';
 
 import { XIcon } from 'lucide-react';
 
-import MaterialSymbolsAddRounded from '../icons/material-symbols/MaterialSymbolsAddRounded';
+import MaterialSymbolsAddRounded from '@/components/icons/material-symbols/MaterialSymbolsAddRounded';
+
 import { Badge } from './badge';
 import { Button } from './button';
 import { Input, type InputProps } from './input';

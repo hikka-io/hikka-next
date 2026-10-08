@@ -1,10 +1,11 @@
 import { useState } from 'react';
 
-import MDViewer from '@/components/markdown/viewer/md-viewer';
+import { MDViewer } from '@/components/markdown';
 import TextExpand from '@/components/text-expand';
 import Block from '@/components/ui/block';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { BLANK_CHARS } from '@/utils/text';
 
 export interface DescriptionOption {
     text?: string | null;
@@ -34,7 +35,7 @@ const isBlank = (text?: string | null) =>
     !text ||
     text
         .replace(/\\[rn]/g, '')
-        .replace(/[\s​﻿]/g, '')
+        .replace(BLANK_CHARS, '')
         .trim() === '';
 
 /**

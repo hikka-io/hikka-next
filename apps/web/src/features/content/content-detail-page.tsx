@@ -1,32 +1,36 @@
 import type { FC, ReactNode } from 'react';
 
+import { useQuery } from '@tanstack/react-query';
+
 import type { MainContentTypeEnum } from '@hikka/api';
 
-import { CommentList as Comments } from '@/features/comments';
+import JsonLd from '@/components/json-ld';
+import { CommentList } from '@/features/comments';
+import { contentInfoOptions } from '@/utils/api/content-queries';
+import { contentJsonLd } from '@/utils/json-ld';
 
 import ContentActions from './actions';
 import ContentArticles from './articles';
 import ContentCharacters from './characters';
-import { Collections } from './collections';
+import ContentCollections from './collections';
 import ContentStats from './content-stats';
-import ContentCover from './cover';
 import ContentDescription from './description';
+import ContentCover from './detail-header/cover';
+import ContentHero from './detail-header/hero';
+import ContentHeroPoster from './detail-header/hero-poster';
+import ContentTitle from './detail-header/title';
 import ContentDetails from './details';
-import { Followings } from './followings';
+import Followings from './followings/followings';
 import Franchise from './franchise';
-import ContentHero from './hero';
-import ContentHeroPoster from './hero-poster';
 import ContentLinks from './links';
 import ContentScores from './scores';
 import ContentStaff from './staff';
-import ContentTitle from './title';
 
 type Props = {
     contentType: MainContentTypeEnum;
     slug: string;
     afterDescription?: ReactNode;
     afterFranchise?: ReactNode;
-    jsonLd?: ReactNode;
 };
 
 const ContentDetailPage: FC<Props> = ({
@@ -34,11 +38,14 @@ const ContentDetailPage: FC<Props> = ({
     slug,
     afterDescription,
     afterFranchise,
-    jsonLd,
 }) => {
+    const { data: content } = useQuery(contentInfoOptions(contentType, slug));
+
     return (
         <div className="grid grid-cols-1 gap-x-10 gap-y-8 lg:grid-cols-4">
-            {jsonLd}
+            {content && (
+                <JsonLd data={contentJsonLd({ content, contentType })} />
+            )}
             <div
                 className="flex flex-col gap-4 md:flex-row md:items-start md:gap-6 lg:hidden"
                 id="content-header-mobile"
@@ -63,7 +70,7 @@ const ContentDetailPage: FC<Props> = ({
                 </div>
                 <Followings content_type={contentType} />
                 <ContentArticles content_type={contentType} />
-                <Collections content_type={contentType} />
+                <ContentCollections content_type={contentType} />
             </div>
             <div
                 className="contents lg:col-span-2 lg:flex lg:flex-col lg:gap-8"
@@ -85,7 +92,11 @@ const ContentDetailPage: FC<Props> = ({
                 {afterFranchise}
                 <ContentStaff content_type={contentType} />
                 <div className="order-last lg:order-0">
-                    <Comments preview slug={slug} content_type={contentType} />
+                    <CommentList
+                        preview
+                        slug={slug}
+                        content_type={contentType}
+                    />
                 </div>
             </div>
 
@@ -104,7 +115,7 @@ const ContentDetailPage: FC<Props> = ({
                 <ContentStats content_type={contentType} />
                 <div className="contents lg:hidden">
                     <Followings content_type={contentType} />
-                    <Collections content_type={contentType} />
+                    <ContentCollections content_type={contentType} />
                     <ContentArticles content_type={contentType} />
                 </div>
                 <ContentLinks content_type={contentType} />

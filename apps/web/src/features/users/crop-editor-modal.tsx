@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { type FC, useRef, useState } from 'react';
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import AvatarEditor from 'react-avatar-editor';
@@ -12,19 +12,34 @@ import {
 import MaterialSymbolsZoomInRounded from '@/components/icons/material-symbols/MaterialSymbolsZoomInRounded';
 import MaterialSymbolsZoomOutRounded from '@/components/icons/material-symbols/MaterialSymbolsZoomOutRounded';
 import { Button } from '@/components/ui/button';
-import { ResponsiveModalFooter } from '@/components/ui/responsive-modal';
+import {
+    ResponsiveModal,
+    ResponsiveModalContent,
+    ResponsiveModalFooter,
+} from '@/components/ui/responsive-modal';
 import { Slider } from '@/components/ui/slider';
 import Spinner from '@/components/ui/spinner';
-import { invalidateSession } from '@/utils/api/invalidate-content-state';
+import { useSession } from '@/services/session';
+import { apiErrorMessage } from '@/utils/api/api-error-message';
+import {
+    invalidateSession,
+    invalidateUserProfile,
+} from '@/utils/api/invalidate-content-state';
 import { MUTATION_META_SKIP_ERROR_TOAST } from '@/utils/api/mutation-meta';
 import { cn } from '@/utils/cn';
 import { getImage } from '@/utils/image';
-import { useRouter } from '@/utils/navigation';
+
+type BodyProps = {
+    file: File;
+    type: UploadTypeEnum;
+    onClose: () => void;
+};
 
 type Props = {
-    file?: File;
+    open: boolean;
+    onOpenChange: (open: boolean) => void;
+    file: File | null;
     type: UploadTypeEnum;
-    onClose?: () => void;
 };
 
 const CROP_PARAMS = {
@@ -40,9 +55,9 @@ const CROP_PARAMS = {
     },
 };
 
-const CropEditorModal = ({ file, type, onClose }: Props) => {
-    const router = useRouter();
+const CropEditorModalBody: FC<BodyProps> = ({ file, type, onClose }) => {
     const queryClient = useQueryClient();
+    const { user: loggedUser } = useSession();
 
     const editor = useRef<AvatarEditor>(null);
     const [scale, setScale] = useState<number>(100);
@@ -60,14 +75,18 @@ const CropEditorModal = ({ file, type, onClose }: Props) => {
         },
         onError: (error) => {
             toast.error(
-                (error as unknown as Error)?.message ??
+                apiErrorMessage(
+                    error,
                     'Не вдалося завантажити зображення. Спробуйте ще раз.',
+                ),
             );
         },
         onSettled: () => {
             invalidateSession(queryClient);
-            router.refresh();
-            onClose?.();
+            if (loggedUser) {
+                invalidateUserProfile(queryClient, loggedUser.username);
+            }
+            onClose();
         },
     });
 
@@ -95,7 +114,7 @@ const CropEditorModal = ({ file, type, onClose }: Props) => {
                                 uploadImageMutation.isPending &&
                                     'pointer-events-none',
                             )}
-                            image={file!}
+                            image={file}
                             {...CROP_PARAMS[type as 'avatar' | 'cover']}
                             color={[0, 0, 0, 0.7]}
                             scale={scale / 100}
@@ -132,5 +151,22 @@ const CropEditorModal = ({ file, type, onClose }: Props) => {
         </>
     );
 };
+
+const CropEditorModal: FC<Props> = ({ open, onOpenChange, file, type }) => (
+    <ResponsiveModal open={open} onOpenChange={onOpenChange} mobile="page">
+        <ResponsiveModalContent
+            className="md:max-w-lg!"
+            title="Редагувати медіафайл"
+        >
+            {file && (
+                <CropEditorModalBody
+                    file={file}
+                    type={type}
+                    onClose={() => onOpenChange(false)}
+                />
+            )}
+        </ResponsiveModalContent>
+    </ResponsiveModal>
+);
 
 export default CropEditorModal;

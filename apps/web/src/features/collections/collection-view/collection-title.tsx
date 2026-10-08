@@ -2,14 +2,14 @@ import { useQuery } from '@tanstack/react-query';
 
 import { getCollectionOptions } from '@hikka/api';
 
-import MDViewer from '@/components/markdown/viewer/md-viewer';
+import { MDViewer } from '@/components/markdown';
 import TextExpand from '@/components/text-expand';
 import { Badge } from '@/components/ui/badge';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import { usePageTitleAnchor } from '@/features/app-shell';
 import { useParams } from '@/utils/navigation';
 
-const CollectionTitle = () => {
+const CollectionViewTitle = () => {
     const params = useParams();
     const { data: collection } = useQuery(
         getCollectionOptions({ path: { reference: String(params.reference) } }),
@@ -51,4 +51,4 @@ const CollectionTitle = () => {
     );
 };
 
-export default CollectionTitle;
+export default CollectionViewTitle;

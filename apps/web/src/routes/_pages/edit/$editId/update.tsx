@@ -1,18 +1,26 @@
 import { createFileRoute } from '@tanstack/react-router';
 
-import { type GetEditResponse, getEditQueryKey } from '@hikka/api';
+import { getEditOptions } from '@hikka/api';
 
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import { usePageTitleAnchor } from '@/features/app-shell';
-import { EditViewForm as EditView } from '@/features/edit';
+import { EditViewForm } from '@/features/edit';
+import { retryOnCancel } from '@/utils/api/retry-on-cancel';
 import { requireOwner } from '@/utils/auth';
 import { generateHeadMeta } from '@/utils/metadata';
 
 export const Route = createFileRoute('/_pages/edit/$editId/update')({
-    beforeLoad: async ({ params, context: { queryClient } }) => {
-        const edit = queryClient.getQueryData<GetEditResponse>(
-            getEditQueryKey({ path: { edit_id: Number(params.editId) } }),
-        );
+    beforeLoad: async ({ params, context: { queryClient, apiClient } }) => {
+        const edit = await retryOnCancel(() =>
+            queryClient.fetchQuery({
+                ...getEditOptions({
+                    path: { edit_id: Number(params.editId) },
+                    client: apiClient,
+                }),
+                // biome-ignore lint/plugin/no-query-policy: the editor seeds its form once from this snapshot, so a cached copy must be revalidated
+                staleTime: 0,
+            }),
+        ).catch(() => undefined);
 
         requireOwner(
             queryClient,
@@ -41,7 +49,7 @@ function EditUpdatePage() {
                     </HeaderTitle>
                 </HeaderContainer>
             </Header>
-            <EditView editId={editId} mode="update" />
+            <EditViewForm editId={editId} mode="update" />
         </div>
     );
 }

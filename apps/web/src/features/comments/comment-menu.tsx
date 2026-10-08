@@ -5,8 +5,8 @@ import { Copy, MessageSquare, Star } from 'lucide-react';
 import { toast } from 'sonner';
 
 import {
+    type CommentContentTypeEnum,
     type CommentResponse,
-    type CommentContentTypeEnum as CommentsContentType,
     hideCommentMutation,
 } from '@hikka/api';
 
@@ -30,19 +30,19 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { useSession } from '@/features/auth/hooks/use-session';
-import { useCommentsContext } from '@/services/providers/comments-provider';
+import { useSession } from '@/services/session';
 import { invalidateComments } from '@/utils/api/invalidate-content-state';
 import { MUTATION_META_SKIP_ERROR_TOAST } from '@/utils/api/mutation-meta';
 
-import ConvertReviewDialog from './convert-review-dialog';
-import DemoteReviewDialog from './demote-review-dialog';
-import { canConvertReview, canDemoteReview } from './utils/review';
+import { useCommentsContext } from './comments-provider';
+import ConvertReviewDialog from './review/convert-review-dialog';
+import DemoteReviewDialog from './review/demote-review-dialog';
+import { canConvertReview, canDemoteReview } from './review/review';
 
 type Props = {
     comment: CommentResponse;
     slug: string;
-    content_type: CommentsContentType;
+    content_type: CommentContentTypeEnum;
     /** Off where no inline editor is mounted to answer `setEdit`. */
     editable?: boolean;
 };

@@ -1,29 +1,47 @@
 import type { FC } from 'react';
 
-import { useDroppable } from '@dnd-kit/core';
-import { rectSortingStrategy, SortableContext } from '@dnd-kit/sortable';
+import { CollisionPriority } from '@dnd-kit/abstract';
+import { useDroppable } from '@dnd-kit/react';
 
 import PosterCard from '@/components/content-card/poster-card';
 import { MaterialSymbolsAddRounded } from '@/components/icons/material-symbols/MaterialSymbolsAddRounded';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import { SearchModal } from '@/features/search';
-import { useCollectionContext } from '@/services/providers/collection-provider';
-import type { Group, Item } from '@/services/stores/collection-store';
 import { cn } from '@/utils/cn';
 
-import SortableCard from './components/sortable-card';
+import { useCollectionContext } from '../collection-provider';
+import type { Item } from '../collection-store';
+import SortableCard from './sortable-card';
 
 type Props = {
-    group: Group;
+    groupId: string;
 };
 
-const CollectionEditGrid: FC<Props> = ({ group }) => {
-    // Subscribe to only this group's items — Zustand skips re-render
-    // when the reference hasn't changed (unmodified groups keep same ref)
-    const items =
-        useCollectionContext(
-            (state) => state.groups.find((g) => g.id === group.id)?.items,
-        ) ?? [];
+const NO_ITEMS: Item[] = [];
+
+const GroupTitle: FC<Props> = ({ groupId }) => {
+    const title = useCollectionContext(
+        (state) => state.groups.find((g) => g.id === groupId)?.title ?? null,
+    );
+
+    if (title === null) return null;
+
+    return (
+        <Header>
+            <HeaderContainer>
+                <HeaderTitle variant="h5">
+                    {title.trim().length > 0 ? title : 'Нова група'}
+                </HeaderTitle>
+            </HeaderContainer>
+        </Header>
+    );
+};
+
+const CollectionEditGrid: FC<Props> = ({ groupId }) => {
+    const items = useCollectionContext(
+        (state) =>
+            state.groups.find((g) => g.id === groupId)?.items ?? NO_ITEMS,
+    );
     const content_type = useCollectionContext((state) => state.content_type);
     const addItem = useCollectionContext((state) => state.addItem);
     const removeItem = useCollectionContext((state) => state.removeItem);
@@ -31,59 +49,49 @@ const CollectionEditGrid: FC<Props> = ({ group }) => {
         (state) => state.updateItemComment,
     );
 
-    const { setNodeRef, isOver } = useDroppable({
-        id: group.id,
+    const { ref, isDropTarget } = useDroppable({
+        id: groupId,
+        collisionPriority: CollisionPriority.Low,
     });
 
     return (
-        <SortableContext items={items} strategy={rectSortingStrategy}>
-            <div className="flex flex-col gap-4">
-                {group.title !== null && (
-                    <Header>
-                        <HeaderContainer>
-                            <HeaderTitle variant="h5">
-                                {group.title && group.title.trim().length > 0
-                                    ? group.title
-                                    : 'Нова група'}
-                            </HeaderTitle>
-                        </HeaderContainer>
-                    </Header>
+        <div className="flex flex-col gap-4">
+            <GroupTitle groupId={groupId} />
+            <div
+                ref={ref}
+                className={cn(
+                    'grid grid-cols-2 gap-4 rounded-lg transition-colors md:grid-cols-5 lg:gap-8',
+                    isDropTarget && 'bg-primary/5 ring-2 ring-primary/30',
                 )}
-                <div
-                    ref={setNodeRef}
-                    className={cn(
-                        'grid grid-cols-2 gap-4 rounded-lg transition-colors md:grid-cols-5 lg:gap-8',
-                        isOver && 'bg-primary/5 ring-2 ring-primary/30',
-                    )}
-                >
-                    {items.map((item) => (
-                        <SortableCard
-                            key={item.id}
-                            id={String(item.id)}
-                            groupId={group.id}
-                            content={item.content}
-                            comment={item.comment}
-                            onRemove={removeItem}
-                            onCommentChange={updateItemComment}
-                        />
-                    ))}
+            >
+                {items.map((item, index) => (
+                    <SortableCard
+                        key={item.id}
+                        id={String(item.id)}
+                        index={index}
+                        groupId={groupId}
+                        content={item.content}
+                        comment={item.comment}
+                        onRemove={removeItem}
+                        onCommentChange={updateItemComment}
+                    />
+                ))}
 
-                    <SearchModal
-                        content_type={content_type}
-                        onClick={(value) =>
-                            addItem(group.id, value as Item['content'])
+                <SearchModal
+                    content_type={content_type}
+                    onClick={(value) =>
+                        addItem(groupId, value as Item['content'])
+                    }
+                    type="button"
+                >
+                    <PosterCard
+                        image={
+                            <MaterialSymbolsAddRounded className="text-4xl text-muted-foreground" />
                         }
-                        type="button"
-                    >
-                        <PosterCard
-                            image={
-                                <MaterialSymbolsAddRounded className="text-4xl text-muted-foreground" />
-                            }
-                        />
-                    </SearchModal>
-                </div>
+                    />
+                </SearchModal>
             </div>
-        </SortableContext>
+        </div>
     );
 };
 

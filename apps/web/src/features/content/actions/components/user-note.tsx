@@ -2,18 +2,18 @@ import { type FC, type KeyboardEvent, useState } from 'react';
 
 import { StickyNote } from 'lucide-react';
 
+import { API_LIMITS } from '@hikka/api';
+
+import CharacterCounter from '@/components/character-counter';
 import { MaterialSymbolsAddRounded } from '@/components/icons/material-symbols/MaterialSymbolsAddRounded';
 import { MaterialSymbolsCheckRounded } from '@/components/icons/material-symbols/MaterialSymbolsCheckRounded';
 import MaterialSymbolsCloseRounded from '@/components/icons/material-symbols/MaterialSymbolsCloseRounded';
 import { MaterialSymbolsEditRounded } from '@/components/icons/material-symbols/MaterialSymbolsEditRounded';
-import MDViewer from '@/components/markdown/viewer/md-viewer';
+import { MDViewer } from '@/components/markdown';
 import TextExpand from '@/components/text-expand';
 import { Button } from '@/components/ui/button';
 import Spinner from '@/components/ui/spinner';
 import { Textarea } from '@/components/ui/textarea';
-
-const MAX_LENGTH = 2048;
-const COUNTER_THRESHOLD = MAX_LENGTH - 200;
 
 const placeCaretAtEnd = (el: HTMLTextAreaElement | null) =>
     el?.setSelectionRange(el.value.length, el.value.length);
@@ -63,17 +63,17 @@ const UserNote: FC<Props> = ({ note, isSaving, onSave }) => {
                     autoFocus
                     aria-label="Нотатка"
                     className="field-sizing-content max-h-72 min-h-24 resize-none"
-                    maxLength={MAX_LENGTH}
+                    maxLength={API_LIMITS.listNote.max}
                     placeholder="Враження, улюблені моменти або на чому зупинились"
                     value={draft}
                     onChange={(e) => setDraft(e.target.value)}
                     onKeyDown={handleKeyDown}
                 />
-                {draft.length >= COUNTER_THRESHOLD && (
-                    <span className="text-right text-muted-foreground text-xs tabular-nums">
-                        {draft.length}/{MAX_LENGTH}
-                    </span>
-                )}
+                <CharacterCounter
+                    className="text-right"
+                    length={draft.length}
+                    max={API_LIMITS.listNote.max}
+                />
                 <div className="flex gap-2">
                     <Button
                         variant="secondary"

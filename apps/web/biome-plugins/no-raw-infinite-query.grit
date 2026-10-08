@@ -1,0 +1,4 @@
+JsCallExpression(callee=$callee) as $call where {
+    $callee <: r"^(?:useInfiniteQuery|useSuspenseQuery|useSuspenseQueries|useSuspenseInfiniteQuery)$",
+    register_diagnostic(span=$call, message="[R4] Use useInfiniteList (utils/api/use-infinite-list.ts) instead of useInfiniteQuery, and no useSuspenseQuery*.", severity="error")
+}

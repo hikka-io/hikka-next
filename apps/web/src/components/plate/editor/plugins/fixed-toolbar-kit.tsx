@@ -1,23 +1,7 @@
 import { createPlatePlugin } from 'platejs/react';
 
+import { FixedArticleToolbarButtons } from '@/components/plate/ui/fixed-article-toolbar-buttons';
 import { FixedToolbar } from '@/components/plate/ui/fixed-toolbar';
-import {
-    FixedArticleToolbarButtons,
-    FixedMarkdownToolbarButtons,
-} from '@/components/plate/ui/fixed-toolbar-buttons';
-
-export const FixedMarkdownToolbarKit = [
-    createPlatePlugin({
-        key: 'fixed-markdown-toolbar',
-        render: {
-            beforeEditable: () => (
-                <FixedToolbar>
-                    <FixedMarkdownToolbarButtons />
-                </FixedToolbar>
-            ),
-        },
-    }),
-];
 
 export const FixedArticleToolbarKit = [
     createPlatePlugin({

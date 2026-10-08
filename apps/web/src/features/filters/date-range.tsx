@@ -7,37 +7,38 @@ import { CalendarRange } from 'lucide-react';
 import {
     SliderField,
     type SliderFieldProps,
-} from '@/components/form/form-slider';
-import {
     SwitchField,
     type SwitchFieldProps,
-} from '@/components/form/form-switch';
-import { useTypedAppFormContext } from '@/components/form/use-app-form';
+    useTypedAppFormContext,
+} from '@/components/form';
 import { Badge } from '@/components/ui/badge';
 import { Label } from '@/components/ui/label';
 import { Slider } from '@/components/ui/slider';
 import { Switch } from '@/components/ui/switch';
+import { useRouteSearch } from '@/utils/navigation';
+import type { AnimeFilterSearch } from '@/utils/search-schemas';
+import { DATE_RANGE } from '@/utils/season';
 
-import useChangeParam from './hooks/use-change-param';
-import { useFilterSearch } from './hooks/use-filter-search';
+import { filterPresetFormOptions } from './presets/filter-preset-form';
+import { useChangeParam } from './use-change-param';
 
 type Props = {
     className?: string;
 };
 
-const DEFAULT_DATE_RANGE: [number, number] = [-4, 4];
+const DateRangeEnum = {
+    PREVIOUS_4_SEASONS: -4,
+    PREVIOUS_3_SEASONS: -3,
+    PREVIOUS_2_SEASONS: -2,
+    PREVIOUS_1_SEASON: -1,
+    CURRENT_SEASON: 0,
+    NEXT_1_SEASON: 1,
+    NEXT_2_SEASONS: 2,
+    NEXT_3_SEASONS: 3,
+    NEXT_4_SEASONS: 4,
+} as const;
 
-enum DateRangeEnum {
-    PREVIOUS_4_SEASONS = -4,
-    PREVIOUS_3_SEASONS = -3,
-    PREVIOUS_2_SEASONS = -2,
-    PREVIOUS_1_SEASON = -1,
-    CURRENT_SEASON = 0,
-    NEXT_1_SEASON = 1,
-    NEXT_2_SEASONS = 2,
-    NEXT_3_SEASONS = 3,
-    NEXT_4_SEASONS = 4,
-}
+type DateRangeEnum = (typeof DateRangeEnum)[keyof typeof DateRangeEnum];
 
 const DATE_RANGES: Record<DateRangeEnum, string> = {
     [DateRangeEnum.PREVIOUS_4_SEASONS]: 'Попередні 4 сезони',
@@ -53,13 +54,13 @@ const DATE_RANGES: Record<DateRangeEnum, string> = {
 
 const DateRange = (_props: Props) => {
     const router = useRouter();
-    const { date_range_enabled, date_range = [] } = useFilterSearch<{
-        date_range_enabled?: boolean;
-        date_range?: number[];
-    }>();
+    const { date_range_enabled, date_range = [] } =
+        useRouteSearch<
+            Pick<AnimeFilterSearch, 'date_range_enabled' | 'date_range'>
+        >();
 
     const [selectingDateRange, setSelectingDateRange] = useState<number[]>(
-        date_range.length > 0 ? date_range : DEFAULT_DATE_RANGE,
+        date_range.length > 0 ? date_range : DATE_RANGE,
     );
 
     const handleChangeParam = useChangeParam();
@@ -83,9 +84,7 @@ const DateRange = (_props: Props) => {
     const dateRangeKey = JSON.stringify(date_range);
     // biome-ignore lint/correctness/useExhaustiveDependencies: re-sync only when the serialized date range changes, not on new array identity
     useEffect(() => {
-        setSelectingDateRange(
-            date_range.length > 0 ? date_range : DEFAULT_DATE_RANGE,
-        );
+        setSelectingDateRange(date_range.length > 0 ? date_range : DATE_RANGE);
     }, [dateRangeKey]);
 
     return (
@@ -132,8 +131,8 @@ const DateRange = (_props: Props) => {
                             onValueChange={(value) =>
                                 setSelectingDateRange(value as number[])
                             }
-                            min={Number(DEFAULT_DATE_RANGE[0])}
-                            max={Number(DEFAULT_DATE_RANGE[1])}
+                            min={Number(DATE_RANGE[0])}
+                            max={Number(DATE_RANGE[1])}
                             minStepsBetweenValues={0}
                             value={selectingDateRange.map((y) => Number(y))}
                         />
@@ -147,17 +146,17 @@ const DateRange = (_props: Props) => {
 export const FormDateRange: FC<
     Props & Partial<SwitchFieldProps & SliderFieldProps>
 > = () => {
-    const form = useTypedAppFormContext({ defaultValues: {} as never });
+    const form = useTypedAppFormContext(filterPresetFormOptions);
     const dateRangeEnabled = useStore(
         form.store,
-        (s) => (s.values as any).date_range_enabled,
+        (s) => s.values.date_range_enabled,
     );
-    const dateRange = useStore(form.store, (s) => (s.values as any).date_range);
+    const dateRange = useStore(form.store, (s) => s.values.date_range);
 
     return (
         <div className="flex flex-col gap-2">
             <form.AppField
-                name={'date_range_enabled' as never}
+                name="date_range_enabled"
                 children={() => <SwitchField label="Часовий проміжок" />}
             />
 
@@ -173,14 +172,12 @@ export const FormDateRange: FC<
                     )}
                     <div className="flex items-center gap-2">
                         <form.AppField
-                            name={'date_range' as never}
+                            name="date_range"
                             children={() => (
                                 <SliderField
-                                    defaultValue={
-                                        dateRange ?? DEFAULT_DATE_RANGE
-                                    }
-                                    min={Number(DEFAULT_DATE_RANGE[0])}
-                                    max={Number(DEFAULT_DATE_RANGE[1])}
+                                    defaultValue={dateRange ?? DATE_RANGE}
+                                    min={Number(DATE_RANGE[0])}
+                                    max={Number(DATE_RANGE[1])}
                                     minStepsBetweenValues={0}
                                     className="flex-1"
                                 />

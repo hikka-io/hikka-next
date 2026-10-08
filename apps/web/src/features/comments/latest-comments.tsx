@@ -20,7 +20,7 @@ type Props = {
     className?: string;
 };
 
-const Comments: FC<Props> = ({ className }) => {
+const LatestComments: FC<Props> = ({ className }) => {
     const { list, hasNextPage, ref, isFetchingNextPage, fetchNextPage } =
         useInfiniteList(commentsListInfiniteOptions());
     const titleAnchor = usePageTitleAnchor();
@@ -73,4 +73,4 @@ const Comments: FC<Props> = ({ className }) => {
     );
 };
 
-export default Comments;
+export default LatestComments;

@@ -1,143 +1,67 @@
 import { createFileRoute, redirect } from '@tanstack/react-router';
 import { zodValidator } from '@tanstack/zod-adapter';
 
-import {
-    type AnimeAgeRatingEnum,
-    type AnimeMediaEnum,
-    type AnimeStatusEnum,
-    type ContentStatusEnum,
-    ContentTypeEnum,
-    type MainContentTypeEnum,
-    type MangaMediaEnum,
-    type NovelMediaEnum,
-    paginationPageParam,
-    type ReadContentTypeEnum,
-    type ReadStatusEnum,
-    type SeasonEnum,
-    userReadListInfiniteOptions,
-    userWatchListInfiniteOptions,
-    type WatchStatusEnum,
-} from '@hikka/api';
+import { ContentTypeEnum, type MainContentTypeEnum } from '@hikka/api';
 
 import ContentTypeTabs from '@/components/content-type-tabs';
 import Block from '@/components/ui/block';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import type { StackSize } from '@/components/ui/stack';
-import { AnimeFilters, ReadFilters } from '@/features/filters';
-import { useCatalogView } from '@/features/filters/hooks/use-catalog-view';
-import { useFiltersSidebar } from '@/features/filters/hooks/use-filters-sidebar';
-import { expandSort } from '@/features/filters/sort';
-import { Userlist, UserlistNavbar } from '@/features/users';
-import { cn } from '@/utils/cn';
+import { useCatalogView } from '@/features/catalog';
+import {
+    AnimeFilters,
+    FiltersSidebarLayout,
+    ReadFilters,
+    useFiltersSidebar,
+} from '@/features/filters';
+import {
+    USER_LIST_FILTERS_SIDEBAR_KEY,
+    UserList,
+    UserListNavbar,
+} from '@/features/users';
+import {
+    userListOptions,
+    userListStatsOptions,
+} from '@/features/users/queries';
+import { awaitOnServer } from '@/utils/api/loader-prefetch';
+import { CONTENT_TYPES } from '@/utils/labels';
 import { generateHeadMeta } from '@/utils/metadata';
 import { userlistSearchSchema } from '@/utils/search-schemas';
-
-const TITLES: Record<string, string> = {
-    [ContentTypeEnum.ANIME]: 'аніме',
-    [ContentTypeEnum.MANGA]: 'манґи',
-    [ContentTypeEnum.NOVEL]: 'ранобе',
-};
 
 export const Route = createFileRoute('/_pages/u/$username/list/$content_type')({
     validateSearch: zodValidator(userlistSearchSchema),
     loaderDeps: ({ search }) => search,
-    loader: async ({ params, context: { queryClient, apiClient }, deps }) => {
+    beforeLoad: ({ params, search }) => {
         const { username, content_type } = params;
-        const isAnime = content_type === ContentTypeEnum.ANIME;
-        const defaultSort = isAnime ? 'watch_score' : 'read_score';
-        const { status, sort: sortParam } = deps;
+        const { status, sort } = search;
 
-        if (!status || !sortParam) {
+        if (!status || !sort) {
+            const defaultSort =
+                content_type === ContentTypeEnum.ANIME
+                    ? 'watch_score'
+                    : 'read_score';
+
             throw redirect({
                 to: '/u/$username/list/$content_type',
                 params: { username, content_type },
                 search: {
                     status: status || 'completed',
-                    sort: sortParam || defaultSort,
+                    sort: sort || defaultSort,
                 },
             });
         }
-
-        const sort = expandSort(
-            isAnime ? 'watch' : 'read',
-            sortParam,
-            deps.order,
-        );
-
-        if (isAnime) {
-            const media_type = (deps.types ?? []) as AnimeMediaEnum[];
-            const animeStatus = (deps.statuses ?? []) as AnimeStatusEnum[];
-            const season = (deps.seasons ?? []) as SeasonEnum[];
-            const rating = (deps.ratings ?? []) as AnimeAgeRatingEnum[];
-            const years = (deps.years ?? []) as [number | null, number | null];
-            const genres = deps.genres ?? [];
-            const studios = deps.studios ?? [];
-            const score = deps.score?.length
-                ? (deps.score as [number, number])
-                : undefined;
-
-            await queryClient.prefetchInfiniteQuery({
-                ...userWatchListInfiniteOptions({
-                    path: { username },
-                    body: {
-                        watch_status:
-                            status !== 'all'
-                                ? (status as WatchStatusEnum)
-                                : undefined,
-                        media_type,
-                        status: animeStatus,
-                        season,
-                        rating,
-                        years,
-                        genres,
-                        studios,
-                        score,
-                        sort,
-                    },
-                    client: apiClient,
-                }),
-                ...paginationPageParam(),
-            });
-        } else {
-            // Generated ReadSearchArgs.media_type is typed MangaMediaEnum[];
-            // novel media values are valid at runtime.
-            const media_type = (deps.types ?? []) as (
-                | NovelMediaEnum
-                | MangaMediaEnum
-            )[] as MangaMediaEnum[];
-            const readContentStatus = (deps.statuses ??
-                []) as ContentStatusEnum[];
-            const years = (deps.years ?? []) as [number | null, number | null];
-            const genres = deps.genres ?? [];
-            const magazines = deps.magazines ?? [];
-            const score = deps.score?.length
-                ? (deps.score as [number, number])
-                : undefined;
-
-            await queryClient.prefetchInfiniteQuery({
-                ...userReadListInfiniteOptions({
-                    path: {
-                        username,
-                        content_type: content_type as ReadContentTypeEnum,
-                    },
-                    body: {
-                        read_status:
-                            status !== 'all'
-                                ? (status as ReadStatusEnum)
-                                : undefined,
-                        media_type,
-                        status: readContentStatus,
-                        years,
-                        genres,
-                        magazines,
-                        score,
-                        sort,
-                    },
-                    client: apiClient,
-                }),
-                ...paginationPageParam(),
-            });
-        }
+    },
+    loader: async ({ params, context: { queryClient, apiClient }, deps }) => {
+        const { username, content_type } = params;
+        const type = content_type as MainContentTypeEnum;
+        await awaitOnServer([
+            queryClient.prefetchInfiniteQuery(
+                userListOptions(username, type, deps, apiClient),
+            ),
+            queryClient.prefetchQuery(
+                userListStatsOptions(username, type, apiClient),
+            ),
+        ]);
     },
     head: ({ params }) =>
         generateHeadMeta({ title: `Список / ${params.username}` }),
@@ -149,7 +73,7 @@ function ListPage() {
     const content_type = rawContentType as MainContentTypeEnum;
     const isAnime = content_type === ContentTypeEnum.ANIME;
     const { visible: sidebarVisible } = useFiltersSidebar(
-        'userlist_filters_sidebar',
+        USER_LIST_FILTERS_SIDEBAR_KEY,
     );
     const { view } = useCatalogView('userlist');
 
@@ -160,7 +84,7 @@ function ListPage() {
             <Header>
                 <HeaderContainer>
                     <HeaderTitle variant="h2">
-                        Список {TITLES[content_type]}
+                        Список {CONTENT_TYPES[content_type].genitive}
                     </HeaderTitle>
                 </HeaderContainer>
             </Header>
@@ -169,39 +93,28 @@ function ListPage() {
                 urlFor={(type) => `/u/${username}/list/${type}`}
             />
 
-            <div
-                className={cn(
-                    'grid grid-cols-1 lg:items-start lg:gap-x-10',
-                    sidebarVisible &&
-                        'lg:grid-cols-[1fr_30%] xl:grid-cols-[1fr_25%]',
-                )}
+            <FiltersSidebarLayout
+                storageKey={USER_LIST_FILTERS_SIDEBAR_KEY}
+                sidebar={
+                    isAnime ? (
+                        <AnimeFilters
+                            sort_type="watch"
+                            content_type={ContentTypeEnum.ANIME}
+                        />
+                    ) : (
+                        <ReadFilters
+                            content_type={content_type}
+                            sort_type="read"
+                        />
+                    )
+                }
             >
-                <div className="flex flex-col gap-4">
-                    <UserlistNavbar content_type={content_type} />
-                    <Userlist
-                        content_type={content_type}
-                        extendedSize={
-                            view === 'grid' ? extendedSize : undefined
-                        }
-                    />
-                </div>
-
-                {sidebarVisible && (
-                    <div className="sticky top-20 order-1 hidden max-h-[calc(100vh-9rem)] w-full overflow-hidden rounded-lg border border-border surface lg:order-2 lg:flex">
-                        {isAnime ? (
-                            <AnimeFilters
-                                sort_type="watch"
-                                content_type={ContentTypeEnum.ANIME}
-                            />
-                        ) : (
-                            <ReadFilters
-                                content_type={content_type}
-                                sort_type="read"
-                            />
-                        )}
-                    </div>
-                )}
-            </div>
+                <UserListNavbar content_type={content_type} />
+                <UserList
+                    content_type={content_type}
+                    extendedSize={view === 'grid' ? extendedSize : undefined}
+                />
+            </FiltersSidebarLayout>
         </Block>
     );
 }

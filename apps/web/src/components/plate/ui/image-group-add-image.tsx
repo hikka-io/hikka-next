@@ -13,10 +13,8 @@ import type { PlateEditor } from 'platejs/react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 
-import {
-    ImageGroupPlugin,
-    type TImageGroupElement,
-} from '../editor/plugins/image-group-kit';
+import type { TImageGroupElement } from '../editor/plate-types';
+import { ImageGroupPlugin } from '../editor/plugins/image-group-plugin';
 
 type ImageGroupAddImageProps = {
     element?: TImageGroupElement;

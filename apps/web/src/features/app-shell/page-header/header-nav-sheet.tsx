@@ -7,12 +7,12 @@ import {
     DrawerTitle,
     DrawerTrigger,
 } from '@/components/ui/drawer';
-import { Link, usePathname } from '@/utils/navigation';
+import { Link, type NavRoute, usePathname } from '@/utils/navigation';
 
-import { navRowClassName } from '../nav-styles';
+import { NAV_ROW_CLASS_NAME } from '../nav-styles';
 
 type Props = PropsWithChildren & {
-    routes: Hikka.NavRoute[];
+    routes: NavRoute[];
     urlPrefix: string;
 };
 
@@ -20,7 +20,7 @@ const HeaderNavSheet: FC<Props> = ({ routes, urlPrefix, children }) => {
     const [open, setOpen] = useState(false);
     const pathname = usePathname();
 
-    const isCurrent = (route: Hikka.NavRoute) =>
+    const isCurrent = (route: NavRoute) =>
         pathname === `${urlPrefix}${route.url}`;
 
     const current = routes.find(isCurrent) ?? routes[0];
@@ -45,7 +45,7 @@ const HeaderNavSheet: FC<Props> = ({ routes, urlPrefix, children }) => {
                             to={`${urlPrefix}${route.url}`}
                             search={route.search}
                             onClick={() => setOpen(false)}
-                            className={navRowClassName}
+                            className={NAV_ROW_CLASS_NAME}
                             data-active={isCurrent(route)}
                         >
                             {route.icon && <route.icon />}

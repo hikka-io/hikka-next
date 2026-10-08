@@ -1,0 +1,24 @@
+import type { ContentTypeEnum, MagazineResponse } from '@hikka/api';
+
+import { Link } from '@/utils/navigation';
+
+type Props = {
+    magazine: MagazineResponse;
+    type: Extract<ContentTypeEnum, 'manga' | 'novel'>;
+};
+
+export default function MagazineTitleLink({ type, magazine }: Props) {
+    if (!magazine) return null;
+
+    return (
+        <Link
+            to={`/${type}`}
+            search={{ magazines: magazine.slug }}
+            className="flex items-center gap-2 hover:underline"
+        >
+            <span className="line-clamp-1 font-medium text-sm leading-tight">
+                {magazine.name_en}
+            </span>
+        </Link>
+    );
+}

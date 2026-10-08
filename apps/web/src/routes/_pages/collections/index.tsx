@@ -1,61 +1,50 @@
 import { createFileRoute, redirect } from '@tanstack/react-router';
 import { zodValidator } from '@tanstack/zod-adapter';
 
-import {
-    getCollectionsInfiniteOptions,
-    paginatedInfiniteOptions,
-} from '@hikka/api';
-
 import MaterialSymbolsAddRounded from '@/components/icons/material-symbols/MaterialSymbolsAddRounded';
-import PagePagination from '@/components/page-pagination';
 import Block from '@/components/ui/block';
 import { Button } from '@/components/ui/button';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
-import Link from '@/components/ui/link';
 import { usePageHeader, usePageTitleAnchor } from '@/features/app-shell';
 import { CollectionList, CollectionSort } from '@/features/collections';
-import { retryOnCancel } from '@/utils/api/retry-on-cancel';
+import {
+    collectionListOptions,
+    DEFAULT_COLLECTION_SORT,
+} from '@/features/collections/queries';
 import { generateHeadMeta } from '@/utils/metadata';
+import { Link } from '@/utils/navigation';
 import { collectionsSearchSchema } from '@/utils/search-schemas';
+import { SITE_ORIGIN } from '@/utils/url';
 
 export const Route = createFileRoute('/_pages/collections/')({
     validateSearch: zodValidator(collectionsSearchSchema),
-    loaderDeps: ({ search }) => search,
-    loader: async ({ context: { queryClient, apiClient }, deps }) => {
-        const { page, sort = 'system_ranking' } = deps;
-
-        if (!page) {
+    beforeLoad: ({ search }) => {
+        if (!search.page) {
             throw redirect({
                 to: '/collections',
-                search: { ...deps, page: 1 },
+                search: { ...search, page: 1 },
             });
         }
+    },
+    loaderDeps: ({ search }) => search,
+    loader: async ({ context: { queryClient, apiClient }, deps, preload }) => {
+        if (preload) return;
 
-        const collections = await retryOnCancel(() =>
-            queryClient.ensureInfiniteQueryData(
-                paginatedInfiniteOptions(
-                    getCollectionsInfiniteOptions({
-                        body: { sort: [`${sort}:desc`] },
-                        client: apiClient,
-                    }),
-                    Number(page),
-                ),
-            ),
+        await queryClient.prefetchInfiniteQuery(
+            collectionListOptions(deps, apiClient),
         );
-
-        return { collections, page: Number(page), sort };
     },
     head: () =>
         generateHeadMeta({
             title: 'Колекції',
             description: 'Колекції аніме, манґи та ранобе від спільноти Hikka',
-            url: 'https://hikka.io/collections',
+            url: `${SITE_ORIGIN}/collections`,
         }),
     component: CollectionsPage,
 });
 
 function CollectionsPage() {
-    const { collections, page, sort } = Route.useLoaderData();
+    const { page, sort = DEFAULT_COLLECTION_SORT } = Route.useSearch();
 
     const titleAnchor = usePageTitleAnchor();
 
@@ -80,10 +69,7 @@ function CollectionsPage() {
                 </Header>
                 <CollectionSort />
             </div>
-            <CollectionList page={page} sort={sort} />
-            {collections && (
-                <PagePagination pagination={collections.pages[0].pagination} />
-            )}
+            <CollectionList page={Number(page)} sort={sort} />
         </Block>
     );
 }

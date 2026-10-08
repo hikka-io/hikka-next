@@ -12,15 +12,17 @@ import { cva } from 'class-variance-authority';
 import { Eye } from 'lucide-react';
 
 import { AspectRatio } from '@/components/ui/aspect-ratio';
+import {
+    type ImagePreset,
+    useImagePreset,
+} from '@/components/ui/image-preset-context';
 import { cn } from '@/utils/cn';
-import type { ImagePreset } from '@/utils/constants/image-presets';
-import { IMAGE_PRESETS } from '@/utils/constants/image-presets';
 import { Link } from '@/utils/navigation';
 
 import CardImage, { type CardImageProps } from './card-image';
 import CardMeta from './card-meta';
 import ContentStatus, { type CardStatus } from './content-status';
-import { useImagePreset } from './image-preset-context';
+import { DEFAULT_CONTAINER_RATIO, IMAGE_PRESETS } from './image-presets';
 import { TooltipSuppressProvider } from './tooltips/tooltip-suppress-context';
 
 const posterCardVariants = cva('group relative flex w-full flex-col gap-2', {
@@ -73,8 +75,6 @@ export type PosterCardProps = {
     renderTooltip?: (trigger: ReactNode) => ReactNode;
     tooltipDisabled?: boolean;
 };
-
-export const DEFAULT_CONTAINER_RATIO = 0.7;
 
 const CardLink: FC<{
     to?: string;

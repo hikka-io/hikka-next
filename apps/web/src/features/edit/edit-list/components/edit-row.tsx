@@ -8,12 +8,15 @@ import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Label } from '@/components/ui/label';
 import { TableCell, TableRow } from '@/components/ui/table';
-import { useTitle } from '@/features/auth/hooks/use-title';
+import { useTitle } from '@/services/session';
 import { cn } from '@/utils/cn';
-import { CONTENT_TYPES } from '@/utils/constants/common';
-import { EDIT_PARAMS, EDIT_STATUS } from '@/utils/constants/edit';
-import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
+import { CONTENT_TYPE_LINKS } from '@/utils/content-paths';
+import { CONTENT_TYPES } from '@/utils/labels/content-types';
+import { EDIT_STATUS } from '@/utils/labels/enum-labels';
 import { Link, useRouter } from '@/utils/navigation';
+
+import { EDIT_PARAMS } from '../../edit-params';
+import { EDIT_STATUS_STYLE } from '../../edit-status-style';
 
 type Props = {
     edit: EditSimpleResponse;
@@ -22,15 +25,6 @@ type Props = {
 const EditRow: FC<Props> = ({ edit }) => {
     const router = useRouter();
     const contentTitle = useTitle(edit.content);
-
-    const variant =
-        edit.status === 'pending'
-            ? 'warning'
-            : edit.status === 'accepted'
-              ? 'success'
-              : edit.status === 'denied'
-                ? 'destructive'
-                : 'secondary';
 
     const handleRowClick = (e: MouseEvent<HTMLTableRowElement>) => {
         if ((e.target as HTMLElement).closest('a, button')) return;
@@ -106,7 +100,10 @@ const EditRow: FC<Props> = ({ edit }) => {
             </TableCell>
             <TableCell align="center" className="w-20">
                 <div className="flex justify-end">
-                    <Badge className="size-auto p-0 px-1.5" variant={variant}>
+                    <Badge
+                        className="size-auto p-0 px-1.5"
+                        variant={EDIT_STATUS_STYLE[edit.status].variant}
+                    >
                         <span>{EDIT_STATUS[edit.status].title_ua}</span>
                     </Badge>
                 </div>

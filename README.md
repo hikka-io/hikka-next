@@ -28,7 +28,7 @@
 - [TanStack Query](https://tanstack.com/query) — server state management
 - [React 19](https://react.dev/)
 - [Tailwind CSS 4](https://tailwindcss.com/)
-- [Radix UI](https://www.radix-ui.com/) / [shadcn/ui](https://ui.shadcn.com/)
+- [Base UI](https://base-ui.com/) / [shadcn/ui](https://ui.shadcn.com/)
 - [TypeScript](https://www.typescriptlang.org/)
 
 ## Monorepo Structure
@@ -46,7 +46,7 @@ packages/api/         → Generated API client + TanStack Query options (@hikka/
 
 ### Prerequisites
 
-- Node.js >= 20.15.0
+- Node.js >= 22.12.0
 - Corepack enabled (ships with Node.js)
 
 ### Installation
@@ -75,7 +75,7 @@ packages/api/         → Generated API client + TanStack Query options (@hikka/
   pnpm dev
 ```
 
-This starts all packages in dev/watch mode. The web app will be available at `http://localhost:3000`.
+This runs the `@hikka/api` build and its watcher together, then starts the web dev server once the build finishes. The web app will be available at `http://localhost:3000`.
 
 ### Local backend
 
@@ -102,11 +102,40 @@ pnpm build            # Build everything
 pnpm build:web        # Build web app
 pnpm start:web        # Run production build
 
+# API client
+pnpm api:generate     # Regenerate @hikka/api from the live OpenAPI spec
+HIKKA_OPENAPI_URL=<url> pnpm --filter @hikka/api api:generate   # From another spec URL
+
 # Code Quality
-pnpm lint             # Biome lint across all packages
+pnpm typecheck        # Type-check all packages
+pnpm check            # Biome lint, format and import sorting, writing fixes
+pnpm check:ci         # Same checks without writing
+pnpm lint             # Biome lint across the repo
 pnpm lint:fix         # Biome lint with auto-fix
 pnpm format           # Biome format all files
 pnpm format:check     # Check formatting without writing
+pnpm lint:ratchet     # Layering rules: lock diagnostic counts to the baseline
+pnpm check:structure  # Folder structure rules
+
+# Tests
+pnpm test                       # All packages
+pnpm --filter @hikka/web test   # Web app (Vitest)
+pnpm --filter @hikka/api test   # API client (Vitest)
+```
+
+Lint, format and check scripts run from the root only; the packages have no lint or format scripts of their own.
+
+### Continuous integration
+
+`.github/workflows/ci.yml` runs on pushes to `main` and on pull requests:
+
+- **Lint**: `biome ci` at error level, the layering ratchet and the structure check.
+- **Typecheck, test and build**: Node 22, `pnpm install --frozen-lockfile`, `pnpm turbo run typecheck test` and `pnpm build:web`.
+
+To reproduce it locally:
+
+```sh
+pnpm check:ci && pnpm lint:ratchet && pnpm check:structure && pnpm typecheck && pnpm turbo run test && pnpm build:web
 ```
 
 ## Contributing

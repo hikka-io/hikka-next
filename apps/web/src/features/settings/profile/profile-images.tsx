@@ -1,0 +1,167 @@
+import { type ChangeEvent, useRef, useState } from 'react';
+
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+
+import { deleteUserImageMutation, UploadTypeEnum } from '@hikka/api';
+
+import MaterialSymbolsDeleteForeverRounded from '@/components/icons/material-symbols/MaterialSymbolsDeleteForeverRounded';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Button } from '@/components/ui/button';
+import Card from '@/components/ui/card';
+import Image from '@/components/ui/image';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import Spinner from '@/components/ui/spinner';
+import { CropEditorModal } from '@/features/users';
+import { useSession } from '@/services/session';
+import {
+    invalidateSession,
+    invalidateUserProfile,
+} from '@/utils/api/invalidate-content-state';
+
+type AvatarOrCoverType =
+    | typeof UploadTypeEnum.AVATAR
+    | typeof UploadTypeEnum.COVER;
+
+const ProfileImages = () => {
+    const uploadAvatarRef = useRef<HTMLInputElement>(null);
+    const uploadCoverRef = useRef<HTMLInputElement>(null);
+    const [cropOpen, setCropOpen] = useState(false);
+    const [cropFile, setCropFile] = useState<File | null>(null);
+    const [cropType, setCropType] = useState<AvatarOrCoverType>(
+        UploadTypeEnum.AVATAR,
+    );
+
+    const { user: loggedUser } = useSession();
+    const queryClient = useQueryClient();
+
+    const { mutate: deleteImage, isPending: isDeletingImage } = useMutation({
+        ...deleteUserImageMutation(),
+        onSuccess: () => {
+            invalidateSession(queryClient);
+            if (loggedUser) {
+                invalidateUserProfile(queryClient, loggedUser.username);
+            }
+        },
+    });
+
+    const handleUploadImageSelected = (
+        e: ChangeEvent<HTMLInputElement>,
+        type: AvatarOrCoverType,
+    ) => {
+        if (e.target.files && e.target.files.length > 0) {
+            const file = Array.from(e.target.files)[0];
+
+            switch (type) {
+                case 'avatar':
+                    if (uploadAvatarRef.current) {
+                        uploadAvatarRef.current.value = '';
+                    }
+                    break;
+                case 'cover':
+                    if (uploadCoverRef.current) {
+                        uploadCoverRef.current.value = '';
+                    }
+                    break;
+            }
+
+            setCropFile(file);
+            setCropType(type);
+            setCropOpen(true);
+        }
+    };
+
+    return (
+        <>
+            <div className="isolate flex flex-col gap-6">
+                <div className="flex flex-col gap-2">
+                    <Label>Зображення профілю</Label>
+                    <p className="text-muted-foreground text-sm">
+                        Рекомендований розмір обкладинки 1500x500, аватару
+                        400x400
+                    </p>
+                </div>
+                <div className="relative mb-4 flex h-48 w-full cursor-pointer">
+                    {loggedUser?.cover && (
+                        <Button
+                            className="absolute top-2 right-2 z-10"
+                            variant="destructive"
+                            size={'icon-sm'}
+                            onClick={() =>
+                                deleteImage({
+                                    path: { image_type: UploadTypeEnum.COVER },
+                                })
+                            }
+                            disabled={isDeletingImage}
+                        >
+                            {isDeletingImage ? (
+                                <Spinner />
+                            ) : (
+                                <MaterialSymbolsDeleteForeverRounded className="size-4" />
+                            )}
+                        </Button>
+                    )}
+                    <Card className="flex-1 overflow-hidden p-0 transition-opacity hover:opacity-60">
+                        {loggedUser?.cover ? (
+                            <Image
+                                alt="cover"
+                                className="size-full rounded-md object-cover"
+                                src={loggedUser?.cover}
+                            />
+                        ) : (
+                            <div className="flex flex-1 items-center justify-center">
+                                <p className="text-muted-foreground text-sm">
+                                    Натисність, щоб завантажити обкладинку
+                                </p>
+                            </div>
+                        )}
+
+                        <Input
+                            type="file"
+                            id="cover-input"
+                            onChange={(e) =>
+                                handleUploadImageSelected(
+                                    e,
+                                    UploadTypeEnum.COVER,
+                                )
+                            }
+                            ref={uploadCoverRef}
+                            multiple={false}
+                            className="absolute top-0 left-0 size-full cursor-pointer opacity-0"
+                            accept="image/*"
+                        />
+                    </Card>
+                    <Avatar className="absolute -bottom-4 left-4 size-32 rounded-md transition-opacity hover:opacity-60">
+                        <AvatarImage src={loggedUser?.avatar} />
+                        <AvatarFallback className="rounded-md">
+                            {loggedUser?.username[0]}
+                        </AvatarFallback>
+                        <Input
+                            type="file"
+                            id="avatar-input"
+                            onChange={(e) =>
+                                handleUploadImageSelected(
+                                    e,
+                                    UploadTypeEnum.AVATAR,
+                                )
+                            }
+                            ref={uploadAvatarRef}
+                            multiple={false}
+                            // eslint-disable-next-line tailwindcss/classnames-order
+                            className="absolute top-0 left-0 size-full cursor-pointer opacity-0"
+                            accept="image/*"
+                        />
+                    </Avatar>
+                </div>
+            </div>
+            <CropEditorModal
+                open={cropOpen}
+                onOpenChange={setCropOpen}
+                file={cropFile}
+                type={cropType}
+            />
+        </>
+    );
+};
+
+export default ProfileImages;

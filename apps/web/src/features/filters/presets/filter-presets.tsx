@@ -12,8 +12,11 @@ import {
     TooltipPortal,
     TooltipTrigger,
 } from '@/components/ui/tooltip';
-import { useSettingsStore } from '@/services/stores/settings-store';
 import { cn } from '@/utils/cn';
+
+import { presetToSearch } from '../preset-search-mapper';
+import { useFilterPresetsStore } from './filter-presets-store';
+import type { FilterPreset } from './types';
 
 type Props = {
     className?: string;
@@ -21,16 +24,14 @@ type Props = {
 };
 
 const FilterPresets: FC<Props> = ({ className, content_type }) => {
-    const { filterPresets, _hasHydrated } = useSettingsStore();
+    const { filterPresets, _hasHydrated } = useFilterPresetsStore();
     const router = useRouter();
 
-    const handleApplyFilterPreset = (preset: Hikka.FilterPreset) => {
-        const { id, name, description, content_types, ...rest } = preset;
-
+    const handleApplyFilterPreset = (preset: FilterPreset) => {
         router.navigate({
             to: '.',
             search: (prev: Record<string, unknown>) => {
-                const next: Record<string, unknown> = { ...rest };
+                const next = presetToSearch(preset);
                 // Keep the active text query; presets define filters/sort only.
                 // `page` is intentionally dropped (reset to the first page).
                 if (prev.search) next.search = prev.search;

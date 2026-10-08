@@ -1,4 +1,4 @@
-import { forwardRef } from 'react';
+import { forwardRef, type ReactElement } from 'react';
 
 import type {
     AnyRouter,
@@ -12,6 +12,8 @@ import {
     useParams as useTanstackParams,
 } from '@tanstack/react-router';
 
+import type { UserRoleEnum } from '@hikka/api';
+
 /**
  * TanStack Router LinkComponentProps with all route-path generics set to
  * `string`, so any URL string is accepted while keeping the full link props.
@@ -21,6 +23,18 @@ export type LinkProps = Omit<
     'to'
 > & {
     to: string;
+};
+
+export type NavRoute = {
+    slug: string;
+    title_ua: string;
+    url: string;
+    search?: Record<string, unknown>;
+    icon?: (props: any) => ReactElement;
+    role?: UserRoleEnum[];
+    visible?: boolean;
+    items?: NavRoute[];
+    linkProps?: Record<string, any>;
 };
 
 const isExternalUrl = (url: string) =>
@@ -102,4 +116,12 @@ export function useCurrentUrl() {
             return loc.pathname + loc.searchStr;
         },
     });
+}
+
+export function useRouteSearch<
+    T extends Record<string, unknown> = Record<string, unknown>,
+>(): T {
+    return useRouterState({
+        select: (s) => (s.resolvedLocation ?? s.location).search,
+    }) as unknown as T;
 }

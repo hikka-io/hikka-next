@@ -4,13 +4,21 @@ import { ContentTypeEnum } from '@hikka/api';
 
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import { usePageTitleAnchor } from '@/features/app-shell';
-import { CommentList as Comments } from '@/features/comments';
-import {
-    EditActions as Actions,
-    EditViewForm as EditView,
-} from '@/features/edit';
+import { CommentList } from '@/features/comments';
+import { commentListOptions } from '@/features/comments/queries';
+import { EditActions, EditViewForm } from '@/features/edit';
 
 export const Route = createFileRoute('/_pages/edit/$editId/')({
+    loader: async ({ params, context: { queryClient, apiClient } }) => {
+        await queryClient.prefetchInfiniteQuery(
+            commentListOptions(
+                ContentTypeEnum.EDIT,
+                params.editId,
+                {},
+                apiClient,
+            ),
+        );
+    },
     component: EditPage,
 });
 
@@ -28,10 +36,10 @@ function EditPage() {
                         </HeaderTitle>
                     </HeaderContainer>
                 </Header>
-                <EditView editId={editId} mode="view" />
+                <EditViewForm editId={editId} mode="view" />
             </div>
-            <Actions editId={editId} />
-            <Comments slug={editId} content_type={ContentTypeEnum.EDIT} />
+            <EditActions editId={editId} />
+            <CommentList slug={editId} content_type={ContentTypeEnum.EDIT} />
         </div>
     );
 }

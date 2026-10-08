@@ -8,11 +8,14 @@
         "lint:fix": "biome lint --write .",
         "check": "biome check --write .",
         "check:ci": "biome check .",
+        "lint:ratchet": "biome lint --reporter=json --max-diagnostics=none apps/web/src | node apps/web/scripts/lint-ratchet.mjs",
+        "check:structure": "node apps/web/scripts/check-structure.mjs --self-test && node apps/web/scripts/check-structure.mjs",
         "typecheck": "turbo run typecheck",
         "clean": "turbo run clean",
         "dev": "turbo run dev",
         "build": "turbo run build",
-        "dev:web": "turbo run dev --filter=@hikka/web --host",
+        "test": "turbo run test",
+        "dev:web": "turbo run dev --filter=@hikka/web",
         "build:web": "turbo run build --filter=@hikka/web",
         "start:web": "turbo run start --filter=@hikka/web",
         "dev:api": "turbo run dev --filter=@hikka/api",
@@ -20,16 +23,13 @@
         "api:generate": "turbo run api:generate --filter=@hikka/api"
     },
     "packageManager": "pnpm@10.33.4",
-    "syncpack": {
-        "filter": "^(?!@hikka).*",
-        "semverRange": ""
-    },
     "pnpm": {
         "overrides": {
-            "@types/react": "19.2.7",
-            "@types/react-dom": "19.2.3",
-            "react": "19.2.1",
-            "react-dom": "19.2.1"
+            "@types/react": "19.3.0",
+            "@types/react-dom": "19.3.0",
+            "react": "19.3.0",
+            "react-dom": "19.3.0",
+            "mdast-util-to-markdown": "2.1.2"
         },
         "onlyBuiltDependencies": [
             "@swc/core",
@@ -37,20 +37,8 @@
         ]
     },
     "devDependencies": {
-        "@biomejs/biome": "2.5.1",
-        "@csstools/postcss-oklab-function": "^5.0.4",
-        "@tailwindcss/postcss": "^4.2.2",
-        "@types/node": "20.9.0",
-        "@types/react": "19.2.7",
-        "@types/react-dom": "19.2.3",
-        "postcss": "8.4.47",
-        "rimraf": "^5.0.1",
-        "tailwindcss": "^4.2.2",
-        "tsup": "^8.5.1",
-        "turbo": "^2.9.18",
+        "@biomejs/biome": "2.5.14",
+        "turbo": "^2.11.5",
         "typescript": "6.0.3"
-    },
-    "dependencies": {
-        "react-colorful": "^5.6.1"
     }
 }

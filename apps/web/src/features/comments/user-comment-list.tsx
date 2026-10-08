@@ -3,10 +3,7 @@ import { type FC, useMemo, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Star } from 'lucide-react';
 
-import {
-    getCommentsUserInfiniteOptions,
-    serviceUserStatsOptions,
-} from '@hikka/api';
+import { type CommentTypeEnum, serviceUserStatsOptions } from '@hikka/api';
 
 import MaterialSymbolsAddCommentRounded from '@/components/icons/material-symbols/MaterialSymbolsAddCommentRounded';
 import LoadMoreButton from '@/components/load-more-button';
@@ -22,22 +19,22 @@ import {
     HeaderNavButton,
     HeaderTitle,
 } from '@/components/ui/header';
-import Sort from '@/features/filters/sort';
-import CommentsProvider from '@/services/providers/comments-provider';
+import { Sort } from '@/features/filters';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { cn } from '@/utils/cn';
 
-import { COMMENT_TYPE_OPTIONS, type CommentType } from './comment-list';
 import { CommentListSkeleton } from './comment-skeleton';
-import { type CommentSortProps, useCommentSort } from './hooks';
+import { COMMENT_TYPE_OPTIONS } from './comment-type-options';
+import CommentsProvider from './comments-provider';
+import { userCommentListOptions } from './queries';
+import { type CommentSortProps, useCommentSort } from './use-comment-sort';
 import UserComment from './user-comment';
-import { getCommentSort } from './utils/comment-sort';
 
 type Props = {
     username: string;
     className?: string;
-    commentType?: CommentType;
-    onCommentTypeChange?: (type: CommentType) => void;
+    commentType?: CommentTypeEnum;
+    onCommentTypeChange?: (type: CommentTypeEnum) => void;
     firstLevelOnly?: boolean;
     onFirstLevelOnlyChange?: (value: boolean) => void;
 } & CommentSortProps;
@@ -52,7 +49,7 @@ const UserCommentList: FC<Props> = ({
     ...sortProps
 }) => {
     const [localCommentType, setLocalCommentType] =
-        useState<CommentType>('all');
+        useState<CommentTypeEnum>('all');
     const [localFirstLevelOnly, setLocalFirstLevelOnly] = useState(false);
     const commentType = controlledCommentType ?? localCommentType;
     const setCommentType = onCommentTypeChange ?? setLocalCommentType;
@@ -71,7 +68,7 @@ const UserCommentList: FC<Props> = ({
 
         if (total === 0) return COMMENT_TYPE_OPTIONS;
 
-        const counts: Record<CommentType, number> = {
+        const counts: Record<CommentTypeEnum, number> = {
             all: total,
             comment: comments,
             review: reviews,
@@ -91,13 +88,11 @@ const UserCommentList: FC<Props> = ({
         isLoading,
         ref,
     } = useInfiniteList(
-        getCommentsUserInfiniteOptions({
-            path: { username },
-            body: {
-                comment_type: commentType,
-                sort: getCommentSort(sort, order),
-                first_level_only: firstLevelOnly || undefined,
-            },
+        userCommentListOptions(username, {
+            commentType,
+            sort,
+            order,
+            firstLevelOnly,
         }),
     );
 
@@ -147,7 +142,7 @@ const UserCommentList: FC<Props> = ({
                         value={commentType}
                         onValueChange={setCommentType}
                     />
-                    {isLoading && <CommentListSkeleton />}
+                    {isLoading && <CommentListSkeleton withContent />}
                     {list &&
                         list.length === 0 &&
                         (commentType === 'review' ? (

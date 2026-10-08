@@ -1,20 +1,20 @@
 import { type FC, useState } from 'react';
 
+import { range } from '@antfu/utils';
 import { useQuery } from '@tanstack/react-query';
 
 import {
     ContentTypeEnum,
     type MainContentTypeEnum,
-    type ReadContentTypeEnum,
     ReadStatusEnum,
-    userReadStatsOptions,
-    userWatchStatsOptions,
+    type UserWatchStatsResponse,
     WatchStatusEnum,
 } from '@hikka/api';
 
 import { MaterialSymbolsClockLoader10 } from '@/components/icons/material-symbols/MaterialSymbolsClockLoader10';
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
+import { Skeleton } from '@/components/ui/skeleton';
 import {
     Tooltip,
     TooltipContent,
@@ -22,11 +22,13 @@ import {
     TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { cn } from '@/utils/cn';
-import { READ_STATUS, WATCH_STATUS } from '@/utils/constants/common';
 import { getDeclensionWord } from '@/utils/i18n/declension';
+import { DAY_FORMS, HOUR_FORMS, MONTH_FORMS } from '@/utils/i18n/word-forms';
+import { LIST_STATUS } from '@/utils/labels';
 import { Link } from '@/utils/navigation';
 
-import StatusProgressBar from './components/status-progress-bar';
+import { userListStatsOptions } from '../../queries';
+import StatusProgressBar from './status-progress-bar';
 
 type Props = {
     type: MainContentTypeEnum;
@@ -54,30 +56,29 @@ const ListTabContent: FC<Props> = ({ type, username, className }) => {
     const [hoveredStatus, setHoveredStatus] = useState<string | null>(null);
     const isAnime = type === ContentTypeEnum.ANIME;
     const sortParam = isAnime ? 'watch_score' : 'read_score';
+    const statusCount = (isAnime ? WATCH_ORDER : READ_ORDER).length;
 
-    const { data: watchData } = useQuery({
-        ...userWatchStatsOptions({ path: { username } }),
-        enabled: isAnime,
-    });
+    const { data, isPending } = useQuery(userListStatsOptions(username, type));
 
-    const { data: readData } = useQuery({
-        ...userReadStatsOptions({
-            path: {
-                username,
-                content_type: (type === ContentTypeEnum.MANGA
-                    ? ContentTypeEnum.MANGA
-                    : ContentTypeEnum.NOVEL) as ReadContentTypeEnum,
-            },
-        }),
-        enabled: !isAnime,
-    });
-
-    if (isAnime && !watchData) return null;
-    if (!isAnime && !readData) return null;
+    if (!data) {
+        return isPending ? (
+            <div className={cn('flex grow flex-col gap-2', className)}>
+                <div className="px-4">
+                    <Skeleton className="h-2 w-full rounded-xs" />
+                </div>
+                <div className="grid grid-cols-2 gap-1 px-2">
+                    {range(0, statusCount + 1).map((index) => (
+                        <div key={index} className="p-2">
+                            <Skeleton className="h-4.5 w-full rounded-sm" />
+                        </div>
+                    ))}
+                </div>
+            </div>
+        ) : null;
+    }
 
     const statuses = isAnime ? WATCH_ORDER : READ_ORDER;
-    const statusMap = isAnime ? WATCH_STATUS : READ_STATUS;
-    const data = isAnime ? watchData! : readData!;
+    const statusMap = LIST_STATUS[isAnime ? 'watch' : 'read'];
 
     const total = statuses.reduce(
         (acc, s) => acc + (data[s as keyof typeof data] as number),
@@ -97,7 +98,7 @@ const ListTabContent: FC<Props> = ({ type, username, className }) => {
     });
 
     const watchHours = isAnime
-        ? Math.round((watchData!.duration || 0) / 60)
+        ? Math.round(((data as UserWatchStatsResponse).duration || 0) / 60)
         : null;
 
     const watchTotalDays =
@@ -107,9 +108,9 @@ const ListTabContent: FC<Props> = ({ type, username, className }) => {
 
     const watchDisplayLabel = [
         watchMonths > 0 &&
-            `${watchMonths} ${getDeclensionWord(watchMonths, ['місяць', 'місяці', 'місяців'])}`,
+            `${watchMonths} ${getDeclensionWord(watchMonths, MONTH_FORMS)}`,
         (watchDays > 0 || watchMonths === 0) &&
-            `${watchDays} ${getDeclensionWord(watchDays, ['день', 'дні', 'днів'])}`,
+            `${watchDays} ${getDeclensionWord(watchDays, DAY_FORMS)}`,
     ]
         .filter(Boolean)
         .join(' ');
@@ -212,11 +213,7 @@ const ListTabContent: FC<Props> = ({ type, username, className }) => {
                             </TooltipTrigger>
                             <TooltipContent>
                                 {watchHours}{' '}
-                                {getDeclensionWord(watchHours, [
-                                    'година',
-                                    'години',
-                                    'годин',
-                                ])}
+                                {getDeclensionWord(watchHours, HOUR_FORMS)}
                             </TooltipContent>
                         </Tooltip>
                     </div>

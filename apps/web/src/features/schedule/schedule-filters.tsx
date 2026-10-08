@@ -14,11 +14,11 @@ import {
     SelectValue,
 } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
-import { useSession } from '@/features/auth/hooks/use-session';
-import ClearFiltersFooter from '@/features/filters/clear-filters-footer';
-import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
+import { ClearFiltersFooter } from '@/features/filters';
+import { useSession } from '@/services/session';
 import { cn } from '@/utils/cn';
-import { RELEASE_STATUS, SEASON } from '@/utils/constants/common';
+import { RELEASE_STATUS, SEASON } from '@/utils/labels/enum-labels';
+import { useRouteSearch } from '@/utils/navigation';
 import { getCurrentSeason } from '@/utils/season';
 
 const YEARS = range(2023, new Date().getFullYear() + 1).reverse();
@@ -36,7 +36,7 @@ interface ScheduleSearch extends Record<string, unknown> {
 
 export const ScheduleFiltersBody: FC<Props> = ({ className }) => {
     const { user: loggedUser } = useSession();
-    const search = useFilterSearch<ScheduleSearch>();
+    const search = useRouteSearch<ScheduleSearch>();
     const router = useRouter();
 
     const only_watch = search.only_watch

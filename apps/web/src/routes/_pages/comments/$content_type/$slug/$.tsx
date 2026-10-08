@@ -1,51 +1,53 @@
+import { useQuery } from '@tanstack/react-query';
 import { createFileRoute, redirect } from '@tanstack/react-router';
 
-import {
-    type CommentContentTypeEnum as CommentsContentType,
-    type ContentTypeEnum,
-    paginationPageParam,
-} from '@hikka/api';
+import type { CommentContentTypeEnum, ContentTypeEnum } from '@hikka/api';
 
 import { usePageHeader } from '@/features/app-shell';
+import { CommentList } from '@/features/comments';
 import {
-    CommentList as Comments,
-    prefetchContent,
-    useContentTitle,
-} from '@/features/comments';
-import ContentHeader from '@/features/comments/content-header';
-import { commentThreadInfiniteOptions } from '@/features/comments/hooks/use-comment-thread';
+    commentThreadOptions,
+    loadCommentsContent,
+} from '@/features/comments/queries';
+import { ContentSubpage, useContentTitle } from '@/features/content';
+import {
+    type ContentInfoType,
+    contentInfoOptions,
+    isContentInfoType,
+} from '@/utils/api/content-queries';
+import { generateHeadMeta } from '@/utils/metadata';
 
 export const Route = createFileRoute('/_pages/comments/$content_type/$slug/$')({
-    loader: async ({ params, context: { queryClient, apiClient } }) => {
+    beforeLoad: ({ params }) => {
+        if (!isContentInfoType(params.content_type))
+            throw redirect({ to: '/' });
+    },
+    loader: async ({ params, context }) => {
+        const { queryClient, apiClient } = context;
         const { content_type, slug, _splat: commentReference } = params;
 
-        const content = await prefetchContent({
-            content_type: content_type as CommentsContentType,
-            slug,
-            queryClient,
-            apiClient,
-        });
-
-        if (!content) throw redirect({ to: '/' });
-
-        if (commentReference) {
-            await queryClient.prefetchInfiniteQuery({
-                ...commentThreadInfiniteOptions(commentReference, apiClient),
-                ...paginationPageParam(),
-            });
-        }
-
-        return { content, commentReference };
+        await Promise.all([
+            loadCommentsContent(content_type as ContentInfoType, slug, context),
+            commentReference
+                ? queryClient.prefetchInfiniteQuery(
+                      commentThreadOptions(commentReference, apiClient),
+                  )
+                : undefined,
+        ]);
     },
-    head: () => ({
-        meta: [{ title: 'Коментарі / Hikka' }],
-    }),
+    head: () =>
+        generateHeadMeta({
+            title: 'Коментарі',
+            description: 'Гілка коментарів спільноти на Hikka',
+        }),
     component: CommentsThreadPage,
 });
 
 function CommentsThreadPage() {
     const { content_type, slug, _splat: commentReference } = Route.useParams();
-    const { content } = Route.useLoaderData();
+    const { data: content } = useQuery(
+        contentInfoOptions(content_type as ContentInfoType, slug),
+    );
     const contentTitle = useContentTitle(
         content_type as ContentTypeEnum,
         content,
@@ -58,18 +60,15 @@ function CommentsThreadPage() {
     });
 
     return (
-        <div className="mx-auto flex w-full max-w-3xl flex-col gap-12 p-0">
-            <div className="flex flex-col gap-12">
-                <ContentHeader
-                    slug={slug}
-                    content_type={content_type as CommentsContentType}
-                />
-                <Comments
-                    comment_reference={commentReference}
-                    slug={slug}
-                    content_type={content_type as CommentsContentType}
-                />
-            </div>
-        </div>
+        <ContentSubpage
+            slug={slug}
+            contentType={content_type as CommentContentTypeEnum}
+        >
+            <CommentList
+                comment_reference={commentReference}
+                slug={slug}
+                content_type={content_type as CommentContentTypeEnum}
+            />
+        </ContentSubpage>
     );
 }

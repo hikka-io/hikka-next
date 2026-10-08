@@ -3,11 +3,7 @@ import { type FC, useState } from 'react';
 import { getUnixTime, startOfDay } from 'date-fns';
 import { format } from 'date-fns/format';
 
-import {
-    type AnimeScheduleResponse,
-    AnimeStatusEnum,
-    animeScheduleInfiniteOptions,
-} from '@hikka/api';
+import type { AnimeScheduleResponse } from '@hikka/api';
 
 import MaterialSymbolsCalendarClockRounded from '@/components/icons/material-symbols/MaterialSymbolsCalendarClockRounded';
 import Block from '@/components/ui/block';
@@ -21,33 +17,21 @@ import {
     HeaderNavButton,
     HeaderTitle,
 } from '@/components/ui/header';
-import { useSession } from '@/features/auth/hooks/use-session';
-import { useSessionUI } from '@/features/auth/hooks/use-session-ui';
+import { useSession, useSessionUI } from '@/services/session';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { cn } from '@/utils/cn';
 import { Link } from '@/utils/navigation';
-import { getCurrentSeason } from '@/utils/season';
 import { getTitle } from '@/utils/title/get-title';
 
-import type { WidgetProps } from '../constants';
+import { homeScheduleOptions } from '../queries';
+import type { WidgetProps } from '../types';
 
 const ScheduleWidget: FC<WidgetProps> = () => {
     const { user } = useSession();
     const { preferences } = useSessionUI();
-    const season = getCurrentSeason()!;
-    const year = new Date().getFullYear();
-
     const [onlyWatch, setOnlyWatch] = useState(false);
 
-    const { list } = useInfiniteList(
-        animeScheduleInfiniteOptions({
-            body: {
-                airing_season: [season, year],
-                status: [AnimeStatusEnum.ONGOING, AnimeStatusEnum.ANNOUNCED],
-                only_watch: onlyWatch || undefined,
-            },
-        }),
-    );
+    const { list } = useInfiniteList(homeScheduleOptions(onlyWatch));
 
     const todayKey = String(getUnixTime(startOfDay(new Date())));
 

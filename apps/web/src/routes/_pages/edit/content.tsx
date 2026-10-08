@@ -9,13 +9,20 @@ import {
     TodoContentNavbar,
     TodoContentTabs,
     TodoFilters,
-    TodoFiltersModal,
+    TodoFiltersBody,
     TodoListSummary,
     useTodoFilters,
 } from '@/features/edit';
-import { HeaderFiltersButton } from '@/features/filters';
+import {
+    ClearFiltersFooter,
+    FiltersModal,
+    FiltersSidebarLayout,
+    HeaderFiltersButton,
+    type RenderFiltersModal,
+} from '@/features/filters';
 import { generateHeadMeta } from '@/utils/metadata';
 import { editContentSearchSchema } from '@/utils/search-schemas';
+import { SITE_ORIGIN } from '@/utils/url';
 
 export const Route = createFileRoute('/_pages/edit/content')({
     validateSearch: zodValidator(editContentSearchSchema),
@@ -24,7 +31,7 @@ export const Route = createFileRoute('/_pages/edit/content')({
             title: 'Незаповнений контент',
             description:
                 'Аніме, манґа, ранобе, персонажі та люди з незаповненими даними — знайдіть, що можна доповнити правкою',
-            url: 'https://hikka.io/edit/content',
+            url: `${SITE_ORIGIN}/edit/content`,
         }),
     component: ContentPage,
 });
@@ -33,15 +40,25 @@ function ContentPage() {
     const titleAnchor = usePageTitleAnchor();
     const { contentType, filters, setFilters } = useTodoFilters();
 
-    const renderFiltersModal = (props: {
-        open: boolean;
-        onOpenChange: (open: boolean) => void;
-    }) => (
-        <TodoFiltersModal
-            {...props}
-            contentType={contentType}
-            value={filters}
-            onChange={setFilters}
+    const renderFiltersModal: RenderFiltersModal = ({ open, onOpenChange }) => (
+        <FiltersModal
+            open={open}
+            onOpenChange={onOpenChange}
+            body={
+                <TodoFiltersBody
+                    className="-m-4 flex-1 overflow-hidden overflow-y-auto p-4"
+                    contentType={contentType}
+                    value={filters}
+                    onChange={setFilters}
+                />
+            }
+            footer={
+                <ClearFiltersFooter
+                    className="w-full"
+                    preserve={['tab']}
+                    onDone={() => onOpenChange(false)}
+                />
+            }
         />
     );
 
@@ -66,24 +83,24 @@ function ContentPage() {
             </Header>
             <TodoContentTabs value={contentType} />
 
-            <div className="grid grid-cols-1 lg:grid-cols-[1fr_30%] lg:items-start lg:gap-x-10 xl:grid-cols-[1fr_25%]">
-                <div className="flex flex-col gap-4">
-                    <TodoContentNavbar
-                        contentType={contentType}
-                        renderFilterModal={renderFiltersModal}
-                    />
-                    <TodoListSummary />
-                    <TodoContentList />
-                </div>
-
-                <div className="sticky top-20 order-1 hidden max-h-[calc(100vh-9rem)] w-full overflow-hidden rounded-lg border border-border surface lg:order-2 lg:flex">
+            <FiltersSidebarLayout
+                collapsible={false}
+                className="grid grid-cols-1 lg:grid-cols-[1fr_30%] lg:items-start lg:gap-x-10 xl:grid-cols-[1fr_25%]"
+                sidebar={
                     <TodoFilters
                         contentType={contentType}
                         value={filters}
                         onChange={setFilters}
                     />
-                </div>
-            </div>
+                }
+            >
+                <TodoContentNavbar
+                    contentType={contentType}
+                    renderFilterModal={renderFiltersModal}
+                />
+                <TodoListSummary />
+                <TodoContentList />
+            </FiltersSidebarLayout>
         </Block>
     );
 }

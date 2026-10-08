@@ -1,90 +1,90 @@
+import { useQuery } from '@tanstack/react-query';
 import { createFileRoute, redirect } from '@tanstack/react-router';
 import { zodValidator } from '@tanstack/zod-adapter';
 
 import {
-    type CommentContentTypeEnum as CommentsContentType,
+    type CommentContentTypeEnum,
     ContentTypeEnum,
-    getCommentsListInfiniteOptions,
-    getCommentsUserInfiniteOptions,
-    paginationPageParam,
     serviceUserStatsOptions,
 } from '@hikka/api';
 
 import { usePageHeader } from '@/features/app-shell';
 import {
-    CommentList as Comments,
-    getContentTitle,
-    prefetchContent,
+    CommentList,
     UserCommentList,
-    useContentTitle,
+    type Verdict,
 } from '@/features/comments';
-import ContentHeader from '@/features/comments/content-header';
-import { getCommentSort } from '@/features/comments/utils/comment-sort';
-import type { Verdict } from '@/features/comments/utils/review';
+import {
+    commentListOptions,
+    loadCommentsContent,
+    userCommentListOptions,
+} from '@/features/comments/queries';
+import { ContentSubpage, useContentTitle } from '@/features/content';
 import { useChangeParam } from '@/features/filters';
+import {
+    type ContentInfoType,
+    contentInfoOptions,
+    isContentInfoType,
+} from '@/utils/api/content-queries';
+import { contentPath } from '@/utils/content-paths';
+import { generateHeadMeta } from '@/utils/metadata';
+import { commentsSearchSchema } from '@/utils/search-schemas';
 import {
     type CommentOrder,
     DEFAULT_COMMENT_ORDER,
     DEFAULT_COMMENT_SORT,
-} from '@/utils/constants/comment-sort';
-import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
-import { generateHeadMeta } from '@/utils/metadata';
-import { commentsSearchSchema } from '@/utils/search-schemas';
+} from '@/utils/sort';
+import { getContentTitle } from '@/utils/title/get-content-title';
 
 export const Route = createFileRoute('/_pages/comments/$content_type/$slug/')({
     validateSearch: zodValidator(commentsSearchSchema),
+    beforeLoad: ({ params }) => {
+        if (!isContentInfoType(params.content_type))
+            throw redirect({ to: '/' });
+    },
     loaderDeps: ({ search }) => search,
-    loader: async ({ params, deps, context: { queryClient, apiClient } }) => {
+    loader: async ({ params, deps, context }) => {
+        const { queryClient, apiClient } = context;
         const { content_type, slug } = params;
-        const commentType = deps.comment_type ?? 'all';
-        const sort = getCommentSort(deps.sort, deps.order);
-        const recommended =
-            commentType === 'review' ? deps.recommended : undefined;
+        const filters = {
+            commentType: deps.comment_type,
+            sort: deps.sort,
+            order: deps.order,
+        };
 
-        const content = await prefetchContent({
-            content_type: content_type as ContentTypeEnum,
-            slug,
-            queryClient,
-            apiClient,
-        });
+        const prefetchComments =
+            content_type === ContentTypeEnum.USER
+                ? Promise.all([
+                      queryClient.prefetchInfiniteQuery(
+                          userCommentListOptions(
+                              slug,
+                              {
+                                  ...filters,
+                                  firstLevelOnly: deps.first_level_only,
+                              },
+                              apiClient,
+                          ),
+                      ),
+                      queryClient.prefetchQuery(
+                          serviceUserStatsOptions({
+                              path: { username: slug },
+                              client: apiClient,
+                          }),
+                      ),
+                  ])
+                : queryClient.prefetchInfiniteQuery(
+                      commentListOptions(
+                          content_type as CommentContentTypeEnum,
+                          slug,
+                          { ...filters, verdict: deps.recommended },
+                          apiClient,
+                      ),
+                  );
 
-        if (!content) throw redirect({ to: '/' });
-
-        if (content_type === ContentTypeEnum.USER) {
-            await Promise.all([
-                queryClient.prefetchInfiniteQuery({
-                    ...getCommentsUserInfiniteOptions({
-                        path: { username: slug },
-                        body: {
-                            comment_type: commentType,
-                            sort,
-                            first_level_only: deps.first_level_only,
-                        },
-                        client: apiClient,
-                    }),
-                    ...paginationPageParam(),
-                }),
-
-                queryClient.prefetchQuery(
-                    serviceUserStatsOptions({
-                        path: { username: slug },
-                        client: apiClient,
-                    }),
-                ),
-            ]);
-        } else {
-            await queryClient.prefetchInfiniteQuery({
-                ...getCommentsListInfiniteOptions({
-                    path: {
-                        content_type: content_type as CommentsContentType,
-                        slug,
-                    },
-                    body: { comment_type: commentType, sort, recommended },
-                    client: apiClient,
-                }),
-                ...paginationPageParam(),
-            });
-        }
+        const [content] = await Promise.all([
+            loadCommentsContent(content_type as ContentInfoType, slug, context),
+            prefetchComments,
+        ]);
 
         return { content };
     },
@@ -104,7 +104,9 @@ function CommentsPage() {
     const { content_type, slug } = Route.useParams();
     const { comment_type, recommended, sort, order, first_level_only } =
         Route.useSearch();
-    const { content } = Route.useLoaderData();
+    const { data: content } = useQuery(
+        contentInfoOptions(content_type as ContentInfoType, slug),
+    );
     const navigate = Route.useNavigate();
     const changeParam = useChangeParam();
     const contentTitle =
@@ -114,7 +116,7 @@ function CommentsPage() {
     usePageHeader({
         title: contentTitle,
         subtitle: 'Коментарі',
-        parent: `${CONTENT_TYPE_LINKS[content_type as ContentTypeEnum]}/${slug}`,
+        parent: contentPath(content_type as ContentTypeEnum, slug),
     });
 
     const commentType = comment_type ?? 'all';
@@ -156,46 +158,41 @@ function CommentsPage() {
     };
 
     return (
-        <div className="mx-auto flex w-full max-w-3xl flex-col gap-12 p-0">
-            <div className="flex flex-col gap-12">
-                <ContentHeader
-                    slug={slug}
-                    content_type={
-                        content_type as
-                            | CommentsContentType
-                            | typeof ContentTypeEnum.USER
+        <ContentSubpage
+            slug={slug}
+            contentType={
+                content_type as
+                    | CommentContentTypeEnum
+                    | typeof ContentTypeEnum.USER
+            }
+        >
+            {isUser ? (
+                <UserCommentList
+                    username={slug}
+                    commentType={commentType}
+                    onCommentTypeChange={handleCommentTypeChange}
+                    firstLevelOnly={first_level_only}
+                    onFirstLevelOnlyChange={(value) =>
+                        changeParam('first_level_only', value)
                     }
+                    {...sortProps}
                 />
-                {isUser ? (
-                    <UserCommentList
-                        username={slug}
-                        commentType={commentType}
-                        onCommentTypeChange={handleCommentTypeChange}
-                        firstLevelOnly={first_level_only}
-                        onFirstLevelOnlyChange={(value) =>
-                            changeParam('first_level_only', value)
-                        }
-                        {...sortProps}
-                    />
-                ) : (
-                    <Comments
-                        slug={slug}
-                        content_type={content_type as CommentsContentType}
-                        contentTitle={contentTitle}
-                        commentType={commentType}
-                        onCommentTypeChange={handleCommentTypeChange}
-                        // Gated like the query body: a bare `?recommended` with
-                        // no review tab must not render as an active filter.
-                        verdict={
-                            commentType === 'review'
-                                ? (recommended ?? null)
-                                : null
-                        }
-                        onVerdictChange={handleVerdictChange}
-                        {...sortProps}
-                    />
-                )}
-            </div>
-        </div>
+            ) : (
+                <CommentList
+                    slug={slug}
+                    content_type={content_type as CommentContentTypeEnum}
+                    contentTitle={contentTitle}
+                    commentType={commentType}
+                    onCommentTypeChange={handleCommentTypeChange}
+                    // Gated like the query body: a bare `?recommended` with
+                    // no review tab must not render as an active filter.
+                    verdict={
+                        commentType === 'review' ? (recommended ?? null) : null
+                    }
+                    onVerdictChange={handleVerdictChange}
+                    {...sortProps}
+                />
+            )}
+        </ContentSubpage>
     );
 }

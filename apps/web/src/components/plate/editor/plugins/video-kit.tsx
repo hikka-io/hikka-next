@@ -1,15 +1,10 @@
-import type { Path, TElement } from 'platejs';
+import type { Path } from 'platejs';
 import { createPlatePlugin } from 'platejs/react';
 
 import { VideoElement } from '@/components/plate/ui/video-node';
-import { extractYouTubeVideoId } from '@/utils/youtube';
+import { normalizeYouTubeVideoUrl } from '@/utils/youtube';
 
-export const ELEMENT_VIDEO = 'video';
-
-export interface TVideoElement extends TElement {
-    type: typeof ELEMENT_VIDEO;
-    url: string;
-}
+import { ELEMENT_VIDEO, type TVideoElement } from '../plate-types';
 
 export const VideoPlugin = createPlatePlugin({
     key: ELEMENT_VIDEO,
@@ -30,14 +25,15 @@ export const VideoPlugin = createPlatePlugin({
                     },
                 ],
                 parse: ({ element }) => {
-                    const url =
+                    const url = normalizeYouTubeVideoUrl(
                         element.getAttribute('src') ||
-                        element.getAttribute('data-url') ||
-                        '';
+                            element.getAttribute('data-url') ||
+                            '',
+                    );
 
                     // Only YouTube embeds are supported — skip this rule for
                     // anything else so other deserializers can handle it.
-                    if (!extractYouTubeVideoId(url)) return;
+                    if (!url) return;
 
                     return {
                         type: ELEMENT_VIDEO,

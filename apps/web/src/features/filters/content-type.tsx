@@ -14,18 +14,19 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
-import { CONTENT_TYPES } from '@/utils/constants/common';
+import { CONTENT_TYPES } from '@/utils/labels/content-types';
+import { useRouteSearch } from '@/utils/navigation';
+import type { EditSearch } from '@/utils/search-schemas';
 
-import useChangeParam from './hooks/use-change-param';
-import { useFilterSearch } from './hooks/use-filter-search';
+import { useChangeParam } from './use-change-param';
 
 type Props = {
     className?: string;
     contentTypes: ContentTypeEnum[];
 };
 
-const ContentType: FC<Props> = ({ contentTypes }) => {
-    const { content_type } = useFilterSearch<{ content_type?: string }>();
+const ContentTypeFilter: FC<Props> = ({ contentTypes }) => {
+    const { content_type } = useRouteSearch<Pick<EditSearch, 'content_type'>>();
 
     const handleChangeParam = useChangeParam();
 
@@ -60,4 +61,4 @@ const ContentType: FC<Props> = ({ contentTypes }) => {
     );
 };
 
-export default ContentType;
+export default ContentTypeFilter;

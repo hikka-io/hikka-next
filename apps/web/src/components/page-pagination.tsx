@@ -1,25 +1,29 @@
-import { useRouter } from '@tanstack/react-router';
+import { type QueryKey, useQueryClient } from '@tanstack/react-query';
+import { useNavigate } from '@tanstack/react-router';
 
 import type { PaginationResponse } from '@hikka/api';
 
 import { StickyPagination } from '@/components/ui/pagination';
+import { resetPageList } from '@/utils/api/invalidate-content-state';
 
 type Props = {
-    pagination: PaginationResponse;
+    pagination: Pick<PaginationResponse, 'page' | 'pages'>;
+    resetQueryKey?: QueryKey;
 };
 
-const Component = ({ pagination }: Props) => {
-    const router = useRouter();
+const PagePagination = ({ pagination, resetQueryKey }: Props) => {
+    const queryClient = useQueryClient();
+    const navigate = useNavigate();
 
     const updatePage = (newPage: number) => {
-        router.navigate({
+        if (resetQueryKey) {
+            resetPageList(queryClient, resetQueryKey);
+        }
+
+        navigate({
             to: '.',
-            search: (prev: Record<string, unknown>) => ({
-                ...prev,
-                page: newPage,
-            }),
-            replace: true,
-        } as any);
+            search: (prev) => ({ ...prev, page: newPage }),
+        });
     };
 
     return (
@@ -31,4 +35,4 @@ const Component = ({ pagination }: Props) => {
     );
 };
 
-export default Component;
+export default PagePagination;

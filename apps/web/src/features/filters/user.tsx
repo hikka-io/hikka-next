@@ -3,7 +3,7 @@ import { type FC, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { User as UserIcon } from 'lucide-react';
 
-import { searchUsersOptions } from '@hikka/api';
+import { API_LIMITS, searchUsersOptions } from '@hikka/api';
 
 import { Label } from '@/components/ui/label';
 import {
@@ -17,9 +17,10 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
+import { DEBOUNCE_MS, useDebounce } from '@/services/hooks/use-debounce';
+import { useRouteSearch } from '@/utils/navigation';
 
-import useChangeParam from './hooks/use-change-param';
-import { useFilterSearch } from './hooks/use-filter-search';
+import { useChangeParam } from './use-change-param';
 
 type Props = {
     className?: string;
@@ -27,23 +28,28 @@ type Props = {
     title: string;
 };
 
-const User: FC<Props> = ({ paramKey, title }) => {
-    const search = useFilterSearch();
+const UserFilter: FC<Props> = ({ paramKey, title }) => {
+    const search = useRouteSearch();
     const user = search[paramKey] as string | undefined;
     const [userSearch, setUserSearch] = useState<string>();
-    const { data: users, isFetching: isUsersFetching } = useQuery({
+    const [debouncedSearch, setDebouncedSearch] = useDebounce({
+        value: userSearch,
+        delay: DEBOUNCE_MS.input,
+    });
+    const { data: users, isFetching } = useQuery({
         ...searchUsersOptions({
             body: {
-                query: userSearch || '',
+                query: debouncedSearch || '',
             },
         }),
-        enabled: !!userSearch,
+        enabled: !!debouncedSearch,
     });
+    const isUsersFetching = isFetching || userSearch !== debouncedSearch;
 
     const handleChangeParam = useChangeParam();
 
     const handleUserSearch = (keyword: string) => {
-        if (keyword.length < 3) {
+        if (keyword.trim().length < API_LIMITS.userSearchQuery.min) {
             setUserSearch(undefined);
             return;
         }
@@ -60,7 +66,10 @@ const User: FC<Props> = ({ paramKey, title }) => {
             <Select
                 value={user ? [user] : []}
                 onValueChange={(value) => handleChangeParam(paramKey, value[0])}
-                onOpenChange={() => setUserSearch(undefined)}
+                onOpenChange={() => {
+                    setUserSearch(undefined);
+                    setDebouncedSearch(undefined);
+                }}
                 onSearch={handleUserSearch}
             >
                 <SelectTrigger size="md" className="flex-1">
@@ -92,4 +101,4 @@ const User: FC<Props> = ({ paramKey, title }) => {
     );
 };
 
-export default User;
+export default UserFilter;

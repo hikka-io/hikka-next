@@ -1,6 +1,6 @@
 import type { SVGProps } from 'react';
 
-export function MaterialSymbolsLockOpenRounded(props: SVGProps<SVGSVGElement>) {
+export function MaterialSymbolsCloseRounded(props: SVGProps<SVGSVGElement>) {
     return (
         <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -16,4 +16,4 @@ export function MaterialSymbolsLockOpenRounded(props: SVGProps<SVGSVGElement>) {
         </svg>
     );
 }
-export default MaterialSymbolsLockOpenRounded;
+export default MaterialSymbolsCloseRounded;

@@ -1,6 +1,5 @@
 import * as React from 'react';
 
-import { createLinkNode } from '@platejs/link';
 import { useQuery } from '@tanstack/react-query';
 import { Ellipsis } from 'lucide-react';
 import type { PlateEditor, PlateElementProps } from 'platejs/react';
@@ -8,8 +7,10 @@ import { PlateElement } from 'platejs/react';
 
 import {
     type AnimeResponse,
+    API_LIMITS,
     type CharacterResponse,
     ContentTypeEnum,
+    type MainContentTypeEnum,
     type MangaResponse,
     type NovelResponse,
     type PersonResponse,
@@ -20,13 +21,14 @@ import {
     searchPeopleOptions,
 } from '@hikka/api';
 
-import { useSessionUI } from '@/features/auth/hooks/use-session-ui';
-import useDebounce from '@/services/hooks/use-debounce';
-import { MIN_SEARCH_LENGTH } from '@/utils/constants/common';
-import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
+import { DEBOUNCE_MS, useDebounce } from '@/services/hooks/use-debounce';
+import { useSessionUI } from '@/services/session';
+import { getDeclensionWord } from '@/utils/i18n/declension';
+import { SYMBOL_FORMS } from '@/utils/i18n/word-forms';
+import { CONTENT_TYPES } from '@/utils/labels';
 import { getTitle } from '@/utils/title/get-title';
-import { getSiteUrl } from '@/utils/url';
 
+import { insertContentLink } from '../editor/transforms';
 import {
     InlineCombobox,
     InlineComboboxContent,
@@ -45,15 +47,13 @@ type SearchContent =
     | CharacterResponse
     | PersonResponse;
 
-const GROUP_SIZE = 3;
+type SearchContentType =
+    | MainContentTypeEnum
+    | typeof ContentTypeEnum.CHARACTER
+    | typeof ContentTypeEnum.PERSON;
 
-const GROUP_LABELS: Record<string, string> = {
-    [ContentTypeEnum.ANIME]: 'Аніме',
-    [ContentTypeEnum.MANGA]: 'Манґа',
-    [ContentTypeEnum.NOVEL]: 'Ранобе',
-    [ContentTypeEnum.CHARACTER]: 'Персонажі',
-    [ContentTypeEnum.PERSON]: 'Люди',
-};
+const GROUP_SIZE = 3;
+const TOO_SHORT_MESSAGE = `Введіть щонайменше ${API_LIMITS.searchQuery.min} ${getDeclensionWord(API_LIMITS.searchQuery.min, SYMBOL_FORMS)}`;
 
 // The title already follows the viewer's language preference, so the subtitle
 // picks the first alternate that differs from it rather than a fixed field.
@@ -105,7 +105,7 @@ function ContentRow({ item, title }: ContentRowProps) {
 }
 
 type GroupProps = {
-    contentType: ContentTypeEnum;
+    contentType: SearchContentType;
     items: SearchContent[] | undefined;
     hasMore: boolean;
     onShowMore: () => void;
@@ -126,7 +126,7 @@ function ContentGroup({
     return (
         <InlineComboboxGroup>
             <InlineComboboxGroupLabel>
-                {GROUP_LABELS[contentType]}
+                {CONTENT_TYPES[contentType].plural}
             </InlineComboboxGroupLabel>
 
             {items.map((item) => {
@@ -137,12 +137,11 @@ function ContentGroup({
                         key={`${contentType}-${item.slug}`}
                         value={`${contentType}-${item.slug}`}
                         onClick={() =>
-                            editor.tf.insertNodes(
-                                createLinkNode(editor, {
-                                    url: `${getSiteUrl()}${CONTENT_TYPE_LINKS[contentType]}/${item.slug}`,
-                                    text: title,
-                                }),
-                            )
+                            insertContentLink(editor, {
+                                type: contentType,
+                                slug: item.slug,
+                                text: title,
+                            })
                         }
                     >
                         <ContentRow item={item} title={title} />
@@ -168,10 +167,14 @@ function ContentGroup({
 export function ContentSearchInputElement(props: PlateElementProps) {
     const { children, editor, element } = props;
     const [search, setSearch] = React.useState('');
-    const [debouncedSearch] = useDebounce({ value: search, delay: 300 });
+    const [debouncedSearch] = useDebounce({
+        value: search,
+        delay: DEBOUNCE_MS.input,
+    });
     const { preferences } = useSessionUI();
 
-    const isTooShort = debouncedSearch.trim().length < MIN_SEARCH_LENGTH;
+    const isTooShort =
+        debouncedSearch.trim().length < API_LIMITS.searchQuery.min;
     const isPending = search !== debouncedSearch;
     const body = { query: debouncedSearch };
     const enabled = !isTooShort;
@@ -256,7 +259,7 @@ export function ContentSearchInputElement(props: PlateElementProps) {
             },
             { contentType: ContentTypeEnum.PERSON, result: people.data },
         ] as {
-            contentType: ContentTypeEnum;
+            contentType: SearchContentType;
             result?: {
                 list: SearchContent[];
                 pagination: { total: number };
@@ -286,7 +289,7 @@ export function ContentSearchInputElement(props: PlateElementProps) {
                 <InlineComboboxContent>
                     <InlineComboboxEmpty>
                         {isTooShort
-                            ? 'Введіть щонайменше 2 символи'
+                            ? TOO_SHORT_MESSAGE
                             : isFetching || isPending
                               ? 'Завантаження...'
                               : 'Нічого не знайдено'}

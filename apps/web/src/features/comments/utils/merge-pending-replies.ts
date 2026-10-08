@@ -1,5 +1,4 @@
-import type { PendingReply } from '@/services/providers/comments-provider';
-
+import type { PendingReply } from '../comments-provider';
 import { type CommentNode, toCommentNode } from './build-comment-tree';
 
 /**

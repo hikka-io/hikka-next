@@ -2,7 +2,7 @@ import type { FC } from 'react';
 
 import { CatalogSummary } from '@/features/catalog';
 
-import { useTodoContentQuery } from '../hooks/use-todo-content-query';
+import { useTodoContentQuery } from './use-todo-content-query';
 
 const TodoListSummary: FC = () => {
     const { pagination, isLoading } = useTodoContentQuery();

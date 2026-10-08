@@ -1,23 +1,22 @@
 import type { FC } from 'react';
 
-import { uk } from 'date-fns/locale/uk';
 import { ArrowBigUp } from 'lucide-react';
 
 import type { CommentResponse } from '@hikka/api';
 
-import MDViewer from '@/components/markdown/viewer/md-viewer';
-import RelativeTime from '@/components/relative-time';
-import { Badge } from '@/components/ui/badge';
 import {
     HorizontalCard,
     HorizontalCardContainer,
     HorizontalCardDescription,
     HorizontalCardImage,
     HorizontalCardTitle,
-} from '@/components/ui/horizontal-card';
+} from '@/components/horizontal-card';
+import { MDViewer } from '@/components/markdown';
+import RelativeTime from '@/components/relative-time';
+import { Badge } from '@/components/ui/badge';
 import { StatItem } from '@/components/ui/stat-item';
-import { CONTENT_TYPES } from '@/utils/constants/common';
-import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
+import { CONTENT_TYPE_LINKS } from '@/utils/content-paths';
+import { CONTENT_TYPES } from '@/utils/labels/content-types';
 import { Link } from '@/utils/navigation';
 
 type Props = {
@@ -44,7 +43,7 @@ const GlobalComment: FC<Props> = ({ comment, href }) => {
                         {comment.author.username}
                     </HorizontalCardTitle>
                     <HorizontalCardDescription>
-                        <RelativeTime value={comment.created} locale={uk} />
+                        <RelativeTime value={comment.created} />
                     </HorizontalCardDescription>
                 </HorizontalCardContainer>
                 {comment.vote_score > 0 && (

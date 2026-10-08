@@ -9,7 +9,7 @@ import { useParams } from '@/utils/navigation';
 
 type Props = {};
 
-const ArticleTags: FC<Props> = () => {
+const ArticleViewTags: FC<Props> = () => {
     const params = useParams();
 
     const { data: article } = useQuery(
@@ -29,4 +29,4 @@ const ArticleTags: FC<Props> = () => {
     );
 };
 
-export default ArticleTags;
+export default ArticleViewTags;

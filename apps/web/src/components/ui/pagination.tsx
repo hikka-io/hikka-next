@@ -8,11 +8,12 @@ import {
 
 import { range } from '@antfu/utils';
 
-import { useMediaQuery } from '@/services/hooks/use-media-query';
+import AntDesignArrowLeftOutlined from '@/components/icons/ant-design/AntDesignArrowLeftOutlined';
+import AntDesignArrowRightOutlined from '@/components/icons/ant-design/AntDesignArrowRightOutlined';
+import { useIsDesktop } from '@/services/hooks/use-media-query';
 import { cn } from '@/utils/cn';
+import { POSITIVE_INTEGER_PATTERN } from '@/utils/text';
 
-import AntDesignArrowLeftOutlined from '../icons/ant-design/AntDesignArrowLeftOutlined';
-import AntDesignArrowRightOutlined from '../icons/ant-design/AntDesignArrowRightOutlined';
 import { Button } from './button';
 import Card from './card';
 import { Input } from './input';
@@ -82,9 +83,8 @@ const PaginationInput: FC<PaginationInputProps> = ({
 
     const handleMoveToPage = (event: ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value;
-        const digitsOnlyRegex = /^(?!0)\d+$/;
 
-        if (!digitsOnlyRegex.test(value)) return setPageToMove('');
+        if (!POSITIVE_INTEGER_PATTERN.test(value)) return setPageToMove('');
 
         if (parseInt(value, 10) > pages) return;
 
@@ -118,7 +118,7 @@ const PaginationInput: FC<PaginationInputProps> = ({
 };
 
 const Pagination = ({ page, pages, setPage }: Props) => {
-    const isDesktop = useMediaQuery('(min-width: 768px)');
+    const isDesktop = useIsDesktop();
 
     const generatePaginationArr = useCallback(() => {
         const pagArr: PaginationType[] = [1];

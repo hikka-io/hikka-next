@@ -1,0 +1,17 @@
+[
+    "components/action-buttons/vote-button",
+    "features/collections/collection-edit/collection-settings/components",
+    "features/collections/collection-view/collection-groups",
+    "features/comments/utils",
+    "features/content/actions/components",
+    "features/content/articles",
+    "features/content/characters/components",
+    "features/content/followings/components",
+    "features/content/media/components",
+    "features/filters/year",
+    "features/home/widgets/collections-widget/components",
+    "features/users/follow-list-modal/components",
+    "features/users/history",
+    "features/users/profile/user-history",
+    "utils/title"
+]

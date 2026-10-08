@@ -3,10 +3,7 @@ import type * as React from 'react';
 import { EyeOffIcon } from 'lucide-react';
 import { useEditorRef, useEditorSelector } from 'platejs/react';
 
-import {
-    ELEMENT_SPOILER,
-    ELEMENT_SPOILER_INLINE,
-} from '../editor/plugins/spoiler-kit';
+import { ELEMENT_SPOILER, ELEMENT_SPOILER_INLINE } from '../editor/plate-types';
 import { isInsideBlock, toggleSpoiler } from '../editor/transforms';
 import { ToolbarButton } from './toolbar';
 

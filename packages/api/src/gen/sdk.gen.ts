@@ -639,8 +639,7 @@ export const notifications = <ThrowOnError extends boolean = false>(
         NotificationsErrors,
         ThrowOnError
     >({
-        responseValidator: async (data) =>
-            await zNotificationsResponse.parseAsync(data),
+        responseValidator: async (data) => zNotificationsResponse.parse(data),
         url: '/notifications',
         ...options,
     });
@@ -661,7 +660,7 @@ export const unseenNotificationsCount = <ThrowOnError extends boolean = false>(
         ThrowOnError
     >({
         responseValidator: async (data) =>
-            await zUnseenNotificationsCountResponse.parseAsync(data),
+            zUnseenNotificationsCountResponse.parse(data),
         url: '/notifications/count',
         ...options,
     });
@@ -682,7 +681,7 @@ export const notificationSeen = <ThrowOnError extends boolean = false>(
         ThrowOnError
     >({
         responseValidator: async (data) =>
-            await zNotificationSeenResponse.parseAsync(data),
+            zNotificationSeenResponse.parse(data),
         url: '/notifications/{notification_reference}/seen',
         ...options,
     });
@@ -698,8 +697,7 @@ export const anitubeAnime = <ThrowOnError extends boolean = false>(
         AnitubeAnimeErrors,
         ThrowOnError
     >({
-        responseValidator: async (data) =>
-            await zAnitubeAnimeResponse.parseAsync(data),
+        responseValidator: async (data) => zAnitubeAnimeResponse.parse(data),
         url: '/integrations/anitube/anime/{anitube_id}',
         ...options,
     });
@@ -715,8 +713,7 @@ export const malContent = <ThrowOnError extends boolean = false>(
         MalContentErrors,
         ThrowOnError
     >({
-        responseValidator: async (data) =>
-            await zMalContentResponse.parseAsync(data),
+        responseValidator: async (data) => zMalContentResponse.parse(data),
         url: '/integrations/mal/{content_type}/{mal_id}',
         ...options,
     });
@@ -732,8 +729,7 @@ export const malContentList = <ThrowOnError extends boolean = false>(
         MalContentListErrors,
         ThrowOnError
     >({
-        responseValidator: async (data) =>
-            await zMalContentListResponse.parseAsync(data),
+        responseValidator: async (data) => zMalContentListResponse.parse(data),
         url: '/integrations/mal/{content_type}',
         ...options,
         headers: {
@@ -753,8 +749,7 @@ export const getCollections = <ThrowOnError extends boolean = false>(
         GetCollectionsErrors,
         ThrowOnError
     >({
-        responseValidator: async (data) =>
-            await zGetCollectionsResponse.parseAsync(data),
+        responseValidator: async (data) => zGetCollectionsResponse.parse(data),
         url: '/collections',
         ...options,
         headers: {
@@ -779,7 +774,7 @@ export const createCollection = <ThrowOnError extends boolean = false>(
         ThrowOnError
     >({
         responseValidator: async (data) =>
-            await zCreateCollectionResponse.parseAsync(data),
+            zCreateCollectionResponse.parse(data),
         url: '/collections/create',
         ...options,
         headers: {
@@ -804,7 +799,7 @@ export const deleteCollection = <ThrowOnError extends boolean = false>(
         ThrowOnError
     >({
         responseValidator: async (data) =>
-            await zDeleteCollectionResponse.parseAsync(data),
+            zDeleteCollectionResponse.parse(data),
         url: '/collections/{reference}',
         ...options,
     });
@@ -820,8 +815,7 @@ export const getCollection = <ThrowOnError extends boolean = false>(
         GetCollectionErrors,
         ThrowOnError
     >({
-        responseValidator: async (data) =>
-            await zGetCollectionResponse.parseAsync(data),
+        responseValidator: async (data) => zGetCollectionResponse.parse(data),
         url: '/collections/{reference}',
         ...options,
     });
@@ -842,7 +836,7 @@ export const updateCollection = <ThrowOnError extends boolean = false>(
         ThrowOnError
     >({
         responseValidator: async (data) =>
-            await zUpdateCollectionResponse.parseAsync(data),
+            zUpdateCollectionResponse.parse(data),
         url: '/collections/{reference}',
         ...options,
         headers: {
@@ -862,8 +856,7 @@ export const characterInfo = <ThrowOnError extends boolean = false>(
         CharacterInfoErrors,
         ThrowOnError
     >({
-        responseValidator: async (data) =>
-            await zCharacterInfoResponse.parseAsync(data),
+        responseValidator: async (data) => zCharacterInfoResponse.parse(data),
         url: '/characters/{slug}',
         ...options,
     });
@@ -884,7 +877,7 @@ export const searchCharacters = <ThrowOnError extends boolean = false>(
         ThrowOnError
     >({
         responseValidator: async (data) =>
-            await zSearchCharactersResponse.parseAsync(data),
+            zSearchCharactersResponse.parse(data),
         url: '/characters',
         ...options,
         headers: {
@@ -904,8 +897,7 @@ export const characterAnime = <ThrowOnError extends boolean = false>(
         CharacterAnimeErrors,
         ThrowOnError
     >({
-        responseValidator: async (data) =>
-            await zCharacterAnimeResponse2.parseAsync(data),
+        responseValidator: async (data) => zCharacterAnimeResponse2.parse(data),
         url: '/characters/{slug}/anime',
         ...options,
     });
@@ -921,8 +913,7 @@ export const characterManga = <ThrowOnError extends boolean = false>(
         CharacterMangaErrors,
         ThrowOnError
     >({
-        responseValidator: async (data) =>
-            await zCharacterMangaResponse2.parseAsync(data),
+        responseValidator: async (data) => zCharacterMangaResponse2.parse(data),
         url: '/characters/{slug}/manga',
         ...options,
     });
@@ -938,8 +929,7 @@ export const characterNovel = <ThrowOnError extends boolean = false>(
         CharacterNovelErrors,
         ThrowOnError
     >({
-        responseValidator: async (data) =>
-            await zCharacterNovelResponse2.parseAsync(data),
+        responseValidator: async (data) => zCharacterNovelResponse2.parse(data),
         url: '/characters/{slug}/novel',
         ...options,
     });
@@ -959,8 +949,7 @@ export const characterVoices = <ThrowOnError extends boolean = false>(
         CharacterVoicesErrors,
         ThrowOnError
     >({
-        responseValidator: async (data) =>
-            await zCharacterVoicesResponse.parseAsync(data),
+        responseValidator: async (data) => zCharacterVoicesResponse.parse(data),
         url: '/characters/{slug}/voices',
         ...options,
     });
@@ -976,8 +965,7 @@ export const companyInfo = <ThrowOnError extends boolean = false>(
         CompanyInfoErrors,
         ThrowOnError
     >({
-        responseValidator: async (data) =>
-            await zCompanyInfoResponse.parseAsync(data),
+        responseValidator: async (data) => zCompanyInfoResponse.parse(data),
         url: '/companies/{slug}',
         ...options,
     });
@@ -997,8 +985,7 @@ export const searchCompanies = <ThrowOnError extends boolean = false>(
         SearchCompaniesErrors,
         ThrowOnError
     >({
-        responseValidator: async (data) =>
-            await zSearchCompaniesResponse.parseAsync(data),
+        responseValidator: async (data) => zSearchCompaniesResponse.parse(data),
         url: '/companies',
         ...options,
         headers: {
@@ -1018,8 +1005,7 @@ export const companyAnime = <ThrowOnError extends boolean = false>(
         CompanyAnimeErrors,
         ThrowOnError
     >({
-        responseValidator: async (data) =>
-            await zCompanyAnimeResponse2.parseAsync(data),
+        responseValidator: async (data) => zCompanyAnimeResponse2.parse(data),
         url: '/companies/{slug}/anime',
         ...options,
     });
@@ -1039,8 +1025,7 @@ export const favouriteDelete = <ThrowOnError extends boolean = false>(
         FavouriteDeleteErrors,
         ThrowOnError
     >({
-        responseValidator: async (data) =>
-            await zFavouriteDeleteResponse.parseAsync(data),
+        responseValidator: async (data) => zFavouriteDeleteResponse.parse(data),
         url: '/favourite/{content_type}/{slug}',
         ...options,
     });
@@ -1056,8 +1041,7 @@ export const getFavourite = <ThrowOnError extends boolean = false>(
         GetFavouriteErrors,
         ThrowOnError
     >({
-        responseValidator: async (data) =>
-            await zGetFavouriteResponse.parseAsync(data),
+        responseValidator: async (data) => zGetFavouriteResponse.parse(data),
         url: '/favourite/{content_type}/{slug}',
         ...options,
     });
@@ -1073,8 +1057,7 @@ export const favouriteAdd = <ThrowOnError extends boolean = false>(
         FavouriteAddErrors,
         ThrowOnError
     >({
-        responseValidator: async (data) =>
-            await zFavouriteAddResponse.parseAsync(data),
+        responseValidator: async (data) => zFavouriteAddResponse.parse(data),
         url: '/favourite/{content_type}/{slug}',
         ...options,
     });
@@ -1090,8 +1073,7 @@ export const favouriteList = <ThrowOnError extends boolean = false>(
         FavouriteListErrors,
         ThrowOnError
     >({
-        responseValidator: async (data) =>
-            await zFavouriteListResponse.parseAsync(data),
+        responseValidator: async (data) => zFavouriteListResponse.parse(data),
         url: '/favourite/{content_type}/{username}/list',
         ...options,
     });
@@ -1112,7 +1094,7 @@ export const getDigestPrivacy = <ThrowOnError extends boolean = false>(
         ThrowOnError
     >({
         responseValidator: async (data) =>
-            await zGetDigestPrivacyResponse.parseAsync(data),
+            zGetDigestPrivacyResponse.parse(data),
         url: '/digests/{name}/privacy',
         ...options,
     });
@@ -1133,7 +1115,7 @@ export const updateDigestPrivacy = <ThrowOnError extends boolean = false>(
         ThrowOnError
     >({
         responseValidator: async (data) =>
-            await zUpdateDigestPrivacyResponse.parseAsync(data),
+            zUpdateDigestPrivacyResponse.parse(data),
         url: '/digests/{name}/privacy',
         ...options,
         headers: {
@@ -1158,7 +1140,7 @@ export const getUserDigestPrivacy = <ThrowOnError extends boolean = false>(
         ThrowOnError
     >({
         responseValidator: async (data) =>
-            await zGetUserDigestPrivacyResponse.parseAsync(data),
+            zGetUserDigestPrivacyResponse.parse(data),
         url: '/digests/{username}/{name}/privacy',
         ...options,
     });
@@ -1174,8 +1156,7 @@ export const getDigest = <ThrowOnError extends boolean = false>(
         GetDigestErrors,
         ThrowOnError
     >({
-        responseValidator: async (data) =>
-            await zGetDigestResponse.parseAsync(data),
+        responseValidator: async (data) => zGetDigestResponse.parse(data),
         url: '/digests/{username}/{name}',
         ...options,
     });
@@ -1196,7 +1177,7 @@ export const changeDescription = <ThrowOnError extends boolean = false>(
         ThrowOnError
     >({
         responseValidator: async (data) =>
-            await zChangeDescriptionResponse.parseAsync(data),
+            zChangeDescriptionResponse.parse(data),
         url: '/settings/description',
         ...options,
         headers: {
@@ -1216,8 +1197,7 @@ export const changeUi = <ThrowOnError extends boolean = false>(
         ChangeUiErrors,
         ThrowOnError
     >({
-        responseValidator: async (data) =>
-            await zChangeUiResponse.parseAsync(data),
+        responseValidator: async (data) => zChangeUiResponse.parse(data),
         url: '/settings/ui',
         ...options,
         headers: {
@@ -1237,8 +1217,7 @@ export const changePassword = <ThrowOnError extends boolean = false>(
         ChangePasswordErrors,
         ThrowOnError
     >({
-        responseValidator: async (data) =>
-            await zChangePasswordResponse.parseAsync(data),
+        responseValidator: async (data) => zChangePasswordResponse.parse(data),
         url: '/settings/password',
         ...options,
         headers: {
@@ -1258,8 +1237,7 @@ export const changeUsername = <ThrowOnError extends boolean = false>(
         ChangeUsernameErrors,
         ThrowOnError
     >({
-        responseValidator: async (data) =>
-            await zChangeUsernameResponse.parseAsync(data),
+        responseValidator: async (data) => zChangeUsernameResponse.parse(data),
         url: '/settings/username',
         ...options,
         headers: {
@@ -1279,8 +1257,7 @@ export const changeEmail = <ThrowOnError extends boolean = false>(
         ChangeEmailErrors,
         ThrowOnError
     >({
-        responseValidator: async (data) =>
-            await zChangeEmailResponse.parseAsync(data),
+        responseValidator: async (data) => zChangeEmailResponse.parse(data),
         url: '/settings/email',
         ...options,
         headers: {
@@ -1300,8 +1277,7 @@ export const importWatch = <ThrowOnError extends boolean = false>(
         ImportWatchErrors,
         ThrowOnError
     >({
-        responseValidator: async (data) =>
-            await zImportWatchResponse.parseAsync(data),
+        responseValidator: async (data) => zImportWatchResponse.parse(data),
         url: '/settings/import/watch',
         ...options,
         headers: {
@@ -1321,8 +1297,7 @@ export const importRead = <ThrowOnError extends boolean = false>(
         ImportReadErrors,
         ThrowOnError
     >({
-        responseValidator: async (data) =>
-            await zImportReadResponse.parseAsync(data),
+        responseValidator: async (data) => zImportReadResponse.parse(data),
         url: '/settings/import/read',
         ...options,
         headers: {
@@ -1342,8 +1317,7 @@ export const exportList = <ThrowOnError extends boolean = false>(
         ExportListErrors,
         ThrowOnError
     >({
-        responseValidator: async (data) =>
-            await zExportListResponse.parseAsync(data),
+        responseValidator: async (data) => zExportListResponse.parse(data),
         url: '/settings/export',
         ...options,
     });
@@ -1364,7 +1338,7 @@ export const getIgnoredNotifications = <ThrowOnError extends boolean = false>(
         ThrowOnError
     >({
         responseValidator: async (data) =>
-            await zGetIgnoredNotificationsResponse.parseAsync(data),
+            zGetIgnoredNotificationsResponse.parse(data),
         url: '/settings/notifications',
         ...options,
     });
@@ -1387,7 +1361,7 @@ export const changeIgnoredNotifications = <
         ThrowOnError
     >({
         responseValidator: async (data) =>
-            await zChangeIgnoredNotificationsResponse.parseAsync(data),
+            zChangeIgnoredNotificationsResponse.parse(data),
         url: '/settings/notifications',
         ...options,
         headers: {
@@ -1411,8 +1385,7 @@ export const deleteUserImage = <ThrowOnError extends boolean = false>(
         DeleteUserImageErrors,
         ThrowOnError
     >({
-        responseValidator: async (data) =>
-            await zDeleteUserImageResponse.parseAsync(data),
+        responseValidator: async (data) => zDeleteUserImageResponse.parse(data),
         url: '/settings/image/{image_type}',
         ...options,
     });
@@ -1432,8 +1405,7 @@ export const deleteUserWatch = <ThrowOnError extends boolean = false>(
         DeleteUserWatchErrors,
         ThrowOnError
     >({
-        responseValidator: async (data) =>
-            await zDeleteUserWatchResponse.parseAsync(data),
+        responseValidator: async (data) => zDeleteUserWatchResponse.parse(data),
         url: '/settings/watch',
         ...options,
     });
@@ -1449,8 +1421,7 @@ export const deleteUserRead = <ThrowOnError extends boolean = false>(
         DeleteUserReadErrors,
         ThrowOnError
     >({
-        responseValidator: async (data) =>
-            await zDeleteUserReadResponse.parseAsync(data),
+        responseValidator: async (data) => zDeleteUserReadResponse.parse(data),
         url: '/settings/read/{content_type}',
         ...options,
     });
@@ -1471,7 +1442,7 @@ export const getCommentsListLegacy = <ThrowOnError extends boolean = false>(
         ThrowOnError
     >({
         responseValidator: async (data) =>
-            await zGetCommentsListLegacyResponse.parseAsync(data),
+            zGetCommentsListLegacyResponse.parse(data),
         url: '/comments/{content_type}/{slug}/list',
         ...options,
         headers: {
@@ -1495,8 +1466,7 @@ export const getCommentsList = <ThrowOnError extends boolean = false>(
         GetCommentsListErrors,
         ThrowOnError
     >({
-        responseValidator: async (data) =>
-            await zGetCommentsListResponse.parseAsync(data),
+        responseValidator: async (data) => zGetCommentsListResponse.parse(data),
         url: '/comments/{content_type}/{slug}/list',
         ...options,
         headers: {
@@ -1520,8 +1490,7 @@ export const getCommentsUser = <ThrowOnError extends boolean = false>(
         GetCommentsUserErrors,
         ThrowOnError
     >({
-        responseValidator: async (data) =>
-            await zGetCommentsUserResponse.parseAsync(data),
+        responseValidator: async (data) => zGetCommentsUserResponse.parse(data),
         url: '/comments/user/{username}',
         ...options,
         headers: {
@@ -1538,8 +1507,7 @@ export const thread = <ThrowOnError extends boolean = false>(
 ): RequestResult<ThreadResponses, ThreadErrors, ThrowOnError> =>
     (options.client ?? client).get<ThreadResponses, ThreadErrors, ThrowOnError>(
         {
-            responseValidator: async (data) =>
-                await zThreadResponse.parseAsync(data),
+            responseValidator: async (data) => zThreadResponse.parse(data),
             url: '/comments/thread/{comment_reference}',
             ...options,
         },
@@ -1556,8 +1524,7 @@ export const writeComment = <ThrowOnError extends boolean = false>(
         WriteCommentErrors,
         ThrowOnError
     >({
-        responseValidator: async (data) =>
-            await zWriteCommentResponse.parseAsync(data),
+        responseValidator: async (data) => zWriteCommentResponse.parse(data),
         url: '/comments/{content_type}/{slug}',
         ...options,
         headers: {
@@ -1577,8 +1544,7 @@ export const hideComment = <ThrowOnError extends boolean = false>(
         HideCommentErrors,
         ThrowOnError
     >({
-        responseValidator: async (data) =>
-            await zHideCommentResponse.parseAsync(data),
+        responseValidator: async (data) => zHideCommentResponse.parse(data),
         url: '/comments/{comment_reference}',
         ...options,
     });
@@ -1594,8 +1560,7 @@ export const editComment = <ThrowOnError extends boolean = false>(
         EditCommentErrors,
         ThrowOnError
     >({
-        responseValidator: async (data) =>
-            await zEditCommentResponse.parseAsync(data),
+        responseValidator: async (data) => zEditCommentResponse.parse(data),
         url: '/comments/{comment_reference}',
         ...options,
         headers: {
@@ -1615,8 +1580,7 @@ export const latestComments = <ThrowOnError extends boolean = false>(
         unknown,
         ThrowOnError
     >({
-        responseValidator: async (data) =>
-            await zLatestCommentsResponse.parseAsync(data),
+        responseValidator: async (data) => zLatestCommentsResponse.parse(data),
         url: '/comments/latest',
         ...options,
     });
@@ -1632,8 +1596,7 @@ export const commentsList = <ThrowOnError extends boolean = false>(
         CommentsListErrors,
         ThrowOnError
     >({
-        responseValidator: async (data) =>
-            await zCommentsListResponse.parseAsync(data),
+        responseValidator: async (data) => zCommentsListResponse.parse(data),
         url: '/comments/list',
         ...options,
     });
@@ -1649,8 +1612,7 @@ export const animeSchedule = <ThrowOnError extends boolean = false>(
         AnimeScheduleErrors,
         ThrowOnError
     >({
-        responseValidator: async (data) =>
-            await zAnimeScheduleResponse2.parseAsync(data),
+        responseValidator: async (data) => zAnimeScheduleResponse2.parse(data),
         url: '/schedule/anime',
         ...options,
         headers: {
@@ -1670,8 +1632,7 @@ export const createArticle = <ThrowOnError extends boolean = false>(
         CreateArticleErrors,
         ThrowOnError
     >({
-        responseValidator: async (data) =>
-            await zCreateArticleResponse.parseAsync(data),
+        responseValidator: async (data) => zCreateArticleResponse.parse(data),
         url: '/articles/create',
         ...options,
         headers: {
@@ -1691,8 +1652,7 @@ export const deleteArticle = <ThrowOnError extends boolean = false>(
         DeleteArticleErrors,
         ThrowOnError
     >({
-        responseValidator: async (data) =>
-            await zDeleteArticleResponse.parseAsync(data),
+        responseValidator: async (data) => zDeleteArticleResponse.parse(data),
         url: '/articles/{slug}',
         ...options,
     });
@@ -1708,8 +1668,7 @@ export const getArticle = <ThrowOnError extends boolean = false>(
         GetArticleErrors,
         ThrowOnError
     >({
-        responseValidator: async (data) =>
-            await zGetArticleResponse.parseAsync(data),
+        responseValidator: async (data) => zGetArticleResponse.parse(data),
         url: '/articles/{slug}',
         ...options,
     });
@@ -1725,8 +1684,7 @@ export const updateArticle = <ThrowOnError extends boolean = false>(
         UpdateArticleErrors,
         ThrowOnError
     >({
-        responseValidator: async (data) =>
-            await zUpdateArticleResponse.parseAsync(data),
+        responseValidator: async (data) => zUpdateArticleResponse.parse(data),
         url: '/articles/{slug}',
         ...options,
         headers: {
@@ -1746,8 +1704,7 @@ export const getArticleTop = <ThrowOnError extends boolean = false>(
         GetArticleTopErrors,
         ThrowOnError
     >({
-        responseValidator: async (data) =>
-            await zGetArticleTopResponse.parseAsync(data),
+        responseValidator: async (data) => zGetArticleTopResponse.parse(data),
         url: '/articles/stats',
         ...options,
     });
@@ -1763,8 +1720,7 @@ export const getArticles = <ThrowOnError extends boolean = false>(
         GetArticlesErrors,
         ThrowOnError
     >({
-        responseValidator: async (data) =>
-            await zGetArticlesResponse.parseAsync(data),
+        responseValidator: async (data) => zGetArticlesResponse.parse(data),
         url: '/articles',
         ...options,
         headers: {
@@ -1789,7 +1745,7 @@ export const contentFranchise = <ThrowOnError extends boolean = false>(
         ThrowOnError
     >({
         responseValidator: async (data) =>
-            await zContentFranchiseResponse.parseAsync(data),
+            zContentFranchiseResponse.parse(data),
         url: '/related/{content_type}/{slug}/franchise',
         ...options,
     });
@@ -1810,7 +1766,7 @@ export const followingHistory = <ThrowOnError extends boolean = false>(
         ThrowOnError
     >({
         responseValidator: async (data) =>
-            await zFollowingHistoryResponse.parseAsync(data),
+            zFollowingHistoryResponse.parse(data),
         url: '/history/following',
         ...options,
     });
@@ -1826,8 +1782,7 @@ export const userHistory = <ThrowOnError extends boolean = false>(
         UserHistoryErrors,
         ThrowOnError
     >({
-        responseValidator: async (data) =>
-            await zUserHistoryResponse.parseAsync(data),
+        responseValidator: async (data) => zUserHistoryResponse.parse(data),
         url: '/history/user/{username}',
         ...options,
     });
@@ -1839,8 +1794,7 @@ export const genres = <ThrowOnError extends boolean = false>(
     options?: Options<GenresData, ThrowOnError>,
 ): RequestResult<GenresResponses, unknown, ThrowOnError> =>
     (options?.client ?? client).get<GenresResponses, unknown, ThrowOnError>({
-        responseValidator: async (data) =>
-            await zGenresResponse.parseAsync(data),
+        responseValidator: async (data) => zGenresResponse.parse(data),
         url: '/genres',
         ...options,
     });
@@ -1857,8 +1811,7 @@ export const uploadImage = <ThrowOnError extends boolean = false>(
         ThrowOnError
     >({
         ...formDataBodySerializer,
-        responseValidator: async (data) =>
-            await zUploadImageResponse.parseAsync(data),
+        responseValidator: async (data) => zUploadImageResponse.parse(data),
         url: '/upload/{upload_type}',
         ...options,
         headers: {
@@ -1878,8 +1831,7 @@ export const personInfo = <ThrowOnError extends boolean = false>(
         PersonInfoErrors,
         ThrowOnError
     >({
-        responseValidator: async (data) =>
-            await zPersonInfoResponse.parseAsync(data),
+        responseValidator: async (data) => zPersonInfoResponse.parse(data),
         url: '/people/{slug}',
         ...options,
     });
@@ -1895,8 +1847,7 @@ export const searchPeople = <ThrowOnError extends boolean = false>(
         SearchPeopleErrors,
         ThrowOnError
     >({
-        responseValidator: async (data) =>
-            await zSearchPeopleResponse.parseAsync(data),
+        responseValidator: async (data) => zSearchPeopleResponse.parse(data),
         url: '/people',
         ...options,
         headers: {
@@ -1916,8 +1867,7 @@ export const personAnime = <ThrowOnError extends boolean = false>(
         PersonAnimeErrors,
         ThrowOnError
     >({
-        responseValidator: async (data) =>
-            await zPersonAnimeResponse2.parseAsync(data),
+        responseValidator: async (data) => zPersonAnimeResponse2.parse(data),
         url: '/people/{slug}/anime',
         ...options,
     });
@@ -1933,8 +1883,7 @@ export const personManga = <ThrowOnError extends boolean = false>(
         PersonMangaErrors,
         ThrowOnError
     >({
-        responseValidator: async (data) =>
-            await zPersonMangaResponse2.parseAsync(data),
+        responseValidator: async (data) => zPersonMangaResponse2.parse(data),
         url: '/people/{slug}/manga',
         ...options,
     });
@@ -1950,8 +1899,7 @@ export const personNovel = <ThrowOnError extends boolean = false>(
         PersonNovelErrors,
         ThrowOnError
     >({
-        responseValidator: async (data) =>
-            await zPersonNovelResponse2.parseAsync(data),
+        responseValidator: async (data) => zPersonNovelResponse2.parse(data),
         url: '/people/{slug}/novel',
         ...options,
     });
@@ -1967,8 +1915,7 @@ export const personVoices = <ThrowOnError extends boolean = false>(
         PersonVoicesErrors,
         ThrowOnError
     >({
-        responseValidator: async (data) =>
-            await zPersonVoicesResponse.parseAsync(data),
+        responseValidator: async (data) => zPersonVoicesResponse.parse(data),
         url: '/people/{slug}/characters',
         ...options,
     });
@@ -1984,8 +1931,7 @@ export const unfollow = <ThrowOnError extends boolean = false>(
         UnfollowErrors,
         ThrowOnError
     >({
-        responseValidator: async (data) =>
-            await zUnfollowResponse.parseAsync(data),
+        responseValidator: async (data) => zUnfollowResponse.parse(data),
         url: '/follow/{username}',
         ...options,
     });
@@ -1997,8 +1943,7 @@ export const check = <ThrowOnError extends boolean = false>(
     options: Options<CheckData, ThrowOnError>,
 ): RequestResult<CheckResponses, CheckErrors, ThrowOnError> =>
     (options.client ?? client).get<CheckResponses, CheckErrors, ThrowOnError>({
-        responseValidator: async (data) =>
-            await zCheckResponse.parseAsync(data),
+        responseValidator: async (data) => zCheckResponse.parse(data),
         url: '/follow/{username}',
         ...options,
     });
@@ -2011,8 +1956,7 @@ export const follow = <ThrowOnError extends boolean = false>(
 ): RequestResult<FollowResponses, FollowErrors, ThrowOnError> =>
     (options.client ?? client).put<FollowResponses, FollowErrors, ThrowOnError>(
         {
-            responseValidator: async (data) =>
-                await zFollowResponse2.parseAsync(data),
+            responseValidator: async (data) => zFollowResponse2.parse(data),
             url: '/follow/{username}',
             ...options,
         },
@@ -2029,8 +1973,7 @@ export const followStats = <ThrowOnError extends boolean = false>(
         FollowStatsErrors,
         ThrowOnError
     >({
-        responseValidator: async (data) =>
-            await zFollowStatsResponse2.parseAsync(data),
+        responseValidator: async (data) => zFollowStatsResponse2.parse(data),
         url: '/follow/{username}/stats',
         ...options,
     });
@@ -2046,8 +1989,7 @@ export const followingList = <ThrowOnError extends boolean = false>(
         FollowingListErrors,
         ThrowOnError
     >({
-        responseValidator: async (data) =>
-            await zFollowingListResponse.parseAsync(data),
+        responseValidator: async (data) => zFollowingListResponse.parse(data),
         url: '/follow/{username}/following',
         ...options,
     });
@@ -2063,8 +2005,7 @@ export const followersList = <ThrowOnError extends boolean = false>(
         FollowersListErrors,
         ThrowOnError
     >({
-        responseValidator: async (data) =>
-            await zFollowersListResponse.parseAsync(data),
+        responseValidator: async (data) => zFollowersListResponse.parse(data),
         url: '/follow/{username}/followers',
         ...options,
     });
@@ -2084,8 +2025,7 @@ export const listUserClients = <ThrowOnError extends boolean = false>(
         ListUserClientsErrors,
         ThrowOnError
     >({
-        responseValidator: async (data) =>
-            await zListUserClientsResponse.parseAsync(data),
+        responseValidator: async (data) => zListUserClientsResponse.parse(data),
         url: '/client',
         ...options,
     });
@@ -2106,7 +2046,7 @@ export const createUserClient = <ThrowOnError extends boolean = false>(
         ThrowOnError
     >({
         responseValidator: async (data) =>
-            await zCreateUserClientResponse.parseAsync(data),
+            zCreateUserClientResponse.parse(data),
         url: '/client',
         ...options,
         headers: {
@@ -2126,8 +2066,7 @@ export const listAllClients = <ThrowOnError extends boolean = false>(
         ListAllClientsErrors,
         ThrowOnError
     >({
-        responseValidator: async (data) =>
-            await zListAllClientsResponse.parseAsync(data),
+        responseValidator: async (data) => zListAllClientsResponse.parse(data),
         url: '/client/all',
         ...options,
         headers: {
@@ -2152,7 +2091,7 @@ export const deleteUserClient = <ThrowOnError extends boolean = false>(
         ThrowOnError
     >({
         responseValidator: async (data) =>
-            await zDeleteUserClientResponse.parseAsync(data),
+            zDeleteUserClientResponse.parse(data),
         url: '/client/{client_reference}',
         ...options,
     });
@@ -2173,7 +2112,7 @@ export const getClientByReference = <ThrowOnError extends boolean = false>(
         ThrowOnError
     >({
         responseValidator: async (data) =>
-            await zGetClientByReferenceResponse.parseAsync(data),
+            zGetClientByReferenceResponse.parse(data),
         url: '/client/{client_reference}',
         ...options,
     });
@@ -2194,7 +2133,7 @@ export const updateUserClient = <ThrowOnError extends boolean = false>(
         ThrowOnError
     >({
         responseValidator: async (data) =>
-            await zUpdateUserClientResponse.parseAsync(data),
+            zUpdateUserClientResponse.parse(data),
         url: '/client/{client_reference}',
         ...options,
         headers: {
@@ -2214,8 +2153,7 @@ export const getUserClient = <ThrowOnError extends boolean = false>(
         GetUserClientErrors,
         ThrowOnError
     >({
-        responseValidator: async (data) =>
-            await zGetUserClientResponse.parseAsync(data),
+        responseValidator: async (data) => zGetUserClientResponse.parse(data),
         url: '/client/{client_reference}/full',
         ...options,
     });
@@ -2236,7 +2174,7 @@ export const verifyThirdPartyClient = <ThrowOnError extends boolean = false>(
         ThrowOnError
     >({
         responseValidator: async (data) =>
-            await zVerifyThirdPartyClientResponse.parseAsync(data),
+            zVerifyThirdPartyClientResponse.parse(data),
         url: '/client/{client_reference}/verify',
         ...options,
     });
@@ -2256,8 +2194,7 @@ export const adminUpdateUser = <ThrowOnError extends boolean = false>(
         AdminUpdateUserErrors,
         ThrowOnError
     >({
-        responseValidator: async (data) =>
-            await zAdminUpdateUserResponse.parseAsync(data),
+        responseValidator: async (data) => zAdminUpdateUserResponse.parse(data),
         url: '/admin/user/{username}',
         ...options,
         headers: {
@@ -2277,8 +2214,7 @@ export const searchAnime = <ThrowOnError extends boolean = false>(
         SearchAnimeErrors,
         ThrowOnError
     >({
-        responseValidator: async (data) =>
-            await zSearchAnimeResponse.parseAsync(data),
+        responseValidator: async (data) => zSearchAnimeResponse.parse(data),
         url: '/anime',
         ...options,
         headers: {
@@ -2298,8 +2234,7 @@ export const animeSlug = <ThrowOnError extends boolean = false>(
         AnimeSlugErrors,
         ThrowOnError
     >({
-        responseValidator: async (data) =>
-            await zAnimeSlugResponse.parseAsync(data),
+        responseValidator: async (data) => zAnimeSlugResponse.parse(data),
         url: '/anime/{slug}',
         ...options,
     });
@@ -2319,8 +2254,7 @@ export const animeCharacters = <ThrowOnError extends boolean = false>(
         AnimeCharactersErrors,
         ThrowOnError
     >({
-        responseValidator: async (data) =>
-            await zAnimeCharactersResponse.parseAsync(data),
+        responseValidator: async (data) => zAnimeCharactersResponse.parse(data),
         url: '/anime/{slug}/characters',
         ...options,
     });
@@ -2336,8 +2270,7 @@ export const animeStaff = <ThrowOnError extends boolean = false>(
         AnimeStaffErrors,
         ThrowOnError
     >({
-        responseValidator: async (data) =>
-            await zAnimeStaffResponse2.parseAsync(data),
+        responseValidator: async (data) => zAnimeStaffResponse2.parse(data),
         url: '/anime/{slug}/staff',
         ...options,
     });
@@ -2353,8 +2286,7 @@ export const animeEpisodes = <ThrowOnError extends boolean = false>(
         AnimeEpisodesErrors,
         ThrowOnError
     >({
-        responseValidator: async (data) =>
-            await zAnimeEpisodesResponse.parseAsync(data),
+        responseValidator: async (data) => zAnimeEpisodesResponse.parse(data),
         url: '/anime/{slug}/episodes',
         ...options,
     });
@@ -2375,7 +2307,7 @@ export const animeRecommendations = <ThrowOnError extends boolean = false>(
         ThrowOnError
     >({
         responseValidator: async (data) =>
-            await zAnimeRecommendationsResponse.parseAsync(data),
+            zAnimeRecommendationsResponse.parse(data),
         url: '/anime/{slug}/recommendations',
         ...options,
     });
@@ -2391,8 +2323,7 @@ export const animeFranchise = <ThrowOnError extends boolean = false>(
         AnimeFranchiseErrors,
         ThrowOnError
     >({
-        responseValidator: async (data) =>
-            await zAnimeFranchiseResponse.parseAsync(data),
+        responseValidator: async (data) => zAnimeFranchiseResponse.parse(data),
         url: '/anime/{slug}/franchise',
         ...options,
     });
@@ -2408,8 +2339,7 @@ export const searchManga = <ThrowOnError extends boolean = false>(
         SearchMangaErrors,
         ThrowOnError
     >({
-        responseValidator: async (data) =>
-            await zSearchMangaResponse.parseAsync(data),
+        responseValidator: async (data) => zSearchMangaResponse.parse(data),
         url: '/manga',
         ...options,
         headers: {
@@ -2429,8 +2359,7 @@ export const mangaInfo = <ThrowOnError extends boolean = false>(
         MangaInfoErrors,
         ThrowOnError
     >({
-        responseValidator: async (data) =>
-            await zMangaInfoResponse2.parseAsync(data),
+        responseValidator: async (data) => zMangaInfoResponse2.parse(data),
         url: '/manga/{slug}',
         ...options,
     });
@@ -2450,8 +2379,7 @@ export const mangaCharacters = <ThrowOnError extends boolean = false>(
         MangaCharactersErrors,
         ThrowOnError
     >({
-        responseValidator: async (data) =>
-            await zMangaCharactersResponse.parseAsync(data),
+        responseValidator: async (data) => zMangaCharactersResponse.parse(data),
         url: '/manga/{slug}/characters',
         ...options,
     });
@@ -2467,8 +2395,7 @@ export const searchNovel = <ThrowOnError extends boolean = false>(
         SearchNovelErrors,
         ThrowOnError
     >({
-        responseValidator: async (data) =>
-            await zSearchNovelResponse.parseAsync(data),
+        responseValidator: async (data) => zSearchNovelResponse.parse(data),
         url: '/novel',
         ...options,
         headers: {
@@ -2488,8 +2415,7 @@ export const novelInfo = <ThrowOnError extends boolean = false>(
         NovelInfoErrors,
         ThrowOnError
     >({
-        responseValidator: async (data) =>
-            await zNovelInfoResponse2.parseAsync(data),
+        responseValidator: async (data) => zNovelInfoResponse2.parse(data),
         url: '/novel/{slug}',
         ...options,
     });
@@ -2509,8 +2435,7 @@ export const novelCharacters = <ThrowOnError extends boolean = false>(
         NovelCharactersErrors,
         ThrowOnError
     >({
-        responseValidator: async (data) =>
-            await zNovelCharactersResponse.parseAsync(data),
+        responseValidator: async (data) => zNovelCharactersResponse.parse(data),
         url: '/novel/{slug}/characters',
         ...options,
     });
@@ -2526,8 +2451,7 @@ export const deleteWatch = <ThrowOnError extends boolean = false>(
         DeleteWatchErrors,
         ThrowOnError
     >({
-        responseValidator: async (data) =>
-            await zDeleteWatchResponse.parseAsync(data),
+        responseValidator: async (data) => zDeleteWatchResponse.parse(data),
         url: '/watch/{slug}',
         ...options,
     });
@@ -2543,8 +2467,7 @@ export const watchGet = <ThrowOnError extends boolean = false>(
         WatchGetErrors,
         ThrowOnError
     >({
-        responseValidator: async (data) =>
-            await zWatchGetResponse.parseAsync(data),
+        responseValidator: async (data) => zWatchGetResponse.parse(data),
         url: '/watch/{slug}',
         ...options,
     });
@@ -2560,8 +2483,7 @@ export const watchAdd = <ThrowOnError extends boolean = false>(
         WatchAddErrors,
         ThrowOnError
     >({
-        responseValidator: async (data) =>
-            await zWatchAddResponse.parseAsync(data),
+        responseValidator: async (data) => zWatchAddResponse.parse(data),
         url: '/watch/{slug}',
         ...options,
         headers: {
@@ -2586,7 +2508,7 @@ export const getWatchFollowing = <ThrowOnError extends boolean = false>(
         ThrowOnError
     >({
         responseValidator: async (data) =>
-            await zGetWatchFollowingResponse.parseAsync(data),
+            zGetWatchFollowingResponse.parse(data),
         url: '/watch/{slug}/following',
         ...options,
     });
@@ -2602,8 +2524,7 @@ export const userWatchStats = <ThrowOnError extends boolean = false>(
         UserWatchStatsErrors,
         ThrowOnError
     >({
-        responseValidator: async (data) =>
-            await zUserWatchStatsResponse.parseAsync(data),
+        responseValidator: async (data) => zUserWatchStatsResponse.parse(data),
         url: '/watch/{username}/stats',
         ...options,
     });
@@ -2624,7 +2545,7 @@ export const randomWatchEntry = <ThrowOnError extends boolean = false>(
         ThrowOnError
     >({
         responseValidator: async (data) =>
-            await zRandomWatchEntryResponse.parseAsync(data),
+            zRandomWatchEntryResponse.parse(data),
         url: '/watch/random/{username}/{status}',
         ...options,
     });
@@ -2640,8 +2561,7 @@ export const userWatchList = <ThrowOnError extends boolean = false>(
         UserWatchListErrors,
         ThrowOnError
     >({
-        responseValidator: async (data) =>
-            await zUserWatchListResponse.parseAsync(data),
+        responseValidator: async (data) => zUserWatchListResponse.parse(data),
         url: '/watch/{username}/list',
         ...options,
         headers: {
@@ -2661,8 +2581,7 @@ export const editsTop = <ThrowOnError extends boolean = false>(
         EditsTopErrors,
         ThrowOnError
     >({
-        responseValidator: async (data) =>
-            await zEditsTopResponse2.parseAsync(data),
+        responseValidator: async (data) => zEditsTopResponse2.parse(data),
         url: '/stats/edits/top',
         ...options,
     });
@@ -2678,8 +2597,7 @@ export const deleteRead = <ThrowOnError extends boolean = false>(
         DeleteReadErrors,
         ThrowOnError
     >({
-        responseValidator: async (data) =>
-            await zDeleteReadResponse.parseAsync(data),
+        responseValidator: async (data) => zDeleteReadResponse.parse(data),
         url: '/read/{content_type}/{slug}',
         ...options,
     });
@@ -2695,8 +2613,7 @@ export const readGet = <ThrowOnError extends boolean = false>(
         ReadGetErrors,
         ThrowOnError
     >({
-        responseValidator: async (data) =>
-            await zReadGetResponse.parseAsync(data),
+        responseValidator: async (data) => zReadGetResponse.parse(data),
         url: '/read/{content_type}/{slug}',
         ...options,
     });
@@ -2712,8 +2629,7 @@ export const readAdd = <ThrowOnError extends boolean = false>(
         ReadAddErrors,
         ThrowOnError
     >({
-        responseValidator: async (data) =>
-            await zReadAddResponse.parseAsync(data),
+        responseValidator: async (data) => zReadAddResponse.parse(data),
         url: '/read/{content_type}/{slug}',
         ...options,
         headers: {
@@ -2738,7 +2654,7 @@ export const getReadFollowing = <ThrowOnError extends boolean = false>(
         ThrowOnError
     >({
         responseValidator: async (data) =>
-            await zGetReadFollowingResponse.parseAsync(data),
+            zGetReadFollowingResponse.parse(data),
         url: '/read/{content_type}/{slug}/following',
         ...options,
     });
@@ -2754,8 +2670,7 @@ export const userReadStats = <ThrowOnError extends boolean = false>(
         UserReadStatsErrors,
         ThrowOnError
     >({
-        responseValidator: async (data) =>
-            await zUserReadStatsResponse.parseAsync(data),
+        responseValidator: async (data) => zUserReadStatsResponse.parse(data),
         url: '/read/{content_type}/{username}/stats',
         ...options,
     });
@@ -2775,8 +2690,7 @@ export const randomReadNovel = <ThrowOnError extends boolean = false>(
         RandomReadNovelErrors,
         ThrowOnError
     >({
-        responseValidator: async (data) =>
-            await zRandomReadNovelResponse.parseAsync(data),
+        responseValidator: async (data) => zRandomReadNovelResponse.parse(data),
         url: '/read/{content_type}/random/{username}/{status}',
         ...options,
     });
@@ -2792,8 +2706,7 @@ export const userReadList = <ThrowOnError extends boolean = false>(
         UserReadListErrors,
         ThrowOnError
     >({
-        responseValidator: async (data) =>
-            await zUserReadListResponse.parseAsync(data),
+        responseValidator: async (data) => zUserReadListResponse.parse(data),
         url: '/read/{content_type}/{username}/list',
         ...options,
         headers: {
@@ -2813,8 +2726,7 @@ export const profile = <ThrowOnError extends boolean = false>(
         ProfileErrors,
         ThrowOnError
     >({
-        responseValidator: async (data) =>
-            await zProfileResponse.parseAsync(data),
+        responseValidator: async (data) => zProfileResponse.parse(data),
         url: '/user/me',
         ...options,
     });
@@ -2830,8 +2742,7 @@ export const userReference = <ThrowOnError extends boolean = false>(
         UserReferenceErrors,
         ThrowOnError
     >({
-        responseValidator: async (data) =>
-            await zUserReferenceResponse.parseAsync(data),
+        responseValidator: async (data) => zUserReferenceResponse.parse(data),
         url: '/user/reference/{reference}',
         ...options,
     });
@@ -2847,8 +2758,7 @@ export const userProfile = <ThrowOnError extends boolean = false>(
         UserProfileErrors,
         ThrowOnError
     >({
-        responseValidator: async (data) =>
-            await zUserProfileResponse.parseAsync(data),
+        responseValidator: async (data) => zUserProfileResponse.parse(data),
         url: '/user/{username}',
         ...options,
     });
@@ -2869,7 +2779,7 @@ export const serviceUserActivity = <ThrowOnError extends boolean = false>(
         ThrowOnError
     >({
         responseValidator: async (data) =>
-            await zServiceUserActivityResponse.parseAsync(data),
+            zServiceUserActivityResponse.parse(data),
         url: '/user/{username}/activity',
         ...options,
     });
@@ -2890,7 +2800,7 @@ export const serviceUserStats = <ThrowOnError extends boolean = false>(
         ThrowOnError
     >({
         responseValidator: async (data) =>
-            await zServiceUserStatsResponse.parseAsync(data),
+            zServiceUserStatsResponse.parse(data),
         url: '/user/{username}/stats',
         ...options,
     });
@@ -2906,8 +2816,7 @@ export const profileUi = <ThrowOnError extends boolean = false>(
         ProfileUiErrors,
         ThrowOnError
     >({
-        responseValidator: async (data) =>
-            await zProfileUiResponse.parseAsync(data),
+        responseValidator: async (data) => zProfileUiResponse.parse(data),
         url: '/user/me/ui',
         ...options,
     });
@@ -2920,8 +2829,7 @@ export const userUi = <ThrowOnError extends boolean = false>(
 ): RequestResult<UserUiResponses, UserUiErrors, ThrowOnError> =>
     (options.client ?? client).get<UserUiResponses, UserUiErrors, ThrowOnError>(
         {
-            responseValidator: async (data) =>
-                await zUserUiResponse.parseAsync(data),
+            responseValidator: async (data) => zUserUiResponse.parse(data),
             url: '/user/{username}/ui',
             ...options,
         },
@@ -2938,8 +2846,7 @@ export const searchUsers = <ThrowOnError extends boolean = false>(
         SearchUsersErrors,
         ThrowOnError
     >({
-        responseValidator: async (data) =>
-            await zSearchUsersResponse.parseAsync(data),
+        responseValidator: async (data) => zSearchUsersResponse.parse(data),
         url: '/user/list',
         ...options,
         headers: {
@@ -2959,8 +2866,7 @@ export const signup = <ThrowOnError extends boolean = false>(
         SignupErrors,
         ThrowOnError
     >({
-        responseValidator: async (data) =>
-            await zSignupResponse.parseAsync(data),
+        responseValidator: async (data) => zSignupResponse.parse(data),
         url: '/auth/signup',
         ...options,
         headers: {
@@ -2976,8 +2882,7 @@ export const login = <ThrowOnError extends boolean = false>(
     options: Options<LoginData, ThrowOnError>,
 ): RequestResult<LoginResponses, LoginErrors, ThrowOnError> =>
     (options.client ?? client).post<LoginResponses, LoginErrors, ThrowOnError>({
-        responseValidator: async (data) =>
-            await zLoginResponse.parseAsync(data),
+        responseValidator: async (data) => zLoginResponse.parse(data),
         url: '/auth/login',
         ...options,
         headers: {
@@ -2997,8 +2902,7 @@ export const activation = <ThrowOnError extends boolean = false>(
         ActivationErrors,
         ThrowOnError
     >({
-        responseValidator: async (data) =>
-            await zActivationResponse.parseAsync(data),
+        responseValidator: async (data) => zActivationResponse.parse(data),
         url: '/auth/activation',
         ...options,
         headers: {
@@ -3023,7 +2927,7 @@ export const activationResend = <ThrowOnError extends boolean = false>(
         ThrowOnError
     >({
         responseValidator: async (data) =>
-            await zActivationResendResponse.parseAsync(data),
+            zActivationResendResponse.parse(data),
         url: '/auth/activation/resend',
         ...options,
     });
@@ -3039,8 +2943,7 @@ export const resetPassword = <ThrowOnError extends boolean = false>(
         ResetPasswordErrors,
         ThrowOnError
     >({
-        responseValidator: async (data) =>
-            await zResetPasswordResponse.parseAsync(data),
+        responseValidator: async (data) => zResetPasswordResponse.parse(data),
         url: '/auth/password/reset',
         ...options,
         headers: {
@@ -3060,8 +2963,7 @@ export const passwordReset = <ThrowOnError extends boolean = false>(
         PasswordResetErrors,
         ThrowOnError
     >({
-        responseValidator: async (data) =>
-            await zPasswordResetResponse.parseAsync(data),
+        responseValidator: async (data) => zPasswordResetResponse.parse(data),
         url: '/auth/password/confirm',
         ...options,
         headers: {
@@ -3081,8 +2983,7 @@ export const providerUrl = <ThrowOnError extends boolean = false>(
         ProviderUrlErrors,
         ThrowOnError
     >({
-        responseValidator: async (data) =>
-            await zProviderUrlResponse2.parseAsync(data),
+        responseValidator: async (data) => zProviderUrlResponse2.parse(data),
         url: '/auth/oauth/{provider}',
         ...options,
     });
@@ -3098,8 +2999,7 @@ export const oauthToken = <ThrowOnError extends boolean = false>(
         OauthTokenErrors,
         ThrowOnError
     >({
-        responseValidator: async (data) =>
-            await zOauthTokenResponse.parseAsync(data),
+        responseValidator: async (data) => zOauthTokenResponse.parse(data),
         url: '/auth/oauth/{provider}',
         ...options,
         headers: {
@@ -3119,8 +3019,7 @@ export const authInfo = <ThrowOnError extends boolean = false>(
         AuthInfoErrors,
         ThrowOnError
     >({
-        responseValidator: async (data) =>
-            await zAuthInfoResponse.parseAsync(data),
+        responseValidator: async (data) => zAuthInfoResponse.parse(data),
         url: '/auth/token/info',
         ...options,
     });
@@ -3136,8 +3035,7 @@ export const requestToken = <ThrowOnError extends boolean = false>(
         RequestTokenErrors,
         ThrowOnError
     >({
-        responseValidator: async (data) =>
-            await zRequestTokenResponse.parseAsync(data),
+        responseValidator: async (data) => zRequestTokenResponse.parse(data),
         url: '/auth/token/request/{client_reference}',
         ...options,
         headers: {
@@ -3162,7 +3060,7 @@ export const thirdPartyAuthToken = <ThrowOnError extends boolean = false>(
         ThrowOnError
     >({
         responseValidator: async (data) =>
-            await zThirdPartyAuthTokenResponse.parseAsync(data),
+            zThirdPartyAuthTokenResponse.parse(data),
         url: '/auth/token',
         ...options,
         headers: {
@@ -3187,7 +3085,7 @@ export const thirdPartyAuthTokens = <ThrowOnError extends boolean = false>(
         ThrowOnError
     >({
         responseValidator: async (data) =>
-            await zThirdPartyAuthTokensResponse.parseAsync(data),
+            zThirdPartyAuthTokensResponse.parse(data),
         url: '/auth/token/thirdparty',
         ...options,
     });
@@ -3203,8 +3101,7 @@ export const revokeToken = <ThrowOnError extends boolean = false>(
         RevokeTokenErrors,
         ThrowOnError
     >({
-        responseValidator: async (data) =>
-            await zRevokeTokenResponse.parseAsync(data),
+        responseValidator: async (data) => zRevokeTokenResponse.parse(data),
         url: '/auth/token/{token_reference}',
         ...options,
     });
@@ -3220,8 +3117,7 @@ export const getEdits = <ThrowOnError extends boolean = false>(
         GetEditsErrors,
         ThrowOnError
     >({
-        responseValidator: async (data) =>
-            await zGetEditsResponse.parseAsync(data),
+        responseValidator: async (data) => zGetEditsResponse.parse(data),
         url: '/edit/list',
         ...options,
         headers: {
@@ -3241,8 +3137,7 @@ export const getEdit = <ThrowOnError extends boolean = false>(
         GetEditErrors,
         ThrowOnError
     >({
-        responseValidator: async (data) =>
-            await zGetEditResponse.parseAsync(data),
+        responseValidator: async (data) => zGetEditResponse.parse(data),
         url: '/edit/{edit_id}',
         ...options,
     });
@@ -3258,8 +3153,7 @@ export const createEdit = <ThrowOnError extends boolean = false>(
         CreateEditErrors,
         ThrowOnError
     >({
-        responseValidator: async (data) =>
-            await zCreateEditResponse.parseAsync(data),
+        responseValidator: async (data) => zCreateEditResponse.parse(data),
         url: '/edit/{content_type}/{slug}',
         ...options,
         headers: {
@@ -3279,8 +3173,7 @@ export const updateEdit = <ThrowOnError extends boolean = false>(
         UpdateEditErrors,
         ThrowOnError
     >({
-        responseValidator: async (data) =>
-            await zUpdateEditResponse.parseAsync(data),
+        responseValidator: async (data) => zUpdateEditResponse.parse(data),
         url: '/edit/{edit_id}/update',
         ...options,
         headers: {
@@ -3300,8 +3193,7 @@ export const closeEdit = <ThrowOnError extends boolean = false>(
         CloseEditErrors,
         ThrowOnError
     >({
-        responseValidator: async (data) =>
-            await zCloseEditResponse.parseAsync(data),
+        responseValidator: async (data) => zCloseEditResponse.parse(data),
         url: '/edit/{edit_id}/close',
         ...options,
     });
@@ -3317,8 +3209,7 @@ export const acceptEdit = <ThrowOnError extends boolean = false>(
         AcceptEditErrors,
         ThrowOnError
     >({
-        responseValidator: async (data) =>
-            await zAcceptEditResponse.parseAsync(data),
+        responseValidator: async (data) => zAcceptEditResponse.parse(data),
         url: '/edit/{edit_id}/accept',
         ...options,
     });
@@ -3334,8 +3225,7 @@ export const denyEdit = <ThrowOnError extends boolean = false>(
         DenyEditErrors,
         ThrowOnError
     >({
-        responseValidator: async (data) =>
-            await zDenyEditResponse.parseAsync(data),
+        responseValidator: async (data) => zDenyEditResponse.parse(data),
         url: '/edit/{edit_id}/deny',
         ...options,
     });
@@ -3358,7 +3248,7 @@ export const getContentEditTodo = <ThrowOnError extends boolean = false>(
         ThrowOnError
     >({
         responseValidator: async (data) =>
-            await zGetContentEditTodoResponse.parseAsync(data),
+            zGetContentEditTodoResponse.parse(data),
         url: '/edit/todo/{content_type}/{todo_type}',
         ...options,
     });
@@ -3379,7 +3269,7 @@ export const getTodoAnimeList = <ThrowOnError extends boolean = false>(
         ThrowOnError
     >({
         responseValidator: async (data) =>
-            await zGetTodoAnimeListResponse.parseAsync(data),
+            zGetTodoAnimeListResponse.parse(data),
         url: '/edit/todo/anime',
         ...options,
         headers: {
@@ -3404,7 +3294,7 @@ export const getTodoMangaList = <ThrowOnError extends boolean = false>(
         ThrowOnError
     >({
         responseValidator: async (data) =>
-            await zGetTodoMangaListResponse.parseAsync(data),
+            zGetTodoMangaListResponse.parse(data),
         url: '/edit/todo/manga',
         ...options,
         headers: {
@@ -3429,7 +3319,7 @@ export const getTodoNovelList = <ThrowOnError extends boolean = false>(
         ThrowOnError
     >({
         responseValidator: async (data) =>
-            await zGetTodoNovelListResponse.parseAsync(data),
+            zGetTodoNovelListResponse.parse(data),
         url: '/edit/todo/novel',
         ...options,
         headers: {
@@ -3454,7 +3344,7 @@ export const getTodoCharacterList = <ThrowOnError extends boolean = false>(
         ThrowOnError
     >({
         responseValidator: async (data) =>
-            await zGetTodoCharacterListResponse.parseAsync(data),
+            zGetTodoCharacterListResponse.parse(data),
         url: '/edit/todo/characters',
         ...options,
         headers: {
@@ -3479,7 +3369,7 @@ export const getTodoPersonList = <ThrowOnError extends boolean = false>(
         ThrowOnError
     >({
         responseValidator: async (data) =>
-            await zGetTodoPersonListResponse.parseAsync(data),
+            zGetTodoPersonListResponse.parse(data),
         url: '/edit/todo/people',
         ...options,
         headers: {
@@ -3499,8 +3389,7 @@ export const getVote = <ThrowOnError extends boolean = false>(
         GetVoteErrors,
         ThrowOnError
     >({
-        responseValidator: async (data) =>
-            await zGetVoteResponse.parseAsync(data),
+        responseValidator: async (data) => zGetVoteResponse.parse(data),
         url: '/vote/{content_type}/{slug}',
         ...options,
     });
@@ -3516,8 +3405,7 @@ export const setVote = <ThrowOnError extends boolean = false>(
         SetVoteErrors,
         ThrowOnError
     >({
-        responseValidator: async (data) =>
-            await zSetVoteResponse.parseAsync(data),
+        responseValidator: async (data) => zSetVoteResponse.parse(data),
         url: '/vote/{content_type}/{slug}',
         ...options,
         headers: {
@@ -3537,8 +3425,7 @@ export const getFeed = <ThrowOnError extends boolean = false>(
         GetFeedErrors,
         ThrowOnError
     >({
-        responseValidator: async (data) =>
-            await zGetFeedResponse.parseAsync(data),
+        responseValidator: async (data) => zGetFeedResponse.parse(data),
         url: '/feed',
         ...options,
         headers: {

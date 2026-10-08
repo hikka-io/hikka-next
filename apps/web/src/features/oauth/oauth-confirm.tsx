@@ -1,0 +1,51 @@
+import type { FC } from 'react';
+
+import { useMutation } from '@tanstack/react-query';
+import { getRouteApi } from '@tanstack/react-router';
+
+import { requestTokenMutation } from '@hikka/api';
+
+import { Button } from '@/components/ui/button';
+import Spinner from '@/components/ui/spinner';
+import { useSession } from '@/services/session';
+
+type Props = {};
+
+const routeApi = getRouteApi('/_pages/oauth');
+
+const OAuthConfirm: FC<Props> = () => {
+    const { reference, scope } = routeApi.useSearch();
+
+    const scopes = scope?.split(',');
+
+    const { user } = useSession();
+
+    const { mutate, isPending } = useMutation({
+        ...requestTokenMutation(),
+        onSuccess: (data) => {
+            window.location.href = data.redirect_url;
+        },
+    });
+
+    const handleConfirm = () => {
+        mutate({
+            path: { client_reference: reference! },
+            body: {
+                scope: scopes!,
+            },
+        });
+    };
+
+    return (
+        <Button
+            className="w-full"
+            disabled={!user || isPending}
+            onClick={handleConfirm}
+        >
+            {isPending && <Spinner />}
+            Продовжити
+        </Button>
+    );
+};
+
+export default OAuthConfirm;

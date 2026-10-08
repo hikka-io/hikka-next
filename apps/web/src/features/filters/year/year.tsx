@@ -6,34 +6,31 @@ import { Calendar } from 'lucide-react';
 import {
     SliderField,
     type SliderFieldProps,
-} from '@/components/form/form-slider';
-import { useTypedAppFormContext } from '@/components/form/use-app-form';
+    useTypedAppFormContext,
+} from '@/components/form';
 import { Badge } from '@/components/ui/badge';
 import { Label } from '@/components/ui/label';
 import { Slider } from '@/components/ui/slider';
+import { useRouteSearch } from '@/utils/navigation';
+import type { AnimeFilterSearch } from '@/utils/search-schemas';
 
-import useChangeParam from '../hooks/use-change-param';
-import { useFilterSearch } from '../hooks/use-filter-search';
-import YearFilterInput from './components/year-filter-input';
+import { YEAR_RANGE, YEARS } from '../filter-ranges';
+import { filterPresetFormOptions } from '../presets/filter-preset-form';
+import { useChangeParam } from '../use-change-param';
+import YearFilterInput from './year-filter-input';
 
-const YEARS: [number, number] = [1965, new Date().getFullYear()];
 const DEFAULT_YEAR_START = YEARS[0].toString();
 const DEFAULT_YEAR_END = YEARS[1].toString();
-
-enum RANGE {
-    MIN = 'min',
-    MAX = 'max',
-}
 
 type Props = {
     className?: string;
 };
 
 const Year: FC<Props> = () => {
-    const { years: yearsParam = [], date_range_enabled } = useFilterSearch<{
-        years?: number[];
-        date_range_enabled?: boolean;
-    }>();
+    const { years: yearsParam = [], date_range_enabled } =
+        useRouteSearch<
+            Pick<AnimeFilterSearch, 'years' | 'date_range_enabled'>
+        >();
 
     const years = yearsParam.map(String);
 
@@ -65,7 +62,7 @@ const Year: FC<Props> = () => {
                 <YearFilterInput
                     years={selectingYears}
                     setSelectingYears={setSelectingYears}
-                    range={RANGE.MIN}
+                    range={YEAR_RANGE.MIN}
                     handleChangeParam={handleChangeParam}
                 />
                 <Slider
@@ -87,7 +84,7 @@ const Year: FC<Props> = () => {
                 <YearFilterInput
                     years={selectingYears}
                     setSelectingYears={setSelectingYears}
-                    range={RANGE.MAX}
+                    range={YEAR_RANGE.MAX}
                     handleChangeParam={handleChangeParam}
                 />
             </div>
@@ -96,8 +93,8 @@ const Year: FC<Props> = () => {
 };
 
 export const FormYear: FC<Props & Partial<SliderFieldProps>> = () => {
-    const form = useTypedAppFormContext({ defaultValues: {} as never });
-    const years = useStore(form.store, (s) => (s.values as any).years);
+    const form = useTypedAppFormContext(filterPresetFormOptions);
+    const years = useStore(form.store, (s) => s.values.years);
 
     return (
         <div className="flex flex-col gap-2">
@@ -114,7 +111,7 @@ export const FormYear: FC<Props & Partial<SliderFieldProps>> = () => {
 
             <div className="flex items-center gap-2">
                 <form.AppField
-                    name={'years' as never}
+                    name="years"
                     children={() => (
                         <SliderField
                             min={Number(DEFAULT_YEAR_START)}

@@ -8,8 +8,8 @@ import type {
 } from '@hikka/api';
 
 import AuthorMetaRow from '@/components/author-meta-row';
+import ContentRefChip from '@/components/content-ref-chip';
 
-import FeedContentRef from './feed-content-ref';
 import FeedItemMenu from './feed-item-menu';
 import FeedTypeChip from './feed-type-chip';
 
@@ -50,7 +50,7 @@ const FeedItemHeader: FC<Props> = ({
                     category={category}
                 />
                 {hasReference && (
-                    <FeedContentRef
+                    <ContentRefChip
                         contentType={reference.contentType}
                         slug={reference.slug}
                         title={reference.title}

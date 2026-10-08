@@ -2,7 +2,7 @@ import { createFileRoute, Outlet, redirect } from '@tanstack/react-router';
 
 import { profileQueryKey } from '@hikka/api';
 
-import CoverImage from '@/components/cover-image';
+import { CoverImage } from '@/features/app-shell';
 
 export const Route = createFileRoute('/_pages/_auth')({
     beforeLoad: async ({ context: { queryClient } }) => {

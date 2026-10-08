@@ -1,0 +1,4 @@
+`const Component = $init` as $decl where {
+    not $decl <: within JsFunctionBody() ,
+    register_diagnostic(span=$init, message="[G4] Name the module-level component after its export; no `const Component`.", severity="error")
+}

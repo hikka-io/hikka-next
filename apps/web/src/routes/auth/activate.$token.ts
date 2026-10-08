@@ -3,10 +3,8 @@ import { createFileRoute } from '@tanstack/react-router';
 import { activation } from '@hikka/api';
 
 import { firstForwardedIp } from '@/utils/api/client-ip';
-import {
-    createServerHikkaClient,
-    makeCookieHeader,
-} from '@/utils/cookies/headers';
+import { createServerHikkaClient } from '@/utils/api/server-client';
+import { COOKIE, makeCookieHeader } from '@/utils/cookies';
 
 export const Route = createFileRoute('/auth/activate/$token')({
     server: {
@@ -27,7 +25,7 @@ export const Route = createFileRoute('/auth/activate/$token')({
                     const headers = new Headers({ Location: '/' });
                     headers.append(
                         'Set-Cookie',
-                        makeCookieHeader('auth', res.secret),
+                        makeCookieHeader(COOKIE.auth.name, res.secret),
                     );
 
                     return new Response(null, { status: 302, headers });

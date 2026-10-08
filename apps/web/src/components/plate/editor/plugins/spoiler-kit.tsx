@@ -13,10 +13,8 @@ import { createPlatePlugin } from 'platejs/react';
 import { SpoilerInlineElement } from '@/components/plate/ui/spoiler-inline-node';
 import { SpoilerElement } from '@/components/plate/ui/spoiler-node';
 
+import { ELEMENT_SPOILER, ELEMENT_SPOILER_INLINE } from '../plate-types';
 import { toggleSpoiler } from '../transforms';
-
-export const ELEMENT_SPOILER = 'spoiler';
-export const ELEMENT_SPOILER_INLINE = 'spoiler_inline';
 
 const toBlockChildren = (
     editor: SlateEditor,

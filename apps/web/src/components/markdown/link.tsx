@@ -1,13 +1,14 @@
 import type { FC, PropsWithChildren, ReactElement, ReactNode } from 'react';
 
-import { ContentTypeEnum } from '@hikka/api';
+import { ContentTypeEnum, type MainContentTypeEnum } from '@hikka/api';
 
 import {
     CharacterTooltip,
     MediaTooltip,
     PersonTooltip,
     UserTooltip,
-} from '@/components/content-card';
+} from '@/components/content-card/tooltips';
+import MaterialSymbolsLinkRounded from '@/components/icons/material-symbols/MaterialSymbolsLinkRounded';
 import {
     AlertDialog,
     AlertDialogAction,
@@ -19,12 +20,11 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
-import { useSession } from '@/features/auth/hooks/use-session';
+import { useSession } from '@/services/session';
 import { cn } from '@/utils/cn';
-import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
+import { CONTENT_TYPE_LINKS } from '@/utils/content-paths';
 import { Link as TanstackLink } from '@/utils/navigation';
-
-import MaterialSymbolsLinkRounded from '../icons/material-symbols/MaterialSymbolsLinkRounded';
+import { SITE_ORIGIN } from '@/utils/url';
 
 type Props = {
     href: string;
@@ -55,7 +55,7 @@ const INTERNAL_TOOLTIPS: {
             ContentTypeEnum.ANIME,
             ContentTypeEnum.MANGA,
             ContentTypeEnum.NOVEL,
-        ] as const
+        ] as const satisfies readonly MainContentTypeEnum[]
     ).map((type) => ({
         pattern: new RegExp(`^${CONTENT_TYPE_LINKS[type]}/([^/?#]+)`),
         wrap: (slug: string, link: ReactNode) => (
@@ -84,7 +84,7 @@ const INTERNAL_TOOLTIPS: {
 
 const getHostname = (href: string): string | null => {
     try {
-        return new URL(href, 'https://hikka.io').hostname.toLowerCase();
+        return new URL(href, SITE_ORIGIN).hostname.toLowerCase();
     } catch {
         return null;
     }
@@ -156,6 +156,7 @@ const Link: FC<PropsWithChildren<Props>> = ({ children, href, className }) => {
     return (
         <AlertDialog>
             <AlertDialogTrigger
+                nativeButton={false}
                 render={
                     <span
                         className={cn(

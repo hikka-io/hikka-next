@@ -1,6 +1,14 @@
-import type { FC } from 'react';
+import type { FC, ReactNode } from 'react';
 
-import type { MainContentTypeEnum } from '@hikka/api';
+import { range } from '@antfu/utils';
+import { useQuery } from '@tanstack/react-query';
+
+import {
+    type ContentAuthorResponse,
+    ContentTypeEnum,
+    type MainContentTypeEnum,
+    type ReadContentTypeEnum,
+} from '@hikka/api';
 
 import PersonCard from '@/components/content-card/person-card';
 import LoadMoreButton from '@/components/load-more-button';
@@ -12,33 +20,59 @@ import {
     HeaderTitle,
 } from '@/components/ui/header';
 import Stack from '@/components/ui/stack';
-import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
+import { useVisibleOnce } from '@/services/hooks/use-visible-once';
+import {
+    type ContentInfo,
+    contentInfoOptions,
+} from '@/utils/api/content-queries';
+import { useInfiniteList } from '@/utils/api/use-infinite-list';
+import { CONTENT_TYPE_LINKS } from '@/utils/content-paths';
 import { useParams } from '@/utils/navigation';
 
-import { useStaff } from './hooks/use-staff';
+import { animeStaffOptions } from './queries';
+import StaffSkeleton from './staff-skeleton';
+
+const PREVIEW_SIZE = 5;
 
 type Props = {
     extended?: boolean;
     content_type: MainContentTypeEnum;
 };
 
-const Staff: FC<Props> = ({ extended, content_type }) => {
-    const params = useParams();
-    const { list, fetchNextPage, hasNextPage, isFetchingNextPage, ref } =
-        useStaff({ content_type, slug: String(params.slug) });
+type StaffSourceProps = {
+    slug: string;
+    extended?: boolean;
+    visibleRef: (node?: Element | null) => void;
+};
 
-    if (!list || list.length === 0) {
+type StaffBlockProps = StaffSourceProps & {
+    content_type: MainContentTypeEnum;
+    list: ContentAuthorResponse[] | undefined;
+    isPending: boolean;
+    loadMore?: ReactNode;
+};
+
+const StaffBlock: FC<StaffBlockProps> = ({
+    slug,
+    extended,
+    visibleRef,
+    content_type,
+    list,
+    isPending,
+    loadMore,
+}) => {
+    if (!list ? extended || !isPending : list.length === 0) {
         return null;
     }
 
-    const filteredData = extended ? list : list.slice(0, 5);
+    const filteredData = extended ? list : list?.slice(0, PREVIEW_SIZE);
 
-    return (
+    const block = (
         <Block id="content-staff">
             <Header
                 href={
                     !extended
-                        ? `${CONTENT_TYPE_LINKS[content_type]}/${params.slug}/staff`
+                        ? `${CONTENT_TYPE_LINKS[content_type]}/${slug}/staff`
                         : undefined
                 }
             >
@@ -54,23 +88,98 @@ const Staff: FC<Props> = ({ extended, content_type }) => {
                 extended={extended}
                 imagePreset="card"
             >
-                {filteredData.map((staff) => (
-                    <PersonCard
-                        key={staff.person.slug}
-                        person={staff.person}
-                        roles={staff.roles}
-                    />
-                ))}
+                {filteredData
+                    ? filteredData.map((staff) => (
+                          <PersonCard
+                              key={staff.person.slug}
+                              person={staff.person}
+                              roles={staff.roles}
+                          />
+                      ))
+                    : range(0, PREVIEW_SIZE).map((index) => (
+                          <StaffSkeleton key={index} />
+                      ))}
             </Stack>
-            {fetchNextPage && extended && hasNextPage && (
-                <LoadMoreButton
-                    isFetchingNextPage={isFetchingNextPage}
-                    fetchNextPage={fetchNextPage}
-                    ref={ref}
-                />
-            )}
+            {loadMore}
         </Block>
+    );
+
+    return extended ? block : <div ref={visibleRef}>{block}</div>;
+};
+
+const AnimeStaff: FC<StaffSourceProps & { enabled: boolean }> = ({
+    enabled,
+    ...props
+}) => {
+    const {
+        list,
+        isPending,
+        fetchNextPage,
+        hasNextPage,
+        isFetchingNextPage,
+        ref,
+    } = useInfiniteList(animeStaffOptions(props.slug), { enabled });
+
+    return (
+        <StaffBlock
+            {...props}
+            content_type={ContentTypeEnum.ANIME}
+            list={list}
+            isPending={isPending}
+            loadMore={
+                props.extended &&
+                hasNextPage && (
+                    <LoadMoreButton
+                        isFetchingNextPage={isFetchingNextPage}
+                        fetchNextPage={fetchNextPage}
+                        ref={ref}
+                    />
+                )
+            }
+        />
     );
 };
 
-export default Staff;
+const selectAuthors = (data: ContentInfo<ReadContentTypeEnum>) => data.authors;
+
+const AuthorStaff: FC<
+    StaffSourceProps & { content_type: ReadContentTypeEnum }
+> = ({ content_type, ...props }) => {
+    const { data: list, isPending } = useQuery({
+        ...contentInfoOptions(content_type, props.slug),
+        select: selectAuthors,
+    });
+
+    return (
+        <StaffBlock
+            {...props}
+            content_type={content_type}
+            list={list}
+            isPending={isPending}
+        />
+    );
+};
+
+const ContentStaff: FC<Props> = ({ extended, content_type }) => {
+    const params = useParams();
+    const { ref: visibleRef, visible } = useVisibleOnce();
+    const slug = String(params.slug);
+
+    return content_type === ContentTypeEnum.ANIME ? (
+        <AnimeStaff
+            slug={slug}
+            extended={extended}
+            visibleRef={visibleRef}
+            enabled={!!extended || visible}
+        />
+    ) : (
+        <AuthorStaff
+            content_type={content_type}
+            slug={slug}
+            extended={extended}
+            visibleRef={visibleRef}
+        />
+    );
+};
+
+export default ContentStaff;

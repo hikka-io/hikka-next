@@ -1,10 +1,13 @@
 import { type FC, useState } from 'react';
 
-import {
-    getArticlesInfiniteOptions,
-    type MainContentTypeEnum,
-} from '@hikka/api';
+import { range } from '@antfu/utils';
 
+import type { MainContentTypeEnum } from '@hikka/api';
+
+import {
+    ArticlePreviewCard,
+    ArticlePreviewCardSkeleton,
+} from '@/components/list-items';
 import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
 import {
@@ -17,12 +20,13 @@ import {
     ResponsiveModal,
     ResponsiveModalContent,
 } from '@/components/ui/responsive-modal';
-import { ArticlePreviewCard } from '@/features/articles';
 import { useCloseOnRouteChange } from '@/services/hooks/use-close-on-route-change';
+import { useVisibleOnce } from '@/services/hooks/use-visible-once';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { useParams } from '@/utils/navigation';
 
-import ContentNewsModal from './components/content-articles-modal';
+import { ARTICLES_PREVIEW_SIZE, contentArticlesOptions } from '../queries';
+import ContentArticlesModal from './content-articles-modal';
 
 type Props = {
     content_type: MainContentTypeEnum;
@@ -33,42 +37,49 @@ const ContentArticles: FC<Props> = ({ content_type }) => {
     const [open, setOpen] = useState(false);
     useCloseOnRouteChange(setOpen);
 
-    const { list } = useInfiniteList(
-        getArticlesInfiniteOptions({
-            body: {
-                content_type,
-                content_slug: String(params.slug),
-            },
+    const { ref, visible } = useVisibleOnce();
+    const { list, isPending } = useInfiniteList(
+        contentArticlesOptions(content_type, String(params.slug), {
+            preview: true,
         }),
+        { enabled: visible },
     );
 
-    if (!list || list.length === 0) return null;
-
-    const filteredNews = list?.slice(0, 3);
+    if (!list ? !isPending : list.length === 0) return null;
 
     return (
         <>
-            <Card id="content-articles">
-                <Block>
-                    <Header onClick={() => setOpen(true)}>
-                        <HeaderContainer>
-                            <HeaderTitle variant="h4">Статті</HeaderTitle>
-                        </HeaderContainer>
-                        <HeaderNavButton />
-                    </Header>
-                    <div className="-mx-2 flex flex-col">
-                        {filteredNews.map((article) => (
-                            <ArticlePreviewCard
-                                key={article.slug}
-                                article={article}
-                            />
-                        ))}
-                    </div>
-                </Block>
-            </Card>
+            <div ref={ref}>
+                <Card id="content-articles">
+                    <Block>
+                        <Header onClick={() => setOpen(true)}>
+                            <HeaderContainer>
+                                <HeaderTitle variant="h4">Статті</HeaderTitle>
+                            </HeaderContainer>
+                            <HeaderNavButton />
+                        </Header>
+                        <div className="-mx-2 flex flex-col">
+                            {list
+                                ? list.map((article) => (
+                                      <ArticlePreviewCard
+                                          key={article.slug}
+                                          article={article}
+                                      />
+                                  ))
+                                : range(0, ARTICLES_PREVIEW_SIZE).map(
+                                      (index) => (
+                                          <ArticlePreviewCardSkeleton
+                                              key={index}
+                                          />
+                                      ),
+                                  )}
+                        </div>
+                    </Block>
+                </Card>
+            </div>
             <ResponsiveModal open={open} onOpenChange={setOpen} type="sheet">
                 <ResponsiveModalContent side="left" title="Статті">
-                    <ContentNewsModal content_type={content_type} />
+                    <ContentArticlesModal content_type={content_type} />
                 </ResponsiveModalContent>
             </ResponsiveModal>
         </>

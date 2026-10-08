@@ -1,6 +1,13 @@
 import { z } from 'zod';
 
-import { COMMENT_SORT_VALUES } from '@/utils/constants/comment-sort';
+import {
+    EditContentToDoEnum,
+    EditContentTypeEnum,
+    FavouriteContentTypeEnum,
+    ReviewRecommendedEnum,
+} from '@hikka/api';
+
+import { COMMENT_SORT_VALUES } from '@/utils/sort';
 
 // Helpers: normalize URL search param values
 // TanStack Router parses ?key=a&key=b → ['a','b'] but ?key=a → 'a' (string, not array)
@@ -107,10 +114,7 @@ export const editSearchSchema = z.object({
 });
 
 export const editContentSearchSchema = z.object({
-    tab: z
-        .enum(['anime', 'manga', 'novel', 'character', 'person'])
-        .optional()
-        .catch(undefined),
+    tab: z.nativeEnum(EditContentTypeEnum).optional().catch(undefined),
     issues: stringArray.optional().catch(undefined),
     types: stringArray.optional().catch(undefined),
     mal_id: z.coerce.number().optional().catch(undefined),
@@ -124,10 +128,7 @@ export const editContentSearchSchema = z.object({
         .tuple([z.coerce.number().nullable(), z.coerce.number().nullable()])
         .optional()
         .catch(undefined),
-    content_type: z
-        .enum(['anime', 'manga', 'novel'])
-        .optional()
-        .catch(undefined),
+    content_type: z.nativeEnum(EditContentToDoEnum).optional().catch(undefined),
     content_slug: z.string().optional().catch(undefined),
     ...sortOrderSearch,
     ...textSearch,
@@ -141,7 +142,10 @@ export const editNewSearchSchema = z.object({
 
 export const commentsSearchSchema = z.object({
     comment_type: z.enum(['comment', 'review']).optional().catch(undefined),
-    recommended: z.enum(['yes', 'no', 'maybe']).optional().catch(undefined),
+    recommended: z
+        .nativeEnum(ReviewRecommendedEnum)
+        .optional()
+        .catch(undefined),
     first_level_only: optionalTrue.catch(undefined),
     sort: z.enum(COMMENT_SORT_VALUES).optional().catch(undefined),
     order: z.enum(['asc', 'desc']).optional().catch(undefined),
@@ -178,13 +182,33 @@ export const oauthSearchSchema = z.object({
     scope: z.string().optional().catch(undefined),
 });
 
+export const loginSearchSchema = z.object({
+    callbackUrl: z.string().optional().catch(undefined),
+});
+
+export const historySearchSchema = z.object({
+    type: z.enum(['user', 'following']).optional().catch(undefined),
+});
+
+export const favoritesSearchSchema = z.object({
+    type: z.nativeEnum(FavouriteContentTypeEnum).optional().catch(undefined),
+});
+
 // Type exports for consumers
+export type SortOrderSearch = z.infer<z.ZodObject<typeof sortOrderSearch>>;
+export type TextSearch = z.infer<z.ZodObject<typeof textSearch>>;
+export type ContentFilterSearch = z.infer<
+    z.ZodObject<typeof contentFilterSearch>
+>;
+export type AnimeFilterSearch = z.infer<z.ZodObject<typeof animeFilterSearch>>;
 export type AnimeSearch = z.infer<typeof animeSearchSchema>;
 export type MangaSearch = z.infer<typeof mangaSearchSchema>;
 export type NovelSearch = z.infer<typeof novelSearchSchema>;
 export type ScheduleSearch = z.infer<typeof scheduleSearchSchema>;
 export type ArticlesSearch = z.infer<typeof articlesSearchSchema>;
-export type CommentsSearch = z.infer<typeof commentsSearchSchema>;
 export type EditSearch = z.infer<typeof editSearchSchema>;
 export type EditContentSearch = z.infer<typeof editContentSearchSchema>;
+export type CollectionsSearch = z.infer<typeof collectionsSearchSchema>;
 export type UserlistSearch = z.infer<typeof userlistSearchSchema>;
+export type LoginSearch = z.infer<typeof loginSearchSchema>;
+export type HistorySearch = z.infer<typeof historySearchSchema>;

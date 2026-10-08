@@ -1,0 +1,7 @@
+or {
+    `$_.refresh()`,
+    `$_.location.reload($...)`,
+    `location.reload($...)`
+} as $call where {
+    register_diagnostic(span=$call, message="[R7] No router.refresh() or location.reload() after a mutation; update the cache through a utils/api helper.", severity="error")
+}

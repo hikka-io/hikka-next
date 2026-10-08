@@ -1,49 +1,23 @@
-import { type FC, useEffect } from 'react';
+import type { FC } from 'react';
 
-import { useQuery } from '@tanstack/react-query';
-
-import { getCollectionOptions } from '@hikka/api';
-
-import { useCollectionContext } from '@/services/providers/collection-provider';
-import { useParams } from '@/utils/navigation';
+import { useShallow } from 'zustand/shallow';
 
 import CollectionEditGrid from './collection-grid';
 import CollectionDndContext from './collection-grid/collection-dnd-context';
+import { useCollectionContext } from './collection-provider';
 
-type Props = {
-    mode?: 'create' | 'edit';
-};
-
-const CollectionGroups: FC<Props> = ({ mode = 'create' }) => {
-    const params = useParams();
-
-    const groups = useCollectionContext((state) => state.groups);
-    const setApiData = useCollectionContext((state) => state.setApiData);
-
-    const { data } = useQuery({
-        ...getCollectionOptions({
-            path: { reference: String(params.reference) },
-        }),
-        enabled: mode === 'edit',
-    });
-
-    useEffect(() => {
-        if (data) {
-            setApiData(data as Parameters<typeof setApiData>[0]);
-        }
-    }, [data]);
-
-    if (mode === 'edit' && !data) {
-        return null;
-    }
+const CollectionEditGroups: FC = () => {
+    const groupIds = useCollectionContext(
+        useShallow((state) => state.groups.map((group) => group.id)),
+    );
 
     return (
         <CollectionDndContext>
-            {groups.map((group) => (
-                <CollectionEditGrid key={group.id} group={group} />
+            {groupIds.map((groupId) => (
+                <CollectionEditGrid key={groupId} groupId={groupId} />
             ))}
         </CollectionDndContext>
     );
 };
 
-export default CollectionGroups;
+export default CollectionEditGroups;

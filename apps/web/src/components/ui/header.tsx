@@ -1,12 +1,12 @@
 import React, { type FC, type PropsWithChildren } from 'react';
 
+import { MaterialSymbolsArrowRightAltRounded } from '@/components/icons/material-symbols/MaterialSymbolsArrowRightAltRounded';
 import { cn } from '@/utils/cn';
 import { Link } from '@/utils/navigation';
 
-import { MaterialSymbolsArrowRightAltRounded } from '../icons/material-symbols/MaterialSymbolsArrowRightAltRounded';
 import { Button } from './button';
 
-type HorizontalCardContextProps = {
+type HeaderContextValue = {
     href?: string;
     to?: string;
     search?: Record<string, unknown>;
@@ -14,9 +14,9 @@ type HorizontalCardContextProps = {
     linkProps?: Partial<React.AnchorHTMLAttributes<HTMLAnchorElement>>;
 };
 
-const HeaderContext = React.createContext<
-    HorizontalCardContextProps | undefined
->(undefined);
+const HeaderContext = React.createContext<HeaderContextValue | undefined>(
+    undefined,
+);
 
 const useHeader = () => {
     const context = React.useContext(HeaderContext);

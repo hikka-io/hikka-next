@@ -1,6 +1,8 @@
-export const DEFAULTS = {
+import { SITE_ORIGIN } from '@/utils/url';
+
+const DEFAULTS = {
     siteName: 'Hikka',
-    images: 'https://hikka.io/preview.jpg',
+    images: `${SITE_ORIGIN}/preview.jpg`,
     title: {
         default: 'Hikka - енциклопедія аніме, манґи та ранобе українською',
         template: '%s / Hikka',
@@ -9,75 +11,9 @@ export const DEFAULTS = {
         'Hikka - українська онлайн енциклопедія аніме, манґи та ранобе. Весь список, манґи та ранобе, детальна інформація до кожного тайтлу та зручний інтерфейс. Заповнюй власний список переглянутого та прочитаного, кастомізуй профіль та ділись з друзями.',
 };
 
-type OGImageDescriptor = {
-    url: string | URL;
-    secureUrl?: string | URL;
-    alt?: string;
-    type?: string;
-    width?: string | number;
-    height?: string | number;
-};
-
-type OGImage = string | OGImageDescriptor | URL;
-
 type TemplateString = {
     default: string;
     template: string;
-};
-
-type MetadataProps = {
-    title?: string | TemplateString | null;
-    description?: string | null;
-    images?: OGImage | OGImage[];
-    siteName?: string;
-    other?: Record<string, string | number | (string | number)[]>;
-    openGraph?: Record<string, any>;
-    twitter?: Record<string, any>;
-    [key: string]: any;
-};
-
-type Metadata = Record<string, any>;
-
-/** Merges provided metadata props with DEFAULTS into a complete Metadata object. */
-const generateMetadata = ({
-    title,
-    description,
-    images,
-    siteName,
-    other,
-    openGraph,
-    twitter,
-    ...restProps
-}: MetadataProps = {}): Metadata => {
-    const resolvedSiteName = siteName || DEFAULTS.siteName;
-    const resolvedTitle = title || DEFAULTS.title;
-    const resolvedDescription = description || DEFAULTS.description;
-    const resolvedImages = images || DEFAULTS.images;
-
-    return {
-        title: resolvedTitle,
-        description: resolvedDescription,
-
-        openGraph: {
-            siteName: resolvedSiteName,
-            title: resolvedTitle,
-            description: resolvedDescription,
-            images: resolvedImages,
-            ...openGraph,
-        },
-
-        twitter: {
-            site: resolvedSiteName,
-            title: resolvedTitle,
-            description: resolvedDescription,
-            images: resolvedImages,
-            ...twitter,
-        },
-
-        other,
-
-        ...restProps,
-    };
 };
 
 type HeadMetaProps = {
@@ -180,4 +116,4 @@ function generateHeadMeta(props: HeadMetaProps) {
     return { meta, links };
 }
 
-export { generateHeadMeta, generateMetadata };
+export { generateHeadMeta };

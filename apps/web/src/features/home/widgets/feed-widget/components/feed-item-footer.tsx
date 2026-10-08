@@ -4,7 +4,7 @@ import { MessageCircle } from 'lucide-react';
 
 import type { VoteContentTypeEnum } from '@hikka/api';
 
-import VoteButton from '@/components/action-buttons/vote-button';
+import { VoteButton } from '@/components/action-buttons';
 import {
     StatItem,
     StatItemGroup,

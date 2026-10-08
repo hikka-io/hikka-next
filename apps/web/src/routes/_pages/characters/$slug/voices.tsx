@@ -2,11 +2,19 @@ import { createFileRoute } from '@tanstack/react-router';
 
 import { ContentTypeEnum } from '@hikka/api';
 
-import ContentHeader from '@/features/comments/content-header';
-import { CharacterVoices as Voices } from '@/features/entities';
+import { ContentSubpage } from '@/features/content';
+import { CharacterVoices } from '@/features/entities';
+import { loadEntityTab } from '@/features/entities/queries';
 import { generateHeadMeta } from '@/utils/metadata';
 
 export const Route = createFileRoute('/_pages/characters/$slug/voices')({
+    loader: ({ params, context }) =>
+        loadEntityTab(
+            ContentTypeEnum.CHARACTER,
+            'voices',
+            params.slug,
+            context,
+        ),
     head: () => generateHeadMeta({ title: 'Сейю', robots: { index: false } }),
     component: CharacterVoicesPage,
 });
@@ -15,14 +23,8 @@ function CharacterVoicesPage() {
     const { slug } = Route.useParams();
 
     return (
-        <div className="mx-auto flex w-full max-w-3xl flex-col gap-12 p-0">
-            <div className="flex flex-col gap-12">
-                <ContentHeader
-                    slug={slug}
-                    content_type={ContentTypeEnum.CHARACTER}
-                />
-                <Voices extended />
-            </div>
-        </div>
+        <ContentSubpage slug={slug} contentType={ContentTypeEnum.CHARACTER}>
+            <CharacterVoices extended />
+        </ContentSubpage>
     );
 }

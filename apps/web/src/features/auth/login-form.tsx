@@ -2,32 +2,27 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { loginMutation } from '@hikka/api';
 
-import SubmitButton from '@/components/form/submit-button';
-import { useAppForm } from '@/components/form/use-app-form';
-import { Field, FieldError, FieldLabel } from '@/components/ui/field';
-import { Input } from '@/components/ui/input';
-import PasswordInput from '@/components/ui/password-input';
-import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
+import { SubmitButton, useAppForm } from '@/components/form';
+import { passwordSchema } from '@/utils/form-schemas';
 import { z } from '@/utils/i18n/zod';
-import { Link, useRouter } from '@/utils/navigation';
+import { Link, useRouter, useRouteSearch } from '@/utils/navigation';
+import type { LoginSearch } from '@/utils/search-schemas';
 import { validateRedirectUrl } from '@/utils/url';
 
 import Captcha from './captcha';
+import GoogleLogin from './google-login';
 import { handleAuthSuccess } from './handle-auth-success';
-import { useCaptcha } from './hooks/use-captcha';
-import OAuthLogin from './oauth-login';
+import { useCaptcha } from './use-captcha';
 
 const formSchema = z.object({
     identifier: z.string().min(5),
-    password: z.string().min(8).max(256),
+    password: passwordSchema,
     rememberMe: z.boolean(),
 });
 
 const LoginForm = () => {
     const queryClient = useQueryClient();
-    const { callbackUrl: callbackUrlParam } = useFilterSearch<{
-        callbackUrl?: string;
-    }>();
+    const { callbackUrl: callbackUrlParam } = useRouteSearch<LoginSearch>();
     const { captchaRef, getToken, reset } = useCaptcha();
     const router = useRouter();
 
@@ -51,7 +46,7 @@ const LoginForm = () => {
             password: '',
             rememberMe: false,
         },
-        validators: { onSubmit: formSchema },
+        validators: { onChange: formSchema },
         onSubmit: async ({ value }) => {
             const isEmail = value.identifier.includes('@');
 
@@ -69,74 +64,53 @@ const LoginForm = () => {
     });
 
     return (
-        <form
-            onSubmit={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                form.handleSubmit();
-            }}
-            className="space-y-4"
-        >
-            <form.Field
-                name="identifier"
-                children={(field) => (
-                    <Field>
-                        <FieldLabel htmlFor={field.name}>
-                            Ваш юзернейм або пошта
-                        </FieldLabel>
-                        <Input
-                            id={field.name}
+        <form.AppForm>
+            <form.Form className="space-y-4">
+                <form.AppField
+                    name="identifier"
+                    children={(field) => (
+                        <field.TextField
                             type="text"
+                            label="Ваш юзернейм або пошта"
                             placeholder="Введіть ваш юзернейм або пошту"
-                            value={field.state.value}
-                            onBlur={field.handleBlur}
-                            onChange={(e) => field.handleChange(e.target.value)}
                         />
-                        <FieldError errors={field.state.meta.errors} />
-                    </Field>
-                )}
-            />
+                    )}
+                />
 
-            <form.Field
-                name="password"
-                children={(field) => (
-                    <Field>
-                        <div className="flex items-center justify-between">
-                            <FieldLabel htmlFor={field.name}>Пароль</FieldLabel>
+                <form.AppField
+                    name="password"
+                    children={(field) => (
+                        <field.PasswordField
+                            label="Пароль"
+                            placeholder="Введіть ваш пароль"
+                        >
                             <Link
                                 to="/reset"
                                 className="text-primary-foreground text-sm hover:underline"
                             >
                                 Забули пароль?
                             </Link>
-                        </div>
+                        </field.PasswordField>
+                    )}
+                />
 
-                        <PasswordInput
-                            id={field.name}
-                            placeholder="Введіть ваш пароль"
-                            value={field.state.value}
-                            onBlur={field.handleBlur}
-                            onChange={field.handleChange}
-                        />
-                        <FieldError errors={field.state.meta.errors} />
-                    </Field>
-                )}
-            />
+                <Captcha ref={captchaRef} />
 
-            <Captcha ref={captchaRef} />
+                <SubmitButton
+                    className="w-full"
+                    loading={mutationLogin.isPending}
+                    disabled={mutationLogin.isSuccess}
+                >
+                    Увійти
+                </SubmitButton>
 
-            <SubmitButton
-                className="w-full"
-                loading={mutationLogin.isPending}
-                disabled={mutationLogin.isSuccess}
-            >
-                Увійти
-            </SubmitButton>
-
-            <OAuthLogin
-                disabled={mutationLogin.isPending || mutationLogin.isSuccess}
-            />
-        </form>
+                <GoogleLogin
+                    disabled={
+                        mutationLogin.isPending || mutationLogin.isSuccess
+                    }
+                />
+            </form.Form>
+        </form.AppForm>
     );
 };
 

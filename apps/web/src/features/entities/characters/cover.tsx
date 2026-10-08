@@ -5,7 +5,7 @@ import { characterInfoOptions } from '@hikka/api';
 import PosterCard from '@/components/content-card/poster-card';
 import { useParams } from '@/utils/navigation';
 
-const Cover = () => {
+const CharacterCover = () => {
     const params = useParams();
 
     const { data: character } = useQuery(
@@ -23,4 +23,4 @@ const Cover = () => {
     );
 };
 
-export default Cover;
+export default CharacterCover;

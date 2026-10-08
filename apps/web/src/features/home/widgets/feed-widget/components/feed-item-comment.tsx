@@ -4,7 +4,7 @@ import { useNavigate } from '@tanstack/react-router';
 
 import type { CommentResponseFeed, ContentTypeEnum } from '@hikka/api';
 
-import MDViewer from '@/components/markdown/viewer/md-viewer';
+import { MDViewer } from '@/components/markdown';
 import TextExpand from '@/components/text-expand';
 
 type Props = {

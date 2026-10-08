@@ -1,11 +1,9 @@
 import type { FC } from 'react';
 
-import { ContentTypeEnum } from '@hikka/api';
+import { ContentTypeEnum, type MainContentTypeEnum } from '@hikka/api';
 
-import ContentSlug from '@/features/filters/content-slug';
-import ContentType from '@/features/filters/content-type';
-import Issues from '@/features/filters/issues';
-import { CHARACTER_ISSUES, PERSON_ISSUES } from '@/utils/constants/common';
+import { ContentSlug, ContentTypeFilter, Issues } from '@/features/filters';
+import { CHARACTER_ISSUES, PERSON_ISSUES } from '@/utils/labels/enum-labels';
 
 import type { TodoFiltersValue } from './todo-filters-value';
 
@@ -13,7 +11,7 @@ const MEDIA_CONTENT_TYPES = [
     ContentTypeEnum.ANIME,
     ContentTypeEnum.MANGA,
     ContentTypeEnum.NOVEL,
-];
+] satisfies readonly MainContentTypeEnum[];
 
 type Props = {
     contentType:
@@ -35,7 +33,7 @@ const TodoPersonFilters: FC<Props> = ({ contentType, value, onChange }) => {
                 value={value.issues}
                 onChange={(issues) => onChange({ ...value, issues })}
             />
-            <ContentType contentTypes={MEDIA_CONTENT_TYPES} />
+            <ContentTypeFilter contentTypes={MEDIA_CONTENT_TYPES} />
             <ContentSlug
                 resetKey={contentType}
                 value={value.content_slug}

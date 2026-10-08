@@ -1,66 +1,84 @@
+import { type FC, useState } from 'react';
+
 import {
-    closestCenter,
-    DndContext,
+    DragDropProvider,
     type DragEndEvent,
-    MouseSensor,
-    TouchSensor,
-    useSensor,
-    useSensors,
-} from '@dnd-kit/core';
-import { rectSortingStrategy, SortableContext } from '@dnd-kit/sortable';
+    PointerSensor,
+} from '@dnd-kit/react';
+import { isSortable } from '@dnd-kit/react/sortable';
+import { useShallow } from 'zustand/shallow';
 
-import { useCollectionContext } from '@/services/providers/collection-provider';
+import { createDragDropManager } from '@/utils/drag-drop-manager';
 
+import {
+    useCollectionContext,
+    useCollectionStore,
+} from '../../collection-provider';
 import SortableInput from './sortable-input';
 
-const GroupInputs = () => {
-    const groups = useCollectionContext((state) => state.groups);
-    const reorderGroups = useCollectionContext((state) => state.reorderGroups);
+const SENSORS = [
+    PointerSensor.configure({ activationConstraints: () => undefined }),
+];
+
+type GroupTitleInputProps = {
+    groupId: string;
+    index: number;
+};
+
+const GroupTitleInput: FC<GroupTitleInputProps> = ({ groupId, index }) => {
+    const title = useCollectionContext(
+        (state) => state.groups.find((g) => g.id === groupId)?.title ?? '',
+    );
     const updateGroupTitle = useCollectionContext(
         (state) => state.updateGroupTitle,
     );
     const removeGroup = useCollectionContext((state) => state.removeGroup);
 
-    const sensors = useSensors(useSensor(MouseSensor), useSensor(TouchSensor));
+    return (
+        <SortableInput
+            placeholder="Введіть назву"
+            value={title}
+            id={groupId}
+            index={index}
+            className="flex-1"
+            onChange={(e) => updateGroupTitle(groupId, e.target.value)}
+            onRemove={() => removeGroup(groupId)}
+        />
+    );
+};
+
+const GroupInputs = () => {
+    const store = useCollectionStore();
+    const [manager] = useState(() =>
+        createDragDropManager({ sensors: SENSORS }),
+    );
+    const groupIds = useCollectionContext(
+        useShallow((state) => state.groups.map((group) => group.id)),
+    );
 
     const handleDragEnd = (event: DragEndEvent) => {
-        const { active, over } = event;
-        if (!over) return;
+        const { source } = event.operation;
+        if (event.canceled || !isSortable(source)) return;
 
-        const activeIndex = groups.findIndex((g) => g.id === active.id);
-        const overIndex = groups.findIndex((g) => g.id === over.id);
+        const { groups, reorderGroups } = store.getState();
+        const activeIndex = groups.findIndex((g) => g.id === source.id);
+        const overIndex = source.sortable.index;
 
-        if (
-            activeIndex !== -1 &&
-            overIndex !== -1 &&
-            activeIndex !== overIndex
-        ) {
+        if (activeIndex !== -1 && activeIndex !== overIndex) {
             reorderGroups(activeIndex, overIndex);
         }
     };
 
     return (
-        <DndContext
-            sensors={sensors}
-            collisionDetection={closestCenter}
-            onDragEnd={handleDragEnd}
-        >
-            <SortableContext items={groups} strategy={rectSortingStrategy}>
-                {groups.map((group) => (
-                    <SortableInput
-                        key={group.id}
-                        placeholder="Введіть назву"
-                        value={group.title ?? ''}
-                        id={group.id}
-                        className="flex-1"
-                        onChange={(e) =>
-                            updateGroupTitle(group.id, e.target.value)
-                        }
-                        onRemove={() => removeGroup(group.id)}
-                    />
-                ))}
-            </SortableContext>
-        </DndContext>
+        <DragDropProvider manager={manager} onDragEnd={handleDragEnd}>
+            {groupIds.map((groupId, index) => (
+                <GroupTitleInput
+                    key={groupId}
+                    groupId={groupId}
+                    index={index}
+                />
+            ))}
+        </DragDropProvider>
     );
 };
 

@@ -5,22 +5,23 @@ import { Languages } from 'lucide-react';
 import {
     SwitchField,
     type SwitchFieldProps,
-} from '@/components/form/form-switch';
-import { useTypedAppFormContext } from '@/components/form/use-app-form';
+    useTypedAppFormContext,
+} from '@/components/form';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
+import { useRouteSearch } from '@/utils/navigation';
+import type { ContentFilterSearch } from '@/utils/search-schemas';
 
-import useChangeParam from './hooks/use-change-param';
-import { useFilterSearch } from './hooks/use-filter-search';
+import { filterPresetFormOptions } from './presets/filter-preset-form';
+import { useChangeParam } from './use-change-param';
 
 type Props = {
     className?: string;
 };
 
 const Localization: FC<Props> = () => {
-    const { only_translated } = useFilterSearch<{
-        only_translated?: boolean;
-    }>();
+    const { only_translated } =
+        useRouteSearch<Pick<ContentFilterSearch, 'only_translated'>>();
 
     const handleChangeParam = useChangeParam();
 
@@ -44,10 +45,10 @@ const Localization: FC<Props> = () => {
 export const FormLocalization: FC<Props & Partial<SwitchFieldProps>> = (
     props,
 ) => {
-    const form = useTypedAppFormContext({ defaultValues: {} as never });
+    const form = useTypedAppFormContext(filterPresetFormOptions);
     return (
         <form.AppField
-            name={'only_translated' as never}
+            name="only_translated"
             children={() => (
                 <SwitchField {...props} label="Перекладено українською" />
             )}

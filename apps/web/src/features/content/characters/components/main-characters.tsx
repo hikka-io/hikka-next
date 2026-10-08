@@ -11,9 +11,11 @@ import {
     HeaderTitle,
 } from '@/components/ui/header';
 import Stack from '@/components/ui/stack';
-import { CONTENT_CONFIG } from '@/utils/constants/common';
-import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
+import { useInfiniteList } from '@/utils/api/use-infinite-list';
+import { CONTENT_TYPE_LINKS } from '@/utils/content-paths';
 import { useParams } from '@/utils/navigation';
+
+import { contentCharactersOptions } from '../../queries';
 
 type Props = {
     extended?: boolean;
@@ -22,8 +24,8 @@ type Props = {
 
 const MainCharacters: FC<Props> = ({ extended, content_type }) => {
     const params = useParams();
-    const { list } = CONTENT_CONFIG[content_type].useCharacters(
-        String(params.slug),
+    const { list } = useInfiniteList(
+        contentCharactersOptions(content_type, String(params.slug)),
     );
 
     if (!list || list.length === 0) {

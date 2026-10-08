@@ -3,8 +3,12 @@ import type { FC } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
-import type { CollectionArgs } from '@hikka/api';
-import { createCollectionMutation, updateCollectionMutation } from '@hikka/api';
+import type { CollectionVisibilityEnum } from '@hikka/api';
+import {
+    API_LIMITS,
+    createCollectionMutation,
+    updateCollectionMutation,
+} from '@hikka/api';
 
 import MaterialSymbolsAddRounded from '@/components/icons/material-symbols/MaterialSymbolsAddRounded';
 import MaterialSymbolsRefreshRounded from '@/components/icons/material-symbols/MaterialSymbolsRefreshRounded';
@@ -31,38 +35,78 @@ import {
     TooltipContent,
     TooltipTrigger,
 } from '@/components/ui/tooltip';
-import { useCollectionContext } from '@/services/providers/collection-provider';
 import { invalidateCollections } from '@/utils/api/invalidate-content-state';
-import {
-    COLLECTION_CONTENT_TYPE_OPTIONS,
-    COLLECTION_VISIBILITY_OPTIONS,
-} from '@/utils/constants/common';
-import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
+import { CONTENT_TYPE_LINKS } from '@/utils/content-paths';
+import { COLLECTION_CONTENT_TYPE_OPTIONS } from '@/utils/labels';
 import { Link, useParams, useRouter } from '@/utils/navigation';
+import { isValidTitleLength } from '@/utils/title-length';
 
+import {
+    useCollectionContext,
+    useCollectionStore,
+} from '../collection-provider';
 import GroupInputs from './components/group-inputs';
+
+const COLLECTION_VISIBILITY_OPTIONS = [
+    {
+        value: 'public',
+        label: 'Публічна',
+    },
+    {
+        value: 'private',
+        label: 'Приватна',
+    },
+    {
+        value: 'unlisted',
+        label: 'Лише у профілі',
+    },
+] satisfies { value: CollectionVisibilityEnum; label: string }[];
 
 type Props = {
     mode?: 'create' | 'edit';
 };
 
-const CollectionSettings: FC<Props> = ({ mode = 'create' }) => {
+const TitleInput: FC = () => {
+    const title = useCollectionContext((state) => state.title);
+    const setTitle = useCollectionContext((state) => state.setTitle);
+
+    return (
+        <Input
+            placeholder="Введіть назву"
+            maxLength={API_LIMITS.collectionTitle.max}
+            value={title || ''}
+            onChange={(e) => setTitle(e.target.value)}
+        />
+    );
+};
+
+const CollectionEditSettings: FC<Props> = ({ mode = 'create' }) => {
     const router = useRouter();
     const params = useParams();
     const queryClient = useQueryClient();
+    const store = useCollectionStore();
 
-    const groups = useCollectionContext((state) => state.groups);
-    const title = useCollectionContext((state) => state.title);
+    const hasLabels = useCollectionContext((state) =>
+        state.groups.some((group) => group.title !== null),
+    );
+    const hasItems = useCollectionContext((state) =>
+        state.groups.some((group) => group.items.length > 0),
+    );
+    const canSubmit = useCollectionContext(
+        ({ title, description }) =>
+            isValidTitleLength(title, API_LIMITS.collectionTitle) &&
+            !!description &&
+            description.trim().length >= API_LIMITS.collectionDescription.min &&
+            description.length <= API_LIMITS.collectionDescription.max,
+    );
     const nsfw = useCollectionContext((state) => state.nsfw);
     const spoiler = useCollectionContext((state) => state.spoiler);
     const visibility = useCollectionContext((state) => state.visibility);
     const content_type = useCollectionContext((state) => state.content_type);
-    const description = useCollectionContext((state) => state.description);
     const tags = useCollectionContext((state) => state.tags);
     const getApiData = useCollectionContext((state) => state.getApiData);
 
     const addGroup = useCollectionContext((state) => state.addGroup);
-    const setTitle = useCollectionContext((state) => state.setTitle);
     const setTags = useCollectionContext((state) => state.setTags);
     const setContentType = useCollectionContext(
         (state) => state.setContentType,
@@ -90,7 +134,8 @@ const CollectionSettings: FC<Props> = ({ mode = 'create' }) => {
     const { mutate: mutateUpdateCollection, isPending: isUpdatePending } =
         useMutation({
             ...updateCollectionMutation(),
-            onSuccess: (_data) => {
+            onSuccess: (data, { body }) => {
+                store.getState().applySaved(body, data);
                 invalidateCollections(queryClient);
                 toast.success('Ви успішно оновили колекцію.');
             },
@@ -103,19 +148,12 @@ const CollectionSettings: FC<Props> = ({ mode = 'create' }) => {
                     <Label className="text-muted-foreground">
                         Назва колекції
                     </Label>
-                    <Input
-                        placeholder="Введіть назву"
-                        value={title || ''}
-                        onChange={(e) => setTitle(e.target.value)}
-                    />
+                    <TitleInput />
                 </div>
 
                 <div className="flex flex-col gap-4">
                     <Label className="text-muted-foreground">Групи</Label>
-                    {groups.length > 0 &&
-                        groups.some((group) => group.title !== null) && (
-                            <GroupInputs />
-                        )}
+                    {hasLabels && <GroupInputs />}
                     <Button variant="secondary" size="md" onClick={addGroup}>
                         Додати групу
                     </Button>
@@ -126,7 +164,7 @@ const CollectionSettings: FC<Props> = ({ mode = 'create' }) => {
                         Теги
                     </Label>
                     <InputTags
-                        disabled={tags.length === 3}
+                        disabled={tags.length === API_LIMITS.tags.max}
                         id="tags"
                         value={tags}
                         onChange={(tags) => setTags(tags as string[])}
@@ -142,7 +180,7 @@ const CollectionSettings: FC<Props> = ({ mode = 'create' }) => {
                             Тип
                         </Label>
                         <Select
-                            disabled={groups.some((g) => g.items.length > 0)}
+                            disabled={hasItems}
                             value={[content_type]}
                             onValueChange={(value) =>
                                 setContentType(
@@ -237,18 +275,12 @@ const CollectionSettings: FC<Props> = ({ mode = 'create' }) => {
                     <Button
                         size="md"
                         className="flex-1"
-                        disabled={
-                            isUpdatePending ||
-                            !title ||
-                            title.trim().length < 3 ||
-                            !description ||
-                            description.trim().length < 3
-                        }
+                        disabled={isUpdatePending || !canSubmit}
                         variant="default"
                         onClick={() =>
                             mutateUpdateCollection({
                                 path: { reference: String(params.reference) },
-                                body: getApiData() as CollectionArgs,
+                                body: getApiData(),
                             })
                         }
                     >
@@ -263,19 +295,12 @@ const CollectionSettings: FC<Props> = ({ mode = 'create' }) => {
                 {mode === 'create' && (
                     <Button
                         className="flex-1"
-                        disabled={
-                            isSuccess ||
-                            isCreatePending ||
-                            !title ||
-                            title.trim().length < 3 ||
-                            !description ||
-                            description.trim().length < 3
-                        }
+                        disabled={isSuccess || isCreatePending || !canSubmit}
                         size="md"
                         variant="default"
                         onClick={() =>
                             mutateCreateCollection({
-                                body: getApiData() as CollectionArgs,
+                                body: getApiData(),
                             })
                         }
                     >
@@ -313,4 +338,4 @@ const CollectionSettings: FC<Props> = ({ mode = 'create' }) => {
     );
 };
 
-export default CollectionSettings;
+export default CollectionEditSettings;

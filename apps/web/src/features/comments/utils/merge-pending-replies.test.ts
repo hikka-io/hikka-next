@@ -2,8 +2,7 @@ import { describe, expect, it } from 'vitest';
 
 import type { CommentResponse } from '@hikka/api';
 
-import type { PendingReply } from '@/services/providers/comments-provider';
-
+import type { PendingReply } from '../comments-provider';
 import { buildCommentTree } from './build-comment-tree';
 import { mergePendingReplies } from './merge-pending-replies';
 

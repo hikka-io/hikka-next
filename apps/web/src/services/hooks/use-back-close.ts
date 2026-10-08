@@ -2,7 +2,7 @@ import { useCallback, useEffect, useId, useRef } from 'react';
 
 import { useBlocker } from '@tanstack/react-router';
 
-import { useMediaQuery } from '@/services/hooks/use-media-query';
+import { useIsDesktop } from '@/services/hooks/use-media-query';
 
 /** Open modals, innermost last. */
 const openModals: string[] = [];
@@ -17,7 +17,7 @@ export function useBackClose(
     open: boolean | undefined,
     onOpenChange: ((open: boolean, ...rest: never[]) => void) | undefined,
 ) {
-    const isDesktop = useMediaQuery('(min-width: 768px)');
+    const isDesktop = useIsDesktop();
     const id = useId();
     const active = !isDesktop && open === true && !!onOpenChange;
 

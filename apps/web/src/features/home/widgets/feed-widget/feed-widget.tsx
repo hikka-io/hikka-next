@@ -3,12 +3,7 @@ import { type FC, useEffect, useMemo, useState } from 'react';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { useInView } from 'react-intersection-observer';
 
-import {
-    ContentTypeEnum,
-    type FeedArgs,
-    feedPageParam,
-    getFeedInfiniteOptions,
-} from '@hikka/api';
+import { ContentTypeEnum } from '@hikka/api';
 
 import MaterialSymbolsDynamicFeedRounded from '@/components/icons/material-symbols/MaterialSymbolsDynamicFeedRounded';
 import LoadMoreButton from '@/components/load-more-button';
@@ -17,12 +12,15 @@ import { Checkbox } from '@/components/ui/checkbox';
 import EmptyState from '@/components/ui/empty-state';
 import { Field, FieldLabel, FieldTitle } from '@/components/ui/field';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
-import { useSession } from '@/features/auth/hooks/use-session';
-import { useSessionUI } from '@/features/auth/hooks/use-session-ui';
-import { useUpdateSessionUI } from '@/features/auth/hooks/use-update-session-ui';
+import {
+    useSession,
+    useSessionUI,
+    useUpdateSessionUI,
+} from '@/services/session';
 import { cn } from '@/utils/cn';
 
-import type { WidgetProps } from '../../constants';
+import { buildFeedArgs, homeFeedOptions, isFeedDisabled } from '../../queries';
+import type { WidgetProps } from '../../types';
 import FeedItem, { type FeedItemResponse } from './components/feed-item';
 import FeedItemSkeleton from './components/feed-item-skeleton';
 import FeedQuickFilters from './components/feed-quick-filters';
@@ -79,40 +77,18 @@ const FeedWidget: FC<WidgetProps> = ({ isLast, side }) => {
         }
     };
 
-    const feedArgs = useMemo((): FeedArgs => {
-        const args: FeedArgs = {};
-
-        if (onlyFollowed) args.only_followed = true;
-
-        if (filters.feed_content_types !== null)
-            args.feed_content_types =
-                filters.feed_content_types as FeedArgs['feed_content_types'];
-        if (filters.comment_content_types?.length)
-            args.comment_content_types =
-                filters.comment_content_types as FeedArgs['comment_content_types'];
-        if (filters.article_content_types?.length)
-            args.article_content_types =
-                filters.article_content_types as FeedArgs['article_content_types'];
-        if (filters.article_categories?.length)
-            args.article_categories =
-                filters.article_categories as FeedArgs['article_categories'];
-        if (filters.collection_content_types?.length)
-            args.collection_content_types =
-                filters.collection_content_types as FeedArgs['collection_content_types'];
-        if (filters.review_content_types?.length)
-            args.review_content_types =
-                filters.review_content_types as FeedArgs['review_content_types'];
-
-        return args;
-    }, [onlyFollowed, filters]);
+    const feedArgs = useMemo(
+        () => buildFeedArgs(filters, onlyFollowed),
+        [onlyFollowed, filters],
+    );
 
     const { ref: feedRef, inView } = useInView();
 
-    const allSectionsDisabled = filters.feed_content_types?.length === 0;
+    const allSectionsDisabled = isFeedDisabled(filters);
 
+    // biome-ignore lint/plugin/no-raw-infinite-query: cursor pagination (feedPageParam); useInfiniteList assumes page numbers
     const feedQuery = useInfiniteQuery({
-        ...getFeedInfiniteOptions({ body: feedArgs }),
-        ...feedPageParam(),
+        ...homeFeedOptions(feedArgs),
         enabled: !allSectionsDisabled,
     });
     const {

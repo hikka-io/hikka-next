@@ -1,13 +1,15 @@
 import * as React from 'react';
 
+export const DEBOUNCE_MS = { input: 300, commit: 500 } as const;
+
 type DebounceProps<T> = {
     value: T;
     delay?: number;
 };
 
-const useDebounce = <T>({
+export const useDebounce = <T>({
     value,
-    delay = 500,
+    delay = DEBOUNCE_MS.commit,
 }: DebounceProps<T>): [T, React.Dispatch<React.SetStateAction<T>>] => {
     const [debouncedValue, setDebouncedValue] = React.useState<T>(value);
 
@@ -23,5 +25,3 @@ const useDebounce = <T>({
 
     return [debouncedValue, setDebouncedValue];
 };
-
-export default useDebounce;

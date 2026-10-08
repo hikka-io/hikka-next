@@ -2,11 +2,18 @@ import { createFileRoute } from '@tanstack/react-router';
 
 import { ContentTypeEnum } from '@hikka/api';
 
-import ContentHeader from '@/features/comments/content-header';
-import { Franchise } from '@/features/content';
+import { ContentSubpage, Franchise } from '@/features/content';
+import { loadContentTab } from '@/features/content/detail-route';
 import { generateHeadMeta } from '@/utils/metadata';
 
 export const Route = createFileRoute('/_pages/manga/$slug/franchise')({
+    loader: ({ params, context }) =>
+        loadContentTab(
+            ContentTypeEnum.MANGA,
+            'franchise',
+            params.slug,
+            context,
+        ),
     head: () =>
         generateHeadMeta({ title: "Пов'язане", robots: { index: false } }),
     component: MangaFranchisePage,
@@ -16,14 +23,8 @@ function MangaFranchisePage() {
     const { slug } = Route.useParams();
 
     return (
-        <div className="mx-auto flex w-full max-w-3xl flex-col gap-12 p-0">
-            <div className="flex flex-col gap-12">
-                <ContentHeader
-                    slug={slug}
-                    content_type={ContentTypeEnum.MANGA}
-                />
-                <Franchise content_type={ContentTypeEnum.MANGA} extended />
-            </div>
-        </div>
+        <ContentSubpage slug={slug} contentType={ContentTypeEnum.MANGA}>
+            <Franchise content_type={ContentTypeEnum.MANGA} extended />
+        </ContentSubpage>
     );
 }

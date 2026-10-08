@@ -1,7 +1,9 @@
+import { useQuery } from '@tanstack/react-query';
+
 import type { MainContentTypeEnum } from '@hikka/api';
 
 import DescriptionBlock from '@/components/description-block';
-import { CONTENT_CONFIG } from '@/utils/constants/common';
+import { contentInfoOptions } from '@/utils/api/content-queries';
 import { useParams } from '@/utils/navigation';
 
 type Props = {
@@ -9,9 +11,11 @@ type Props = {
     content_type: MainContentTypeEnum;
 };
 
-const Description = ({ className, content_type }: Props) => {
+const ContentDescription = ({ className, content_type }: Props) => {
     const params = useParams();
-    const { data } = CONTENT_CONFIG[content_type].useInfo(String(params.slug));
+    const { data } = useQuery(
+        contentInfoOptions(content_type, String(params.slug)),
+    );
 
     if (!data) {
         return null;
@@ -39,4 +43,4 @@ const Description = ({ className, content_type }: Props) => {
     );
 };
 
-export default Description;
+export default ContentDescription;

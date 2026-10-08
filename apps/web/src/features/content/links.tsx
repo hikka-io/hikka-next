@@ -1,38 +1,41 @@
 import { type FC, useState } from 'react';
 
+import { useQuery } from '@tanstack/react-query';
+
 import { ExternalTypeEnum, type MainContentTypeEnum } from '@hikka/api';
 
+import {
+    HorizontalCard,
+    HorizontalCardContainer,
+    HorizontalCardImage,
+    HorizontalCardTitle,
+} from '@/components/horizontal-card';
 import MaterialSymbolsInfoIRounded from '@/components/icons/material-symbols/MaterialSymbolsInfoIRounded';
 import MaterialSymbolsPlayArrowRounded from '@/components/icons/material-symbols/MaterialSymbolsPlayArrowRounded';
 import TextExpand from '@/components/text-expand';
 import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
-import {
-    HorizontalCard,
-    HorizontalCardContainer,
-    HorizontalCardImage,
-    HorizontalCardTitle,
-} from '@/components/ui/horizontal-card';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { useSession } from '@/features/auth/hooks/use-session';
-import { CONTENT_CONFIG } from '@/utils/constants/common';
+import { useSession } from '@/services/session';
+import { contentInfoOptions } from '@/utils/api/content-queries';
 import { useParams } from '@/utils/navigation';
-import { getPlatformIcon } from '@/utils/platform-icons';
+
+import { getPlatformIcon } from './platform-icons';
 
 type Props = {
     content_type: MainContentTypeEnum;
 };
 
-const Links: FC<Props> = ({ content_type }) => {
+const ContentLinks: FC<Props> = ({ content_type }) => {
     const [isExpanded, setIsExpanded] = useState(false);
     const [active, setActive] = useState<ExternalTypeEnum>(
         ExternalTypeEnum.GENERAL,
     );
     const { user } = useSession();
     const params = useParams();
-    const { data: content } = CONTENT_CONFIG[content_type].useInfo(
-        String(params.slug),
+    const { data: content } = useQuery(
+        contentInfoOptions(content_type, String(params.slug)),
     );
 
     if (!content) {
@@ -134,4 +137,4 @@ const Links: FC<Props> = ({ content_type }) => {
     );
 };
 
-export default Links;
+export default ContentLinks;

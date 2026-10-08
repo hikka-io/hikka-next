@@ -5,16 +5,18 @@ import { Star } from 'lucide-react';
 import {
     SliderField,
     type SliderFieldProps,
-} from '@/components/form/form-slider';
-import { useTypedAppFormContext } from '@/components/form/use-app-form';
+    useTypedAppFormContext,
+} from '@/components/form';
 import MaterialSymbolsStarRounded from '@/components/icons/material-symbols/MaterialSymbolsStarRounded';
 import { Label } from '@/components/ui/label';
 import { Slider } from '@/components/ui/slider';
+import { useRouteSearch } from '@/utils/navigation';
+import type { ContentFilterSearch } from '@/utils/search-schemas';
 
-import useChangeParam from './hooks/use-change-param';
-import { useFilterSearch } from './hooks/use-filter-search';
+import { SCORE_RANGE } from './filter-ranges';
+import { filterPresetFormOptions } from './presets/filter-preset-form';
+import { useChangeParam } from './use-change-param';
 
-const SCORE_RANGE: [number, number] = [1, 10];
 const DEFAULT_SCORE_MIN = SCORE_RANGE[0];
 const DEFAULT_SCORE_MAX = SCORE_RANGE[1];
 
@@ -24,8 +26,11 @@ type Props = {
 };
 
 const Score: FC<Props> = ({ score_type }) => {
-    const search = useFilterSearch<Record<string, unknown>>();
-    const scores = (search[score_type] as number[] | undefined) ?? [];
+    const search =
+        useRouteSearch<
+            Record<Props['score_type'], ContentFilterSearch['score']>
+        >();
+    const scores = search[score_type] ?? [];
 
     const [selectingScores, setSelectingScores] = useState<number[]>(
         scores.length > 0 ? scores : [DEFAULT_SCORE_MIN, DEFAULT_SCORE_MAX],
@@ -73,11 +78,10 @@ const Score: FC<Props> = ({ score_type }) => {
     );
 };
 
-export const FormScore: FC<Props & Partial<SliderFieldProps>> = ({
-    score_type,
-    ...props
-}) => {
-    const form = useTypedAppFormContext({ defaultValues: {} as never });
+export const FormScore: FC<
+    Partial<SliderFieldProps> & { score_type: 'score' }
+> = ({ score_type, ...props }) => {
+    const form = useTypedAppFormContext(filterPresetFormOptions);
     return (
         <div className="flex flex-col gap-2">
             <div className="flex items-center gap-2">
@@ -86,7 +90,7 @@ export const FormScore: FC<Props & Partial<SliderFieldProps>> = ({
 
             <div className="flex items-center gap-2">
                 <form.AppField
-                    name={score_type as never}
+                    name={score_type}
                     children={() => (
                         <SliderField
                             {...props}

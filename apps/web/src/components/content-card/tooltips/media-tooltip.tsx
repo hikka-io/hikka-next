@@ -4,31 +4,24 @@ import { useQuery } from '@tanstack/react-query';
 
 import {
     type AnimeInfoResponse,
-    animeSlugOptions,
     ContentTypeEnum,
     type MainContentTypeEnum,
     type MangaInfoResponse,
-    mangaInfoOptions,
     type NovelInfoResponse,
-    novelInfoOptions,
     type ReadContentTypeEnum,
     type ReadResponseBase,
     type WatchResponseBase,
 } from '@hikka/api';
 
 import {
-    ReadlistButton,
+    ReadListButton,
     TrackingButtonsGroup,
-    WatchlistButton,
-} from '@/components/action-buttons';
-import { useSession } from '@/features/auth/hooks/use-session';
-import { useTitle } from '@/features/auth/hooks/use-title';
-import {
-    ANIME_MEDIA_TYPE,
-    MANGA_MEDIA_TYPE,
-    NOVEL_MEDIA_TYPE,
-} from '@/utils/constants/common';
-import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
+    WatchListButton,
+} from '@/components/tracking';
+import { useSession, useTitle } from '@/services/session';
+import { contentInfoOptions } from '@/utils/api/content-queries';
+import { CONTENT_TYPE_LINKS } from '@/utils/content-paths';
+import { getMediaTypeLabel } from '@/utils/labels';
 
 import HoverCardWrapper from './hover-card-wrapper';
 import MediaTooltipContent, {
@@ -42,41 +35,6 @@ type MediaBody =
     | AnimeInfoResponse
     | MangaInfoResponse
     | NovelInfoResponse;
-
-/**
- * One query per type rather than one options record indexed by it: `useQuery`
- * cannot unify a union of the generated option objects, and gating each on the
- * type keeps them individually typed. Only the matching one ever runs.
- */
-function useMediaInfo(
-    type: MainContentTypeEnum,
-    slug: string,
-    enabled: boolean,
-): MediaBody | undefined {
-    const anime = useQuery({
-        ...animeSlugOptions({ path: { slug } }),
-        enabled: enabled && type === ContentTypeEnum.ANIME,
-    });
-    const manga = useQuery({
-        ...mangaInfoOptions({ path: { slug } }),
-        enabled: enabled && type === ContentTypeEnum.MANGA,
-    });
-    const novel = useQuery({
-        ...novelInfoOptions({ path: { slug } }),
-        enabled: enabled && type === ContentTypeEnum.NOVEL,
-    });
-
-    return anime.data ?? manga.data ?? novel.data;
-}
-
-const MEDIA_TYPE_MAP: Record<
-    MainContentTypeEnum,
-    Record<string, { title_ua: string }>
-> = {
-    [ContentTypeEnum.ANIME]: ANIME_MEDIA_TYPE,
-    [ContentTypeEnum.MANGA]: MANGA_MEDIA_TYPE,
-    [ContentTypeEnum.NOVEL]: NOVEL_MEDIA_TYPE,
-};
 
 function progressRows(data: MediaBody): MediaTooltipRow[] {
     if (data.data_type === 'anime') {
@@ -112,27 +70,24 @@ function progressRows(data: MediaBody): MediaTooltipRow[] {
  */
 const WatchAction: FC<{
     slug: string;
-    title: string;
     item?: MediaTooltipItemOf<'anime'>;
     content?: AnimeInfoResponse | MediaTooltipItemOf<'anime'>;
     watch?: WatchResponseBase | null;
-}> = ({ slug, title, item, content, watch }) =>
+}> = ({ slug, item, content, watch }) =>
     item && ('watch' in item || watch !== undefined) ? (
         <TrackingButtonsGroup
-            title={title}
             size="default"
             type={ContentTypeEnum.ANIME}
             item={item}
             watch={watch}
         />
     ) : (
-        <WatchlistButton slug={slug} watch={watch} anime={content} />
+        <WatchListButton slug={slug} watch={watch} anime={content} />
     );
 
 const ReadAction: FC<{
     type: ReadContentTypeEnum;
     slug: string;
-    title: string;
     item?: MediaTooltipItemOf<'manga'> | MediaTooltipItemOf<'novel'>;
     content?:
         | MangaInfoResponse
@@ -140,11 +95,10 @@ const ReadAction: FC<{
         | MediaTooltipItemOf<'manga'>
         | MediaTooltipItemOf<'novel'>;
     read?: ReadResponseBase | null;
-}> = ({ type, slug, title, item, content, read }) => {
+}> = ({ type, slug, item, content, read }) => {
     if (item && ('read' in item || read !== undefined)) {
         return item.data_type === 'manga' ? (
             <TrackingButtonsGroup
-                title={title}
                 size="default"
                 type={ContentTypeEnum.MANGA}
                 item={item}
@@ -152,7 +106,6 @@ const ReadAction: FC<{
             />
         ) : (
             <TrackingButtonsGroup
-                title={title}
                 size="default"
                 type={ContentTypeEnum.NOVEL}
                 item={item}
@@ -162,7 +115,7 @@ const ReadAction: FC<{
     }
 
     return (
-        <ReadlistButton
+        <ReadListButton
             slug={slug}
             content_type={type}
             read={read}
@@ -187,12 +140,15 @@ const MediaTooltipData: FC<TooltipDataProps> = ({
     item,
 }) => {
     const { user: loggedUser } = useSession();
-    const fetched = useMediaInfo(type, slug, !item);
+    const { data: fetched } = useQuery({
+        ...contentInfoOptions(type, slug),
+        enabled: !item,
+    });
     const data: MediaBody | undefined = item ?? fetched;
     const title = useTitle(data);
 
     if (!data) {
-        return <MediaTooltipSkeleton />;
+        return <MediaTooltipSkeleton withAction={Boolean(loggedUser)} />;
     }
 
     return (
@@ -204,11 +160,7 @@ const MediaTooltipData: FC<TooltipDataProps> = ({
             native_scored_by={data.native_scored_by}
             synopsis_ua={data.synopsis_ua}
             synopsis_en={data.synopsis_en}
-            media_type_label={
-                data.media_type
-                    ? MEDIA_TYPE_MAP[type][data.media_type]?.title_ua
-                    : null
-            }
+            media_type_label={getMediaTypeLabel(data.media_type)}
             status={data.status}
             genres={data.genres}
             genreBasePath={CONTENT_TYPE_LINKS[type]}
@@ -218,7 +170,6 @@ const MediaTooltipData: FC<TooltipDataProps> = ({
                     type === ContentTypeEnum.ANIME ? (
                         <WatchAction
                             slug={slug}
-                            title={title}
                             item={
                                 item?.data_type === 'anime' ? item : undefined
                             }
@@ -231,7 +182,6 @@ const MediaTooltipData: FC<TooltipDataProps> = ({
                         <ReadAction
                             type={type}
                             slug={slug}
-                            title={title}
                             item={
                                 item?.data_type === 'anime' ? undefined : item
                             }

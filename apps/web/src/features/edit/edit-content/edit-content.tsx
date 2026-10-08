@@ -10,11 +10,11 @@ import {
     HeaderNavButton,
     HeaderTitle,
 } from '@/components/ui/header';
-import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
+import { contentPath } from '@/utils/content-paths';
 
 import type { EditMainContent } from '../types';
-import Details from './components/details';
-import General from './components/general';
+import EditContentDetails from './edit-content-details';
+import EditContentGeneral from './edit-content-general';
 
 type Props = {
     slug: string;
@@ -27,7 +27,7 @@ const EditContent: FC<Props> = ({ slug, content_type, content }) => {
         return null;
     }
 
-    const link = `${CONTENT_TYPE_LINKS[content_type]}/${slug}`;
+    const link = contentPath(content_type, slug);
 
     return (
         <Card className="p-0">
@@ -43,13 +43,13 @@ const EditContent: FC<Props> = ({ slug, content_type, content }) => {
                     <HeaderNavButton />
                 </Header>
                 <div className="flex flex-col gap-4 px-4">
-                    <General
+                    <EditContentGeneral
                         content={content}
                         content_type={content_type}
                         slug={slug}
                     />
                     <div className="border-border border-t" />
-                    <Details content={content} />
+                    <EditContentDetails content={content} />
                 </div>
             </Block>
         </Card>

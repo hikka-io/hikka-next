@@ -3,9 +3,10 @@ import type { FC } from 'react';
 import type { MainContentTypeEnum } from '@hikka/api';
 
 import LoadMoreButton from '@/components/load-more-button';
-import { CONTENT_CONFIG } from '@/utils/constants/common';
+import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { useParams } from '@/utils/navigation';
 
+import { contentCharactersOptions } from '../queries';
 import MainCharacters from './components/main-characters';
 import OtherCharacters from './components/other-characters';
 
@@ -14,10 +15,12 @@ type Props = {
     content_type: MainContentTypeEnum;
 };
 
-const Characters: FC<Props> = ({ extended, content_type }) => {
+const ContentCharacters: FC<Props> = ({ extended, content_type }) => {
     const params = useParams();
     const { fetchNextPage, hasNextPage, isFetchingNextPage, ref } =
-        CONTENT_CONFIG[content_type].useCharacters(String(params.slug));
+        useInfiniteList(
+            contentCharactersOptions(content_type, String(params.slug)),
+        );
 
     return (
         <div className="flex flex-col gap-12" id="content-characters">
@@ -39,4 +42,4 @@ const Characters: FC<Props> = ({ extended, content_type }) => {
     );
 };
 
-export default Characters;
+export default ContentCharacters;

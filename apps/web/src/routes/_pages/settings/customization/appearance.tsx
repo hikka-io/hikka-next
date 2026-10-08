@@ -1,32 +1,27 @@
 import { createFileRoute } from '@tanstack/react-router';
 
-import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
-import { Styles, StylesResetButton } from '@/features/settings';
+import {
+    AppearanceResetButton,
+    AppearanceSettings,
+    SettingsPage,
+    settingsHead,
+} from '@/features/settings';
 
 export const Route = createFileRoute(
     '/_pages/settings/customization/appearance',
 )({
-    head: () => ({
-        meta: [{ title: 'Вигляд / Кастомізація / Hikka' }],
-    }),
+    head: () => settingsHead('Вигляд', 'Кастомізація'),
     component: CustomizationAppearancePage,
 });
 
 function CustomizationAppearancePage() {
     return (
-        <div className="flex flex-col gap-8">
-            <div className="flex flex-col">
-                <Header>
-                    <HeaderContainer>
-                        <HeaderTitle>Вигляд</HeaderTitle>
-                    </HeaderContainer>
-                    <StylesResetButton />
-                </Header>
-                <p className="text-muted-foreground text-sm">
-                    Налаштуйте теми, кольори та відображення
-                </p>
-            </div>
-            <Styles />
-        </div>
+        <SettingsPage
+            title="Вигляд"
+            description="Налаштуйте теми, кольори та відображення"
+            trailingAction={<AppearanceResetButton />}
+        >
+            <AppearanceSettings />
+        </SettingsPage>
     );
 }

@@ -4,7 +4,6 @@ import {
     type FavouriteContentTypeEnum,
     favouriteAddMutation,
     favouriteDeleteMutation,
-    getFavouriteOptions,
 } from '@hikka/api';
 
 import { MaterialSymbolsFavoriteOutlineRounded } from '@/components/icons/material-symbols/MaterialSymbolsFavoriteOutlineRounded';
@@ -15,6 +14,7 @@ import {
     TooltipContent,
     TooltipTrigger,
 } from '@/components/ui/tooltip';
+import { favouriteEntryOptions } from '@/utils/api/content-queries';
 import {
     applyFavouriteDeletion,
     applyFavouriteMutation,
@@ -36,8 +36,7 @@ const FavoriteButton = ({
     const queryClient = useQueryClient();
 
     const { data: favorite, isError: favoriteError } = useQuery({
-        ...getFavouriteOptions({ path: { content_type, slug } }),
-        retry: false,
+        ...favouriteEntryOptions(content_type, slug),
         // Logged-out users (disabled) would just 401 on this authenticated query.
         enabled: !disabled,
     });
@@ -56,7 +55,8 @@ const FavoriteButton = ({
                 applyFavouriteDeletion(queryClient, content_type, slug),
         });
 
-    const isFavorite = Boolean(favorite) && !favoriteError;
+    const isFavorite = Boolean(favorite);
+    const favoriteUnreadable = favorite === undefined && favoriteError;
 
     return (
         <Tooltip delay={0}>
@@ -67,6 +67,7 @@ const FavoriteButton = ({
                         size="icon-md"
                         disabled={
                             disabled ||
+                            favoriteUnreadable ||
                             addToFavoriteLoading ||
                             deleteFromFavoriteLoading
                         }

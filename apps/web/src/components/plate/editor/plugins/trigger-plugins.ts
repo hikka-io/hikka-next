@@ -1,3 +1,5 @@
+import { isServer } from '@/utils/is-server';
+
 import {
     CONTENT_SEARCH_INPUT_KEY,
     CONTENT_SEARCH_KEY,
@@ -12,8 +14,7 @@ const TRIGGER_KEYS = new Set<string>([
 ]);
 
 const isTouchDevice = () =>
-    typeof window !== 'undefined' &&
-    window.matchMedia('(pointer: coarse)').matches;
+    !isServer() && window.matchMedia('(pointer: coarse)').matches;
 
 /**
  * The `@`/`#` triggers put the query in an input of their own, and focusing it

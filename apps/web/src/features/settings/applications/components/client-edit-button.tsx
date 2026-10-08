@@ -8,7 +8,7 @@ import {
     ResponsiveModal,
     ResponsiveModalContent,
 } from '@/components/ui/responsive-modal';
-import { useSession } from '@/features/auth/hooks/use-session';
+import { useSession } from '@/services/session';
 
 import ClientEditModal from '../client-edit-modal';
 

@@ -5,10 +5,10 @@ import { ContentTypeEnum } from '@hikka/api';
 import Card from '@/components/ui/card';
 import { Header, HeaderTitle } from '@/components/ui/header';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { useSession } from '@/features/auth/hooks/use-session';
-import { ListTabContent } from '@/features/users/profile/user-list-stats';
+import { ListTabContent } from '@/features/users';
+import { useSession } from '@/services/session';
 
-import type { WidgetProps } from '../constants';
+import type { WidgetProps } from '../types';
 
 // @hikka/api has no CommonContentType enum; this local union covers the content types this widget handles.
 type CommonContentType =

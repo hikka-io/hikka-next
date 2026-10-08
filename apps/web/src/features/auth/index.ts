@@ -1,9 +1,6 @@
 export { default as ForgotPasswordForm } from './forgot-password-form';
 export { default as ForgotPasswordHeader } from './forgot-password-header';
-export { useSession } from './hooks/use-session';
-export { useSessionUI } from './hooks/use-session-ui';
-export { useTitle } from './hooks/use-title';
-export { useUpdateSessionUI } from './hooks/use-update-session-ui';
+export { default as LoginButton } from './login-button';
 export { default as LoginForm } from './login-form';
 export { default as LoginHeader } from './login-header';
 export { default as PasswordConfirmForm } from './password-confirm-form';

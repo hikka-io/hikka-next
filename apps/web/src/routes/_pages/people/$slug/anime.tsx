@@ -2,11 +2,14 @@ import { createFileRoute } from '@tanstack/react-router';
 
 import { ContentTypeEnum } from '@hikka/api';
 
-import ContentHeader from '@/features/comments/content-header';
-import { PersonAnime as Anime } from '@/features/entities';
+import { ContentSubpage } from '@/features/content';
+import { PersonAnime } from '@/features/entities';
+import { loadEntityTab } from '@/features/entities/queries';
 import { generateHeadMeta } from '@/utils/metadata';
 
 export const Route = createFileRoute('/_pages/people/$slug/anime')({
+    loader: ({ params, context }) =>
+        loadEntityTab(ContentTypeEnum.PERSON, 'anime', params.slug, context),
     head: () => generateHeadMeta({ title: 'Аніме', robots: { index: false } }),
     component: PersonAnimePage,
 });
@@ -15,14 +18,8 @@ function PersonAnimePage() {
     const { slug } = Route.useParams();
 
     return (
-        <div className="mx-auto flex w-full max-w-3xl flex-col gap-12 p-0">
-            <div className="flex flex-col gap-12">
-                <ContentHeader
-                    slug={slug}
-                    content_type={ContentTypeEnum.PERSON}
-                />
-                <Anime extended />
-            </div>
-        </div>
+        <ContentSubpage slug={slug} contentType={ContentTypeEnum.PERSON}>
+            <PersonAnime extended />
+        </ContentSubpage>
     );
 }

@@ -1,11 +1,11 @@
-import { PlateMarkdownEditor } from '@/components/plate/editor/plate-editor';
+import { PlateMarkdownEditor } from '@/components/plate/editor/markdown-editor';
+import RulesAlert from '@/components/rules-alert';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
-import { useCollectionContext } from '@/services/providers/collection-provider';
 import { useParams } from '@/utils/navigation';
 
-import RulesAlert from './collection-rules-alert';
+import { useCollectionContext } from './collection-provider';
 
-const CollectionTitle = () => {
+const CollectionEditTitle = () => {
     const { reference } = useParams();
 
     const title = useCollectionContext((state) => state.title);
@@ -24,7 +24,12 @@ const CollectionTitle = () => {
                     </HeaderTitle>
                 </HeaderContainer>
             </Header>
-            <RulesAlert />
+            <RulesAlert
+                rulesFile="COLLECTION_RULES.md"
+                before="Перш ніж створювати колекції, рекомендуємо ознайомитись з"
+                after="створення колекцій."
+                modalTitle="Правила колекцій"
+            />
             {((reference && description !== undefined) || !reference) && (
                 <PlateMarkdownEditor
                     onValueChange={setDescription}
@@ -39,4 +44,4 @@ const CollectionTitle = () => {
     );
 };
 
-export default CollectionTitle;
+export default CollectionEditTitle;

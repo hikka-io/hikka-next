@@ -1,13 +1,20 @@
 import { SeasonEnum } from '@hikka/api';
 
-import { SEASON } from './constants/common';
+const SEASON_MONTHS: Record<SeasonEnum, number[]> = {
+    winter: [1, 2, 3],
+    spring: [4, 5, 6],
+    summer: [7, 8, 9],
+    fall: [10, 11, 12],
+};
+
+export const DATE_RANGE: [number, number] = [-4, 4];
 
 export function getCurrentSeason() {
     const adjustedDate = new Date();
     adjustedDate.setDate(adjustedDate.getDate() - 1);
     const currentMonth = adjustedDate.getMonth() + 1;
-    return (Object.keys(SEASON) as Array<keyof typeof SEASON>).find((s) =>
-        SEASON[s].params!.months.includes(currentMonth),
+    return (Object.keys(SEASON_MONTHS) as SeasonEnum[]).find((s) =>
+        SEASON_MONTHS[s].includes(currentMonth),
     );
 }
 
@@ -17,16 +24,16 @@ export function getCurrentSeason() {
  * @returns [season, year] tuple
  */
 export function getSeasonByOffset(offset: number): [SeasonEnum, number] {
-    offset = Math.max(-4, Math.min(4, offset));
+    offset = Math.max(DATE_RANGE[0], Math.min(DATE_RANGE[1], offset));
 
     const adjustedDate = new Date();
     adjustedDate.setDate(adjustedDate.getDate() - 7);
     const currentMonth = adjustedDate.getMonth() + 1;
     const currentYear = adjustedDate.getFullYear();
 
-    const currentSeason = (
-        Object.keys(SEASON) as Array<keyof typeof SEASON>
-    ).find((s) => SEASON[s].params!.months.includes(currentMonth));
+    const currentSeason = (Object.keys(SEASON_MONTHS) as SeasonEnum[]).find(
+        (s) => SEASON_MONTHS[s].includes(currentMonth),
+    );
 
     if (!currentSeason) {
         throw new Error('Could not determine current season');

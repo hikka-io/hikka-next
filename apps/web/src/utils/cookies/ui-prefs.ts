@@ -1,11 +1,13 @@
+import { COOKIE } from './constants';
 import { writeHostCookie } from './ui-cookie';
 
-export const UI_PREFS_COOKIE = 'ui-prefs';
-export const UI_PREFS_MAX_AGE = 60 * 60 * 24 * 365; // 1 year
+export type View = 'table' | 'grid' | 'list';
+
+export const CATALOG_FILTERS_SIDEBAR_KEY = 'catalog_filters_sidebar';
 
 export type UiPreferences = {
     /** View preferences by context key (e.g., 'catalog', 'userlist', 'franchise') */
-    views: Record<string, Hikka.View>;
+    views: Record<string, View>;
     /** Filter preferences by context key (e.g., 'franchiseContentTypes') */
     filters: Record<string, string[]>;
     /** Collapsible state by context key (e.g., 'catalog_filters_sidebar') */
@@ -27,7 +29,7 @@ export function parseUiPrefs(
 
         return {
             views: isRecord(parsed.views)
-                ? (parsed.views as Record<string, Hikka.View>)
+                ? (parsed.views as Record<string, View>)
                 : {},
             filters: isRecord(parsed.filters)
                 ? (parsed.filters as Record<string, string[]>)
@@ -43,5 +45,5 @@ export function parseUiPrefs(
 
 /** Host-only write; the browser is the sole writer, see `ui-cookie.ts`. */
 export function writeUiPrefsCookie(value: UiPreferences) {
-    writeHostCookie(UI_PREFS_COOKIE, JSON.stringify(value), UI_PREFS_MAX_AGE);
+    writeHostCookie(COOKIE.uiPrefs, JSON.stringify(value));
 }

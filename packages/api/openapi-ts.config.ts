@@ -5,6 +5,9 @@ import { transformSpec } from './scripts/transform-spec';
 const SPEC_URL =
     process.env.HIKKA_OPENAPI_URL ?? 'https://api.hikka.io/openapi.json';
 
+const TIMESTAMP_DATE_SCHEMAS = new Set(['WatchArgs', 'ReadArgs']);
+const TIMESTAMP_DATE_FIELDS = ['start_date', 'end_date'] as const;
+
 /**
  * Hikka list/search endpoints are POST (filters in the body, `page`/`size` in
  * the query) but are semantically queries. hey-api defaults POST -> mutation,
@@ -50,6 +53,21 @@ export default defineConfig({
                     spec as unknown as Parameters<typeof transformSpec>[0],
                 );
             },
+            // The API takes these list dates as Unix timestamps; the spec mistypes them as date-time strings.
+            schemas: (name, schema) => {
+                if (!TIMESTAMP_DATE_SCHEMAS.has(name)) return;
+
+                for (const field of TIMESTAMP_DATE_FIELDS) {
+                    const property = schema.properties?.[field];
+
+                    if (typeof property === 'object' && 'anyOf' in property) {
+                        property.anyOf = [
+                            { type: 'integer' },
+                            { type: 'null' },
+                        ];
+                    }
+                }
+            },
         },
         hooks: {
             operations: {
@@ -62,9 +80,28 @@ export default defineConfig({
     },
     plugins: [
         { name: '@hey-api/client-fetch', baseUrl: false },
-        { name: '@hey-api/typescript', enums: 'javascript' },
+        {
+            name: '@hey-api/typescript',
+            enums: 'javascript',
+            // Each member already declares its `data_type` literal; skip the `{ data_type } &` wrapper a discriminator adds.
+            $resolvers: {
+                union: ({ $, childResults, parentSchema }) =>
+                    parentSchema.discriminator
+                        ? $.type.or(...childResults.map((r) => r.type))
+                        : undefined,
+            },
+        },
         { name: '@hey-api/sdk', validator: { response: 'zod' } },
-        'zod',
+        {
+            name: 'zod',
+            // Zod 3 parseAsync runs every union branch and allocates a promise per node; no schema is async.
+            $resolvers: {
+                validator: {
+                    response: ({ $, symbols }) =>
+                        $(symbols.schema).attr('parse').call('data').return(),
+                },
+            },
+        },
         {
             name: '@tanstack/react-query',
             queryOptions: true,

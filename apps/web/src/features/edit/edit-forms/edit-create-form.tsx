@@ -2,17 +2,20 @@ import type { FC } from 'react';
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { createEditMutation, type EditContentTypeEnum } from '@hikka/api';
+import {
+    createEditMutation,
+    type EditContentTypeEnum,
+    EditStatusEnum,
+} from '@hikka/api';
 
-import { useAppForm } from '@/components/form/use-app-form';
-import { Button } from '@/components/ui/button';
-import Spinner from '@/components/ui/spinner';
+import { SubmitButton, useAppForm } from '@/components/form';
 import { invalidateEdits } from '@/utils/api/invalidate-content-state';
 import { useRouter } from '@/utils/navigation';
 
 import type { EditMainContent } from '../types';
+import { useRefreshEditedContent } from '../use-refresh-edited-content';
 import AutoButton from './components/auto-button';
-import EditFormFields from './components/edit-form-fields';
+import EditFormFields from './edit-form-fields';
 import {
     getEditFormDefaults,
     getEditGroups,
@@ -20,7 +23,7 @@ import {
     getEditParams,
     getFilteredEditParams,
     isNativeTitleMissing,
-} from './utils/edit-param-utils';
+} from './params/edit-param-utils';
 
 type Props = {
     slug: string;
@@ -29,7 +32,7 @@ type Props = {
     content: EditMainContent;
 };
 
-const EditForm: FC<Props> = ({
+const EditCreateForm: FC<Props> = ({
     slug,
     content_type,
     content,
@@ -37,6 +40,7 @@ const EditForm: FC<Props> = ({
 }) => {
     const router = useRouter();
     const queryClient = useQueryClient();
+    const refreshEditedContent = useRefreshEditedContent();
 
     const params = getEditParams(content_type)!;
     const groups = getEditGroups(content_type)!;
@@ -52,6 +56,9 @@ const EditForm: FC<Props> = ({
         ...createEditMutation(),
         onSuccess: (data) => {
             invalidateEdits(queryClient);
+            if (data.status === EditStatusEnum.ACCEPTED) {
+                refreshEditedContent(slug);
+            }
             onDismiss(data.edit_id);
         },
     });
@@ -77,14 +84,7 @@ const EditForm: FC<Props> = ({
 
     return (
         <form.AppForm>
-            <form
-                onSubmit={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    form.handleSubmit();
-                }}
-                className="flex flex-col gap-6"
-            >
+            <form.Form className="flex flex-col gap-6">
                 <EditFormFields
                     params={params}
                     groups={groups}
@@ -94,20 +94,18 @@ const EditForm: FC<Props> = ({
                 />
                 {mode === 'edit' && (
                     <div className="flex items-center gap-2">
-                        <Button
-                            disabled={mutationAddEdit.isPending}
-                            type="submit"
+                        <SubmitButton
+                            loading={mutationAddEdit.isPending}
                             className="w-fit"
                         >
-                            {mutationAddEdit.isPending && <Spinner />}
                             Створити
-                        </Button>
+                        </SubmitButton>
                         <AutoButton />
                     </div>
                 )}
-            </form>
+            </form.Form>
         </form.AppForm>
     );
 };
 
-export default EditForm;
+export default EditCreateForm;

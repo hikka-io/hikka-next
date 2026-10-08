@@ -10,10 +10,10 @@ import {
     personVoicesOptions,
 } from '@hikka/api';
 
-import { useTitle } from '@/features/auth/hooks/use-title';
+import MaterialSymbolsMoreHoriz from '@/components/icons/material-symbols/MaterialSymbolsMoreHoriz';
+import { MDViewer } from '@/components/markdown';
+import { useTitle } from '@/services/session';
 
-import MaterialSymbolsMoreHoriz from '../../icons/material-symbols/MaterialSymbolsMoreHoriz';
-import MDViewer from '../../markdown/viewer/md-viewer';
 import { contentEntity } from '../entity';
 import EntityCard from '../entity-card';
 import PosterCard from '../poster-card';

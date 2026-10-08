@@ -1,9 +1,11 @@
 import { type ComponentPropsWithoutRef, type FC, useRef } from 'react';
 
-import { ImagePresetContext } from '@/components/content-card/image-preset-context';
+import {
+    type ImagePreset,
+    ImagePresetContext,
+} from '@/components/ui/image-preset-context';
 import { useScrollGradientMask } from '@/services/hooks/use-scroll-position';
 import { cn } from '@/utils/cn';
-import type { ImagePreset } from '@/utils/constants/image-presets';
 
 export type StackSize = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
 

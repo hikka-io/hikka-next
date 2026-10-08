@@ -6,7 +6,7 @@ import {
     type PersonResponse,
 } from '@hikka/api';
 
-import { useTitle } from '@/features/auth/hooks/use-title';
+import { useTitle } from '@/services/session';
 
 import CardOverlay from './card-overlay';
 import EntityCard, { type EntityCardProps } from './entity-card';

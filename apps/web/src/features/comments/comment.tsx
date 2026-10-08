@@ -2,23 +2,24 @@ import { type FC, useMemo, useState } from 'react';
 
 import { CirclePlus } from 'lucide-react';
 
-import type { CommentContentTypeEnum as CommentsContentType } from '@hikka/api';
+import type { CommentContentTypeEnum } from '@hikka/api';
 
-import MDViewer from '@/components/markdown/viewer/md-viewer';
+import { HorizontalCardImage } from '@/components/horizontal-card';
+import { MDViewer } from '@/components/markdown';
 import TextExpand from '@/components/text-expand';
-import { HorizontalCardImage } from '@/components/ui/horizontal-card';
 import Spinner from '@/components/ui/spinner';
 import { StatItem } from '@/components/ui/stat-item';
-import { useSession } from '@/features/auth/hooks/use-session';
-import { useCommentsContext } from '@/services/providers/comments-provider';
+import { useSession } from '@/services/session';
 import { cn } from '@/utils/cn';
 import { getDeclensionWord } from '@/utils/i18n/declension';
+import { REPLY_FORMS } from '@/utils/i18n/word-forms';
 
 import CommentFooter from './comment-footer';
 import CommentHeader from './comment-header';
 import CommentInput from './comment-input';
-import Comments from './comments';
-import { useCommentThread } from './hooks';
+import CommentTree from './comment-tree';
+import { useCommentsContext } from './comments-provider';
+import { useCommentThread } from './use-comment-thread';
 import {
     buildCommentTree,
     type CommentNode,
@@ -30,7 +31,7 @@ import { mergePendingReplies } from './utils/merge-pending-replies';
 type Props = {
     comment: CommentNode;
     slug: string;
-    content_type: CommentsContentType;
+    content_type: CommentContentTypeEnum;
     contentTitle?: string;
 };
 
@@ -210,11 +211,7 @@ const Comment: FC<Props> = ({ comment, slug, content_type, contentTitle }) => {
                                     <CirclePlus />
                                 )}
                                 {replyCount}{' '}
-                                {getDeclensionWord(replyCount, [
-                                    'відповідь',
-                                    'відповіді',
-                                    'відповідей',
-                                ])}
+                                {getDeclensionWord(replyCount, REPLY_FORMS)}
                             </StatItem>
                         </div>
                     )}
@@ -223,7 +220,7 @@ const Comment: FC<Props> = ({ comment, slug, content_type, contentTitle }) => {
 
             {expand && hasReplies && (
                 <div className="mt-6 ml-4">
-                    <Comments
+                    <CommentTree
                         slug={slug}
                         content_type={content_type}
                         contentTitle={contentTitle}

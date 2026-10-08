@@ -9,11 +9,7 @@ import {
     serviceUserStatsOptions,
 } from '@hikka/api';
 
-import MaterialSymbolsAnimatedImages from '@/components/icons/material-symbols/MaterialSymbolsAnimatedImages';
-import MaterialSymbolsFace3 from '@/components/icons/material-symbols/MaterialSymbolsFace3';
-import MaterialSymbolsMenuBookRounded from '@/components/icons/material-symbols/MaterialSymbolsMenuBookRounded';
-import MaterialSymbolsPalette from '@/components/icons/material-symbols/MaterialSymbolsPalette';
-import MaterialSymbolsPerson from '@/components/icons/material-symbols/MaterialSymbolsPerson';
+import { CONTENT_TYPE_ICONS } from '@/components/icons/content-type-icons';
 import MaterialSymbolsStack from '@/components/icons/material-symbols/MaterialSymbolsStack';
 import Block from '@/components/ui/block';
 import { type ChipTabOption, ChipTabs } from '@/components/ui/chip-tabs';
@@ -24,46 +20,42 @@ import {
     HeaderNavButton,
     HeaderTitle,
 } from '@/components/ui/header';
-import { useSession } from '@/features/auth/hooks/use-session';
+import { useSession } from '@/services/session';
+import { CONTENT_TYPES } from '@/utils/labels';
 import { useParams } from '@/utils/navigation';
 
-import Anime from './components/favorite-anime';
-import Character from './components/favorite-characters';
-import Collections from './components/favorite-collections';
-import Manga from './components/favorite-manga';
-import Novel from './components/favorite-novel';
-import People from './components/favorite-people';
+import FavoriteSection from './components/favorite-section';
 
 const CONTENT_OPTIONS: ChipTabOption<FavouriteContentTypeEnum>[] = [
     {
-        label: 'Аніме',
+        label: CONTENT_TYPES[ContentTypeEnum.ANIME].plural,
         value: ContentTypeEnum.ANIME,
-        icon: MaterialSymbolsAnimatedImages,
+        icon: CONTENT_TYPE_ICONS[ContentTypeEnum.ANIME],
     },
     {
-        label: 'Манґа',
+        label: CONTENT_TYPES[ContentTypeEnum.MANGA].plural,
         value: ContentTypeEnum.MANGA,
-        icon: MaterialSymbolsPalette,
+        icon: CONTENT_TYPE_ICONS[ContentTypeEnum.MANGA],
     },
     {
-        label: 'Ранобе',
+        label: CONTENT_TYPES[ContentTypeEnum.NOVEL].plural,
         value: ContentTypeEnum.NOVEL,
-        icon: MaterialSymbolsMenuBookRounded,
+        icon: CONTENT_TYPE_ICONS[ContentTypeEnum.NOVEL],
     },
     {
-        label: 'Персонажі',
+        label: CONTENT_TYPES[ContentTypeEnum.CHARACTER].plural,
         value: ContentTypeEnum.CHARACTER,
-        icon: MaterialSymbolsFace3,
+        icon: CONTENT_TYPE_ICONS[ContentTypeEnum.CHARACTER],
     },
     {
-        label: 'Люди',
+        label: CONTENT_TYPES[ContentTypeEnum.PERSON].plural,
         value: ContentTypeEnum.PERSON,
-        icon: MaterialSymbolsPerson,
+        icon: CONTENT_TYPE_ICONS[ContentTypeEnum.PERSON],
     },
     {
-        label: 'Колекції',
+        label: CONTENT_TYPES[ContentTypeEnum.COLLECTION].plural,
         value: ContentTypeEnum.COLLECTION,
-        icon: MaterialSymbolsStack,
+        icon: CONTENT_TYPE_ICONS[ContentTypeEnum.COLLECTION],
     },
 ];
 
@@ -72,19 +64,18 @@ type Props = {
     type?: FavouriteContentTypeEnum;
 };
 
-const Favorites: FC<Props> = ({ extended, type }) => {
+const UserFavorites: FC<Props> = ({ extended, type }) => {
     const [content, setContent] = useState<FavouriteContentTypeEnum>(
         type ?? ContentTypeEnum.ANIME,
     );
     const params = useParams();
     const navigate = useNavigate();
 
-    const { data: stats } = useQuery({
-        ...serviceUserStatsOptions({
+    const { data: stats } = useQuery(
+        serviceUserStatsOptions({
             path: { username: String(params.username) },
         }),
-        enabled: !!params.username,
-    });
+    );
 
     const { user: loggedUser } = useSession();
     const isOwner =
@@ -118,25 +109,6 @@ const Favorites: FC<Props> = ({ extended, type }) => {
                 search: { type: value },
                 replace: true,
             });
-        }
-    };
-
-    const getComponent = () => {
-        switch (activeContent) {
-            case ContentTypeEnum.ANIME:
-                return <Anime extended={extended} />;
-            case ContentTypeEnum.CHARACTER:
-                return <Character extended={extended} />;
-            case ContentTypeEnum.MANGA:
-                return <Manga extended={extended} />;
-            case ContentTypeEnum.NOVEL:
-                return <Novel extended={extended} />;
-            case ContentTypeEnum.PERSON:
-                return <People extended={extended} />;
-            case ContentTypeEnum.COLLECTION:
-                return <Collections extended={extended} />;
-            default:
-                return null;
         }
     };
 
@@ -178,9 +150,14 @@ const Favorites: FC<Props> = ({ extended, type }) => {
                 value={activeContent}
                 onValueChange={handleContentChange}
             />
-            {getComponent()}
+            <FavoriteSection
+                key={activeContent}
+                type={activeContent}
+                extended={extended}
+                total={counts?.[activeContent]}
+            />
         </Block>
     );
 };
 
-export default Favorites;
+export default UserFavorites;

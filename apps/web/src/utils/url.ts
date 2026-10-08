@@ -1,8 +1,28 @@
+import { isServer } from '@/utils/is-server';
+
+export const SITE_ORIGIN = 'https://hikka.io';
+
+export const getPublicSiteUrl = (): string =>
+    import.meta.env.VITE_SITE_URL || SITE_ORIGIN;
+
 /** Resolves the absolute site URL with environment fallback. */
 export const getSiteUrl = (): string => {
     if (import.meta.env.VITE_SITE_URL) return import.meta.env.VITE_SITE_URL;
-    if (typeof window !== 'undefined') return window.location.origin;
+    if (!isServer()) return window.location.origin;
     return 'http://localhost:3000';
+};
+
+export const resolveSameOriginUrl = (
+    target: string,
+    base: string,
+): URL | null => {
+    try {
+        const url = new URL(target, base);
+
+        return url.origin === new URL(base).origin ? url : null;
+    } catch {
+        return null;
+    }
 };
 
 /**
@@ -10,15 +30,7 @@ export const getSiteUrl = (): string => {
  * paths pass through; anything invalid or external falls back to '/'.
  */
 export const validateRedirectUrl = (url: string): string => {
-    try {
-        const parsed = new URL(url, window.location.origin);
+    const parsed = resolveSameOriginUrl(url, window.location.origin);
 
-        if (parsed.origin === window.location.origin) {
-            return parsed.pathname + parsed.search;
-        }
-    } catch (e) {
-        console.error(e);
-    }
-
-    return '/';
+    return parsed ? parsed.pathname + parsed.search : '/';
 };

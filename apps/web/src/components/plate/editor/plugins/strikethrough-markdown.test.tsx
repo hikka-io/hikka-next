@@ -42,16 +42,14 @@ describe('serialization', () => {
         expect(markdown.trim()).toBe('a ~~s~~');
     });
 
-    it.each([
-        'formatted',
-        'a]b',
-        'see [x] ok',
-        '2*3*4',
-    ])('round-trips %j', (text) => {
-        const value = [p({ text, strikethrough: true, bold: true })];
+    it.each(['formatted', 'a]b', 'see [x] ok', '2*3*4'])(
+        'round-trips %j',
+        (text) => {
+            const value = [p({ text, strikethrough: true, bold: true })];
 
-        expect(deserialize(serialize(value))).toEqual(value);
-    });
+            expect(deserialize(serialize(value))).toEqual(value);
+        },
+    );
 });
 
 describe('deserialization', () => {

@@ -1,14 +1,9 @@
-import type { Path, TElement } from 'platejs';
+import type { Path } from 'platejs';
 import { createPlatePlugin } from 'platejs/react';
 
 import { ImageElement } from '@/components/plate/ui/image-node';
 
-export const ELEMENT_IMAGE = 'image';
-
-export interface TImageElement extends TElement {
-    type: typeof ELEMENT_IMAGE;
-    url: string;
-}
+import { ELEMENT_IMAGE, type TImageElement } from '../plate-types';
 
 export const ImagePlugin = createPlatePlugin({
     key: ELEMENT_IMAGE,

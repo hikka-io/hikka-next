@@ -10,6 +10,7 @@ const labelVariants = cva(
 
 function Label({ className, ...props }: React.ComponentProps<'label'>) {
     return (
+        // biome-ignore lint/a11y/noLabelWithoutControl: primitive; htmlFor and children arrive through props
         <label
             data-slot="label"
             className={cn(labelVariants(), className)}

@@ -1,23 +1,28 @@
 import type { FC } from 'react';
 
-import { characterNovelInfiniteOptions } from '@hikka/api';
+import { ContentTypeEnum } from '@hikka/api';
 
 import NovelCard from '@/components/content-card/novel-card';
-import AppearanceGrid from '@/features/entities/appearance-grid';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { useParams } from '@/utils/navigation';
+
+import AppearanceGrid from '../appearance-grid';
+import { entityAppearanceOptions } from '../queries';
 
 type Props = {
     extended?: boolean;
 };
 
-const Novel: FC<Props> = ({ extended }) => {
+const CharacterNovel: FC<Props> = ({ extended }) => {
     const params = useParams();
     const { list, fetchNextPage, hasNextPage, isFetchingNextPage, ref } =
         useInfiniteList(
-            characterNovelInfiniteOptions({
-                path: { slug: String(params.slug) },
-            }),
+            entityAppearanceOptions(
+                ContentTypeEnum.CHARACTER,
+                'novel',
+                String(params.slug),
+                { preview: !extended },
+            ),
         );
 
     return (
@@ -37,4 +42,4 @@ const Novel: FC<Props> = ({ extended }) => {
     );
 };
 
-export default Novel;
+export default CharacterNovel;

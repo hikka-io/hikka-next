@@ -1,7 +1,6 @@
 import { type FC, Fragment } from 'react';
 
-import { useArticleContext } from '@/services/providers/article-provider';
-
+import { useArticleContext } from '../article-provider';
 import CategorySelect from './components/category-select';
 import ContentInput from './components/content-input';
 import CreateActions from './components/create-actions';
@@ -11,7 +10,7 @@ import TitleInput from './components/title-input';
 
 type Props = {};
 
-const ArticleSettings: FC<Props> = () => {
+const ArticleEditSettings: FC<Props> = () => {
     const slug = useArticleContext((state) => state.slug);
 
     return (
@@ -28,4 +27,4 @@ const ArticleSettings: FC<Props> = () => {
     );
 };
 
-export default ArticleSettings;
+export default ArticleEditSettings;

@@ -2,26 +2,24 @@ import type { FC } from 'react';
 
 import { ContentTypeEnum, type MainContentTypeEnum } from '@hikka/api';
 
-import MaterialSymbolsAnimatedImages from '@/components/icons/material-symbols/MaterialSymbolsAnimatedImages';
-import MaterialSymbolsMenuBookRounded from '@/components/icons/material-symbols/MaterialSymbolsMenuBookRounded';
-import MaterialSymbolsPalette from '@/components/icons/material-symbols/MaterialSymbolsPalette';
+import { CONTENT_TYPE_ICONS } from '@/components/icons/content-type-icons';
 import { type ChipTabOption, ChipTabs } from '@/components/ui/chip-tabs';
 
-const CONTENT_TYPES: Omit<ChipTabOption<MainContentTypeEnum>, 'to'>[] = [
+const TAB_OPTIONS: Omit<ChipTabOption<MainContentTypeEnum>, 'to'>[] = [
     {
         label: 'Аніме',
         value: ContentTypeEnum.ANIME,
-        icon: MaterialSymbolsAnimatedImages,
+        icon: CONTENT_TYPE_ICONS[ContentTypeEnum.ANIME],
     },
     {
         label: 'Манґа',
         value: ContentTypeEnum.MANGA,
-        icon: MaterialSymbolsPalette,
+        icon: CONTENT_TYPE_ICONS[ContentTypeEnum.MANGA],
     },
     {
         label: 'Ранобе',
         value: ContentTypeEnum.NOVEL,
-        icon: MaterialSymbolsMenuBookRounded,
+        icon: CONTENT_TYPE_ICONS[ContentTypeEnum.NOVEL],
     },
 ];
 
@@ -35,7 +33,7 @@ const ContentTypeTabs: FC<Props> = ({ value, urlFor, className }) => (
     <ChipTabs
         value={value}
         className={className}
-        options={CONTENT_TYPES.map((option) => ({
+        options={TAB_OPTIONS.map((option) => ({
             ...option,
             to: urlFor(option.value),
         }))}

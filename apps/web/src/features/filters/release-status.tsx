@@ -5,21 +5,24 @@ import { Activity } from 'lucide-react';
 import {
     BadgeFilterField,
     type BadgeFilterFieldProps,
-} from '@/components/form/form-badge-filter';
-import { useTypedAppFormContext } from '@/components/form/use-app-form';
+    useTypedAppFormContext,
+} from '@/components/form';
 import { BadgeFilter } from '@/components/ui/badge-filter';
 import { Label } from '@/components/ui/label';
-import { RELEASE_STATUS } from '@/utils/constants/common';
+import { RELEASE_STATUS } from '@/utils/labels/enum-labels';
+import { useRouteSearch } from '@/utils/navigation';
+import type { ContentFilterSearch } from '@/utils/search-schemas';
 
-import useChangeParam from './hooks/use-change-param';
-import { useFilterSearch } from './hooks/use-filter-search';
+import { filterPresetFormOptions } from './presets/filter-preset-form';
+import { useChangeParam } from './use-change-param';
 
 type Props = {
     className?: string;
 };
 
 const ReleaseStatus: FC<Props> = () => {
-    const { statuses = [] } = useFilterSearch<{ statuses?: string[] }>();
+    const { statuses = [] } =
+        useRouteSearch<Pick<ContentFilterSearch, 'statuses'>>();
 
     const handleChangeParam = useChangeParam();
 
@@ -42,10 +45,10 @@ const ReleaseStatus: FC<Props> = () => {
 export const FormReleaseStatus: FC<Props & Partial<BadgeFilterFieldProps>> = (
     props,
 ) => {
-    const form = useTypedAppFormContext({ defaultValues: {} as never });
+    const form = useTypedAppFormContext(filterPresetFormOptions);
     return (
         <form.AppField
-            name={'statuses' as never}
+            name="statuses"
             children={() => (
                 <BadgeFilterField
                     {...props}

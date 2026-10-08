@@ -5,21 +5,24 @@ import { ShieldEllipsis } from 'lucide-react';
 import {
     BadgeFilterField,
     type BadgeFilterFieldProps,
-} from '@/components/form/form-badge-filter';
-import { useTypedAppFormContext } from '@/components/form/use-app-form';
+    useTypedAppFormContext,
+} from '@/components/form';
 import { BadgeFilter } from '@/components/ui/badge-filter';
 import { Label } from '@/components/ui/label';
-import { AGE_RATING } from '@/utils/constants/common';
+import { AGE_RATING } from '@/utils/labels/enum-labels';
+import { useRouteSearch } from '@/utils/navigation';
+import type { AnimeFilterSearch } from '@/utils/search-schemas';
 
-import useChangeParam from './hooks/use-change-param';
-import { useFilterSearch } from './hooks/use-filter-search';
+import { filterPresetFormOptions } from './presets/filter-preset-form';
+import { useChangeParam } from './use-change-param';
 
 type Props = {
     className?: string;
 };
 
 const AgeRating: FC<Props> = () => {
-    const { ratings = [] } = useFilterSearch<{ ratings?: string[] }>();
+    const { ratings = [] } =
+        useRouteSearch<Pick<AnimeFilterSearch, 'ratings'>>();
 
     const handleChangeParam = useChangeParam();
 
@@ -42,10 +45,10 @@ const AgeRating: FC<Props> = () => {
 export const FormAgeRating: FC<Props & Partial<BadgeFilterFieldProps>> = (
     props,
 ) => {
-    const form = useTypedAppFormContext({ defaultValues: {} as never });
+    const form = useTypedAppFormContext(filterPresetFormOptions);
     return (
         <form.AppField
-            name={'ratings' as never}
+            name="ratings"
             children={() => (
                 <BadgeFilterField
                     {...props}

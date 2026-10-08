@@ -5,8 +5,12 @@ import {
     paginationPageParam,
 } from '@hikka/api';
 
-import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
-import { ClientApps, ClientCreateButton } from '@/features/settings';
+import {
+    ClientApps,
+    ClientCreateButton,
+    SettingsPage,
+    settingsHead,
+} from '@/features/settings';
 
 export const Route = createFileRoute('/_pages/settings/applications/clients')({
     loader: async ({ context: { queryClient, apiClient } }) => {
@@ -15,27 +19,18 @@ export const Route = createFileRoute('/_pages/settings/applications/clients')({
             ...paginationPageParam(),
         });
     },
-    head: () => ({
-        meta: [{ title: 'Мої застосунки / Налаштування / Hikka' }],
-    }),
+    head: () => settingsHead('Мої застосунки'),
     component: ClientAppsPage,
 });
 
 function ClientAppsPage() {
     return (
-        <div className="flex flex-col gap-8">
-            <div className="flex flex-col">
-                <Header>
-                    <HeaderContainer>
-                        <HeaderTitle>Мої застосунки</HeaderTitle>
-                        <ClientCreateButton />
-                    </HeaderContainer>
-                </Header>
-                <p className="text-muted-foreground text-sm">
-                    Створюйте та керуйте власними OAuth-застосунками
-                </p>
-            </div>
+        <SettingsPage
+            title="Мої застосунки"
+            description="Створюйте та керуйте власними OAuth-застосунками"
+            action={<ClientCreateButton />}
+        >
             <ClientApps />
-        </div>
+        </SettingsPage>
     );
 }

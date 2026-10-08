@@ -8,8 +8,8 @@ import { type GenreTypeEnum, genresOptions } from '@hikka/api';
 import {
     SelectField,
     type SelectFieldProps,
-} from '@/components/form/form-select';
-import { useTypedAppFormContext } from '@/components/form/use-app-form';
+    useTypedAppFormContext,
+} from '@/components/form';
 import { Label } from '@/components/ui/label';
 import {
     groupOptions,
@@ -22,21 +22,27 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
-import { GENRE_TYPES } from '@/utils/constants/common';
+import { useVisibleOnce } from '@/services/hooks/use-visible-once';
+import { GENRE_TYPES } from '@/utils/labels/enum-labels';
+import { useRouteSearch } from '@/utils/navigation';
+import type { ContentFilterSearch } from '@/utils/search-schemas';
 
-import useChangeParam from './hooks/use-change-param';
-import { useFilterSearch } from './hooks/use-filter-search';
+import { filterPresetFormOptions } from './presets/filter-preset-form';
+import { useChangeParam } from './use-change-param';
 
 type Props = {
     className?: string;
 };
 
 const Genre: FC<Props> = () => {
-    const { genres = [] } = useFilterSearch<{ genres?: string[] }>();
+    const { genres = [] } =
+        useRouteSearch<Pick<ContentFilterSearch, 'genres'>>();
 
     const handleChangeParam = useChangeParam();
+    const { ref, visible } = useVisibleOnce();
     const { data: genreList } = useQuery({
         ...genresOptions(),
+        enabled: visible,
         select: (data) =>
             data.list.map((genre) => ({
                 value: genre.slug,
@@ -50,7 +56,7 @@ const Genre: FC<Props> = () => {
     }, [genreList]);
 
     return (
-        <div className="flex flex-col gap-4">
+        <div ref={ref} className="flex flex-col gap-4">
             <div className="flex items-center gap-2 text-muted-foreground">
                 <Drama className="size-4 shrink-0" />
                 <Label>Жанри</Label>
@@ -92,10 +98,10 @@ export const FormGenre: FC<Props & Partial<SelectFieldProps>> = (props) => {
         return genreList && renderSelectOptions(groupOptions(genreList));
     }, [genreList]);
 
-    const form = useTypedAppFormContext({ defaultValues: {} as never });
+    const form = useTypedAppFormContext(filterPresetFormOptions);
     return (
         <form.AppField
-            name={'genres' as never}
+            name="genres"
             children={() => (
                 <SelectField
                     {...props}

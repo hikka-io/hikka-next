@@ -1,0 +1,74 @@
+name: CI
+
+on:
+    pull_request:
+    push:
+        branches: [main]
+
+concurrency:
+    group: ci-${{ github.ref }}
+    cancel-in-progress: true
+
+permissions:
+    contents: read
+
+jobs:
+    lint:
+        name: Lint
+
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v4
+
+            - name: Set up Biome
+              uses: biomejs/setup-biome@v2
+              with:
+                  version: 2.5.14
+
+            - name: Set up Node.js
+              uses: actions/setup-node@v4
+              with:
+                  node-version: 22
+
+            - name: Biome
+              run: biome ci --reporter=github --diagnostic-level=error .
+
+            - name: Layering ratchet
+              shell: bash
+              run: biome lint --reporter=json --max-diagnostics=none apps/web/src | node apps/web/scripts/lint-ratchet.mjs
+
+            - name: Structure check
+              run: |
+                  node apps/web/scripts/check-structure.mjs --self-test
+                  node apps/web/scripts/check-structure.mjs
+
+    verify:
+        name: Typecheck, test and build
+
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v4
+
+            - name: Set up pnpm
+              uses: pnpm/action-setup@v4
+
+            - name: Set up Node.js
+              uses: actions/setup-node@v4
+              with:
+                  node-version: 22
+                  cache: pnpm
+
+            - name: Install dependencies
+              run: pnpm install --frozen-lockfile
+
+            - name: Typecheck and test
+              run: pnpm turbo run typecheck test
+
+            - name: Build web
+              env:
+                  NODE_OPTIONS: --max-old-space-size=4096
+              run: pnpm build:web

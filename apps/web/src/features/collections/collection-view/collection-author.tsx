@@ -2,22 +2,22 @@ import { useQuery } from '@tanstack/react-query';
 
 import { getCollectionOptions } from '@hikka/api';
 
-import FollowButton from '@/components/action-buttons/follow-button';
-import RelativeTime from '@/components/relative-time';
-import Card from '@/components/ui/card';
+import { FollowButton } from '@/components/action-buttons';
 import {
     HorizontalCard,
     HorizontalCardContainer,
     HorizontalCardDescription,
     HorizontalCardImage,
     HorizontalCardTitle,
-} from '@/components/ui/horizontal-card';
-import { useMediaQuery } from '@/services/hooks/use-media-query';
+} from '@/components/horizontal-card';
+import RelativeTime from '@/components/relative-time';
+import Card from '@/components/ui/card';
+import { useIsDesktop } from '@/services/hooks/use-media-query';
 import { useParams } from '@/utils/navigation';
 
-const CollectionAuthor = () => {
+const CollectionViewAuthor = () => {
     const params = useParams();
-    const isDesktop = useMediaQuery('(min-width: 768px)');
+    const isDesktop = useIsDesktop();
 
     const { data: collection } = useQuery(
         getCollectionOptions({ path: { reference: String(params.reference) } }),
@@ -51,4 +51,4 @@ const CollectionAuthor = () => {
     );
 };
 
-export default CollectionAuthor;
+export default CollectionViewAuthor;

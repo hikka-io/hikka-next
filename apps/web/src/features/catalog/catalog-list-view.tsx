@@ -2,19 +2,20 @@ import type { ReactNode } from 'react';
 
 import { range } from '@antfu/utils';
 import type { QueryKey } from '@tanstack/react-query';
-import { useQueryClient } from '@tanstack/react-query';
-import { useNavigate } from '@tanstack/react-router';
 
-import CatalogListSkeleton from '@/components/catalog-list-skeleton';
-import { ContentListItemSkeleton } from '@/components/content-list';
 import FiltersNotFound from '@/components/filters-not-found';
 import LoadMoreButton from '@/components/load-more-button';
-import { StickyPagination } from '@/components/ui/pagination';
+import PagePagination from '@/components/page-pagination';
 import Stack, { type StackSize } from '@/components/ui/stack';
+import type { View } from '@/utils/cookies';
+
+import CatalogListItemSkeleton from './catalog-list-item-skeleton';
+import CatalogListSkeleton from './catalog-list-skeleton';
+import { SEARCH_DEFAULT_PAGE_SIZE } from './queries';
 
 type Props<T> = {
     list: T[] | undefined;
-    view: Hikka.View;
+    view: View;
     isLoading: boolean;
     isFetchingNextPage: boolean;
     hasNextPage: boolean;
@@ -25,6 +26,7 @@ type Props<T> = {
     renderGridItem: (item: T) => ReactNode;
     renderListItem: (item: T) => ReactNode;
     extendedSize?: StackSize;
+    pageSize?: number;
 };
 
 function CatalogListView<T>({
@@ -40,32 +42,21 @@ function CatalogListView<T>({
     renderGridItem,
     renderListItem,
     extendedSize = 5,
+    pageSize = SEARCH_DEFAULT_PAGE_SIZE,
 }: Props<T>) {
-    const queryClient = useQueryClient();
-    const navigate = useNavigate();
-
-    const handlePageChange = (newPage: number) => {
-        if (hasMultiplePages) {
-            queryClient.removeQueries({ queryKey: removeQueryKey });
-        }
-
-        navigate({
-            to: '.',
-            search: (prev) => ({ ...prev, page: newPage }),
-        });
-    };
-
     if (isLoading && !isFetchingNextPage) {
         if (view === 'list') {
             return (
                 <div className="flex flex-col max-md:[&>*+*]:-mt-px md:gap-6">
-                    {range(1, 7).map((v) => (
-                        <ContentListItemSkeleton key={v} />
+                    {range(0, pageSize).map((v) => (
+                        <CatalogListItemSkeleton key={v} />
                     ))}
                 </div>
             );
         }
-        return <CatalogListSkeleton extendedSize={extendedSize} />;
+        return (
+            <CatalogListSkeleton count={pageSize} extendedSize={extendedSize} />
+        );
     }
 
     if (list === undefined || list.length === 0) {
@@ -90,10 +81,11 @@ function CatalogListView<T>({
                 />
             )}
             {pagination && (
-                <StickyPagination
-                    page={pagination.page}
-                    pages={pagination.pages}
-                    setPage={handlePageChange}
+                <PagePagination
+                    pagination={pagination}
+                    resetQueryKey={
+                        hasMultiplePages ? removeQueryKey : undefined
+                    }
                 />
             )}
         </div>

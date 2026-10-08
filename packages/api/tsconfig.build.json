@@ -1,7 +1,6 @@
 {
     "extends": "./tsconfig.json",
     "compilerOptions": {
-        "composite": false,
         "declaration": true,
         "declarationMap": false
     },
@@ -9,6 +8,7 @@
         "node_modules",
         "dist",
         "scripts/**/*",
+        "vitest.config.ts",
         "**/*.test.ts",
         "**/*.spec.ts"
     ]

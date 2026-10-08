@@ -2,7 +2,7 @@ import { type FC, type ReactNode, useState } from 'react';
 
 import { ContentTypeEnum } from '@hikka/api';
 
-import { useTitle } from '@/features/auth/hooks/use-title';
+import { useTitle } from '@/services/session';
 
 import type { CardStatus } from './content-status';
 import ContextMenuOverlay from './context-menu-overlay';

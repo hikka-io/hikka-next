@@ -1,0 +1,79 @@
+import { type Dispatch, type SetStateAction, useState } from 'react';
+
+import { ContentTypeEnum, type ImportWatchArgs } from '@hikka/api';
+
+import MaterialSymbolsCheckSmallRounded from '@/components/icons/material-symbols/MaterialSymbolsCheckSmallRounded';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import Spinner from '@/components/ui/spinner';
+
+import { AnilistTypeEnum } from './anilist-enums';
+import FoundList from './found-list';
+import { useAnilist } from './use-anilist';
+
+type Props = {
+    watchList: ImportWatchArgs[];
+    setWatchList: Dispatch<SetStateAction<ImportWatchArgs[]>>;
+    importing: boolean;
+};
+
+const AnilistWatchListImport = ({
+    watchList,
+    setWatchList,
+    importing,
+}: Props) => {
+    const [aniListUsername, setAniListUsername] = useState('');
+    const { mutate: fetchAnilist, isPending: aniListLoading } = useAnilist({
+        options: {
+            onSuccess: (data) => {
+                // useAnilist returns ImportWatchArgs[] | ImportReadArgs[]; this importer requested the watch variant.
+                setWatchList(data as unknown as ImportWatchArgs[]);
+            },
+        },
+    });
+
+    const getFromAniList = async () => {
+        fetchAnilist({
+            username: aniListUsername,
+            type: AnilistTypeEnum.ANIME,
+        });
+    };
+
+    return (
+        <div className="flex w-full flex-col gap-6">
+            <div className="flex w-full flex-col gap-2">
+                <Label>Ім’я користувача AniList</Label>
+                <div className="flex gap-2">
+                    <Input
+                        type="text"
+                        className="flex-1"
+                        placeholder="Введіть імʼя користувача"
+                        onChange={(e) => setAniListUsername(e.target.value)}
+                    />
+                    <Button
+                        size="icon"
+                        variant="secondary"
+                        onClick={getFromAniList}
+                        disabled={
+                            aniListUsername.length === 0 ||
+                            aniListLoading ||
+                            importing
+                        }
+                    >
+                        {aniListLoading ? (
+                            <Spinner />
+                        ) : (
+                            <MaterialSymbolsCheckSmallRounded className="text-2xl" />
+                        )}
+                    </Button>
+                </div>
+            </div>
+            {watchList.length > 0 && (
+                <FoundList list={watchList} type={ContentTypeEnum.ANIME} />
+            )}
+        </div>
+    );
+};
+
+export default AnilistWatchListImport;

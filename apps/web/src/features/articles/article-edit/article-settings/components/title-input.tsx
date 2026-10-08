@@ -1,8 +1,11 @@
 import type { FC } from 'react';
 
+import { API_LIMITS } from '@hikka/api';
+
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { useArticleContext } from '@/services/providers/article-provider';
+
+import { useArticleContext } from '../../article-provider';
 
 type Props = {};
 
@@ -15,6 +18,7 @@ const TitleInput: FC<Props> = () => {
             <Label className="text-muted-foreground">Назва статті</Label>
             <Input
                 placeholder="Введіть назву"
+                maxLength={API_LIMITS.articleTitle.max}
                 value={title || ''}
                 onChange={(e) => setTitle(e.target.value)}
             />

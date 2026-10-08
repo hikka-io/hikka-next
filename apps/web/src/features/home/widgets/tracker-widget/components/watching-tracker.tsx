@@ -3,37 +3,33 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import {
-    userWatchListInfiniteOptions,
+    ContentTypeEnum,
     type WatchArgs,
     WatchStatusEnum,
     watchAddMutation,
 } from '@hikka/api';
 
-import { WatchEditModal } from '@/components/action-buttons';
-import Watching from '@/components/icons/watch-status/watching';
+import StatusWatching from '@/components/icons/list-status/StatusWatching';
+import { ListEntryEditDialog } from '@/components/tracking';
 import { Button } from '@/components/ui/button';
 import EmptyState from '@/components/ui/empty-state';
-import { useSession } from '@/features/auth/hooks/use-session';
-import { useSessionUI } from '@/features/auth/hooks/use-session-ui';
-import useDebounce from '@/services/hooks/use-debounce';
+import { DEBOUNCE_MS, useDebounce } from '@/services/hooks/use-debounce';
+import { useSession, useSessionUI } from '@/services/session';
 import {
     invalidateWatchState,
     writeWatchToCaches,
 } from '@/utils/api/invalidate-content-state';
 import { carryOverWatchArgs } from '@/utils/api/tracking-args';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
-import { ANIME_MEDIA_TYPE } from '@/utils/constants/common';
 import { getDeclensionWord } from '@/utils/i18n/declension';
+import { EPISODE_FORMS } from '@/utils/i18n/word-forms';
+import { getMediaTypeLabel } from '@/utils/labels';
 import { Link, useRouter } from '@/utils/navigation';
 import { getTitle } from '@/utils/title/get-title';
 
+import { homeWatchingOptions } from '../../../queries';
+import ProgressTrackerSkeleton from './progress-tracker-skeleton';
 import ProgressTrackerView from './progress-tracker-view';
-
-const EPISODES_DECLENSION: [string, string, string] = [
-    'епізод',
-    'епізоди',
-    'епізодів',
-];
 
 type PendingWatch = {
     slug: string;
@@ -51,21 +47,18 @@ const WatchingTracker = () => {
     const [selectedSlug, setSelectedSlug] = useState<string>();
     const [pending, setPending] = useState<PendingWatch | null>(null);
 
-    const { list, ref, isFetchingNextPage, hasNextPage } = useInfiniteList(
-        userWatchListInfiniteOptions({
-            path: { username: String(loggedUser?.username) },
-            body: {
-                watch_status: WatchStatusEnum.WATCHING,
-                sort: ['watch_updated:desc'],
-            },
-        }),
-        { enabled: Boolean(loggedUser?.username) },
-    );
+    const { list, ref, isFetchingNextPage, hasNextPage, isPending } =
+        useInfiniteList(homeWatchingOptions(String(loggedUser?.username)), {
+            enabled: Boolean(loggedUser?.username),
+        });
 
     const selectedWatch =
         list?.find((item) => item.anime.slug === selectedSlug) || list?.[0];
 
-    const [debouncedPending] = useDebounce({ value: pending, delay: 500 });
+    const [debouncedPending] = useDebounce({
+        value: pending,
+        delay: DEBOUNCE_MS.commit,
+    });
 
     const invalidateWatchLists = useCallback(
         (refetch: boolean) => invalidateWatchState(queryClient, { refetch }),
@@ -157,10 +150,14 @@ const WatchingTracker = () => {
         );
     }, [debouncedPending, mutateCreateWatch, invalidateWatchLists]);
 
+    if (isPending) {
+        return <ProgressTrackerSkeleton />;
+    }
+
     if (!list || list.length === 0) {
         return (
             <EmptyState
-                icon={<Watching />}
+                icon={<StatusWatching />}
                 title={
                     <span>
                         Список <span className="font-extrabold">Дивлюсь</span>{' '}
@@ -214,22 +211,16 @@ const WatchingTracker = () => {
                               preferences.name_language,
                           ),
                           year: selectedWatch.anime.year,
-                          mediaTypeLabel: selectedWatch.anime.media_type
-                              ? ANIME_MEDIA_TYPE[
-                                    selectedWatch.anime
-                                        .media_type as keyof typeof ANIME_MEDIA_TYPE
-                                ]?.title_ua
-                              : undefined,
+                          mediaTypeLabel: getMediaTypeLabel(
+                              selectedWatch.anime.media_type,
+                          ),
                           total: totalEpisodes ?? undefined,
                           totalDeclension: totalEpisodes
-                              ? getDeclensionWord(
-                                    totalEpisodes,
-                                    EPISODES_DECLENSION,
-                                )
+                              ? getDeclensionWord(totalEpisodes, EPISODE_FORMS)
                               : undefined,
                           current: currentEpisodes,
-                          progressUnit: 'епізодів',
-                          addUnitLabel: 'епізод',
+                          progressUnit: EPISODE_FORMS[2],
+                          addUnitLabel: EPISODE_FORMS[0],
                           onAdd: handleAddEpisode,
                           onRemove: handleRemoveEpisode,
                           onOpenEdit: openWatchEditModal,
@@ -237,24 +228,16 @@ const WatchingTracker = () => {
                     : undefined
             }
             editModal={
-                selectedWatch
-                    ? {
-                          open,
-                          onOpenChange: setOpen,
-                          title: getTitle(
-                              selectedWatch.anime,
-                              preferences.title_language,
-                              preferences.name_language,
-                          ),
-                          children: (
-                              <WatchEditModal
-                                  watch={selectedWatch}
-                                  slug={selectedWatch.anime.slug}
-                                  onClose={() => setOpen(false)}
-                              />
-                          ),
-                      }
-                    : undefined
+                selectedWatch ? (
+                    <ListEntryEditDialog
+                        open={open}
+                        onOpenChange={setOpen}
+                        content={selectedWatch.anime}
+                        slug={selectedWatch.anime.slug}
+                        contentType={ContentTypeEnum.ANIME}
+                        watch={selectedWatch}
+                    />
+                ) : undefined
             }
         />
     );

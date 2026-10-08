@@ -3,17 +3,24 @@ import { type FC, useCallback } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
-import { type ArticleContentEnum, createArticleMutation } from '@hikka/api';
+import {
+    API_LIMITS,
+    type ArticleContentEnum,
+    createArticleMutation,
+} from '@hikka/api';
 
 import MaterialSymbolsAddRounded from '@/components/icons/material-symbols/MaterialSymbolsAddRounded';
 import MaterialSymbolsDraftRounded from '@/components/icons/material-symbols/MaterialSymbolsDraftRounded';
+import { getArticleDocument } from '@/components/plate/editor/value/submit-value';
+import { hasPendingUploads } from '@/components/plate/editor/value/upload-placeholders';
 import { Button } from '@/components/ui/button';
 import { FooterBar } from '@/components/ui/footer-bar';
-import { useArticleContext } from '@/services/providers/article-provider';
 import { invalidateArticles } from '@/utils/api/invalidate-content-state';
-import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
+import { CONTENT_TYPE_LINKS } from '@/utils/content-paths';
 import { useRouter } from '@/utils/navigation';
-import { getArticleDocument, hasPendingUploads } from '@/utils/plate';
+import { isValidTitleLength } from '@/utils/title-length';
+
+import { useArticleContext } from '../../article-provider';
 
 type Props = {};
 
@@ -26,6 +33,8 @@ const CreateActions: FC<Props> = () => {
     const category = useArticleContext((state) => state.category);
     const content = useArticleContext((state) => state.content);
     const getDocument = useArticleContext((state) => state.getDocument);
+
+    const hasValidTitle = isValidTitleLength(title, API_LIMITS.articleTitle);
 
     const {
         mutate: mutateCreateArticle,
@@ -78,7 +87,7 @@ const CreateActions: FC<Props> = () => {
     return (
         <FooterBar>
             <Button
-                disabled={!title || isPending || isSuccess}
+                disabled={!hasValidTitle || isPending || isSuccess}
                 variant="secondary"
                 size="md"
                 onClick={() => handleCreateArticle(true)}
@@ -88,7 +97,7 @@ const CreateActions: FC<Props> = () => {
 
             <Button
                 size="md"
-                disabled={!title || isPending || isSuccess}
+                disabled={!hasValidTitle || isPending || isSuccess}
                 onClick={() => handleCreateArticle()}
             >
                 <MaterialSymbolsAddRounded />

@@ -2,20 +2,21 @@ import type { FC } from 'react';
 
 import { ArticleContentEnum } from '@hikka/api';
 
-import MaterialSymbolsDeleteForeverRounded from '@/components/icons/material-symbols/MaterialSymbolsDeleteForeverRounded';
-import { Button } from '@/components/ui/button';
 import {
     HorizontalCard,
     HorizontalCardContainer,
     HorizontalCardDescription,
     HorizontalCardImage,
     HorizontalCardTitle,
-} from '@/components/ui/horizontal-card';
+} from '@/components/horizontal-card';
+import MaterialSymbolsDeleteForeverRounded from '@/components/icons/material-symbols/MaterialSymbolsDeleteForeverRounded';
+import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
-import { useTitle } from '@/features/auth/hooks/use-title';
 import { SearchModal } from '@/features/search';
-import { useArticleContext } from '@/services/providers/article-provider';
-import { CONTENT_TYPES } from '@/utils/constants/common';
+import { useTitle } from '@/services/session';
+import { CONTENT_TYPES } from '@/utils/labels/content-types';
+
+import { useArticleContext } from '../../article-provider';
 
 type Props = {};
 
@@ -40,7 +41,7 @@ const ContentInput: FC<Props> = () => {
                         >
                             {contentTitle}
                         </HorizontalCardTitle>
-                        <HorizontalCardDescription>
+                        <HorizontalCardDescription className="line-clamp-1 leading-relaxed">
                             {
                                 CONTENT_TYPES[
                                     content.data_type as keyof typeof CONTENT_TYPES

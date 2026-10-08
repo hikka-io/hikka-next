@@ -14,17 +14,18 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
-import { EDIT_STATUS } from '@/utils/constants/edit';
+import { EDIT_STATUS } from '@/utils/labels/enum-labels';
+import { useRouteSearch } from '@/utils/navigation';
+import type { EditSearch } from '@/utils/search-schemas';
 
-import useChangeParam from './hooks/use-change-param';
-import { useFilterSearch } from './hooks/use-filter-search';
+import { useChangeParam } from './use-change-param';
 
 type Props = {
     className?: string;
 };
 
 const EditStatusFilter: FC<Props> = () => {
-    const { edit_status } = useFilterSearch<{ edit_status?: string }>();
+    const { edit_status } = useRouteSearch<Pick<EditSearch, 'edit_status'>>();
 
     const handleChangeParam = useChangeParam();
 

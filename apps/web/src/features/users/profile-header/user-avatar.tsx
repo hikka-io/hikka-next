@@ -1,0 +1,150 @@
+import { type ChangeEvent, useRef, useState } from 'react';
+
+import { useQuery } from '@tanstack/react-query';
+
+import { UploadTypeEnum, userProfileOptions } from '@hikka/api';
+
+import MaterialSymbolsImageOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsImageOutlineRounded';
+import MaterialSymbolsPerson2OutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsPerson2OutlineRounded';
+import MaterialSymbolsUploadRounded from '@/components/icons/material-symbols/MaterialSymbolsUploadRounded';
+import { Button } from '@/components/ui/button';
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import Image from '@/components/ui/image';
+import { Input } from '@/components/ui/input';
+import { useSession } from '@/services/session';
+import { Link, useParams } from '@/utils/navigation';
+
+import CropEditorModal from '../crop-editor-modal';
+
+const UserAvatar = () => {
+    const uploadAvatarRef = useRef<HTMLInputElement>(null);
+    const uploadCoverRef = useRef<HTMLInputElement>(null);
+    const [open, setOpen] = useState(false);
+    const [uploadFile, setUploadFile] = useState<File | null>(null);
+    const [uploadType, setUploadType] = useState<UploadTypeEnum>(
+        UploadTypeEnum.AVATAR,
+    );
+    const params = useParams();
+
+    const { data: user } = useQuery(
+        userProfileOptions({
+            path: { username: String(params.username) },
+        }),
+    );
+    const { user: loggedUser } = useSession();
+
+    const handleUploadImageSelected = (
+        e: ChangeEvent<HTMLInputElement>,
+        type: UploadTypeEnum,
+    ) => {
+        if (e.target.files && e.target.files.length > 0) {
+            const file = Array.from(e.target.files)[0];
+
+            switch (type) {
+                case UploadTypeEnum.AVATAR:
+                    if (uploadAvatarRef.current) {
+                        uploadAvatarRef.current.value = '';
+                    }
+                    break;
+                case UploadTypeEnum.COVER:
+                    if (uploadCoverRef.current) {
+                        uploadCoverRef.current.value = '';
+                    }
+                    break;
+            }
+
+            setUploadFile(file);
+            setUploadType(type);
+            setOpen(true);
+        }
+    };
+
+    if (!user) {
+        return null;
+    }
+
+    return (
+        <div className="relative h-fit">
+            <Input
+                type="file"
+                id="avatar-input"
+                onChange={(e) =>
+                    handleUploadImageSelected(e, UploadTypeEnum.AVATAR)
+                }
+                ref={uploadAvatarRef}
+                multiple={false}
+                className="absolute top-0 left-0 size-full opacity-0"
+                accept="image/*"
+            />
+            <Input
+                type="file"
+                id="cover-input"
+                onChange={(e) =>
+                    handleUploadImageSelected(e, UploadTypeEnum.COVER)
+                }
+                ref={uploadCoverRef}
+                multiple={false}
+                className="absolute top-0 left-0 size-full opacity-0"
+                accept="image/*"
+            />
+            <div className="group relative z-1 size-26 overflow-hidden rounded-lg pt-[100%] lg:size-40">
+                <div className="absolute top-0 w-full rounded-lg">
+                    <Link to={`/u/${user.username}`}>
+                        <Image
+                            alt="avatar"
+                            className="size-full object-contain hover:underline"
+                            width={287}
+                            height={287}
+                            src={user.avatar}
+                        />
+                    </Link>
+                </div>
+                {loggedUser?.username === user.username && (
+                    <DropdownMenu>
+                        <DropdownMenuTrigger
+                            render={
+                                <Button
+                                    size="icon-sm"
+                                    variant="secondary"
+                                    className="absolute right-2 bottom-2 opacity-0 group-hover:opacity-100"
+                                />
+                            }
+                        >
+                            <MaterialSymbolsUploadRounded />
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="start">
+                            <DropdownMenuItem render={<div />}>
+                                <MaterialSymbolsPerson2OutlineRounded className="mr-2" />
+                                <label htmlFor="avatar-input">
+                                    Оновити аватар
+                                </label>
+                            </DropdownMenuItem>
+                            <DropdownMenuItem render={<div />}>
+                                <MaterialSymbolsImageOutlineRounded className="mr-2" />
+                                <label htmlFor="cover-input">
+                                    Оновити обкладинку
+                                </label>
+                            </DropdownMenuItem>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+                )}
+            </div>
+            {user.active && (
+                <div className="absolute -right-2 -bottom-2 z-1 size-6 rounded-full border-4 border-success bg-success-foreground" />
+            )}
+            <CropEditorModal
+                open={open}
+                onOpenChange={setOpen}
+                file={uploadFile}
+                type={uploadType}
+            />
+        </div>
+    );
+};
+
+export default UserAvatar;

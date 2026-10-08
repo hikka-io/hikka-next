@@ -1,0 +1,55 @@
+import type { FC, ReactNode } from 'react';
+
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { cn } from '@/utils/cn';
+
+import type { NotificationAccent, NotificationActor } from '../types';
+import { ACCENT_BADGE_CLASSES } from '../utils/notification-accents';
+
+type Props = {
+    actor?: NotificationActor;
+    contentImage?: string;
+    typeIcon: ReactNode;
+    accent: NotificationAccent;
+};
+
+const NotificationLeadingVisual: FC<Props> = ({
+    actor,
+    contentImage,
+    typeIcon,
+    accent,
+}) => {
+    const hasImage = Boolean(actor?.avatar || contentImage);
+
+    return (
+        <div className="relative size-10 shrink-0">
+            {actor?.avatar || contentImage ? (
+                <Avatar className="size-10 rounded-md">
+                    <AvatarImage
+                        className="rounded-md object-cover"
+                        src={actor?.avatar ?? contentImage}
+                        alt={actor?.avatar ? actor.username : ''}
+                    />
+                    <AvatarFallback>{typeIcon}</AvatarFallback>
+                </Avatar>
+            ) : (
+                <div className="flex size-10 items-center justify-center rounded-md border border-border bg-secondary/40 [&_svg]:size-5">
+                    {typeIcon}
+                </div>
+            )}
+
+            {hasImage && (
+                <div
+                    className={cn(
+                        'absolute -right-0.5 -bottom-0.5 flex size-4 items-center justify-center rounded-sm border [&_svg]:size-2.5',
+                        ACCENT_BADGE_CLASSES[accent],
+                    )}
+                >
+                    {typeIcon}
+                </div>
+            )}
+        </div>
+    );
+};
+
+export default NotificationLeadingVisual;

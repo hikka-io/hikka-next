@@ -1,7 +1,7 @@
 import { type FC, type ReactElement, type SVGProps, useMemo } from 'react';
 
 import { useQuery } from '@tanstack/react-query';
-import { useRouter, useRouterState } from '@tanstack/react-router';
+import { useRouter } from '@tanstack/react-router';
 import { XIcon } from 'lucide-react';
 
 import {
@@ -15,15 +15,18 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { cn } from '@/utils/cn';
+import { CONTENT_TYPES } from '@/utils/labels/content-types';
 import {
     AGE_RATING,
     CHARACTER_ISSUES,
     CONTENT_ISSUES,
-    CONTENT_TYPES,
     MEDIA_TYPE,
     RELEASE_STATUS,
     SEASON,
-} from '@/utils/constants/common';
+} from '@/utils/labels/enum-labels';
+import { useRouteSearch } from '@/utils/navigation';
+
+import { useClearFilters } from './use-clear-filters';
 
 type FilterDef =
     | {
@@ -102,13 +105,7 @@ export interface ActiveFilter {
 /** Derives human-readable active filters (+ count, clearAll) from URL params and dynamic label maps. */
 export function useActiveFilters() {
     const router = useRouter();
-    const search = useRouterState({
-        select: (s) =>
-            (s.resolvedLocation ?? s.location).search as Record<
-                string,
-                unknown
-            >,
-    });
+    const search = useRouteSearch();
 
     const hasGenres = 'genres' in search;
     const hasStudios = 'studios' in search;
@@ -300,20 +297,9 @@ export function useActiveFilters() {
         } as any);
     };
 
-    const clearAll = () => {
-        router.navigate({
-            to: '.',
-            search: (prev: Record<string, unknown>) => {
-                const next: Record<string, unknown> = {};
-                if (prev.search) next.search = prev.search;
-                if (prev.sort) next.sort = prev.sort;
-                if (prev.order) next.order = prev.order;
-                if (prev.tab) next.tab = prev.tab;
-                return next;
-            },
-            replace: true,
-        } as any);
-    };
+    const clearAll = useClearFilters({
+        preserve: ['search', 'sort', 'order', 'tab'],
+    });
 
     return { filters, count: filters.length, removeFilter, clearAll };
 }

@@ -3,9 +3,8 @@ import { toast } from 'sonner';
 
 import { passwordResetMutation } from '@hikka/api';
 
-import SubmitButton from '@/components/form/submit-button';
-import { useAppForm } from '@/components/form/use-app-form';
-import { passwordSchema } from '@/utils/form-schemas';
+import { SubmitButton, useAppForm } from '@/components/form';
+import { matchFields, passwordSchema } from '@/utils/form-schemas';
 import { z } from '@/utils/i18n/zod';
 import { useParams, useRouter } from '@/utils/navigation';
 
@@ -16,10 +15,13 @@ const formSchema = z
         password: passwordSchema,
         passwordConfirmation: z.string(),
     })
-    .refine((data) => data.password === data.passwordConfirmation, {
-        message: 'Паролі не збігаються',
-        path: ['passwordConfirmation'],
-    });
+    .refine(
+        ...matchFields(
+            'password',
+            'passwordConfirmation',
+            'Паролі не збігаються',
+        ),
+    );
 
 const PasswordConfirmForm = () => {
     const queryClient = useQueryClient();
@@ -55,44 +57,39 @@ const PasswordConfirmForm = () => {
     });
 
     return (
-        <form
-            onSubmit={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                form.handleSubmit();
-            }}
-            className="space-y-4"
-        >
-            <form.AppField
-                name="password"
-                children={(field) => (
-                    <field.PasswordField
-                        label="Пароль"
-                        placeholder="Введіть пароль"
-                        autoComplete="new-password"
-                    />
-                )}
-            />
+        <form.AppForm>
+            <form.Form className="space-y-4">
+                <form.AppField
+                    name="password"
+                    children={(field) => (
+                        <field.PasswordField
+                            label="Пароль"
+                            placeholder="Введіть пароль"
+                            autoComplete="new-password"
+                        />
+                    )}
+                />
 
-            <form.AppField
-                name="passwordConfirmation"
-                children={(field) => (
-                    <field.PasswordField
-                        label="Підтвердження паролю"
-                        placeholder="Повторіть пароль"
-                        autoComplete="new-password"
-                    />
-                )}
-            />
+                <form.AppField
+                    name="passwordConfirmation"
+                    children={(field) => (
+                        <field.PasswordField
+                            label="Підтвердження паролю"
+                            placeholder="Повторіть пароль"
+                            autoComplete="new-password"
+                        />
+                    )}
+                />
 
-            <SubmitButton
-                className="w-full"
-                loading={mutationConfirmPasswordReset.isPending}
-                disabled={mutationConfirmPasswordReset.isSuccess}
-            >
-                Відновити
-            </SubmitButton>
-        </form>
+                <SubmitButton
+                    className="w-full"
+                    loading={mutationConfirmPasswordReset.isPending}
+                    disabled={mutationConfirmPasswordReset.isSuccess}
+                >
+                    Відновити
+                </SubmitButton>
+            </form.Form>
+        </form.AppForm>
     );
 };
 

@@ -1,0 +1,59 @@
+import type { FC } from 'react';
+
+import type { CommentContentTypeEnum, ContentTypeEnum } from '@hikka/api';
+
+import PosterCard from '@/components/content-card/poster-card';
+import Card from '@/components/ui/card';
+import {
+    Header,
+    HeaderContainer,
+    HeaderNavButton,
+    HeaderTitle,
+} from '@/components/ui/header';
+import { contentPath } from '@/utils/content-paths';
+import { CONTENT_TYPES } from '@/utils/labels/content-types';
+
+import { useContent } from './use-content';
+
+type Props = {
+    slug: string;
+    content_type: CommentContentTypeEnum | typeof ContentTypeEnum.USER;
+};
+
+const ContentHeader: FC<Props> = ({ slug, content_type }) => {
+    const { data } = useContent({
+        content_type,
+        slug,
+    });
+
+    const link = contentPath(content_type, slug);
+
+    return (
+        <Card>
+            <Header href={link}>
+                <HeaderContainer>
+                    {data?.image && (
+                        <PosterCard
+                            containerClassName="rounded-(--base-radius)"
+                            className="w-12"
+                            containerRatio={
+                                content_type === 'user' ? 1 : undefined
+                            }
+                            to={link}
+                            image={data?.image}
+                        />
+                    )}
+                    <div className="flex flex-1 flex-col">
+                        <HeaderTitle variant="h4">{data?.title}</HeaderTitle>
+                        <p className="text-muted-foreground text-sm">
+                            {CONTENT_TYPES[content_type].title_ua}
+                        </p>
+                    </div>
+                </HeaderContainer>
+                <HeaderNavButton />
+            </Header>
+        </Card>
+    );
+};
+
+export default ContentHeader;

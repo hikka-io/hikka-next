@@ -1,21 +1,14 @@
 import type { FC } from 'react';
 
-import {
-    type EditContentTypeEnum,
-    type EditStatusEnum,
-    getEditsInfiniteOptions,
-    paginatedInfiniteOptions,
-} from '@hikka/api';
-
 import FiltersNotFound from '@/components/filters-not-found';
 import PagePagination from '@/components/page-pagination';
 import Block from '@/components/ui/block';
 import { Table, TableBody } from '@/components/ui/table';
-import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
-import { expandSort } from '@/features/filters/sort';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
+import { useRouteSearch } from '@/utils/navigation';
 import type { EditSearch } from '@/utils/search-schemas';
 
+import { editListOptions } from '../queries';
 import EditHead from './components/edit-head';
 import EditRow from './components/edit-row';
 import EditSkeleton from './components/edit-skeleton';
@@ -23,35 +16,13 @@ import EditSkeleton from './components/edit-skeleton';
 type Props = {};
 
 const EditList: FC<Props> = () => {
-    const search = useFilterSearch<EditSearch>();
-
-    const page = search.page || 1;
-    const content_type =
-        (search.content_type as EditContentTypeEnum) || undefined;
-    const edit_status = (search.edit_status as EditStatusEnum) || undefined;
-    const author = search.author;
-    const moderator = search.moderator;
+    const search = useRouteSearch<EditSearch>();
 
     const { list, isLoading, pagination } = useInfiniteList(
-        paginatedInfiniteOptions(
-            getEditsInfiniteOptions({
-                body: {
-                    content_type,
-                    sort: expandSort('edit', search.sort, search.order),
-                    status: edit_status,
-                    author,
-                    moderator,
-                },
-            }),
-            Number(page),
-        ),
+        editListOptions(search),
     );
 
-    if (isLoading) {
-        return <EditSkeleton />;
-    }
-
-    if (!list) return null;
+    if (!isLoading && !list) return null;
 
     if (list && list.length === 0) {
         return <FiltersNotFound />;
@@ -63,9 +34,13 @@ const EditList: FC<Props> = () => {
                 <Table className="max-md:table-fixed max-md:[&_td]:px-2 max-md:[&_th]:px-2 max-md:[&_td:nth-child(2)]:pl-4 max-md:[&_th:nth-child(2)]:pl-4 max-md:[&_td:last-child]:pr-4 max-md:[&_th:last-child]:pr-4">
                     <EditHead />
                     <TableBody>
-                        {list.map((edit) => (
-                            <EditRow key={edit.edit_id} edit={edit} />
-                        ))}
+                        {isLoading ? (
+                            <EditSkeleton />
+                        ) : (
+                            list?.map((edit) => (
+                                <EditRow key={edit.edit_id} edit={edit} />
+                            ))
+                        )}
                     </TableBody>
                 </Table>
             </div>

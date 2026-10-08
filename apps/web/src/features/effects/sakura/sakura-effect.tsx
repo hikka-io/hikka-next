@@ -1,9 +1,9 @@
 import { useEffect, useRef } from 'react';
 
+import { maxWidth } from '@/utils/breakpoints';
+
 import { BRANCH_TOP_OFFSET_DESKTOP, BRANCH_TOP_OFFSET_MOBILE } from './config';
 import SakuraCanvas from './sakura-canvas';
-
-const MOBILE_MEDIA_QUERY = '(max-width: 767px)';
 
 const SakuraEffect = () => {
     const branchCanvasRef = useRef<HTMLCanvasElement>(null);
@@ -14,7 +14,7 @@ const SakuraEffect = () => {
         const particleCanvas = particleCanvasRef.current;
         if (!branchCanvas || !particleCanvas) return;
 
-        const narrowMql = window.matchMedia(MOBILE_MEDIA_QUERY);
+        const narrowMql = window.matchMedia(maxWidth('md'));
 
         let controller: SakuraCanvas | null = null;
         let resizeRaf = 0;

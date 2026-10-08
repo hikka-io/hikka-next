@@ -1,0 +1,120 @@
+import {
+    createContext,
+    type FC,
+    type ReactNode,
+    useContext,
+    useEffect,
+    useState,
+} from 'react';
+
+import { createStore, useStore } from 'zustand';
+
+import { ContentTypeEnum } from '@hikka/api';
+
+import {
+    type UiPreferences,
+    type View,
+    writeUiPrefsCookie,
+} from '@/utils/cookies';
+
+// Fallbacks applied at read time; the cookie stores only explicit choices.
+export const UI_PREFS_DEFAULTS = {
+    views: {
+        franchise: 'list',
+        userlist: 'table',
+    } as Record<string, View>,
+    filters: {
+        franchiseContentTypes: [
+            ContentTypeEnum.ANIME,
+            ContentTypeEnum.MANGA,
+            ContentTypeEnum.NOVEL,
+        ] as string[],
+    },
+};
+
+export type UiPreferencesActions = {
+    setView: (key: string, view: View) => void;
+    setFilter: (key: string, values: string[]) => void;
+    setCollapsible: (key: string, open: boolean) => void;
+};
+
+export type UiPreferencesStore = UiPreferences & UiPreferencesActions;
+
+const EMPTY_PREFS: UiPreferences = {
+    views: {},
+    filters: {},
+    collapsibles: {},
+};
+
+const hasStoredChoices = (state: UiPreferences) =>
+    Object.keys(state.views).length > 0 ||
+    Object.keys(state.filters).length > 0 ||
+    Object.keys(state.collapsibles).length > 0;
+
+const persist = (state: UiPreferencesStore) => {
+    writeUiPrefsCookie({
+        views: state.views,
+        filters: state.filters,
+        collapsibles: state.collapsibles,
+    });
+};
+
+const createUiPreferencesStore = (initial: UiPreferences | null) =>
+    createStore<UiPreferencesStore>()((set, get) => ({
+        ...EMPTY_PREFS,
+        ...initial,
+        setView: (key, view) => {
+            set((state) => ({ views: { ...state.views, [key]: view } }));
+            persist(get());
+        },
+        setFilter: (key, values) => {
+            set((state) => ({ filters: { ...state.filters, [key]: values } }));
+            persist(get());
+        },
+        setCollapsible: (key, open) => {
+            set((state) => ({
+                collapsibles: { ...state.collapsibles, [key]: open },
+            }));
+            persist(get());
+        },
+    }));
+
+type UiPreferencesStoreApi = ReturnType<typeof createUiPreferencesStore>;
+
+const UiPreferencesContext = createContext<UiPreferencesStoreApi | null>(null);
+
+type Props = {
+    initial: UiPreferences | null;
+    children: ReactNode;
+};
+
+export const UiPreferencesProvider: FC<Props> = ({ initial, children }) => {
+    const [store] = useState(() => createUiPreferencesStore(initial));
+
+    useEffect(() => {
+        // Nothing re-stamps this cookie server-side, so refresh its maxAge on
+        // load or untouched preferences expire. Skipped when there's nothing
+        // saved, to avoid handing every visitor an empty cookie.
+        const state = store.getState();
+        if (!hasStoredChoices(state)) return;
+        persist(state);
+    }, [store]);
+
+    return (
+        <UiPreferencesContext.Provider value={store}>
+            {children}
+        </UiPreferencesContext.Provider>
+    );
+};
+
+export function useUiPreferences<T>(
+    selector: (store: UiPreferencesStore) => T,
+): T {
+    const store = useContext(UiPreferencesContext);
+    if (!store) {
+        throw new Error(
+            'useUiPreferences must be used within UiPreferencesProvider',
+        );
+    }
+    return useStore(store, selector);
+}

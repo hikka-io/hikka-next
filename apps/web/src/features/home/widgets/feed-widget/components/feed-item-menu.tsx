@@ -18,8 +18,8 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { useSession } from '@/features/auth/hooks/use-session';
-import { invalidateFollow } from '@/utils/api/invalidate-content-state';
+import { useSession } from '@/services/session';
+import { applyFollowChange } from '@/utils/api/invalidate-content-state';
 
 type Props = {
     author: FollowUserResponse;
@@ -36,7 +36,10 @@ const FeedItemMenu: FC<Props> = ({ author, shareUrl }) => {
         ...followMutation(),
         onSuccess: (_data, { path }) => {
             setIsFollowed(true);
-            invalidateFollow(queryClient, path.username);
+            applyFollowChange(queryClient, {
+                username: path.username,
+                is_followed: true,
+            });
         },
     });
 
@@ -44,7 +47,10 @@ const FeedItemMenu: FC<Props> = ({ author, shareUrl }) => {
         ...unfollowMutation(),
         onSuccess: (_data, { path }) => {
             setIsFollowed(false);
-            invalidateFollow(queryClient, path.username);
+            applyFollowChange(queryClient, {
+                username: path.username,
+                is_followed: false,
+            });
         },
     });
 

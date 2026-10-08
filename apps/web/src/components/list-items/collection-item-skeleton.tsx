@@ -1,11 +1,11 @@
 import type { FC } from 'react';
 
-import HorizontalCardSkeleton from '@/components/ui/horizontal-card-skeleton';
+import HorizontalCardSkeleton from '@/components/horizontal-card-skeleton';
 import { Skeleton } from '@/components/ui/skeleton';
 
 const CollectionItemSkeleton: FC = () => (
-    <HorizontalCardSkeleton>
-        <div className="flex items-center gap-4">
+    <HorizontalCardSkeleton descriptionClassName="leading-relaxed">
+        <div className="flex h-lh items-center gap-3 text-xs leading-normal">
             <Skeleton className="h-3 w-8 rounded" />
             <Skeleton className="h-3 w-8 rounded" />
             <Skeleton className="h-3 w-8 rounded" />

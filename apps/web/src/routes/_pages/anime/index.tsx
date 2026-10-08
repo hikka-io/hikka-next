@@ -3,23 +3,10 @@ import { zodValidator } from '@tanstack/zod-adapter';
 
 import { ContentTypeEnum } from '@hikka/api';
 
-import ContentTypeTabs from '@/components/content-type-tabs';
-import Block from '@/components/ui/block';
-import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
-import type { StackSize } from '@/components/ui/stack';
-import { AnimeList, AnimeListSummary } from '@/features/anime';
-import { usePageHeader, usePageTitleAnchor } from '@/features/app-shell';
-import { CatalogNavbar } from '@/features/catalog';
-import {
-    AnimeFilters,
-    AnimeFiltersModal,
-    HeaderFiltersButton,
-} from '@/features/filters';
-import { useCatalogView } from '@/features/filters/hooks/use-catalog-view';
-import { useFiltersSidebar } from '@/features/filters/hooks/use-filters-sidebar';
-import { cn } from '@/utils/cn';
+import { CatalogPage } from '@/features/catalog';
 import { generateHeadMeta } from '@/utils/metadata';
 import { animeSearchSchema } from '@/utils/search-schemas';
+import { SITE_ORIGIN } from '@/utils/url';
 
 export const Route = createFileRoute('/_pages/anime/')({
     validateSearch: zodValidator(animeSearchSchema),
@@ -28,87 +15,17 @@ export const Route = createFileRoute('/_pages/anime/')({
             title: 'Аніме',
             description:
                 'Каталог аніме — шукайте та фільтруйте аніме серіали на Hikka',
-            url: 'https://hikka.io/anime',
+            url: `${SITE_ORIGIN}/anime`,
         }),
     component: AnimeListPage,
 });
 
 function AnimeListPage() {
-    const titleAnchor = usePageTitleAnchor();
-
-    usePageHeader({
-        title: 'Каталог аніме',
-        parent: '/',
-        anchored: true,
-        actionsAnchored: true,
-        hideBack: true,
-        actionsComponent: () => (
-            <HeaderFiltersButton
-                renderModal={(props) => (
-                    <AnimeFiltersModal {...props} sort_type="anime" />
-                )}
-            />
-        ),
-    });
-
-    const { visible: sidebarVisible } = useFiltersSidebar();
-    const { view } = useCatalogView('catalog');
-
-    const extendedSize: StackSize =
-        view === 'list' ? 1 : sidebarVisible ? 5 : 7;
-    const pageSize = view === 'list' ? undefined : extendedSize * 4;
-
     return (
-        <Block>
-            <Header>
-                <HeaderContainer>
-                    <HeaderTitle ref={titleAnchor} variant="h2">
-                        Каталог аніме
-                    </HeaderTitle>
-                </HeaderContainer>
-            </Header>
-            <ContentTypeTabs
-                value={ContentTypeEnum.ANIME}
-                urlFor={(contentType) => `/${contentType}`}
-                className="md:hidden"
-            />
-
-            <div
-                className={cn(
-                    'grid grid-cols-1 lg:items-start lg:gap-x-10',
-                    sidebarVisible &&
-                        'lg:grid-cols-[1fr_30%] xl:grid-cols-[1fr_25%]',
-                )}
-            >
-                <div className="flex flex-col gap-4">
-                    <CatalogNavbar
-                        sort_type="anime"
-                        content_type={ContentTypeEnum.ANIME}
-                        searchPlaceholder="Введіть назву аніме..."
-                        renderFilterModal={({ open, onOpenChange }) => (
-                            <AnimeFiltersModal
-                                open={open}
-                                onOpenChange={onOpenChange}
-                                sort_type="anime"
-                            />
-                        )}
-                    />
-                    <AnimeListSummary pageSize={pageSize} />
-                    <AnimeList
-                        extendedSize={extendedSize}
-                        pageSize={pageSize}
-                    />
-                </div>
-
-                {sidebarVisible && (
-                    <div className="sticky top-20 order-1 hidden max-h-[calc(100vh-9rem)] w-full overflow-hidden rounded-lg border border-border surface lg:order-2 lg:flex">
-                        <AnimeFilters
-                            content_type={ContentTypeEnum.ANIME}
-                            sort_type="anime"
-                        />
-                    </div>
-                )}
-            </div>
-        </Block>
+        <CatalogPage
+            contentType={ContentTypeEnum.ANIME}
+            title="Каталог аніме"
+            searchPlaceholder="Введіть назву аніме..."
+        />
     );
 }

@@ -1,46 +1,30 @@
 import { createFileRoute } from '@tanstack/react-router';
 
-import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
-import { ReadlistSettings, WatchlistSettings } from '@/features/settings';
+import {
+    ReadListImport,
+    SettingsPage,
+    SettingsSection,
+    settingsHead,
+    WatchListImport,
+} from '@/features/settings';
 
 export const Route = createFileRoute('/_pages/settings/list/import')({
-    head: () => ({
-        meta: [{ title: 'Імпорт списку / Налаштування / Hikka' }],
-    }),
+    head: () => settingsHead('Імпорт списку'),
     component: ListImportPage,
 });
 
 function ListImportPage() {
     return (
-        <div className="flex flex-col gap-8">
-            <div className="flex flex-col">
-                <Header>
-                    <HeaderContainer>
-                        <HeaderTitle>Імпорт</HeaderTitle>
-                    </HeaderContainer>
-                </Header>
-                <p className="text-muted-foreground text-sm">
-                    Імпортуйте аніме, манґу та ранобе з інших сервісів
-                </p>
-            </div>
-            <div className="flex flex-col gap-4">
-                <Header>
-                    <HeaderContainer>
-                        <HeaderTitle variant="h4">Імпорт аніме</HeaderTitle>
-                    </HeaderContainer>
-                </Header>
-                <WatchlistSettings />
-            </div>
-            <div className="flex flex-col gap-4">
-                <Header>
-                    <HeaderContainer>
-                        <HeaderTitle variant="h4">
-                            Імпорт манґи та ранобе
-                        </HeaderTitle>
-                    </HeaderContainer>
-                </Header>
-                <ReadlistSettings />
-            </div>
-        </div>
+        <SettingsPage
+            title="Імпорт"
+            description="Імпортуйте аніме, манґу та ранобе з інших сервісів"
+        >
+            <SettingsSection title="Імпорт аніме">
+                <WatchListImport />
+            </SettingsSection>
+            <SettingsSection title="Імпорт манґи та ранобе">
+                <ReadListImport />
+            </SettingsSection>
+        </SettingsPage>
     );
 }

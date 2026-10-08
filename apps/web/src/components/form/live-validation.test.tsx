@@ -208,7 +208,12 @@ describe('shouldShowErrors', () => {
         [false, 0, false],
         [true, 0, true],
         [false, 1, true],
-    ])('isBlurred=%s, submissionAttempts=%s -> %s', (isBlurred, submissionAttempts, shown) => {
-        expect(shouldShowErrors({ isBlurred, submissionAttempts })).toBe(shown);
-    });
+    ])(
+        'isBlurred=%s, submissionAttempts=%s -> %s',
+        (isBlurred, submissionAttempts, shown) => {
+            expect(shouldShowErrors({ isBlurred, submissionAttempts })).toBe(
+                shown,
+            );
+        },
+    );
 });

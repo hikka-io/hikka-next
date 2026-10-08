@@ -1,4 +1,13 @@
-import { type FC, type KeyboardEvent, useMemo, useRef, useState } from 'react';
+import {
+    type FC,
+    type KeyboardEvent,
+    lazy,
+    Suspense,
+    useCallback,
+    useMemo,
+    useRef,
+    useState,
+} from 'react';
 
 import { Settings2 } from 'lucide-react';
 
@@ -7,12 +16,14 @@ import type { UiFeedWidget } from '@hikka/api';
 import { Button } from '@/components/ui/button';
 import { Chip } from '@/components/ui/chip';
 import { SELECTED_TINT } from '@/components/ui/selected-tint';
-import { useSession } from '@/features/auth/hooks/use-session';
+import { useSession } from '@/services/session';
 import { cn } from '@/utils/cn';
 
-import { type SupportedWidgetSlug, WIDGET_REGISTRY } from './constants';
-import { useFeedLayout } from './hooks/use-feed-layout';
-import { useOpenLayoutSettings } from './hooks/use-open-layout-settings';
+import type { SupportedWidgetSlug } from './types';
+import { useFeedLayout } from './use-feed-layout';
+import { WIDGET_REGISTRY } from './widgets/registry';
+
+const LayoutSettings = lazy(() => import('./layout-settings/layout-settings'));
 
 const WidgetRenderer: FC<{ widget: UiFeedWidget; isLast?: boolean }> = ({
     widget,
@@ -169,7 +180,13 @@ const SidebarWidgetChips: FC<{
 const FeedLayout: FC<{ className?: string }> = ({ className }) => {
     const { user } = useSession();
     const { left, center, right } = useFeedLayout();
-    const { openSettings, settingsModal } = useOpenLayoutSettings();
+    const [settingsOpen, setSettingsOpen] = useState(false);
+    const [settingsMounted, setSettingsMounted] = useState(false);
+
+    const openSettings = useCallback(() => {
+        setSettingsMounted(true);
+        setSettingsOpen(true);
+    }, []);
 
     const hasLeft = left.length > 0;
     const hasCenter = center.length > 0;
@@ -212,7 +229,14 @@ const FeedLayout: FC<{ className?: string }> = ({ className }) => {
 
     return (
         <div className={cn(gridClasses, className)}>
-            {settingsModal}
+            {settingsMounted && (
+                <Suspense fallback={null}>
+                    <LayoutSettings
+                        open={settingsOpen}
+                        onOpenChange={setSettingsOpen}
+                    />
+                </Suspense>
+            )}
 
             {layout >= 2 && !isLeftRightOnly && sidebarWidgets.length > 0 && (
                 <aside

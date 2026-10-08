@@ -5,10 +5,10 @@ import { useQuery } from '@tanstack/react-query';
 import { personInfoOptions } from '@hikka/api';
 
 import { usePageTitleAnchor } from '@/features/app-shell';
-import { useTitle } from '@/features/auth/hooks/use-title';
+import { useTitle } from '@/services/session';
 import { useParams } from '@/utils/navigation';
 
-const Title = () => {
+const PersonTitle = () => {
     const divRef = useRef<HTMLDivElement>(null);
     const params = useParams();
     const { data: person } = useQuery(
@@ -35,4 +35,4 @@ const Title = () => {
     );
 };
 
-export default Title;
+export default PersonTitle;

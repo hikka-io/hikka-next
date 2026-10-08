@@ -1,3 +1,5 @@
+export type WordForms = readonly [string, string, string];
+
 /**
  * Returns the appropriate word form based on a number.
  *
@@ -10,7 +12,7 @@
  */
 export function getDeclensionWord(
     number: number,
-    wordForms: [string, string, string],
+    wordForms: WordForms,
 ): string {
     const absNumber = Math.abs(number);
     const lastDigit = absNumber % 10;

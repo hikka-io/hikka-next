@@ -5,7 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 import { getEditOptions } from '@hikka/api';
 
 import { Button } from '@/components/ui/button';
-import { useSession } from '@/features/auth/hooks/use-session';
+import { useSession } from '@/services/session';
 import { Link, useParams } from '@/utils/navigation';
 
 import AcceptAction from './accept-action';

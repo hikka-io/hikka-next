@@ -3,10 +3,10 @@ import { toast } from 'sonner';
 
 import { signupMutation } from '@hikka/api';
 
-import SubmitButton from '@/components/form/submit-button';
-import { useAppForm } from '@/components/form/use-app-form';
+import { SubmitButton, useAppForm } from '@/components/form';
 import {
     emailSchema,
+    matchFields,
     passwordSchema,
     USERNAME_HINT,
     usernameSchema,
@@ -15,9 +15,9 @@ import { z } from '@/utils/i18n/zod';
 import { useRouter } from '@/utils/navigation';
 
 import Captcha from './captcha';
+import GoogleLogin from './google-login';
 import { handleAuthSuccess } from './handle-auth-success';
-import { useCaptcha } from './hooks/use-captcha';
-import OAuthLogin from './oauth-login';
+import { useCaptcha } from './use-captcha';
 
 const formSchema = z
     .object({
@@ -26,10 +26,13 @@ const formSchema = z
         username: usernameSchema,
         passwordConfirmation: z.string(),
     })
-    .refine((data) => data.password === data.passwordConfirmation, {
-        message: 'Паролі не збігаються',
-        path: ['passwordConfirmation'],
-    });
+    .refine(
+        ...matchFields(
+            'password',
+            'passwordConfirmation',
+            'Паролі не збігаються',
+        ),
+    );
 
 const SignupForm = () => {
     const queryClient = useQueryClient();
@@ -81,78 +84,75 @@ const SignupForm = () => {
     });
 
     return (
-        <form
-            onSubmit={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                form.handleSubmit();
-            }}
-            className="space-y-4"
-        >
-            <form.AppField
-                name="username"
-                children={(field) => (
-                    <field.TextField
-                        type="text"
-                        label="Ім'я користувача (нікнейм)"
-                        placeholder="Введіть нікнейм"
-                        description={USERNAME_HINT}
-                        autoComplete="username"
-                        autoCapitalize="none"
-                        spellCheck={false}
-                    />
-                )}
-            />
+        <form.AppForm>
+            <form.Form className="space-y-4">
+                <form.AppField
+                    name="username"
+                    children={(field) => (
+                        <field.TextField
+                            type="text"
+                            label="Ім'я користувача (нікнейм)"
+                            placeholder="Введіть нікнейм"
+                            description={USERNAME_HINT}
+                            autoComplete="username"
+                            autoCapitalize="none"
+                            spellCheck={false}
+                        />
+                    )}
+                />
 
-            <form.AppField
-                name="email"
-                children={(field) => (
-                    <field.TextField
-                        type="email"
-                        label="Email"
-                        placeholder="Введіть ваш email"
-                        autoComplete="email"
-                    />
-                )}
-            />
+                <form.AppField
+                    name="email"
+                    children={(field) => (
+                        <field.TextField
+                            type="email"
+                            label="Email"
+                            placeholder="Введіть ваш email"
+                            autoComplete="email"
+                        />
+                    )}
+                />
 
-            <form.AppField
-                name="password"
-                children={(field) => (
-                    <field.PasswordField
-                        label="Пароль"
-                        placeholder="Введіть пароль"
-                        autoComplete="new-password"
-                    />
-                )}
-            />
+                <form.AppField
+                    name="password"
+                    children={(field) => (
+                        <field.PasswordField
+                            label="Пароль"
+                            placeholder="Введіть пароль"
+                            autoComplete="new-password"
+                        />
+                    )}
+                />
 
-            <form.AppField
-                name="passwordConfirmation"
-                children={(field) => (
-                    <field.PasswordField
-                        label="Підтвердження паролю"
-                        placeholder="Повторіть пароль"
-                        autoComplete="new-password"
-                    />
-                )}
-            />
+                <form.AppField
+                    name="passwordConfirmation"
+                    children={(field) => (
+                        <field.PasswordField
+                            label="Підтвердження паролю"
+                            placeholder="Повторіть пароль"
+                            autoComplete="new-password"
+                        />
+                    )}
+                />
 
-            <Captcha ref={captchaRef} />
+                <Captcha ref={captchaRef} />
 
-            <SubmitButton
-                className="w-full"
-                loading={mutationSignup.isPending}
-                disabled={mutationSignup.isSuccess}
-            >
-                Зареєструватись
-            </SubmitButton>
+                <SubmitButton
+                    className="w-full"
+                    loading={mutationSignup.isPending}
+                    disabled={mutationSignup.isSuccess}
+                >
+                    Зареєструватись
+                </SubmitButton>
 
-            <OAuthLogin
-                disabled={mutationSignup.isPending || mutationSignup.isSuccess}
-                buttonText="Зареєструватись з Google"
-            />
-        </form>
+                <GoogleLogin
+                    disabled={
+                        mutationSignup.isPending || mutationSignup.isSuccess
+                    }
+                    buttonText="Зареєструватись з Google"
+                />
+            </form.Form>
+        </form.AppForm>
     );
 };
 

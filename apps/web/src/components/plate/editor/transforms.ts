@@ -1,21 +1,22 @@
+import { createLinkNode } from '@platejs/link';
 import { toggleList } from '@platejs/list-classic';
-import {
-    KEYS,
-    type NodeEntry,
-    type Path,
-    PathApi,
-    type TElement,
-} from 'platejs';
+import { KEYS, type Path, PathApi, type TElement } from 'platejs';
 import type { PlateEditor } from 'platejs/react';
 
-// Containers need a paragraph child, not bare text
-const CONTAINER_TYPES: Set<string> = new Set(['spoiler', KEYS.blockquote]);
+import type { ContentTypeEnum, UserResponse } from '@hikka/api';
+
+import { contentPath } from '@/utils/content-paths';
+import { userMentionUrl } from '@/utils/mentions';
+import { getSiteUrl } from '@/utils/url';
+
+import { CONTAINER_BLOCK_TYPES } from './plate-types';
 
 // These use toggleList instead of insertNodes
 const LIST_TYPES: Set<string> = new Set([KEYS.ulClassic, KEYS.olClassic]);
 
 const createBlockNode = (editor: PlateEditor, type: string): TElement => {
-    if (CONTAINER_TYPES.has(type)) {
+    // Containers need a paragraph child, not bare text
+    if (CONTAINER_BLOCK_TYPES.has(type)) {
         return {
             type,
             children: [{ type: KEYS.p, children: [{ text: '' }] } as TElement],
@@ -78,7 +79,7 @@ export const insertBlock = (editor: PlateEditor, type: string) => {
     restoreSelection(editor);
     if (!editor.selection) return;
 
-    const isContainer = CONTAINER_TYPES.has(type);
+    const isContainer = CONTAINER_BLOCK_TYPES.has(type);
 
     // Prevent nesting containers of the same type (e.g. spoiler inside spoiler)
     if (isContainer && isInsideBlock(editor, type)) {
@@ -189,51 +190,26 @@ export const toggleSpoiler = (
     toggleContainerBlock(editor, block);
 };
 
-const setBlockMap: Record<string, (editor: PlateEditor, type: string) => void> =
-    {
-        [KEYS.olClassic]: (editor) =>
-            toggleList(editor, { type: editor.getType(KEYS.olClassic) }),
-        [KEYS.taskList]: (editor) =>
-            toggleList(editor, { type: editor.getType(KEYS.taskList) }),
-        [KEYS.ulClassic]: (editor) =>
-            toggleList(editor, { type: editor.getType(KEYS.ulClassic) }),
-    };
-
-export const setBlockType = (
+export const insertContentLink = (
     editor: PlateEditor,
-    type: string,
-    { at }: { at?: Path } = {},
+    { type, slug, text }: { type: ContentTypeEnum; slug: string; text: string },
 ) => {
-    editor.tf.withoutNormalizing(() => {
-        const setEntry = (entry: NodeEntry<TElement>) => {
-            const [node, path] = entry;
-
-            if (type in setBlockMap) {
-                return setBlockMap[type](editor, type);
-            }
-            if (node.type !== type) {
-                editor.tf.setNodes({ type }, { at: path });
-            }
-        };
-
-        if (at) {
-            const entry = editor.api.node<TElement>(at);
-
-            if (entry) {
-                setEntry(entry);
-
-                return;
-            }
-        }
-
-        const entries = editor.api.blocks({ mode: 'lowest' });
-
-        entries.forEach((entry) => {
-            setEntry(entry);
-        });
-    });
+    editor.tf.insertNodes(
+        createLinkNode(editor, {
+            url: `${getSiteUrl()}${contentPath(type, slug)}`,
+            text,
+        }),
+    );
 };
 
-export const getBlockType = (block: TElement) => {
-    return block.type;
+export const insertMentionLink = (
+    editor: PlateEditor,
+    { reference, username }: Pick<UserResponse, 'reference' | 'username'>,
+) => {
+    editor.tf.insertNodes(
+        createLinkNode(editor, {
+            url: userMentionUrl(reference),
+            text: `@${username}`,
+        }),
+    );
 };

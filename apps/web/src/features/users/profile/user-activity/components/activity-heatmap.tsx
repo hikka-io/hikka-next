@@ -1,163 +1,175 @@
-import { type FC, useEffect, useMemo, useRef, useState } from 'react';
+import { type FC, type PointerEvent, useMemo, useRef, useState } from 'react';
 
 import { useQuery } from '@tanstack/react-query';
 import { format } from 'date-fns';
 
 import { serviceUserActivityOptions } from '@hikka/api';
 
+import { Tooltip, TooltipContent } from '@/components/ui/tooltip';
+import { cn } from '@/utils/cn';
+import { getDeclensionWord, type WordForms } from '@/utils/i18n/declension';
+import { APP_LOCALE_TAG } from '@/utils/i18n/locale';
+import { DAY_FORMS } from '@/utils/i18n/word-forms';
 import { useParams } from '@/utils/navigation';
 
-import HeatmapCell from './heatmap-cell';
+import { type ActivityDay, buildActivityGrid } from './activity-grid';
 
-const DAYS_IN_YEAR = 365;
-const DAYS_IN_WEEK = 7;
-const CELL_SIZE = 10; // size-2.5 = 10px
-const CELL_GAP = 4; // gap-0.5 = 2px
+const ACTION_FORMS = ['дія', 'дії', 'дій'] as const satisfies WordForms;
 
-function computeLevel(
-    actions: number,
-    thresholds: number[],
-): 0 | 1 | 2 | 3 | 4 {
-    if (actions === 0) return 0;
-    if (actions <= thresholds[0]) return 1;
-    if (actions <= thresholds[1]) return 2;
-    if (actions <= thresholds[2]) return 3;
-    return 4;
-}
+const LEVEL_CLASSES = [
+    'bg-secondary',
+    'bg-[color-mix(in_oklab,var(--primary-foreground)_25%,var(--secondary))]',
+    'bg-[color-mix(in_oklab,var(--primary-foreground)_50%,var(--secondary))]',
+    'bg-[color-mix(in_oklab,var(--primary-foreground)_75%,var(--secondary))]',
+    'bg-primary-foreground',
+] as const;
+
+const formatCount = (count: number, forms: WordForms) =>
+    `${count.toLocaleString(APP_LOCALE_TAG)} ${getDeclensionWord(count, forms)}`;
+
+type ActiveCell = {
+    anchor: HTMLElement;
+    day: ActivityDay;
+};
 
 const ActivityHeatmap: FC = () => {
     const params = useParams();
-    const containerRef = useRef<HTMLDivElement>(null);
-    const [visibleWeeks, setVisibleWeeks] = useState<number>(0);
+    const gridRef = useRef<HTMLDivElement>(null);
+    const [activeCell, setActiveCell] = useState<ActiveCell | null>(null);
+    const [open, setOpen] = useState(false);
 
-    const { data } = useQuery({
-        ...serviceUserActivityOptions({
+    const { data, isError } = useQuery(
+        serviceUserActivityOptions({
             path: { username: String(params.username) },
         }),
-        enabled: !!params.username,
-    });
+    );
 
-    useEffect(() => {
-        const el = containerRef.current;
-        if (!el) return;
+    const { weeks, total, activeDays } = useMemo(
+        () => buildActivityGrid(data),
+        [data],
+    );
 
-        const measure = () => {
-            const width = el.clientWidth;
-            setVisibleWeeks(
-                Math.floor((width + CELL_GAP) / (CELL_SIZE + CELL_GAP)),
-            );
-        };
+    if (isError && !data) {
+        return (
+            <p className="text-muted-foreground text-sm">
+                Не вдалося завантажити активність
+            </p>
+        );
+    }
 
-        measure();
+    const label =
+        total > 0
+            ? `Активність: ${formatCount(total, ACTION_FORMS)} за рік, ${formatCount(activeDays, DAY_FORMS)} з активністю`
+            : 'Немає активності за рік';
 
-        const observer = new ResizeObserver(measure);
-        observer.observe(el);
-        return () => observer.disconnect();
-    }, []);
+    const showCell = (target: EventTarget) => {
+        if (!(target instanceof HTMLElement)) return;
 
-    const { grid, thresholds } = useMemo(() => {
-        const activityMap = new Map<string, number>();
+        const { week, weekday } = target.dataset;
+        const day = weeks[Number(week)]?.[Number(weekday)];
+        if (!day) return;
 
-        if (data) {
-            for (const item of data) {
-                if (!item.timestamp || item.actions === 0) continue;
-                const date = new Date(item.timestamp * 1000);
-                const key = format(date, 'yyyy-MM-dd');
-                activityMap.set(
-                    key,
-                    (activityMap.get(key) || 0) + item.actions,
-                );
-            }
-        }
+        setActiveCell({ anchor: target, day });
+        setOpen(true);
+    };
 
-        const today = new Date();
-        today.setHours(0, 0, 0, 0);
+    const handlePointerOver = (event: PointerEvent) => {
+        if (event.pointerType !== 'touch') showCell(event.target);
+    };
 
-        const days: { date: Date; actions: number }[] = [];
-        for (let i = DAYS_IN_YEAR - 1; i >= 0; i--) {
-            const date = new Date(today);
-            date.setDate(date.getDate() - i);
-            const key = format(date, 'yyyy-MM-dd');
-            days.push({ date, actions: activityMap.get(key) || 0 });
-        }
+    const handlePointerUp = (event: PointerEvent) => {
+        if (event.pointerType === 'touch') showCell(event.target);
+    };
 
-        const nonZero = days
-            .map((d) => d.actions)
-            .filter((a) => a > 0)
-            .sort((a, b) => a - b);
-
-        let thresholds: number[];
-        if (nonZero.length === 0) {
-            thresholds = [1, 2, 3];
-        } else {
-            thresholds = [
-                nonZero[Math.floor(nonZero.length * 0.25)] || 1,
-                nonZero[Math.floor(nonZero.length * 0.5)] || 2,
-                nonZero[Math.floor(nonZero.length * 0.75)] || 3,
-            ];
-        }
-
-        const startDayOfWeek = (days[0].date.getDay() + 6) % 7;
-        const paddedDays: ((typeof days)[number] | null)[] = [
-            ...Array.from({ length: startDayOfWeek }, () => null),
-            ...days,
-        ];
-
-        const weeks: ((typeof days)[number] | null)[][] = [];
-        for (let i = 0; i < paddedDays.length; i += DAYS_IN_WEEK) {
-            weeks.push(paddedDays.slice(i, i + DAYS_IN_WEEK));
-        }
-
-        return { grid: weeks, thresholds };
-    }, [data]);
-
-    const displayGrid = visibleWeeks > 0 ? grid.slice(-visibleWeeks) : grid;
+    const handlePointerLeave = (event: PointerEvent) => {
+        if (event.pointerType !== 'touch') setOpen(false);
+    };
 
     return (
-        <div className="flex flex-col gap-4">
-            <div ref={containerRef} className="overflow-hidden">
-                <div className="flex justify-end gap-1">
-                    {displayGrid.map((week, weekIdx) => (
-                        <div key={weekIdx} className="flex flex-col gap-1">
-                            {week.map((day, dayIdx) =>
-                                day ? (
-                                    <HeatmapCell
-                                        key={dayIdx}
-                                        date={day.date}
-                                        actions={day.actions}
-                                        level={computeLevel(
-                                            day.actions,
-                                            thresholds,
-                                        )}
-                                    />
-                                ) : (
-                                    <div key={dayIdx} className="size-2.5" />
-                                ),
-                            )}
+        <div className="flex flex-col gap-3">
+            {/* A lone child of a row-reverse scroller opens scrolled to the newest week;
+                the width rounds down to whole 14px week columns so none is cut. */}
+            <div className="-my-1 -mr-1 flex w-[calc(round(down,100%_+_4px,14px)_+_4px)] flex-row-reverse self-end overflow-x-auto pb-1">
+                <div
+                    ref={gridRef}
+                    role="img"
+                    aria-label={label}
+                    className="flex gap-1 p-1"
+                    onPointerOver={handlePointerOver}
+                    onPointerUp={handlePointerUp}
+                    onPointerLeave={handlePointerLeave}
+                >
+                    {weeks.map((week, weekIndex) => (
+                        <div
+                            key={weekIndex}
+                            className="flex shrink-0 flex-col gap-1"
+                        >
+                            {week.map((day, weekday) => (
+                                <div
+                                    key={weekday}
+                                    data-week={weekIndex}
+                                    data-weekday={weekday}
+                                    className={cn(
+                                        'size-2.5 rounded-xs',
+                                        day && 'cursor-pointer',
+                                        day && LEVEL_CLASSES[day.level],
+                                        open &&
+                                            day &&
+                                            activeCell?.day === day &&
+                                            'outline-2 outline-foreground outline-offset-1',
+                                    )}
+                                />
+                            ))}
                         </div>
                     ))}
                 </div>
             </div>
             <div className="flex items-center gap-1 text-muted-foreground text-xs">
                 <span>Менше</span>
-                {[0, 1, 2, 3, 4].map((level) => (
+                {LEVEL_CLASSES.map((levelClass) => (
                     <div
-                        key={level}
-                        className={
-                            level === 0
-                                ? 'size-2.5 rounded-xs bg-secondary'
-                                : level === 1
-                                  ? 'size-2.5 rounded-xs bg-primary-foreground/20'
-                                  : level === 2
-                                    ? 'size-2.5 rounded-xs bg-primary-foreground/40'
-                                    : level === 3
-                                      ? 'size-2.5 rounded-xs bg-primary-foreground/70'
-                                      : 'size-2.5 rounded-xs bg-primary-foreground'
-                        }
+                        key={levelClass}
+                        className={cn('size-2.5 rounded-xs', levelClass)}
                     />
                 ))}
                 <span>Більше</span>
             </div>
+            <Tooltip
+                open={open}
+                onOpenChange={(nextOpen, { reason, event }) => {
+                    if (nextOpen) return;
+                    if (
+                        reason === 'outside-press' &&
+                        event.target instanceof Node &&
+                        gridRef.current?.contains(event.target)
+                    ) {
+                        return;
+                    }
+                    setOpen(false);
+                }}
+            >
+                <TooltipContent anchor={activeCell?.anchor}>
+                    {activeCell && (
+                        <>
+                            <span className="font-medium">
+                                {activeCell.day.actions > 0
+                                    ? formatCount(
+                                          activeCell.day.actions,
+                                          ACTION_FORMS,
+                                      )
+                                    : 'Немає активності'}
+                            </span>
+                            <span className="text-tooltip-foreground/70">
+                                {' · '}
+                                {format(
+                                    activeCell.day.date,
+                                    'EEEEEE, d MMMM yyyy',
+                                )}
+                            </span>
+                        </>
+                    )}
+                </TooltipContent>
+            </Tooltip>
         </div>
     );
 };

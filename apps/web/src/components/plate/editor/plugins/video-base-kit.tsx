@@ -2,7 +2,7 @@ import { createSlatePlugin } from 'platejs';
 
 import { VideoElementStatic } from '@/components/plate/ui/video-node-static';
 
-export const ELEMENT_VIDEO = 'video';
+import { ELEMENT_VIDEO } from '../plate-types';
 
 export const BaseVideoPlugin = createSlatePlugin({
     key: ELEMENT_VIDEO,

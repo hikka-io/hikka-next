@@ -13,9 +13,9 @@ import {
 } from '@/components/ui/header';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
-import Readlist from './components/readlist';
+import ReadStatusStats from './components/read-status-stats';
 import Score from './components/score';
-import Watchlist from './components/watchlist';
+import WatchStatusStats from './components/watch-status-stats';
 
 type Props = {
     content_type: MainContentTypeEnum;
@@ -45,11 +45,11 @@ const ContentStats = ({ content_type }: Props) => {
                     </TabsList>
                 </Tabs>
                 {stat === 'readlist' && (
-                    <Readlist
+                    <ReadStatusStats
                         content_type={content_type as 'manga' | 'novel'}
                     />
                 )}
-                {stat === 'watchlist' && <Watchlist />}
+                {stat === 'watchlist' && <WatchStatusStats />}
                 {stat === 'score' && <Score content_type={content_type} />}
             </Block>
         </Card>

@@ -1,9 +1,12 @@
-import { type FC, type ReactNode, useState } from 'react';
+import type { FC, ReactNode } from 'react';
 
 import { Copy, Zap } from 'lucide-react';
 
-import { ContentTypeEnum, type EditContentTypeEnum } from '@hikka/api';
+import type { ContentTypeEnum } from '@hikka/api';
 
+import { MaterialSymbolsEditRounded } from '@/components/icons/material-symbols/MaterialSymbolsEditRounded';
+import MaterialSymbolsImageOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsImageOutlineRounded';
+import MaterialSymbolsOpenInNewRounded from '@/components/icons/material-symbols/MaterialSymbolsOpenInNewRounded';
 import {
     ContextMenu,
     ContextMenuContent,
@@ -11,22 +14,10 @@ import {
     ContextMenuSeparator,
     ContextMenuTrigger,
 } from '@/components/ui/context-menu';
-import { useSession } from '@/features/auth/hooks/use-session';
-import { QuickEditModal } from '@/features/edit/quick-edit';
-import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
+import { useQuickEdit } from '@/features/edit/quick-edit';
+import { useSession } from '@/services/session';
+import { CONTENT_TYPE_LINKS } from '@/utils/content-paths';
 import { Link } from '@/utils/navigation';
-
-import { MaterialSymbolsEditRounded } from '../icons/material-symbols/MaterialSymbolsEditRounded';
-import MaterialSymbolsImageOutlineRounded from '../icons/material-symbols/MaterialSymbolsImageOutlineRounded';
-import MaterialSymbolsOpenInNewRounded from '../icons/material-symbols/MaterialSymbolsOpenInNewRounded';
-
-const EDITABLE_CONTENT_TYPES = new Set<ContentTypeEnum>([
-    ContentTypeEnum.ANIME,
-    ContentTypeEnum.MANGA,
-    ContentTypeEnum.NOVEL,
-    ContentTypeEnum.CHARACTER,
-    ContentTypeEnum.PERSON,
-]);
 
 type Props = {
     children: ReactNode;
@@ -45,19 +36,21 @@ const ContextMenuOverlay: FC<Props> = ({
     image,
     onOpenChange,
 }) => {
-    const { user: loggedUser, isModerator } = useSession();
-    const [quickEditOpen, setQuickEditOpen] = useState(false);
+    const { user: loggedUser } = useSession();
+    const quickEdit = useQuickEdit(content_type, slug);
 
     if (!loggedUser) {
         return children;
     }
 
-    const canQuickEdit =
-        isModerator() && EDITABLE_CONTENT_TYPES.has(content_type);
-
     return (
         <>
-            <ContextMenu onOpenChange={onOpenChange}>
+            <ContextMenu
+                onOpenChange={(open) => {
+                    if (open) quickEdit.preload();
+                    onOpenChange?.(open);
+                }}
+            >
                 <ContextMenuTrigger>{children}</ContextMenuTrigger>
                 <ContextMenuContent>
                     {href && (
@@ -100,29 +93,15 @@ const ContextMenuOverlay: FC<Props> = ({
                         <MaterialSymbolsEditRounded className="mr-2" />
                         Створити правку
                     </ContextMenuItem>
-                    {canQuickEdit && (
-                        <ContextMenuItem
-                            onClick={() => {
-                                // Defer so the menu finishes closing (releasing the
-                                // `pointer-events: none` it sets on <body>) before the
-                                // dialog opens and takes focus.
-                                setTimeout(() => setQuickEditOpen(true), 0);
-                            }}
-                        >
+                    {quickEdit.canQuickEdit && (
+                        <ContextMenuItem onClick={quickEdit.openDeferred}>
                             <Zap className="mr-2 size-3" />
                             Швидка правка
                         </ContextMenuItem>
                     )}
                 </ContextMenuContent>
             </ContextMenu>
-            {canQuickEdit && (
-                <QuickEditModal
-                    slug={slug}
-                    content_type={content_type as EditContentTypeEnum}
-                    open={quickEditOpen}
-                    onOpenChange={setQuickEditOpen}
-                />
-            )}
+            {quickEdit.modal}
         </>
     );
 };

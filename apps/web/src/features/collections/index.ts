@@ -1,5 +1,10 @@
-export * from './collection-edit';
+export { default as CollectionEditorPage } from './collection-editor-page';
 export { default as CollectionList } from './collection-list';
-export { default as CollectionSort } from './collection-sort';
-export * from './collection-view';
-export { default as TableOfContents } from './table-of-contents';
+export { default as CollectionSort } from './collection-list/collection-sort';
+export { default as CollectionListModal } from './collection-list-modal';
+export { default as CollectionViewActionsMenu } from './collection-view/collection-actions-menu';
+export { default as CollectionViewAuthor } from './collection-view/collection-author';
+export { default as CollectionViewGroups } from './collection-view/collection-groups';
+export { default as CollectionViewNavbar } from './collection-view/collection-navbar';
+export { default as CollectionViewTitle } from './collection-view/collection-title';
+export { default as CollectionToc } from './collection-view/collection-toc';

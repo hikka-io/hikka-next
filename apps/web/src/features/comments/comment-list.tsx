@@ -1,11 +1,9 @@
 import { type FC, useMemo, useState } from 'react';
 
-import { LayoutGrid, MessageCircle, Star } from 'lucide-react';
+import { clamp } from '@antfu/utils';
+import { Star } from 'lucide-react';
 
-import {
-    type CommentContentTypeEnum as CommentsContentType,
-    getCommentsListInfiniteOptions,
-} from '@hikka/api';
+import type { CommentContentTypeEnum, CommentTypeEnum } from '@hikka/api';
 
 import AntDesignArrowDownOutlined from '@/components/icons/ant-design/AntDesignArrowDownOutlined';
 import MaterialSymbolsAddCommentRounded from '@/components/icons/material-symbols/MaterialSymbolsAddCommentRounded';
@@ -13,7 +11,7 @@ import MaterialSymbolsLockOpenRounded from '@/components/icons/material-symbols/
 import LoadMoreButton from '@/components/load-more-button';
 import Block from '@/components/ui/block';
 import { Button } from '@/components/ui/button';
-import { type ChipTabOption, ChipTabs } from '@/components/ui/chip-tabs';
+import { ChipTabs } from '@/components/ui/chip-tabs';
 import EmptyState from '@/components/ui/empty-state';
 import {
     Header,
@@ -22,61 +20,37 @@ import {
     HeaderNavButton,
     HeaderTitle,
 } from '@/components/ui/header';
-import { LoginButton } from '@/features/app-shell';
-import { useSession } from '@/features/auth/hooks/use-session';
-import Sort from '@/features/filters/sort';
-import CommentsProvider from '@/services/providers/comments-provider';
+import { Skeleton } from '@/components/ui/skeleton';
+import { LoginButton } from '@/features/auth';
+import { Sort } from '@/features/filters';
+import { useVisibleOnce } from '@/services/hooks/use-visible-once';
+import { useSession } from '@/services/session';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { cn } from '@/utils/cn';
 import { Link } from '@/utils/navigation';
 
 import CommentInput from './comment-input';
 import { CommentListSkeleton } from './comment-skeleton';
-import Comments from './comments';
-import {
-    type CommentSortProps,
-    useCommentSort,
-    useCommentThread,
-    useReviewStats,
-} from './hooks';
-import ReviewStatsCard from './review-stats-card';
+import CommentTree from './comment-tree';
+import { COMMENT_TYPE_OPTIONS } from './comment-type-options';
+import CommentsProvider from './comments-provider';
+import { COMMENT_PREVIEW_SIZE, commentListOptions } from './queries';
+import { getReviewTotal, supportsReviews, type Verdict } from './review/review';
+import ReviewStatsCard from './review/review-stats-card';
+import { useReviewStats } from './review/use-review-stats';
+import { type CommentSortProps, useCommentSort } from './use-comment-sort';
+import { useCommentThread } from './use-comment-thread';
 import { buildCommentTree, type CommentNode } from './utils/build-comment-tree';
-import { getCommentSort } from './utils/comment-sort';
-import { getReviewTotal, supportsReviews, type Verdict } from './utils/review';
-
-export type CommentType = 'all' | 'comment' | 'review';
-
-export const COMMENT_TYPE_OPTIONS: ChipTabOption<CommentType>[] = [
-    {
-        label: 'Усі',
-        value: 'all',
-        icon: LayoutGrid,
-    },
-    {
-        label: 'Коментарі',
-        value: 'comment',
-        icon: MessageCircle,
-        activeClass:
-            'border border-feed-comment/40 bg-feed-comment/15 text-feed-comment',
-    },
-    {
-        label: 'Відгуки',
-        value: 'review',
-        icon: Star,
-        activeClass:
-            'border border-feed-review/40 bg-feed-review/15 text-feed-review',
-    },
-];
 
 type Props = {
     slug: string;
-    content_type: CommentsContentType;
+    content_type: CommentContentTypeEnum;
     comment_reference?: string;
     preview?: boolean;
     className?: string;
     contentTitle?: string;
-    commentType?: CommentType;
-    onCommentTypeChange?: (type: CommentType) => void;
+    commentType?: CommentTypeEnum;
+    onCommentTypeChange?: (type: CommentTypeEnum) => void;
     verdict?: Verdict | null;
     onVerdictChange?: (verdict: Verdict | null) => void;
 } & CommentSortProps;
@@ -97,7 +71,7 @@ const CommentList: FC<Props> = ({
     const { user: loggedUser } = useSession();
     const hasReviews = supportsReviews(content_type);
     const [localCommentType, setLocalCommentType] =
-        useState<CommentType>('all');
+        useState<CommentTypeEnum>('all');
     const [localVerdict, setLocalVerdict] = useState<Verdict | null>(null);
     const commentType = controlledCommentType ?? localCommentType;
     // `!== undefined`, not `??`: `null` is a valid controlled value meaning
@@ -105,7 +79,7 @@ const CommentList: FC<Props> = ({
     const verdict =
         controlledVerdict !== undefined ? controlledVerdict : localVerdict;
 
-    const setCommentType = (type: CommentType) => {
+    const setCommentType = (type: CommentTypeEnum) => {
         if (onCommentTypeChange) {
             onCommentTypeChange(type);
         } else {
@@ -133,7 +107,7 @@ const CommentList: FC<Props> = ({
         // `comments_count` already includes reviews, so the plain comment count
         // is the remainder. Clamped: the two numbers come from different
         // snapshots of the same content and can disagree briefly.
-        const counts: Record<CommentType, number> = {
+        const counts: Record<CommentTypeEnum, number> = {
             all: commentsCount,
             comment: Math.max(commentsCount - reviewsTotal, 0),
             review: reviewsTotal,
@@ -147,27 +121,28 @@ const CommentList: FC<Props> = ({
 
     const showTypeTabs = hasReviews && !comment_reference;
 
+    const previewTotal =
+        preview && !verdict
+            ? chipOptions.find((option) => option.value === commentType)?.count
+            : undefined;
+
     const reviewStats =
         showTypeTabs && commentType !== 'comment' && reviewsTotal > 0
             ? stats
             : undefined;
 
+    const { ref: visibleRef, visible } = useVisibleOnce();
+    const deferred = !!preview && !comment_reference;
+
     const listQuery = useInfiniteList(
-        getCommentsListInfiniteOptions({
-            path: { content_type, slug },
-            body: {
-                comment_type: commentType,
-                sort: getCommentSort(sort, order),
-                // `undefined`, never `null`: keeps the unfiltered query key
-                // identical to the one the content-page loaders prefetch.
-                recommended:
-                    commentType === 'review'
-                        ? (verdict ?? undefined)
-                        : undefined,
-            },
-            query: preview ? { size: 3 } : undefined,
+        commentListOptions(content_type, slug, {
+            commentType,
+            sort,
+            order,
+            verdict,
+            preview,
         }),
-        { enabled: !comment_reference },
+        { enabled: !comment_reference && (!deferred || visible) },
     );
 
     const threadQuery = useCommentThread(
@@ -181,9 +156,10 @@ const CommentList: FC<Props> = ({
         fetchNextPage,
         hasNextPage,
         isFetchingNextPage,
-        isLoading,
+        isLoading: isFetchingList,
         ref,
     } = comment_reference ? threadQuery : listQuery;
+    const isLoading = isFetchingList || (deferred && listQuery.isPending);
 
     // Content types without review chips have no other place to show a total.
     const headerTotal =
@@ -238,7 +214,7 @@ const CommentList: FC<Props> = ({
                 <HeaderNavButton />
             </Header>
             <CommentsProvider lazyThread={!comment_reference}>
-                <div className="flex flex-col gap-4">
+                <div ref={visibleRef} className="flex flex-col gap-4">
                     {showTypeTabs && (
                         <ChipTabs
                             options={chipOptions}
@@ -280,7 +256,22 @@ const CommentList: FC<Props> = ({
                             }
                         />
                     )}
-                    {isLoading && <CommentListSkeleton />}
+                    {isLoading && (
+                        <CommentListSkeleton
+                            count={
+                                previewTotal === undefined
+                                    ? undefined
+                                    : clamp(
+                                          previewTotal,
+                                          1,
+                                          COMMENT_PREVIEW_SIZE,
+                                      )
+                            }
+                        />
+                    )}
+                    {isLoading && preview && previewTotal !== 0 && (
+                        <Skeleton className="h-12 w-full rounded-lg" />
+                    )}
                     {list &&
                         list.length === 0 &&
                         (commentType === 'review' ? (
@@ -302,8 +293,8 @@ const CommentList: FC<Props> = ({
                                 description="Ви можете розпочати обговорення першим"
                             />
                         ))}
-                    {list && (
-                        <Comments
+                    {list && list.length > 0 && (
+                        <CommentTree
                             slug={slug}
                             content_type={content_type}
                             contentTitle={contentTitle}

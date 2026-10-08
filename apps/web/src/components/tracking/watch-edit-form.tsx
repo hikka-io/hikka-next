@@ -1,0 +1,296 @@
+import { useEffect, useState } from 'react';
+
+import { useStore } from '@tanstack/react-form';
+import { useQuery } from '@tanstack/react-query';
+import { toast } from 'sonner';
+
+import {
+    API_LIMITS,
+    ContentTypeEnum,
+    type WatchResponse,
+    type WatchResponseBase,
+    type WatchStatusEnum,
+} from '@hikka/api';
+
+import CharacterCounter from '@/components/character-counter';
+import { useAppForm } from '@/components/form';
+import { WATCH_STATUS_ICONS } from '@/components/icons/list-status-icons';
+import MaterialSymbolsCheckRounded from '@/components/icons/material-symbols/MaterialSymbolsCheckRounded';
+import MaterialSymbolsDeleteForeverRounded from '@/components/icons/material-symbols/MaterialSymbolsDeleteForeverRounded';
+import { Button } from '@/components/ui/button';
+import { Label } from '@/components/ui/label';
+import { ResponsiveModalFooter } from '@/components/ui/responsive-modal';
+import {
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectIcon,
+    SelectItem,
+    SelectList,
+    SelectTrigger,
+} from '@/components/ui/select';
+import Spinner from '@/components/ui/spinner';
+import { listEntryOptions } from '@/utils/api/content-queries';
+import { z } from '@/utils/i18n/zod';
+import { WATCH_STATUS } from '@/utils/labels/enum-labels';
+import { getTitle } from '@/utils/title/get-title';
+
+import { StatusIconChip } from './status-options';
+import { useAddWatch, useDeleteWatch } from './use-tracking-mutations';
+
+const formSchema = z.object({
+    score: z.coerce
+        .number()
+        .int()
+        .min(API_LIMITS.listScore.min)
+        .max(API_LIMITS.listScore.max)
+        .optional(),
+    episodes: z.coerce
+        .number()
+        .int()
+        .min(0)
+        .max(API_LIMITS.listProgress.max)
+        .optional(),
+    rewatches: z.coerce
+        .number()
+        .int()
+        .min(0)
+        .max(API_LIMITS.listRepeats.max)
+        .optional(),
+    note: z.string().max(API_LIMITS.listNote.max).nullable().optional(),
+    start_date: z.coerce.number().nullable().optional(),
+    end_date: z.coerce.number().nullable().optional(),
+});
+
+type Props = {
+    slug: string;
+    watch?: WatchResponse | WatchResponseBase;
+    onClose?: () => void;
+};
+
+const WatchEditForm = ({ slug, watch: watchProp, onClose }: Props) => {
+    const { data: watchQuery } = useQuery({
+        ...listEntryOptions(ContentTypeEnum.ANIME, slug),
+        enabled: !watchProp,
+    });
+
+    const watch = watchProp || watchQuery;
+
+    const { mutate: createWatch, isPending: addToListLoading } = useAddWatch({
+        onSuccess: (data) => {
+            toast.info(
+                <span>
+                    <span className="font-bold">{getTitle(data.anime)}</span>{' '}
+                    успішно оновлено.
+                </span>,
+            );
+            onClose?.();
+        },
+    });
+
+    const { mutate: deleteWatch, isPending: deleteFromListLoading } =
+        useDeleteWatch({
+            onSuccess: () => {
+                toast.success('Аніме успішно видалено.');
+                onClose?.();
+            },
+        });
+
+    const [selectedStatus, setSelectedStatus] = useState<
+        WatchStatusEnum | undefined
+    >(watch?.status as WatchStatusEnum | undefined);
+
+    const form = useAppForm({
+        defaultValues: {
+            score: watch?.score ?? 0,
+            episodes: watch?.episodes ?? 0,
+            rewatches: watch?.rewatches ?? 0,
+            note: watch?.note ?? null,
+            start_date: watch?.start_date ?? null,
+            end_date: watch?.end_date ?? null,
+        },
+        validators: { onSubmit: formSchema as never },
+        onSubmit: async ({ value }) => {
+            createWatch({
+                path: { slug },
+                body: {
+                    status: selectedStatus!,
+                    ...value,
+                },
+            });
+        },
+    });
+
+    const startDate = useStore(form.store, (s) => s.values.start_date);
+
+    // Depend on the status, not the `watch` identity, so a background refetch
+    // doesn't clobber an unsaved dropdown change.
+    useEffect(() => {
+        if (watch?.status) {
+            setSelectedStatus(watch.status as WatchStatusEnum);
+        }
+    }, [watch?.status]);
+
+    if (!watch) return null;
+
+    return (
+        <form.AppForm>
+            <form.Form className="contents">
+                <div className="-m-4 flex flex-1 flex-col gap-6 overflow-y-scroll p-4">
+                    <div className="flex w-full flex-col gap-2">
+                        <Label>Список</Label>
+                        <Select
+                            value={selectedStatus && [selectedStatus]}
+                            onValueChange={(value) => {
+                                setSelectedStatus(value[0] as WatchStatusEnum);
+                            }}
+                        >
+                            <SelectTrigger size="md">
+                                <div className="flex items-center gap-2">
+                                    {selectedStatus && (
+                                        <StatusIconChip
+                                            status={selectedStatus}
+                                            icon={
+                                                WATCH_STATUS_ICONS[
+                                                    selectedStatus
+                                                ]
+                                            }
+                                        />
+                                    )}
+                                    {(selectedStatus &&
+                                        WATCH_STATUS[selectedStatus]
+                                            .title_ua) ||
+                                        'Виберіть список'}
+                                </div>
+                                <SelectIcon />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectList>
+                                    <SelectGroup>
+                                        {(
+                                            Object.keys(
+                                                WATCH_STATUS,
+                                            ) as WatchStatusEnum[]
+                                        ).map((status) => (
+                                            <SelectItem
+                                                value={status}
+                                                key={status}
+                                            >
+                                                {WATCH_STATUS[status].title_ua}
+                                            </SelectItem>
+                                        ))}
+                                    </SelectGroup>
+                                </SelectList>
+                            </SelectContent>
+                        </Select>
+                    </div>
+                    <div className="flex w-full gap-8">
+                        <form.AppField
+                            name="score"
+                            children={(field) => (
+                                <field.TextField
+                                    label="Оцінка"
+                                    placeholder="Введіть оцінку"
+                                    type="number"
+                                    className="flex-1"
+                                    min={API_LIMITS.listScore.min}
+                                    max={API_LIMITS.listScore.max}
+                                />
+                            )}
+                        />
+                        <form.AppField
+                            name="episodes"
+                            children={(field) => (
+                                <field.TextField
+                                    label="Епізоди"
+                                    placeholder="Введіть к-сть переглянутих епізодів"
+                                    type="number"
+                                    className="flex-1"
+                                    min={0}
+                                />
+                            )}
+                        />
+                    </div>
+                    <form.AppField
+                        name="rewatches"
+                        children={(field) => (
+                            <field.TextField
+                                label="Повторні перегляди"
+                                placeholder="Введіть к-сть повторних переглядів"
+                                type="number"
+                                min={0}
+                            />
+                        )}
+                    />
+                    <div className="flex w-full gap-8">
+                        <form.AppField
+                            name="start_date"
+                            children={(field) => (
+                                <field.DatePickerField
+                                    className="flex-1"
+                                    label="Дата початку"
+                                />
+                            )}
+                        />
+                        <form.AppField
+                            name="end_date"
+                            children={(field) => (
+                                <field.DatePickerField
+                                    className="flex-1"
+                                    label="Дата завершення"
+                                    minDate={startDate ?? undefined}
+                                />
+                            )}
+                        />
+                    </div>
+                    <form.AppField
+                        name="note"
+                        children={(field) => (
+                            <field.TextareaField
+                                label="Нотатки"
+                                placeholder="Залиште нотатку"
+                                maxLength={API_LIMITS.listNote.max}
+                            >
+                                <CharacterCounter
+                                    length={field.state.value?.length ?? 0}
+                                    max={API_LIMITS.listNote.max}
+                                />
+                            </field.TextareaField>
+                        )}
+                    />
+                </div>
+                <ResponsiveModalFooter className="flex-row">
+                    <Button
+                        type="button"
+                        variant="destructive"
+                        size="md"
+                        onClick={() => deleteWatch({ path: { slug } })}
+                        disabled={addToListLoading || deleteFromListLoading}
+                    >
+                        {deleteFromListLoading ? (
+                            <Spinner />
+                        ) : (
+                            <MaterialSymbolsDeleteForeverRounded className="size-4" />
+                        )}
+                        Видалити
+                    </Button>
+                    <Button
+                        size="md"
+                        type="submit"
+                        className="flex-1 md:flex-none"
+                        disabled={addToListLoading || deleteFromListLoading}
+                    >
+                        {addToListLoading ? (
+                            <Spinner />
+                        ) : (
+                            <MaterialSymbolsCheckRounded className="size-4" />
+                        )}
+                        Зберегти
+                    </Button>
+                </ResponsiveModalFooter>
+            </form.Form>
+        </form.AppForm>
+    );
+};
+
+export default WatchEditForm;

@@ -1,9 +1,8 @@
+import AntDesignClearOutlined from '@/components/icons/ant-design/AntDesignClearOutlined';
 import MaterialSymbolsSearchRounded from '@/components/icons/material-symbols/MaterialSymbolsSearchRounded';
 import { Button } from '@/components/ui/button';
 import EmptyState from '@/components/ui/empty-state';
 import { Link, usePathname } from '@/utils/navigation';
-
-import AntDesignClearOutlined from './icons/ant-design/AntDesignClearOutlined';
 
 type Props = {
     /** Search params kept when clearing — for lists whose tab lives in the URL. */

@@ -23,13 +23,11 @@ import {
 import { FIELD_BASE } from '@/components/ui/field-base';
 import { cn } from '@/utils/cn';
 
-import { BaseBasicBlocksKit } from './plugins/basic-blocks-base-kit';
 import { BaseBasicMarksKit } from './plugins/basic-marks-base-kit';
-import { BaseLinkKit } from './plugins/link-base-kit';
 import { BaseListKit } from './plugins/list-classic-base-kit';
 import { MarkdownKit } from './plugins/markdown-kit';
-import { BaseSpoilerKit } from './plugins/spoiler-base-kit';
 import { BaseStrikethroughKit } from './plugins/strikethrough-base-kit';
+import { MarkdownElementsStaticKit } from './static-kit';
 
 const diffOperationColors: Record<DiffOperation['type'], string> = {
     delete: 'bg-destructive text-destructive-foreground',
@@ -149,9 +147,7 @@ function DiffLeaf({ children, ...props }: PlateLeafProps) {
 // diff renders descriptions with the same nodes the editor produces — no
 // video/image kits, which descriptions never contain.
 const plugins = [
-    ...BaseBasicBlocksKit,
-    ...BaseLinkKit,
-    ...BaseSpoilerKit,
+    ...MarkdownElementsStaticKit,
     ...BaseBasicMarksKit,
     ...BaseStrikethroughKit,
     ...BaseListKit,

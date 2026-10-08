@@ -9,8 +9,10 @@ import {
 } from '@/components/ui/tooltip';
 import { cn } from '@/utils/cn';
 
+import type { ListStat } from '../types';
+
 type Props = {
-    stats: Hikka.ListStat[];
+    stats: ListStat[];
 };
 
 const Stats: FC<Props> = ({ stats }) => {

@@ -3,23 +3,10 @@ import { zodValidator } from '@tanstack/zod-adapter';
 
 import { ContentTypeEnum } from '@hikka/api';
 
-import ContentTypeTabs from '@/components/content-type-tabs';
-import Block from '@/components/ui/block';
-import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
-import type { StackSize } from '@/components/ui/stack';
-import { usePageHeader, usePageTitleAnchor } from '@/features/app-shell';
-import { CatalogNavbar } from '@/features/catalog';
-import {
-    HeaderFiltersButton,
-    ReadFilters,
-    ReadFiltersModal,
-} from '@/features/filters';
-import { useCatalogView } from '@/features/filters/hooks/use-catalog-view';
-import { useFiltersSidebar } from '@/features/filters/hooks/use-filters-sidebar';
-import { MangaList, MangaListSummary } from '@/features/manga';
-import { cn } from '@/utils/cn';
+import { CatalogPage } from '@/features/catalog';
 import { generateHeadMeta } from '@/utils/metadata';
 import { mangaSearchSchema } from '@/utils/search-schemas';
+import { SITE_ORIGIN } from '@/utils/url';
 
 export const Route = createFileRoute('/_pages/manga/')({
     validateSearch: zodValidator(mangaSearchSchema),
@@ -27,92 +14,17 @@ export const Route = createFileRoute('/_pages/manga/')({
         generateHeadMeta({
             title: 'Манґа',
             description: 'Каталог манґи — шукайте та фільтруйте манґу на Hikka',
-            url: 'https://hikka.io/manga',
+            url: `${SITE_ORIGIN}/manga`,
         }),
     component: MangaListPage,
 });
 
 function MangaListPage() {
-    const titleAnchor = usePageTitleAnchor();
-
-    usePageHeader({
-        title: 'Каталог манґи',
-        parent: '/',
-        anchored: true,
-        actionsAnchored: true,
-        hideBack: true,
-        actionsComponent: () => (
-            <HeaderFiltersButton
-                renderModal={(props) => (
-                    <ReadFiltersModal
-                        {...props}
-                        content_type={ContentTypeEnum.MANGA}
-                        sort_type="manga"
-                    />
-                )}
-            />
-        ),
-    });
-
-    const { visible: sidebarVisible } = useFiltersSidebar();
-    const { view } = useCatalogView('catalog');
-
-    const extendedSize: StackSize =
-        view === 'list' ? 1 : sidebarVisible ? 5 : 7;
-    const pageSize = view === 'list' ? undefined : extendedSize * 4;
-
     return (
-        <Block>
-            <Header>
-                <HeaderContainer>
-                    <HeaderTitle ref={titleAnchor} variant="h2">
-                        Каталог манґи
-                    </HeaderTitle>
-                </HeaderContainer>
-            </Header>
-            <ContentTypeTabs
-                value={ContentTypeEnum.MANGA}
-                urlFor={(contentType) => `/${contentType}`}
-                className="md:hidden"
-            />
-
-            <div
-                className={cn(
-                    'grid grid-cols-1 lg:items-start lg:gap-x-10',
-                    sidebarVisible &&
-                        'lg:grid-cols-[1fr_30%] xl:grid-cols-[1fr_25%]',
-                )}
-            >
-                <div className="flex flex-col gap-4">
-                    <CatalogNavbar
-                        sort_type="manga"
-                        content_type={ContentTypeEnum.MANGA}
-                        searchPlaceholder="Введіть назву манґи..."
-                        renderFilterModal={({ open, onOpenChange }) => (
-                            <ReadFiltersModal
-                                open={open}
-                                onOpenChange={onOpenChange}
-                                content_type={ContentTypeEnum.MANGA}
-                                sort_type="manga"
-                            />
-                        )}
-                    />
-                    <MangaListSummary pageSize={pageSize} />
-                    <MangaList
-                        extendedSize={extendedSize}
-                        pageSize={pageSize}
-                    />
-                </div>
-
-                {sidebarVisible && (
-                    <div className="sticky top-20 order-1 hidden max-h-[calc(100vh-9rem)] w-full overflow-hidden rounded-lg border border-border surface lg:order-2 lg:flex">
-                        <ReadFilters
-                            content_type={ContentTypeEnum.MANGA}
-                            sort_type="manga"
-                        />
-                    </div>
-                )}
-            </div>
-        </Block>
+        <CatalogPage
+            contentType={ContentTypeEnum.MANGA}
+            title="Каталог манґи"
+            searchPlaceholder="Введіть назву манґи..."
+        />
     );
 }

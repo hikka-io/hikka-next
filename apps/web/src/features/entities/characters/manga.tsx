@@ -1,23 +1,28 @@
 import type { FC } from 'react';
 
-import { characterMangaInfiniteOptions } from '@hikka/api';
+import { ContentTypeEnum } from '@hikka/api';
 
 import MangaCard from '@/components/content-card/manga-card';
-import AppearanceGrid from '@/features/entities/appearance-grid';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { useParams } from '@/utils/navigation';
+
+import AppearanceGrid from '../appearance-grid';
+import { entityAppearanceOptions } from '../queries';
 
 type Props = {
     extended?: boolean;
 };
 
-const Manga: FC<Props> = ({ extended }) => {
+const CharacterManga: FC<Props> = ({ extended }) => {
     const params = useParams();
     const { list, fetchNextPage, hasNextPage, isFetchingNextPage, ref } =
         useInfiniteList(
-            characterMangaInfiniteOptions({
-                path: { slug: String(params.slug) },
-            }),
+            entityAppearanceOptions(
+                ContentTypeEnum.CHARACTER,
+                'manga',
+                String(params.slug),
+                { preview: !extended },
+            ),
         );
 
     return (
@@ -37,4 +42,4 @@ const Manga: FC<Props> = ({ extended }) => {
     );
 };
 
-export default Manga;
+export default CharacterManga;

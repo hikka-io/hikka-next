@@ -6,10 +6,11 @@ import { acceptEditMutation, type EditResponse } from '@hikka/api';
 
 import { Button } from '@/components/ui/button';
 import {
-    invalidateContentBySlug,
     invalidateEditDetail,
     invalidateEdits,
 } from '@/utils/api/invalidate-content-state';
+
+import { useRefreshEditedContent } from '../use-refresh-edited-content';
 
 type Props = {
     edit: EditResponse;
@@ -17,6 +18,7 @@ type Props = {
 
 const AcceptAction: FC<Props> = ({ edit }) => {
     const queryClient = useQueryClient();
+    const refreshEditedContent = useRefreshEditedContent();
     const acceptEdit = useMutation({
         ...acceptEditMutation(),
         onSuccess: () => {
@@ -24,7 +26,7 @@ const AcceptAction: FC<Props> = ({ edit }) => {
             invalidateEdits(queryClient);
             // Accepting mutates the underlying content. Slug from the loaded
             // edit, not the response (which may not populate `content`).
-            invalidateContentBySlug(queryClient, edit.content.slug);
+            refreshEditedContent(edit.content.slug);
         },
     });
 

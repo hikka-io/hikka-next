@@ -1,8 +1,8 @@
 import type { FC } from 'react';
 
-import { useFormContext } from '@/components/form/form-context';
+import { useFormContext } from '@/components/form';
 import { Button } from '@/components/ui/button';
-import { useSession } from '@/features/auth/hooks/use-session';
+import { useSession } from '@/services/session';
 
 const AutoButton: FC = () => {
     const { user: loggedUser } = useSession();

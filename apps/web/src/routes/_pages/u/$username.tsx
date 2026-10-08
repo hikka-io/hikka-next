@@ -1,3 +1,4 @@
+import { useQuery } from '@tanstack/react-query';
 import {
     createFileRoute,
     notFound,
@@ -6,96 +7,62 @@ import {
 } from '@tanstack/react-router';
 
 import {
-    ContentTypeEnum,
     followStatsOptions,
-    serviceUserStatsOptions,
     userProfileOptions,
-    userReadStatsOptions,
     userReferenceOptions,
-    userWatchStatsOptions,
 } from '@hikka/api';
 
-import CoverImage from '@/components/cover-image';
-import { usePageHeader } from '@/features/app-shell';
+import { CoverImage, usePageHeader } from '@/features/app-shell';
 import {
     ActivationAlert,
     FollowStats,
-    UserInfo,
-    UserlistHeaderFilters,
+    USER_NAV_ROUTES,
+    UserAvatar,
+    UserListHeaderFilters,
     UserTitle,
 } from '@/features/users';
 import { ensureOr404 } from '@/utils/api/ensure-or-404';
-import { USER_NAV_ROUTES } from '@/utils/constants/navigation';
+import { isUserReference } from '@/utils/mentions';
 import { generateHeadMeta } from '@/utils/metadata';
 import { usePathname } from '@/utils/navigation';
-
-const UUID_RE =
-    /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+import { SITE_ORIGIN } from '@/utils/url';
 
 export const Route = createFileRoute('/_pages/u/$username')({
-    loader: async ({ params, context: { queryClient, apiClient } }) => {
+    beforeLoad: async ({ params, context: { queryClient, apiClient } }) => {
         const { username } = params;
 
-        if (UUID_RE.test(username)) {
-            const user = await ensureOr404(() =>
-                queryClient.ensureQueryData(
-                    userReferenceOptions({
-                        path: { reference: username },
-                        client: apiClient,
-                    }),
-                ),
-            );
-
-            if (!user.username) throw notFound();
-
-            throw redirect({
-                to: '/u/$username',
-                params: { username: user.username },
-            });
-        }
+        if (!isUserReference(username)) return;
 
         const user = await ensureOr404(() =>
             queryClient.ensureQueryData(
-                userProfileOptions({
-                    path: { username },
+                userReferenceOptions({
+                    path: { reference: username },
                     client: apiClient,
                 }),
             ),
         );
 
-        await Promise.allSettled([
-            queryClient.prefetchQuery(
-                userReadStatsOptions({
-                    path: {
-                        username,
-                        content_type: ContentTypeEnum.MANGA,
-                    },
-                    client: apiClient,
-                }),
-            ),
-            queryClient.prefetchQuery(
-                userReadStatsOptions({
-                    path: {
-                        username,
-                        content_type: ContentTypeEnum.NOVEL,
-                    },
-                    client: apiClient,
-                }),
-            ),
-            queryClient.prefetchQuery(
-                userWatchStatsOptions({
-                    path: { username },
-                    client: apiClient,
-                }),
+        if (!user.username) throw notFound();
+
+        throw redirect({
+            to: '/u/$username',
+            params: { username: user.username },
+        });
+    },
+    loader: async ({ params, context: { queryClient, apiClient } }) => {
+        const { username } = params;
+
+        const [user] = await Promise.all([
+            ensureOr404(() =>
+                queryClient.ensureQueryData(
+                    userProfileOptions({
+                        path: { username },
+                        client: apiClient,
+                    }),
+                ),
             ),
             queryClient.prefetchQuery(
                 followStatsOptions({
-                    path: { username },
-                    client: apiClient,
-                }),
-            ),
-            queryClient.prefetchQuery(
-                serviceUserStatsOptions({
                     path: { username },
                     client: apiClient,
                 }),
@@ -112,7 +79,7 @@ export const Route = createFileRoute('/_pages/u/$username')({
             title: user.username ?? '',
             description: user.description,
             image: `https://preview.hikka.io/u/${user.username}/${user.updated}`,
-            url: `https://hikka.io/u/${user.username}`,
+            url: `${SITE_ORIGIN}/u/${user.username}`,
         });
     },
     component: UserLayout,
@@ -120,7 +87,7 @@ export const Route = createFileRoute('/_pages/u/$username')({
 
 function UserLayout() {
     const { username } = Route.useParams();
-    const { user } = Route.useLoaderData();
+    const { data: user } = useQuery(userProfileOptions({ path: { username } }));
     const pathname = usePathname();
     const profileUrl = `/u/${username}`;
 
@@ -133,7 +100,7 @@ function UserLayout() {
         navUrlPrefix: profileUrl,
         anchored: true,
         actionsAnchored: true,
-        actionsComponent: isListRoute ? UserlistHeaderFilters : undefined,
+        actionsComponent: isListRoute ? UserListHeaderFilters : undefined,
     });
 
     return (
@@ -142,7 +109,7 @@ function UserLayout() {
             <CoverImage cover={user?.cover ?? undefined} />
             <div className="flex flex-col gap-4 md:flex-row lg:items-end lg:gap-8">
                 <div className="flex min-w-0 flex-1 gap-4 lg:gap-8">
-                    <UserInfo />
+                    <UserAvatar />
                     <UserTitle />
                 </div>
                 <FollowStats className="shrink-0" />

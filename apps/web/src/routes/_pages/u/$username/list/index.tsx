@@ -1,7 +1,7 @@
 import { createFileRoute, redirect } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/_pages/u/$username/list/')({
-    loader: async ({ params }) => {
+    beforeLoad: ({ params }) => {
         throw redirect({
             to: '/u/$username/list/$content_type',
             params: {

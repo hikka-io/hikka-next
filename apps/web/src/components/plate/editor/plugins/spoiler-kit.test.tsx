@@ -4,12 +4,12 @@ import { describe, expect, it } from 'vitest';
 
 import { ArticleKit } from '../article-kit';
 import { MarkdownEditorKit } from '../markdown-editor-kit';
+import { ELEMENT_SPOILER, ELEMENT_SPOILER_INLINE } from '../plate-types';
 import {
     insertBlock,
     toggleContainerBlock,
     toggleSpoiler,
 } from '../transforms';
-import { ELEMENT_SPOILER, ELEMENT_SPOILER_INLINE } from './spoiler-kit';
 
 const p = (text: string) => ({ type: 'p', children: [{ text }] });
 

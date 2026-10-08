@@ -5,18 +5,17 @@ import { ArrowBigUp, Layers, MessageCircle } from 'lucide-react';
 import type { CollectionResponse } from '@hikka/api';
 
 import PosterCard from '@/components/content-card/poster-card';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Badge } from '@/components/ui/badge';
 import {
     HorizontalCard,
     HorizontalCardContainer,
-} from '@/components/ui/horizontal-card';
+} from '@/components/horizontal-card';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Badge } from '@/components/ui/badge';
 import { StatItem, StatItemGroup } from '@/components/ui/stat-item';
 import { Link } from '@/utils/navigation';
 
 type Props = {
     collection: CollectionResponse;
-    hideAuthor?: boolean;
 };
 
 const CollectionWidgetItem: FC<Props> = ({ collection }) => {

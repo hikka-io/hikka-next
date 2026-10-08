@@ -1,12 +1,5 @@
-import { type Client, createRequestClient } from '@hikka/api';
-
-import { getInternalApiUrl, PUBLIC_API_URL } from '@/utils/api/base-url';
-
+import { COOKIE } from './constants';
 import { getCookieDomain, isSecureCookieDomain } from './domain';
-
-// 30 days. The API extends the auth token on each authenticated request,
-// so the cookie should comfortably outlive any single token.
-const DEFAULT_COOKIE_MAX_AGE = 60 * 60 * 24 * 30;
 
 export function makeCookieHeader(
     name: string,
@@ -15,7 +8,7 @@ export function makeCookieHeader(
 ): string {
     const domain = getCookieDomain();
     const secure = isSecureCookieDomain(domain);
-    const maxAge = options?.maxAge ?? DEFAULT_COOKIE_MAX_AGE;
+    const maxAge = options?.maxAge ?? COOKIE.auth.maxAge;
     const httpOnly = options?.httpOnly ?? true;
     return [
         `${name}=${encodeURIComponent(value)}`,
@@ -48,12 +41,4 @@ export function clearCookieHeader(
     ]
         .filter(Boolean)
         .join('; ');
-}
-
-export function createServerHikkaClient(clientIp?: string): Client {
-    return createRequestClient({
-        baseUrl: PUBLIC_API_URL,
-        internalBaseUrl: getInternalApiUrl(),
-        clientIp,
-    });
 }

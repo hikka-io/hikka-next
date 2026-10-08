@@ -1,3 +1,5 @@
+import { describe, expect, it } from 'vitest';
+
 import { paginatedInfiniteOptions } from './pagination';
 
 // The helper returns its input's `TOptions` so it preserves the generated page

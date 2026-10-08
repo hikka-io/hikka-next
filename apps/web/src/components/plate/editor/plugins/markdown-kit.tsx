@@ -17,10 +17,10 @@ import type {
 import { KEYS, type TElement, TextApi } from 'platejs';
 import remarkDirective from 'remark-directive';
 
-import remarkStrikethrough from '@/components/markdown/viewer/plugins/remark-strikethrough';
+import remarkStrikethrough from '@/components/markdown/remark/remark-strikethrough';
 import { isMentionLabel, isUserUrl, userMentionUrl } from '@/utils/mentions';
 
-import { ELEMENT_SPOILER, ELEMENT_SPOILER_INLINE } from './spoiler-kit';
+import { ELEMENT_SPOILER, ELEMENT_SPOILER_INLINE } from '../plate-types';
 
 type DirectiveNode = ContainerDirective | TextDirective | LeafDirective;
 

@@ -2,11 +2,16 @@ import { type FC, memo, type PropsWithChildren, type ReactNode } from 'react';
 
 import { useQuery } from '@tanstack/react-query';
 
-import { characterAnimeOptions, characterInfoOptions } from '@hikka/api';
+import { ContentTypeEnum } from '@hikka/api';
 
-import { useTitle } from '@/features/auth/hooks/use-title';
+import { MDViewer } from '@/components/markdown';
+import { useTitle } from '@/services/session';
+import {
+    contentInfoOptions,
+    entityAppearanceOptions,
+} from '@/utils/api/content-queries';
+import { useInfiniteList } from '@/utils/api/use-infinite-list';
 
-import MDViewer from '../../markdown/viewer/md-viewer';
 import PosterCard from '../poster-card';
 import HoverCardWrapper from './hover-card-wrapper';
 import { CharacterTooltipSkeleton } from './tooltip-skeleton';
@@ -20,12 +25,16 @@ type Props = PropsWithChildren & {
 };
 
 const TooltipData: FC<TooltipDataProps> = ({ slug }) => {
-    const { data } = useQuery(characterInfoOptions({ path: { slug } }));
-    const { data: characterAnimeData } = useQuery(
-        characterAnimeOptions({ path: { slug } }),
+    const { data } = useQuery(
+        contentInfoOptions(ContentTypeEnum.CHARACTER, slug),
+    );
+    const { list: characterAnimeList } = useInfiniteList(
+        entityAppearanceOptions(ContentTypeEnum.CHARACTER, 'anime', slug, {
+            preview: true,
+        }),
     );
 
-    const characterAnime = characterAnimeData?.list
+    const characterAnime = characterAnimeList
         ?.slice()
         .sort((a, b) => b.anime.score - a.anime.score)[0];
 

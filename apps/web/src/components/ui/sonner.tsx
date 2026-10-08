@@ -7,7 +7,7 @@ import {
 } from 'lucide-react';
 import { Toaster as Sonner } from 'sonner';
 
-import { useTheme } from '@/services/providers/theme-provider';
+import { useTheme } from '@/services/theme-provider';
 
 type ToasterProps = React.ComponentProps<typeof Sonner>;
 

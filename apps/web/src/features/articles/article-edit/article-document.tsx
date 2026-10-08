@@ -1,12 +1,13 @@
 import { memo } from 'react';
 
-import { ArticlePlateEditor } from '@/components/plate/editor/plate-editor';
+import { ArticlePlateEditor } from '@/components/plate/editor/article-editor';
+import { hasPlateContent } from '@/components/plate/editor/value/has-content';
 import { Label } from '@/components/ui/label';
 import { usePreventUnsavedClose } from '@/services/hooks/use-prevent-unsaved-close';
-import { useArticleContext } from '@/services/providers/article-provider';
-import { hasPlateContent } from '@/utils/plate';
 
-const ArticleDocumentEditor = () => {
+import { useArticleContext } from './article-provider';
+
+const ArticleEditDocument = () => {
     const document = useArticleContext((state) => state.document);
     const title = useArticleContext((state) => state.title);
     const setDocument = useArticleContext((state) => state.setDocument);
@@ -32,4 +33,4 @@ const ArticleDocumentEditor = () => {
     );
 };
 
-export default memo(ArticleDocumentEditor);
+export default memo(ArticleEditDocument);

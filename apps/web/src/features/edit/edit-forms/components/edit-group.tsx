@@ -17,12 +17,13 @@ import {
     CollapsibleTrigger,
 } from '@/components/ui/collapsible';
 
-import { getEditParamComponent } from '../utils/edit-param-utils';
+import type { EditParam } from '../../types';
+import { getEditParamComponent } from '../params/edit-param-utils';
 
 type Props = {
     title: string;
     groupKey: string;
-    params: Hikka.EditParam[];
+    params: EditParam[];
     mode: 'view' | 'edit' | 'update';
     warning?: ReactNode;
     /** Start expanded in `edit` mode (view/update are always open). */
@@ -83,48 +84,55 @@ const EditGroup: FC<Props> = ({
                     <LucideChevronsUpDown className="size-4 shrink-0 text-muted-foreground" />
                 </CollapsibleTrigger>
 
-                <CollapsibleContent className="mt-4 flex w-full flex-col gap-6 overflow-clip data-closed:animate-collapsible-up data-open:animate-collapsible-down">
-                    {warning}
+                <CollapsibleContent
+                    keepMounted
+                    className="w-full overflow-clip data-closed:animate-collapsible-up data-open:animate-collapsible-down"
+                >
+                    <div className="flex flex-col gap-6 pt-4">
+                        {warning}
 
-                    {(mode === 'edit' || mode === 'update') &&
-                        params.length > 1 && (
-                            <div className="flex flex-wrap gap-2">
-                                {params.map((param) => (
-                                    <Button
-                                        size="badge"
-                                        variant={
-                                            selected.includes(param.slug)
-                                                ? 'default'
-                                                : 'outline'
-                                        }
-                                        key={param.slug}
-                                        onClick={() => switchParam(param.slug)}
-                                    >
-                                        {param.title}
-                                    </Button>
-                                ))}
-                            </div>
-                        )}
-                    {params.map((param) => {
-                        if (
-                            mode !== 'view' &&
-                            params.length > 1 &&
-                            !selected.includes(param.slug)
-                        )
-                            return null;
+                        {(mode === 'edit' || mode === 'update') &&
+                            params.length > 1 && (
+                                <div className="flex flex-wrap gap-2">
+                                    {params.map((param) => (
+                                        <Button
+                                            size="badge"
+                                            variant={
+                                                selected.includes(param.slug)
+                                                    ? 'default'
+                                                    : 'outline'
+                                            }
+                                            key={param.slug}
+                                            onClick={() =>
+                                                switchParam(param.slug)
+                                            }
+                                        >
+                                            {param.title}
+                                        </Button>
+                                    ))}
+                                </div>
+                            )}
+                        {params.map((param) => {
+                            if (
+                                mode !== 'view' &&
+                                params.length > 1 &&
+                                !selected.includes(param.slug)
+                            )
+                                return null;
 
-                        const ParamComponent = getEditParamComponent(
-                            param.type,
-                        );
+                            const ParamComponent = getEditParamComponent(
+                                param.type,
+                            );
 
-                        return (
-                            <ParamComponent
-                                key={param.slug}
-                                param={param}
-                                mode={mode === 'update' ? 'edit' : mode}
-                            />
-                        );
-                    })}
+                            return (
+                                <ParamComponent
+                                    key={param.slug}
+                                    param={param}
+                                    mode={mode === 'update' ? 'edit' : mode}
+                                />
+                            );
+                        })}
+                    </div>
                 </CollapsibleContent>
             </Collapsible>
         </Card>

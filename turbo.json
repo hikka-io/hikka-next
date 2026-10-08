@@ -1,20 +1,23 @@
 {
     "$schema": "https://turbo.build/schema.json",
     "ui": "tui",
+    "agentGuidance": false,
     "globalDependencies": ["**/.env.*local"],
     "tasks": {
         "build": {
             "dependsOn": ["^build"],
             "outputs": ["dist/**", ".output/**"]
         },
-        "lint": {
-            "outputs": []
-        },
         "typecheck": {
             "dependsOn": ["^build"],
             "outputs": []
         },
         "dev": {
+            "cache": false,
+            "persistent": true
+        },
+        "@hikka/web#dev": {
+            "dependsOn": ["@hikka/api#build"],
             "cache": false,
             "persistent": true
         },

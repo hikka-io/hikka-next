@@ -6,16 +6,14 @@ import { ContentTypeEnum, getCollectionOptions } from '@hikka/api';
 import Block from '@/components/ui/block';
 import { usePageHeader } from '@/features/app-shell';
 import {
-    CollectionViewActionsMenu as CollectionActionsMenu,
-    CollectionViewAuthor as CollectionAuthor,
-    CollectionViewGroups as CollectionGroups,
-    CollectionViewNavbar as CollectionNavbar,
-    CollectionViewTitle as CollectionTitle,
-    TableOfContents,
+    CollectionToc,
+    CollectionViewActionsMenu,
+    CollectionViewAuthor,
+    CollectionViewGroups,
+    CollectionViewNavbar,
+    CollectionViewTitle,
 } from '@/features/collections';
-import { CommentList as Comments } from '@/features/comments';
-import CollectionProvider from '@/services/providers/collection-provider';
-import type { CollectionState } from '@/services/stores/collection-store';
+import { CommentList } from '@/features/comments';
 
 export const Route = createFileRoute('/_pages/collections/$reference/')({
     component: CollectionPage,
@@ -32,25 +30,23 @@ function CollectionPage() {
         subtitle: collection?.author.username,
         parent: '/collections',
         anchored: true,
-        actionsComponent: CollectionActionsMenu,
+        actionsComponent: CollectionViewActionsMenu,
     });
 
     return (
-        <CollectionProvider
-            initialState={collection as Partial<CollectionState>}
-        >
+        <>
             <div className="mb-12 flex flex-col gap-12 lg:grid lg:grid-cols-[auto_1fr_auto] lg:gap-4">
                 {/* left spacer balances the TOC column so the content stays centered */}
                 <div className="hidden min-w-52 max-w-56 lg:block" />
 
                 {/* central column — author, content and comments share one width */}
                 <div className="mx-auto flex w-full max-w-[52rem] flex-col gap-12">
-                    <CollectionAuthor />
+                    <CollectionViewAuthor />
                     <Block className="w-full">
-                        <CollectionTitle />
-                        <CollectionGroups />
+                        <CollectionViewTitle />
+                        <CollectionViewGroups />
                     </Block>
-                    <Comments
+                    <CommentList
                         preview
                         slug={reference}
                         content_type={ContentTypeEnum.COLLECTION}
@@ -60,11 +56,11 @@ function CollectionPage() {
                 {/* TOC sidebar (lg+); mobile uses the navbar popover */}
                 <div className="hidden min-w-52 max-w-56 lg:block">
                     <div className="sticky top-20 h-[calc(100vh-5rem)]">
-                        <TableOfContents className="max-h-[70vh] surface opacity-60 transition-opacity hover:opacity-100" />
+                        <CollectionToc className="max-h-[70vh] surface opacity-60 transition-opacity hover:opacity-100" />
                     </div>
                 </div>
             </div>
-            <CollectionNavbar />
-        </CollectionProvider>
+            <CollectionViewNavbar />
+        </>
     );
 }

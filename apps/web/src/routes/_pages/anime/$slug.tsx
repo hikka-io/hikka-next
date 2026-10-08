@@ -1,188 +1,39 @@
-import { createFileRoute, notFound, Outlet } from '@tanstack/react-router';
+import { useQuery } from '@tanstack/react-query';
+import { createFileRoute, Outlet } from '@tanstack/react-router';
 
-import {
-    animeCharactersInfiniteOptions,
-    animeSlugOptions,
-    animeStaffInfiniteOptions,
-    ContentTypeEnum,
-    contentFranchiseOptions,
-    getArticlesInfiniteOptions,
-    getCollectionsInfiniteOptions,
-    getCommentsListInfiniteOptions,
-    getFavouriteOptions,
-    getWatchFollowingInfiniteOptions,
-    paginationPageParam,
-    RelatedContentTypeEnum,
-    watchGetOptions,
-} from '@hikka/api';
+import { ContentTypeEnum } from '@hikka/api';
 
-import { getCommentSort } from '@/features/comments/utils/comment-sort';
 import { ContentDetailLayout } from '@/features/content';
-import { ensureOr404 } from '@/utils/api/ensure-or-404';
-import { ANIME_NAV_ROUTES } from '@/utils/constants/navigation';
-import { stripRestrictedExternal } from '@/utils/content/strip-restricted-external';
-import { getAuthTokenFn } from '@/utils/cookies';
-import { getNsfwConsentFn } from '@/utils/cookies/server';
-import { parseTextFromMarkDown } from '@/utils/markdown';
-import { generateHeadMeta } from '@/utils/metadata';
-import { truncateText } from '@/utils/text';
+import {
+    contentDetailHead,
+    contentDetailTitle,
+    loadContentDetail,
+} from '@/features/content/detail-route';
+import { contentInfoOptions } from '@/utils/api/content-queries';
 
 export const Route = createFileRoute('/_pages/anime/$slug')({
-    loader: async ({ params, context: { queryClient, apiClient } }) => {
-        const animeOptions = animeSlugOptions({
-            path: { slug: params.slug },
-            client: apiClient,
-        });
-        let anime = await ensureOr404(() =>
-            queryClient.ensureQueryData(animeOptions),
-        );
-
-        if (!anime) throw notFound();
-
-        const authToken = await getAuthTokenFn();
-
-        if (!authToken) {
-            anime = stripRestrictedExternal(anime);
-            queryClient.setQueryData(animeOptions.queryKey, anime);
-        }
-
-        const nsfwConsented = anime.nsfw ? !!(await getNsfwConsentFn()) : false;
-
-        const prefetches: Promise<unknown>[] = [
-            queryClient.ensureQueryData(
-                contentFranchiseOptions({
-                    path: {
-                        slug: params.slug,
-                        content_type: RelatedContentTypeEnum.ANIME,
-                    },
-                    client: apiClient,
-                }),
-            ),
-            queryClient.ensureInfiniteQueryData({
-                ...animeStaffInfiniteOptions({
-                    path: { slug: params.slug },
-                    client: apiClient,
-                }),
-                ...paginationPageParam(),
-            }),
-            queryClient.ensureInfiniteQueryData({
-                ...getArticlesInfiniteOptions({
-                    body: {
-                        content_slug: params.slug,
-                        content_type: ContentTypeEnum.ANIME,
-                    },
-                    client: apiClient,
-                }),
-                ...paginationPageParam(),
-            }),
-            queryClient.ensureInfiniteQueryData({
-                ...getCommentsListInfiniteOptions({
-                    path: {
-                        content_type: ContentTypeEnum.ANIME,
-                        slug: params.slug,
-                    },
-                    body: { comment_type: 'all', sort: getCommentSort() },
-                    query: { size: 3 },
-                    client: apiClient,
-                }),
-                ...paginationPageParam(),
-            }),
-            // Match the component-body call (no `query`) to share a cache key.
-            queryClient.ensureInfiniteQueryData({
-                ...animeCharactersInfiniteOptions({
-                    path: { slug: params.slug },
-                    client: apiClient,
-                }),
-                ...paginationPageParam(),
-            }),
-            queryClient.ensureInfiniteQueryData({
-                ...getCollectionsInfiniteOptions({
-                    body: {
-                        content: [params.slug],
-                        content_type: ContentTypeEnum.ANIME,
-                    },
-                    client: apiClient,
-                }),
-                ...paginationPageParam(),
-            }),
-        ];
-
-        // Only prefetch user-specific data when authed; anon just 401s.
-        if (authToken) {
-            prefetches.push(
-                queryClient.ensureQueryData(
-                    watchGetOptions({
-                        path: { slug: params.slug },
-                        client: apiClient,
-                    }),
-                ),
-                queryClient.ensureQueryData(
-                    getFavouriteOptions({
-                        path: {
-                            slug: params.slug,
-                            content_type: ContentTypeEnum.ANIME,
-                        },
-                        client: apiClient,
-                    }),
-                ),
-                queryClient.ensureInfiniteQueryData({
-                    ...getWatchFollowingInfiniteOptions({
-                        path: { slug: params.slug },
-                        client: apiClient,
-                    }),
-                    ...paginationPageParam(),
-                }),
-            );
-        }
-
-        await Promise.allSettled(prefetches);
-
-        return { anime, nsfwConsented };
-    },
-    head: ({ loaderData }) => {
-        const anime = loaderData?.anime;
-        if (!anime) return {};
-
-        const startDate = anime.start_date
-            ? new Date(anime.start_date * 1000).getFullYear()
-            : null;
-        const title =
-            (anime.title_ua || anime.title_en || anime.title_ja || '') +
-            (startDate ? ` (${startDate})` : '');
-        const synopsis = truncateText(
-            parseTextFromMarkDown(anime.synopsis_ua || anime.synopsis_en || ''),
-            150,
-            true,
-        );
-
-        return generateHeadMeta({
-            title,
-            description: synopsis,
-            image: `${import.meta.env.VITE_SITE_URL || 'https://hikka.io'}/api/og/anime?slug=${anime.slug}&v=${anime.updated}`,
-            imageWidth: 1200,
-            imageHeight: 630,
-            imageType: 'image/jpeg',
-            url: `https://hikka.io/anime/${anime.slug}`,
-            other: {
-                ...(anime.mal_id ? { 'mal-id': anime.mal_id } : {}),
-            },
-            robots: { index: !anime.nsfw },
-        });
-    },
+    loader: ({ params, context }) =>
+        loadContentDetail(ContentTypeEnum.ANIME, params.slug, context),
+    head: ({ loaderData }) =>
+        contentDetailHead(ContentTypeEnum.ANIME, loaderData),
     component: AnimeDetailLayout,
 });
 
 function AnimeDetailLayout() {
-    const { anime, nsfwConsented } = Route.useLoaderData();
+    const { slug } = Route.useParams();
+    const { nsfwConsented } = Route.useLoaderData();
+    const { data: anime } = useQuery(
+        contentInfoOptions(ContentTypeEnum.ANIME, slug),
+    );
 
     return (
         <ContentDetailLayout
-            slug={anime.slug}
+            slug={anime?.slug ?? slug}
             contentType={ContentTypeEnum.ANIME}
-            navRoutes={ANIME_NAV_ROUTES}
-            urlPrefix="/anime"
-            title={anime.title_ua || anime.title_en || anime.title_ja || ''}
-            nsfw={anime.nsfw}
+            title={
+                anime ? contentDetailTitle(ContentTypeEnum.ANIME, anime) : ''
+            }
+            nsfw={anime?.nsfw}
             nsfwConsented={nsfwConsented}
         >
             <Outlet />

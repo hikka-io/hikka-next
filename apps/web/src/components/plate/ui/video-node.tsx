@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { cn } from '@/utils/cn';
 import { extractYouTubeVideoId, getYouTubeThumbnail } from '@/utils/youtube';
 
-import type { TVideoElement } from '../editor/plugins/video-kit';
+import type { TVideoElement } from '../editor/plate-types';
 
 export type VideoElementProps = PlateElementProps<TVideoElement> & {
     className?: string;

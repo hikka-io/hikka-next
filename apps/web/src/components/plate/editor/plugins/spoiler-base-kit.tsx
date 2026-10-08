@@ -3,8 +3,7 @@ import { createSlatePlugin } from 'platejs';
 import { SpoilerInlineElementStatic } from '@/components/plate/ui/spoiler-inline-node-static';
 import { SpoilerElementStatic } from '@/components/plate/ui/spoiler-node-static';
 
-export const ELEMENT_SPOILER = 'spoiler';
-export const ELEMENT_SPOILER_INLINE = 'spoiler_inline';
+import { ELEMENT_SPOILER, ELEMENT_SPOILER_INLINE } from '../plate-types';
 
 export const BaseSpoilerPlugin = createSlatePlugin({
     key: ELEMENT_SPOILER,

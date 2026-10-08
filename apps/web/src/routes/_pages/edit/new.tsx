@@ -1,73 +1,40 @@
 import { createFileRoute, redirect } from '@tanstack/react-router';
 import { zodValidator } from '@tanstack/zod-adapter';
 
-import {
-    animeSlugOptions,
-    ContentTypeEnum,
-    characterInfoOptions,
-    type EditContentTypeEnum,
-    mangaInfoOptions,
-    novelInfoOptions,
-    personInfoOptions,
-} from '@hikka/api';
+import { ContentTypeEnum, type EditContentTypeEnum } from '@hikka/api';
 
+import RulesAlert from '@/components/rules-alert';
 import Block from '@/components/ui/block';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import { usePageHeader } from '@/features/app-shell';
-import {
-    EditContent as Content,
-    EditCreateForm as EditForm,
-    EditRulesAlert as RulesAlert,
-    useContentBySlug,
-} from '@/features/edit';
+import { EditContent, EditCreateForm, useContentBySlug } from '@/features/edit';
+import { contentInfoOptions } from '@/utils/api/content-queries';
 import { generateHeadMeta } from '@/utils/metadata';
 import { editNewSearchSchema } from '@/utils/search-schemas';
 
 export const Route = createFileRoute('/_pages/edit/new')({
     validateSearch: zodValidator(editNewSearchSchema),
-    loaderDeps: ({ search }) => search,
-    loader: async ({ context: { queryClient, apiClient }, deps }) => {
-        const { content_type, slug } = deps;
+    beforeLoad: ({ search: { content_type, slug } }) => {
+        if (!content_type || !slug) throw redirect({ to: '/edit' });
 
-        if (!content_type || !slug) {
-            throw redirect({ to: '/edit' });
-        }
+        return { newEdit: { content_type, slug } };
+    },
+    loaderDeps: ({ search: { content_type, slug } }) => ({
+        content_type,
+        slug,
+    }),
+    loader: async ({ context: { queryClient, apiClient, newEdit } }) => {
+        const { content_type, slug } = newEdit;
 
-        if (content_type === ContentTypeEnum.ANIME) {
-            await queryClient.prefetchQuery(
-                animeSlugOptions({
-                    path: { slug: String(slug) },
-                    client: apiClient,
-                }),
-            );
-        } else if (content_type === ContentTypeEnum.MANGA) {
-            await queryClient.prefetchQuery(
-                mangaInfoOptions({
-                    path: { slug: String(slug) },
-                    client: apiClient,
-                }),
-            );
-        } else if (content_type === ContentTypeEnum.NOVEL) {
-            await queryClient.prefetchQuery(
-                novelInfoOptions({
-                    path: { slug: String(slug) },
-                    client: apiClient,
-                }),
-            );
-        } else if (content_type === ContentTypeEnum.CHARACTER) {
-            await queryClient.prefetchQuery(
-                characterInfoOptions({
-                    path: { slug: String(slug) },
-                    client: apiClient,
-                }),
-            );
-        } else if (content_type === ContentTypeEnum.PERSON) {
-            await queryClient.prefetchQuery(
-                personInfoOptions({
-                    path: { slug: String(slug) },
-                    client: apiClient,
-                }),
-            );
+        switch (content_type) {
+            case ContentTypeEnum.ANIME:
+            case ContentTypeEnum.MANGA:
+            case ContentTypeEnum.NOVEL:
+            case ContentTypeEnum.CHARACTER:
+            case ContentTypeEnum.PERSON:
+                await queryClient.prefetchQuery(
+                    contentInfoOptions(content_type, String(slug), apiClient),
+                );
         }
 
         return { content_type: content_type as EditContentTypeEnum, slug };
@@ -96,15 +63,22 @@ function EditNewPage() {
                         <HeaderTitle>Нова правка</HeaderTitle>
                     </HeaderContainer>
                 </Header>
-                <RulesAlert />
-                <EditForm
+                <div>
+                    <RulesAlert
+                        rulesFile="RULES.md"
+                        before="Перш ніж почати редагування контенту, рекомендуємо ознайомитись з"
+                        after="редагування контенту."
+                        modalTitle="Правила редагування"
+                    />
+                </div>
+                <EditCreateForm
                     slug={slug}
                     content_type={content_type}
                     content={content}
                 />
             </Block>
             <div className="flex flex-col gap-12">
-                <Content
+                <EditContent
                     slug={slug}
                     content_type={content_type}
                     content={content}

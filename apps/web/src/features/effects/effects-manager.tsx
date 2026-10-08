@@ -1,10 +1,7 @@
 import { lazy, Suspense } from 'react';
 
-import type { UiPreferencesOutput } from '@hikka/api';
-
-import { useSessionUI } from '@/features/auth/hooks/use-session-ui';
-
-type UIEffect = NonNullable<UiPreferencesOutput['effect']>;
+import { useSessionUI } from '@/services/session';
+import type { UIEffect } from '@/utils/customization';
 
 const SnowfallEffect = lazy(() => import('./snowfall-effect'));
 const SakuraEffect = lazy(() => import('./sakura'));

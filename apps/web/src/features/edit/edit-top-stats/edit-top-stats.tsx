@@ -12,8 +12,8 @@ import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { useCloseOnRouteChange } from '@/services/hooks/use-close-on-route-change';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 
-import EditTopStatsModal from '../edit-top-stats-modal';
-import EditTopItem from './components/edit-top-item';
+import EditTopItem from './edit-top-item';
+import EditTopStatsModal from './edit-top-stats-modal';
 
 function EditTopStats() {
     const [open, setOpen] = useState(false);

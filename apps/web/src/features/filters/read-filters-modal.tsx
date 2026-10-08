@@ -2,13 +2,8 @@ import type { FC } from 'react';
 
 import type { ReadContentTypeEnum as ReadContentType } from '@hikka/api';
 
-import {
-    ResponsiveModal,
-    ResponsiveModalContent,
-    ResponsiveModalFooter,
-} from '@/components/ui/responsive-modal';
-import FiltersFooter from '@/features/filters/filters-footer';
-
+import FiltersFooter from './filters-footer';
+import FiltersModal from './filters-modal';
 import { ReadFiltersBody, readPresetContentType } from './read-filters';
 
 type Props = {
@@ -26,27 +21,24 @@ const ReadFiltersModal: FC<Props> = ({
     sort_type,
 }) => {
     return (
-        <ResponsiveModal
-            type="sheet"
-            mobile="page"
+        <FiltersModal
             open={open}
             onOpenChange={onOpenChange}
-        >
-            <ResponsiveModalContent className="md:max-w-xl" title="Фільтри">
+            body={
                 <ReadFiltersBody
                     className="-m-4 flex-1 overflow-hidden overflow-y-auto p-4"
                     content_type={content_type}
                     sort_type={sort_type}
                 />
-                <ResponsiveModalFooter>
-                    <FiltersFooter
-                        className="w-full"
-                        contentType={readPresetContentType(sort_type)}
-                        onDone={() => onOpenChange(false)}
-                    />
-                </ResponsiveModalFooter>
-            </ResponsiveModalContent>
-        </ResponsiveModal>
+            }
+            footer={
+                <FiltersFooter
+                    className="w-full"
+                    contentType={readPresetContentType(sort_type)}
+                    onDone={() => onOpenChange(false)}
+                />
+            }
+        />
     );
 };
 

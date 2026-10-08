@@ -1,0 +1,74 @@
+import type { FC } from 'react';
+
+import {
+    type AnimeResponse,
+    ContentTypeEnum,
+    type MainContentTypeEnum,
+    type MangaResponse,
+    type NovelResponse,
+} from '@hikka/api';
+
+import PosterCard from '@/components/content-card/poster-card';
+import { MDViewer } from '@/components/markdown';
+import { Badge } from '@/components/ui/badge';
+import { TableCell } from '@/components/ui/table';
+import { useTitle } from '@/services/session';
+import { getDeclensionWord } from '@/utils/i18n/declension';
+import { REREAD_FORMS, VIEW_FORMS } from '@/utils/i18n/word-forms';
+import { Link } from '@/utils/navigation';
+
+type Props = {
+    content: MangaResponse | NovelResponse | AnimeResponse;
+    content_type: MainContentTypeEnum;
+    repeats: number;
+    note?: string | null;
+};
+
+const DetailsCell: FC<Props> = ({ content, content_type, repeats, note }) => {
+    const title = useTitle(content);
+
+    return (
+        <TableCell className="w-36">
+            <div className="flex items-center gap-4 overflow-hidden">
+                <div className="hidden w-12 lg:block">
+                    <PosterCard
+                        containerClassName="rounded-(--base-radius)"
+                        image={content.image}
+                        to={`/${content_type}/${content.slug}`}
+                    />
+                </div>
+                <div className="flex flex-1 flex-col gap-2">
+                    <div className="flex items-center gap-2">
+                        <Link
+                            className="line-clamp-3 hover:underline"
+                            to={`/${content_type}/${content.slug}`}
+                        >
+                            {title}
+                        </Link>
+                    </div>
+                    {note && (
+                        <MDViewer
+                            preview
+                            className="prose-inline line-clamp-2 text-muted-foreground text-xs"
+                        >
+                            {note}
+                        </MDViewer>
+                    )}
+                    {repeats > 0 && (
+                        <Badge variant="warning" className="w-fit">
+                            {repeats + 1}{' '}
+                            {getDeclensionWord(
+                                repeats + 1,
+                                content_type === ContentTypeEnum.ANIME
+                                    ? VIEW_FORMS
+                                    : REREAD_FORMS,
+                            )}
+                        </Badge>
+                    )}
+                </div>
+            </div>
+        </TableCell>
+    );
+};
+
+export default DetailsCell;

@@ -1,13 +1,19 @@
 import { describe, expect, it } from 'vitest';
 
+import { API_LIMITS } from '@hikka/api';
+
+import { z } from '@/utils/i18n/zod';
+
 import {
     clientDescriptionSchema,
     clientNameSchema,
     emailSchema,
     endpointSchema,
     invalidUsernameCharacters,
+    matchFields,
     passwordSchema,
     suggestEndpoint,
+    USERNAME_HINT,
     usernameSchema,
 } from './form-schemas';
 
@@ -121,6 +127,61 @@ describe('passwordSchema', () => {
     });
 });
 
+describe('matchFields', () => {
+    const schema = z
+        .object({ password: z.string(), passwordConfirmation: z.string() })
+        .refine(
+            ...matchFields(
+                'password',
+                'passwordConfirmation',
+                'Паролі не збігаються',
+            ),
+        );
+
+    it('accepts equal fields', () => {
+        expect(
+            schema.safeParse({ password: 'abc', passwordConfirmation: 'abc' })
+                .success,
+        ).toBe(true);
+    });
+
+    it('reports a mismatch on the confirmation field with the given message', () => {
+        const result = schema.safeParse({
+            password: 'abc',
+            passwordConfirmation: 'abd',
+        });
+
+        expect(result.success).toBe(false);
+        expect(
+            result.error?.issues.map(({ message, path }) => ({
+                message,
+                path,
+            })),
+        ).toEqual([
+            { message: 'Паролі не збігаються', path: ['passwordConfirmation'] },
+        ]);
+    });
+
+    it('compares any pair of fields', () => {
+        const [check, params] = matchFields(
+            'email',
+            'emailConfirmation',
+            'Адреси не збігаються',
+        );
+
+        expect(check({ email: 'a@b.c', emailConfirmation: 'a@b.c' })).toBe(
+            true,
+        );
+        expect(check({ email: 'a@b.c', emailConfirmation: 'A@b.c' })).toBe(
+            false,
+        );
+        expect(params).toEqual({
+            message: 'Адреси не збігаються',
+            path: ['emailConfirmation'],
+        });
+    });
+});
+
 describe('client name and description', () => {
     it('ignore the invisible characters the API strips', () => {
         expect(clientNameSchema.safeParse('\u2800ab\ufff4').success).toBe(
@@ -151,23 +212,21 @@ describe('endpointSchema', () => {
         expect(messages(endpointSchema, value)).toEqual([]);
     });
 
-    it.each([
-        ' https://example.com/cb ',
-        'https://example.com/a b',
-    ])('accepts %j, which the API normalises', (value) => {
-        expect(messages(endpointSchema, value)).toEqual([]);
-    });
+    it.each([' https://example.com/cb ', 'https://example.com/a b'])(
+        'accepts %j, which the API normalises',
+        (value) => {
+            expect(messages(endpointSchema, value)).toEqual([]);
+        },
+    );
 
-    it.each([
-        '/auth/confirm',
-        'callback',
-        'http://',
-        'https://exa mple.com',
-    ])('rejects %j before the API answers "Invalid field endpoint"', (value) => {
-        expect(messages(endpointSchema, value)).toEqual([
-            'Потрібне повне посилання: https://… або myapp://…',
-        ]);
-    });
+    it.each(['/auth/confirm', 'callback', 'http://', 'https://exa mple.com'])(
+        'rejects %j before the API answers "Invalid field endpoint"',
+        (value) => {
+            expect(messages(endpointSchema, value)).toEqual([
+                'Потрібне повне посилання: https://… або myapp://…',
+            ]);
+        },
+    );
 
     it.each([
         ['example.com', 'https://example.com'],
@@ -199,16 +258,15 @@ describe('endpointSchema', () => {
         expect(suggestEndpoint(value)).toBe(suggestion);
     });
 
-    it.each([
-        '192.168.999.999/cb',
-        '10.0.0/cb',
-        '172.32.0.1.5/cb',
-    ])('does not suggest an invalid address for %j', (value) => {
-        expect(suggestEndpoint(value)).toBeNull();
-        expect(messages(endpointSchema, value)).toEqual([
-            'Потрібне повне посилання: https://… або myapp://…',
-        ]);
-    });
+    it.each(['192.168.999.999/cb', '10.0.0/cb', '172.32.0.1.5/cb'])(
+        'does not suggest an invalid address for %j',
+        (value) => {
+            expect(suggestEndpoint(value)).toBeNull();
+            expect(messages(endpointSchema, value)).toEqual([
+                'Потрібне повне посилання: https://… або myapp://…',
+            ]);
+        },
+    );
 
     it.each([
         'myapp:auth',
@@ -238,5 +296,61 @@ describe('endpointSchema', () => {
 
     it('asks for an address when the field is empty', () => {
         expect(messages(endpointSchema, '  ')).toEqual(['Вкажіть посилання']);
+    });
+});
+
+describe('bounds follow API_LIMITS', () => {
+    it('the backend username pattern carries API_LIMITS.username', () => {
+        const { min, max } = API_LIMITS.username;
+
+        expect(BACKEND_USERNAME.source).toBe(
+            `^[A-Za-z][A-Za-z0-9_]{${min - 1},${max - 1}}$`,
+        );
+    });
+
+    it.each([
+        ['usernameSchema', usernameSchema, API_LIMITS.username, 'a'],
+        ['passwordSchema', passwordSchema, API_LIMITS.password, 'x'],
+        ['clientNameSchema', clientNameSchema, API_LIMITS.clientName, 'x'],
+        [
+            'clientDescriptionSchema',
+            clientDescriptionSchema,
+            API_LIMITS.clientDescription,
+            'x',
+        ],
+    ] as const)(
+        '%s accepts exactly min..max characters',
+        (_, schema, limits, char) => {
+            expect(schema.safeParse(char.repeat(limits.min - 1)).success).toBe(
+                false,
+            );
+            expect(schema.safeParse(char.repeat(limits.min)).success).toBe(
+                true,
+            );
+            expect(schema.safeParse(char.repeat(limits.max)).success).toBe(
+                true,
+            );
+            expect(schema.safeParse(char.repeat(limits.max + 1)).success).toBe(
+                false,
+            );
+        },
+    );
+
+    it('states the bounds in the same words', () => {
+        expect(USERNAME_HINT).toBe(
+            'Латинські літери, цифри та _, від 5 до 64 символів',
+        );
+        expect(messages(passwordSchema, 'x'.repeat(7))).toEqual([
+            'Щонайменше 8 символів',
+        ]);
+        expect(messages(passwordSchema, 'x'.repeat(257))).toEqual([
+            'Не більше 256 символів',
+        ]);
+        expect(messages(clientNameSchema, 'xx')).toEqual([
+            'Щонайменше 3 символи',
+        ]);
+        expect(messages(clientDescriptionSchema, 'x'.repeat(513))).toEqual([
+            'Не більше 512 символів',
+        ]);
     });
 });

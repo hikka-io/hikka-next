@@ -1,7 +1,7 @@
 import { type ComponentType, createElement, type FC } from 'react';
 
+import { LIST_STATUS_ICONS } from '@/components/icons/list-status-icons';
 import { cn } from '@/utils/cn';
-import { READ_STATUS, WATCH_STATUS } from '@/utils/constants/common';
 
 export type CardStatus = {
     value: string;
@@ -13,22 +13,17 @@ type Props = {
     size?: 'default' | 'sm';
 };
 
-const STATUS_CONFIG = {
-    watch: WATCH_STATUS,
-    read: READ_STATUS,
-} as const;
-
 /**
  * The API types a tracking status as a bare `string`, so a value this build has
  * no icon for renders nothing instead of throwing on the missing entry.
  */
 const ContentStatus: FC<Props> = ({ status, size = 'default' }) => {
-    const config: { icon?: ComponentType } | undefined =
-        STATUS_CONFIG[status.kind][
-            status.value as keyof (typeof STATUS_CONFIG)[typeof status.kind]
+    const Icon: ComponentType | undefined =
+        LIST_STATUS_ICONS[status.kind][
+            status.value as keyof (typeof LIST_STATUS_ICONS)[typeof status.kind]
         ];
 
-    if (!config?.icon) {
+    if (!Icon) {
         return null;
     }
 
@@ -43,7 +38,7 @@ const ContentStatus: FC<Props> = ({ status, size = 'default' }) => {
                     `bg-${status.value} text-${status.value}-foreground border-${status.value}-border`,
                 )}
             >
-                {createElement(config.icon)}
+                {createElement(Icon)}
             </div>
             <div
                 className={cn(

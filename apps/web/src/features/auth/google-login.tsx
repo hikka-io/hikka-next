@@ -1,0 +1,63 @@
+import { useQuery } from '@tanstack/react-query';
+
+import { providerUrlOptions } from '@hikka/api';
+
+import BxBxlGoogle from '@/components/icons/bx/BxBxlGoogle';
+import { Button } from '@/components/ui/button';
+import { useRouteSearch } from '@/utils/navigation';
+import type { LoginSearch } from '@/utils/search-schemas';
+import { getSiteUrl } from '@/utils/url';
+
+type Props = {
+    disabled?: boolean;
+    buttonText?: string;
+};
+
+const GoogleLogin = ({
+    disabled = false,
+    buttonText = 'Увійти з Google',
+}: Props) => {
+    const { callbackUrl } = useRouteSearch<LoginSearch>();
+
+    const { data: oauthUrl } = useQuery({
+        ...providerUrlOptions({ path: { provider: 'google' } }),
+        select: (data) => {
+            const state = new URL(callbackUrl ?? '/', getSiteUrl()).toString();
+            return {
+                url: `${data.url}&state=${encodeURIComponent(state)}`,
+            };
+        },
+    });
+
+    return (
+        <>
+            <div className="relative">
+                <div className="absolute inset-0 flex items-center">
+                    <div className="w-full border-border border-t"></div>
+                </div>
+                <div className="relative flex justify-center text-xs uppercase">
+                    <span className="bg-background px-2 text-muted-foreground">
+                        АБО
+                    </span>
+                </div>
+            </div>
+
+            <Button
+                type="button"
+                variant="outline"
+                className="w-full"
+                disabled={disabled || !oauthUrl}
+                onClick={() => {
+                    if (oauthUrl?.url) {
+                        window.location.href = oauthUrl.url;
+                    }
+                }}
+            >
+                <BxBxlGoogle className="mr-2 size-4" />
+                {buttonText}
+            </Button>
+        </>
+    );
+};
+
+export default GoogleLogin;

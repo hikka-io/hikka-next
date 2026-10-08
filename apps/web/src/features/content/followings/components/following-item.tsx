@@ -2,22 +2,20 @@ import type { FC } from 'react';
 
 import type {
     ReadResponseBase,
-    ReadStatusEnum,
     UserResponse,
     WatchResponseBase,
-    WatchStatusEnum,
 } from '@hikka/api';
 
-import MaterialSymbolsStarRounded from '@/components/icons/material-symbols/MaterialSymbolsStarRounded';
-import { Badge } from '@/components/ui/badge';
 import {
     HorizontalCard,
     HorizontalCardContainer,
     HorizontalCardDescription,
     HorizontalCardImage,
     HorizontalCardTitle,
-} from '@/components/ui/horizontal-card';
-import { READ_STATUS, WATCH_STATUS } from '@/utils/constants/common';
+} from '@/components/horizontal-card';
+import MaterialSymbolsStarRounded from '@/components/icons/material-symbols/MaterialSymbolsStarRounded';
+import { Badge } from '@/components/ui/badge';
+import { LIST_STATUS } from '@/utils/labels';
 
 type Props = {
     data: {
@@ -29,9 +27,10 @@ type Props = {
 
 const FollowingItem: FC<Props> = ({ data, className }) => {
     const status =
-        data.type === 'read'
-            ? READ_STATUS[data.content[0].status as ReadStatusEnum]
-            : WATCH_STATUS[data.content[0].status as WatchStatusEnum];
+        LIST_STATUS[data.type][
+            data.content[0]
+                .status as keyof (typeof LIST_STATUS)[typeof data.type]
+        ];
 
     const progress =
         data.type === 'read'

@@ -1,16 +1,17 @@
 import * as React from 'react';
 
-import { createLinkNode } from '@platejs/link';
 import { useQuery } from '@tanstack/react-query';
 import type { PlateElementProps } from 'platejs/react';
 import { PlateElement } from 'platejs/react';
 
-import { searchUsersOptions } from '@hikka/api';
+import { API_LIMITS, searchUsersOptions } from '@hikka/api';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import useDebounce from '@/services/hooks/use-debounce';
-import { userMentionUrl } from '@/utils/mentions';
+import { DEBOUNCE_MS, useDebounce } from '@/services/hooks/use-debounce';
+import { getDeclensionWord } from '@/utils/i18n/declension';
+import { SYMBOL_FORMS } from '@/utils/i18n/word-forms';
 
+import { insertMentionLink } from '../editor/transforms';
 import {
     InlineCombobox,
     InlineComboboxContent,
@@ -20,14 +21,18 @@ import {
     InlineComboboxItem,
 } from './inline-combobox';
 
-const MIN_SEARCH_LENGTH = 2;
+const TOO_SHORT_MESSAGE = `Введіть щонайменше ${API_LIMITS.userSearchQuery.min} ${getDeclensionWord(API_LIMITS.userSearchQuery.min, SYMBOL_FORMS)}`;
 
 export function UserSearchInputElement(props: PlateElementProps) {
     const { children, editor, element } = props;
     const [search, setSearch] = React.useState('');
-    const [debouncedSearch] = useDebounce({ value: search, delay: 300 });
+    const [debouncedSearch] = useDebounce({
+        value: search,
+        delay: DEBOUNCE_MS.input,
+    });
 
-    const isTooShort = debouncedSearch.trim().length < MIN_SEARCH_LENGTH;
+    const isTooShort =
+        debouncedSearch.trim().length < API_LIMITS.userSearchQuery.min;
     const isPending = search !== debouncedSearch;
 
     const { data: users, isFetching } = useQuery({
@@ -52,7 +57,7 @@ export function UserSearchInputElement(props: PlateElementProps) {
                 <InlineComboboxContent>
                     <InlineComboboxEmpty>
                         {isTooShort
-                            ? 'Введіть щонайменше 2 символи'
+                            ? TOO_SHORT_MESSAGE
                             : isFetching || isPending
                               ? 'Завантаження...'
                               : 'Користувачів не знайдено'}
@@ -63,14 +68,7 @@ export function UserSearchInputElement(props: PlateElementProps) {
                             <InlineComboboxItem
                                 key={user.reference}
                                 value={user.username ?? ''}
-                                onClick={() =>
-                                    editor.tf.insertNodes(
-                                        createLinkNode(editor, {
-                                            url: userMentionUrl(user.reference),
-                                            text: `@${user.username}`,
-                                        }),
-                                    )
-                                }
+                                onClick={() => insertMentionLink(editor, user)}
                             >
                                 <Avatar className="size-5">
                                     <AvatarImage src={user.avatar} />

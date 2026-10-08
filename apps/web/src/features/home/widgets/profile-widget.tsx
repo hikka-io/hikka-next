@@ -8,17 +8,13 @@ import { followStatsOptions } from '@hikka/api';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
-import {
-    ResponsiveModal,
-    ResponsiveModalContent,
-} from '@/components/ui/responsive-modal';
-import { LoginButton } from '@/features/app-shell';
-import { useSession } from '@/features/auth/hooks/use-session';
-import FollowListModal from '@/features/users/follow-list-modal';
+import { LoginButton } from '@/features/auth';
+import { FollowListModal } from '@/features/users';
 import { useCloseOnRouteChange } from '@/services/hooks/use-close-on-route-change';
+import { useSession } from '@/services/session';
 import { Link } from '@/utils/navigation';
 
-import type { WidgetProps } from '../constants';
+import type { WidgetProps } from '../types';
 
 const ProfileWidget: FC<WidgetProps> = () => {
     const [open, setOpen] = useState(false);
@@ -73,7 +69,7 @@ const ProfileWidget: FC<WidgetProps> = () => {
                         <Button
                             variant="outline"
                             size="icon-md"
-                            render={<Link to="/settings" />}
+                            render={<Link to="/settings/profile" />}
                         >
                             <Settings />
                         </Button>
@@ -110,19 +106,12 @@ const ProfileWidget: FC<WidgetProps> = () => {
                     </button>
                 </div>
             </Card>
-            <ResponsiveModal open={open} onOpenChange={setOpen} type="sheet">
-                <ResponsiveModalContent
-                    side="right"
-                    title={
-                        followType === 'followers' ? 'Стежать' : 'Відстежується'
-                    }
-                >
-                    <FollowListModal
-                        type={followType}
-                        username={user.username}
-                    />
-                </ResponsiveModalContent>
-            </ResponsiveModal>
+            <FollowListModal
+                open={open}
+                onOpenChange={setOpen}
+                type={followType}
+                username={user.username}
+            />
         </>
     );
 };

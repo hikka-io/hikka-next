@@ -1,7 +1,7 @@
 import { createFileRoute, redirect } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/_pages/settings/customization/')({
-    loader: async () => {
+    beforeLoad: () => {
         throw redirect({ to: '/settings/customization/general' });
     },
 });

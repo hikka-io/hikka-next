@@ -1,9 +1,10 @@
 import { useEffect, useLayoutEffect, useState } from 'react';
 
+import { isServer } from '@/utils/is-server';
+
 import type { PageHeaderConfig } from './page-header-context';
 
-const useIsomorphicLayoutEffect =
-    typeof window !== 'undefined' ? useLayoutEffect : useEffect;
+const useIsomorphicLayoutEffect = isServer() ? useEffect : useLayoutEffect;
 
 export const useSettledScope = (
     config: PageHeaderConfig | null,

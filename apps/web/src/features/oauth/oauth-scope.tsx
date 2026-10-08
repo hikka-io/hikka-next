@@ -1,0 +1,24 @@
+import type { FC } from 'react';
+
+import { cn } from '@/utils/cn';
+
+import type { Scope } from './oauth-scopes';
+
+type Props = {
+    scope: Scope;
+};
+
+const OAuthScope: FC<Props> = ({ scope }) => {
+    if (!scope) return null;
+
+    return (
+        <div className="flex items-center gap-3">
+            <div className="rounded-sm bg-secondary/20 p-1">
+                <scope.level.icon className={cn('size-4', scope.level.color)} />
+            </div>
+            <p className="text-muted-foreground text-sm">{scope.title_ua}</p>
+        </div>
+    );
+};
+
+export default OAuthScope;

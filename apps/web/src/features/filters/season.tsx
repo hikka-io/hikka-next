@@ -5,24 +5,26 @@ import { SunSnow } from 'lucide-react';
 import {
     BadgeFilterField,
     type BadgeFilterFieldProps,
-} from '@/components/form/form-badge-filter';
-import { useTypedAppFormContext } from '@/components/form/use-app-form';
+    useTypedAppFormContext,
+} from '@/components/form';
 import { BadgeFilter } from '@/components/ui/badge-filter';
 import { Label } from '@/components/ui/label';
-import { SEASON } from '@/utils/constants/common';
+import { SEASON } from '@/utils/labels/enum-labels';
+import { useRouteSearch } from '@/utils/navigation';
+import type { AnimeFilterSearch } from '@/utils/search-schemas';
 
-import useChangeParam from './hooks/use-change-param';
-import { useFilterSearch } from './hooks/use-filter-search';
+import { filterPresetFormOptions } from './presets/filter-preset-form';
+import { useChangeParam } from './use-change-param';
 
 type Props = {
     className?: string;
 };
 
 const Season: FC<Props> = () => {
-    const { seasons = [], date_range_enabled } = useFilterSearch<{
-        seasons?: string[];
-        date_range_enabled?: boolean;
-    }>();
+    const { seasons = [], date_range_enabled } =
+        useRouteSearch<
+            Pick<AnimeFilterSearch, 'seasons' | 'date_range_enabled'>
+        >();
 
     const handleChangeParam = useChangeParam();
 
@@ -49,10 +51,10 @@ const Season: FC<Props> = () => {
 export const FormSeason: FC<Props & Partial<BadgeFilterFieldProps>> = (
     props,
 ) => {
-    const form = useTypedAppFormContext({ defaultValues: {} as never });
+    const form = useTypedAppFormContext(filterPresetFormOptions);
     return (
         <form.AppField
-            name={'seasons' as never}
+            name="seasons"
             children={() => (
                 <BadgeFilterField
                     {...props}

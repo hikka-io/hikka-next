@@ -1,0 +1,78 @@
+or {
+    JsModuleSource() as $source,
+    JsImportCallExpression(arguments=$args) where {
+        $args <: contains JsStringLiteralExpression() as $source
+    }
+} where {
+    or {
+        and {
+            $filename <: r".*/src/(?:features|components)/[^/]+/[^/]+",
+            $source <: r"[\x27\"]\.\./.*"
+        },
+        and {
+            $filename <: r".*/src/(?:utils|services|routes)/[^/]+",
+            $source <: r"[\x27\"]\.\./(?:\.\./|[^/\x27\"]+/).*"
+        },
+        and {
+            $filename <: r".*/src/(?:features|components)/[^/]+/[^/]+/[^/]+",
+            $source <: r"[\x27\"]\.\./\.\./.*"
+        },
+        and {
+            $filename <: r".*/src/(?:utils|services|routes)/[^/]+/[^/]+",
+            $source <: r"[\x27\"]\.\./\.\./(?:\.\./|[^/\x27\"]+/).*"
+        },
+        and {
+            $filename <: r".*/src/(?:features|components)/[^/]+/[^/]+/[^/]+/[^/]+",
+            $source <: r"[\x27\"]\.\./\.\./\.\./.*"
+        },
+        and {
+            $filename <: r".*/src/(?:utils|services|routes)/[^/]+/[^/]+/[^/]+",
+            $source <: r"[\x27\"]\.\./\.\./\.\./(?:\.\./|[^/\x27\"]+/).*"
+        },
+        and {
+            $filename <: r".*/src/(?:features|components)/[^/]+/[^/]+/[^/]+/[^/]+/[^/]+",
+            $source <: r"[\x27\"]\.\./\.\./\.\./\.\./.*"
+        },
+        and {
+            $filename <: r".*/src/(?:utils|services|routes)/[^/]+/[^/]+/[^/]+/[^/]+",
+            $source <: r"[\x27\"]\.\./\.\./\.\./\.\./(?:\.\./|[^/\x27\"]+/).*"
+        },
+        and {
+            $filename <: r".*/src/(?:features|components)/[^/]+/[^/]+/[^/]+/[^/]+/[^/]+/[^/]+",
+            $source <: r"[\x27\"]\.\./\.\./\.\./\.\./\.\./.*"
+        },
+        and {
+            $filename <: r".*/src/(?:utils|services|routes)/[^/]+/[^/]+/[^/]+/[^/]+/[^/]+",
+            $source <: r"[\x27\"]\.\./\.\./\.\./\.\./\.\./(?:\.\./|[^/\x27\"]+/).*"
+        },
+        and {
+            $filename <: r".*/src/(?:features|components)/[^/]+/[^/]+/[^/]+/[^/]+/[^/]+/[^/]+/[^/]+",
+            $source <: r"[\x27\"]\.\./\.\./\.\./\.\./\.\./\.\./.*"
+        },
+        and {
+            $filename <: r".*/src/(?:utils|services|routes)/[^/]+/[^/]+/[^/]+/[^/]+/[^/]+/[^/]+",
+            $source <: r"[\x27\"]\.\./\.\./\.\./\.\./\.\./\.\./(?:\.\./|[^/\x27\"]+/).*"
+        },
+        and {
+            $filename <: r".*/src/(?:features|components)/[^/]+/[^/]+/[^/]+/[^/]+/[^/]+/[^/]+/[^/]+/[^/]+",
+            $source <: r"[\x27\"]\.\./\.\./\.\./\.\./\.\./\.\./\.\./.*"
+        },
+        and {
+            $filename <: r".*/src/(?:utils|services|routes)/[^/]+/[^/]+/[^/]+/[^/]+/[^/]+/[^/]+/[^/]+",
+            $source <: r"[\x27\"]\.\./\.\./\.\./\.\./\.\./\.\./\.\./(?:\.\./|[^/\x27\"]+/).*"
+        },
+        and {
+            $filename <: r".*/src/(?:features|components)/[^/]+/[^/]+/[^/]+/[^/]+/[^/]+/[^/]+/[^/]+/[^/]+/[^/]+",
+            $source <: r"[\x27\"]\.\./\.\./\.\./\.\./\.\./\.\./\.\./\.\./.*"
+        },
+        and {
+            $filename <: r".*/src/(?:utils|services|routes)/[^/]+/[^/]+/[^/]+/[^/]+/[^/]+/[^/]+/[^/]+/[^/]+",
+            $source <: r"[\x27\"]\.\./\.\./\.\./\.\./\.\./\.\./\.\./\.\./(?:\.\./|[^/\x27\"]+/).*"
+        },
+        and {
+            $filename <: r".*/src/components/[^/]+",
+            $source <: r"[\x27\"](?:\.\./|\./[^/]+/).*"
+        }
+    },
+    register_diagnostic(span=$source, message="[D9] Relative import leaves its unit (a feature, a component group, a root component file, utils/, services/ or routes/); use the @/ alias (and the target's barrel).", severity="error")
+}
