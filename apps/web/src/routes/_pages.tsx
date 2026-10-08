@@ -1,10 +1,6 @@
 import { createFileRoute, Outlet, redirect } from '@tanstack/react-router';
 
-import {
-    HikkaApiError,
-    profileOptions,
-    unseenNotificationsCountOptions,
-} from '@hikka/api';
+import { profileOptions, unseenNotificationsCountOptions } from '@hikka/api';
 
 import { Toaster } from '@/components/ui/sonner';
 import {
@@ -15,6 +11,7 @@ import {
     PageHeaderProvider,
 } from '@/features/app-shell';
 import { retryOnCancel } from '@/utils/api/retry-on-cancel';
+import { isDeadSessionError } from '@/utils/auth';
 import { readAuthToken } from '@/utils/cookies';
 
 export const Route = createFileRoute('/_pages')({
@@ -29,10 +26,7 @@ export const Route = createFileRoute('/_pages')({
             );
             if (!session) throw redirect({ to: '/auth/logout' });
         } catch (error) {
-            if (
-                error instanceof HikkaApiError &&
-                error.code === 'auth:invalid_token'
-            ) {
+            if (isDeadSessionError(error)) {
                 throw redirect({ to: '/auth/logout' });
             }
             throw error;

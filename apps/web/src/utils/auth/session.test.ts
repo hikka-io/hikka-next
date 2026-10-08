@@ -5,6 +5,7 @@ import {
     configureBrowserClient,
     createRequestClient,
     getBrowserClient,
+    HikkaApiError,
     type ProfileResponse,
     profileOptions,
     profileQueryKey,
@@ -12,7 +13,7 @@ import {
 
 import { PUBLIC_API_URL } from '@/utils/api/base-url';
 
-import { getSessionFromPagesCache } from './session';
+import { getSessionFromPagesCache, isDeadSessionError } from './session';
 
 const PROFILE: ProfileResponse = {
     reference: '7d2f6a4e-1c3b-4b8e-9f0a-5e6d7c8b9a01',
@@ -82,5 +83,25 @@ describe('getSessionFromPagesCache', () => {
         await queryClient.ensureQueryData(profileOptions({ client }));
 
         expect(getSessionFromPagesCache(queryClient)).toEqual(PROFILE);
+    });
+});
+
+describe('isDeadSessionError', () => {
+    it.each([
+        'auth:invalid_token',
+        'auth:token_expired',
+        'auth:user_not_found',
+    ])('treats %s as a dead session', (code) => {
+        expect(isDeadSessionError(new HikkaApiError('', 400, code))).toBe(true);
+    });
+
+    it('keeps other errors', () => {
+        expect(
+            isDeadSessionError(new HikkaApiError('', 400, 'auth:banned')),
+        ).toBe(false);
+        expect(
+            isDeadSessionError(new HikkaApiError('', 500, 'unknown_error')),
+        ).toBe(false);
+        expect(isDeadSessionError(new Error('auth:token_expired'))).toBe(false);
     });
 });
