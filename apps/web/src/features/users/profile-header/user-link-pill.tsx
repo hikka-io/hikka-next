@@ -18,7 +18,7 @@ const UserLinkPill: FC<Props> = ({ link, ...props }) => {
         <Button
             variant="outline"
             size="sm"
-            className="rounded-full px-3 backdrop-blur"
+            className="backdrop-blur"
             render={
                 <a
                     href={link.url}

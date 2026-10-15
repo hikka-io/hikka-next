@@ -15,7 +15,7 @@ const UserLinksStack: FC<Props> = ({ links, ...props }) => (
     <Button
         variant="outline"
         size="sm"
-        className="gap-2 rounded-full pr-3 pl-1 backdrop-blur"
+        className="pl-1 backdrop-blur"
         {...props}
     >
         <span className="flex">
@@ -25,7 +25,7 @@ const UserLinksStack: FC<Props> = ({ links, ...props }) => (
                 return (
                     <span
                         key={link.url}
-                        className="-ml-1.5 flex size-6 items-center justify-center rounded-full bg-secondary ring-1 ring-border first:ml-0 [&_svg]:size-3!"
+                        className="-ml-1.5 flex size-6 items-center justify-center rounded-sm bg-secondary ring-1 ring-border first:ml-0 [&_svg]:size-3!"
                     >
                         <Icon />
                     </span>
