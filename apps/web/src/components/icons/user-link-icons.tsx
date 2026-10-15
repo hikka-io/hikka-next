@@ -1,4 +1,4 @@
-import type { ComponentType, SVGProps } from 'react';
+import type { ComponentType, CSSProperties, SVGProps } from 'react';
 
 import { UserLinkIconEnum } from '@hikka/api';
 
@@ -24,11 +24,41 @@ import SimpleIconsYoutube from '@/components/icons/simple-icons/SimpleIconsYoutu
 type IconComponent = ComponentType<SVGProps<SVGSVGElement>>;
 
 function withBrandColor(Icon: IconComponent, color: string) {
-    return function BrandIcon(props: SVGProps<SVGSVGElement>) {
-        return <Icon {...props} style={{ color, ...props.style }} />;
+    return function BrandIcon({
+        className,
+        style,
+        ...props
+    }: SVGProps<SVGSVGElement>) {
+        return (
+            <Icon
+                {...props}
+                className={`transition-colors [:is(a,button):is(:hover,:focus-visible)_&]:text-(--brand-color) ${className ?? ''}`}
+                style={{ ...style, '--brand-color': color } as CSSProperties}
+            />
+        );
     };
 }
 
+function withHoverColor(Icon: IconComponent) {
+    return function HoverColorIcon({
+        className,
+        ...props
+    }: SVGProps<SVGSVGElement>) {
+        return (
+            <Icon
+                {...props}
+                className={`grayscale transition [:is(a,button):is(:hover,:focus-visible)_&]:grayscale-0 ${className ?? ''}`}
+            />
+        );
+    };
+}
+
+const AnitubeIcon = withHoverColor(CustomUserLinkAnitube);
+const DgMangaIcon = withHoverColor(CustomUserLinkDgManga);
+const MangaInUaIcon = withHoverColor(CustomUserLinkMangaInUa);
+const MangaListIcon = withHoverColor(CustomUserLinkMangaList);
+const MikaiIcon = withHoverColor(CustomUserLinkMikai);
+const ZenkoIcon = withHoverColor(CustomUserLinkZenko);
 const InstagramIcon = withBrandColor(SimpleIconsInstagram, '#e4405f');
 const TelegramIcon = withBrandColor(SimpleIconsTelegram, '#26a5e4');
 const DiscordIcon = withBrandColor(SimpleIconsDiscord, '#5865f2');
@@ -50,12 +80,12 @@ export const USER_LINK_ICONS = {
     [UserLinkIconEnum.YOUTUBE]: YoutubeIcon,
     [UserLinkIconEnum.REDDIT]: RedditIcon,
     [UserLinkIconEnum.CHESS]: ChessIcon,
-    [UserLinkIconEnum.MANGAINUA]: CustomUserLinkMangaInUa,
-    [UserLinkIconEnum.MANGALIST]: CustomUserLinkMangaList,
-    [UserLinkIconEnum.ANITUBE]: CustomUserLinkAnitube,
-    [UserLinkIconEnum.DGMANGA]: CustomUserLinkDgManga,
-    [UserLinkIconEnum.MIKAI]: CustomUserLinkMikai,
-    [UserLinkIconEnum.ZENKO]: CustomUserLinkZenko,
+    [UserLinkIconEnum.MANGAINUA]: MangaInUaIcon,
+    [UserLinkIconEnum.MANGALIST]: MangaListIcon,
+    [UserLinkIconEnum.ANITUBE]: AnitubeIcon,
+    [UserLinkIconEnum.DGMANGA]: DgMangaIcon,
+    [UserLinkIconEnum.MIKAI]: MikaiIcon,
+    [UserLinkIconEnum.ZENKO]: ZenkoIcon,
 } as const satisfies Record<
     UserLinkIconEnum,
     ComponentType<{ className?: string }>
