@@ -2,6 +2,12 @@ import type { ComponentType } from 'react';
 
 import { UserLinkIconEnum } from '@hikka/api';
 
+import CustomUserLinkAnitube from '@/components/icons/custom/CustomUserLinkAnitube';
+import CustomUserLinkDgManga from '@/components/icons/custom/CustomUserLinkDgManga';
+import CustomUserLinkMangaInUa from '@/components/icons/custom/CustomUserLinkMangaInUa';
+import CustomUserLinkMangaList from '@/components/icons/custom/CustomUserLinkMangaList';
+import CustomUserLinkMikai from '@/components/icons/custom/CustomUserLinkMikai';
+import CustomUserLinkZenko from '@/components/icons/custom/CustomUserLinkZenko';
 import MaterialSymbolsLinkRounded from '@/components/icons/material-symbols/MaterialSymbolsLinkRounded';
 import SimpleIconsBluesky from '@/components/icons/simple-icons/SimpleIconsBluesky';
 import SimpleIconsChessdotcom from '@/components/icons/simple-icons/SimpleIconsChessdotcom';
@@ -28,12 +34,12 @@ export const USER_LINK_ICONS = {
     [UserLinkIconEnum.YOUTUBE]: SimpleIconsYoutube,
     [UserLinkIconEnum.REDDIT]: SimpleIconsReddit,
     [UserLinkIconEnum.CHESS]: SimpleIconsChessdotcom,
-    [UserLinkIconEnum.MANGAINUA]: MaterialSymbolsLinkRounded,
-    [UserLinkIconEnum.MANGALIST]: MaterialSymbolsLinkRounded,
-    [UserLinkIconEnum.ANITUBE]: MaterialSymbolsLinkRounded,
-    [UserLinkIconEnum.DGMANGA]: MaterialSymbolsLinkRounded,
-    [UserLinkIconEnum.MIKAI]: MaterialSymbolsLinkRounded,
-    [UserLinkIconEnum.ZENKO]: MaterialSymbolsLinkRounded,
+    [UserLinkIconEnum.MANGAINUA]: CustomUserLinkMangaInUa,
+    [UserLinkIconEnum.MANGALIST]: CustomUserLinkMangaList,
+    [UserLinkIconEnum.ANITUBE]: CustomUserLinkAnitube,
+    [UserLinkIconEnum.DGMANGA]: CustomUserLinkDgManga,
+    [UserLinkIconEnum.MIKAI]: CustomUserLinkMikai,
+    [UserLinkIconEnum.ZENKO]: CustomUserLinkZenko,
 } as const satisfies Record<
     UserLinkIconEnum,
     ComponentType<{ className?: string }>
