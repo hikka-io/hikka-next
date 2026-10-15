@@ -137,9 +137,21 @@ describe('UserLinks', () => {
     });
 
     it('shows no overflow trigger when everything fits', async () => {
-        const { container } = await mount([GITHUB, TELEGRAM, CUSTOM, BLUESKY]);
+        const { container } = await mount([GITHUB, TELEGRAM, CUSTOM]);
 
         expect(container.querySelector('button')).toBeNull();
+    });
+
+    it('shows at most three links even when more fit', async () => {
+        const { container, anchors } = await mount([
+            GITHUB,
+            TELEGRAM,
+            CUSTOM,
+            BLUESKY,
+        ]);
+
+        expect(anchors()).toHaveLength(3);
+        expect(container.querySelector('button')?.textContent).toContain('+1');
     });
 
     it('moves links that do not fit behind a +N trigger that lists them', async () => {

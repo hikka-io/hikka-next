@@ -12,6 +12,8 @@ import UserLinkPill from './user-link-pill';
 import UserLinksMore from './user-links-more';
 import UserLinksStack from './user-links-stack';
 
+const MAX_VISIBLE_LINKS = 3;
+
 type Props = {
     className?: string;
 };
@@ -23,7 +25,12 @@ type RowProps = Props & {
 const LinksRow: FC<RowProps> = ({ links, className }) => {
     const containerRef = useRef<HTMLDivElement>(null);
     const measureRef = useRef<HTMLDivElement>(null);
-    const fit = useFitCount(containerRef, measureRef, links.length);
+    const fit = useFitCount(
+        containerRef,
+        measureRef,
+        links.length,
+        MAX_VISIBLE_LINKS,
+    );
     const hidden = links.slice(fit);
 
     return (

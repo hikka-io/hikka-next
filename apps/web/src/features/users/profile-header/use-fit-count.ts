@@ -1,12 +1,13 @@
 import { type RefObject, useLayoutEffect, useState } from 'react';
 
-/** How many leading items of `measureRef` fit in one line of `containerRef`, keeping room for its last child (the overflow trigger). */
+/** How many leading items of `measureRef` (at most `limit`) fit in one line of `containerRef`, keeping room for its last child (the overflow trigger). */
 export function useFitCount(
     containerRef: RefObject<HTMLElement | null>,
     measureRef: RefObject<HTMLElement | null>,
     count: number,
+    limit: number,
 ) {
-    const [fit, setFit] = useState(count);
+    const [fit, setFit] = useState(Math.min(count, limit));
 
     useLayoutEffect(() => {
         const container = containerRef.current;
@@ -27,7 +28,7 @@ export function useFitCount(
             let used = 0;
             let next = 0;
 
-            for (const [index, width] of widths.entries()) {
+            for (const [index, width] of widths.slice(0, limit).entries()) {
                 const isLast = index === widths.length - 1;
                 const needed =
                     used +
@@ -49,7 +50,7 @@ export function useFitCount(
         observer.observe(measure);
 
         return () => observer.disconnect();
-    }, [containerRef, measureRef]);
+    }, [containerRef, measureRef, limit]);
 
     return fit;
 }

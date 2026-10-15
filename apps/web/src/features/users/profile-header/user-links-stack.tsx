@@ -32,9 +32,7 @@ const UserLinksStack: FC<Props> = ({ links, ...props }) => (
                 );
             })}
         </span>
-        <span className="tabular-nums">
-            +{links.length}
-        </span>
+        <span className="tabular-nums">+{links.length}</span>
     </Button>
 );
 
