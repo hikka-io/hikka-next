@@ -673,6 +673,10 @@ export type AnimeSearchArgs = {
      * Sort
      */
     sort?: Array<string>;
+    /**
+     * Exclude Watch Status
+     */
+    exclude_watch_status?: Array<WatchStatusEnum>;
 };
 
 /**
@@ -3469,9 +3473,49 @@ export type FollowUserResponse = {
 };
 
 /**
+ * FranchiseRelationResponse
+ */
+export type FranchiseRelationResponse = {
+    related_content_type: RelatedContentTypeEnum;
+    relation_type: FranchiseRelationTypeEnum;
+    content_type: RelatedContentTypeEnum;
+    /**
+     * Related Slug
+     */
+    related_slug: string;
+    /**
+     * Slug
+     */
+    slug: string;
+};
+
+/**
+ * FranchiseRelationTypeEnum
+ */
+export const FranchiseRelationTypeEnum = {
+    ALTERNATIVE_SETTING: 'alternative_setting',
+    ALTERNATIVE_VERSION: 'alternative_version',
+    SIDE_STORY: 'side_story',
+    ADAPTATION: 'adaptation',
+    SPIN_OFF: 'spin_off',
+    SUMMARY: 'summary',
+    SEQUEL: 'sequel',
+} as const;
+
+/**
+ * FranchiseRelationTypeEnum
+ */
+export type FranchiseRelationTypeEnum =
+    (typeof FranchiseRelationTypeEnum)[keyof typeof FranchiseRelationTypeEnum];
+
+/**
  * FranchiseResponse
  */
 export type FranchiseResponse = {
+    /**
+     * Relations
+     */
+    relations: Array<FranchiseRelationResponse>;
     /**
      * Anime
      */
@@ -4268,6 +4312,10 @@ export type MangaSearchArgs = {
      * Sort
      */
     sort?: Array<string>;
+    /**
+     * Exclude Read Status
+     */
+    exclude_read_status?: Array<ReadStatusEnum>;
 };
 
 /**
@@ -4815,6 +4863,10 @@ export type NovelSearchArgs = {
      * Sort
      */
     sort?: Array<string>;
+    /**
+     * Exclude Read Status
+     */
+    exclude_read_status?: Array<ReadStatusEnum>;
 };
 
 /**
@@ -6417,14 +6469,23 @@ export type UserLinkArgs = {
  */
 export const UserLinkIconEnum = {
     INSTAGRAM: 'instagram',
+    MANGAINUA: 'mangainua',
+    MANGALIST: 'mangalist',
     TELEGRAM: 'telegram',
     THREADS: 'threads',
     TWITTER: 'twitter',
     DISCORD: 'discord',
     BLUESKY: 'bluesky',
+    ANITUBE: 'anitube',
+    DGMANGA: 'dgmanga',
+    YOUTUBE: 'youtube',
     GITHUB: 'github',
     CUSTOM: 'custom',
+    REDDIT: 'reddit',
     STEAM: 'steam',
+    MIKAI: 'mikai',
+    ZENKO: 'zenko',
+    CHESS: 'chess',
 } as const;
 
 /**

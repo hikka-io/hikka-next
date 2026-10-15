@@ -10,4 +10,13 @@ export const USER_LINK_ICON = {
     [UserLinkIconEnum.GITHUB]: { label: 'GitHub' },
     [UserLinkIconEnum.CUSTOM]: { label: 'Посилання' },
     [UserLinkIconEnum.STEAM]: { label: 'Steam' },
+    [UserLinkIconEnum.YOUTUBE]: { label: 'YouTube' },
+    [UserLinkIconEnum.REDDIT]: { label: 'Reddit' },
+    [UserLinkIconEnum.CHESS]: { label: 'Chess.com' },
+    [UserLinkIconEnum.MANGAINUA]: { label: 'Manga.in.ua' },
+    [UserLinkIconEnum.MANGALIST]: { label: 'MangaList' },
+    [UserLinkIconEnum.ANITUBE]: { label: 'AniTube' },
+    [UserLinkIconEnum.DGMANGA]: { label: 'DGManga' },
+    [UserLinkIconEnum.MIKAI]: { label: 'Mikai' },
+    [UserLinkIconEnum.ZENKO]: { label: 'Zenko' },
 } as const satisfies Record<UserLinkIconEnum, { label: string }>;

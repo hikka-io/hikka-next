@@ -3,7 +3,7 @@ import { UserLinkIconEnum } from '@hikka/api';
 import { parseUrl } from '@/utils/url';
 import { getUserLinkHost } from '@/utils/user-links';
 
-// Mirrors the backend's host check for each icon (exact host without `www.`); the saved icon comes from the backend.
+// Previews the backend's host check (exact host without `www.`); the saved icon always comes from the backend.
 const HOST_ICONS: Record<string, UserLinkIconEnum> = {
     'bsky.app': UserLinkIconEnum.BLUESKY,
     'bsky.social': UserLinkIconEnum.BLUESKY,
@@ -18,6 +18,14 @@ const HOST_ICONS: Record<string, UserLinkIconEnum> = {
     'threads.net': UserLinkIconEnum.THREADS,
     'twitter.com': UserLinkIconEnum.TWITTER,
     'x.com': UserLinkIconEnum.TWITTER,
+    'youtube.com': UserLinkIconEnum.YOUTUBE,
+    'm.youtube.com': UserLinkIconEnum.YOUTUBE,
+    'youtu.be': UserLinkIconEnum.YOUTUBE,
+    'reddit.com': UserLinkIconEnum.REDDIT,
+    'chess.com': UserLinkIconEnum.CHESS,
+    'manga.in.ua': UserLinkIconEnum.MANGAINUA,
+    'anitube.in.ua': UserLinkIconEnum.ANITUBE,
+    'mikai.me': UserLinkIconEnum.MIKAI,
 };
 
 export function detectLinkIcon(value: string): UserLinkIconEnum {

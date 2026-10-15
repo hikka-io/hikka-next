@@ -560,6 +560,8 @@ export {
     type FollowStatsResponses,
     type FollowUserPaginationResponse,
     type FollowUserResponse,
+    type FranchiseRelationResponse,
+    FranchiseRelationTypeEnum,
     type FranchiseResponse,
     type GenreListResponse,
     type GenreResponse,

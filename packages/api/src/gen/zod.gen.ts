@@ -651,6 +651,19 @@ export const zFollowStatsResponse = z.object({
 });
 
 /**
+ * FranchiseRelationTypeEnum
+ */
+export const zFranchiseRelationTypeEnum = z.enum([
+    'alternative_setting',
+    'alternative_version',
+    'side_story',
+    'adaptation',
+    'spin_off',
+    'summary',
+    'sequel',
+]);
+
+/**
  * GenreResponse
  */
 export const zGenreResponse = z.object({
@@ -907,34 +920,6 @@ export const zMangaResponse = z.object({
 });
 
 /**
- * MangaSearchArgs
- */
-export const zMangaSearchArgs = z.object({
-    years: z
-        .array(z.union([z.number().int().gt(0), z.null()]))
-        .nullish()
-        .default([null, null]),
-    media_type: z.array(zMangaMediaEnum).optional().default([]),
-    status: z.array(zContentStatusEnum).optional().default([]),
-    only_translated: z.boolean().optional().default(false),
-    magazines: z.array(z.string()).optional().default([]),
-    genres: z.array(z.string()).optional().default([]),
-    score: z
-        .tuple([z.number().int().nullable(), z.number().int().nullable()])
-        .optional()
-        .default([null, null]),
-    native_score: z
-        .tuple([z.number().int().nullable(), z.number().int().nullable()])
-        .optional()
-        .default([null, null]),
-    query: z.string().min(2).max(255).nullish(),
-    sort: z
-        .array(z.string())
-        .optional()
-        .default(['score:desc', 'scored_by:desc']),
-});
-
-/**
  * MangaTodoArgs
  */
 export const zMangaTodoArgs = z.object({
@@ -1016,34 +1001,6 @@ export const zNovelResponse = z.object({
     genres: z.array(zGenreResponse),
     synopsis_en: z.string().nullable(),
     synopsis_ua: z.string().nullable(),
-});
-
-/**
- * NovelSearchArgs
- */
-export const zNovelSearchArgs = z.object({
-    years: z
-        .array(z.union([z.number().int().gt(0), z.null()]))
-        .nullish()
-        .default([null, null]),
-    media_type: z.array(zNovelMediaEnum).optional().default([]),
-    status: z.array(zContentStatusEnum).optional().default([]),
-    only_translated: z.boolean().optional().default(false),
-    magazines: z.array(z.string()).optional().default([]),
-    genres: z.array(z.string()).optional().default([]),
-    score: z
-        .tuple([z.number().int().nullable(), z.number().int().nullable()])
-        .optional()
-        .default([null, null]),
-    native_score: z
-        .tuple([z.number().int().nullable(), z.number().int().nullable()])
-        .optional()
-        .default([null, null]),
-    query: z.string().min(2).max(255).nullish(),
-    sort: z
-        .array(z.string())
-        .optional()
-        .default(['score:desc', 'scored_by:desc']),
 });
 
 /**
@@ -1461,6 +1418,64 @@ export const zReadStatusEnum = z.enum([
 ]);
 
 /**
+ * MangaSearchArgs
+ */
+export const zMangaSearchArgs = z.object({
+    years: z
+        .array(z.union([z.number().int().gt(0), z.null()]))
+        .nullish()
+        .default([null, null]),
+    media_type: z.array(zMangaMediaEnum).optional().default([]),
+    status: z.array(zContentStatusEnum).optional().default([]),
+    only_translated: z.boolean().optional().default(false),
+    magazines: z.array(z.string()).optional().default([]),
+    genres: z.array(z.string()).optional().default([]),
+    score: z
+        .tuple([z.number().int().nullable(), z.number().int().nullable()])
+        .optional()
+        .default([null, null]),
+    native_score: z
+        .tuple([z.number().int().nullable(), z.number().int().nullable()])
+        .optional()
+        .default([null, null]),
+    query: z.string().min(2).max(255).nullish(),
+    sort: z
+        .array(z.string())
+        .optional()
+        .default(['score:desc', 'scored_by:desc']),
+    exclude_read_status: z.array(zReadStatusEnum).optional().default([]),
+});
+
+/**
+ * NovelSearchArgs
+ */
+export const zNovelSearchArgs = z.object({
+    years: z
+        .array(z.union([z.number().int().gt(0), z.null()]))
+        .nullish()
+        .default([null, null]),
+    media_type: z.array(zNovelMediaEnum).optional().default([]),
+    status: z.array(zContentStatusEnum).optional().default([]),
+    only_translated: z.boolean().optional().default(false),
+    magazines: z.array(z.string()).optional().default([]),
+    genres: z.array(z.string()).optional().default([]),
+    score: z
+        .tuple([z.number().int().nullable(), z.number().int().nullable()])
+        .optional()
+        .default([null, null]),
+    native_score: z
+        .tuple([z.number().int().nullable(), z.number().int().nullable()])
+        .optional()
+        .default([null, null]),
+    query: z.string().min(2).max(255).nullish(),
+    sort: z
+        .array(z.string())
+        .optional()
+        .default(['score:desc', 'scored_by:desc']),
+    exclude_read_status: z.array(zReadStatusEnum).optional().default([]),
+});
+
+/**
  * ReadArgs
  */
 export const zReadArgs = z.object({
@@ -1509,6 +1524,17 @@ export const zReadSearchArgs = z.object({
  * RelatedContentTypeEnum
  */
 export const zRelatedContentTypeEnum = z.enum(['anime', 'manga', 'novel']);
+
+/**
+ * FranchiseRelationResponse
+ */
+export const zFranchiseRelationResponse = z.object({
+    related_content_type: zRelatedContentTypeEnum,
+    relation_type: zFranchiseRelationTypeEnum,
+    content_type: zRelatedContentTypeEnum,
+    related_slug: z.string(),
+    slug: z.string(),
+});
 
 /**
  * ReviewRecommendedEnum
@@ -1676,42 +1702,6 @@ export const zSourceEnum = z.enum([
     'game',
     'book',
 ]);
-
-/**
- * AnimeSearchArgs
- */
-export const zAnimeSearchArgs = z.object({
-    years: z
-        .union([
-            z.array(z.tuple([zSeasonEnum, z.number().int().gt(0)])),
-            z.array(z.union([z.number().int().gt(0), z.null()])),
-        ])
-        .optional()
-        .default([null, null]),
-    include_multiseason: z.boolean().optional().default(false),
-    only_translated: z.boolean().optional().default(false),
-    score: z
-        .tuple([z.number().int().nullable(), z.number().int().nullable()])
-        .optional()
-        .default([null, null]),
-    native_score: z
-        .tuple([z.number().int().nullable(), z.number().int().nullable()])
-        .optional()
-        .default([null, null]),
-    media_type: z.array(zAnimeMediaEnum).optional().default([]),
-    rating: z.array(zAnimeAgeRatingEnum).optional().default([]),
-    status: z.array(zContentStatusEnum).optional().default([]),
-    source: z.array(zSourceEnum).optional().default([]),
-    season: z.array(zSeasonEnum).optional().default([]),
-    producers: z.array(z.string()).optional().default([]),
-    studios: z.array(z.string()).optional().default([]),
-    genres: z.array(z.string()).optional().default([]),
-    query: z.string().min(2).max(255).nullish(),
-    sort: z
-        .array(z.string())
-        .optional()
-        .default(['score:desc', 'scored_by:desc']),
-});
 
 /**
  * SuccessResponse
@@ -2287,14 +2277,23 @@ export const zUserLinkArgs = z.object({
  */
 export const zUserLinkIconEnum = z.enum([
     'instagram',
+    'mangainua',
+    'mangalist',
     'telegram',
     'threads',
     'twitter',
     'discord',
     'bluesky',
+    'anitube',
+    'dgmanga',
+    'youtube',
     'github',
     'custom',
+    'reddit',
     'steam',
+    'mikai',
+    'zenko',
+    'chess',
 ]);
 
 /**
@@ -3037,6 +3036,7 @@ export const zFavouritePaginationResponse = z.object({
  * FranchiseResponse
  */
 export const zFranchiseResponse = z.object({
+    relations: z.array(zFranchiseRelationResponse),
     anime: z.array(zAnimeResponseWithWatch),
     manga: z.array(zMangaResponseWithRead),
     novel: z.array(zNovelResponseWithRead),
@@ -3106,6 +3106,43 @@ export const zWatchStatusEnum = z.enum([
     'on_hold',
     'dropped',
 ]);
+
+/**
+ * AnimeSearchArgs
+ */
+export const zAnimeSearchArgs = z.object({
+    years: z
+        .union([
+            z.array(z.tuple([zSeasonEnum, z.number().int().gt(0)])),
+            z.array(z.union([z.number().int().gt(0), z.null()])),
+        ])
+        .optional()
+        .default([null, null]),
+    include_multiseason: z.boolean().optional().default(false),
+    only_translated: z.boolean().optional().default(false),
+    score: z
+        .tuple([z.number().int().nullable(), z.number().int().nullable()])
+        .optional()
+        .default([null, null]),
+    native_score: z
+        .tuple([z.number().int().nullable(), z.number().int().nullable()])
+        .optional()
+        .default([null, null]),
+    media_type: z.array(zAnimeMediaEnum).optional().default([]),
+    rating: z.array(zAnimeAgeRatingEnum).optional().default([]),
+    status: z.array(zContentStatusEnum).optional().default([]),
+    source: z.array(zSourceEnum).optional().default([]),
+    season: z.array(zSeasonEnum).optional().default([]),
+    producers: z.array(z.string()).optional().default([]),
+    studios: z.array(z.string()).optional().default([]),
+    genres: z.array(z.string()).optional().default([]),
+    query: z.string().min(2).max(255).nullish(),
+    sort: z
+        .array(z.string())
+        .optional()
+        .default(['score:desc', 'scored_by:desc']),
+    exclude_watch_status: z.array(zWatchStatusEnum).optional().default([]),
+});
 
 /**
  * AnimeWatchSearchArgs
