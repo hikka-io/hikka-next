@@ -30,6 +30,7 @@ const PROFILE: ProfileResponse = {
     description: null,
     username: 'tester',
     cover: null,
+    links: [],
     active: true,
     avatar: 'https://cdn.example.test/avatar.jpg',
     role: 'user',

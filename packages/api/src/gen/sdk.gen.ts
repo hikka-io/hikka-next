@@ -58,6 +58,9 @@ import type {
     ChangeIgnoredNotificationsData,
     ChangeIgnoredNotificationsErrors,
     ChangeIgnoredNotificationsResponses,
+    ChangeLinksData,
+    ChangeLinksErrors,
+    ChangeLinksResponses,
     ChangePasswordData,
     ChangePasswordErrors,
     ChangePasswordResponses,
@@ -1159,6 +1162,25 @@ export const getDigest = <ThrowOnError extends boolean = false>(
         responseValidator: async (data) => zGetDigestResponse.parse(data),
         url: '/digests/{username}/{name}',
         ...options,
+    });
+
+/**
+ * Change links
+ */
+export const changeLinks = <ThrowOnError extends boolean = false>(
+    options: Options<ChangeLinksData, ThrowOnError>,
+): RequestResult<ChangeLinksResponses, ChangeLinksErrors, ThrowOnError> =>
+    (options.client ?? client).put<
+        ChangeLinksResponses,
+        ChangeLinksErrors,
+        ThrowOnError
+    >({
+        url: '/settings/links',
+        ...options,
+        headers: {
+            'Content-Type': 'application/json',
+            ...options.headers,
+        },
     });
 
 /**

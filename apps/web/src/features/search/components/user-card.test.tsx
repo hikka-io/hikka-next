@@ -24,6 +24,7 @@ const user = (role: string): UserResponse => ({
     description: null,
     username: 'someone',
     cover: null,
+    links: [],
     active: false,
     avatar: 'avatar.png',
     role,

@@ -26,6 +26,7 @@ import {
     changeDescription,
     changeEmail,
     changeIgnoredNotifications,
+    changeLinks,
     changePassword,
     changeUi,
     changeUsername,
@@ -211,6 +212,8 @@ import type {
     ChangeIgnoredNotificationsData,
     ChangeIgnoredNotificationsError,
     ChangeIgnoredNotificationsResponse,
+    ChangeLinksData,
+    ChangeLinksError,
     ChangePasswordData,
     ChangePasswordError,
     ChangePasswordResponse,
@@ -2040,6 +2043,29 @@ export const getDigestOptions = (options: Options<GetDigestData>) =>
         },
         queryKey: getDigestQueryKey(options),
     });
+
+/**
+ * Change links
+ */
+export const changeLinksMutation = (
+    options?: Partial<Options<ChangeLinksData>>,
+): UseMutationOptions<unknown, ChangeLinksError, Options<ChangeLinksData>> => {
+    const mutationOptions: UseMutationOptions<
+        unknown,
+        ChangeLinksError,
+        Options<ChangeLinksData>
+    > = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await changeLinks({
+                ...options,
+                ...fnOptions,
+                throwOnError: true,
+            });
+            return data;
+        },
+    };
+    return mutationOptions;
+};
 
 /**
  * Change description

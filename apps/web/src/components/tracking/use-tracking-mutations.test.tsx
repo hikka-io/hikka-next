@@ -91,6 +91,7 @@ const CONTENT = {
     media_type: null,
     title_ua: 'Назва',
     title_en: null,
+    title_native: null,
     translated_ua: false,
     native_score: 0,
     native_scored_by: 0,

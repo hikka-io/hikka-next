@@ -66,6 +66,7 @@ function todoAnime(slug: string) {
             media_type: 'tv',
             title_ua: null,
             title_en: null,
+            title_native: null,
             title_ja: null,
             episodes_released: null,
             episodes_total: null,

@@ -660,6 +660,7 @@ export const zFollowUserResponse = z.object({
     description: z.string().nullable(),
     username: z.string().nullable(),
     cover: z.string().nullable(),
+    links: z.array(z.record(z.unknown())),
     active: z.boolean(),
     avatar: z.string(),
     role: z.string(),
@@ -682,6 +683,7 @@ export const zGenreResponse = z.object({
 export const zAnimeResponse = z.object({
     data_type: z.literal('anime'),
     media_type: z.string().nullable(),
+    title_native: z.string().nullable(),
     title_ua: z.string().nullable(),
     title_en: z.string().nullable(),
     title_ja: z.string().nullable(),
@@ -899,6 +901,7 @@ export const zMangaResponse = z.object({
     created: z.number().int().nullable(),
     updated: z.number().int().nullable(),
     title_original: z.string().nullable(),
+    title_native: z.string().nullable(),
     media_type: z.string().nullable(),
     native_scored_by: z.number().int(),
     title_ua: z.string().nullable(),
@@ -1010,6 +1013,7 @@ export const zNovelResponse = z.object({
     created: z.number().int().nullable(),
     updated: z.number().int().nullable(),
     title_original: z.string().nullable(),
+    title_native: z.string().nullable(),
     media_type: z.string().nullable(),
     native_scored_by: z.number().int(),
     title_ua: z.string().nullable(),
@@ -1299,6 +1303,7 @@ export const zFavouriteMangaResponse = z.object({
     created: z.number().int().nullable(),
     updated: z.number().int().nullable(),
     title_original: z.string().nullable(),
+    title_native: z.string().nullable(),
     media_type: z.string().nullable(),
     native_scored_by: z.number().int(),
     title_ua: z.string().nullable(),
@@ -1332,6 +1337,7 @@ export const zFavouriteNovelResponse = z.object({
     created: z.number().int().nullable(),
     updated: z.number().int().nullable(),
     title_original: z.string().nullable(),
+    title_native: z.string().nullable(),
     media_type: z.string().nullable(),
     native_scored_by: z.number().int(),
     title_ua: z.string().nullable(),
@@ -1364,6 +1370,7 @@ export const zMangaResponseWithRead = z.object({
     created: z.number().int().nullable(),
     updated: z.number().int().nullable(),
     title_original: z.string().nullable(),
+    title_native: z.string().nullable(),
     media_type: z.string().nullable(),
     native_scored_by: z.number().int(),
     title_ua: z.string().nullable(),
@@ -1420,6 +1427,7 @@ export const zNovelResponseWithRead = z.object({
     created: z.number().int().nullable(),
     updated: z.number().int().nullable(),
     title_original: z.string().nullable(),
+    title_native: z.string().nullable(),
     media_type: z.string().nullable(),
     native_scored_by: z.number().int(),
     title_ua: z.string().nullable(),
@@ -1596,6 +1604,7 @@ export const zAnimeInfoResponse = z.object({
     synopsis_en: z.string().nullable(),
     synopsis_ua: z.string().nullable(),
     media_type: z.string().nullable(),
+    title_native: z.string().nullable(),
     title_ua: z.string().nullable(),
     title_en: z.string().nullable(),
     title_ja: z.string().nullable(),
@@ -2362,6 +2371,33 @@ export const zUserExportResponse = z.object({
 });
 
 /**
+ * UserLink
+ */
+export const zUserLink = z.object({
+    text: z.string().max(64).nullish(),
+    url: z.string().url().min(1).max(255),
+    icon: z.enum([
+        'fediverse',
+        'instagram',
+        'telegram',
+        'threads',
+        'twitter',
+        'discord',
+        'bluesky',
+        'github',
+        'custom',
+        'steam',
+    ]),
+});
+
+/**
+ * UserLinkArgs
+ */
+export const zUserLinkArgs = z.object({
+    links: z.array(zUserLink).max(10),
+});
+
+/**
  * UserResponse
  */
 export const zUserResponse = z.object({
@@ -2371,6 +2407,7 @@ export const zUserResponse = z.object({
     description: z.string().nullable(),
     username: z.string().nullable(),
     cover: z.string().nullable(),
+    links: z.array(z.record(z.unknown())),
     active: z.boolean(),
     avatar: z.string(),
     role: z.string(),
@@ -2616,6 +2653,7 @@ export const zUserResponseFollowed = z.object({
     description: z.string().nullable(),
     username: z.string().nullable(),
     cover: z.string().nullable(),
+    links: z.array(z.record(z.unknown())),
     active: z.boolean(),
     avatar: z.string(),
     role: z.string(),
@@ -2632,6 +2670,7 @@ export const zUserResponseWithRead = z.object({
     description: z.string().nullable(),
     username: z.string().nullable(),
     cover: z.string().nullable(),
+    links: z.array(z.record(z.unknown())),
     active: z.boolean(),
     avatar: z.string(),
     role: z.string(),
@@ -2666,6 +2705,7 @@ export const zUserWithEmailResponse = z.object({
     description: z.string().nullable(),
     username: z.string().nullable(),
     cover: z.string().nullable(),
+    links: z.array(z.record(z.unknown())),
     active: z.boolean(),
     avatar: z.string(),
     role: z.string(),
@@ -2761,6 +2801,7 @@ export const zWatchResponseBase = z.object({
 export const zAnimeResponseWithWatch = z.object({
     data_type: z.literal('anime'),
     media_type: z.string().nullable(),
+    title_native: z.string().nullable(),
     title_ua: z.string().nullable(),
     title_en: z.string().nullable(),
     title_ja: z.string().nullable(),
@@ -2905,6 +2946,7 @@ export const zFavouriteAnimeResponse = z.object({
     favourite_created: z.number().int(),
     data_type: z.literal('anime'),
     media_type: z.string().nullable(),
+    title_native: z.string().nullable(),
     title_ua: z.string().nullable(),
     title_en: z.string().nullable(),
     title_ja: z.string().nullable(),
@@ -3012,6 +3054,7 @@ export const zUserResponseWithWatch = z.object({
     description: z.string().nullable(),
     username: z.string().nullable(),
     cover: z.string().nullable(),
+    links: z.array(z.record(z.unknown())),
     active: z.boolean(),
     avatar: z.string(),
     role: z.string(),
@@ -3236,6 +3279,7 @@ export const zMangaInfoResponse = z.object({
     updated: z.number().int().nullable(),
     genres: z.array(zGenreResponse),
     title_original: z.string().nullable(),
+    title_native: z.string().nullable(),
     stats: zAppSchemasReadStatsResponse,
     synopsis_en: z.string().nullable(),
     synopsis_ua: z.string().nullable(),
@@ -3273,6 +3317,7 @@ export const zNovelInfoResponse = z.object({
     end_date: z.number().int().nullable(),
     genres: z.array(zGenreResponse),
     title_original: z.string().nullable(),
+    title_native: z.string().nullable(),
     stats: zAppSchemasReadStatsResponse,
     synopsis_en: z.string().nullable(),
     synopsis_ua: z.string().nullable(),
@@ -3683,6 +3728,12 @@ export const zGetDigestPath = z.object({
  * Successful Response
  */
 export const zGetDigestResponse = zDigestResponse;
+
+export const zChangeLinksBody = zUserLinkArgs;
+
+export const zChangeLinksHeaders = z.object({
+    auth: z.string().nullish(),
+});
 
 export const zChangeDescriptionBody = zDescriptionArgs;
 

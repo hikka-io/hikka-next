@@ -135,6 +135,10 @@ export type AnimeInfoResponse = {
      */
     media_type: string | null;
     /**
+     * Title Native
+     */
+    title_native: string | null;
+    /**
      * Title Ua
      */
     title_ua: string | null;
@@ -318,6 +322,10 @@ export type AnimeResponse = {
      */
     media_type: string | null;
     /**
+     * Title Native
+     */
+    title_native: string | null;
+    /**
      * Title Ua
      */
     title_ua: string | null;
@@ -435,6 +443,10 @@ export type AnimeResponseWithWatch = {
      * Media Type
      */
     media_type: string | null;
+    /**
+     * Title Native
+     */
+    title_native: string | null;
     /**
      * Title Ua
      */
@@ -2652,6 +2664,10 @@ export type FavouriteAnimeResponse = {
      */
     media_type: string | null;
     /**
+     * Title Native
+     */
+    title_native: string | null;
+    /**
      * Title Ua
      */
     title_ua: string | null;
@@ -2923,6 +2939,10 @@ export type FavouriteMangaResponse = {
      */
     title_original: string | null;
     /**
+     * Title Native
+     */
+    title_native: string | null;
+    /**
      * Media Type
      */
     media_type: string | null;
@@ -3036,6 +3056,10 @@ export type FavouriteNovelResponse = {
      * Title Original
      */
     title_original: string | null;
+    /**
+     * Title Native
+     */
+    title_native: string | null;
     /**
      * Media Type
      */
@@ -3422,6 +3446,12 @@ export type FollowUserResponse = {
      * Cover
      */
     cover: string | null;
+    /**
+     * Links
+     */
+    links: Array<{
+        [key: string]: unknown;
+    }>;
     /**
      * Active
      */
@@ -3853,6 +3883,10 @@ export type MangaInfoResponse = {
      * Title Original
      */
     title_original: string | null;
+    /**
+     * Title Native
+     */
+    title_native: string | null;
     stats: AppSchemasReadStatsResponse;
     /**
      * Synopsis En
@@ -3997,6 +4031,10 @@ export type MangaResponse = {
      */
     title_original: string | null;
     /**
+     * Title Native
+     */
+    title_native: string | null;
+    /**
      * Media Type
      */
     media_type: string | null;
@@ -4102,6 +4140,10 @@ export type MangaResponseWithRead = {
      * Title Original
      */
     title_original: string | null;
+    /**
+     * Title Native
+     */
+    title_native: string | null;
     /**
      * Media Type
      */
@@ -4387,6 +4429,10 @@ export type NovelInfoResponse = {
      * Title Original
      */
     title_original: string | null;
+    /**
+     * Title Native
+     */
+    title_native: string | null;
     stats: AppSchemasReadStatsResponse;
     /**
      * Synopsis En
@@ -4532,6 +4578,10 @@ export type NovelResponse = {
      */
     title_original: string | null;
     /**
+     * Title Native
+     */
+    title_native: string | null;
+    /**
      * Media Type
      */
     media_type: string | null;
@@ -4637,6 +4687,10 @@ export type NovelResponseWithRead = {
      * Title Original
      */
     title_original: string | null;
+    /**
+     * Title Native
+     */
+    title_native: string | null;
     /**
      * Media Type
      */
@@ -6337,6 +6391,44 @@ export type UserExportWatchResponse = {
 };
 
 /**
+ * UserLink
+ */
+export type UserLink = {
+    /**
+     * Text
+     */
+    text?: string | null;
+    /**
+     * Url
+     */
+    url: string;
+    /**
+     * Icon
+     */
+    icon:
+        | 'fediverse'
+        | 'instagram'
+        | 'telegram'
+        | 'threads'
+        | 'twitter'
+        | 'discord'
+        | 'bluesky'
+        | 'github'
+        | 'custom'
+        | 'steam';
+};
+
+/**
+ * UserLinkArgs
+ */
+export type UserLinkArgs = {
+    /**
+     * Links
+     */
+    links: Array<UserLink>;
+};
+
+/**
  * UserReadPaginationResponse
  */
 export type UserReadPaginationResponse = {
@@ -6375,6 +6467,12 @@ export type UserResponse = {
      * Cover
      */
     cover: string | null;
+    /**
+     * Links
+     */
+    links: Array<{
+        [key: string]: unknown;
+    }>;
     /**
      * Active
      */
@@ -6417,6 +6515,12 @@ export type UserResponseFollowed = {
      * Cover
      */
     cover: string | null;
+    /**
+     * Links
+     */
+    links: Array<{
+        [key: string]: unknown;
+    }>;
     /**
      * Active
      */
@@ -6464,6 +6568,12 @@ export type UserResponseWithRead = {
      */
     cover: string | null;
     /**
+     * Links
+     */
+    links: Array<{
+        [key: string]: unknown;
+    }>;
+    /**
      * Active
      */
     active: boolean;
@@ -6509,6 +6619,12 @@ export type UserResponseWithWatch = {
      * Cover
      */
     cover: string | null;
+    /**
+     * Links
+     */
+    links: Array<{
+        [key: string]: unknown;
+    }>;
     /**
      * Active
      */
@@ -6585,6 +6701,12 @@ export type UserWithEmailResponse = {
      * Cover
      */
     cover: string | null;
+    /**
+     * Links
+     */
+    links: Array<{
+        [key: string]: unknown;
+    }>;
     /**
      * Active
      */
@@ -8069,6 +8191,35 @@ export type GetDigestResponses = {
 };
 
 export type GetDigestResponse = GetDigestResponses[keyof GetDigestResponses];
+
+export type ChangeLinksData = {
+    body: UserLinkArgs;
+    headers?: {
+        /**
+         * Auth
+         */
+        auth?: string | null;
+    };
+    path?: never;
+    query?: never;
+    url: '/settings/links';
+};
+
+export type ChangeLinksErrors = {
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type ChangeLinksError = ChangeLinksErrors[keyof ChangeLinksErrors];
+
+export type ChangeLinksResponses = {
+    /**
+     * Successful Response
+     */
+    200: unknown;
+};
 
 export type ChangeDescriptionData = {
     body: DescriptionArgs;
