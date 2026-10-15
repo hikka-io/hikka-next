@@ -1095,6 +1095,7 @@ export {
     type UserHistoryResponses,
     type UserLink,
     type UserLinkArgs,
+    UserLinkIconEnum,
     type UsernameArgs,
     type UsernameLoginArgs,
     type UserProfileData,

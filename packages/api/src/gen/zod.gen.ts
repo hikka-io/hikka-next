@@ -2371,23 +2371,28 @@ export const zUserExportResponse = z.object({
 });
 
 /**
+ * UserLinkIconEnum
+ */
+export const zUserLinkIconEnum = z.enum([
+    'fediverse',
+    'instagram',
+    'telegram',
+    'threads',
+    'twitter',
+    'discord',
+    'bluesky',
+    'github',
+    'custom',
+    'steam',
+]);
+
+/**
  * UserLink
  */
 export const zUserLink = z.object({
     text: z.string().max(64).nullish(),
     url: z.string().url().min(1).max(255),
-    icon: z.enum([
-        'fediverse',
-        'instagram',
-        'telegram',
-        'threads',
-        'twitter',
-        'discord',
-        'bluesky',
-        'github',
-        'custom',
-        'steam',
-    ]),
+    icon: zUserLinkIconEnum,
 });
 
 /**

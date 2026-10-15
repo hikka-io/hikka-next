@@ -6405,17 +6405,7 @@ export type UserLink = {
     /**
      * Icon
      */
-    icon:
-        | 'fediverse'
-        | 'instagram'
-        | 'telegram'
-        | 'threads'
-        | 'twitter'
-        | 'discord'
-        | 'bluesky'
-        | 'github'
-        | 'custom'
-        | 'steam';
+    icon: UserLinkIconEnum;
 };
 
 /**
@@ -6427,6 +6417,28 @@ export type UserLinkArgs = {
      */
     links: Array<UserLink>;
 };
+
+/**
+ * UserLinkIconEnum
+ */
+export const UserLinkIconEnum = {
+    FEDIVERSE: 'fediverse',
+    INSTAGRAM: 'instagram',
+    TELEGRAM: 'telegram',
+    THREADS: 'threads',
+    TWITTER: 'twitter',
+    DISCORD: 'discord',
+    BLUESKY: 'bluesky',
+    GITHUB: 'github',
+    CUSTOM: 'custom',
+    STEAM: 'steam',
+} as const;
+
+/**
+ * UserLinkIconEnum
+ */
+export type UserLinkIconEnum =
+    (typeof UserLinkIconEnum)[keyof typeof UserLinkIconEnum];
 
 /**
  * UserReadPaginationResponse

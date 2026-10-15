@@ -115,6 +115,9 @@ const RANGE_PINS: Record<string, string[]> = {
         'zDescriptionArgs.description',
         'zUpdateUserBody.description',
     ],
+    userLinks: ['zUserLinkArgs.links'],
+    userLinkText: ['zUserLink.text'],
+    userLinkUrl: ['zUserLink.url'],
     listNote: [
         'zReadArgs.note',
         'zWatchArgs.note',
