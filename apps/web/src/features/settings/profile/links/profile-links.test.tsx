@@ -58,6 +58,11 @@ const GITHUB = {
 const TELEGRAM = { icon: 'telegram', url: 'https://t.me/hikka', text: 'Канал' };
 const CUSTOM = { icon: 'custom', url: 'https://example.org/me', text: null };
 
+const sent = ({ url, text }: { url: string; text: string | null }) => ({
+    url,
+    text,
+});
+
 const teardown: (() => void)[] = [];
 
 afterEach(async () => {
@@ -131,10 +136,9 @@ describe('ProfileLinks', () => {
         expect(labels()).toEqual(['GitHub', 'Канал', 'example.org']);
     });
 
-    it('hides stored entries with an unknown icon or a non-web url', async () => {
+    it('hides stored entries with a non-web url', async () => {
         const { labels } = await mount([
             GITHUB,
-            { icon: 'myspace', url: 'https://myspace.com/x', text: null },
             { icon: 'custom', url: 'javascript:alert(1)', text: null },
         ]);
 
@@ -147,9 +151,9 @@ describe('ProfileLinks', () => {
         await save();
 
         expect(mocks.mutationFn.mock.calls[0]?.[0]).toEqual({
-            body: { links: [GITHUB, TELEGRAM] },
+            body: { links: [sent(GITHUB), sent(TELEGRAM)] },
         });
-        expect(sentLinks().every((link: object) => !('id' in link))).toBe(true);
+
         expect(mocks.invalidateSession).toHaveBeenCalledWith(queryClient);
         expect(mocks.invalidateUserProfile).toHaveBeenCalledWith(
             queryClient,
@@ -173,7 +177,11 @@ describe('ProfileLinks', () => {
 
         await save();
 
-        expect(sentLinks()).toEqual([TELEGRAM, CUSTOM, GITHUB]);
+        expect(sentLinks()).toEqual([
+            sent(TELEGRAM),
+            sent(CUSTOM),
+            sent(GITHUB),
+        ]);
     });
 
     it('disables the edge move buttons', async () => {
@@ -194,7 +202,7 @@ describe('ProfileLinks', () => {
 
         await save();
 
-        expect(sentLinks()).toEqual([TELEGRAM]);
+        expect(sentLinks()).toEqual([sent(TELEGRAM)]);
     });
 
     it('disables Add at the link limit', async () => {

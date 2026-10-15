@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import type {
     AnimeStatsResponse,
     MainContentTypeEnum,
-    AppSchemasReadStatsResponse as ReadStatsResponse,
+    AppCommonSchemasReadReadStatsResponse as ReadStatsResponse,
 } from '@hikka/api';
 
 import { contentInfoOptions } from '@/utils/api/content-queries';

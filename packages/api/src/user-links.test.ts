@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
+import type { UserLinkResponse } from './gen';
 import { isWebUrl, parseUserLinks } from './user-links';
 
 describe('isWebUrl', () => {
@@ -15,7 +16,7 @@ describe('isWebUrl', () => {
 
 describe('parseUserLinks', () => {
     it('keeps valid links in order', () => {
-        const links = [
+        const links: UserLinkResponse[] = [
             { icon: 'github', url: 'https://github.com/hikka', text: null },
             { icon: 'custom', url: 'https://hikka.io', text: 'Hikka' },
         ];
@@ -23,16 +24,16 @@ describe('parseUserLinks', () => {
         expect(parseUserLinks(links)).toEqual(links);
     });
 
-    it('drops entries that do not match the link schema', () => {
+    it('drops links that are not http(s)', () => {
         expect(
             parseUserLinks([
-                { icon: 'myspace', url: 'https://myspace.com/hikka' },
-                { icon: 'github', url: 'not a url' },
-                { icon: 'custom', url: 'javascript:alert(1)' },
-                { icon: 'telegram', url: 'https://t.me/hikka' },
-                null,
+                { icon: 'custom', url: 'javascript:alert(1)', text: null },
+                { icon: 'custom', url: 'not a url', text: null },
+                { icon: 'telegram', url: 'https://t.me/hikka', text: null },
             ]),
-        ).toEqual([{ icon: 'telegram', url: 'https://t.me/hikka' }]);
+        ).toEqual([
+            { icon: 'telegram', url: 'https://t.me/hikka', text: null },
+        ]);
     });
 
     it('treats missing links as empty', () => {

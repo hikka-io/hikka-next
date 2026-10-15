@@ -2,7 +2,7 @@ import type { FC } from 'react';
 
 import { useSortable } from '@dnd-kit/react/sortable';
 
-import type { UserLink } from '@hikka/api';
+import type { UserLinkResponse } from '@hikka/api';
 
 import MaterialSymbolsDeleteForever from '@/components/icons/material-symbols/MaterialSymbolsDeleteForever';
 import MaterialSymbolsDragIndicator from '@/components/icons/material-symbols/MaterialSymbolsDragIndicator';
@@ -16,7 +16,7 @@ type Props = {
     id: string;
     index: number;
     count: number;
-    link: UserLink;
+    link: UserLinkResponse;
     onEdit: () => void;
     onRemove: () => void;
     onMove: (to: number) => void;

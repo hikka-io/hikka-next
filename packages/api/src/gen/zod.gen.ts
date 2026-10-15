@@ -651,23 +651,6 @@ export const zFollowStatsResponse = z.object({
 });
 
 /**
- * FollowUserResponse
- */
-export const zFollowUserResponse = z.object({
-    reference: z.string(),
-    updated: z.number().int().nullable(),
-    created: z.number().int(),
-    description: z.string().nullable(),
-    username: z.string().nullable(),
-    cover: z.string().nullable(),
-    links: z.array(z.record(z.unknown())),
-    active: z.boolean(),
-    avatar: z.string(),
-    role: z.string(),
-    is_followed: z.boolean(),
-});
-
-/**
  * GenreResponse
  */
 export const zGenreResponse = z.object({
@@ -1141,14 +1124,6 @@ export const zContentCharacterPaginationResponse = z.object({
 });
 
 /**
- * FollowUserPaginationResponse
- */
-export const zFollowUserPaginationResponse = z.object({
-    pagination: zPaginationResponse,
-    list: z.array(zFollowUserResponse),
-});
-
-/**
  * PasswordArgs
  */
 export const zPasswordArgs = z.object({
@@ -1507,7 +1482,6 @@ export const zReadSearchArgs = z.object({
         .array(z.union([z.number().int().gt(0), z.null()]))
         .nullish()
         .default([null, null]),
-    media_type: z.array(zMangaMediaEnum).optional().default([]),
     status: z.array(zContentStatusEnum).optional().default([]),
     only_translated: z.boolean().optional().default(false),
     magazines: z.array(z.string()).optional().default([]),
@@ -1520,6 +1494,10 @@ export const zReadSearchArgs = z.object({
         .tuple([z.number().int().nullable(), z.number().int().nullable()])
         .optional()
         .default([null, null]),
+    media_type: z
+        .array(z.union([zMangaMediaEnum, zNovelMediaEnum]))
+        .optional()
+        .default([]),
     sort: z
         .array(z.string())
         .optional()
@@ -1748,68 +1726,6 @@ export const zSuccessResponse = z.object({
 export const zTagResponse = z.object({
     content_count: z.number().int(),
     name: z.string(),
-});
-
-/**
- * ArticleDocumentResponse
- */
-export const zArticleDocumentResponse = z.object({
-    data_type: z.literal('article'),
-    author: zFollowUserResponse,
-    tags: z.array(zTagResponse),
-    created: z.number().int(),
-    updated: z.number().int(),
-    comments_count: z.number().int(),
-    vote_score: z.number().int(),
-    my_score: z.number().int(),
-    category: z.string(),
-    trusted: z.boolean(),
-    draft: z.boolean(),
-    views: z.number().int(),
-    title: z.string(),
-    slug: z.string(),
-    content: z
-        .union([
-            zArticleAnimeContentResponse,
-            zArticleMangaNovelContentResponse,
-        ])
-        .nullable(),
-    document: z.array(z.record(z.unknown())),
-});
-
-/**
- * ArticlePreviewResponse
- */
-export const zArticlePreviewResponse = z.object({
-    data_type: z.literal('article'),
-    author: zFollowUserResponse,
-    tags: z.array(zTagResponse),
-    created: z.number().int(),
-    updated: z.number().int(),
-    comments_count: z.number().int(),
-    vote_score: z.number().int(),
-    my_score: z.number().int(),
-    category: z.string(),
-    trusted: z.boolean(),
-    draft: z.boolean(),
-    views: z.number().int(),
-    title: z.string(),
-    slug: z.string(),
-    content: z
-        .union([
-            zArticleAnimeContentResponse,
-            zArticleMangaNovelContentResponse,
-        ])
-        .nullable(),
-    preview: z.array(z.record(z.unknown())),
-});
-
-/**
- * ArticlesListResponse
- */
-export const zArticlesListResponse = z.object({
-    pagination: zPaginationResponse,
-    list: z.array(zArticlePreviewResponse),
 });
 
 /**
@@ -2284,25 +2200,6 @@ export const zUpdateUserBody = z.object({
 export const zUploadTypeEnum = z.enum(['attachment', 'avatar', 'cover']);
 
 /**
- * UserArticleStatsResponse
- */
-export const zUserArticleStatsResponse = z.object({
-    user: zFollowUserResponse,
-    total_articles: z.number().int(),
-    total_comments: z.number().int(),
-    author_score: z.number().int(),
-    total_likes: z.number().int(),
-});
-
-/**
- * ArticlesTopResponse
- */
-export const zArticlesTopResponse = z.object({
-    authors: z.array(zUserArticleStatsResponse),
-    tags: z.array(zTagResponse),
-});
-
-/**
  * UserCommentsFilterArgs
  */
 export const zUserCommentsFilterArgs = z.object({
@@ -2371,10 +2268,24 @@ export const zUserExportResponse = z.object({
 });
 
 /**
+ * UserLink
+ */
+export const zUserLink = z.object({
+    text: z.string().max(64).nullish(),
+    url: z.string().url().min(1).max(255),
+});
+
+/**
+ * UserLinkArgs
+ */
+export const zUserLinkArgs = z.object({
+    links: z.array(zUserLink).max(10),
+});
+
+/**
  * UserLinkIconEnum
  */
 export const zUserLinkIconEnum = z.enum([
-    'fediverse',
     'instagram',
     'telegram',
     'threads',
@@ -2387,19 +2298,118 @@ export const zUserLinkIconEnum = z.enum([
 ]);
 
 /**
- * UserLink
+ * UserLinkResponse
  */
-export const zUserLink = z.object({
-    text: z.string().max(64).nullish(),
-    url: z.string().url().min(1).max(255),
+export const zUserLinkResponse = z.object({
+    url: z.string(),
+    text: z.string().nullable(),
     icon: zUserLinkIconEnum,
 });
 
 /**
- * UserLinkArgs
+ * FollowUserResponse
  */
-export const zUserLinkArgs = z.object({
-    links: z.array(zUserLink).max(10),
+export const zFollowUserResponse = z.object({
+    reference: z.string(),
+    updated: z.number().int().nullable(),
+    created: z.number().int(),
+    description: z.string().nullable(),
+    username: z.string().nullable(),
+    links: z.array(zUserLinkResponse),
+    cover: z.string().nullable(),
+    active: z.boolean(),
+    avatar: z.string(),
+    role: z.string(),
+    is_followed: z.boolean(),
+});
+
+/**
+ * ArticleDocumentResponse
+ */
+export const zArticleDocumentResponse = z.object({
+    data_type: z.literal('article'),
+    author: zFollowUserResponse,
+    tags: z.array(zTagResponse),
+    created: z.number().int(),
+    updated: z.number().int(),
+    comments_count: z.number().int(),
+    vote_score: z.number().int(),
+    my_score: z.number().int(),
+    category: z.string(),
+    trusted: z.boolean(),
+    draft: z.boolean(),
+    views: z.number().int(),
+    title: z.string(),
+    slug: z.string(),
+    content: z
+        .union([
+            zArticleAnimeContentResponse,
+            zArticleMangaNovelContentResponse,
+        ])
+        .nullable(),
+    document: z.array(z.record(z.unknown())),
+});
+
+/**
+ * ArticlePreviewResponse
+ */
+export const zArticlePreviewResponse = z.object({
+    data_type: z.literal('article'),
+    author: zFollowUserResponse,
+    tags: z.array(zTagResponse),
+    created: z.number().int(),
+    updated: z.number().int(),
+    comments_count: z.number().int(),
+    vote_score: z.number().int(),
+    my_score: z.number().int(),
+    category: z.string(),
+    trusted: z.boolean(),
+    draft: z.boolean(),
+    views: z.number().int(),
+    title: z.string(),
+    slug: z.string(),
+    content: z
+        .union([
+            zArticleAnimeContentResponse,
+            zArticleMangaNovelContentResponse,
+        ])
+        .nullable(),
+    preview: z.array(z.record(z.unknown())),
+});
+
+/**
+ * ArticlesListResponse
+ */
+export const zArticlesListResponse = z.object({
+    pagination: zPaginationResponse,
+    list: z.array(zArticlePreviewResponse),
+});
+
+/**
+ * FollowUserPaginationResponse
+ */
+export const zFollowUserPaginationResponse = z.object({
+    pagination: zPaginationResponse,
+    list: z.array(zFollowUserResponse),
+});
+
+/**
+ * UserArticleStatsResponse
+ */
+export const zUserArticleStatsResponse = z.object({
+    user: zFollowUserResponse,
+    total_articles: z.number().int(),
+    total_comments: z.number().int(),
+    author_score: z.number().int(),
+    total_likes: z.number().int(),
+});
+
+/**
+ * ArticlesTopResponse
+ */
+export const zArticlesTopResponse = z.object({
+    authors: z.array(zUserArticleStatsResponse),
+    tags: z.array(zTagResponse),
 });
 
 /**
@@ -2411,8 +2421,8 @@ export const zUserResponse = z.object({
     created: z.number().int(),
     description: z.string().nullable(),
     username: z.string().nullable(),
+    links: z.array(zUserLinkResponse),
     cover: z.string().nullable(),
-    links: z.array(z.record(z.unknown())),
     active: z.boolean(),
     avatar: z.string(),
     role: z.string(),
@@ -2422,13 +2432,13 @@ export const zUserResponse = z.object({
  * ClientFullResponse
  */
 export const zClientFullResponse = z.object({
-    reference: z.string(),
-    name: z.string(),
-    description: z.string(),
-    verified: z.boolean(),
-    user: zUserResponse,
     created: z.number().int(),
     updated: z.number().int(),
+    user: zUserResponse,
+    description: z.string(),
+    reference: z.string(),
+    verified: z.boolean(),
+    name: z.string(),
     endpoint: z.string(),
     secret: z.string(),
 });
@@ -2437,13 +2447,13 @@ export const zClientFullResponse = z.object({
  * ClientResponse
  */
 export const zClientResponse = z.object({
-    reference: z.string(),
-    name: z.string(),
-    description: z.string(),
-    verified: z.boolean(),
-    user: zUserResponse,
     created: z.number().int(),
     updated: z.number().int(),
+    user: zUserResponse,
+    description: z.string(),
+    reference: z.string(),
+    verified: z.boolean(),
+    name: z.string(),
 });
 
 /**
@@ -2632,8 +2642,8 @@ export const zHistoryPaginationResponse = z.object({
  * NotificationResponse
  */
 export const zNotificationResponse = z.object({
-    initiator_user: zUserResponse.nullable(),
     notification_type: zNotificationTypeEnum,
+    initiator_user: zUserResponse.nullable(),
     created: z.number().int(),
     reference: z.string(),
     seen: z.boolean(),
@@ -2657,8 +2667,8 @@ export const zUserResponseFollowed = z.object({
     created: z.number().int(),
     description: z.string().nullable(),
     username: z.string().nullable(),
+    links: z.array(zUserLinkResponse),
     cover: z.string().nullable(),
-    links: z.array(z.record(z.unknown())),
     active: z.boolean(),
     avatar: z.string(),
     role: z.string(),
@@ -2674,8 +2684,8 @@ export const zUserResponseWithRead = z.object({
     created: z.number().int(),
     description: z.string().nullable(),
     username: z.string().nullable(),
+    links: z.array(zUserLinkResponse),
     cover: z.string().nullable(),
-    links: z.array(z.record(z.unknown())),
     active: z.boolean(),
     avatar: z.string(),
     role: z.string(),
@@ -2709,8 +2719,8 @@ export const zUserWithEmailResponse = z.object({
     created: z.number().int(),
     description: z.string().nullable(),
     username: z.string().nullable(),
+    links: z.array(zUserLinkResponse),
     cover: z.string().nullable(),
-    links: z.array(z.record(z.unknown())),
     active: z.boolean(),
     avatar: z.string(),
     role: z.string(),
@@ -2899,9 +2909,9 @@ export const zCharacterVoicesPaginationResponse = z.object({
  * CollectionContentResponse
  */
 export const zCollectionContentResponse = z.object({
+    content_type: zCollectionContentTypeEnum,
     comment: z.string().nullable(),
     label: z.string().nullable(),
-    content_type: zCollectionContentTypeEnum,
     order: z.number().int(),
     content: z.discriminatedUnion('data_type', [
         zAnimeResponseWithWatch,
@@ -2917,13 +2927,13 @@ export const zCollectionContentResponse = z.object({
  */
 export const zCollectionResponse = z.object({
     data_type: z.literal('collection'),
+    content_type: zCollectionContentTypeEnum,
     visibility: zCollectionVisibilityEnum,
     author: zFollowUserResponse,
     labels_order: z.array(z.string()),
     created: z.number().int(),
     updated: z.number().int(),
     comments_count: z.number().int(),
-    content_type: zCollectionContentTypeEnum,
     description: z.string(),
     vote_score: z.number().int(),
     tags: z.array(z.string()),
@@ -2987,13 +2997,13 @@ export const zFavouriteAnimeResponse = z.object({
 export const zFavouriteCollectionResponse = z.object({
     favourite_created: z.number().int(),
     data_type: z.literal('collection'),
+    content_type: zCollectionContentTypeEnum,
     visibility: zCollectionVisibilityEnum,
     author: zFollowUserResponse,
     labels_order: z.array(z.string()),
     created: z.number().int(),
     updated: z.number().int(),
     comments_count: z.number().int(),
-    content_type: zCollectionContentTypeEnum,
     description: z.string(),
     vote_score: z.number().int(),
     tags: z.array(z.string()),
@@ -3058,8 +3068,8 @@ export const zUserResponseWithWatch = z.object({
     created: z.number().int(),
     description: z.string().nullable(),
     username: z.string().nullable(),
+    links: z.array(zUserLinkResponse),
     cover: z.string().nullable(),
-    links: z.array(z.record(z.unknown())),
     active: z.boolean(),
     avatar: z.string(),
     role: z.string(),
@@ -3149,6 +3159,141 @@ export const zWatchArgs = z.object({
 /**
  * RoleResponse
  */
+export const zAppCommonSchemasPersonRoleResponse = z.object({
+    name_ua: z.string().nullable(),
+    name_en: z.string().nullable(),
+    weight: z.number().int().nullable(),
+    slug: z.string(),
+});
+
+/**
+ * AnimeStaffResponse
+ */
+export const zAnimeStaffResponse = z.object({
+    roles: z.array(zAppCommonSchemasPersonRoleResponse),
+    person: zPersonResponse,
+    weight: z.number().int().nullable(),
+});
+
+/**
+ * AnimeStaffPaginationResponse
+ */
+export const zAnimeStaffPaginationResponse = z.object({
+    pagination: zPaginationResponse,
+    list: z.array(zAnimeStaffResponse),
+});
+
+/**
+ * ContentAuthorResponse
+ */
+export const zContentAuthorResponse = z.object({
+    roles: z.array(zAppCommonSchemasPersonRoleResponse),
+    person: zPersonResponse,
+});
+
+/**
+ * ReadStatsResponse
+ */
+export const zAppCommonSchemasReadReadStatsResponse = z.object({
+    completed: z.number().int().optional().default(0),
+    reading: z.number().int().optional().default(0),
+    on_hold: z.number().int().optional().default(0),
+    dropped: z.number().int().optional().default(0),
+    planned: z.number().int().optional().default(0),
+    score_1: z.number().int().optional().default(0),
+    score_2: z.number().int().optional().default(0),
+    score_3: z.number().int().optional().default(0),
+    score_4: z.number().int().optional().default(0),
+    score_5: z.number().int().optional().default(0),
+    score_6: z.number().int().optional().default(0),
+    score_7: z.number().int().optional().default(0),
+    score_8: z.number().int().optional().default(0),
+    score_9: z.number().int().optional().default(0),
+    score_10: z.number().int().optional().default(0),
+});
+
+/**
+ * MangaInfoResponse
+ */
+export const zMangaInfoResponse = z.object({
+    data_type: z.literal('manga'),
+    review_stats: zReviewStatsResponse,
+    authors: z.array(zContentAuthorResponse),
+    magazines: z.array(zMagazineResponse),
+    external: z.array(zExternalResponse),
+    start_date: z.number().int().nullable(),
+    end_date: z.number().int().nullable(),
+    created: z.number().int().nullable(),
+    updated: z.number().int().nullable(),
+    genres: z.array(zGenreResponse),
+    title_original: z.string().nullable(),
+    title_native: z.string().nullable(),
+    stats: zAppCommonSchemasReadReadStatsResponse,
+    synopsis_en: z.string().nullable(),
+    synopsis_ua: z.string().nullable(),
+    media_type: z.string().nullable(),
+    native_scored_by: z.number().int(),
+    chapters: z.number().int().nullable(),
+    title_en: z.string().nullable(),
+    title_ua: z.string().nullable(),
+    synonyms: z.array(z.string()),
+    comments_count: z.number().int(),
+    has_franchise: z.boolean(),
+    translated_ua: z.boolean(),
+    native_score: z.number(),
+    volumes: z.number().int().nullable(),
+    status: z.string().nullable(),
+    image: z.string().nullable(),
+    year: z.number().int().nullable(),
+    scored_by: z.number().int(),
+    score: z.number(),
+    mal_id: z.number().int(),
+    nsfw: z.boolean(),
+    slug: z.string(),
+});
+
+/**
+ * NovelInfoResponse
+ */
+export const zNovelInfoResponse = z.object({
+    data_type: z.literal('novel'),
+    review_stats: zReviewStatsResponse,
+    authors: z.array(zContentAuthorResponse),
+    magazines: z.array(zMagazineResponse),
+    external: z.array(zExternalResponse),
+    start_date: z.number().int().nullable(),
+    end_date: z.number().int().nullable(),
+    genres: z.array(zGenreResponse),
+    title_original: z.string().nullable(),
+    title_native: z.string().nullable(),
+    stats: zAppCommonSchemasReadReadStatsResponse,
+    synopsis_en: z.string().nullable(),
+    synopsis_ua: z.string().nullable(),
+    media_type: z.string().nullable(),
+    native_scored_by: z.number().int(),
+    chapters: z.number().int().nullable(),
+    title_en: z.string().nullable(),
+    title_ua: z.string().nullable(),
+    updated: z.number().int(),
+    synonyms: z.array(z.string()),
+    comments_count: z.number().int(),
+    has_franchise: z.boolean(),
+    translated_ua: z.boolean(),
+    volumes: z.number().int().nullable(),
+    native_score: z.number(),
+    status: z.string().nullable(),
+    image: z.string().nullable(),
+    year: z.number().int().nullable(),
+    scored_by: z.number().int(),
+    score: z.number(),
+    mal_id: z.number().int(),
+    nsfw: z.boolean(),
+    slug: z.string(),
+});
+
+/**
+ * RoleResponse
+ */
 export const zAppPeopleSchemasRoleResponse = z.object({
     name_en: z.string().nullable(),
     name_ua: z.string().nullable(),
@@ -3211,141 +3356,6 @@ export const zAppReadSchemasReadStatsResponse = z.object({
     planned: z.number().int(),
     dropped: z.number().int(),
     on_hold: z.number().int(),
-});
-
-/**
- * ReadStatsResponse
- */
-export const zAppSchemasReadStatsResponse = z.object({
-    completed: z.number().int().optional().default(0),
-    reading: z.number().int().optional().default(0),
-    on_hold: z.number().int().optional().default(0),
-    dropped: z.number().int().optional().default(0),
-    planned: z.number().int().optional().default(0),
-    score_1: z.number().int().optional().default(0),
-    score_2: z.number().int().optional().default(0),
-    score_3: z.number().int().optional().default(0),
-    score_4: z.number().int().optional().default(0),
-    score_5: z.number().int().optional().default(0),
-    score_6: z.number().int().optional().default(0),
-    score_7: z.number().int().optional().default(0),
-    score_8: z.number().int().optional().default(0),
-    score_9: z.number().int().optional().default(0),
-    score_10: z.number().int().optional().default(0),
-});
-
-/**
- * RoleResponse
- */
-export const zAppSchemasRoleResponse = z.object({
-    name_ua: z.string().nullable(),
-    name_en: z.string().nullable(),
-    weight: z.number().int().nullable(),
-    slug: z.string(),
-});
-
-/**
- * AnimeStaffResponse
- */
-export const zAnimeStaffResponse = z.object({
-    roles: z.array(zAppSchemasRoleResponse),
-    person: zPersonResponse,
-    weight: z.number().int().nullable(),
-});
-
-/**
- * AnimeStaffPaginationResponse
- */
-export const zAnimeStaffPaginationResponse = z.object({
-    pagination: zPaginationResponse,
-    list: z.array(zAnimeStaffResponse),
-});
-
-/**
- * ContentAuthorResponse
- */
-export const zContentAuthorResponse = z.object({
-    roles: z.array(zAppSchemasRoleResponse),
-    person: zPersonResponse,
-});
-
-/**
- * MangaInfoResponse
- */
-export const zMangaInfoResponse = z.object({
-    data_type: z.literal('manga'),
-    review_stats: zReviewStatsResponse,
-    authors: z.array(zContentAuthorResponse),
-    magazines: z.array(zMagazineResponse),
-    external: z.array(zExternalResponse),
-    start_date: z.number().int().nullable(),
-    end_date: z.number().int().nullable(),
-    created: z.number().int().nullable(),
-    updated: z.number().int().nullable(),
-    genres: z.array(zGenreResponse),
-    title_original: z.string().nullable(),
-    title_native: z.string().nullable(),
-    stats: zAppSchemasReadStatsResponse,
-    synopsis_en: z.string().nullable(),
-    synopsis_ua: z.string().nullable(),
-    media_type: z.string().nullable(),
-    native_scored_by: z.number().int(),
-    chapters: z.number().int().nullable(),
-    title_en: z.string().nullable(),
-    title_ua: z.string().nullable(),
-    synonyms: z.array(z.string()),
-    comments_count: z.number().int(),
-    has_franchise: z.boolean(),
-    translated_ua: z.boolean(),
-    native_score: z.number(),
-    volumes: z.number().int().nullable(),
-    status: z.string().nullable(),
-    image: z.string().nullable(),
-    year: z.number().int().nullable(),
-    scored_by: z.number().int(),
-    score: z.number(),
-    mal_id: z.number().int(),
-    nsfw: z.boolean(),
-    slug: z.string(),
-});
-
-/**
- * NovelInfoResponse
- */
-export const zNovelInfoResponse = z.object({
-    data_type: z.literal('novel'),
-    review_stats: zReviewStatsResponse,
-    authors: z.array(zContentAuthorResponse),
-    magazines: z.array(zMagazineResponse),
-    external: z.array(zExternalResponse),
-    start_date: z.number().int().nullable(),
-    end_date: z.number().int().nullable(),
-    genres: z.array(zGenreResponse),
-    title_original: z.string().nullable(),
-    title_native: z.string().nullable(),
-    stats: zAppSchemasReadStatsResponse,
-    synopsis_en: z.string().nullable(),
-    synopsis_ua: z.string().nullable(),
-    media_type: z.string().nullable(),
-    native_scored_by: z.number().int(),
-    chapters: z.number().int().nullable(),
-    title_en: z.string().nullable(),
-    title_ua: z.string().nullable(),
-    updated: z.number().int(),
-    synonyms: z.array(z.string()),
-    comments_count: z.number().int(),
-    has_franchise: z.boolean(),
-    translated_ua: z.boolean(),
-    volumes: z.number().int().nullable(),
-    native_score: z.number(),
-    status: z.string().nullable(),
-    image: z.string().nullable(),
-    year: z.number().int().nullable(),
-    scored_by: z.number().int(),
-    score: z.number(),
-    mal_id: z.number().int(),
-    nsfw: z.boolean(),
-    slug: z.string(),
 });
 
 export const zNotificationsHeaders = z.object({
@@ -3739,6 +3749,11 @@ export const zChangeLinksBody = zUserLinkArgs;
 export const zChangeLinksHeaders = z.object({
     auth: z.string().nullish(),
 });
+
+/**
+ * Successful Response
+ */
+export const zChangeLinksResponse = zUserResponse;
 
 export const zChangeDescriptionBody = zDescriptionArgs;
 

@@ -3,7 +3,6 @@ import type { ComponentType } from 'react';
 import { UserLinkIconEnum } from '@hikka/api';
 
 import MaterialSymbolsLinkRounded from '@/components/icons/material-symbols/MaterialSymbolsLinkRounded';
-import SimpleIconsActivitypub from '@/components/icons/simple-icons/SimpleIconsActivitypub';
 import SimpleIconsBluesky from '@/components/icons/simple-icons/SimpleIconsBluesky';
 import SimpleIconsDiscord from '@/components/icons/simple-icons/SimpleIconsDiscord';
 import SimpleIconsGithub from '@/components/icons/simple-icons/SimpleIconsGithub';
@@ -14,7 +13,6 @@ import SimpleIconsThreads from '@/components/icons/simple-icons/SimpleIconsThrea
 import SimpleIconsX from '@/components/icons/simple-icons/SimpleIconsX';
 
 export const USER_LINK_ICONS = {
-    [UserLinkIconEnum.FEDIVERSE]: SimpleIconsActivitypub,
     [UserLinkIconEnum.INSTAGRAM]: SimpleIconsInstagram,
     [UserLinkIconEnum.TELEGRAM]: SimpleIconsTelegram,
     [UserLinkIconEnum.THREADS]: SimpleIconsThreads,

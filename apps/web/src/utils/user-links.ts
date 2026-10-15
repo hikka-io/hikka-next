@@ -1,4 +1,4 @@
-import { type UserLink, UserLinkIconEnum } from '@hikka/api';
+import { UserLinkIconEnum, type UserLinkResponse } from '@hikka/api';
 
 import { USER_LINK_ICON } from '@/utils/labels';
 import { parseUrl } from '@/utils/url';
@@ -26,7 +26,7 @@ export function getUserLinkDisplayUrl(url: string): string {
     );
 }
 
-export function getUserLinkLabel(link: UserLink): string {
+export function getUserLinkLabel(link: UserLinkResponse): string {
     if (link.text) return link.text;
     if (link.icon !== UserLinkIconEnum.CUSTOM) {
         return USER_LINK_ICON[link.icon].label;

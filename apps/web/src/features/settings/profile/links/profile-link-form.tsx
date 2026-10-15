@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 
-import { API_LIMITS, type UserLink } from '@hikka/api';
+import { API_LIMITS, type UserLinkResponse } from '@hikka/api';
 
 import { SubmitButton, useAppForm } from '@/components/form';
 import { USER_LINK_ICONS } from '@/components/icons/user-link-icons';
@@ -20,9 +20,9 @@ const formSchema = z.object({
 const sameUrl = (value: string) => parseUrl(value.trim())?.href ?? value.trim();
 
 type Props = {
-    link?: UserLink;
+    link?: UserLinkResponse;
     takenUrls?: string[];
-    onSubmit: (link: UserLink) => void;
+    onSubmit: (link: UserLinkResponse) => void;
     onDelete?: () => void;
 };
 

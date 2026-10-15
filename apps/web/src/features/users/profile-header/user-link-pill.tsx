@@ -1,13 +1,13 @@
 import type { FC } from 'react';
 
-import type { UserLink } from '@hikka/api';
+import type { UserLinkResponse } from '@hikka/api';
 
 import { USER_LINK_ICONS } from '@/components/icons/user-link-icons';
 import { Button, type ButtonProps } from '@/components/ui/button';
 import { getUserLinkLabel, USER_LINK_REL } from '@/utils/user-links';
 
 type Props = Omit<ButtonProps, 'children'> & {
-    link: UserLink;
+    link: UserLinkResponse;
 };
 
 const UserLinkPill: FC<Props> = ({ link, ...props }) => {

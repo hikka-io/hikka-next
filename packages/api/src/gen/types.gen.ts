@@ -693,7 +693,7 @@ export type AnimeStaffResponse = {
     /**
      * Roles
      */
-    roles: Array<AppSchemasRoleResponse>;
+    roles: Array<AppCommonSchemasPersonRoleResponse>;
     person: PersonResponse;
     /**
      * Weight
@@ -1560,23 +1560,6 @@ export type ClientCreate = {
  */
 export type ClientFullResponse = {
     /**
-     * Reference
-     */
-    reference: string;
-    /**
-     * Name
-     */
-    name: string;
-    /**
-     * Description
-     */
-    description: string;
-    /**
-     * Verified
-     */
-    verified: boolean;
-    user: UserResponse;
-    /**
      * Created
      */
     created: number;
@@ -1584,6 +1567,23 @@ export type ClientFullResponse = {
      * Updated
      */
     updated: number;
+    user: UserResponse;
+    /**
+     * Description
+     */
+    description: string;
+    /**
+     * Reference
+     */
+    reference: string;
+    /**
+     * Verified
+     */
+    verified: boolean;
+    /**
+     * Name
+     */
+    name: string;
     /**
      * Endpoint
      */
@@ -1610,23 +1610,6 @@ export type ClientPaginationResponse = {
  */
 export type ClientResponse = {
     /**
-     * Reference
-     */
-    reference: string;
-    /**
-     * Name
-     */
-    name: string;
-    /**
-     * Description
-     */
-    description: string;
-    /**
-     * Verified
-     */
-    verified: boolean;
-    user: UserResponse;
-    /**
      * Created
      */
     created: number;
@@ -1634,6 +1617,23 @@ export type ClientResponse = {
      * Updated
      */
     updated: number;
+    user: UserResponse;
+    /**
+     * Description
+     */
+    description: string;
+    /**
+     * Reference
+     */
+    reference: string;
+    /**
+     * Verified
+     */
+    verified: boolean;
+    /**
+     * Name
+     */
+    name: string;
 };
 
 /**
@@ -1738,6 +1738,7 @@ export type CollectionContentArgs = {
  * CollectionContentResponse
  */
 export type CollectionContentResponse = {
+    content_type: CollectionContentTypeEnum;
     /**
      * Comment
      */
@@ -1746,7 +1747,6 @@ export type CollectionContentResponse = {
      * Label
      */
     label: string | null;
-    content_type: CollectionContentTypeEnum;
     /**
      * Order
      */
@@ -1787,6 +1787,7 @@ export type CollectionResponse = {
      * Data Type
      */
     data_type: 'collection';
+    content_type: CollectionContentTypeEnum;
     visibility: CollectionVisibilityEnum;
     author: FollowUserResponse;
     /**
@@ -1805,7 +1806,6 @@ export type CollectionResponse = {
      * Comments Count
      */
     comments_count: number;
-    content_type: CollectionContentTypeEnum;
     /**
      * Description
      */
@@ -2233,7 +2233,7 @@ export type ContentAuthorResponse = {
     /**
      * Roles
      */
-    roles: Array<AppSchemasRoleResponse>;
+    roles: Array<AppCommonSchemasPersonRoleResponse>;
     person: PersonResponse;
 };
 
@@ -2827,6 +2827,7 @@ export type FavouriteCollectionResponse = {
      * Data Type
      */
     data_type: 'collection';
+    content_type: CollectionContentTypeEnum;
     visibility: CollectionVisibilityEnum;
     author: FollowUserResponse;
     /**
@@ -2845,7 +2846,6 @@ export type FavouriteCollectionResponse = {
      * Comments Count
      */
     comments_count: number;
-    content_type: CollectionContentTypeEnum;
     /**
      * Description
      */
@@ -3443,15 +3443,13 @@ export type FollowUserResponse = {
      */
     username: string | null;
     /**
+     * Links
+     */
+    links: Array<UserLinkResponse>;
+    /**
      * Cover
      */
     cover: string | null;
-    /**
-     * Links
-     */
-    links: Array<{
-        [key: string]: unknown;
-    }>;
     /**
      * Active
      */
@@ -3887,7 +3885,7 @@ export type MangaInfoResponse = {
      * Title Native
      */
     title_native: string | null;
-    stats: AppSchemasReadStatsResponse;
+    stats: AppCommonSchemasReadReadStatsResponse;
     /**
      * Synopsis En
      */
@@ -4333,8 +4331,8 @@ export type NotificationPaginationResponse = {
  * NotificationResponse
  */
 export type NotificationResponse = {
-    initiator_user: UserResponse | null;
     notification_type: NotificationTypeEnum;
+    initiator_user: UserResponse | null;
     /**
      * Created
      */
@@ -4433,7 +4431,7 @@ export type NovelInfoResponse = {
      * Title Native
      */
     title_native: string | null;
-    stats: AppSchemasReadStatsResponse;
+    stats: AppCommonSchemasReadReadStatsResponse;
     /**
      * Synopsis En
      */
@@ -5355,10 +5353,6 @@ export type ReadSearchArgs = {
      */
     years?: Array<number | null> | null;
     /**
-     * Media Type
-     */
-    media_type?: Array<MangaMediaEnum>;
-    /**
      * Status
      */
     status?: Array<ContentStatusEnum>;
@@ -5382,6 +5376,10 @@ export type ReadSearchArgs = {
      * Native Score
      */
     native_score?: [number | null, number | null];
+    /**
+     * Media Type
+     */
+    media_type?: Array<MangaMediaEnum | NovelMediaEnum>;
     /**
      * Sort
      */
@@ -6402,10 +6400,6 @@ export type UserLink = {
      * Url
      */
     url: string;
-    /**
-     * Icon
-     */
-    icon: UserLinkIconEnum;
 };
 
 /**
@@ -6422,7 +6416,6 @@ export type UserLinkArgs = {
  * UserLinkIconEnum
  */
 export const UserLinkIconEnum = {
-    FEDIVERSE: 'fediverse',
     INSTAGRAM: 'instagram',
     TELEGRAM: 'telegram',
     THREADS: 'threads',
@@ -6439,6 +6432,21 @@ export const UserLinkIconEnum = {
  */
 export type UserLinkIconEnum =
     (typeof UserLinkIconEnum)[keyof typeof UserLinkIconEnum];
+
+/**
+ * UserLinkResponse
+ */
+export type UserLinkResponse = {
+    /**
+     * Url
+     */
+    url: string;
+    /**
+     * Text
+     */
+    text: string | null;
+    icon: UserLinkIconEnum;
+};
 
 /**
  * UserReadPaginationResponse
@@ -6476,15 +6484,13 @@ export type UserResponse = {
      */
     username: string | null;
     /**
+     * Links
+     */
+    links: Array<UserLinkResponse>;
+    /**
      * Cover
      */
     cover: string | null;
-    /**
-     * Links
-     */
-    links: Array<{
-        [key: string]: unknown;
-    }>;
     /**
      * Active
      */
@@ -6524,15 +6530,13 @@ export type UserResponseFollowed = {
      */
     username: string | null;
     /**
+     * Links
+     */
+    links: Array<UserLinkResponse>;
+    /**
      * Cover
      */
     cover: string | null;
-    /**
-     * Links
-     */
-    links: Array<{
-        [key: string]: unknown;
-    }>;
     /**
      * Active
      */
@@ -6576,15 +6580,13 @@ export type UserResponseWithRead = {
      */
     username: string | null;
     /**
+     * Links
+     */
+    links: Array<UserLinkResponse>;
+    /**
      * Cover
      */
     cover: string | null;
-    /**
-     * Links
-     */
-    links: Array<{
-        [key: string]: unknown;
-    }>;
     /**
      * Active
      */
@@ -6628,15 +6630,13 @@ export type UserResponseWithWatch = {
      */
     username: string | null;
     /**
+     * Links
+     */
+    links: Array<UserLinkResponse>;
+    /**
      * Cover
      */
     cover: string | null;
-    /**
-     * Links
-     */
-    links: Array<{
-        [key: string]: unknown;
-    }>;
     /**
      * Active
      */
@@ -6710,15 +6710,13 @@ export type UserWithEmailResponse = {
      */
     username: string | null;
     /**
+     * Links
+     */
+    links: Array<UserLinkResponse>;
+    /**
      * Cover
      */
     cover: string | null;
-    /**
-     * Links
-     */
-    links: Array<{
-        [key: string]: unknown;
-    }>;
     /**
      * Active
      */
@@ -7004,47 +7002,29 @@ export type WatchStatusEnum =
 /**
  * RoleResponse
  */
-export type AppPeopleSchemasRoleResponse = {
+export type AppCommonSchemasPersonRoleResponse = {
+    /**
+     * Name Ua
+     */
+    name_ua: string | null;
     /**
      * Name En
      */
     name_en: string | null;
     /**
-     * Name Ua
+     * Weight
      */
-    name_ua: string | null;
+    weight: number | null;
+    /**
+     * Slug
+     */
+    slug: string;
 };
 
 /**
  * ReadStatsResponse
  */
-export type AppReadSchemasReadStatsResponse = {
-    /**
-     * Completed
-     */
-    completed: number;
-    /**
-     * Reading
-     */
-    reading: number;
-    /**
-     * Planned
-     */
-    planned: number;
-    /**
-     * Dropped
-     */
-    dropped: number;
-    /**
-     * On Hold
-     */
-    on_hold: number;
-};
-
-/**
- * ReadStatsResponse
- */
-export type AppSchemasReadStatsResponse = {
+export type AppCommonSchemasReadReadStatsResponse = {
     /**
      * Completed
      */
@@ -7110,23 +7090,41 @@ export type AppSchemasReadStatsResponse = {
 /**
  * RoleResponse
  */
-export type AppSchemasRoleResponse = {
-    /**
-     * Name Ua
-     */
-    name_ua: string | null;
+export type AppPeopleSchemasRoleResponse = {
     /**
      * Name En
      */
     name_en: string | null;
     /**
-     * Weight
+     * Name Ua
      */
-    weight: number | null;
+    name_ua: string | null;
+};
+
+/**
+ * ReadStatsResponse
+ */
+export type AppReadSchemasReadStatsResponse = {
     /**
-     * Slug
+     * Completed
      */
-    slug: string;
+    completed: number;
+    /**
+     * Reading
+     */
+    reading: number;
+    /**
+     * Planned
+     */
+    planned: number;
+    /**
+     * Dropped
+     */
+    dropped: number;
+    /**
+     * On Hold
+     */
+    on_hold: number;
 };
 
 export type NotificationsData = {
@@ -8230,8 +8228,11 @@ export type ChangeLinksResponses = {
     /**
      * Successful Response
      */
-    200: unknown;
+    200: UserResponse;
 };
+
+export type ChangeLinksResponse =
+    ChangeLinksResponses[keyof ChangeLinksResponses];
 
 export type ChangeDescriptionData = {
     body: DescriptionArgs;

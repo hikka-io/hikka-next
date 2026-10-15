@@ -13,7 +13,7 @@ import {
     API_LIMITS,
     changeLinksMutation,
     parseUserLinks,
-    type UserLink,
+    type UserLinkResponse,
 } from '@hikka/api';
 
 import { SubmitButton, useAppForm } from '@/components/form';
@@ -41,9 +41,12 @@ const SENSORS = [
     PointerSensor.configure({ activationConstraints: () => undefined }),
 ];
 
-type LinkDraft = UserLink & { id: string };
+type LinkDraft = UserLinkResponse & { id: string };
 
-const toDraft = (link: UserLink): LinkDraft => ({ ...link, id: newId() });
+const toDraft = (link: UserLinkResponse): LinkDraft => ({
+    ...link,
+    id: newId(),
+});
 
 const ProfileLinks = () => {
     const { user: loggedUser } = useSession();
@@ -74,7 +77,9 @@ const ProfileLinks = () => {
         },
         onSubmit: async ({ value }) => {
             mutationChangeLinks.mutate({
-                body: { links: value.links.map(({ id, ...link }) => link) },
+                body: {
+                    links: value.links.map(({ url, text }) => ({ url, text })),
+                },
             });
         },
     });
@@ -109,7 +114,7 @@ const ProfileLinks = () => {
                         }
                     };
 
-                    const handleSubmitLink = (link: UserLink) => {
+                    const handleSubmitLink = (link: UserLinkResponse) => {
                         if (target && targetIndex !== -1) {
                             field.replaceValue(targetIndex, {
                                 ...link,

@@ -16,7 +16,6 @@ describe('detectLinkIcon', () => {
         ['https://bsky.app/profile/hikka', 'bluesky'],
         ['https://www.threads.net/@hikka', 'threads'],
         ['https://steamcommunity.com/id/hikka', 'steam'],
-        ['https://mastodon.social/@hikka', 'fediverse'],
         ['https://www.youtube.com/@hikka', 'custom'],
         ['https://www.tiktok.com/@hikka', 'custom'],
         ['https://medium.com/@hikka', 'custom'],

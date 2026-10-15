@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 
-import type { UserLink } from '@hikka/api';
+import type { UserLinkResponse } from '@hikka/api';
 
 import { USER_LINK_ICONS } from '@/components/icons/user-link-icons';
 import { Button, type ButtonProps } from '@/components/ui/button';
@@ -8,7 +8,7 @@ import { Button, type ButtonProps } from '@/components/ui/button';
 const STACK_SIZE = 3;
 
 type Props = Omit<ButtonProps, 'children'> & {
-    links: UserLink[];
+    links: UserLinkResponse[];
 };
 
 const UserLinksStack: FC<Props> = ({ links, ...props }) => (

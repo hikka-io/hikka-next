@@ -103,11 +103,10 @@ function userReadListOptions(
                     search.status !== 'all'
                         ? (search.status as ReadStatusEnum)
                         : undefined,
-                // ReadSearchArgs.media_type is typed MangaMediaEnum[]; novel media values are valid at runtime.
                 media_type: (search.types ?? []) as (
-                    | NovelMediaEnum
                     | MangaMediaEnum
-                )[] as MangaMediaEnum[],
+                    | NovelMediaEnum
+                )[],
                 status: (search.statuses ?? []) as ContentStatusEnum[],
                 years: listYears(search),
                 genres: search.genres ?? [],

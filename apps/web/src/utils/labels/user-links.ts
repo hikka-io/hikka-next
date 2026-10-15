@@ -1,7 +1,6 @@
 import { UserLinkIconEnum } from '@hikka/api';
 
 export const USER_LINK_ICON = {
-    [UserLinkIconEnum.FEDIVERSE]: { label: 'Fediverse' },
     [UserLinkIconEnum.INSTAGRAM]: { label: 'Instagram' },
     [UserLinkIconEnum.TELEGRAM]: { label: 'Telegram' },
     [UserLinkIconEnum.THREADS]: { label: 'Threads' },

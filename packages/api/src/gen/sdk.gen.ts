@@ -477,6 +477,7 @@ import {
     zChangeDescriptionResponse,
     zChangeEmailResponse,
     zChangeIgnoredNotificationsResponse,
+    zChangeLinksResponse,
     zChangePasswordResponse,
     zChangeUiResponse,
     zChangeUsernameResponse,
@@ -1175,6 +1176,7 @@ export const changeLinks = <ThrowOnError extends boolean = false>(
         ChangeLinksErrors,
         ThrowOnError
     >({
+        responseValidator: async (data) => zChangeLinksResponse.parse(data),
         url: '/settings/links',
         ...options,
         headers: {

@@ -35,7 +35,11 @@ describe('getUserLinkLabel', () => {
 
     it('falls back to the service name', () => {
         expect(
-            getUserLinkLabel({ icon: 'twitter', url: 'https://x.com/hikka' }),
+            getUserLinkLabel({
+                icon: 'twitter',
+                url: 'https://x.com/hikka',
+                text: null,
+            }),
         ).toBe('X');
     });
 

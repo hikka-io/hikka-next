@@ -1,6 +1,6 @@
 import { type FC, useState } from 'react';
 
-import type { UserLink } from '@hikka/api';
+import type { UserLinkResponse } from '@hikka/api';
 
 import MaterialSymbolsOpenInNewRounded from '@/components/icons/material-symbols/MaterialSymbolsOpenInNewRounded';
 import { buttonVariants } from '@/components/ui/button';
@@ -26,7 +26,7 @@ import { USER_LINK_REL } from '@/utils/user-links';
 import UserLinksStack from './user-links-stack';
 
 type Props = {
-    links: UserLink[];
+    links: UserLinkResponse[];
 };
 
 const LinkList: FC<Props> = ({ links }) => (

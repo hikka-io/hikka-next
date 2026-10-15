@@ -2,7 +2,11 @@ import { type FC, useRef } from 'react';
 
 import { useQuery } from '@tanstack/react-query';
 
-import { parseUserLinks, type UserLink, userProfileOptions } from '@hikka/api';
+import {
+    parseUserLinks,
+    type UserLinkResponse,
+    userProfileOptions,
+} from '@hikka/api';
 
 import { cn } from '@/utils/cn';
 import { useParams } from '@/utils/navigation';
@@ -19,7 +23,7 @@ type Props = {
 };
 
 type RowProps = Props & {
-    links: UserLink[];
+    links: UserLinkResponse[];
 };
 
 const LinksRow: FC<RowProps> = ({ links, className }) => {

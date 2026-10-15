@@ -3,7 +3,7 @@ import { createElement } from 'react';
 import { useQuery } from '@tanstack/react-query';
 
 import type {
-    AppSchemasReadStatsResponse as ReadStatsResponse,
+    AppCommonSchemasReadReadStatsResponse as ReadStatsResponse,
     ReadStatusEnum,
 } from '@hikka/api';
 

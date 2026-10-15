@@ -51,7 +51,6 @@ const INLINE_ENUM_NAMES = {
     review_content_types: 'FeedReviewContentTypeEnum',
     recommended: 'ReviewRecommendedEnum',
     comment_type: 'CommentTypeEnum',
-    icon: 'UserLinkIconEnum',
 };
 
 function refInlineEnum(

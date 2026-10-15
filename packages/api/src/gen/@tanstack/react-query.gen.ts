@@ -214,6 +214,7 @@ import type {
     ChangeIgnoredNotificationsResponse,
     ChangeLinksData,
     ChangeLinksError,
+    ChangeLinksResponse,
     ChangePasswordData,
     ChangePasswordError,
     ChangePasswordResponse,
@@ -2049,9 +2050,13 @@ export const getDigestOptions = (options: Options<GetDigestData>) =>
  */
 export const changeLinksMutation = (
     options?: Partial<Options<ChangeLinksData>>,
-): UseMutationOptions<unknown, ChangeLinksError, Options<ChangeLinksData>> => {
+): UseMutationOptions<
+    ChangeLinksResponse,
+    ChangeLinksError,
+    Options<ChangeLinksData>
+> => {
     const mutationOptions: UseMutationOptions<
-        unknown,
+        ChangeLinksResponse,
         ChangeLinksError,
         Options<ChangeLinksData>
     > = {

@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 
 import {
-    type AppSchemasRoleResponse,
+    type AppCommonSchemasPersonRoleResponse,
     ContentTypeEnum,
     type PersonResponse,
 } from '@hikka/api';
@@ -12,7 +12,7 @@ import EntityCard, { type EntityCardProps } from './entity-card';
 
 type Props = Omit<EntityCardProps, 'entity'> & {
     person: PersonResponse;
-    roles: AppSchemasRoleResponse[];
+    roles: AppCommonSchemasPersonRoleResponse[];
 };
 
 const PersonCard: FC<Props> = ({ person, roles, ...props }) => (
