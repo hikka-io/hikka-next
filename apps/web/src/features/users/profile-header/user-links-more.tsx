@@ -89,7 +89,7 @@ const LinkList: FC<{ links: UserLink[] }> = ({ links }) => (
 const UserLinksMore: FC<Props> = ({ links, asPlaceholder }) => {
     const isDesktop = useIsDesktop();
     const [open, setOpen] = useState(false);
-    const triggerClassName = 'gap-2 rounded-full pl-1 pr-3';
+    const triggerClassName = 'gap-2 rounded-full pl-1 pr-3 backdrop-blur';
 
     if (asPlaceholder) {
         return (

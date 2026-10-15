@@ -17,7 +17,7 @@ const UserLinkPill: FC<Props> = ({ link, asPlaceholder }) => {
     const label = getUserLinkLabel(link);
     const className = cn(
         buttonVariants({ variant: 'outline', size: 'sm' }),
-        'rounded-full px-3',
+        'rounded-full px-3 backdrop-blur',
     );
     const content = (
         <>
