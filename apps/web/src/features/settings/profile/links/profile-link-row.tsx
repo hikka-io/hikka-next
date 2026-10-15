@@ -8,9 +8,9 @@ import MaterialSymbolsDeleteForever from '@/components/icons/material-symbols/Ma
 import MaterialSymbolsDragIndicator from '@/components/icons/material-symbols/MaterialSymbolsDragIndicator';
 import MaterialSymbolsEditRounded from '@/components/icons/material-symbols/MaterialSymbolsEditRounded';
 import MaterialSymbolsKeyboardArrowDownRounded from '@/components/icons/material-symbols/MaterialSymbolsKeyboardArrowDownRounded';
-import { USER_LINK_ICONS } from '@/components/icons/user-link-icons';
 import { Button } from '@/components/ui/button';
-import { getUserLinkDisplayUrl, getUserLinkLabel } from '@/utils/user-links';
+import UserLinkSummary from '@/components/user-link-summary';
+import { getUserLinkLabel } from '@/utils/user-links';
 
 type Props = {
     id: string;
@@ -32,7 +32,6 @@ const ProfileLinkRow: FC<Props> = ({
     onMove,
 }) => {
     const { ref, handleRef } = useSortable({ id, index });
-    const Icon = USER_LINK_ICONS[link.icon];
     const label = getUserLinkLabel(link);
 
     return (
@@ -54,17 +53,7 @@ const ProfileLinkRow: FC<Props> = ({
                 onClick={onEdit}
                 className="flex min-w-0 flex-1 items-center gap-3 rounded-md p-1 text-left outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50"
             >
-                <span className="flex size-8 shrink-0 items-center justify-center rounded-md bg-secondary [&_svg]:size-4">
-                    <Icon />
-                </span>
-                <span className="flex min-w-0 flex-col">
-                    <span className="truncate font-medium text-sm">
-                        {label}
-                    </span>
-                    <span className="truncate text-muted-foreground text-xs">
-                        {getUserLinkDisplayUrl(link.url)}
-                    </span>
-                </span>
+                <UserLinkSummary link={link} />
             </button>
             <Button
                 size="icon-md"

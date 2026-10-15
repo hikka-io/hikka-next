@@ -3,43 +3,35 @@ import type { FC } from 'react';
 import type { UserLink } from '@hikka/api';
 
 import { USER_LINK_ICONS } from '@/components/icons/user-link-icons';
-import { buttonVariants } from '@/components/ui/button';
-import { cn } from '@/utils/cn';
-import { getUserLinkLabel } from '@/utils/user-links';
+import { Button, type ButtonProps } from '@/components/ui/button';
+import { getUserLinkLabel, USER_LINK_REL } from '@/utils/user-links';
 
-type Props = {
+type Props = Omit<ButtonProps, 'children'> & {
     link: UserLink;
-    asPlaceholder?: boolean;
 };
 
-const UserLinkPill: FC<Props> = ({ link, asPlaceholder }) => {
+const UserLinkPill: FC<Props> = ({ link, ...props }) => {
     const Icon = USER_LINK_ICONS[link.icon];
     const label = getUserLinkLabel(link);
-    const className = cn(
-        buttonVariants({ variant: 'outline', size: 'sm' }),
-        'rounded-full px-3 backdrop-blur',
-    );
-    const content = (
-        <>
-            <Icon />
-            <span className="max-w-40 truncate">{label}</span>
-        </>
-    );
-
-    if (asPlaceholder) {
-        return <span className={className}>{content}</span>;
-    }
 
     return (
-        <a
-            href={link.url}
-            target="_blank"
-            rel="noopener noreferrer nofollow ugc"
-            title={label}
-            className={className}
+        <Button
+            variant="outline"
+            size="sm"
+            className="rounded-full px-3 backdrop-blur"
+            render={
+                <a
+                    href={link.url}
+                    target="_blank"
+                    rel={USER_LINK_REL}
+                    title={label}
+                />
+            }
+            {...props}
         >
-            {content}
-        </a>
+            <Icon />
+            <span className="max-w-40 truncate">{label}</span>
+        </Button>
     );
 };
 

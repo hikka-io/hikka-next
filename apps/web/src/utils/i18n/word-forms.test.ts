@@ -7,6 +7,7 @@ import {
     DAY_FORMS,
     EPISODE_FORMS,
     HOUR_FORMS,
+    LINK_FORMS,
     MONTH_FORMS,
     REPLY_FORMS,
     REREAD_FORMS,
@@ -22,6 +23,7 @@ describe('word forms', () => {
         ['CHAPTER_FORMS', CHAPTER_FORMS, ['розділ', 'розділи', 'розділів']],
         ['VOLUME_FORMS', VOLUME_FORMS, ['том', 'томи', 'томів']],
         ['TIMES_FORMS', TIMES_FORMS, ['раз', 'рази', 'разів']],
+        ['LINK_FORMS', LINK_FORMS, ['посилання', 'посилання', 'посилань']],
         [
             'COMMENT_FORMS',
             COMMENT_FORMS,

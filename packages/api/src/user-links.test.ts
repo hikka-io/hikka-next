@@ -1,6 +1,17 @@
 import { describe, expect, it } from 'vitest';
 
-import { parseUserLinks } from './user-links';
+import { isWebUrl, parseUserLinks } from './user-links';
+
+describe('isWebUrl', () => {
+    it.each([
+        ['https://hikka.io', true],
+        ['http://hikka.io', true],
+        ['javascript:alert(1)', false],
+        ['hikka.io', false],
+    ])('%s is %s', (value, expected) => {
+        expect(isWebUrl(value)).toBe(expected);
+    });
+});
 
 describe('parseUserLinks', () => {
     it('keeps valid links in order', () => {

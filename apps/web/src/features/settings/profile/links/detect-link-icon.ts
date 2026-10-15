@@ -1,5 +1,8 @@
 import { UserLinkIconEnum } from '@hikka/api';
 
+import { parseUrl } from '@/utils/url';
+import { getUserLinkHost } from '@/utils/user-links';
+
 // Mirrors the backend's host check for each icon (exact host without `www.`); any other host is rejected for that icon.
 const HOST_ICONS: Record<string, UserLinkIconEnum> = {
     'bsky.app': UserLinkIconEnum.BLUESKY,
@@ -17,22 +20,26 @@ const HOST_ICONS: Record<string, UserLinkIconEnum> = {
     'x.com': UserLinkIconEnum.TWITTER,
 };
 
-// Fediverse servers have no common domain; a bare `/@name` profile path is how Mastodon, Misskey and the like address users.
+// Fediverse servers share no domain, so a bare `/@name` path stands for a fediverse profile, except on these sites that use the same shape.
 const FEDIVERSE_PROFILE_PATH = /^\/@[^/]+\/?$/;
+const NOT_FEDIVERSE_HOSTS = new Set([
+    'youtube.com',
+    'm.youtube.com',
+    'tiktok.com',
+    'medium.com',
+]);
 
 export function detectLinkIcon(value: string): UserLinkIconEnum {
-    let url: URL;
+    const url = parseUrl(value.trim());
+    if (!url) return UserLinkIconEnum.CUSTOM;
 
-    try {
-        url = new URL(value.trim());
-    } catch {
-        return UserLinkIconEnum.CUSTOM;
-    }
-
-    const host = url.hostname.toLowerCase().replace(/^www\./, '');
+    const host = getUserLinkHost(url);
 
     if (Object.hasOwn(HOST_ICONS, host)) return HOST_ICONS[host];
-    if (FEDIVERSE_PROFILE_PATH.test(url.pathname)) {
+    if (
+        FEDIVERSE_PROFILE_PATH.test(url.pathname) &&
+        !NOT_FEDIVERSE_HOSTS.has(host)
+    ) {
         return UserLinkIconEnum.FEDIVERSE;
     }
 

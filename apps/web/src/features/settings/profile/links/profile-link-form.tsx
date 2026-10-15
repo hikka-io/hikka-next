@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { ResponsiveModalFooter } from '@/components/ui/responsive-modal';
 import { userLinkTextSchema, userLinkUrlSchema } from '@/utils/form-schemas';
 import { z } from '@/utils/i18n/zod';
+import { parseUrl } from '@/utils/url';
 
 import { detectLinkIcon } from './detect-link-icon';
 
@@ -16,13 +17,7 @@ const formSchema = z.object({
     text: userLinkTextSchema,
 });
 
-const sameUrl = (value: string) => {
-    try {
-        return new URL(value.trim()).href;
-    } catch {
-        return value.trim();
-    }
-};
+const sameUrl = (value: string) => parseUrl(value.trim())?.href ?? value.trim();
 
 type Props = {
     link?: UserLink;

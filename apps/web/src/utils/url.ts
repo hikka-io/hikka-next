@@ -12,6 +12,14 @@ export const getSiteUrl = (): string => {
     return 'http://localhost:3000';
 };
 
+export const parseUrl = (value: string): URL | null => {
+    try {
+        return new URL(value);
+    } catch {
+        return null;
+    }
+};
+
 export const resolveSameOriginUrl = (
     target: string,
     base: string,

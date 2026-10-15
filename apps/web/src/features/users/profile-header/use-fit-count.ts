@@ -1,7 +1,5 @@
 import { type RefObject, useLayoutEffect, useState } from 'react';
 
-const GAP = 8;
-
 /** How many leading items of `measureRef` fit in one line of `containerRef`, keeping room for its last child (the overflow trigger). */
 export function useFitCount(
     containerRef: RefObject<HTMLElement | null>,
@@ -16,15 +14,16 @@ export function useFitCount(
         if (!container || !measure) return;
 
         const update = () => {
-            const widths = [...measure.children].map(
-                (child) => child.getBoundingClientRect().width,
-            );
-            const triggerWidth = widths.pop() ?? 0;
             const style = getComputedStyle(container);
+            const gap = Number.parseFloat(style.columnGap) || 0;
             const available =
                 container.clientWidth -
                 Number.parseFloat(style.paddingLeft) -
                 Number.parseFloat(style.paddingRight);
+            const widths = [...measure.children].map(
+                (child) => child.getBoundingClientRect().width,
+            );
+            const triggerWidth = widths.pop() ?? 0;
             let used = 0;
             let next = 0;
 
@@ -32,12 +31,12 @@ export function useFitCount(
                 const isLast = index === widths.length - 1;
                 const needed =
                     used +
-                    (index ? GAP : 0) +
+                    (index ? gap : 0) +
                     width +
-                    (isLast ? 0 : GAP + triggerWidth);
+                    (isLast ? 0 : gap + triggerWidth);
 
                 if (needed > available) break;
-                used += (index ? GAP : 0) + width;
+                used += (index ? gap : 0) + width;
                 next++;
             }
 

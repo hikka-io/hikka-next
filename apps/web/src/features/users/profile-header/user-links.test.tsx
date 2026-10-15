@@ -16,10 +16,10 @@ const USERNAME = 'someone';
 const PILL_WIDTH = 100;
 const TRIGGER_WIDTH = 60;
 
-const mocks = vi.hoisted(() => ({ available: 1000 }));
+const mocks = vi.hoisted(() => ({ available: 1000, username: 'someone' }));
 
 vi.mock('@/utils/navigation', () => ({
-    useParams: () => ({ username: USERNAME }),
+    useParams: () => ({ username: mocks.username }),
 }));
 
 vi.mock('@/services/hooks/use-media-query', () => ({
@@ -39,6 +39,7 @@ const teardown: (() => void)[] = [];
 
 beforeEach(() => {
     mocks.available = 1000;
+    mocks.username = USERNAME;
     vi.spyOn(Element.prototype, 'getBoundingClientRect').mockImplementation(
         function (this: Element) {
             const inMeasure = this.parentElement?.hasAttribute('inert');
@@ -53,6 +54,7 @@ beforeEach(() => {
         () => mocks.available,
     );
     vi.spyOn(window, 'getComputedStyle').mockReturnValue({
+        columnGap: '8px',
         paddingLeft: '0px',
         paddingRight: '0px',
     } as CSSStyleDeclaration);
@@ -169,6 +171,39 @@ describe('UserLinks', () => {
             CUSTOM.url,
             BLUESKY.url,
         ]);
+    });
+
+    it('measures again after switching from a profile without links', async () => {
+        const queryClient = new QueryClient();
+        const profile = (username: string, links: Record<string, unknown>[]) =>
+            queryClient.setQueryData(
+                userProfileOptions({ path: { username } }).queryKey,
+                { username, links } as UserResponseFollowed,
+            );
+        profile(USERNAME, []);
+        profile('other', [GITHUB, TELEGRAM, CUSTOM]);
+        const container = document.createElement('div');
+        document.body.append(container);
+        const root = createRoot(container);
+        const render = () =>
+            act(async () =>
+                root.render(
+                    <QueryClientProvider client={queryClient}>
+                        <UserLinks />
+                    </QueryClientProvider>,
+                ),
+            );
+        teardown.push(() => {
+            root.unmount();
+            container.remove();
+        });
+
+        await render();
+        mocks.username = 'other';
+        await render();
+
+        expect(container.querySelectorAll('a[href]')).toHaveLength(3);
+        expect(container.querySelector('button')).toBeNull();
     });
 
     it('always keeps at least one link visible', async () => {

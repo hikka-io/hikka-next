@@ -22,4 +22,4 @@ export type { Client, Config, Options } from './gen/client';
 export { API_LIMITS } from './limits';
 export * from './pagination';
 export * from './transport';
-export { parseUserLinks } from './user-links';
+export { isWebUrl, parseUserLinks } from './user-links';

@@ -18,6 +18,12 @@ export const VOLUME_FORMS = [
     'томів',
 ] as const satisfies WordForms;
 
+export const LINK_FORMS = [
+    'посилання',
+    'посилання',
+    'посилань',
+] as const satisfies WordForms;
+
 export const TIMES_FORMS = [
     'раз',
     'рази',

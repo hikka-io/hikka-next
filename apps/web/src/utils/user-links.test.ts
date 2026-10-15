@@ -9,6 +9,14 @@ describe('getUserLinkDisplayUrl', () => {
         );
     });
 
+    it('decodes a percent-encoded path', () => {
+        expect(
+            getUserLinkDisplayUrl(
+                'https://uk.wikipedia.org/wiki/%D0%A5%D1%96%D0%BA%D0%BA%D0%B0',
+            ),
+        ).toBe('uk.wikipedia.org/wiki/Хікка');
+    });
+
     it('returns an unparsable value as is', () => {
         expect(getUserLinkDisplayUrl('hikka')).toBe('hikka');
     });

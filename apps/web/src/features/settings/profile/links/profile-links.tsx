@@ -51,7 +51,11 @@ const ProfileLinks = () => {
     const [manager] = useState(() =>
         createDragDropManager({ sensors: SENSORS }),
     );
-    const [editing, setEditing] = useState<number | 'new' | null>(null);
+    const [modalOpen, setModalOpen] = useState(false);
+    const [target, setTarget] = useState<LinkDraft | null>(null);
+    const [defaultLinks] = useState(() =>
+        parseUserLinks(loggedUser?.links).map(toDraft),
+    );
 
     const mutationChangeLinks = useMutation({
         ...changeLinksMutation(),
@@ -66,7 +70,7 @@ const ProfileLinks = () => {
 
     const form = useAppForm({
         defaultValues: {
-            links: parseUserLinks(loggedUser?.links).map(toDraft),
+            links: defaultLinks,
         },
         onSubmit: async ({ value }) => {
             mutationChangeLinks.mutate({
@@ -82,10 +86,14 @@ const ProfileLinks = () => {
                 mode="array"
                 children={(field) => {
                     const links = field.state.value;
-                    const editedLink =
-                        typeof editing === 'number'
-                            ? links[editing]
-                            : undefined;
+                    const targetIndex = target
+                        ? links.findIndex((link) => link.id === target.id)
+                        : -1;
+
+                    const openModal = (link: LinkDraft | null) => {
+                        setTarget(link);
+                        setModalOpen(true);
+                    };
 
                     const handleDragEnd = (event: DragEndEvent) => {
                         const { source } = event.operation;
@@ -102,15 +110,15 @@ const ProfileLinks = () => {
                     };
 
                     const handleSubmitLink = (link: UserLink) => {
-                        if (editedLink && typeof editing === 'number') {
-                            field.replaceValue(editing, {
+                        if (target && targetIndex !== -1) {
+                            field.replaceValue(targetIndex, {
                                 ...link,
-                                id: editedLink.id,
+                                id: target.id,
                             });
                         } else {
                             field.pushValue(toDraft(link));
                         }
-                        setEditing(null);
+                        setModalOpen(false);
                     };
 
                     return (
@@ -137,7 +145,7 @@ const ProfileLinks = () => {
                                                     count={links.length}
                                                     link={link}
                                                     onEdit={() =>
-                                                        setEditing(index)
+                                                        openModal(link)
                                                     }
                                                     onRemove={() =>
                                                         field.removeValue(index)
@@ -169,7 +177,7 @@ const ProfileLinks = () => {
                                             links.length >=
                                             API_LIMITS.userLinks.max
                                         }
-                                        onClick={() => setEditing('new')}
+                                        onClick={() => openModal(null)}
                                     >
                                         <MaterialSymbolsAddRounded />
                                         Додати посилання
@@ -183,35 +191,33 @@ const ProfileLinks = () => {
                                 </div>
                             </form.Form>
                             <ResponsiveModal
-                                open={editing !== null}
-                                onOpenChange={(open) =>
-                                    !open && setEditing(null)
-                                }
+                                open={modalOpen}
+                                onOpenChange={setModalOpen}
                             >
                                 <ResponsiveModalContent
                                     title={
-                                        editedLink
+                                        target
                                             ? 'Редагувати посилання'
                                             : 'Нове посилання'
                                     }
                                 >
                                     <ProfileLinkForm
-                                        key={editedLink?.id ?? 'new'}
-                                        link={editedLink}
+                                        key={target?.id ?? 'new'}
+                                        link={target ?? undefined}
                                         takenUrls={links
                                             .filter(
                                                 (link) =>
-                                                    link.id !== editedLink?.id,
+                                                    link.id !== target?.id,
                                             )
                                             .map((link) => link.url)}
                                         onSubmit={handleSubmitLink}
                                         onDelete={
-                                            typeof editing === 'number'
+                                            target
                                                 ? () => {
                                                       field.removeValue(
-                                                          editing,
+                                                          targetIndex,
                                                       );
-                                                      setEditing(null);
+                                                      setModalOpen(false);
                                                   }
                                                 : undefined
                                         }

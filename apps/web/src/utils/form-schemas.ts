@@ -1,8 +1,9 @@
-import { API_LIMITS } from '@hikka/api';
+import { API_LIMITS, isWebUrl } from '@hikka/api';
 
 import { getDeclensionWord } from '@/utils/i18n/declension';
 import { SYMBOL_FORMS } from '@/utils/i18n/word-forms';
 import { z } from '@/utils/i18n/zod';
+import { parseUrl } from '@/utils/url';
 
 // Each schema mirrors the backend validator for its field (hikka-io/hikka `app/schemas.py`, `app/client/schemas.py`).
 
@@ -128,14 +129,6 @@ export const clientDescriptionSchema = trimmedText(
     API_LIMITS.clientDescription,
 );
 
-export const parseEndpoint = (value: string): URL | null => {
-    try {
-        return new URL(value);
-    } catch {
-        return null;
-    }
-};
-
 const ipv4 = (host: string): number[] | null => {
     const parts = host.split('.');
     if (parts.length !== 4 || !parts.every((p) => /^\d{1,3}$/.test(p)))
@@ -188,7 +181,7 @@ export const suggestEndpoint = (value: string): string | null => {
           : null;
     const suggestion = scheme && `${scheme}${value}`;
 
-    return suggestion && parseEndpoint(suggestion) ? suggestion : null;
+    return suggestion && parseUrl(suggestion) ? suggestion : null;
 };
 
 // The API measures `str(AnyUrl)`, which normalises like `URL.href` (a bare origin gains a trailing slash).
@@ -207,7 +200,7 @@ export const endpointSchema = z.string().superRefine((raw, ctx) => {
         return issue(`Додайте схему: ${suggestion}`);
     }
 
-    const url = parseEndpoint(raw);
+    const url = parseUrl(raw);
 
     if (!url) {
         return issue('Потрібне повне посилання: https://… або myapp://…');
@@ -220,10 +213,10 @@ export const endpointSchema = z.string().superRefine((raw, ctx) => {
     }
 });
 
-export const userLinkTextSchema = trimmedText({
-    min: 0,
-    max: API_LIMITS.userLinkText.max,
-});
+export const userLinkTextSchema = z
+    .string()
+    .trim()
+    .max(API_LIMITS.userLinkText.max, atMost(API_LIMITS.userLinkText.max));
 
 export const userLinkUrlSchema = z.string().superRefine((raw, ctx) => {
     const issue = (message: string) =>
@@ -238,9 +231,7 @@ export const userLinkUrlSchema = z.string().superRefine((raw, ctx) => {
         return issue(atMost(API_LIMITS.userLinkUrl.max));
     }
 
-    const url = parseEndpoint(value);
-
-    if (!url || !['http:', 'https:'].includes(url.protocol)) {
+    if (!isWebUrl(value)) {
         return issue('Посилання має починатися з https://');
     }
 });
