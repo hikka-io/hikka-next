@@ -25,7 +25,7 @@ const UserLinksStack: FC<Props> = ({ links, ...props }) => (
                 return (
                     <span
                         key={link.url}
-                        className="-ml-1.5 flex size-6 items-center justify-center rounded-sm bg-secondary ring-1 ring-border first:ml-0 [&_svg]:size-3!"
+                        className="-ml-1 flex size-6 items-center justify-center rounded-sm bg-secondary ring-2 ring-background first:ml-0 [&_svg]:size-3!"
                     >
                         <Icon />
                     </span>
