@@ -198,6 +198,12 @@ const ProfileLinks = () => {
                                     <ProfileLinkForm
                                         key={editedLink?.id ?? 'new'}
                                         link={editedLink}
+                                        takenUrls={links
+                                            .filter(
+                                                (link) =>
+                                                    link.id !== editedLink?.id,
+                                            )
+                                            .map((link) => link.url)}
                                         onSubmit={handleSubmitLink}
                                         onDelete={
                                             typeof editing === 'number'

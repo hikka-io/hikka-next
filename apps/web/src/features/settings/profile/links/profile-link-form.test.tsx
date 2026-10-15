@@ -95,6 +95,24 @@ describe('ProfileLinkForm', () => {
         });
     });
 
+    it('rejects a url that is already in the list', async () => {
+        const { container, onSubmit, type, submit } = await mount({
+            takenUrls: ['https://github.com/hikka-io'],
+        });
+
+        await type('https://', 'https://github.com/hikka-io');
+        await submit();
+
+        expect(onSubmit).not.toHaveBeenCalled();
+        expect(container.textContent).toContain('Це посилання вже додано');
+    });
+
+    it('marks the caption as optional', async () => {
+        const { container } = await mount({});
+
+        expect(container.textContent).toContain("Необов'язково");
+    });
+
     it('falls back to the custom icon for an unknown domain', async () => {
         const { onSubmit, type, submit } = await mount({});
 

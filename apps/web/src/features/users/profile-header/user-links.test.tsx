@@ -4,7 +4,7 @@ import { createRoot } from 'react-dom/client';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { userProfileOptions } from '@hikka/api';
+import { type UserResponseFollowed, userProfileOptions } from '@hikka/api';
 
 import UserLinks from './user-links';
 
@@ -65,13 +65,13 @@ afterEach(async () => {
     vi.restoreAllMocks();
 });
 
-async function mount(links: unknown[] | undefined) {
+async function mount(links: Record<string, unknown>[]) {
     const queryClient = new QueryClient({
         defaultOptions: { queries: { staleTime: Infinity, retry: false } },
     });
     queryClient.setQueryData(
         userProfileOptions({ path: { username: USERNAME } }).queryKey,
-        { username: USERNAME, links },
+        { username: USERNAME, links } as UserResponseFollowed,
     );
     const container = document.createElement('div');
     document.body.append(container);

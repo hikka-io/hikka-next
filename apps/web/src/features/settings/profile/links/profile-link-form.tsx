@@ -16,19 +16,42 @@ const formSchema = z.object({
     text: userLinkTextSchema,
 });
 
+const sameUrl = (value: string) => {
+    try {
+        return new URL(value.trim()).href;
+    } catch {
+        return value.trim();
+    }
+};
+
 type Props = {
     link?: UserLink;
+    takenUrls?: string[];
     onSubmit: (link: UserLink) => void;
     onDelete?: () => void;
 };
 
-const ProfileLinkForm: FC<Props> = ({ link, onSubmit, onDelete }) => {
+const ProfileLinkForm: FC<Props> = ({
+    link,
+    takenUrls = [],
+    onSubmit,
+    onDelete,
+}) => {
+    const taken = new Set(takenUrls.map(sameUrl));
+    const schema = formSchema.refine(
+        (value) => !taken.has(sameUrl(value.url)),
+        {
+            message: 'Це посилання вже додано',
+            path: ['url'],
+        },
+    );
+
     const form = useAppForm({
         defaultValues: {
             url: link?.url ?? '',
             text: link?.text ?? '',
         },
-        validators: { onSubmit: formSchema },
+        validators: { onSubmit: schema },
         onSubmit: ({ value }) => {
             const url = value.url.trim();
 
@@ -69,7 +92,11 @@ const ProfileLinkForm: FC<Props> = ({ link, onSubmit, onDelete }) => {
                         <field.TextField
                             label="Підпис"
                             placeholder="Назва сервісу або домен"
-                        />
+                        >
+                            <span className="text-muted-foreground text-sm">
+                                Необов'язково
+                            </span>
+                        </field.TextField>
                     )}
                 />
                 <ResponsiveModalFooter className="flex-row">

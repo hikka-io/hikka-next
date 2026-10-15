@@ -1,11 +1,11 @@
 import { UserLinkIconEnum } from '@hikka/api';
 
+// Mirrors the backend's host check for each icon (exact host without `www.`); any other host is rejected for that icon.
 const HOST_ICONS: Record<string, UserLinkIconEnum> = {
     'bsky.app': UserLinkIconEnum.BLUESKY,
     'bsky.social': UserLinkIconEnum.BLUESKY,
     'discord.com': UserLinkIconEnum.DISCORD,
     'discord.gg': UserLinkIconEnum.DISCORD,
-    'discordapp.com': UserLinkIconEnum.DISCORD,
     'github.com': UserLinkIconEnum.GITHUB,
     'instagram.com': UserLinkIconEnum.INSTAGRAM,
     'steamcommunity.com': UserLinkIconEnum.STEAM,
@@ -29,12 +29,9 @@ export function detectLinkIcon(value: string): UserLinkIconEnum {
         return UserLinkIconEnum.CUSTOM;
     }
 
-    const host = url.hostname.toLowerCase();
-    const match = Object.entries(HOST_ICONS).find(
-        ([domain]) => host === domain || host.endsWith(`.${domain}`),
-    );
+    const host = url.hostname.toLowerCase().replace(/^www\./, '');
 
-    if (match) return match[1];
+    if (Object.hasOwn(HOST_ICONS, host)) return HOST_ICONS[host];
     if (FEDIVERSE_PROFILE_PATH.test(url.pathname)) {
         return UserLinkIconEnum.FEDIVERSE;
     }
