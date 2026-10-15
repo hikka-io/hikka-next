@@ -1,4 +1,4 @@
-import type { ComponentType } from 'react';
+import type { ComponentType, SVGProps } from 'react';
 
 import { UserLinkIconEnum } from '@hikka/api';
 
@@ -21,19 +21,35 @@ import SimpleIconsThreads from '@/components/icons/simple-icons/SimpleIconsThrea
 import SimpleIconsX from '@/components/icons/simple-icons/SimpleIconsX';
 import SimpleIconsYoutube from '@/components/icons/simple-icons/SimpleIconsYoutube';
 
+type IconComponent = ComponentType<SVGProps<SVGSVGElement>>;
+
+function withBrandColor(Icon: IconComponent, color: string) {
+    return function BrandIcon(props: SVGProps<SVGSVGElement>) {
+        return <Icon {...props} style={{ color, ...props.style }} />;
+    };
+}
+
+const InstagramIcon = withBrandColor(SimpleIconsInstagram, '#e4405f');
+const TelegramIcon = withBrandColor(SimpleIconsTelegram, '#26a5e4');
+const DiscordIcon = withBrandColor(SimpleIconsDiscord, '#5865f2');
+const BlueskyIcon = withBrandColor(SimpleIconsBluesky, '#0285ff');
+const YoutubeIcon = withBrandColor(SimpleIconsYoutube, '#ff0000');
+const RedditIcon = withBrandColor(SimpleIconsReddit, '#ff4500');
+const ChessIcon = withBrandColor(SimpleIconsChessdotcom, '#81b64c');
+
 export const USER_LINK_ICONS = {
-    [UserLinkIconEnum.INSTAGRAM]: SimpleIconsInstagram,
-    [UserLinkIconEnum.TELEGRAM]: SimpleIconsTelegram,
+    [UserLinkIconEnum.INSTAGRAM]: InstagramIcon,
+    [UserLinkIconEnum.TELEGRAM]: TelegramIcon,
     [UserLinkIconEnum.THREADS]: SimpleIconsThreads,
     [UserLinkIconEnum.TWITTER]: SimpleIconsX,
-    [UserLinkIconEnum.DISCORD]: SimpleIconsDiscord,
-    [UserLinkIconEnum.BLUESKY]: SimpleIconsBluesky,
+    [UserLinkIconEnum.DISCORD]: DiscordIcon,
+    [UserLinkIconEnum.BLUESKY]: BlueskyIcon,
     [UserLinkIconEnum.GITHUB]: SimpleIconsGithub,
     [UserLinkIconEnum.CUSTOM]: MaterialSymbolsLinkRounded,
     [UserLinkIconEnum.STEAM]: SimpleIconsSteam,
-    [UserLinkIconEnum.YOUTUBE]: SimpleIconsYoutube,
-    [UserLinkIconEnum.REDDIT]: SimpleIconsReddit,
-    [UserLinkIconEnum.CHESS]: SimpleIconsChessdotcom,
+    [UserLinkIconEnum.YOUTUBE]: YoutubeIcon,
+    [UserLinkIconEnum.REDDIT]: RedditIcon,
+    [UserLinkIconEnum.CHESS]: ChessIcon,
     [UserLinkIconEnum.MANGAINUA]: CustomUserLinkMangaInUa,
     [UserLinkIconEnum.MANGALIST]: CustomUserLinkMangaList,
     [UserLinkIconEnum.ANITUBE]: CustomUserLinkAnitube,
