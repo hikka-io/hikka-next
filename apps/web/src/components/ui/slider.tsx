@@ -72,11 +72,17 @@ function ThumbWithValue({
     );
 }
 
+// Base UI passes a bare number from pointer drags on a one-thumb slider, even when `value` is an array.
+const toValues = (value: number | readonly number[]): number[] =>
+    typeof value === 'number' ? [value] : [...value];
+
 function Slider({
     className,
     value,
     showValue = 'never',
     formatValue,
+    onValueChange,
+    onValueCommitted,
     ...props
 }: SliderProps) {
     const [isInteracting, setIsInteracting] = React.useState(false);
@@ -101,6 +107,14 @@ function Slider({
             )}
             value={value}
             thumbAlignment="edge"
+            onValueChange={
+                onValueChange &&
+                ((next, details) => onValueChange(toValues(next), details))
+            }
+            onValueCommitted={
+                onValueCommitted &&
+                ((next, details) => onValueCommitted(toValues(next), details))
+            }
             {...props}
         >
             <SliderPrimitive.Control
