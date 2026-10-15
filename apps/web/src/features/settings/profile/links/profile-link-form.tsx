@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 
-import type { UserLink } from '@hikka/api';
+import { API_LIMITS, type UserLink } from '@hikka/api';
 
 import { SubmitButton, useAppForm } from '@/components/form';
 import { USER_LINK_ICONS } from '@/components/icons/user-link-icons';
@@ -87,6 +87,7 @@ const ProfileLinkForm: FC<Props> = ({
                         <field.TextField
                             label="Підпис"
                             placeholder="Назва сервісу або домен"
+                            maxLength={API_LIMITS.userLinkText.max}
                         >
                             <span className="text-muted-foreground text-sm">
                                 Необов'язково

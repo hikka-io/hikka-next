@@ -18,7 +18,7 @@ const UserLinkSummary: FC<Props> = ({ link }) => {
                 <Icon />
             </span>
             <span className="flex min-w-0 flex-1 flex-col">
-                <span className="truncate font-medium text-sm">
+                <span className="line-clamp-2 whitespace-normal break-words font-medium text-sm">
                     {getUserLinkLabel(link)}
                 </span>
                 <span className="truncate font-normal text-muted-foreground text-xs">
