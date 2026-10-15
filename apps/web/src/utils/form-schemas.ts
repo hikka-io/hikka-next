@@ -219,3 +219,28 @@ export const endpointSchema = z.string().superRefine((raw, ctx) => {
         );
     }
 });
+
+export const userLinkTextSchema = trimmedText({
+    min: 0,
+    max: API_LIMITS.userLinkText.max,
+});
+
+export const userLinkUrlSchema = z.string().superRefine((raw, ctx) => {
+    const issue = (message: string) =>
+        ctx.addIssue({ code: z.ZodIssueCode.custom, message });
+    const value = raw.trim();
+
+    if (value.length === 0) {
+        return issue('Вкажіть посилання');
+    }
+
+    if (value.length > API_LIMITS.userLinkUrl.max) {
+        return issue(atMost(API_LIMITS.userLinkUrl.max));
+    }
+
+    const url = parseEndpoint(value);
+
+    if (!url || !['http:', 'https:'].includes(url.protocol)) {
+        return issue('Посилання має починатися з https://');
+    }
+});

@@ -28,6 +28,7 @@ vi.mock('@/features/users', () => ({
     FollowStats: () => null,
     USER_NAV_ROUTES: [],
     UserAvatar: () => null,
+    UserLinks: () => null,
     UserListHeaderFilters: () => null,
     UserTitle: () => null,
 }));

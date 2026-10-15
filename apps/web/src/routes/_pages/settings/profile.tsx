@@ -3,6 +3,7 @@ import { createFileRoute } from '@tanstack/react-router';
 import {
     ProfileDescription,
     ProfileImages,
+    ProfileLinks,
     ProfileUsername,
     SettingsPage,
     settingsHead,
@@ -22,6 +23,7 @@ function ProfileSettingsPage() {
             <ProfileImages />
             <ProfileUsername />
             <ProfileDescription />
+            <ProfileLinks />
         </SettingsPage>
     );
 }

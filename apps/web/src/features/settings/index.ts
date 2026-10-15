@@ -12,6 +12,7 @@ export { default as ReadListImport } from './list/import/read-list-import';
 export { default as WatchListImport } from './list/import/watch-list-import';
 export { default as NotificationsSettings } from './notifications-settings';
 export { default as PasswordSettings } from './password-settings';
+export { default as ProfileLinks } from './profile/links/profile-links';
 export { default as ProfileDescription } from './profile/profile-description';
 export { default as ProfileImages } from './profile/profile-images';
 export { default as ProfileUsername } from './profile/profile-username';

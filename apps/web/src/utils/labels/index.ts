@@ -11,4 +11,5 @@ export {
     RELEASE_STATUS,
     SEASON,
 } from './enum-labels';
+export { USER_LINK_ICON } from './user-links';
 export { USER_ROLE } from './user-roles';

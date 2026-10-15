@@ -18,6 +18,7 @@ import {
     FollowStats,
     USER_NAV_ROUTES,
     UserAvatar,
+    UserLinks,
     UserListHeaderFilters,
     UserTitle,
 } from '@/features/users';
@@ -112,6 +113,7 @@ function UserLayout() {
                     <UserAvatar />
                     <UserTitle />
                 </div>
+                <UserLinks className="md:hidden" />
                 <FollowStats className="shrink-0" />
             </div>
             <div className="flex flex-col gap-8">

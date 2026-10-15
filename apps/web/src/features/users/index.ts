@@ -17,5 +17,6 @@ export {
 export { default as ActivationAlert } from './profile-header/activation-alert';
 export { default as FollowStats } from './profile-header/follow-stats';
 export { default as UserAvatar } from './profile-header/user-avatar';
+export { default as UserLinks } from './profile-header/user-links';
 export { default as UserTitle } from './profile-header/user-title';
 export { USER_NAV_ROUTES } from './user-nav-routes';

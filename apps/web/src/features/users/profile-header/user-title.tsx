@@ -7,6 +7,8 @@ import { MDViewer } from '@/components/markdown';
 import { usePageTitleAnchor } from '@/features/app-shell';
 import { Link, useParams } from '@/utils/navigation';
 
+import UserLinks from './user-links';
+
 const UserTitle = () => {
     const params = useParams();
     const { data: user } = useQuery(
@@ -35,6 +37,7 @@ const UserTitle = () => {
                     {user.description}
                 </MDViewer>
             )}
+            <UserLinks className="mt-auto hidden md:flex" />
         </div>
     );
 };
