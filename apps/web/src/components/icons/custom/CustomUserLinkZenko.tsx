@@ -12,7 +12,7 @@ export function CustomUserLinkZenko(props: SVGProps<SVGSVGElement>) {
             <path
                 fill="currentColor"
                 fillRule="evenodd"
-                d="M6 2h12a4 4 0 0 1 4 4v12a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V6a4 4 0 0 1 4-4ZM7.5 7h9v2l-5.9 5.8h5.9V17h-9v-2l5.9-5.8H7.5Z"
+                d="M3 3l6 5q3-.7 6 0l6-5-1 9q-1 5-8 10-7-5-8-10ZM6.500 11.500l3.800 1.700-.7 1.200ZM17.500 11.500l-3.800 1.700.7 1.200Z"
             />
         </svg>
     );

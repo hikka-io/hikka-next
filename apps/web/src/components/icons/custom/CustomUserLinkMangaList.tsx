@@ -12,7 +12,7 @@ export function CustomUserLinkMangaList(props: SVGProps<SVGSVGElement>) {
             <path
                 fill="currentColor"
                 fillRule="evenodd"
-                d="M6 2h12a4 4 0 0 1 4 4v12a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V6a4 4 0 0 1 4-4ZM8 7h2.2v7.8H16V17H8Z"
+                d="M3 12 4 5.5l3 3L8.5 3l2.7 4.6L14 3l1.3 5.2 3.2-3L19.5 12ZM3 13.5h18v4.5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2ZM6 15.2l5 .9 5-.9-1.2 2.3H7.2Z"
             />
         </svg>
     );

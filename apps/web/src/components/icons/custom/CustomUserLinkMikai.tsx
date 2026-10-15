@@ -11,8 +11,8 @@ export function CustomUserLinkMikai(props: SVGProps<SVGSVGElement>) {
         >
             <path
                 fill="currentColor"
-                fillRule="evenodd"
-                d="M6 2h12a4 4 0 0 1 4 4v12a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V6a4 4 0 0 1 4-4ZM8 7h2.2v4L14 7h2.8l-4.2 4.8L17 17h-2.8l-3.2-4-.8.8V17H8Z"
+                fillRule="nonzero"
+                d="M12 2c.5 4.5 2.5 6.5 7 7-4.5.5-6.5 2.5-7 7-.5-4.5-2.5-6.5-7-7 4.5-.5 6.5-2.5 7-7ZM3 14c0 5 4 8 9 8s9-3 9-8c0-.8-1.1-1-1.5-.4C18.5 16.5 15.5 19 12 19s-6.5-2.500-7.500-5.400C4.100 13 3 13.200 3 14Z"
             />
         </svg>
     );
