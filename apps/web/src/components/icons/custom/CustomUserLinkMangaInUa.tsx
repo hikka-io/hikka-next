@@ -10,9 +10,17 @@ export function CustomUserLinkMangaInUa(props: SVGProps<SVGSVGElement>) {
             {...props}
         >
             <path
-                fill="currentColor"
-                fillRule="evenodd"
-                d="M5 3h14a2 2 0 0 1 2 2v12H3V5a2 2 0 0 1 2-2ZM7 14.5h2V9.8l1.7 2.7h.6L13 9.8v4.7h2V7.5h-2.1L12 9.6 11.1 7.5H9ZM4.5 19h15a1.5 1.5 0 0 0 1.5-1.5v1A2.5 2.5 0 0 1 18.5 21h-13A2.5 2.5 0 0 1 3 18.5v-1A1.5 1.5 0 0 0 4.5 19Z"
+                fill="#1a9cee"
+                d="M5 2h14a2 2 0 0 1 2 2v14.500H3V4a2 2 0 0 1 2-2Z"
+            />
+            <path
+                fill="#1a9cee"
+                d="M3 19.500h18V20a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z"
+                opacity=".6"
+            />
+            <path
+                fill="#fff"
+                d="M6.500 14.500v-8h2.200l3.300 4.400 3.300-4.400h2.200v8h-2.200V10l-3.300 4.200L8.700 10v4.500Z"
             />
         </svg>
     );
