@@ -35,6 +35,7 @@ const CollectionItem: FC<Props> = ({ data, className }) => {
                 <div className="inline-flex items-center gap-2">
                     <HorizontalCardTitle
                         href={`/collections/${data.reference}`}
+                        className={cn(data.spoiler && 'spoiler-blur-sm')}
                     >
                         {data.title}
                     </HorizontalCardTitle>

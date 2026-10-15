@@ -32,7 +32,6 @@ import EmptyState from '@/components/ui/empty-state';
 import Stack from '@/components/ui/stack';
 import { useSessionUI } from '@/services/session';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
-import { cn } from '@/utils/cn';
 import { useParams } from '@/utils/navigation';
 import { getTitle } from '@/utils/title/get-title';
 
@@ -235,8 +234,8 @@ const LEGACY: {
                 title={res.title}
                 image={res.collection[0].content.image}
                 to={`/collections/${res.reference}`}
-                titleClassName={cn(res.spoiler && 'blur hover:blur-none')}
-                containerClassName={cn(res.nsfw && 'blur hover:blur-none')}
+                titleBlur={res.spoiler}
+                imageBlur={res.nsfw || res.spoiler}
                 leftSubtitle={(res.nsfw && '+18') || undefined}
                 rightSubtitle={(res.spoiler && 'Спойлери') || undefined}
             />

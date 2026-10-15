@@ -84,7 +84,9 @@ const CollectionCard: FC<Props> = ({
                 <h3>{collection.title}</h3>
             </Link>
 
-            {collection.tags.length > 0 && (
+            {(collection.tags.length > 0 ||
+                collection.spoiler ||
+                collection.nsfw) && (
                 <div className="flex gap-2">
                     {collection?.spoiler && (
                         <Badge variant="warning">Спойлери</Badge>

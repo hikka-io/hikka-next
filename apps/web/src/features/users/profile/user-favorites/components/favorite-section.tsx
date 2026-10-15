@@ -27,7 +27,6 @@ import EmptyState from '@/components/ui/empty-state';
 import Stack from '@/components/ui/stack';
 import { useSessionUI } from '@/services/session';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
-import { cn } from '@/utils/cn';
 import { useParams } from '@/utils/navigation';
 import { getTitle } from '@/utils/title/get-title';
 
@@ -133,8 +132,8 @@ const SECTIONS: {
                 title={item.title}
                 image={item.collection[0].content.image}
                 to={`/collections/${item.reference}`}
-                titleClassName={cn(item.spoiler && 'blur hover:blur-none')}
-                containerClassName={cn(item.nsfw && 'blur hover:blur-none')}
+                titleBlur={item.spoiler}
+                imageBlur={item.nsfw || item.spoiler}
                 leftSubtitle={(item.nsfw && '+18') || undefined}
                 rightSubtitle={(item.spoiler && 'Спойлери') || undefined}
             />
