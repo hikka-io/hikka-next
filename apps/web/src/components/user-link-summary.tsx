@@ -14,7 +14,7 @@ const UserLinkSummary: FC<Props> = ({ link }) => {
 
     return (
         <>
-            <span className="flex size-8 shrink-0 items-center justify-center rounded-md bg-secondary [&_svg]:size-4">
+            <span className="flex size-10 shrink-0 items-center justify-center rounded-md border border-border bg-secondary/40 [&_svg]:size-5">
                 <Icon />
             </span>
             <span className="flex min-w-0 flex-1 flex-col">

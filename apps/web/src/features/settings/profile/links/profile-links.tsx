@@ -123,52 +123,58 @@ const ProfileLinks = () => {
 
                     return (
                         <>
-                            <form.Form className="flex flex-col items-start gap-4">
-                                <div className="flex w-full items-center justify-between gap-2">
-                                    <Label>Посилання</Label>
-                                    <span className="text-muted-foreground text-sm tabular-nums">
-                                        {links.length} /{' '}
-                                        {API_LIMITS.userLinks.max}
-                                    </span>
-                                </div>
-                                {links.length > 0 ? (
-                                    <div className="flex w-full flex-col gap-2">
-                                        <DragDropProvider
-                                            manager={manager}
-                                            onDragEnd={handleDragEnd}
-                                        >
-                                            {links.map((link, index) => (
-                                                <ProfileLinkRow
-                                                    key={link.id}
-                                                    id={link.id}
-                                                    index={index}
-                                                    count={links.length}
-                                                    link={link}
-                                                    onEdit={() =>
-                                                        openModal(link)
-                                                    }
-                                                    onRemove={() =>
-                                                        field.removeValue(index)
-                                                    }
-                                                    onMove={(to) =>
-                                                        field.moveValue(
-                                                            index,
-                                                            to,
-                                                        )
-                                                    }
-                                                />
-                                            ))}
-                                        </DragDropProvider>
+                            <form.Form className="flex flex-col items-start gap-6">
+                                <div className="flex w-full flex-col gap-2">
+                                    <div className="flex w-full items-center justify-between gap-2">
+                                        <Label>Посилання</Label>
+                                        <span className="text-muted-foreground text-sm tabular-nums">
+                                            {links.length} /{' '}
+                                            {API_LIMITS.userLinks.max}
+                                        </span>
                                     </div>
-                                ) : (
-                                    <EmptyState
-                                        size="sm"
-                                        bordered
-                                        className="w-full"
-                                        icon={<MaterialSymbolsLinkRounded />}
-                                        title="Ви ще не додали посилань"
-                                    />
-                                )}
+                                    {links.length > 0 ? (
+                                        <div className="flex w-full flex-col gap-2">
+                                            <DragDropProvider
+                                                manager={manager}
+                                                onDragEnd={handleDragEnd}
+                                            >
+                                                {links.map((link, index) => (
+                                                    <ProfileLinkRow
+                                                        key={link.id}
+                                                        id={link.id}
+                                                        index={index}
+                                                        count={links.length}
+                                                        link={link}
+                                                        onEdit={() =>
+                                                            openModal(link)
+                                                        }
+                                                        onRemove={() =>
+                                                            field.removeValue(
+                                                                index,
+                                                            )
+                                                        }
+                                                        onMove={(to) =>
+                                                            field.moveValue(
+                                                                index,
+                                                                to,
+                                                            )
+                                                        }
+                                                    />
+                                                ))}
+                                            </DragDropProvider>
+                                        </div>
+                                    ) : (
+                                        <EmptyState
+                                            bordered
+                                            className="w-full"
+                                            icon={
+                                                <MaterialSymbolsLinkRounded />
+                                            }
+                                            title="Ви ще не додали посилань"
+                                            description="Додайте посилання на свої профілі в інших сервісах"
+                                        />
+                                    )}
+                                </div>
                                 <div className="flex flex-wrap gap-2">
                                     <Button
                                         size="md"

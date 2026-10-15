@@ -37,13 +37,13 @@ const ProfileLinkRow: FC<Props> = ({
     return (
         <div
             ref={ref}
-            className="flex items-center gap-1 rounded-lg border bg-card p-1"
+            className="surface flex items-center gap-2 rounded-lg border border-border p-2"
         >
             <Button
                 ref={handleRef}
-                size="icon-md"
-                variant="ghost"
-                className="cursor-grab touch-none text-muted-foreground"
+                size="icon-sm"
+                variant="outline"
+                className="cursor-grab touch-none"
                 aria-label={`Перетягнути «${label}»`}
             >
                 <MaterialSymbolsDragIndicator />
@@ -51,13 +51,13 @@ const ProfileLinkRow: FC<Props> = ({
             <button
                 type="button"
                 onClick={onEdit}
-                className="flex min-w-0 flex-1 items-center gap-3 rounded-md p-1 text-left outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50"
+                className="flex min-w-0 flex-1 items-center gap-3 rounded-md text-left outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50"
             >
                 <UserLinkSummary link={link} />
             </button>
             <Button
-                size="icon-md"
-                variant="ghost"
+                size="icon-sm"
+                variant="outline"
                 disabled={index === 0}
                 onClick={() => onMove(index - 1)}
                 aria-label="Перемістити вище"
@@ -65,8 +65,8 @@ const ProfileLinkRow: FC<Props> = ({
                 <MaterialSymbolsKeyboardArrowDownRounded className="rotate-180" />
             </Button>
             <Button
-                size="icon-md"
-                variant="ghost"
+                size="icon-sm"
+                variant="outline"
                 disabled={index === count - 1}
                 onClick={() => onMove(index + 1)}
                 aria-label="Перемістити нижче"
@@ -74,8 +74,8 @@ const ProfileLinkRow: FC<Props> = ({
                 <MaterialSymbolsKeyboardArrowDownRounded />
             </Button>
             <Button
-                size="icon-md"
-                variant="ghost"
+                size="icon-sm"
+                variant="outline"
                 className="hidden md:inline-flex"
                 onClick={onEdit}
                 aria-label="Редагувати"
@@ -83,8 +83,8 @@ const ProfileLinkRow: FC<Props> = ({
                 <MaterialSymbolsEditRounded />
             </Button>
             <Button
-                size="icon-md"
-                variant="ghost"
+                size="icon-sm"
+                variant="outline"
                 className="hidden md:inline-flex"
                 onClick={onRemove}
                 aria-label="Видалити"
