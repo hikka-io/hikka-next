@@ -474,18 +474,22 @@ export function groupByYear(nodes: FranchiseNode[]) {
         }));
 }
 
-export function sourceTypes(model: FranchiseModel): MainContentTypeEnum[] {
-    const present = new Set(
-        model.nodes
-            .filter((node) => node.lane === 'source')
-            .map((node) => node.contentType),
-    );
+function presentTypes(nodes: FranchiseNode[]): MainContentTypeEnum[] {
+    const present = new Set(nodes.map((node) => node.contentType));
 
     return [
         ContentTypeEnum.ANIME,
         ContentTypeEnum.MANGA,
         ContentTypeEnum.NOVEL,
     ].filter((type) => present.has(type));
+}
+
+export function sourceTypes(model: FranchiseModel): MainContentTypeEnum[] {
+    return presentTypes(model.nodes.filter((node) => node.lane === 'source'));
+}
+
+export function franchiseTypes(model: FranchiseModel): MainContentTypeEnum[] {
+    return presentTypes(model.nodes);
 }
 
 export function isTracked(content: FranchiseContent): boolean {

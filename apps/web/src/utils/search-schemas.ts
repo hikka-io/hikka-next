@@ -4,6 +4,7 @@ import {
     EditContentToDoEnum,
     EditContentTypeEnum,
     FavouriteContentTypeEnum,
+    MainContentTypeEnum,
     ReviewRecommendedEnum,
 } from '@hikka/api';
 
@@ -157,6 +158,13 @@ export const commentsSearchSchema = z.object({
     first_level_only: optionalTrue.catch(undefined),
     sort: z.enum(COMMENT_SORT_VALUES).optional().catch(undefined),
     order: z.enum(['asc', 'desc']).optional().catch(undefined),
+    types: z
+        .preprocess(
+            (v) => (v == null ? undefined : Array.isArray(v) ? v : [v]),
+            z.array(z.nativeEnum(MainContentTypeEnum)),
+        )
+        .optional()
+        .catch(undefined),
 });
 
 export const collectionsSearchSchema = z.object({
@@ -209,6 +217,13 @@ export type FranchiseOrder = 'asc' | 'desc';
 export const franchiseSearchSchema = z.object({
     view: z.enum(FRANCHISE_VIEWS).optional().catch(undefined),
     order: z.enum(['asc', 'desc']).optional().catch(undefined),
+    types: z
+        .preprocess(
+            (v) => (v == null ? undefined : Array.isArray(v) ? v : [v]),
+            z.array(z.nativeEnum(MainContentTypeEnum)),
+        )
+        .optional()
+        .catch(undefined),
 });
 
 // Type exports for consumers
