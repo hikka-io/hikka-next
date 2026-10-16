@@ -92,7 +92,7 @@ const ZoneLabel: FC<{
     <span
         className={cn(
             'inline-flex min-w-0 items-center',
-            compact ? 'gap-1 pl-1' : 'gap-1.5 pl-2',
+            compact ? 'gap-1' : 'gap-1.5',
         )}
     >
         {types.map((type) => {
@@ -122,7 +122,7 @@ const ZoneHeader: FC<{
                     style={{ width: GRAPH_WIDTH }}
                 >
                     <span
-                        className="flex min-w-0 shrink-0 overflow-hidden"
+                        className="flex min-w-0 shrink-0 justify-center overflow-hidden"
                         style={{
                             width: `calc(var(--cw) * ${layout.sourceColumns})`,
                         }}
@@ -134,7 +134,7 @@ const ZoneHeader: FC<{
                             compact={!isDesktop}
                         />
                     </span>
-                    <span className="flex min-w-0 flex-1 overflow-hidden">
+                    <span className="flex min-w-0 flex-1 justify-center overflow-hidden">
                         <ZoneLabel
                             types={[model.current.contentType]}
                             label={
