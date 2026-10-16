@@ -24,7 +24,7 @@ export const Route = createFileRoute('/_pages/manga/$slug/franchise')({
 
 function MangaFranchiseRoute() {
     const { slug } = Route.useParams();
-    const { view } = Route.useSearch();
+    const { view, order } = Route.useSearch();
 
     return (
         <ContentSubpage slug={slug} contentType={ContentTypeEnum.MANGA}>
@@ -32,6 +32,7 @@ function MangaFranchiseRoute() {
                 content_type={ContentTypeEnum.MANGA}
                 slug={slug}
                 view={view}
+                order={order}
             />
         </ContentSubpage>
     );

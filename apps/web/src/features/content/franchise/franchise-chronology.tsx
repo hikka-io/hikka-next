@@ -12,6 +12,7 @@ import { useTitle } from '@/services/session';
 import { cn } from '@/utils/cn';
 import { contentPath } from '@/utils/content-paths';
 import { CONTENT_TYPES } from '@/utils/labels';
+import type { FranchiseOrder } from '@/utils/search-schemas';
 
 import FranchiseListButton from './components/franchise-list-button';
 import FranchisePoster from './components/franchise-poster';
@@ -26,7 +27,11 @@ import { RELATION_GROUP_STYLES } from './relation-groups';
 
 type Props = {
     model: FranchiseModel;
+    order: FranchiseOrder;
 };
+
+const inOrder = <T,>(items: T[], order: FranchiseOrder) =>
+    order === 'desc' ? [...items].reverse() : items;
 
 const ChronologyRow: FC<{ model: FranchiseModel; node: FranchiseNode }> = ({
     model,
@@ -76,31 +81,28 @@ const ChronologyRow: FC<{ model: FranchiseModel; node: FranchiseNode }> = ({
     );
 };
 
-const FranchiseChronology: FC<Props> = ({ model }) => (
+const FranchiseChronology: FC<Props> = ({ model, order }) => (
     <div className="flex flex-col gap-10">
-        {groupByYear(model.nodes)
-            .reverse()
-            .map(({ label, nodes }) => (
-                <section key={label}>
-                    <h4 className="mb-4">{label}</h4>
-                    <div className={historyRowsVariants({ size: 'lg' })}>
-                        {[...nodes]
-                            .reverse()
-                            .sort(
-                                (a, b) =>
-                                    Number(a.chainIndex === null) -
-                                    Number(b.chainIndex === null),
-                            )
-                            .map((node) => (
-                                <ChronologyRow
-                                    key={node.id}
-                                    model={model}
-                                    node={node}
-                                />
-                            ))}
-                    </div>
-                </section>
-            ))}
+        {inOrder(groupByYear(model.nodes), order).map(({ label, nodes }) => (
+            <section key={label}>
+                <h4 className="mb-4">{label}</h4>
+                <div className={historyRowsVariants({ size: 'lg' })}>
+                    {[...inOrder(nodes, order)]
+                        .sort(
+                            (a, b) =>
+                                Number(a.chainIndex === null) -
+                                Number(b.chainIndex === null),
+                        )
+                        .map((node) => (
+                            <ChronologyRow
+                                key={node.id}
+                                model={model}
+                                node={node}
+                            />
+                        ))}
+                </div>
+            </section>
+        ))}
     </div>
 );
 

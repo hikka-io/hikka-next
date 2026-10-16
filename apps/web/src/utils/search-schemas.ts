@@ -204,9 +204,11 @@ export const favoritesSearchSchema = z.object({
 
 export const FRANCHISE_VIEWS = ['related', 'chrono', 'graph'] as const;
 export type FranchiseView = (typeof FRANCHISE_VIEWS)[number];
+export type FranchiseOrder = 'asc' | 'desc';
 
 export const franchiseSearchSchema = z.object({
     view: z.enum(FRANCHISE_VIEWS).optional().catch(undefined),
+    order: z.enum(['asc', 'desc']).optional().catch(undefined),
 });
 
 // Type exports for consumers
