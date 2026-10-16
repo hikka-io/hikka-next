@@ -71,12 +71,13 @@ const GraphNode: FC<Props> = ({
             aria-pressed={isSelected}
             onClick={() => onSelect(node.id)}
             className={cn(
-                'absolute z-1 -mt-[calc(var(--gp)/1.4)] -ml-[calc(var(--gp)/2)] block w-(--gp) cursor-pointer rounded-(--base-radius) transition-opacity',
+                'absolute z-1 -mt-[calc(var(--gp)/1.4)] -ml-[calc(var(--gp)/2)] block w-(--gp) cursor-pointer rounded-(--base-radius) transition-[opacity,scale] duration-150 motion-reduce:transition-none',
+                isSelected && 'z-5 scale-125 max-md:scale-120',
                 state === 'isolated' && 'opacity-20 grayscale',
                 state === 'far' && 'opacity-30',
             )}
             style={{
-                left: `calc(var(--axis) + var(--cw) * ${column + 0.5})`,
+                left: `calc(var(--cw) * ${column + 0.5})`,
                 top: `calc(var(--rh) * ${row + 0.5})`,
             }}
         >

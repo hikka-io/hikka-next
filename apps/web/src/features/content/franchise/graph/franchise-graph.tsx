@@ -2,11 +2,14 @@ import {
     type CSSProperties,
     type FC,
     type MouseEvent,
+    type Ref,
     useEffect,
     useRef,
     useState,
 } from 'react';
 import { createPortal } from 'react-dom';
+
+import type { MainContentTypeEnum } from '@hikka/api';
 
 import { CONTENT_TYPE_ICONS } from '@/components/icons/content-type-icons';
 import Card from '@/components/ui/card';
@@ -29,7 +32,7 @@ import {
     mediaListLabel,
     RELATION_GROUP_STYLES,
 } from '../relation-groups';
-import GraphDetails from './graph-details';
+import GraphDetails, { type DetailsVariant } from './graph-details';
 import {
     DESKTOP_BUDGET,
     type GraphLayout,
@@ -37,57 +40,71 @@ import {
     PHONE_BUDGET,
 } from './graph-layout';
 import GraphNode, { type NodeState } from './graph-node';
-import GraphToolbar, { type EdgeFilter } from './graph-toolbar';
+import GraphToolbar, {
+    type EdgeFilter,
+    type MediaFilter,
+} from './graph-toolbar';
 import {
     CELL,
     computeGraphView,
     defaultHiddenTypes,
     edgeStyle,
+    withoutMedia,
 } from './graph-view';
+import GraphZoomControls from './graph-zoom-controls';
+import { useGraphZoom } from './use-graph-zoom';
 
 type Props = {
     model: FranchiseModel;
 };
 
-type Sizes = { cw: string; rh: string; gp: string; gx: string };
+// `image` is the poster's width in px at 100%, for the `sizes` attribute, which cannot read CSS variables.
+type Sizes = { cw: string; rh: string; gp: string; gx: string; image: number };
 
 const SIZES: Record<'desktop' | 'phone', Record<'card' | 'full', Sizes>> = {
     desktop: {
         card: {
-            cw: 'max(76px, calc((100cqw - 104px) / var(--cols)))',
-            rh: '116px',
+            cw: 'max(76px, calc((100cqw - 56px) / var(--cols)))',
+            rh: '136px',
             gp: '60px',
             gx: '16px',
+            image: 60,
         },
         full: {
-            cw: 'clamp(96px, calc((100cqw - 120px) / var(--cols)), 320px)',
-            rh: '140px',
-            gp: '76px',
+            cw: 'clamp(76px, calc((100cqw - 72px) / var(--cols)), 320px)',
+            rh: '164px',
+            gp: 'min(76px, calc(var(--cw0) * 0.78))',
             gx: '16px',
+            image: 76,
         },
     },
     phone: {
         card: {
-            cw: 'max(64px, calc((100cqw - 80px) / var(--cols)))',
-            rh: '104px',
+            cw: 'max(64px, calc((100cqw - 32px) / var(--cols)))',
+            rh: '120px',
             gp: '52px',
             gx: '12px',
+            image: 52,
         },
         full: {
-            cw: 'max(72px, calc((100cqw - 72px) / var(--cols)))',
-            rh: '112px',
+            cw: 'max(72px, calc((100cqw - 24px) / var(--cols)))',
+            rh: '128px',
             gp: '56px',
             gx: '12px',
+            image: 56,
         },
     },
 };
 
 const CARD_CLASS = 'gap-0 overflow-hidden p-0';
-const SCROLL_HEIGHT = 'h-155 max-md:h-120';
-const GUTTER_CLASS = 'pr-8 pl-(--gx) max-md:pr-5';
+const GRAPH_HEIGHT = 'h-165 max-md:h-130';
+const GUTTER_CLASS = 'flex w-max min-w-full pr-8 pl-(--gx) max-md:pr-5';
+// Room for the details card, so whatever it covers can be scrolled out from under it.
+const PANEL_ROOM = 'pr-[calc(20rem+1.5rem)]';
 const CONTAINER_CLASS = '@container [scrollbar-gutter:stable]';
 
-const GRAPH_WIDTH = 'calc(var(--axis) + var(--cols) * var(--cw))';
+const AXIS = 48;
+const GRAPH_WIDTH = 'calc(var(--cols) * var(--cw))';
 
 const ZoneLabel: FC<{
     types: FranchiseModel['current']['contentType'][];
@@ -111,45 +128,56 @@ const ZoneLabel: FC<{
 );
 
 const ZoneHeader: FC<{
+    ref: Ref<HTMLDivElement>;
     model: FranchiseModel;
     layout: GraphLayout;
     isDesktop: boolean;
-}> = ({ model, layout, isDesktop }) => {
+    className?: string;
+}> = ({ ref, model, layout, isDesktop, className }) => {
     const left = sourceTypes(model);
     const leftCount = model.nodes.filter(
         (node) => node.lane === 'source',
     ).length;
 
     return (
-        <div className={cn(CONTAINER_CLASS, 'overflow-hidden border-b')}>
-            <div className={GUTTER_CLASS}>
-                <div
-                    className="mx-auto flex whitespace-nowrap py-3 pl-(--axis) font-medium text-muted-foreground text-xs leading-4"
-                    style={{ width: GRAPH_WIDTH }}
-                >
-                    <span
-                        className="flex min-w-0 shrink-0 justify-center overflow-hidden"
-                        style={{
-                            width: `calc(var(--cw) * ${layout.sourceColumns})`,
-                        }}
+        <div className="flex border-b">
+            <span className="w-(--axis) shrink-0 border-r" />
+            <div
+                ref={ref}
+                className={cn(
+                    CONTAINER_CLASS,
+                    'min-w-0 flex-1 overflow-hidden',
+                )}
+            >
+                <div className={cn(GUTTER_CLASS, className)}>
+                    <div
+                        className="mx-auto flex whitespace-nowrap py-3 font-medium text-muted-foreground text-xs leading-4"
+                        style={{ width: GRAPH_WIDTH }}
                     >
-                        <ZoneLabel
-                            types={left}
-                            label={mediaListLabel(left)}
-                            count={leftCount}
-                            compact={!isDesktop}
-                        />
-                    </span>
-                    <span className="flex min-w-0 flex-1 justify-center overflow-hidden">
-                        <ZoneLabel
-                            types={[model.current.contentType]}
-                            label={
-                                CONTENT_TYPES[model.current.contentType]
-                                    .title_ua
-                            }
-                            count={model.nodes.length - leftCount}
-                        />
-                    </span>
+                        <span
+                            className="flex min-w-0 shrink-0 justify-center overflow-hidden"
+                            style={{
+                                width: `calc(var(--cw) * ${layout.sourceColumns})`,
+                            }}
+                        >
+                            <ZoneLabel
+                                types={left}
+                                label={mediaListLabel(left)}
+                                count={leftCount}
+                                compact={!isDesktop}
+                            />
+                        </span>
+                        <span className="flex min-w-0 flex-1 justify-center overflow-hidden">
+                            <ZoneLabel
+                                types={[model.current.contentType]}
+                                label={
+                                    CONTENT_TYPES[model.current.contentType]
+                                        .title_ua
+                                }
+                                count={model.nodes.length - leftCount}
+                            />
+                        </span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -160,7 +188,7 @@ const YearAxis: FC<{ layout: GraphLayout }> = ({ layout }) =>
     layout.bands.map((band) => (
         <div
             key={band.label}
-            className="pointer-events-none absolute left-0 flex w-9 flex-col items-start font-semibold text-muted-foreground text-xs tabular-nums leading-[18px]"
+            className="pointer-events-none absolute inset-x-0 flex flex-col items-center font-semibold text-muted-foreground text-xs tabular-nums leading-[18px]"
             style={{
                 top: `calc(var(--rh) * ${band.top})`,
                 height: `calc(var(--rh) * ${band.height})`,
@@ -170,7 +198,7 @@ const YearAxis: FC<{ layout: GraphLayout }> = ({ layout }) =>
             <span>{band.label}</span>
             {band.height > 1 && (
                 <span
-                    className="absolute left-[13px] w-px bg-border dark:bg-border/50"
+                    className="absolute left-1/2 w-px bg-border dark:bg-border/50"
                     style={{
                         top: 'calc(var(--rh) / 2 + 14px)',
                         bottom: 'calc(var(--rh) / 2)',
@@ -179,26 +207,6 @@ const YearAxis: FC<{ layout: GraphLayout }> = ({ layout }) =>
             )}
         </div>
     ));
-
-function popoverStyle(
-    [column, row]: [number, number],
-    layout: GraphLayout,
-): CSSProperties {
-    const x = `var(--axis) + var(--cw) * ${column + 0.5}`;
-    const y = `var(--rh) * ${row + 0.5}`;
-    const flip = column >= layout.columns / 2;
-    const low = row >= layout.rows - 2;
-
-    return {
-        left: flip
-            ? `calc(${x} - var(--gp) / 2 - 12px - 20rem)`
-            : `calc(${x} + var(--gp) / 2 + 12px)`,
-        top: low
-            ? `calc(${y} + var(--gp) / 1.4)`
-            : `calc(${y} - var(--gp) / 1.4)`,
-        transform: low ? 'translateY(-100%)' : undefined,
-    };
-}
 
 const findNode = (container: HTMLElement, id: string) =>
     container.querySelector(`[data-node="${CSS.escape(id)}"]`);
@@ -226,23 +234,41 @@ export const FranchiseGraphSkeleton: FC = () => (
         <div className="border-b px-4 py-3 max-md:px-3 max-md:py-2.5">
             <Skeleton className="h-8 w-full" />
         </div>
-        <Skeleton className={cn(SCROLL_HEIGHT, 'rounded-none')} />
+        <Skeleton className={cn(GRAPH_HEIGHT, 'rounded-none')} />
     </Card>
 );
 
-const FranchiseGraph: FC<Props> = ({ model }) => {
+const FranchiseGraph: FC<Props> = ({ model: franchise }) => {
     const { user } = useSession();
     const isDesktop = useIsDesktop();
     const scrollRef = useRef<HTMLDivElement>(null);
     const barRef = useRef<HTMLDivElement>(null);
+    const panelRef = useRef<HTMLDivElement>(null);
+    const headerRef = useRef<HTMLDivElement>(null);
+    const railRef = useRef<HTMLDivElement>(null);
+    const graphRef = useRef<HTMLDivElement>(null);
+    const {
+        zoom,
+        dragging,
+        canZoomIn,
+        canZoomOut,
+        zoomIn,
+        zoomOut,
+        resetZoom,
+        panHandlers,
+    } = useGraphZoom(scrollRef, graphRef);
 
-    const initialHidden = defaultHiddenTypes(model);
+    const initialHidden = defaultHiddenTypes(franchise);
     const [hidden, setHidden] =
         useState<ReadonlySet<GraphEdgeType>>(initialHidden);
+    const [hiddenMedia, setHiddenMedia] = useState<
+        ReadonlySet<MainContentTypeEnum>
+    >(() => new Set());
     const [mine, setMine] = useState(false);
     const [focus, setFocus] = useState<string | null>(null);
     const [fullscreen, setFullscreen] = useState(false);
 
+    const model = withoutMedia(franchise, hiddenMedia);
     const name = useTitle(
         model.chain.reduce((first, node) =>
             node.when < first.when ? node : first,
@@ -264,8 +290,15 @@ const FranchiseGraph: FC<Props> = ({ model }) => {
         on: !hidden.has(edgeType.type),
     })).filter((filter) => filter.count > 0);
 
+    const media: MediaFilter[] = sourceTypes(franchise).map((type) => ({
+        type,
+        count: franchise.nodes.filter((node) => node.contentType === type)
+            .length,
+        on: !hiddenMedia.has(type),
+    }));
+
     const focusNode = focus ? model.byId.get(focus) : undefined;
-    const focusPosition = focus ? layout.positions.get(focus) : undefined;
+    const panelRoom = isDesktop && focusNode && PANEL_ROOM;
     const focusLinks = focus
         ? view.edges.filter((edge) => edge.a === focus || edge.b === focus)
               .length
@@ -301,27 +334,57 @@ const FranchiseGraph: FC<Props> = ({ model }) => {
     }, [focus, fullscreen]);
 
     useEffect(() => {
-        const bar = barRef.current;
         const container = scrollRef.current;
-        if (!compactDetails || !focus || !bar || !container) return;
+        const node = focus && container ? findNode(container, focus) : null;
+        if (!container || !node) return;
 
-        bar.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+        const bar = barRef.current;
+        bar?.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
 
-        const node = findNode(container, focus);
-        const hiddenBy = node
-            ? node.getBoundingClientRect().bottom -
-              bar.getBoundingClientRect().top
-            : 0;
-        if (hiddenBy > 0) {
-            container.scrollBy({ top: hiddenBy + 16, behavior: 'smooth' });
-        }
-    }, [compactDetails, focus]);
+        const rect = node.getBoundingClientRect();
+        const visibleBottom = (bar ?? container).getBoundingClientRect()[
+            bar ? 'top' : 'bottom'
+        ];
+        const box = container.getBoundingClientRect();
+        const visibleRight = panelRef.current
+            ? panelRef.current.getBoundingClientRect().left
+            : box.right;
+        const hiddenBelow = rect.bottom - visibleBottom;
+        const hiddenRight = rect.right - visibleRight;
+        const hiddenLeft = box.left - rect.left;
+        const left =
+            hiddenRight > 0
+                ? hiddenRight + 16
+                : hiddenLeft > 0
+                  ? -(hiddenLeft + 16)
+                  : 0;
+
+        container.scrollBy({
+            top: hiddenBelow > 0 ? hiddenBelow + 16 : 0,
+            left,
+            behavior: 'smooth',
+        });
+    }, [focus]);
 
     const toggleType = (type: GraphEdgeType) => {
         const next = new Set(hidden);
         if (next.has(type)) next.delete(type);
         else next.add(type);
         setHidden(next);
+    };
+
+    const toggleMedia = (type: MainContentTypeEnum) => {
+        const next = new Set(hiddenMedia);
+        if (next.has(type)) next.delete(type);
+        else next.add(type);
+        setHiddenMedia(next);
+        if (focusNode?.contentType === type) setFocus(null);
+    };
+
+    const reset = () => {
+        setHidden(initialHidden);
+        setHiddenMedia(new Set());
+        setMine(false);
     };
 
     const select = (id: string) => setFocus(focus === id ? null : id);
@@ -355,13 +418,19 @@ const FranchiseGraph: FC<Props> = ({ model }) => {
         return 'default';
     };
 
-    const details = (compact: boolean) =>
+    const padding = cn(
+        'pb-6 max-md:pb-5',
+        hasZone ? 'pt-2' : 'pt-5',
+        compactDetails && focusNode && 'pb-28 max-md:pb-28',
+    );
+
+    const details = (variant: DetailsVariant) =>
         focusNode && (
             <GraphDetails
                 model={model}
                 node={focusNode}
                 links={focusLinks}
-                compact={compact}
+                variant={variant}
                 onSelect={jumpTo}
                 onClose={() => setFocus(null)}
             />
@@ -381,11 +450,16 @@ const FranchiseGraph: FC<Props> = ({ model }) => {
                     filters.filter(
                         (filter) =>
                             filter.on === initialHidden.has(filter.type),
-                    ).length
+                    ).length +
+                    hiddenMedia.size +
+                    Number(mine)
                 }
                 onToggle={toggleType}
+                media={media}
+                onToggleMedia={toggleMedia}
                 mine={user ? mine : null}
                 onToggleMine={() => setMine(!mine)}
+                onReset={reset}
                 fullscreen={fullscreen}
                 onToggleFullscreen={() => setFullscreen(!fullscreen)}
                 title={name}
@@ -394,148 +468,209 @@ const FranchiseGraph: FC<Props> = ({ model }) => {
             <div
                 className={cn(
                     'relative flex min-h-0 flex-col',
-                    fullscreen && 'flex-1',
+                    fullscreen ? 'flex-1' : GRAPH_HEIGHT,
                 )}
                 style={
                     {
-                        '--axis': '48px',
+                        '--axis': `${AXIS}px`,
                         '--cols': layout.columns,
-                        '--cw': sizes.cw,
-                        '--rh': sizes.rh,
-                        '--gp': sizes.gp,
+                        '--zoom': zoom,
+                        '--cw0': sizes.cw,
+                        '--cw': 'calc(var(--cw0) * var(--zoom))',
+                        '--rh': `calc(${sizes.rh} * var(--zoom))`,
+                        '--gp': `calc(${sizes.gp} * var(--zoom))`,
                         '--gx': sizes.gx,
                     } as CSSProperties
                 }
             >
                 {hasZone && (
                     <ZoneHeader
+                        ref={headerRef}
                         model={model}
                         layout={layout}
                         isDesktop={isDesktop}
+                        className={panelRoom || undefined}
                     />
                 )}
-                {/* biome-ignore lint/a11y/noStaticElementInteractions: clicking empty space deselects; Escape does the same from the keyboard. */}
-                {/* biome-ignore lint/a11y/useKeyWithClickEvents: Escape is the keyboard path, handled on window. */}
-                <div
-                    ref={scrollRef}
-                    onClick={deselect}
-                    className={cn(
-                        CONTAINER_CLASS,
-                        'overflow-auto overscroll-contain',
-                        fullscreen ? 'flex-1' : SCROLL_HEIGHT,
-                    )}
-                >
+                <div className="relative flex min-h-0 flex-1">
                     <div
+                        ref={railRef}
+                        aria-hidden="true"
+                        onWheel={(event) =>
+                            scrollRef.current?.scrollBy(
+                                event.deltaX,
+                                event.deltaY,
+                            )
+                        }
+                        className="w-(--axis) shrink-0 overflow-hidden border-r"
+                    >
+                        <div className={padding}>
+                            <div
+                                className="relative"
+                                style={{
+                                    height: `calc(var(--rh) * ${layout.rows})`,
+                                }}
+                            >
+                                <YearAxis layout={layout} />
+                            </div>
+                        </div>
+                        {/* Room for the scroller's horizontal scrollbar, so both reach the same bottom. */}
+                        <div className="h-4" />
+                    </div>
+                    {/* biome-ignore lint/a11y/noStaticElementInteractions: clicking empty space deselects; Escape does the same from the keyboard. */}
+                    {/* biome-ignore lint/a11y/useKeyWithClickEvents: Escape is the keyboard path, handled on window. */}
+                    <div
+                        ref={scrollRef}
+                        onClick={deselect}
+                        {...panHandlers}
+                        onScroll={(event) => {
+                            const { scrollLeft, scrollTop } =
+                                event.currentTarget;
+                            if (headerRef.current) {
+                                headerRef.current.scrollLeft = scrollLeft;
+                            }
+                            if (railRef.current) {
+                                railRef.current.scrollTop = scrollTop;
+                            }
+                        }}
                         className={cn(
-                            'w-max min-w-full pb-6 max-md:pb-5',
-                            GUTTER_CLASS,
-                            hasZone ? 'pt-2' : 'pt-5',
-                            compactDetails && focusNode && 'pb-28 max-md:pb-28',
+                            CONTAINER_CLASS,
+                            'min-h-0 min-w-0 flex-1 cursor-grab touch-pan-x touch-pan-y select-none overflow-auto overscroll-contain',
+                            dragging && 'cursor-grabbing *:cursor-grabbing',
                         )}
                     >
                         <div
-                            className="relative mx-auto"
-                            style={{
-                                width: GRAPH_WIDTH,
-                                height: `calc(var(--rh) * ${layout.rows})`,
-                            }}
+                            className={cn(
+                                'min-h-full',
+                                GUTTER_CLASS,
+                                panelRoom,
+                            )}
                         >
-                            <YearAxis layout={layout} />
-                            {hasZone && (
+                            <div className={cn('mx-auto', padding)}>
                                 <div
-                                    className="absolute top-0 bottom-0 left-(--axis) rounded-(--base-radius) bg-secondary/20"
+                                    ref={graphRef}
+                                    className="relative"
                                     style={{
-                                        width: `calc(var(--cw) * ${layout.sourceColumns})`,
+                                        width: GRAPH_WIDTH,
+                                        height: `calc(var(--rh) * ${layout.rows})`,
                                     }}
-                                />
-                            )}
-                            {layout.bands
-                                .filter((band) => band.top > 0)
-                                .map((band) => (
-                                    <div
-                                        key={band.label}
-                                        className="absolute left-(--axis) h-px bg-border dark:bg-border/50"
-                                        style={{
-                                            top: `calc(var(--rh) * ${band.top})`,
-                                            width: 'calc(var(--cols) * var(--cw))',
-                                        }}
-                                    />
-                                ))}
-                            <svg
-                                className="pointer-events-none absolute top-0 left-(--axis) overflow-visible"
-                                style={{
-                                    width: 'calc(var(--cols) * var(--cw))',
-                                    height: `calc(var(--rh) * ${layout.rows})`,
-                                }}
-                                viewBox={`0 0 ${layout.columns * CELL} ${layout.rows * CELL}`}
-                                preserveAspectRatio="none"
-                                aria-hidden="true"
-                            >
-                                {view.edges.map((edge) => {
-                                    const style = edgeStyle(
-                                        edge,
-                                        view.dense,
-                                        focus !== null,
-                                    );
-
-                                    return (
-                                        <path
-                                            key={edge.key}
-                                            d={edge.path}
-                                            fill="none"
-                                            stroke={
-                                                RELATION_GROUP_STYLES[
-                                                    RELATION_TYPE_GROUPS[
-                                                        edge.type
-                                                    ]
-                                                ].stroke
-                                            }
-                                            strokeWidth={style.width}
-                                            strokeDasharray={
-                                                style.dashed ? '4 4' : undefined
-                                            }
-                                            opacity={style.opacity}
-                                            vectorEffect="non-scaling-stroke"
-                                            className="transition-opacity"
-                                        />
-                                    );
-                                })}
-                            </svg>
-                            {model.nodes.map((node) => {
-                                const position = layout.positions.get(node.id);
-                                if (!position) return null;
-
-                                return (
-                                    <GraphNode
-                                        key={node.id}
-                                        node={node}
-                                        position={position}
-                                        isCurrent={node === model.current}
-                                        isSelected={node.id === focus}
-                                        state={nodeState(node)}
-                                        showMedia={
-                                            node.contentType !==
-                                            model.current.contentType
-                                        }
-                                        compactMedia={!isDesktop}
-                                        imageSizes={sizes.gp}
-                                        largeImage={fullscreen}
-                                        onSelect={select}
-                                    />
-                                );
-                            })}
-                            {isDesktop && focusPosition && focusNode && (
-                                <div
-                                    role="dialog"
-                                    aria-label="Деталі тайтлу"
-                                    className="absolute z-6 flex w-80 flex-col gap-4 rounded-md border bg-popover p-4 text-popover-foreground shadow-md"
-                                    style={popoverStyle(focusPosition, layout)}
                                 >
-                                    {details(false)}
+                                    {hasZone && (
+                                        <div
+                                            className="absolute top-0 bottom-0 left-0 rounded-(--base-radius) bg-secondary/20"
+                                            style={{
+                                                width: `calc(var(--cw) * ${layout.sourceColumns})`,
+                                            }}
+                                        />
+                                    )}
+                                    {layout.bands
+                                        .filter((band) => band.top > 0)
+                                        .map((band) => (
+                                            <div
+                                                key={band.label}
+                                                className="absolute left-0 h-px bg-border dark:bg-border/50"
+                                                style={{
+                                                    top: `calc(var(--rh) * ${band.top})`,
+                                                    width: 'calc(var(--cols) * var(--cw))',
+                                                }}
+                                            />
+                                        ))}
+                                    <svg
+                                        className="pointer-events-none absolute top-0 left-0 overflow-visible"
+                                        style={{
+                                            width: 'calc(var(--cols) * var(--cw))',
+                                            height: `calc(var(--rh) * ${layout.rows})`,
+                                        }}
+                                        viewBox={`0 0 ${layout.columns * CELL} ${layout.rows * CELL}`}
+                                        preserveAspectRatio="none"
+                                        aria-hidden="true"
+                                    >
+                                        {view.edges.map((edge) => {
+                                            const style = edgeStyle(
+                                                edge,
+                                                view.dense,
+                                                focus !== null,
+                                            );
+
+                                            return (
+                                                <path
+                                                    key={edge.key}
+                                                    d={edge.path}
+                                                    fill="none"
+                                                    stroke={
+                                                        RELATION_GROUP_STYLES[
+                                                            RELATION_TYPE_GROUPS[
+                                                                edge.type
+                                                            ]
+                                                        ].stroke
+                                                    }
+                                                    strokeWidth={style.width}
+                                                    strokeDasharray={
+                                                        style.dashed
+                                                            ? '4 4'
+                                                            : undefined
+                                                    }
+                                                    opacity={style.opacity}
+                                                    vectorEffect="non-scaling-stroke"
+                                                    className="transition-opacity"
+                                                />
+                                            );
+                                        })}
+                                    </svg>
+                                    {model.nodes.map((node) => {
+                                        const position = layout.positions.get(
+                                            node.id,
+                                        );
+                                        if (!position) return null;
+
+                                        return (
+                                            <GraphNode
+                                                key={node.id}
+                                                node={node}
+                                                position={position}
+                                                isCurrent={
+                                                    node === model.current
+                                                }
+                                                isSelected={node.id === focus}
+                                                state={nodeState(node)}
+                                                showMedia={
+                                                    node.contentType !==
+                                                    model.current.contentType
+                                                }
+                                                compactMedia={!isDesktop}
+                                                imageSizes={`${Math.round(sizes.image * zoom)}px`}
+                                                largeImage={
+                                                    fullscreen || zoom > 1
+                                                }
+                                                onSelect={select}
+                                            />
+                                        );
+                                    })}
                                 </div>
-                            )}
+                            </div>
                         </div>
                     </div>
+                    {!(compactDetails && focusNode) && (
+                        <GraphZoomControls
+                            zoom={zoom}
+                            canZoomIn={canZoomIn}
+                            canZoomOut={canZoomOut}
+                            onZoomIn={zoomIn}
+                            onZoomOut={zoomOut}
+                            onReset={resetZoom}
+                            className="bottom-3 left-[calc(var(--axis)+--spacing(3))]"
+                        />
+                    )}
+                    {isDesktop && focusNode && (
+                        <div
+                            ref={panelRef}
+                            role="dialog"
+                            aria-label="Деталі тайтлу"
+                            className="absolute top-3 right-3 z-8 flex max-h-[calc(100%-1.5rem)] w-80 flex-col gap-4 overflow-y-auto rounded-md border bg-popover p-4 text-popover-foreground shadow-md"
+                        >
+                            {details('panel')}
+                        </div>
+                    )}
                 </div>
                 {compactDetails && focusNode && (
                     <div
@@ -548,7 +683,7 @@ const FranchiseGraph: FC<Props> = ({ model }) => {
                                 'pb-[calc(--spacing(3)+var(--safe-area-bottom))]',
                         )}
                     >
-                        {details(true)}
+                        {details('row')}
                     </div>
                 )}
             </div>

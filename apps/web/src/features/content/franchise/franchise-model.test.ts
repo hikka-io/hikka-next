@@ -10,7 +10,11 @@ import {
     relationText,
 } from './franchise-model';
 import { layoutGraph } from './graph/graph-layout';
-import { computeGraphView, defaultHiddenTypes } from './graph/graph-view';
+import {
+    computeGraphView,
+    defaultHiddenTypes,
+    withoutMedia,
+} from './graph/graph-view';
 
 type Kind = 'anime' | 'manga' | 'novel';
 
@@ -195,6 +199,24 @@ describe('computeGraphView', () => {
             nodeId('anime', 'a1'),
         );
         expect(fromAnime.linked.has(m1)).toBe(true);
+    });
+
+    it('drops hidden media with every edge that touches them', () => {
+        const model = build('a2');
+        const animeOnly = withoutMedia(model, new Set(['manga', 'novel']));
+
+        expect(animeOnly.nodes.every((n) => n.contentType === 'anime')).toBe(
+            true,
+        );
+        expect(
+            animeOnly.edges.some(
+                (edge) =>
+                    edge.a.startsWith('manga') || edge.b.startsWith('manga'),
+            ),
+        ).toBe(false);
+        expect(
+            layoutGraph(animeOnly, { left: 2, right: 3 }).sourceColumns,
+        ).toBe(0);
     });
 
     it('hides adaptations by default unless they are all there is', () => {

@@ -19,32 +19,55 @@ import RelationLabel from '../components/relation-label';
 import RelationLine from '../components/relation-line';
 import type { FranchiseModel, FranchiseNode } from '../franchise-model';
 
+export type DetailsVariant = 'row' | 'panel';
+
 type Props = {
     model: FranchiseModel;
     node: FranchiseNode;
     links: number;
-    compact: boolean;
+    variant: DetailsVariant;
     onSelect: (id: string) => void;
     onClose: () => void;
 };
+
+const CloseButton: FC<{ onClose: () => void; className?: string }> = ({
+    onClose,
+    className,
+}) => (
+    <Tooltip>
+        <TooltipTrigger
+            render={
+                <Button
+                    variant="ghost"
+                    size="icon-sm"
+                    aria-label="Закрити"
+                    className={cn('shrink-0 text-muted-foreground', className)}
+                    onClick={onClose}
+                />
+            }
+        >
+            <X />
+        </TooltipTrigger>
+        <TooltipContent>Закрити</TooltipContent>
+    </Tooltip>
+);
 
 const GraphDetails: FC<Props> = ({
     model,
     node,
     links,
-    compact,
+    variant,
     onSelect,
     onClose,
 }) => {
-    const suffix = compact
-        ? undefined
-        : `, ${links} ${getDeclensionWord(links, RELATION_FORMS)}`;
+    const suffix =
+        variant === 'row'
+            ? undefined
+            : `, ${links} ${getDeclensionWord(links, RELATION_FORMS)}`;
+    const relationClass = cn(variant === 'panel' && '-mb-2 pr-8');
     const relation =
         node === model.current ? (
-            <RelationLabel
-                group="sequel"
-                className={cn(!compact && '-mb-2 pr-8')}
-            >
+            <RelationLabel group="sequel" className={relationClass}>
                 <span className="truncate">Цей тайтл{suffix}</span>
             </RelationLabel>
         ) : (
@@ -53,44 +76,23 @@ const GraphDetails: FC<Props> = ({
                 node={node}
                 onSelect={onSelect}
                 suffix={suffix}
-                className={cn(!compact && '-mb-2 pr-8')}
+                className={relationClass}
             />
         );
-    const close = (
-        <Tooltip>
-            <TooltipTrigger
-                render={
-                    <Button
-                        variant="ghost"
-                        size="icon-sm"
-                        aria-label="Закрити"
-                        className={cn(
-                            'shrink-0 text-muted-foreground',
-                            !compact && 'absolute top-2 right-2',
-                        )}
-                        onClick={onClose}
-                    />
-                }
-            >
-                <X />
-            </TooltipTrigger>
-            <TooltipContent>Закрити</TooltipContent>
-        </Tooltip>
-    );
 
-    if (compact) {
+    if (variant === 'row') {
         return (
             <FranchiseRow
                 content={node.content}
                 label={relation}
-                action={close}
+                action={<CloseButton onClose={onClose} />}
             />
         );
     }
 
     return (
         <>
-            {close}
+            <CloseButton onClose={onClose} className="absolute top-2 right-2" />
             {relation}
             <MediaTooltipBody
                 type={node.contentType}
