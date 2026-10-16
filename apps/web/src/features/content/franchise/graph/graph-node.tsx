@@ -85,6 +85,7 @@ const GraphNode: FC<Props> = ({
                 image={node.content.image}
                 imagePreset={largeImage ? 'cardSm' : 'cardXs'}
                 imageProps={{ sizes: imageSizes, resize: 'fill' }}
+                imageClassName="size-full! object-cover"
                 status={statusOf(node)}
                 statusSize="sm"
                 containerClassName={cn(

@@ -1,4 +1,4 @@
-import { type FC, useState } from 'react';
+import { type FC, Fragment, useState } from 'react';
 
 import { range } from '@antfu/utils';
 import { ChevronDown } from 'lucide-react';
@@ -18,9 +18,11 @@ import {
     HeaderNavButton,
     HeaderTitle,
 } from '@/components/ui/header';
+import { labelVariants } from '@/components/ui/label';
 import SegmentedBar from '@/components/ui/segmented-bar';
 import { Separator } from '@/components/ui/separator';
 import { Skeleton, SkeletonText } from '@/components/ui/skeleton';
+import TextLink from '@/components/ui/text-link';
 import { useVisibleOnce } from '@/services/hooks/use-visible-once';
 import { cn } from '@/utils/cn';
 import { contentPath } from '@/utils/content-paths';
@@ -33,6 +35,7 @@ import RelationLabel from './components/relation-label';
 import {
     type DirectRelation,
     type FranchiseModel,
+    groupByLabel,
     groupCounts,
     type RelationGroupEnum,
     sourceTypes,
@@ -47,26 +50,27 @@ type Props = {
 };
 
 const SKELETON_ROWS = 2;
+const GROUP_PREVIEW_SIZE = 3;
 
 const FranchiseCardSkeleton: FC = () => (
-    <div className="flex flex-col gap-3 px-4">
+    <div className="flex flex-col gap-4 px-4">
         {range(0, SKELETON_ROWS).map((index) => (
-            <div key={index} className="flex items-center gap-3">
+            <div key={index} className="flex items-center gap-4">
                 <PosterCardSkeleton
                     hasTitle={false}
-                    className="w-10 shrink-0"
+                    className="w-12 shrink-0"
                 />
-                <div className="flex min-w-0 flex-1 flex-col gap-0.5">
+                <div className="flex min-w-0 flex-1 flex-col gap-1">
                     <SkeletonText
                         className="text-xs leading-4"
                         barClassName="w-16 rounded"
                     />
                     <SkeletonText
-                        className="text-sm leading-tight"
+                        className={labelVariants()}
                         barClassName="rounded"
                     />
                     <SkeletonText
-                        className="text-xs leading-4"
+                        className="text-xs"
                         barClassName="w-24 rounded"
                     />
                 </div>
@@ -155,9 +159,21 @@ const FranchiseCardBody: FC<{ model: FranchiseModel; href: string }> = ({
     const others = model.direct.filter((entry) => !rail.includes(entry));
 
     const otherRows = (
-        <div className="flex flex-col gap-3">
-            {others.map((entry) => (
-                <DirectRow key={entry.node.id} relation={entry} />
+        <div className="flex flex-col gap-4">
+            {groupByLabel(others).map((entries) => (
+                <Fragment key={entries[0].label}>
+                    {entries.slice(0, GROUP_PREVIEW_SIZE).map((entry) => (
+                        <DirectRow key={entry.node.id} relation={entry} />
+                    ))}
+                    {entries.length > GROUP_PREVIEW_SIZE && (
+                        <TextLink
+                            to={href}
+                            className="pl-16 text-muted-foreground text-sm"
+                        >
+                            Ще {entries.length - GROUP_PREVIEW_SIZE}
+                        </TextLink>
+                    )}
+                </Fragment>
             ))}
         </div>
     );
@@ -165,7 +181,7 @@ const FranchiseCardBody: FC<{ model: FranchiseModel; href: string }> = ({
     return (
         <>
             {rail.length > 0 && (
-                <div className="flex flex-col gap-3 px-4">
+                <div className="flex flex-col gap-4 px-4">
                     {rail.map((entry) => (
                         <DirectRow key={entry.node.id} relation={entry} />
                     ))}
@@ -186,7 +202,7 @@ const FranchiseCardBody: FC<{ model: FranchiseModel; href: string }> = ({
                                     </span>
                                     <ChevronDown className="ml-auto size-4 text-muted-foreground group-data-panel-open:rotate-180" />
                                 </CollapsibleTrigger>
-                                <CollapsibleContent className="pt-3">
+                                <CollapsibleContent className="pt-4">
                                     {otherRows}
                                 </CollapsibleContent>
                             </Collapsible>

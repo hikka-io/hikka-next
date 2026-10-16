@@ -448,6 +448,15 @@ export function groupCounts(model: FranchiseModel) {
     })).filter((entry) => entry.count > 0);
 }
 
+export function groupByLabel(entries: DirectRelation[]): DirectRelation[][] {
+    const groups = new Map<string, DirectRelation[]>();
+    for (const entry of entries) {
+        groups.set(entry.label, [...(groups.get(entry.label) ?? []), entry]);
+    }
+
+    return [...groups.values()];
+}
+
 export function sourceTypes(model: FranchiseModel): MainContentTypeEnum[] {
     const present = new Set(
         model.nodes

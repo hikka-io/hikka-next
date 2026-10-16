@@ -77,7 +77,8 @@ const SIZES: Record<'desktop' | 'phone', Record<'card' | 'full', Sizes>> = {
 
 const CARD_CLASS = 'gap-0 overflow-hidden p-0';
 const SCROLL_HEIGHT = 'h-155 max-md:h-120';
-const GUTTER_CLASS = 'pr-8 pl-(--gx) [scrollbar-gutter:stable] max-md:pr-5';
+const GUTTER_CLASS = 'pr-8 pl-(--gx) max-md:pr-5';
+const CONTAINER_CLASS = '@container [scrollbar-gutter:stable]';
 
 const GRAPH_WIDTH = 'calc(var(--axis) + var(--cols) * var(--cw))';
 const DEFAULT_HIDDEN: GraphEdgeType[] = ['adaptation'];
@@ -114,35 +115,36 @@ const ZoneHeader: FC<{
     ).length;
 
     return (
-        <div
-            className={cn('@container overflow-hidden border-b', GUTTER_CLASS)}
-        >
-            <div
-                className="mx-auto flex whitespace-nowrap py-3 pl-(--axis) font-medium text-muted-foreground text-xs leading-4"
-                style={{ width: GRAPH_WIDTH }}
-            >
-                <span
-                    className="flex min-w-0 shrink-0 overflow-hidden"
-                    style={{
-                        width: `calc(var(--cw) * ${layout.sourceColumns})`,
-                    }}
+        <div className={cn(CONTAINER_CLASS, 'overflow-hidden border-b')}>
+            <div className={GUTTER_CLASS}>
+                <div
+                    className="mx-auto flex whitespace-nowrap py-3 pl-(--axis) font-medium text-muted-foreground text-xs leading-4"
+                    style={{ width: GRAPH_WIDTH }}
                 >
-                    <ZoneLabel
-                        types={left}
-                        label={mediaListLabel(left)}
-                        count={leftCount}
-                        compact={!isDesktop}
-                    />
-                </span>
-                <span className="flex min-w-0 flex-1 overflow-hidden">
-                    <ZoneLabel
-                        types={[model.current.contentType]}
-                        label={
-                            CONTENT_TYPES[model.current.contentType].title_ua
-                        }
-                        count={model.nodes.length - leftCount}
-                    />
-                </span>
+                    <span
+                        className="flex min-w-0 shrink-0 overflow-hidden"
+                        style={{
+                            width: `calc(var(--cw) * ${layout.sourceColumns})`,
+                        }}
+                    >
+                        <ZoneLabel
+                            types={left}
+                            label={mediaListLabel(left)}
+                            count={leftCount}
+                            compact={!isDesktop}
+                        />
+                    </span>
+                    <span className="flex min-w-0 flex-1 overflow-hidden">
+                        <ZoneLabel
+                            types={[model.current.contentType]}
+                            label={
+                                CONTENT_TYPES[model.current.contentType]
+                                    .title_ua
+                            }
+                            count={model.nodes.length - leftCount}
+                        />
+                    </span>
+                </div>
             </div>
         </div>
     );
@@ -399,7 +401,8 @@ const FranchiseGraph: FC<Props> = ({ model }) => {
                     ref={scrollRef}
                     onClick={deselect}
                     className={cn(
-                        '@container overflow-auto overscroll-contain',
+                        CONTAINER_CLASS,
+                        'overflow-auto overscroll-contain',
                         fullscreen ? 'flex-1' : SCROLL_HEIGHT,
                     )}
                 >

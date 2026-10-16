@@ -30,6 +30,7 @@ const FranchisePoster: FC<Props> = ({ content, className }) => (
         title={null}
         imagePreset="cardXs"
         containerClassName="rounded-(--base-radius)"
+        imageClassName="size-full! object-cover"
         imageProps={{ resize: 'fill' }}
         className={className}
     />

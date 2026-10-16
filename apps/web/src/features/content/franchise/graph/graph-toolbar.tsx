@@ -1,4 +1,4 @@
-import { type FC, type ReactNode, useId, useState } from 'react';
+import { type FC, type ReactNode, useId, useRef, useState } from 'react';
 
 import { Bookmark, Filter, Maximize, Minimize } from 'lucide-react';
 
@@ -12,6 +12,7 @@ import {
 } from '@/components/ui/responsive-modal';
 import { SELECTED_TINT } from '@/components/ui/selected-tint';
 import { Switch } from '@/components/ui/switch';
+import { useScrollGradientMask } from '@/services/hooks/use-scroll-position';
 import { cn } from '@/utils/cn';
 
 import type { GraphEdgeType } from '../franchise-model';
@@ -136,6 +137,8 @@ const GraphToolbar: FC<Props> = ({
     title,
     isDesktop,
 }) => {
+    const chipsRef = useRef<HTMLDivElement>(null);
+    const { gradientClassName } = useScrollGradientMask(chipsRef, 'horizontal');
     const fullscreenLabel = fullscreen
         ? 'Вийти з повноекранного режиму'
         : 'На весь екран';
@@ -145,11 +148,17 @@ const GraphToolbar: FC<Props> = ({
             {isDesktop ? (
                 <>
                     {fullscreen && title && (
-                        <span className="mr-2 truncate font-bold">
+                        <span className="max-w-xs shrink-0 truncate font-bold">
                             Франшиза «{title}»
                         </span>
                     )}
-                    <div className="no-scrollbar flex min-w-0 flex-1 gap-2 overflow-x-auto">
+                    <div
+                        ref={chipsRef}
+                        className={cn(
+                            'no-scrollbar flex min-w-0 flex-1 gap-2 overflow-x-auto',
+                            gradientClassName,
+                        )}
+                    >
                         {filters.map((filter) => (
                             <Chip
                                 key={filter.type}
