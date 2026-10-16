@@ -48,12 +48,11 @@ type Props = {
     className?: string;
 };
 
-const SKELETON_ROWS = 2;
-const PREVIEW_ROWS = 4;
+const PREVIEW_ROWS = 2;
 
 const FranchiseCardSkeleton: FC = () => (
     <div className="flex flex-col gap-4 px-4">
-        {range(0, SKELETON_ROWS).map((index) => (
+        {range(0, PREVIEW_ROWS).map((index) => (
             <div key={index} className="flex items-center gap-4">
                 <PosterCardSkeleton
                     hasTitle={false}
@@ -175,7 +174,7 @@ const FranchiseCardBody: FC<{ model: FranchiseModel; href: string }> = ({
                                     <Button
                                         variant="ghost"
                                         size="md"
-                                        className="group w-full"
+                                        className="group w-full text-muted-foreground"
                                     />
                                 }
                             >
