@@ -14,11 +14,14 @@ const MIN_ZOOM = ZOOM_LEVELS[0];
 const MAX_ZOOM = ZOOM_LEVELS[ZOOM_LEVELS.length - 1];
 const DRAG_THRESHOLD = 4;
 const WHEEL_SPEED = 0.01;
+const MAX_WHEEL_DELTA = 23;
+// WheelEvent.deltaMode: pixels, lines (Firefox mouse wheels), pages.
+const DELTA_UNITS = [1, 33, 800];
 
 type Point = { x: number; y: number };
 
 const clampZoom = (value: number) =>
-    Math.round(Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, value)) * 100) / 100;
+    Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, value));
 
 const touchDistance = (touches: TouchList) =>
     Math.hypot(
@@ -79,7 +82,16 @@ export function useGraphZoom(
     const onWheel = useEffectEvent((event: WheelEvent) => {
         if (!event.ctrlKey && !event.metaKey) return;
         event.preventDefault();
-        zoomTo(zoomRef.current * Math.exp(-event.deltaY * WHEEL_SPEED), {
+
+        // Capped, so a mouse wheel notch is a step rather than a jump; pinch deltas sit well inside.
+        const delta = Math.max(
+            -MAX_WHEEL_DELTA,
+            Math.min(
+                MAX_WHEEL_DELTA,
+                event.deltaY * (DELTA_UNITS[event.deltaMode] ?? 1),
+            ),
+        );
+        zoomTo(zoomRef.current * Math.exp(-delta * WHEEL_SPEED), {
             x: event.clientX,
             y: event.clientY,
         });

@@ -25,6 +25,83 @@ export type GraphView = {
 };
 
 export const CELL = 100;
+const CORNER = 20;
+
+type Point = [number, number];
+
+/** A polyline with its corners rounded off. */
+function roundedPath(points: Point[]): string {
+    let path = `M${points[0][0]} ${points[0][1]}`;
+
+    for (let index = 1; index < points.length - 1; index++) {
+        const [px, py] = points[index - 1];
+        const [x, y] = points[index];
+        const [nx, ny] = points[index + 1];
+        const into = Math.hypot(x - px, y - py);
+        const out = Math.hypot(nx - x, ny - y);
+        const radius = Math.min(CORNER, into / 2, out / 2);
+        const ax = x - ((x - px) / into) * radius;
+        const ay = y - ((y - py) / into) * radius;
+        const bx = x + ((nx - x) / out) * radius;
+        const by = y + ((ny - y) / out) * radius;
+        path += ` L${ax} ${ay} Q${x} ${y} ${bx} ${by}`;
+    }
+
+    const [lx, ly] = points[points.length - 1];
+    return `${path} L${lx} ${ly}`;
+}
+
+/**
+ * Lane and step are layout units (column and year row in the vertical view). An edge whose curve
+ * would pass behind another title leaves its source through the gap between rows, runs down the
+ * gap between columns beside the target, and turns into the target only at the end.
+ */
+function routeAround(
+    [laneA, stepA]: Point,
+    [laneB, stepB]: Point,
+    occupied: Set<string>,
+    lanes: number,
+): Point[] | null {
+    const isTaken = (lane: number, step: number) =>
+        occupied.has(`${lane},${step}`);
+    const [from, to] = stepA <= stepB ? [stepA, stepB] : [stepB, stepA];
+
+    if (from === to) {
+        const [low, high] = laneA < laneB ? [laneA, laneB] : [laneB, laneA];
+        let blocked = false;
+        for (let lane = low + 1; lane < high; lane++) {
+            if (isTaken(lane, from)) blocked = true;
+        }
+        if (!blocked) return null;
+
+        const gap = (from + 1) * CELL;
+        return [
+            [(laneA + 0.5) * CELL, (from + 0.5) * CELL],
+            [(laneA + 0.5) * CELL, gap],
+            [(laneB + 0.5) * CELL, gap],
+            [(laneB + 0.5) * CELL, (to + 0.5) * CELL],
+        ];
+    }
+
+    let blocked = false;
+    for (let step = from + 1; step < to; step++) {
+        if (isTaken(laneA, step) || isTaken(laneB, step)) blocked = true;
+    }
+    if (!blocked) return null;
+
+    const [start, end] = stepA <= stepB ? [laneA, laneB] : [laneB, laneA];
+    const gutter =
+        end > start ? end : end < start || end + 1 < lanes ? end + 1 : end;
+
+    return [
+        [(start + 0.5) * CELL, (from + 0.5) * CELL],
+        [(start + 0.5) * CELL, (from + 1) * CELL],
+        [gutter * CELL, (from + 1) * CELL],
+        [gutter * CELL, to * CELL],
+        [(end + 0.5) * CELL, to * CELL],
+        [(end + 0.5) * CELL, (to + 0.5) * CELL],
+    ];
+}
 
 /** Adaptations start hidden unless they are the only relations there are. */
 export function defaultHiddenTypes(model: FranchiseModel): Set<GraphEdgeType> {
@@ -61,11 +138,22 @@ export function computeGraphView(
     layout: GraphLayout,
     hidden: ReadonlySet<GraphEdgeType>,
     focus: string | null,
+    horizontal = false,
 ): GraphView {
     const { positions } = layout;
     const placed = model.edges.filter(
         (edge) => positions.has(edge.a) && positions.has(edge.b),
     );
+
+    // Layout units: lane across the years, step along them.
+    const logical = ([column, row]: Point): Point =>
+        horizontal ? [row, column] : [column, row];
+    const screen = ([lane, step]: Point): Point =>
+        horizontal ? [step, lane] : [lane, step];
+    const occupied = new Set(
+        [...positions.values()].map((position) => logical(position).join(',')),
+    );
+    const lanes = horizontal ? layout.rows : layout.columns;
 
     const seen = new Set<string>();
     const edges: DrawnEdge[] = [];
@@ -85,14 +173,25 @@ export function computeGraphView(
         const y1 = (r1 + 0.5) * CELL;
         const x2 = (c2 + 0.5) * CELL;
         const y2 = (r2 + 0.5) * CELL;
-        const mid = (y1 + y2) / 2;
+        const midX = (x1 + x2) / 2;
+        const midY = (y1 + y2) / 2;
         const a = model.byId.get(edge.a);
         const b = model.byId.get(edge.b);
+        const route = routeAround(
+            logical([c1, r1]),
+            logical([c2, r2]),
+            occupied,
+            lanes,
+        );
 
         edges.push({
             ...edge,
             key,
-            path: `M${x1} ${y1} C${x1} ${mid} ${x2} ${mid} ${x2} ${y2}`,
+            path: route
+                ? roundedPath(route.map(screen))
+                : horizontal
+                  ? `M${x1} ${y1} C${midX} ${y1} ${midX} ${y2} ${x2} ${y2}`
+                  : `M${x1} ${y1} C${x1} ${midY} ${x2} ${midY} ${x2} ${y2}`,
             anchor:
                 edge.a === model.current.id ||
                 edge.b === model.current.id ||

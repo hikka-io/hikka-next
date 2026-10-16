@@ -11,6 +11,8 @@ export type GraphFiltersState = {
     hiddenMedia: MainContentTypeEnum[];
     mine: boolean;
     hideUnlinked: boolean;
+    /** A view mode rather than a filter: it is not counted and survives a reset. */
+    horizontal: boolean;
 };
 
 export type GraphFiltersActions = {
@@ -22,6 +24,7 @@ export type GraphFiltersActions = {
     toggleMedia: (type: MainContentTypeEnum) => void;
     toggleMine: () => void;
     toggleHideUnlinked: () => void;
+    toggleHorizontal: () => void;
     reset: () => void;
 };
 
@@ -30,6 +33,7 @@ const DEFAULTS: GraphFiltersState = {
     hiddenMedia: [],
     mine: false,
     hideUnlinked: false,
+    horizontal: false,
 };
 
 // Rehydrated after mount (see FranchiseGraph), so the first client render matches the server's.
@@ -58,17 +62,21 @@ export const useGraphFiltersStore = create<
             toggleMine: () => set((state) => ({ mine: !state.mine })),
             toggleHideUnlinked: () =>
                 set((state) => ({ hideUnlinked: !state.hideUnlinked })),
-            reset: () => set(DEFAULTS),
+            toggleHorizontal: () =>
+                set((state) => ({ horizontal: !state.horizontal })),
+            reset: () =>
+                set((state) => ({ ...DEFAULTS, horizontal: state.horizontal })),
         }),
         {
             name: 'franchise-graph-filters',
             skipHydration: true,
-            partialize: ({ relations, hiddenMedia, mine, hideUnlinked }) => ({
+            partialize: ({
                 relations,
                 hiddenMedia,
                 mine,
                 hideUnlinked,
-            }),
+                horizontal,
+            }) => ({ relations, hiddenMedia, mine, hideUnlinked, horizontal }),
         },
     ),
 );

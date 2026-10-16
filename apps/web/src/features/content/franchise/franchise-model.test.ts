@@ -11,7 +11,7 @@ import {
     relationText,
 } from './franchise-model';
 import { useGraphFiltersStore } from './graph/graph-filters-store';
-import { layoutGraph } from './graph/graph-layout';
+import { layoutGraph, transposeLayout } from './graph/graph-layout';
 import {
     computeGraphView,
     defaultHiddenTypes,
@@ -284,6 +284,88 @@ describe('computeGraphView', () => {
 
         setRelation('adaptation', false, false);
         expect(useGraphFiltersStore.getState().relations).toEqual({});
+    });
+
+    it('lays the graph out sideways with years along the x axis', () => {
+        const model = build('a2');
+        const layout = layoutGraph(model, { left: 2, right: 3 });
+        const sideways = transposeLayout(layout);
+        const id = nodeId('anime', 'a3');
+        const [column, row] = layout.positions.get(id) as [number, number];
+
+        expect(sideways.positions.get(id)).toEqual([row, column]);
+        expect([sideways.columns, sideways.rows]).toEqual([
+            layout.rows,
+            layout.columns,
+        ]);
+
+        const view = computeGraphView(model, sideways, new Set(), null, true);
+        const edge = view.edges.find((e) => e.type === 'side_story');
+        const [x1, y1, cx1, cy1, , , x2] = (
+            edge?.path.match(/[\d.]+/g) ?? []
+        ).map(Number);
+
+        expect(cy1).toBe(y1);
+        expect(cx1).toBe((x1 + x2) / 2);
+    });
+
+    it('routes an edge around the titles its curve would pass behind', () => {
+        const model = build('a2');
+
+        for (const horizontal of [false, true]) {
+            const base = layoutGraph(model, { left: 2, right: 3 });
+            const layout = horizontal ? transposeLayout(base) : base;
+            const view = computeGraphView(
+                model,
+                layout,
+                new Set(),
+                null,
+                horizontal,
+            );
+            const centre = (id: string) =>
+                (layout.positions.get(id) as [number, number]).map(
+                    (unit) => (unit + 0.5) * 100,
+                );
+            const routed = view.edges.filter((edge) => edge.path.includes('Q'));
+
+            expect(routed.length).toBeGreaterThan(0);
+            expect(
+                view.edges.find(
+                    (edge) =>
+                        edge.a === nodeId('anime', 'a1') &&
+                        edge.type === 'sequel',
+                )?.path,
+            ).toContain('C');
+
+            for (const edge of routed) {
+                const numbers = (edge.path.match(/[\d.]+/g) ?? []).map(Number);
+                const points: number[][] = [];
+                for (let i = 0; i < numbers.length; i += 2) {
+                    points.push([numbers[i], numbers[i + 1]]);
+                }
+                const others = model.nodes
+                    .map((node) => node.id)
+                    .filter((id) => id !== edge.a && id !== edge.b)
+                    .map(centre);
+
+                for (let i = 1; i < points.length; i++) {
+                    const [ax, ay] = points[i - 1];
+                    const [bx, by] = points[i];
+                    for (let t = 0; t <= 1; t += 0.05) {
+                        const x = ax + (bx - ax) * t;
+                        const y = ay + (by - ay) * t;
+                        const [w, h] = horizontal ? [30, 25] : [25, 30];
+                        expect(
+                            others.some(
+                                ([cx, cy]) =>
+                                    Math.abs(x - cx) < w &&
+                                    Math.abs(y - cy) < h,
+                            ),
+                        ).toBe(false);
+                    }
+                }
+            }
+        }
     });
 
     it('hides adaptations by default unless they are all there is', () => {

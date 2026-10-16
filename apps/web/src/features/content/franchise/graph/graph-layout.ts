@@ -99,3 +99,18 @@ export function layoutGraph(
         sourceColumns: left,
     };
 }
+
+/** Years run left to right and lanes top to bottom; bands and source columns keep their units. */
+export function transposeLayout(layout: GraphLayout): GraphLayout {
+    return {
+        ...layout,
+        positions: new Map(
+            [...layout.positions].map(([id, [column, row]]) => [
+                id,
+                [row, column],
+            ]),
+        ),
+        columns: layout.rows,
+        rows: layout.columns,
+    };
+}

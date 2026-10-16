@@ -1,10 +1,16 @@
-import type { FC } from 'react';
+import type { FC, MouseEvent } from 'react';
 
 import type { CardStatus } from '@/components/content-card/content-status';
 import PosterCard from '@/components/content-card/poster-card';
 import { CONTENT_TYPE_ICONS } from '@/components/icons/content-type-icons';
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipTrigger,
+} from '@/components/ui/tooltip';
 import { useTitle } from '@/services/session';
 import { cn } from '@/utils/cn';
+import { contentPath } from '@/utils/content-paths';
 import { CONTENT_TYPES, getMediaTypeLabel } from '@/utils/labels';
 
 import type { FranchiseNode } from '../franchise-model';
@@ -70,46 +76,66 @@ const GraphNode: FC<Props> = ({
         .filter(Boolean)
         .join(', ');
 
+    // A plain click selects; modified and middle clicks keep the link's own behaviour (new tab).
+    const handleClick = (event: MouseEvent) => {
+        if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) {
+            return;
+        }
+        event.preventDefault();
+        onSelect(node.id);
+    };
+
     return (
-        <button
-            type="button"
-            data-node={node.id}
-            title={`${title} (${details})`}
-            aria-label={title}
-            aria-pressed={isSelected}
-            onClick={() => onSelect(node.id)}
-            className={cn(
-                'absolute z-1 -mt-[calc(var(--gp)/1.4)] -ml-[calc(var(--gp)/2)] block w-(--gp) cursor-pointer rounded-(--base-radius) transition-[filter,scale] duration-150 motion-reduce:transition-none',
-                isSelected && 'z-5 scale-125 max-md:scale-120',
-                state !== 'default' && FADED_CLASS[state],
-            )}
-            style={{
-                left: `calc(var(--cw) * ${column + 0.5})`,
-                top: `calc(var(--rh) * ${row + 0.5})`,
-            }}
-        >
-            <PosterCard
-                image={node.content.image}
-                imagePreset={largeImage ? 'cardSm' : 'cardXs'}
-                imageProps={{ sizes: imageSizes, resize: 'fill' }}
-                imageClassName="size-full! object-cover"
-                status={statusOf(node)}
-                statusSize="sm"
-                containerClassName={cn(
-                    'rounded-(--base-radius) shadow-[0_0_0_3px_var(--card)]',
-                    isCurrent &&
-                        'shadow-[0_0_0_2px_var(--primary-foreground),0_0_0_5px_var(--card)]',
-                    isSelected &&
-                        'shadow-[0_0_0_2px_var(--foreground),0_0_0_5px_var(--card)]',
+        <Tooltip>
+            <TooltipTrigger
+                render={
+                    <a
+                        href={contentPath(node.contentType, node.content.slug)}
+                        data-node={node.id}
+                        aria-label={title}
+                        aria-current={isSelected || undefined}
+                        onClick={handleClick}
+                        className={cn(
+                            'absolute z-1 -mt-[calc(var(--gp)/1.4)] -ml-[calc(var(--gp)/2)] block w-(--gp) cursor-pointer rounded-(--base-radius) transition-[filter,scale] duration-150 motion-reduce:transition-none',
+                            isSelected && 'z-5 scale-125 max-md:scale-120',
+                            state !== 'default' && FADED_CLASS[state],
+                        )}
+                        style={{
+                            left: `calc(var(--cw) * ${column + 0.5})`,
+                            top: `calc(var(--rh) * ${row + 0.5})`,
+                        }}
+                    />
+                }
+            >
+                <PosterCard
+                    image={node.content.image}
+                    imagePreset={largeImage ? 'cardSm' : 'cardXs'}
+                    imageProps={{ sizes: imageSizes, resize: 'fill' }}
+                    imageClassName="size-full! object-cover"
+                    status={statusOf(node)}
+                    statusSize="sm"
+                    containerClassName={cn(
+                        'rounded-(--base-radius) shadow-[0_0_0_3px_var(--card)]',
+                        isCurrent &&
+                            'shadow-[0_0_0_2px_var(--primary-foreground),0_0_0_5px_var(--card)]',
+                        isSelected &&
+                            'shadow-[0_0_0_2px_var(--foreground),0_0_0_5px_var(--card)]',
+                    )}
+                />
+                {showMedia && (
+                    <span className="absolute top-[calc(100%+6px)] left-1/2 inline-flex -translate-x-1/2 items-center gap-1 whitespace-nowrap rounded-md bg-card px-1.5 py-0.5 font-medium text-muted-foreground text-xs leading-4">
+                        <MediaIcon className="size-3 shrink-0" />
+                        {!compactMedia && media}
+                    </span>
                 )}
-            />
-            {showMedia && (
-                <span className="absolute top-[calc(100%+6px)] left-1/2 inline-flex -translate-x-1/2 items-center gap-1 whitespace-nowrap rounded-md bg-card px-1.5 py-0.5 font-medium text-muted-foreground text-xs leading-4">
-                    <MediaIcon className="size-3 shrink-0" />
-                    {!compactMedia && media}
+            </TooltipTrigger>
+            <TooltipContent className="flex max-w-64 flex-col">
+                <span className="font-medium">{title}</span>
+                <span className="text-tooltip-foreground/70 text-xs">
+                    {details}
                 </span>
-            )}
-        </button>
+            </TooltipContent>
+        </Tooltip>
     );
 };
 

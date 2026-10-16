@@ -2,6 +2,7 @@ import {
     type CSSProperties,
     type FC,
     type MouseEvent,
+    type ReactNode,
     type Ref,
     useEffect,
     useRef,
@@ -37,6 +38,7 @@ import {
     type GraphLayout,
     layoutGraph,
     PHONE_BUDGET,
+    transposeLayout,
 } from './graph-layout';
 import GraphNode, { type NodeState } from './graph-node';
 import GraphToolbar, {
@@ -97,6 +99,18 @@ const SIZES: Record<'desktop' | 'phone', Record<'card' | 'full', Sizes>> = {
     },
 };
 
+// Horizontal steps are fixed: years run off to the right instead of filling the card's width.
+const SIZES_HORIZONTAL: typeof SIZES = {
+    desktop: {
+        card: { cw: '96px', rh: '128px', gp: '60px', gx: '16px', image: 60 },
+        full: { cw: '120px', rh: '156px', gp: '76px', gx: '16px', image: 76 },
+    },
+    phone: {
+        card: { cw: '80px', rh: '116px', gp: '52px', gx: '12px', image: 52 },
+        full: { cw: '88px', rh: '124px', gp: '56px', gx: '12px', image: 56 },
+    },
+};
+
 const CARD_CLASS = 'gap-0 overflow-hidden p-0';
 const GRAPH_HEIGHT = 'h-165 max-md:h-130';
 const GUTTER_CLASS = 'flex w-max min-w-full pr-8 pl-(--gx) max-md:pr-5';
@@ -131,86 +145,164 @@ const ZoneLabel: FC<{
     </span>
 );
 
-const ZoneHeader: FC<{
-    ref: Ref<HTMLDivElement>;
-    model: FranchiseModel;
-    layout: GraphLayout;
-    isDesktop: boolean;
-    className?: string;
-}> = ({ ref, model, layout, isDesktop, className }) => {
-    const left = sourceTypes(model);
-    const leftCount = model.nodes.filter(
-        (node) => node.lane === 'source',
-    ).length;
+function zoneCounts(model: FranchiseModel) {
+    const types = sourceTypes(model);
+    const left = model.nodes.filter((node) => node.lane === 'source').length;
 
-    return (
-        <div className="flex border-b">
-            <span className="w-(--axis) shrink-0 border-r" />
-            <div
-                ref={ref}
-                className={cn(
-                    CONTAINER_CLASS,
-                    'min-w-0 flex-1 overflow-hidden',
-                )}
-            >
-                <div className={cn(GUTTER_CLASS, className)}>
-                    <div
-                        className="mx-auto flex whitespace-nowrap py-3 font-medium text-muted-foreground text-xs leading-4"
-                        style={{ width: GRAPH_WIDTH }}
-                    >
-                        <span
-                            className="flex min-w-0 shrink-0 justify-center overflow-hidden"
-                            style={{
-                                width: `calc(var(--cw) * ${layout.sourceColumns})`,
-                            }}
-                        >
-                            <ZoneLabel
-                                types={left}
-                                label={mediaListLabel(left)}
-                                count={leftCount}
-                                compact={!isDesktop}
-                            />
-                        </span>
-                        <span className="flex min-w-0 flex-1 justify-center overflow-hidden">
-                            <ZoneLabel
-                                types={[model.current.contentType]}
-                                label={
-                                    CONTENT_TYPES[model.current.contentType]
-                                        .title_ua
-                                }
-                                count={model.nodes.length - leftCount}
-                            />
-                        </span>
-                    </div>
+    return { types, left, right: model.nodes.length - left };
+}
+
+const TopAxis: FC<{
+    ref: Ref<HTMLDivElement>;
+    className?: string;
+    children: ReactNode;
+}> = ({ ref, className, children }) => (
+    <div className="flex border-b">
+        <span className="w-(--axis) shrink-0 border-r" />
+        <div
+            ref={ref}
+            className={cn(CONTAINER_CLASS, 'min-w-0 flex-1 overflow-hidden')}
+        >
+            <div className={cn(GUTTER_CLASS, className)}>
+                <div
+                    className="relative mx-auto flex h-10 whitespace-nowrap font-medium text-muted-foreground text-xs leading-4"
+                    style={{ width: GRAPH_WIDTH }}
+                >
+                    {children}
                 </div>
             </div>
         </div>
+    </div>
+);
+
+const ZoneLabels: FC<{
+    model: FranchiseModel;
+    layout: GraphLayout;
+    isDesktop: boolean;
+}> = ({ model, layout, isDesktop }) => {
+    const zones = zoneCounts(model);
+
+    return (
+        <>
+            <span
+                className="flex min-w-0 shrink-0 items-center justify-center overflow-hidden"
+                style={{
+                    width: `calc(var(--cw) * ${layout.sourceColumns})`,
+                }}
+            >
+                <ZoneLabel
+                    types={zones.types}
+                    label={mediaListLabel(zones.types)}
+                    count={zones.left}
+                    compact={!isDesktop}
+                />
+            </span>
+            <span className="flex min-w-0 flex-1 items-center justify-center overflow-hidden">
+                <ZoneLabel
+                    types={[model.current.contentType]}
+                    label={CONTENT_TYPES[model.current.contentType].title_ua}
+                    count={zones.right}
+                />
+            </span>
+        </>
     );
 };
 
-const YearAxis: FC<{ layout: GraphLayout }> = ({ layout }) =>
-    layout.bands.map((band) => (
-        <div
-            key={band.label}
-            className="pointer-events-none absolute inset-x-0 flex flex-col items-center font-semibold text-muted-foreground text-xs tabular-nums leading-[18px]"
-            style={{
-                top: `calc(var(--rh) * ${band.top})`,
-                height: `calc(var(--rh) * ${band.height})`,
-                paddingTop: 'calc(var(--rh) / 2 - 9px)',
-            }}
-        >
-            <span>{band.label}</span>
-            {band.height > 1 && (
-                <span
-                    className="absolute left-1/2 w-px bg-border dark:bg-border/50"
-                    style={{
-                        top: 'calc(var(--rh) / 2 + 14px)',
-                        bottom: 'calc(var(--rh) / 2)',
-                    }}
-                />
-            )}
-        </div>
-    ));
+const RailZone: FC<{
+    types: FranchiseModel['current']['contentType'][];
+    count: number;
+    style: CSSProperties;
+}> = ({ types, count, style }) => (
+    <div
+        className="absolute inset-x-0 flex flex-col items-center justify-center gap-1 font-medium text-muted-foreground text-xs leading-4"
+        style={style}
+    >
+        {types.map((type) => {
+            const Icon = CONTENT_TYPE_ICONS[type];
+            return <Icon key={type} className="size-3.5 shrink-0" />;
+        })}
+        <span className="tabular-nums opacity-60">{count}</span>
+    </div>
+);
+
+const RailZones: FC<{ model: FranchiseModel; layout: GraphLayout }> = ({
+    model,
+    layout,
+}) => {
+    const zones = zoneCounts(model);
+
+    return (
+        <>
+            <RailZone
+                types={zones.types}
+                count={zones.left}
+                style={{
+                    top: 0,
+                    height: `calc(var(--rh) * ${layout.sourceColumns})`,
+                }}
+            />
+            <RailZone
+                types={[model.current.contentType]}
+                count={zones.right}
+                style={{
+                    top: `calc(var(--rh) * ${layout.sourceColumns})`,
+                    bottom: 0,
+                }}
+            />
+        </>
+    );
+};
+
+const YearAxis: FC<{ layout: GraphLayout; horizontal: boolean }> = ({
+    layout,
+    horizontal,
+}) =>
+    layout.bands.map((band) =>
+        horizontal ? (
+            <div
+                key={band.label}
+                className="pointer-events-none absolute inset-y-0 font-semibold text-muted-foreground text-xs tabular-nums leading-[18px]"
+                style={{
+                    left: `calc(var(--cw) * ${band.top})`,
+                    width: `calc(var(--cw) * ${band.height})`,
+                }}
+            >
+                <span className="absolute top-1/2 left-[calc(var(--cw)/2)] -translate-x-1/2 -translate-y-1/2">
+                    {band.label}
+                </span>
+                {band.height > 1 && (
+                    <span
+                        className="absolute top-1/2 h-px bg-border dark:bg-border/50"
+                        style={{
+                            left: 'calc(var(--cw) / 2 + 24px)',
+                            right: 'calc(var(--cw) / 2)',
+                        }}
+                    />
+                )}
+            </div>
+        ) : (
+            <div
+                key={band.label}
+                className="pointer-events-none absolute inset-x-0 flex flex-col items-center font-semibold text-muted-foreground text-xs tabular-nums leading-[18px]"
+                style={{
+                    top: `calc(var(--rh) * ${band.top})`,
+                    height: `calc(var(--rh) * ${band.height})`,
+                    paddingTop: 'calc(var(--rh) / 2 - 9px)',
+                }}
+            >
+                <span>{band.label}</span>
+                {band.height > 1 && (
+                    <span
+                        className="absolute left-1/2 w-px bg-border dark:bg-border/50"
+                        style={{
+                            top: 'calc(var(--rh) / 2 + 14px)',
+                            bottom: 'calc(var(--rh) / 2)',
+                        }}
+                    />
+                )}
+            </div>
+        ),
+    );
 
 const findNode = (container: HTMLElement, id: string) =>
     container.querySelector(`[data-node="${CSS.escape(id)}"]`);
@@ -219,16 +311,26 @@ function scrollToNode(
     container: HTMLElement | null,
     id: string,
     behavior: ScrollBehavior,
+    horizontal: boolean,
 ) {
     const node = container && findNode(container, id);
     if (!container || !node) return;
 
-    const offset =
-        node.getBoundingClientRect().top -
-        container.getBoundingClientRect().top;
+    const rect = node.getBoundingClientRect();
+    const box = container.getBoundingClientRect();
 
     container.scrollTo({
-        top: container.scrollTop + offset - container.clientHeight / 3,
+        top:
+            container.scrollTop +
+            rect.top -
+            box.top -
+            container.clientHeight / (horizontal ? 2 : 3),
+        left: horizontal
+            ? container.scrollLeft +
+              rect.left -
+              box.left -
+              container.clientWidth / 3
+            : container.scrollLeft,
         behavior,
     });
 }
@@ -251,16 +353,6 @@ const FranchiseGraph: FC<Props> = ({ model: franchise }) => {
     const headerRef = useRef<HTMLDivElement>(null);
     const railRef = useRef<HTMLDivElement>(null);
     const graphRef = useRef<HTMLDivElement>(null);
-    const {
-        zoom,
-        dragging,
-        canZoomIn,
-        canZoomOut,
-        zoomIn,
-        zoomOut,
-        resetZoom,
-        panHandlers,
-    } = useGraphZoom(scrollRef, graphRef);
 
     const saved = useGraphFiltersStore();
     const [restored, setRestored] = useState(false);
@@ -271,7 +363,17 @@ const FranchiseGraph: FC<Props> = ({ model: franchise }) => {
         saved.hiddenMedia.filter((type) => otherMedia.includes(type)),
     );
     const mine = Boolean(user) && saved.mine;
-    const { hideUnlinked } = saved;
+    const { hideUnlinked, horizontal } = saved;
+    const {
+        zoom,
+        dragging,
+        canZoomIn,
+        canZoomOut,
+        zoomIn,
+        zoomOut,
+        resetZoom,
+        panHandlers,
+    } = useGraphZoom(scrollRef, graphRef);
     const [selected, setFocus] = useState<string | null>(null);
     const [fullscreen, setFullscreen] = useState(false);
 
@@ -289,9 +391,11 @@ const FranchiseGraph: FC<Props> = ({ model: franchise }) => {
         model,
         isDesktop ? DESKTOP_BUDGET : PHONE_BUDGET,
     );
-    const view = computeGraphView(model, layout, hidden, focus);
-    const sizes =
-        SIZES[isDesktop ? 'desktop' : 'phone'][fullscreen ? 'full' : 'card'];
+    const screen = horizontal ? transposeLayout(layout) : layout;
+    const view = computeGraphView(model, screen, hidden, focus, horizontal);
+    const sizes = (horizontal ? SIZES_HORIZONTAL : SIZES)[
+        isDesktop ? 'desktop' : 'phone'
+    ][fullscreen ? 'full' : 'card'];
     const hasZone = layout.sourceColumns > 0;
     const compactDetails = !isDesktop;
 
@@ -323,8 +427,13 @@ const FranchiseGraph: FC<Props> = ({ model: franchise }) => {
 
     // biome-ignore lint/correctness/useExhaustiveDependencies: a new budget, node size or restored filters move the current title, so re-centre it.
     useEffect(() => {
-        scrollToNode(scrollRef.current, model.current.id, 'instant');
-    }, [model.current.id, isDesktop, fullscreen, restored]);
+        scrollToNode(
+            scrollRef.current,
+            model.current.id,
+            'instant',
+            horizontal,
+        );
+    }, [model.current.id, isDesktop, fullscreen, restored, horizontal]);
 
     useEffect(() => {
         if (!fullscreen) return;
@@ -390,7 +499,7 @@ const FranchiseGraph: FC<Props> = ({ model: franchise }) => {
 
     const jumpTo = (id: string) => {
         setFocus(id);
-        scrollToNode(scrollRef.current, id, 'smooth');
+        scrollToNode(scrollRef.current, id, 'smooth', horizontal);
     };
 
     const deselect = (event: MouseEvent) => {
@@ -419,7 +528,7 @@ const FranchiseGraph: FC<Props> = ({ model: franchise }) => {
 
     const padding = cn(
         'pb-6 max-md:pb-5',
-        hasZone ? 'pt-2' : 'pt-5',
+        hasZone || horizontal ? 'pt-2' : 'pt-5',
         compactDetails && focusNode ? 'pb-28 max-md:pb-28' : ROOM_CLOSING,
     );
 
@@ -461,6 +570,8 @@ const FranchiseGraph: FC<Props> = ({ model: franchise }) => {
                 onToggleMine={saved.toggleMine}
                 hideUnlinked={hideUnlinked}
                 onToggleHideUnlinked={saved.toggleHideUnlinked}
+                horizontal={horizontal}
+                onToggleHorizontal={saved.toggleHorizontal}
                 onReset={saved.reset}
                 fullscreen={fullscreen}
                 onToggleFullscreen={() => setFullscreen(!fullscreen)}
@@ -475,7 +586,7 @@ const FranchiseGraph: FC<Props> = ({ model: franchise }) => {
                 style={
                     {
                         '--axis': `${AXIS}px`,
-                        '--cols': layout.columns,
+                        '--cols': screen.columns,
                         '--zoom': zoom,
                         '--cw0': sizes.cw,
                         '--cw': 'calc(var(--cw0) * var(--zoom))',
@@ -485,14 +596,18 @@ const FranchiseGraph: FC<Props> = ({ model: franchise }) => {
                     } as CSSProperties
                 }
             >
-                {hasZone && (
-                    <ZoneHeader
-                        ref={headerRef}
-                        model={model}
-                        layout={layout}
-                        isDesktop={isDesktop}
-                        className={panelRoom}
-                    />
+                {(hasZone || horizontal) && (
+                    <TopAxis ref={headerRef} className={panelRoom}>
+                        {horizontal ? (
+                            <YearAxis layout={layout} horizontal />
+                        ) : (
+                            <ZoneLabels
+                                model={model}
+                                layout={layout}
+                                isDesktop={isDesktop}
+                            />
+                        )}
+                    </TopAxis>
                 )}
                 <div className="relative flex min-h-0 flex-1">
                     <div
@@ -510,10 +625,22 @@ const FranchiseGraph: FC<Props> = ({ model: franchise }) => {
                             <div
                                 className="relative"
                                 style={{
-                                    height: `calc(var(--rh) * ${layout.rows})`,
+                                    height: `calc(var(--rh) * ${screen.rows})`,
                                 }}
                             >
-                                <YearAxis layout={layout} />
+                                {!horizontal ? (
+                                    <YearAxis
+                                        layout={layout}
+                                        horizontal={false}
+                                    />
+                                ) : (
+                                    hasZone && (
+                                        <RailZones
+                                            model={model}
+                                            layout={layout}
+                                        />
+                                    )
+                                )}
                             </div>
                         </div>
                         {/* Room for the scroller's horizontal scrollbar, so both reach the same bottom. */}
@@ -554,15 +681,26 @@ const FranchiseGraph: FC<Props> = ({ model: franchise }) => {
                                     className="relative"
                                     style={{
                                         width: GRAPH_WIDTH,
-                                        height: `calc(var(--rh) * ${layout.rows})`,
+                                        height: `calc(var(--rh) * ${screen.rows})`,
                                     }}
                                 >
                                     {hasZone && (
                                         <div
-                                            className="absolute top-0 bottom-0 left-0 rounded-(--base-radius) bg-secondary/20"
-                                            style={{
-                                                width: `calc(var(--cw) * ${layout.sourceColumns})`,
-                                            }}
+                                            className={cn(
+                                                'absolute top-0 left-0 rounded-(--base-radius) bg-secondary/20',
+                                                horizontal
+                                                    ? 'right-0'
+                                                    : 'bottom-0',
+                                            )}
+                                            style={
+                                                horizontal
+                                                    ? {
+                                                          height: `calc(var(--rh) * ${layout.sourceColumns})`,
+                                                      }
+                                                    : {
+                                                          width: `calc(var(--cw) * ${layout.sourceColumns})`,
+                                                      }
+                                            }
                                         />
                                     )}
                                     {layout.bands
@@ -570,20 +708,31 @@ const FranchiseGraph: FC<Props> = ({ model: franchise }) => {
                                         .map((band) => (
                                             <div
                                                 key={band.label}
-                                                className="absolute left-0 h-px bg-border dark:bg-border/50"
-                                                style={{
-                                                    top: `calc(var(--rh) * ${band.top})`,
-                                                    width: 'calc(var(--cols) * var(--cw))',
-                                                }}
+                                                className={cn(
+                                                    'absolute bg-border dark:bg-border/50',
+                                                    horizontal
+                                                        ? 'inset-y-0 w-px'
+                                                        : 'left-0 h-px',
+                                                )}
+                                                style={
+                                                    horizontal
+                                                        ? {
+                                                              left: `calc(var(--cw) * ${band.top})`,
+                                                          }
+                                                        : {
+                                                              top: `calc(var(--rh) * ${band.top})`,
+                                                              width: GRAPH_WIDTH,
+                                                          }
+                                                }
                                             />
                                         ))}
                                     <svg
                                         className="pointer-events-none absolute top-0 left-0 overflow-visible"
                                         style={{
-                                            width: 'calc(var(--cols) * var(--cw))',
-                                            height: `calc(var(--rh) * ${layout.rows})`,
+                                            width: GRAPH_WIDTH,
+                                            height: `calc(var(--rh) * ${screen.rows})`,
                                         }}
-                                        viewBox={`0 0 ${layout.columns * CELL} ${layout.rows * CELL}`}
+                                        viewBox={`0 0 ${screen.columns * CELL} ${screen.rows * CELL}`}
                                         preserveAspectRatio="none"
                                         aria-hidden="true"
                                     >
@@ -620,7 +769,7 @@ const FranchiseGraph: FC<Props> = ({ model: franchise }) => {
                                         })}
                                     </svg>
                                     {model.nodes.map((node) => {
-                                        const position = layout.positions.get(
+                                        const position = screen.positions.get(
                                             node.id,
                                         );
                                         if (!position) return null;

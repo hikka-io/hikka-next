@@ -1,6 +1,7 @@
 import { type FC, type ReactNode, useId, useState } from 'react';
 
 import {
+    ArrowRightLeft,
     Bookmark,
     EyeOff,
     Filter,
@@ -62,6 +63,8 @@ type Props = {
     onToggleMine: () => void;
     hideUnlinked: boolean;
     onToggleHideUnlinked: () => void;
+    horizontal: boolean;
+    onToggleHorizontal: () => void;
     onReset: () => void;
     fullscreen: boolean;
     onToggleFullscreen: () => void;
@@ -79,6 +82,8 @@ type BodyProps = Pick<
     | 'onToggleMine'
     | 'hideUnlinked'
     | 'onToggleHideUnlinked'
+    | 'horizontal'
+    | 'onToggleHorizontal'
 >;
 
 // Mirrors the mobile page header's action buttons.
@@ -167,6 +172,8 @@ const FiltersBody: FC<BodyProps> = ({
     onToggleMine,
     hideUnlinked,
     onToggleHideUnlinked,
+    horizontal,
+    onToggleHorizontal,
 }) => {
     const selectedTypes = filters
         .filter((filter) => filter.on)
@@ -233,6 +240,12 @@ const FiltersBody: FC<BodyProps> = ({
                     onCheckedChange={onToggleMine}
                 />
             )}
+            <FilterSwitch
+                icon={<ArrowRightLeft />}
+                label="Горизонтальний вигляд"
+                checked={horizontal}
+                onCheckedChange={onToggleHorizontal}
+            />
         </div>
     );
 };
