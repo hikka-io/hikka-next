@@ -29,7 +29,7 @@ const ContentHeader: FC<Props> = ({ slug, content_type }) => {
     const link = contentPath(content_type, slug);
 
     return (
-        <Card>
+        <Card className="backdrop-blur">
             <Header href={link}>
                 <HeaderContainer>
                     {data?.image && (
