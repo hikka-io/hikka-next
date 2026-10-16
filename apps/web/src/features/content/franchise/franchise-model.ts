@@ -43,9 +43,9 @@ const RELATION_GROUP_ORDER: RelationGroupEnum[] = [
     RelationGroupEnum.SOURCE,
 ];
 
-export type FranchiseLane = 'main' | 'source' | 'right';
+type FranchiseLane = 'main' | 'source' | 'right';
 
-export type RelationLine = {
+export type NodeRelation = {
     label: string;
     targetId: string | null;
     targetKind: string | null;
@@ -58,7 +58,7 @@ export type FranchiseNode = {
     lane: FranchiseLane;
     group: RelationGroupEnum;
     chainIndex: number | null;
-    relation: RelationLine | null;
+    relation: NodeRelation | null;
     when: number;
 };
 
@@ -82,7 +82,6 @@ export type FranchiseModel = {
     chain: FranchiseNode[];
     direct: DirectRelation[];
     edges: GraphEdge[];
-    linkCounts: Map<string, number>;
 };
 
 type Relation = FranchiseRelationResponse;
@@ -109,7 +108,10 @@ const REVERSE_LABELS: Record<FranchiseRelationTypeEnum, string> = {
 
 const SOURCE_LABEL = 'Першоджерело';
 
-const TYPE_GROUPS: Record<FranchiseRelationTypeEnum, RelationGroupEnum> = {
+export const RELATION_TYPE_GROUPS: Record<
+    FranchiseRelationTypeEnum,
+    RelationGroupEnum
+> = {
     sequel: RelationGroupEnum.SEQUEL,
     side_story: RelationGroupEnum.SIDE,
     summary: RelationGroupEnum.SUMMARY,
@@ -401,7 +403,7 @@ export function buildFranchiseModel(
         if (type === FranchiseRelationTypeEnum.SEQUEL) {
             if (best.other.lane === 'right') node.group = best.other.group;
         } else if (type !== FranchiseRelationTypeEnum.ADAPTATION) {
-            node.group = TYPE_GROUPS[type];
+            node.group = RELATION_TYPE_GROUPS[type];
         }
     }
 
@@ -410,7 +412,7 @@ export function buildFranchiseModel(
             ({ relation, other }): DirectRelation => ({
                 node: other,
                 label: relationLabel(relation, other, current),
-                group: TYPE_GROUPS[relation.relation_type],
+                group: RELATION_TYPE_GROUPS[relation.relation_type],
             }),
         )
         .sort(
@@ -424,13 +426,7 @@ export function buildFranchiseModel(
                 list.findIndex((other) => other.node === entry.node) === index,
         );
 
-    const linkCounts = new Map<string, number>();
-    for (const edge of edges) {
-        linkCounts.set(edge.a, (linkCounts.get(edge.a) ?? 0) + 1);
-        linkCounts.set(edge.b, (linkCounts.get(edge.b) ?? 0) + 1);
-    }
-
-    return { current, nodes, byId, chain, direct, edges, linkCounts };
+    return { current, nodes, byId, chain, direct, edges };
 }
 
 export function groupCounts(model: FranchiseModel) {
@@ -438,6 +434,25 @@ export function groupCounts(model: FranchiseModel) {
         group,
         count: model.nodes.filter((node) => node.group === group).length,
     })).filter((entry) => entry.count > 0);
+}
+
+export function groupByYear(nodes: FranchiseNode[]) {
+    const years = new Map<number | null, FranchiseNode[]>();
+    for (const node of nodes) {
+        const year = node.content.year || null;
+        years.set(year, [...(years.get(year) ?? []), node]);
+    }
+
+    return [...years.entries()]
+        .sort(
+            ([a], [b]) =>
+                (a ?? Number.POSITIVE_INFINITY) -
+                (b ?? Number.POSITIVE_INFINITY),
+        )
+        .map(([year, items]) => ({
+            label: year ? String(year) : 'Анонс',
+            nodes: items,
+        }));
 }
 
 export function sourceTypes(model: FranchiseModel): MainContentTypeEnum[] {

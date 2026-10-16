@@ -64,9 +64,7 @@ const FranchisePage: FC<Props> = ({ content_type, slug, view = 'related' }) => {
                 </HeaderContainer>
             </Header>
             <ChipTabs options={options} value={view} />
-            {view === 'related' && (
-                <FranchiseRelated model={model ?? undefined} />
-            )}
+            {view === 'related' && <FranchiseRelated model={model} />}
             {view === 'chrono' &&
                 (model ? (
                     <FranchiseChronology model={model} />

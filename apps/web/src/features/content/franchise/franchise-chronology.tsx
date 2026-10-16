@@ -20,32 +20,13 @@ import {
     chronologyMeta,
     type FranchiseModel,
     type FranchiseNode,
+    groupByYear,
 } from './franchise-model';
 import { RELATION_GROUP_STYLES } from './relation-groups';
 
 type Props = {
     model: FranchiseModel;
 };
-
-const ANNOUNCED = 'Анонс';
-
-function groupByYear(model: FranchiseModel) {
-    const sorted = [...model.nodes].sort(
-        (a, b) =>
-            (a.content.year ?? Number.MAX_SAFE_INTEGER) -
-                (b.content.year ?? Number.MAX_SAFE_INTEGER) ||
-            Number(a.chainIndex === null) - Number(b.chainIndex === null) ||
-            a.when - b.when,
-    );
-    const years = new Map<string, FranchiseNode[]>();
-
-    for (const node of sorted) {
-        const key = node.content.year ? String(node.content.year) : ANNOUNCED;
-        years.set(key, [...(years.get(key) ?? []), node]);
-    }
-
-    return [...years.entries()];
-}
 
 const ChronologyRow: FC<{ model: FranchiseModel; node: FranchiseNode }> = ({
     model,
@@ -97,19 +78,23 @@ const ChronologyRow: FC<{ model: FranchiseModel; node: FranchiseNode }> = ({
 
 const FranchiseChronology: FC<Props> = ({ model }) => (
     <div className="flex flex-col gap-10">
-        {groupByYear(model).map(([year, nodes]) => (
-            <section key={year}>
-                <div className="mb-4 flex items-baseline gap-2">
-                    <h4>{year}</h4>
-                </div>
+        {groupByYear(model.nodes).map(({ label, nodes }) => (
+            <section key={label}>
+                <h4 className="mb-4">{label}</h4>
                 <div className={historyRowsVariants({ size: 'lg' })}>
-                    {nodes.map((node) => (
-                        <ChronologyRow
-                            key={node.id}
-                            model={model}
-                            node={node}
-                        />
-                    ))}
+                    {[...nodes]
+                        .sort(
+                            (a, b) =>
+                                Number(a.chainIndex === null) -
+                                Number(b.chainIndex === null),
+                        )
+                        .map((node) => (
+                            <ChronologyRow
+                                key={node.id}
+                                model={model}
+                                node={node}
+                            />
+                        ))}
                 </div>
             </section>
         ))}

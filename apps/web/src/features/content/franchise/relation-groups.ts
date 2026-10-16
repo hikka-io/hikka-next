@@ -69,43 +69,36 @@ export const RELATION_GROUP_STYLES = {
 
 export const EDGE_TYPES: {
     type: GraphEdgeType;
-    group: RelationGroupEnum;
     label: string;
     longLabel: string;
 }[] = [
     {
         type: FranchiseRelationTypeEnum.SEQUEL,
-        group: 'sequel',
         label: 'Сиквели',
         longLabel: 'Сиквели й приквели',
     },
     {
         type: FranchiseRelationTypeEnum.SIDE_STORY,
-        group: 'side',
         label: 'Побічні',
         longLabel: 'Побічні історії',
     },
     {
         type: FranchiseRelationTypeEnum.ALTERNATIVE_VERSION,
-        group: 'alternative',
         label: 'Альтернативні',
         longLabel: 'Альтернативні версії',
     },
     {
         type: FranchiseRelationTypeEnum.SUMMARY,
-        group: 'summary',
         label: 'Рекапи',
         longLabel: 'Рекапи',
     },
     {
         type: FranchiseRelationTypeEnum.SPIN_OFF,
-        group: 'spin_off',
         label: 'Спінофи',
         longLabel: 'Спінофи',
     },
     {
         type: FranchiseRelationTypeEnum.ADAPTATION,
-        group: 'source',
         label: 'Адаптації',
         longLabel: 'Адаптації',
     },

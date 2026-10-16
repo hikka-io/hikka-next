@@ -18,8 +18,10 @@ import { CONTENT_TYPES } from '@/utils/labels';
 
 import {
     type FranchiseModel,
+    type FranchiseNode,
     type GraphEdgeType,
     isTracked,
+    RELATION_TYPE_GROUPS,
     sourceTypes,
 } from '../franchise-model';
 import {
@@ -198,12 +200,15 @@ function popoverStyle(
     };
 }
 
+const findNode = (container: HTMLElement, id: string) =>
+    container.querySelector(`[data-node="${CSS.escape(id)}"]`);
+
 function scrollToNode(
     container: HTMLElement | null,
     id: string,
     behavior: ScrollBehavior,
 ) {
-    const node = container?.querySelector(`[data-node="${CSS.escape(id)}"]`);
+    const node = container && findNode(container, id);
     if (!container || !node) return;
 
     const offset =
@@ -246,9 +251,7 @@ const FranchiseGraph: FC<Props> = ({ model }) => {
     const view = computeGraphView(model, layout, hidden, focus);
     const sizes =
         SIZES[isDesktop ? 'desktop' : 'phone'][fullscreen ? 'full' : 'card'];
-    const hasZone =
-        layout.sourceColumns > 0 &&
-        model.nodes.some((node) => node.lane === 'source');
+    const hasZone = layout.sourceColumns > 0;
     const compactDetails = !isDesktop && !fullscreen;
 
     const filters: EdgeFilter[] = EDGE_TYPES.map((edgeType) => ({
@@ -300,9 +303,7 @@ const FranchiseGraph: FC<Props> = ({ model }) => {
 
         bar.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
 
-        const node = container.querySelector(
-            `[data-node="${CSS.escape(focus)}"]`,
-        );
+        const node = findNode(container, focus);
         const hiddenBy = node
             ? node.getBoundingClientRect().bottom -
               bar.getBoundingClientRect().top
@@ -331,20 +332,18 @@ const FranchiseGraph: FC<Props> = ({ model }) => {
         if (!target.closest('[data-node], [role="dialog"]')) setFocus(null);
     };
 
-    const nodeState = (id: string): NodeState => {
-        if (id === focus) return 'default';
+    const nodeState = (node: FranchiseNode): NodeState => {
+        if (node.id === focus) return 'default';
         if (
-            id !== model.current.id &&
+            node !== model.current &&
             model.edges.length > 0 &&
-            !view.linked.has(id)
+            !view.linked.has(node.id)
         ) {
             return 'isolated';
         }
-
-        const node = model.byId.get(id);
         if (
-            (focus && !view.near.has(id)) ||
-            (mine && node && !isTracked(node.content))
+            (focus && !view.near.has(node.id)) ||
+            (mine && !isTracked(node.content))
         ) {
             return 'far';
         }
@@ -468,9 +467,6 @@ const FranchiseGraph: FC<Props> = ({ model }) => {
                                         view.dense,
                                         focus !== null,
                                     );
-                                    const group = EDGE_TYPES.find(
-                                        (entry) => entry.type === edge.type,
-                                    )?.group;
 
                                     return (
                                         <path
@@ -479,7 +475,9 @@ const FranchiseGraph: FC<Props> = ({ model }) => {
                                             fill="none"
                                             stroke={
                                                 RELATION_GROUP_STYLES[
-                                                    group ?? 'alternative'
+                                                    RELATION_TYPE_GROUPS[
+                                                        edge.type
+                                                    ]
                                                 ].stroke
                                             }
                                             strokeWidth={style.width}
@@ -504,7 +502,7 @@ const FranchiseGraph: FC<Props> = ({ model }) => {
                                         position={position}
                                         isCurrent={node === model.current}
                                         isSelected={node.id === focus}
-                                        state={nodeState(node.id)}
+                                        state={nodeState(node)}
                                         showMedia={
                                             node.contentType !==
                                             model.current.contentType

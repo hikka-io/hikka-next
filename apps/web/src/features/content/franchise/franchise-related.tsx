@@ -34,9 +34,8 @@ const RelatedCard: FC<{ relation: DirectRelation }> = ({
 const FranchiseRelated: FC<Props> = ({ model }) => (
     <Stack
         extended
-        size={5}
         extendedSize={5}
-        className="grid-cols-3 md:grid-cols-5 lg:grid-cols-5"
+        className="grid-cols-3 lg:grid-cols-5"
         imagePreset="card"
     >
         {model

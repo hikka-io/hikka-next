@@ -1,6 +1,6 @@
 import {
     type FranchiseModel,
-    type FranchiseNode,
+    groupByYear,
     RelationGroupEnum,
 } from '../franchise-model';
 
@@ -19,16 +19,12 @@ export type GraphLayout = {
     sourceColumns: number;
 };
 
-const ANNOUNCED_YEAR = Number.MAX_SAFE_INTEGER;
-
 const RIGHT_ORDER: RelationGroupEnum[] = [
     RelationGroupEnum.SIDE,
     RelationGroupEnum.SUMMARY,
     RelationGroupEnum.ALTERNATIVE,
     RelationGroupEnum.SPIN_OFF,
 ];
-
-const yearOf = (node: FranchiseNode) => node.content.year ?? ANNOUNCED_YEAR;
 
 /**
  * Rows are years; the spine holds the main story, other media sit to its left
@@ -40,27 +36,19 @@ export function layoutGraph(
     model: FranchiseModel,
     budget: GraphBudget,
 ): GraphLayout {
-    const years = [...new Set(model.nodes.map(yearOf))].sort((a, b) => a - b);
-    const bands = years.map((year) => {
-        const nodes = model.nodes
-            .filter((node) => yearOf(node) === year)
-            .sort((a, b) => a.when - b.when);
-
-        return {
-            year,
-            main: nodes
-                .filter((node) => node.lane === 'main')
-                .sort((a, b) => (a.chainIndex ?? 0) - (b.chainIndex ?? 0)),
-            left: nodes.filter((node) => node.lane === 'source'),
-            right: nodes
-                .filter((node) => node.lane === 'right')
-                .sort(
-                    (a, b) =>
-                        RIGHT_ORDER.indexOf(a.group) -
-                        RIGHT_ORDER.indexOf(b.group),
-                ),
-        };
-    });
+    const bands = groupByYear(model.nodes).map(({ label, nodes }) => ({
+        label,
+        main: nodes
+            .filter((node) => node.lane === 'main')
+            .sort((a, b) => (a.chainIndex ?? 0) - (b.chainIndex ?? 0)),
+        left: nodes.filter((node) => node.lane === 'source'),
+        right: nodes
+            .filter((node) => node.lane === 'right')
+            .sort(
+                (a, b) =>
+                    RIGHT_ORDER.indexOf(a.group) - RIGHT_ORDER.indexOf(b.group),
+            ),
+    }));
 
     const left = Math.min(
         budget.left,
@@ -99,11 +87,7 @@ export function layoutGraph(
             ]);
         });
 
-        rows.push({
-            label: band.year === ANNOUNCED_YEAR ? 'Анонс' : String(band.year),
-            top,
-            height,
-        });
+        rows.push({ label: band.label, top, height });
         top += height;
     }
 

@@ -14,6 +14,6 @@ export function useFranchise(
         ...contentRelatedFranchiseOptions(contentType, slug),
         enabled,
         select: (data: FranchiseResponse) =>
-            buildFranchiseModel(data, contentType, slug),
+            buildFranchiseModel(data, contentType, slug) ?? undefined,
     });
 }

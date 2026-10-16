@@ -20,7 +20,7 @@ import {
 import { useScrollGradientMask } from '@/services/hooks/use-scroll-position';
 import { cn } from '@/utils/cn';
 
-import type { GraphEdgeType } from '../franchise-model';
+import { type GraphEdgeType, RELATION_TYPE_GROUPS } from '../franchise-model';
 import { type EDGE_TYPES, RELATION_GROUP_STYLES } from '../relation-groups';
 
 export type EdgeFilter = (typeof EDGE_TYPES)[number] & {
@@ -120,7 +120,9 @@ const FiltersModal: FC<
                                             on
                                             className={
                                                 RELATION_GROUP_STYLES[
-                                                    filter.group
+                                                    RELATION_TYPE_GROUPS[
+                                                        filter.type
+                                                    ]
                                                 ].text
                                             }
                                         />
@@ -191,8 +193,9 @@ const GraphToolbar: FC<Props> = ({
                                 className={cn(
                                     'border',
                                     filter.on
-                                        ? RELATION_GROUP_STYLES[filter.group]
-                                              .chip
+                                        ? RELATION_GROUP_STYLES[
+                                              RELATION_TYPE_GROUPS[filter.type]
+                                          ].chip
                                         : 'border-transparent bg-secondary/40 text-muted-foreground hover:bg-accent',
                                 )}
                             >
