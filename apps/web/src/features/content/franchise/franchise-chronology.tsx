@@ -78,26 +78,29 @@ const ChronologyRow: FC<{ model: FranchiseModel; node: FranchiseNode }> = ({
 
 const FranchiseChronology: FC<Props> = ({ model }) => (
     <div className="flex flex-col gap-10">
-        {groupByYear(model.nodes).map(({ label, nodes }) => (
-            <section key={label}>
-                <h4 className="mb-4">{label}</h4>
-                <div className={historyRowsVariants({ size: 'lg' })}>
-                    {[...nodes]
-                        .sort(
-                            (a, b) =>
-                                Number(a.chainIndex === null) -
-                                Number(b.chainIndex === null),
-                        )
-                        .map((node) => (
-                            <ChronologyRow
-                                key={node.id}
-                                model={model}
-                                node={node}
-                            />
-                        ))}
-                </div>
-            </section>
-        ))}
+        {groupByYear(model.nodes)
+            .reverse()
+            .map(({ label, nodes }) => (
+                <section key={label}>
+                    <h4 className="mb-4">{label}</h4>
+                    <div className={historyRowsVariants({ size: 'lg' })}>
+                        {[...nodes]
+                            .reverse()
+                            .sort(
+                                (a, b) =>
+                                    Number(a.chainIndex === null) -
+                                    Number(b.chainIndex === null),
+                            )
+                            .map((node) => (
+                                <ChronologyRow
+                                    key={node.id}
+                                    model={model}
+                                    node={node}
+                                />
+                            ))}
+                    </div>
+                </section>
+            ))}
     </div>
 );
 

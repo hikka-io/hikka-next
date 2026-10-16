@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 
 import { range } from '@antfu/utils';
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown, Share2 } from 'lucide-react';
 
 import type { MainContentTypeEnum } from '@hikka/api';
 
@@ -23,6 +23,7 @@ import { labelVariants } from '@/components/ui/label';
 import { Skeleton, SkeletonText } from '@/components/ui/skeleton';
 import { useVisibleOnce } from '@/services/hooks/use-visible-once';
 import { contentPath } from '@/utils/content-paths';
+import { Link } from '@/utils/navigation';
 
 import FranchiseRow from './components/franchise-row';
 import RelationLabel from './components/relation-label';
@@ -134,6 +135,14 @@ const FranchiseCard: FC<Props> = ({ content_type, slug, className }) => {
             <Header href={href}>
                 <HeaderContainer>
                     <HeaderTitle variant="h4">Франшиза</HeaderTitle>
+                    <Button
+                        size="icon-sm"
+                        variant="outline"
+                        aria-label="Граф франшизи"
+                        render={<Link to={href} search={{ view: 'graph' }} />}
+                    >
+                        <Share2 />
+                    </Button>
                 </HeaderContainer>
                 <HeaderNavButton />
             </Header>

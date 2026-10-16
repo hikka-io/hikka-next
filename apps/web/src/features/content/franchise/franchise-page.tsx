@@ -25,7 +25,7 @@ type Props = {
     view?: FranchiseView;
 };
 
-const FranchisePage: FC<Props> = ({ content_type, slug, view = 'related' }) => {
+const FranchisePage: FC<Props> = ({ content_type, slug, view = 'chrono' }) => {
     const { data: model, isPending } = useFranchise(content_type, slug);
 
     if (!model && !isPending) {
@@ -35,17 +35,17 @@ const FranchisePage: FC<Props> = ({ content_type, slug, view = 'related' }) => {
     const to = `${contentPath(content_type, slug)}/franchise`;
     const options: ChipTabOption<FranchiseView>[] = [
         {
-            label: 'Пов’язане',
-            value: 'related',
-            count: model?.direct.length,
-            to,
-        },
-        {
             label: 'Хронологія',
             value: 'chrono',
             count: model?.nodes.length,
             to,
-            search: { view: 'chrono' },
+        },
+        {
+            label: 'Пов’язане',
+            value: 'related',
+            count: model?.direct.length,
+            to,
+            search: { view: 'related' },
         },
         { label: 'Граф', value: 'graph', to, search: { view: 'graph' } },
     ];
