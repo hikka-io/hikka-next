@@ -243,7 +243,11 @@ const FranchiseGraph: FC<Props> = ({ model }) => {
     const [focus, setFocus] = useState<string | null>(null);
     const [fullscreen, setFullscreen] = useState(false);
 
-    const name = useTitle(model.chain[0]?.content);
+    const name = useTitle(
+        model.chain.reduce((first, node) =>
+            node.when < first.when ? node : first,
+        ).content,
+    );
     const layout = layoutGraph(
         model,
         isDesktop ? DESKTOP_BUDGET : PHONE_BUDGET,

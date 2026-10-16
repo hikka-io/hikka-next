@@ -92,8 +92,10 @@ const SwitchRow: FC<{
 };
 
 const FiltersModal: FC<
-    Pick<Props, 'filters' | 'onToggle' | 'mine' | 'onToggleMine'>
-> = ({ filters, onToggle, mine, onToggleMine }) => {
+    Pick<Props, 'filters' | 'onToggle' | 'mine' | 'onToggleMine'> & {
+        compact: boolean;
+    }
+> = ({ filters, onToggle, mine, onToggleMine, compact }) => {
     const [open, setOpen] = useState(false);
     const enabled = filters.filter((filter) => filter.on).length;
 
@@ -101,7 +103,7 @@ const FiltersModal: FC<
         <>
             <Button variant="outline" size="sm" onClick={() => setOpen(true)}>
                 <Filter />
-                Фільтри
+                {compact ? <span className="sr-only">Фільтри</span> : 'Фільтри'}
                 <span className="text-muted-foreground tabular-nums">
                     {enabled}/{filters.length}
                 </span>
@@ -174,7 +176,7 @@ const GraphToolbar: FC<Props> = ({
             {isDesktop ? (
                 <>
                     {fullscreen && title && (
-                        <span className="max-w-xs shrink-0 truncate font-bold">
+                        <span className="max-w-1/2 shrink-0 truncate font-bold">
                             Франшиза «{title}»
                         </span>
                     )}
@@ -217,13 +219,24 @@ const GraphToolbar: FC<Props> = ({
                 </>
             ) : (
                 <>
+                    {fullscreen && title && (
+                        <div className="flex min-w-0 flex-1 flex-col">
+                            <span className="truncate font-semibold text-sm">
+                                {title}
+                            </span>
+                            <span className="text-muted-foreground text-xs">
+                                Франшиза
+                            </span>
+                        </div>
+                    )}
                     <FiltersModal
                         filters={filters}
                         onToggle={onToggle}
                         mine={mine}
                         onToggleMine={onToggleMine}
+                        compact={Boolean(fullscreen && title)}
                     />
-                    <span className="flex-1" />
+                    {!(fullscreen && title) && <span className="flex-1" />}
                 </>
             )}
             <IconButton label={fullscreenLabel} onClick={onToggleFullscreen}>
