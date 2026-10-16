@@ -335,7 +335,9 @@ describe('computeGraphView', () => {
                         edge.a === nodeId('anime', 'a1') &&
                         edge.type === 'sequel',
                 )?.path,
-            ).toContain('C');
+            ).toMatch(
+                horizontal ? /^M\d+ (\d+) L\d+ \1$/ : /^M(\d+) \d+ L\1 \d+$/,
+            );
 
             for (const edge of routed) {
                 const numbers = (edge.path.match(/[\d.]+/g) ?? []).map(Number);
@@ -364,6 +366,98 @@ describe('computeGraphView', () => {
                         ).toBe(false);
                     }
                 }
+            }
+        }
+    });
+
+    it('never lays two lines over each other along a channel', () => {
+        const model = build('a2');
+
+        for (const horizontal of [false, true]) {
+            const base = layoutGraph(model, { left: 2, right: 3 });
+            const layout = horizontal ? transposeLayout(base) : base;
+            const { edges } = computeGraphView(
+                model,
+                layout,
+                new Set(),
+                null,
+                horizontal,
+            );
+            const runs = edges.flatMap((edge) => {
+                const numbers = (edge.path.match(/[\d.]+/g) ?? []).map(Number);
+                if (edge.path.includes('C')) return [];
+                const points: number[][] = [];
+                for (let i = 0; i < numbers.length; i += 2) {
+                    points.push([numbers[i], numbers[i + 1]]);
+                }
+                return points.slice(1).flatMap(([bx, by], i) => {
+                    if (i === 0 || i === points.length - 2) return [];
+                    const [ax, ay] = points[i];
+                    if (ax === bx && ay !== by) {
+                        return [
+                            {
+                                key: edge.key,
+                                at: `x${ax}`,
+                                lo: Math.min(ay, by),
+                                hi: Math.max(ay, by),
+                            },
+                        ];
+                    }
+                    if (ay === by && ax !== bx) {
+                        return [
+                            {
+                                key: edge.key,
+                                at: `y${ay}`,
+                                lo: Math.min(ax, bx),
+                                hi: Math.max(ax, bx),
+                            },
+                        ];
+                    }
+                    return [];
+                });
+            });
+
+            for (const run of runs) {
+                expect(
+                    runs.some(
+                        (other) =>
+                            other.key !== run.key &&
+                            other.at === run.at &&
+                            Math.min(other.hi, run.hi) -
+                                Math.max(other.lo, run.lo) >
+                                1,
+                    ),
+                ).toBe(false);
+            }
+        }
+    });
+
+    it('starts and ends every line under its posters', () => {
+        const model = build('a2');
+
+        for (const horizontal of [false, true]) {
+            const base = layoutGraph(model, { left: 2, right: 3 });
+            const layout = horizontal ? transposeLayout(base) : base;
+            const { edges } = computeGraphView(
+                model,
+                layout,
+                new Set(),
+                null,
+                horizontal,
+            );
+            const centre = (id: string) =>
+                (layout.positions.get(id) as [number, number])
+                    .map((unit) => (unit + 0.5) * 100)
+                    .join(' ');
+
+            for (const edge of edges) {
+                const numbers = edge.path.match(/[\d.]+/g) ?? [];
+                const ends = [
+                    numbers.slice(0, 2).join(' '),
+                    numbers.slice(-2).join(' '),
+                ].sort();
+
+                expect(ends).toEqual([centre(edge.a), centre(edge.b)].sort());
             }
         }
     });

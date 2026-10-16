@@ -26,6 +26,13 @@ export type GraphView = {
 
 export const CELL = 100;
 const CORNER = 20;
+const TRACK_GAP = 6;
+// Vertical runs spread both ways within the gap beside a column or year. A row boundary sits just
+// under a media label, so runs along it spread downwards into the strip above the next poster.
+// The gap between lanes (horizontal view) is wider: its runs centre on the free strip between
+// the upper lane's labels and the lower lane's posters, a little below the boundary.
+const TRACK_ROOM = { x: 40, row: 16, lane: 34 };
+const LANE_CENTRE = 6;
 
 type Point = [number, number];
 
@@ -49,6 +56,116 @@ function roundedPath(points: Point[]): string {
 
     const [lx, ly] = points[points.length - 1];
     return `${path} L${lx} ${ly}`;
+}
+
+type TrackedLine = { points: Point[]; anchor: boolean };
+
+type Run = {
+    line: TrackedLine;
+    index: number;
+    vertical: boolean;
+    lo: number;
+    hi: number;
+};
+
+const trackShift = (track: number, gap: number, symmetric: boolean) =>
+    !symmetric || track === 0
+        ? track * gap
+        : (track % 2 ? 1 : -1) * Math.ceil(track / 2) * gap;
+
+/**
+ * Straight runs that share a channel (the same x, or the same y) and overlap get their own track,
+ * so the lines sit side by side instead of on top of each other. Runs that only touch end to end
+ * stay put, anchor lines (the current title, the main story) keep the centre, and a line's first
+ * and last segments never move, so it still starts and ends under its posters.
+ */
+function spreadTracks(lines: TrackedLine[], horizontal: boolean): Point[][] {
+    const channels = new Map<string, Run[]>();
+
+    for (const line of lines) {
+        for (let index = 2; index < line.points.length - 1; index++) {
+            const [ax, ay] = line.points[index - 1];
+            const [bx, by] = line.points[index];
+            const vertical = ax === bx;
+            if (!vertical && ay !== by) continue;
+
+            const [lo, hi] = vertical
+                ? [Math.min(ay, by), Math.max(ay, by)]
+                : [Math.min(ax, bx), Math.max(ax, bx)];
+            const key = vertical ? `x${ax}` : `y${ay}`;
+            channels.set(key, [
+                ...(channels.get(key) ?? []),
+                { line, index, vertical, lo, hi },
+            ]);
+        }
+    }
+
+    const spread = new Map(
+        lines.map((line) => [line, line.points.map(([x, y]): Point => [x, y])]),
+    );
+
+    for (const runs of channels.values()) {
+        const clusters: Run[][] = [];
+        let reach = Number.NEGATIVE_INFINITY;
+        for (const run of [...runs].sort((a, b) => a.lo - b.lo)) {
+            if (run.lo < reach) clusters[clusters.length - 1].push(run);
+            else clusters.push([run]);
+            reach = Math.max(reach, run.hi);
+        }
+
+        for (const cluster of clusters) {
+            if (cluster.length < 2) continue;
+
+            const ends: number[] = [];
+            const placed = [...cluster]
+                .sort(
+                    (a, b) =>
+                        Number(b.line.anchor) - Number(a.line.anchor) ||
+                        a.lo - b.lo,
+                )
+                .map((run) => {
+                    let track = ends.findIndex((end) => end <= run.lo);
+                    if (track < 0) track = ends.length;
+                    ends[track] = run.hi;
+                    return { run, track };
+                });
+            if (ends.length < 2) continue;
+
+            for (const { run, track } of placed) {
+                const room = run.vertical
+                    ? TRACK_ROOM.x
+                    : horizontal
+                      ? TRACK_ROOM.lane
+                      : TRACK_ROOM.row;
+                const lane = horizontal && !run.vertical;
+                const gap = Math.min(TRACK_GAP, room / ends.length);
+                const shift =
+                    (lane ? LANE_CENTRE : 0) +
+                    trackShift(track, gap, run.vertical || lane);
+                const points = spread.get(run.line) as Point[];
+                const axis = run.vertical ? 0 : 1;
+                points[run.index - 1][axis] += shift;
+                points[run.index][axis] += shift;
+            }
+        }
+    }
+
+    return lines.map((line) => spread.get(line) as Point[]);
+}
+
+/** A straight line between two titles; a long one gets stubs so only its middle may spread. */
+function straightLine(from: Point, to: Point, horizontal: boolean): Point[] {
+    const axis = horizontal ? 0 : 1;
+    const length = to[axis] - from[axis];
+    if (Math.abs(length) <= CELL) return [from, to];
+
+    const stub = (Math.sign(length) * CELL) / 2;
+    const first: Point = [...from];
+    const last: Point = [...to];
+    first[axis] += stub;
+    last[axis] -= stub;
+
+    return [from, first, last, to];
 }
 
 /**
@@ -156,7 +273,8 @@ export function computeGraphView(
     const lanes = horizontal ? layout.rows : layout.columns;
 
     const seen = new Set<string>();
-    const edges: DrawnEdge[] = [];
+    const edges: (DrawnEdge & { line?: TrackedLine })[] = [];
+    const lines: TrackedLine[] = [];
 
     for (const edge of placed) {
         const touched =
@@ -183,21 +301,38 @@ export function computeGraphView(
             occupied,
             lanes,
         );
+        const anchor =
+            edge.a === model.current.id ||
+            edge.b === model.current.id ||
+            (a?.chainIndex != null && b?.chainIndex != null);
+        const straight = horizontal ? y1 === y2 : x1 === x2;
+        const points: Point[] | null = route
+            ? route.map(screen)
+            : straight
+              ? straightLine([x1, y1], [x2, y2], horizontal)
+              : null;
+        const line = points ? { points, anchor } : null;
+        if (line) lines.push(line);
 
         edges.push({
             ...edge,
             key,
-            path: route
-                ? roundedPath(route.map(screen))
+            path: line
+                ? ''
                 : horizontal
                   ? `M${x1} ${y1} C${midX} ${y1} ${midX} ${y2} ${x2} ${y2}`
                   : `M${x1} ${y1} C${x1} ${midY} ${x2} ${midY} ${x2} ${y2}`,
-            anchor:
-                edge.a === model.current.id ||
-                edge.b === model.current.id ||
-                (a?.chainIndex != null && b?.chainIndex != null),
+            line: line ?? undefined,
+            anchor,
             touched,
         });
+    }
+
+    const spread = spreadTracks(lines, horizontal);
+    for (const edge of edges) {
+        if (!edge.line) continue;
+        edge.path = roundedPath(spread[lines.indexOf(edge.line)]);
+        delete edge.line;
     }
 
     const linked = new Set<string>();
