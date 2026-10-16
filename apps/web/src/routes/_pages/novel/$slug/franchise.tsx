@@ -1,12 +1,15 @@
 import { createFileRoute } from '@tanstack/react-router';
+import { zodValidator } from '@tanstack/zod-adapter';
 
 import { ContentTypeEnum } from '@hikka/api';
 
-import { ContentSubpage, Franchise } from '@/features/content';
+import { ContentSubpage, FranchisePage } from '@/features/content';
 import { loadContentTab } from '@/features/content/detail-route';
 import { generateHeadMeta } from '@/utils/metadata';
+import { franchiseSearchSchema } from '@/utils/search-schemas';
 
 export const Route = createFileRoute('/_pages/novel/$slug/franchise')({
+    validateSearch: zodValidator(franchiseSearchSchema),
     loader: ({ params, context }) =>
         loadContentTab(
             ContentTypeEnum.NOVEL,
@@ -15,16 +18,21 @@ export const Route = createFileRoute('/_pages/novel/$slug/franchise')({
             context,
         ),
     head: () =>
-        generateHeadMeta({ title: "Пов'язане", robots: { index: false } }),
-    component: NovelFranchisePage,
+        generateHeadMeta({ title: 'Франшиза', robots: { index: false } }),
+    component: NovelFranchiseRoute,
 });
 
-function NovelFranchisePage() {
+function NovelFranchiseRoute() {
     const { slug } = Route.useParams();
+    const { view } = Route.useSearch();
 
     return (
         <ContentSubpage slug={slug} contentType={ContentTypeEnum.NOVEL}>
-            <Franchise content_type={ContentTypeEnum.NOVEL} extended />
+            <FranchisePage
+                content_type={ContentTypeEnum.NOVEL}
+                slug={slug}
+                view={view}
+            />
         </ContentSubpage>
     );
 }

@@ -17,6 +17,7 @@ export type MediaTooltipRow = {
 
 type Props = {
     title?: string;
+    titleHref?: string;
     score: number;
     native_score?: number;
     scored_by?: number;
@@ -49,6 +50,7 @@ const TooltipRow: FC<{ label: string; children: ReactNode }> = ({
 
 const MediaTooltipContent: FC<Props> = ({
     title,
+    titleHref,
     score,
     native_score,
     scored_by,
@@ -67,7 +69,15 @@ const MediaTooltipContent: FC<Props> = ({
     return (
         <>
             <div className="flex flex-col gap-2">
-                <h5>{title}</h5>
+                <h5>
+                    {titleHref ? (
+                        <Link to={titleHref} className="hover:underline">
+                            {title}
+                        </Link>
+                    ) : (
+                        title
+                    )}
+                </h5>
                 <InlineScores
                     malScore={score}
                     malScoreCount={scored_by}

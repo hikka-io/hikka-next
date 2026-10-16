@@ -36,9 +36,9 @@ export function catalogHideListedStatuses(
 }
 
 export type UiPreferences = {
-    /** View preferences by context key (e.g., 'catalog', 'userlist', 'franchise') */
+    /** View preferences by context key (e.g., 'catalog', 'userlist') */
     views: Record<string, View>;
-    /** Filter preferences by context key (e.g., 'franchiseContentTypes') */
+    /** Filter preferences by context key (e.g., the catalog hide-listed statuses) */
     filters: Record<string, string[]>;
     /** Collapsible state by context key (e.g., 'catalog_filters_sidebar') */
     collapsibles: Record<string, boolean>;

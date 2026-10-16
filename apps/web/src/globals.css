@@ -107,6 +107,14 @@
     --color-feed-comment: var(--feed-comment);
     --color-feed-review: var(--feed-review);
 
+    /* franchise relation groups */
+    --color-relation-sequel: var(--relation-sequel);
+    --color-relation-side: var(--relation-side);
+    --color-relation-alternative: var(--relation-alternative);
+    --color-relation-summary: var(--relation-summary);
+    --color-relation-spin-off: var(--relation-spin-off);
+    --color-relation-source: var(--relation-source);
+
     /* radius */
     --base-radius: 0.625rem;
     --radius-lg: var(--radius);
@@ -357,6 +365,13 @@
     --feed-collection: #6fa8dc;
     --feed-comment: #e8a87c;
     --feed-review: #b892e8;
+
+    --relation-sequel: var(--primary-foreground);
+    --relation-side: var(--feed-collection);
+    --relation-alternative: var(--feed-review);
+    --relation-summary: var(--feed-comment);
+    --relation-spin-off: var(--feed-article);
+    --relation-source: var(--muted-foreground);
 }
 
 :root {

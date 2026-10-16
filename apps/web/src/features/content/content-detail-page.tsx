@@ -21,7 +21,7 @@ import ContentHeroPoster from './detail-header/hero-poster';
 import ContentTitle from './detail-header/title';
 import ContentDetails from './details';
 import Followings from './followings/followings';
-import Franchise from './franchise';
+import FranchiseCard from './franchise/franchise-card';
 import ContentLinks from './links';
 import ContentScores from './scores';
 import ContentStaff from './staff';
@@ -30,14 +30,14 @@ type Props = {
     contentType: MainContentTypeEnum;
     slug: string;
     afterDescription?: ReactNode;
-    afterFranchise?: ReactNode;
+    afterCharacters?: ReactNode;
 };
 
 const ContentDetailPage: FC<Props> = ({
     contentType,
     slug,
     afterDescription,
-    afterFranchise,
+    afterCharacters,
 }) => {
     const { data: content } = useQuery(contentInfoOptions(contentType, slug));
 
@@ -87,9 +87,13 @@ const ContentDetailPage: FC<Props> = ({
                     className="lg:hidden"
                     content_type={contentType}
                 />
+                <FranchiseCard
+                    className="lg:hidden"
+                    content_type={contentType}
+                    slug={slug}
+                />
                 <ContentCharacters content_type={contentType} />
-                <Franchise content_type={contentType} />
-                {afterFranchise}
+                {afterCharacters}
                 <ContentStaff content_type={contentType} />
                 <div className="order-last lg:order-0">
                     <CommentList
@@ -111,6 +115,11 @@ const ContentDetailPage: FC<Props> = ({
                 <ContentDetails
                     className="hidden lg:flex"
                     content_type={contentType}
+                />
+                <FranchiseCard
+                    className="hidden lg:flex"
+                    content_type={contentType}
+                    slug={slug}
                 />
                 <ContentStats content_type={contentType} />
                 <div className="contents lg:hidden">

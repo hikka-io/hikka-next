@@ -1,1 +1,1 @@
-export { default } from './franchise';
+export { default } from './franchise-page';

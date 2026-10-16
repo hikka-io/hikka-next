@@ -13,7 +13,7 @@ export const NOVEL_NAV_ROUTES: NavRoute[] = [
     },
     {
         slug: 'franchise',
-        title_ua: "Пов'язане",
+        title_ua: 'Франшиза',
         url: '/franchise',
     },
     {
@@ -36,7 +36,7 @@ export const MANGA_NAV_ROUTES: NavRoute[] = [
     },
     {
         slug: 'franchise',
-        title_ua: "Пов'язане",
+        title_ua: 'Франшиза',
         url: '/franchise',
     },
     {
@@ -59,7 +59,7 @@ export const ANIME_NAV_ROUTES: NavRoute[] = [
     },
     {
         slug: 'franchise',
-        title_ua: "Пов'язане",
+        title_ua: 'Франшиза',
         url: '/franchise',
     },
     {

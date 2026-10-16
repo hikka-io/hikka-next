@@ -9,8 +9,6 @@ import {
 
 import { createStore, useStore } from 'zustand';
 
-import { ContentTypeEnum } from '@hikka/api';
-
 import {
     type UiPreferences,
     type View,
@@ -20,16 +18,8 @@ import {
 // Fallbacks applied at read time; the cookie stores only explicit choices.
 export const UI_PREFS_DEFAULTS = {
     views: {
-        franchise: 'list',
         userlist: 'table',
     } as Record<string, View>,
-    filters: {
-        franchiseContentTypes: [
-            ContentTypeEnum.ANIME,
-            ContentTypeEnum.MANGA,
-            ContentTypeEnum.NOVEL,
-        ] as string[],
-    },
 };
 
 export type UiPreferencesActions = {

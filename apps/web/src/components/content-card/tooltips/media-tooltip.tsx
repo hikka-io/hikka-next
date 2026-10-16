@@ -130,14 +130,16 @@ type TooltipDataProps = {
     watch?: WatchResponseBase | null;
     read?: ReadResponseBase | null;
     item?: MediaTooltipItem;
+    titleHref?: string;
 };
 
-const MediaTooltipData: FC<TooltipDataProps> = ({
+export const MediaTooltipBody: FC<TooltipDataProps> = ({
     type,
     slug,
     watch,
     read,
     item,
+    titleHref,
 }) => {
     const { user: loggedUser } = useSession();
     const { data: fetched } = useQuery({
@@ -154,6 +156,7 @@ const MediaTooltipData: FC<TooltipDataProps> = ({
     return (
         <MediaTooltipContent
             title={title}
+            titleHref={titleHref}
             score={data.score}
             native_score={data.native_score}
             scored_by={data.scored_by}
@@ -220,7 +223,7 @@ const MediaTooltip: FC<Props> = ({
     return (
         <HoverCardWrapper
             content={
-                <MediaTooltipData
+                <MediaTooltipBody
                     type={type}
                     slug={slug}
                     watch={watch}

@@ -73,3 +73,15 @@ export const REREAD_FORMS = [
     'перечитування',
     'перечитувань',
 ] as const satisfies WordForms;
+
+export const TITLE_FORMS = [
+    'тайтл',
+    'тайтли',
+    'тайтлів',
+] as const satisfies WordForms;
+
+export const RELATION_FORMS = [
+    'зв’язок',
+    'зв’язки',
+    'зв’язків',
+] as const satisfies WordForms;

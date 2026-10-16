@@ -202,6 +202,13 @@ export const favoritesSearchSchema = z.object({
     type: z.nativeEnum(FavouriteContentTypeEnum).optional().catch(undefined),
 });
 
+export const FRANCHISE_VIEWS = ['related', 'chrono', 'graph'] as const;
+export type FranchiseView = (typeof FRANCHISE_VIEWS)[number];
+
+export const franchiseSearchSchema = z.object({
+    view: z.enum(FRANCHISE_VIEWS).optional().catch(undefined),
+});
+
 // Type exports for consumers
 export type SortOrderSearch = z.infer<z.ZodObject<typeof sortOrderSearch>>;
 export type TextSearch = z.infer<z.ZodObject<typeof textSearch>>;

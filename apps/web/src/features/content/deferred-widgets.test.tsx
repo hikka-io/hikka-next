@@ -20,7 +20,8 @@ import ContentArticlesModal from './articles/content-articles-modal';
 import ContentCollections from './collections';
 import Followings from './followings/followings';
 import FollowingsModal from './followings/followings-modal';
-import Franchise from './franchise/franchise';
+import FranchiseCard from './franchise/franchise-card';
+import FranchisePage from './franchise/franchise-page';
 import {
     contentArticlesOptions,
     contentCollectionsOptions,
@@ -113,7 +114,7 @@ const PAGE = { total: 0, pages: 1, page: 1 };
 
 const bodyFor = (pathname: string) =>
     pathname.endsWith('/franchise')
-        ? { anime: [], manga: [], novel: [] }
+        ? { relations: [], anime: [], manga: [], novel: [] }
         : { pagination: PAGE, list: [] };
 
 const requests: URL[] = [];
@@ -185,7 +186,7 @@ describe('deferred overview widgets', () => {
                 <ContentCollections content_type="anime" />
                 <ContentArticles content_type={ContentTypeEnum.ANIME} />
                 <Followings content_type={ContentTypeEnum.ANIME} />
-                <Franchise content_type="anime" />
+                <FranchiseCard content_type="anime" slug={SLUG} />
                 <ContentStaff content_type={ContentTypeEnum.ANIME} />
             </>,
         );
@@ -199,12 +200,12 @@ describe('deferred overview widgets', () => {
         expect(container.querySelector('.animate-pulse')).not.toBeNull();
     });
 
-    it('sizes the franchise skeleton like its two-item preview', async () => {
-        await render(<Franchise content_type="anime" />);
+    it('sizes the franchise skeleton like its prequel and sequel rows', async () => {
+        await render(<FranchiseCard content_type="anime" slug={SLUG} />);
 
-        expect(container.querySelector('.grid-min-20')?.children).toHaveLength(
-            2,
-        );
+        expect(
+            container.querySelectorAll('.size-8.animate-pulse'),
+        ).toHaveLength(2);
     });
 
     it('sizes the staff skeleton like its five-person preview', async () => {
@@ -335,14 +336,14 @@ describe('deferred overview widgets', () => {
     });
 
     it('requests the franchise once after it becomes visible', async () => {
-        await render(<Franchise content_type="anime" />);
+        await render(<FranchiseCard content_type="anime" slug={SLUG} />);
         await scrollIntoView();
 
         expect(pathsRequested()).toEqual([`/related/anime/${SLUG}/franchise`]);
     });
 
     it('caches the franchise under the loader key', async () => {
-        await render(<Franchise content_type="anime" />);
+        await render(<FranchiseCard content_type="anime" slug={SLUG} />);
         await scrollIntoView();
         await settle();
 
@@ -366,7 +367,7 @@ describe('deferred overview widgets', () => {
     it('does not gate the extended franchise and staff pages', async () => {
         await render(
             <>
-                <Franchise extended content_type="anime" />
+                <FranchisePage content_type="anime" slug={SLUG} />
                 <ContentStaff extended content_type={ContentTypeEnum.ANIME} />
             </>,
         );
