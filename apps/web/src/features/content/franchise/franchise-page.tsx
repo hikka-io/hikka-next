@@ -10,6 +10,7 @@ import { contentPath } from '@/utils/content-paths';
 import type { FranchiseView } from '@/utils/search-schemas';
 
 import FranchiseChronology from './franchise-chronology';
+import FranchiseComposition from './franchise-composition';
 import FranchiseRelated from './franchise-related';
 import FranchiseGraph, {
     FranchiseGraphSkeleton,
@@ -63,6 +64,7 @@ const FranchisePage: FC<Props> = ({ content_type, slug, view = 'related' }) => {
                     </HeaderTitle>
                 </HeaderContainer>
             </Header>
+            <FranchiseComposition model={model} />
             <ChipTabs options={options} value={view} />
             {view === 'related' && <FranchiseRelated model={model} />}
             {view === 'chrono' &&
