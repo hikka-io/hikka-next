@@ -101,6 +101,9 @@ const GRAPH_HEIGHT = 'h-165 max-md:h-130';
 const GUTTER_CLASS = 'flex w-max min-w-full pr-8 pl-(--gx) max-md:pr-5';
 // Room for the details card, so whatever it covers can be scrolled out from under it.
 const PANEL_ROOM = 'pr-[calc(20rem+1.5rem)]';
+// Only the room closing animates, so the scroll clamps smoothly; opening stays instant for the scroll into view.
+const ROOM_CLOSING =
+    'transition-[padding] duration-300 ease-out motion-reduce:transition-none';
 const CONTAINER_CLASS = '@container [scrollbar-gutter:stable]';
 
 const AXIS = 48;
@@ -298,7 +301,7 @@ const FranchiseGraph: FC<Props> = ({ model: franchise }) => {
     }));
 
     const focusNode = focus ? model.byId.get(focus) : undefined;
-    const panelRoom = isDesktop && focusNode && PANEL_ROOM;
+    const panelRoom = isDesktop && focusNode ? PANEL_ROOM : ROOM_CLOSING;
     const focusLinks = focus
         ? view.edges.filter((edge) => edge.a === focus || edge.b === focus)
               .length
@@ -421,7 +424,7 @@ const FranchiseGraph: FC<Props> = ({ model: franchise }) => {
     const padding = cn(
         'pb-6 max-md:pb-5',
         hasZone ? 'pt-2' : 'pt-5',
-        compactDetails && focusNode && 'pb-28 max-md:pb-28',
+        compactDetails && focusNode ? 'pb-28 max-md:pb-28' : ROOM_CLOSING,
     );
 
     const details = (variant: DetailsVariant) =>
@@ -489,7 +492,7 @@ const FranchiseGraph: FC<Props> = ({ model: franchise }) => {
                         model={model}
                         layout={layout}
                         isDesktop={isDesktop}
-                        className={panelRoom || undefined}
+                        className={panelRoom}
                     />
                 )}
                 <div className="relative flex min-h-0 flex-1">
