@@ -137,14 +137,13 @@ export function edgeStyle(
     return { opacity: sequel ? 1 : dashed ? 0.5 : 0.75, width, dashed };
 }
 
-/** Drops the titles of hidden media, with every edge that touches them. */
-export function withoutMedia(
+function keepNodes(
     model: FranchiseModel,
-    hidden: ReadonlySet<MainContentTypeEnum>,
+    keep: (node: FranchiseModel['nodes'][number]) => boolean,
 ): FranchiseModel {
-    if (!hidden.size) return model;
+    const nodes = model.nodes.filter(keep);
+    if (nodes.length === model.nodes.length) return model;
 
-    const nodes = model.nodes.filter((node) => !hidden.has(node.contentType));
     const kept = new Set(nodes.map((node) => node.id));
 
     return {
@@ -154,4 +153,34 @@ export function withoutMedia(
             (edge) => kept.has(edge.a) && kept.has(edge.b),
         ),
     };
+}
+
+/** Drops the titles of hidden media, with every edge that touches them. */
+export function withoutMedia(
+    model: FranchiseModel,
+    hidden: ReadonlySet<MainContentTypeEnum>,
+): FranchiseModel {
+    if (!hidden.size) return model;
+
+    return keepNodes(model, (node) => !hidden.has(node.contentType));
+}
+
+/**
+ * Drops the titles no shown relation reaches, the ones the graph greys out. It ignores the
+ * selection, whose hidden edges would otherwise bring titles back and reflow the layout.
+ */
+export function withoutUnlinked(
+    model: FranchiseModel,
+    hidden: ReadonlySet<GraphEdgeType>,
+): FranchiseModel {
+    if (!model.edges.length) return model;
+
+    const linked = new Set([model.current.id]);
+    for (const edge of model.edges) {
+        if (hidden.has(edge.type)) continue;
+        linked.add(edge.a);
+        linked.add(edge.b);
+    }
+
+    return keepNodes(model, (node) => linked.has(node.id));
 }

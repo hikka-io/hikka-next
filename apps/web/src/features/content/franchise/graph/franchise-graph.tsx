@@ -50,6 +50,7 @@ import {
     defaultHiddenTypes,
     edgeStyle,
     withoutMedia,
+    withoutUnlinked,
 } from './graph-view';
 import GraphZoomControls from './graph-zoom-controls';
 import { useGraphZoom } from './use-graph-zoom';
@@ -268,10 +269,15 @@ const FranchiseGraph: FC<Props> = ({ model: franchise }) => {
         ReadonlySet<MainContentTypeEnum>
     >(() => new Set());
     const [mine, setMine] = useState(false);
-    const [focus, setFocus] = useState<string | null>(null);
+    const [hideUnlinked, setHideUnlinked] = useState(false);
+    const [selected, setFocus] = useState<string | null>(null);
     const [fullscreen, setFullscreen] = useState(false);
 
-    const model = withoutMedia(franchise, hiddenMedia);
+    const shown = withoutMedia(franchise, hiddenMedia);
+    const model = hideUnlinked ? withoutUnlinked(shown, hidden) : shown;
+    const focus = model.nodes.some((node) => node.id === selected)
+        ? selected
+        : null;
     const name = useTitle(
         model.chain.reduce((first, node) =>
             node.when < first.when ? node : first,
@@ -388,6 +394,7 @@ const FranchiseGraph: FC<Props> = ({ model: franchise }) => {
         setHidden(initialHidden);
         setHiddenMedia(new Set());
         setMine(false);
+        setHideUnlinked(false);
     };
 
     const select = (id: string) => setFocus(focus === id ? null : id);
@@ -455,13 +462,16 @@ const FranchiseGraph: FC<Props> = ({ model: franchise }) => {
                             filter.on === initialHidden.has(filter.type),
                     ).length +
                     hiddenMedia.size +
-                    Number(mine)
+                    Number(mine) +
+                    Number(hideUnlinked)
                 }
                 onToggle={toggleType}
                 media={media}
                 onToggleMedia={toggleMedia}
                 mine={user ? mine : null}
                 onToggleMine={() => setMine(!mine)}
+                hideUnlinked={hideUnlinked}
+                onToggleHideUnlinked={() => setHideUnlinked(!hideUnlinked)}
                 onReset={reset}
                 fullscreen={fullscreen}
                 onToggleFullscreen={() => setFullscreen(!fullscreen)}

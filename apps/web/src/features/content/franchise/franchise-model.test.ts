@@ -6,6 +6,7 @@ import {
     buildFranchiseModel,
     compositionCounts,
     type FranchiseModel,
+    type GraphEdgeType,
     nodeId,
     relationText,
 } from './franchise-model';
@@ -14,6 +15,7 @@ import {
     computeGraphView,
     defaultHiddenTypes,
     withoutMedia,
+    withoutUnlinked,
 } from './graph/graph-view';
 
 type Kind = 'anime' | 'manga' | 'novel';
@@ -217,6 +219,48 @@ describe('computeGraphView', () => {
         expect(
             layoutGraph(animeOnly, { left: 2, right: 3 }).sourceColumns,
         ).toBe(0);
+    });
+
+    it('drops exactly the titles the graph greys out', () => {
+        const model = build('a2');
+        const hidden = new Set<GraphEdgeType>(['adaptation', 'side_story']);
+        const linked = withoutUnlinked(model, hidden);
+        const { linked: drawn } = computeGraphView(
+            model,
+            layoutGraph(model, { left: 2, right: 3 }),
+            hidden,
+            null,
+        );
+
+        expect(linked.nodes.map((n) => n.content.slug).sort()).toEqual([
+            'a1',
+            'a2',
+            'a3',
+            'r1',
+            's1',
+            's2',
+        ]);
+        expect(
+            model.nodes.every(
+                (n) =>
+                    linked.nodes.includes(n) ===
+                    (n === model.current || drawn.has(n.id)),
+            ),
+        ).toBe(true);
+    });
+
+    it('keeps the current title even when nothing shown reaches it', () => {
+        const model = build('r1');
+        const linked = withoutUnlinked(model, new Set(['summary']));
+
+        expect(linked.nodes).toContain(model.current);
+        expect(
+            model.nodes
+                .filter(
+                    (n) => !withoutUnlinked(model, new Set()).nodes.includes(n),
+                )
+                .map((n) => n.content.slug),
+        ).toEqual(['n1']);
     });
 
     it('hides adaptations by default unless they are all there is', () => {

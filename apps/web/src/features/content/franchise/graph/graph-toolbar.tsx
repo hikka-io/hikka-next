@@ -2,6 +2,7 @@ import { type FC, type ReactNode, useId, useState } from 'react';
 
 import {
     Bookmark,
+    EyeOff,
     Filter,
     Layers,
     Link,
@@ -59,6 +60,8 @@ type Props = {
     onToggleMedia: (type: MainContentTypeEnum) => void;
     mine: boolean | null;
     onToggleMine: () => void;
+    hideUnlinked: boolean;
+    onToggleHideUnlinked: () => void;
     onReset: () => void;
     fullscreen: boolean;
     onToggleFullscreen: () => void;
@@ -68,7 +71,14 @@ type Props = {
 
 type BodyProps = Pick<
     Props,
-    'filters' | 'onToggle' | 'media' | 'onToggleMedia' | 'mine' | 'onToggleMine'
+    | 'filters'
+    | 'onToggle'
+    | 'media'
+    | 'onToggleMedia'
+    | 'mine'
+    | 'onToggleMine'
+    | 'hideUnlinked'
+    | 'onToggleHideUnlinked'
 >;
 
 // Mirrors the mobile page header's action buttons.
@@ -125,6 +135,29 @@ const FilterSection: FC<{
     </div>
 );
 
+const FilterSwitch: FC<{
+    icon: ReactNode;
+    label: string;
+    checked: boolean;
+    onCheckedChange: () => void;
+}> = ({ icon, label, checked, onCheckedChange }) => {
+    const id = useId();
+
+    return (
+        <div className="flex items-center justify-between gap-2">
+            <div className="flex items-center gap-2 text-muted-foreground [&_svg]:size-4 [&_svg]:shrink-0">
+                {icon}
+                <Label htmlFor={id}>{label}</Label>
+            </div>
+            <Switch
+                id={id}
+                checked={checked}
+                onCheckedChange={onCheckedChange}
+            />
+        </div>
+    );
+};
+
 const FiltersBody: FC<BodyProps> = ({
     filters,
     onToggle,
@@ -132,8 +165,9 @@ const FiltersBody: FC<BodyProps> = ({
     onToggleMedia,
     mine,
     onToggleMine,
+    hideUnlinked,
+    onToggleHideUnlinked,
 }) => {
-    const mineId = useId();
     const selectedTypes = filters
         .filter((filter) => filter.on)
         .map((filter) => filter.type);
@@ -185,18 +219,19 @@ const FiltersBody: FC<BodyProps> = ({
                     />
                 </FilterSection>
             )}
+            <FilterSwitch
+                icon={<EyeOff />}
+                label="Сховати вимкнені тайтли"
+                checked={hideUnlinked}
+                onCheckedChange={onToggleHideUnlinked}
+            />
             {mine !== null && (
-                <div className="flex items-center justify-between gap-2">
-                    <div className="flex items-center gap-2 text-muted-foreground">
-                        <Bookmark className="size-4 shrink-0" />
-                        <Label htmlFor={mineId}>Лише мій список</Label>
-                    </div>
-                    <Switch
-                        id={mineId}
-                        checked={mine}
-                        onCheckedChange={onToggleMine}
-                    />
-                </div>
+                <FilterSwitch
+                    icon={<Bookmark />}
+                    label="Лише мій список"
+                    checked={mine}
+                    onCheckedChange={onToggleMine}
+                />
             )}
         </div>
     );
