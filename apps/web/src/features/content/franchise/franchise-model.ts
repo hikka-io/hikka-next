@@ -66,7 +66,6 @@ export type DirectRelation = {
     node: FranchiseNode;
     label: string;
     group: RelationGroupEnum;
-    succession: 'prequel' | 'sequel' | null;
 };
 
 export type GraphEdgeType = Exclude<
@@ -412,13 +411,6 @@ export function buildFranchiseModel(
                 node: other,
                 label: relationLabel(relation, other, current),
                 group: TYPE_GROUPS[relation.relation_type],
-                succession:
-                    relation.relation_type === FranchiseRelationTypeEnum.SEQUEL
-                        ? relation.slug === other.content.slug &&
-                          relation.content_type === other.contentType
-                            ? 'prequel'
-                            : 'sequel'
-                        : null,
             }),
         )
         .sort(
@@ -446,15 +438,6 @@ export function groupCounts(model: FranchiseModel) {
         group,
         count: model.nodes.filter((node) => node.group === group).length,
     })).filter((entry) => entry.count > 0);
-}
-
-export function groupByLabel(entries: DirectRelation[]): DirectRelation[][] {
-    const groups = new Map<string, DirectRelation[]>();
-    for (const entry of entries) {
-        groups.set(entry.label, [...(groups.get(entry.label) ?? []), entry]);
-    }
-
-    return [...groups.values()];
 }
 
 export function sourceTypes(model: FranchiseModel): MainContentTypeEnum[] {

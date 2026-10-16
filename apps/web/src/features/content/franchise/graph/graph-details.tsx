@@ -4,6 +4,11 @@ import { X } from 'lucide-react';
 
 import { MediaTooltipBody } from '@/components/content-card/tooltips';
 import { Button } from '@/components/ui/button';
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipTrigger,
+} from '@/components/ui/tooltip';
 import { cn } from '@/utils/cn';
 import { contentPath } from '@/utils/content-paths';
 import { getDeclensionWord } from '@/utils/i18n/declension';
@@ -52,18 +57,25 @@ const GraphDetails: FC<Props> = ({
             />
         );
     const close = (
-        <Button
-            variant="ghost"
-            size="icon-sm"
-            aria-label="Закрити"
-            className={cn(
-                'shrink-0 text-muted-foreground',
-                !compact && 'absolute top-2 right-2',
-            )}
-            onClick={onClose}
-        >
-            <X />
-        </Button>
+        <Tooltip>
+            <TooltipTrigger
+                render={
+                    <Button
+                        variant="ghost"
+                        size="icon-sm"
+                        aria-label="Закрити"
+                        className={cn(
+                            'shrink-0 text-muted-foreground',
+                            !compact && 'absolute top-2 right-2',
+                        )}
+                        onClick={onClose}
+                    />
+                }
+            >
+                <X />
+            </TooltipTrigger>
+            <TooltipContent>Закрити</TooltipContent>
+        </Tooltip>
     );
 
     if (compact) {

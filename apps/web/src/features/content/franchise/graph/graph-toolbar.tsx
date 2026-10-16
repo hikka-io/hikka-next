@@ -2,7 +2,7 @@ import { type FC, type ReactNode, useId, useRef, useState } from 'react';
 
 import { Bookmark, Filter, Maximize, Minimize } from 'lucide-react';
 
-import { Button } from '@/components/ui/button';
+import { Button, type ButtonProps } from '@/components/ui/button';
 import { Chip } from '@/components/ui/chip';
 import { Label } from '@/components/ui/label';
 import {
@@ -12,6 +12,11 @@ import {
 } from '@/components/ui/responsive-modal';
 import { SELECTED_TINT } from '@/components/ui/selected-tint';
 import { Switch } from '@/components/ui/switch';
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipTrigger,
+} from '@/components/ui/tooltip';
 import { useScrollGradientMask } from '@/services/hooks/use-scroll-position';
 import { cn } from '@/utils/cn';
 
@@ -44,6 +49,25 @@ const Dot: FC<{ on: boolean; className?: string }> = ({ on, className }) => (
             className,
         )}
     />
+);
+
+const IconButton: FC<Omit<ButtonProps, 'aria-label'> & { label: string }> = ({
+    label,
+    ...props
+}) => (
+    <Tooltip>
+        <TooltipTrigger
+            render={
+                <Button
+                    variant="outline"
+                    size="icon-sm"
+                    aria-label={label}
+                    {...props}
+                />
+            }
+        />
+        <TooltipContent>{label}</TooltipContent>
+    </Tooltip>
 );
 
 const SwitchRow: FC<{
@@ -178,17 +202,14 @@ const GraphToolbar: FC<Props> = ({
                         ))}
                     </div>
                     {mine !== null && (
-                        <Button
-                            variant="outline"
-                            size="icon-sm"
+                        <IconButton
+                            label="Лише мій список"
                             aria-pressed={mine}
-                            aria-label="Лише мій список"
-                            title="Лише мій список"
                             className={cn(mine && SELECTED_TINT)}
                             onClick={onToggleMine}
                         >
                             <Bookmark className={cn(mine && 'fill-current')} />
-                        </Button>
+                        </IconButton>
                     )}
                 </>
             ) : (
@@ -202,15 +223,9 @@ const GraphToolbar: FC<Props> = ({
                     <span className="flex-1" />
                 </>
             )}
-            <Button
-                variant="outline"
-                size="icon-sm"
-                aria-label={fullscreenLabel}
-                title={fullscreenLabel}
-                onClick={onToggleFullscreen}
-            >
+            <IconButton label={fullscreenLabel} onClick={onToggleFullscreen}>
                 {fullscreen ? <Minimize /> : <Maximize />}
-            </Button>
+            </IconButton>
         </div>
     );
 };

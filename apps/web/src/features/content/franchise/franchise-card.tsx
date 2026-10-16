@@ -1,4 +1,4 @@
-import { type FC, Fragment, useState } from 'react';
+import { type FC, useState } from 'react';
 
 import { range } from '@antfu/utils';
 import { ChevronDown } from 'lucide-react';
@@ -6,6 +6,7 @@ import { ChevronDown } from 'lucide-react';
 import type { MainContentTypeEnum } from '@hikka/api';
 
 import PosterCardSkeleton from '@/components/content-card/poster-card-skeleton';
+import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
 import {
     Collapsible,
@@ -22,7 +23,6 @@ import { labelVariants } from '@/components/ui/label';
 import SegmentedBar from '@/components/ui/segmented-bar';
 import { Separator } from '@/components/ui/separator';
 import { Skeleton, SkeletonText } from '@/components/ui/skeleton';
-import TextLink from '@/components/ui/text-link';
 import { useVisibleOnce } from '@/services/hooks/use-visible-once';
 import { cn } from '@/utils/cn';
 import { contentPath } from '@/utils/content-paths';
@@ -35,7 +35,6 @@ import RelationLabel from './components/relation-label';
 import {
     type DirectRelation,
     type FranchiseModel,
-    groupByLabel,
     groupCounts,
     type RelationGroupEnum,
     sourceTypes,
@@ -50,7 +49,7 @@ type Props = {
 };
 
 const SKELETON_ROWS = 2;
-const GROUP_PREVIEW_SIZE = 3;
+const PREVIEW_ROWS = 4;
 
 const FranchiseCardSkeleton: FC = () => (
     <div className="flex flex-col gap-4 px-4">
@@ -151,70 +150,50 @@ const FranchiseCardBody: FC<{ model: FranchiseModel; href: string }> = ({
     model,
     href,
 }) => {
-    const prequel = model.direct.find(
-        (entry) => entry.succession === 'prequel',
-    );
-    const sequel = model.direct.find((entry) => entry.succession === 'sequel');
-    const rail = [prequel, sequel].filter((entry) => entry !== undefined);
-    const others = model.direct.filter((entry) => !rail.includes(entry));
-
-    const otherRows = (
-        <div className="flex flex-col gap-4">
-            {groupByLabel(others).map((entries) => (
-                <Fragment key={entries[0].label}>
-                    {entries.slice(0, GROUP_PREVIEW_SIZE).map((entry) => (
-                        <DirectRow key={entry.node.id} relation={entry} />
-                    ))}
-                    {entries.length > GROUP_PREVIEW_SIZE && (
-                        <TextLink
-                            to={href}
-                            className="pl-16 text-muted-foreground text-sm"
-                        >
-                            Ще {entries.length - GROUP_PREVIEW_SIZE}
-                        </TextLink>
-                    )}
-                </Fragment>
-            ))}
-        </div>
-    );
+    const preview = model.direct.slice(0, PREVIEW_ROWS);
+    const rest = model.direct.slice(PREVIEW_ROWS);
 
     return (
         <>
-            {rail.length > 0 && (
-                <div className="flex flex-col gap-4 px-4">
-                    {rail.map((entry) => (
+            {model.direct.length > 0 && (
+                <Collapsible className="flex flex-col gap-4 px-4">
+                    {preview.map((entry) => (
                         <DirectRow key={entry.node.id} relation={entry} />
                     ))}
-                </div>
-            )}
-            {others.length > 0 && (
-                <>
-                    <Separator />
-                    <div className="px-4">
-                        {rail.length > 0 ? (
-                            <Collapsible>
-                                <CollapsibleTrigger className="group flex w-full cursor-pointer items-center gap-2 text-left font-medium text-sm">
-                                    <span className="truncate group-hover:underline">
-                                        Пов’язане з цим тайтлом
-                                    </span>
-                                    <span className="text-muted-foreground tabular-nums">
-                                        {others.length}
-                                    </span>
-                                    <ChevronDown className="ml-auto size-4 text-muted-foreground group-data-panel-open:rotate-180" />
-                                </CollapsibleTrigger>
-                                <CollapsibleContent className="pt-4">
-                                    {otherRows}
-                                </CollapsibleContent>
-                            </Collapsible>
-                        ) : (
-                            otherRows
-                        )}
-                    </div>
-                </>
+                    {rest.length > 0 && (
+                        <>
+                            <CollapsibleContent className="flex flex-col gap-4">
+                                {rest.map((entry) => (
+                                    <DirectRow
+                                        key={entry.node.id}
+                                        relation={entry}
+                                    />
+                                ))}
+                            </CollapsibleContent>
+                            <CollapsibleTrigger
+                                render={
+                                    <Button
+                                        variant="ghost"
+                                        size="md"
+                                        className="group w-full"
+                                    />
+                                }
+                            >
+                                <ChevronDown className="group-data-panel-open:rotate-180" />
+                                <span className="group-data-panel-open:hidden">
+                                    Показати ще {rest.length}
+                                </span>
+                                <span className="hidden group-data-panel-open:inline">
+                                    Згорнути
+                                </span>
+                            </CollapsibleTrigger>
+                        </>
+                    )}
+                </Collapsible>
             )}
             {model.nodes.length > 2 && (
                 <>
-                    <Separator />
+                    {model.direct.length > 0 && <Separator />}
                     <FranchiseComposition model={model} href={href} />
                 </>
             )}

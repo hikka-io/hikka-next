@@ -96,12 +96,14 @@ const GraphNode: FC<Props> = ({
                         'shadow-[0_0_0_2px_var(--foreground),0_0_0_5px_var(--card)]',
                 )}
             >
-                <span
-                    className={cn(
-                        'absolute inset-x-0 bottom-0 z-2 h-1',
-                        RELATION_GROUP_STYLES[node.group].solid,
-                    )}
-                />
+                {node.group !== 'source' && (
+                    <span
+                        className={cn(
+                            'absolute inset-x-0 bottom-0 z-2 h-1',
+                            RELATION_GROUP_STYLES[node.group].solid,
+                        )}
+                    />
+                )}
             </PosterCard>
             {showMedia && (
                 <span className="absolute top-[calc(100%+6px)] left-1/2 inline-flex -translate-x-1/2 items-center gap-1 whitespace-nowrap rounded-md bg-card px-1.5 py-0.5 font-medium text-muted-foreground text-xs leading-4">
