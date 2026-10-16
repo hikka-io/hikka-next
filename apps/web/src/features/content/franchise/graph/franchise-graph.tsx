@@ -54,13 +54,13 @@ type Sizes = { cw: string; rh: string; gp: string; gx: string };
 const SIZES: Record<'desktop' | 'phone', Record<'card' | 'full', Sizes>> = {
     desktop: {
         card: {
-            cw: 'clamp(76px, calc((100cqw - 104px) / var(--cols)), 140px)',
+            cw: 'max(76px, calc((100cqw - 104px) / var(--cols)))',
             rh: '116px',
             gp: '60px',
             gx: '16px',
         },
         full: {
-            cw: 'clamp(96px, calc((100cqw - 120px) / var(--cols)), 210px)',
+            cw: 'clamp(96px, calc((100cqw - 120px) / var(--cols)), 320px)',
             rh: '140px',
             gp: '76px',
             gx: '16px',
@@ -68,13 +68,13 @@ const SIZES: Record<'desktop' | 'phone', Record<'card' | 'full', Sizes>> = {
     },
     phone: {
         card: {
-            cw: 'clamp(64px, calc((100cqw - 80px) / var(--cols)), 140px)',
+            cw: 'max(64px, calc((100cqw - 80px) / var(--cols)))',
             rh: '104px',
             gp: '52px',
             gx: '12px',
         },
         full: {
-            cw: 'clamp(72px, calc((100cqw - 72px) / var(--cols)), 140px)',
+            cw: 'max(72px, calc((100cqw - 72px) / var(--cols)))',
             rh: '112px',
             gp: '56px',
             gx: '12px',
