@@ -236,9 +236,9 @@ const FranchiseGraph: FC<Props> = ({ model }) => {
     const scrollRef = useRef<HTMLDivElement>(null);
     const barRef = useRef<HTMLDivElement>(null);
 
-    const [hidden, setHidden] = useState<ReadonlySet<GraphEdgeType>>(() =>
-        defaultHiddenTypes(model),
-    );
+    const initialHidden = defaultHiddenTypes(model);
+    const [hidden, setHidden] =
+        useState<ReadonlySet<GraphEdgeType>>(initialHidden);
     const [mine, setMine] = useState(false);
     const [focus, setFocus] = useState<string | null>(null);
     const [fullscreen, setFullscreen] = useState(false);
@@ -377,6 +377,12 @@ const FranchiseGraph: FC<Props> = ({ model }) => {
         >
             <GraphToolbar
                 filters={filters}
+                changed={
+                    filters.filter(
+                        (filter) =>
+                            filter.on === initialHidden.has(filter.type),
+                    ).length
+                }
                 onToggle={toggleType}
                 mine={user ? mine : null}
                 onToggleMine={() => setMine(!mine)}

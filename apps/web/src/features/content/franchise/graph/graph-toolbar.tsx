@@ -2,6 +2,7 @@ import { type FC, type ReactNode, useId, useRef, useState } from 'react';
 
 import { Bookmark, Filter, Maximize, Minimize } from 'lucide-react';
 
+import { Badge } from '@/components/ui/badge';
 import { Button, type ButtonProps } from '@/components/ui/button';
 import { Chip } from '@/components/ui/chip';
 import { Label } from '@/components/ui/label';
@@ -30,6 +31,8 @@ export type EdgeFilter = (typeof EDGE_TYPES)[number] & {
 
 type Props = {
     filters: EdgeFilter[];
+    /** Filters that differ from their defaults. */
+    changed: number;
     onToggle: (type: GraphEdgeType) => void;
     mine: boolean | null;
     onToggleMine: () => void;
@@ -38,6 +41,9 @@ type Props = {
     title?: string;
     isDesktop: boolean;
 };
+
+// Mirrors the mobile page header's action buttons.
+const HEADER_BUTTON_CLASS = 'shrink-0 text-muted-foreground [&_svg]:size-5';
 
 const Dot: FC<{ on: boolean; className?: string }> = ({ on, className }) => (
     <span
@@ -92,22 +98,52 @@ const SwitchRow: FC<{
 };
 
 const FiltersModal: FC<
-    Pick<Props, 'filters' | 'onToggle' | 'mine' | 'onToggleMine'> & {
-        compact: boolean;
+    Pick<
+        Props,
+        'filters' | 'changed' | 'onToggle' | 'mine' | 'onToggleMine'
+    > & {
+        inHeader: boolean;
     }
-> = ({ filters, onToggle, mine, onToggleMine, compact }) => {
+> = ({ filters, changed, onToggle, mine, onToggleMine, inHeader }) => {
     const [open, setOpen] = useState(false);
     const enabled = filters.filter((filter) => filter.on).length;
 
     return (
         <>
-            <Button variant="outline" size="sm" onClick={() => setOpen(true)}>
-                <Filter />
-                {compact ? <span className="sr-only">Фільтри</span> : 'Фільтри'}
-                <span className="text-muted-foreground tabular-nums">
-                    {enabled}/{filters.length}
-                </span>
-            </Button>
+            {inHeader ? (
+                <Button
+                    variant="ghost"
+                    size="icon-md"
+                    aria-label="Фільтри"
+                    onClick={() => setOpen(true)}
+                    className={cn(
+                        HEADER_BUTTON_CLASS,
+                        'relative overflow-visible',
+                    )}
+                >
+                    <Filter />
+                    {changed > 0 && (
+                        <Badge
+                            variant="default"
+                            className="absolute top-0 right-0 h-4 min-w-4 px-1 text-[10px]"
+                        >
+                            {changed}
+                        </Badge>
+                    )}
+                </Button>
+            ) : (
+                <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setOpen(true)}
+                >
+                    <Filter />
+                    Фільтри
+                    <span className="text-muted-foreground tabular-nums">
+                        {enabled}/{filters.length}
+                    </span>
+                </Button>
+            )}
             <ResponsiveModal open={open} onOpenChange={setOpen}>
                 <ResponsiveModalContent title="Фільтри графа">
                     <div className="flex flex-col gap-4">
@@ -157,6 +193,7 @@ const FiltersModal: FC<
 
 const GraphToolbar: FC<Props> = ({
     filters,
+    changed,
     onToggle,
     mine,
     onToggleMine,
@@ -167,15 +204,22 @@ const GraphToolbar: FC<Props> = ({
 }) => {
     const chipsRef = useRef<HTMLDivElement>(null);
     const { gradientClassName } = useScrollGradientMask(chipsRef, 'horizontal');
+    const inHeader = !isDesktop && fullscreen && Boolean(title);
     const fullscreenLabel = fullscreen
         ? 'Вийти з повноекранного режиму'
         : 'На весь екран';
 
     return (
-        <div className="flex items-center gap-3 border-b px-4 py-3 max-md:px-3 max-md:py-2.5">
+        <div
+            className={cn(
+                'flex items-center gap-3 border-b px-4 py-3 max-md:px-3 max-md:py-2.5',
+                inHeader &&
+                    'h-14 gap-1 py-0 pr-2 pl-4 max-md:py-0 max-md:pr-2 max-md:pl-4',
+            )}
+        >
             {isDesktop ? (
                 <>
-                    {fullscreen && title && (
+                    {inHeader && (
                         <span className="max-w-1/2 shrink-0 truncate font-bold">
                             Франшиза «{title}»
                         </span>
@@ -219,7 +263,7 @@ const GraphToolbar: FC<Props> = ({
                 </>
             ) : (
                 <>
-                    {fullscreen && title && (
+                    {inHeader && (
                         <div className="flex min-w-0 flex-1 flex-col">
                             <span className="truncate font-semibold text-sm">
                                 {title}
@@ -234,12 +278,21 @@ const GraphToolbar: FC<Props> = ({
                         onToggle={onToggle}
                         mine={mine}
                         onToggleMine={onToggleMine}
-                        compact={Boolean(fullscreen && title)}
+                        changed={changed}
+                        inHeader={inHeader}
                     />
-                    {!(fullscreen && title) && <span className="flex-1" />}
+                    {!inHeader && <span className="flex-1" />}
                 </>
             )}
-            <IconButton label={fullscreenLabel} onClick={onToggleFullscreen}>
+            <IconButton
+                label={fullscreenLabel}
+                onClick={onToggleFullscreen}
+                {...(inHeader && {
+                    variant: 'ghost',
+                    size: 'icon-md',
+                    className: HEADER_BUTTON_CLASS,
+                })}
+            >
                 {fullscreen ? <Minimize /> : <Maximize />}
             </IconButton>
         </div>
