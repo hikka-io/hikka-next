@@ -170,7 +170,7 @@ const YearAxis: FC<{ layout: GraphLayout }> = ({ layout }) =>
             <span>{band.label}</span>
             {band.height > 1 && (
                 <span
-                    className="absolute left-[13px] w-px bg-border"
+                    className="absolute left-[13px] w-px bg-border dark:bg-border/50"
                     style={{
                         top: 'calc(var(--rh) / 2 + 14px)',
                         bottom: 'calc(var(--rh) / 2)',
@@ -444,7 +444,7 @@ const FranchiseGraph: FC<Props> = ({ model }) => {
                                 .map((band) => (
                                     <div
                                         key={band.label}
-                                        className="absolute left-(--axis) h-px bg-border"
+                                        className="absolute left-(--axis) h-px bg-border dark:bg-border/50"
                                         style={{
                                             top: `calc(var(--rh) * ${band.top})`,
                                             width: 'calc(var(--cols) * var(--cw))',
