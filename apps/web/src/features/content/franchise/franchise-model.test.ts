@@ -4,8 +4,8 @@ import type { FranchiseRelationTypeEnum, FranchiseResponse } from '@hikka/api';
 
 import {
     buildFranchiseModel,
+    compositionCounts,
     type FranchiseModel,
-    groupCounts,
     nodeId,
     relationText,
 } from './franchise-model';
@@ -137,12 +137,13 @@ describe('buildFranchiseModel', () => {
         expect(model.current.relation?.label).toBe('Рекап');
     });
 
-    it('counts the composition by relation group', () => {
-        expect(groupCounts(build('a2'))).toEqual([
+    it('counts the composition by relation group and other medium', () => {
+        expect(compositionCounts(build('a2'))).toEqual([
             { group: 'sequel', count: 3 },
             { group: 'side', count: 2 },
             { group: 'summary', count: 1 },
-            { group: 'source', count: 3 },
+            { group: 'source', contentType: 'manga', count: 2 },
+            { group: 'source', contentType: 'novel', count: 1 },
         ]);
     });
 });

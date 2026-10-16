@@ -4,13 +4,13 @@ import Card from '@/components/ui/card';
 import SegmentedBar from '@/components/ui/segmented-bar';
 import { Skeleton, SkeletonText } from '@/components/ui/skeleton';
 import { cn } from '@/utils/cn';
+import { CONTENT_TYPES } from '@/utils/labels';
 
-import {
-    type FranchiseModel,
-    groupCounts,
-    sourceTypes,
-} from './franchise-model';
-import { mediaListLabel, RELATION_GROUP_STYLES } from './relation-groups';
+import { compositionCounts, type FranchiseModel } from './franchise-model';
+import { RELATION_GROUP_STYLES } from './relation-groups';
+
+// A page shows at most two other media; two shades of the muted relation colour tell them apart.
+const MEDIA_SHADES = ['bg-relation-source', 'bg-relation-source/50'];
 
 type Props = {
     model?: FranchiseModel;
@@ -29,32 +29,38 @@ const FranchiseComposition: FC<Props> = ({ model }) => {
         );
     }
 
-    const sourceLabel = mediaListLabel(sourceTypes(model));
-    const counts = groupCounts(model);
+    const entries = compositionCounts(model).map((entry, _, list) => ({
+        ...entry,
+        key: entry.contentType ?? entry.group,
+        label: entry.contentType
+            ? CONTENT_TYPES[entry.contentType].title_ua
+            : RELATION_GROUP_STYLES[entry.group].label,
+        className: entry.contentType
+            ? MEDIA_SHADES[
+                  list.filter((other) => other.contentType).indexOf(entry)
+              ]
+            : RELATION_GROUP_STYLES[entry.group].solid,
+    }));
 
     return (
         <Card className="gap-3">
             <SegmentedBar
-                segments={counts.map(({ group, count }) => ({
-                    key: group,
+                segments={entries.map(({ key, count, className }) => ({
+                    key,
                     count,
-                    className: RELATION_GROUP_STYLES[group].solid,
+                    className,
                 }))}
             />
             <div className="flex flex-wrap gap-x-4 gap-y-1 font-medium text-sm">
-                {counts.map(({ group, count }) => (
-                    <span key={group} className="flex items-center gap-2">
+                {entries.map(({ key, label, count, className }) => (
+                    <span key={key} className="flex items-center gap-2">
                         <span
                             className={cn(
                                 'size-2 shrink-0 rounded-full',
-                                RELATION_GROUP_STYLES[group].solid,
+                                className,
                             )}
                         />
-                        <span className="text-muted-foreground">
-                            {group === 'source'
-                                ? sourceLabel
-                                : RELATION_GROUP_STYLES[group].label}
-                        </span>
+                        <span className="text-muted-foreground">{label}</span>
                         <span className="tabular-nums">{count}</span>
                     </span>
                 ))}

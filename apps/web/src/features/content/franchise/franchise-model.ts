@@ -429,11 +429,30 @@ export function buildFranchiseModel(
     return { current, nodes, byId, chain, direct, edges };
 }
 
-export function groupCounts(model: FranchiseModel) {
-    return RELATION_GROUP_ORDER.map((group) => ({
+export type CompositionEntry = {
+    group: RelationGroupEnum;
+    contentType?: MainContentTypeEnum;
+    count: number;
+};
+
+/** Relation groups of the page's medium, then each other medium on its own. */
+export function compositionCounts(model: FranchiseModel): CompositionEntry[] {
+    const groups = RELATION_GROUP_ORDER.filter(
+        (group) => group !== RelationGroupEnum.SOURCE,
+    ).map((group) => ({
         group,
         count: model.nodes.filter((node) => node.group === group).length,
-    })).filter((entry) => entry.count > 0);
+    }));
+    const media = sourceTypes(model).map((contentType) => ({
+        group: RelationGroupEnum.SOURCE,
+        contentType,
+        count: model.nodes.filter(
+            (node) =>
+                node.lane === 'source' && node.contentType === contentType,
+        ).length,
+    }));
+
+    return [...groups, ...media].filter((entry) => entry.count > 0);
 }
 
 export function groupByYear(nodes: FranchiseNode[]) {
