@@ -59,6 +59,7 @@ const storedFilterPresetSchema = z
         ratings: stringList,
         studios: stringList,
         only_translated: flag,
+        hide_listed: flag,
         // Migrate filter presets: sort was string[], now string
         sort: z
             .preprocess(

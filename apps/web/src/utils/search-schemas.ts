@@ -66,9 +66,15 @@ const animeFilterSearch = {
     date_range_enabled: coerceBoolean.optional().catch(undefined),
 };
 
+// Catalog-only: the viewer's own list exclusion, statuses come from ui-prefs
+const catalogSearch = {
+    hide_listed: coerceBoolean.optional().catch(undefined),
+};
+
 // Route-level schemas
 export const animeSearchSchema = z.object({
     ...animeFilterSearch,
+    ...catalogSearch,
     ...sortOrderSearch,
     ...textSearch,
     ...paginationSearch,
@@ -76,6 +82,7 @@ export const animeSearchSchema = z.object({
 
 export const mangaSearchSchema = z.object({
     ...contentFilterSearch,
+    ...catalogSearch,
     ...sortOrderSearch,
     ...textSearch,
     ...paginationSearch,
@@ -83,6 +90,7 @@ export const mangaSearchSchema = z.object({
 
 export const novelSearchSchema = z.object({
     ...contentFilterSearch,
+    ...catalogSearch,
     ...sortOrderSearch,
     ...textSearch,
     ...paginationSearch,

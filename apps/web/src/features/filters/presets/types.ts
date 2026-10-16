@@ -10,6 +10,7 @@ export type FilterPreset = {
     types?: string[];
     genres?: string[];
     only_translated?: boolean;
+    hide_listed?: boolean;
     sort?: string;
     order?: string;
     ratings?: string[];

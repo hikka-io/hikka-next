@@ -13,6 +13,7 @@ import {
 import { MaterialSymbolsStarRounded } from '@/components/icons/material-symbols/MaterialSymbolsStarRounded';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { useSession } from '@/services/session';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { cn } from '@/utils/cn';
 import { CONTENT_TYPES } from '@/utils/labels/content-types';
@@ -36,7 +37,8 @@ type FilterDef =
       }
     | { kind: 'dynamic'; tristate?: true }
     | { kind: 'range'; icon?: (props: SVGProps<SVGSVGElement>) => ReactElement }
-    | { kind: 'boolean'; label: string }
+    /** `viewerOnly` flags apply only with a session, so a logged-out visitor gets no chip. */
+    | { kind: 'boolean'; label: string; viewerOnly?: true }
     /** Free-form param whose own value belongs on the chip, e.g. `MAL ID: 47128`. */
     | { kind: 'value'; label: string }
     | { kind: 'combined'; label: string; related: string[] }
@@ -74,6 +76,11 @@ const FILTER_REGISTRY: Record<string, FilterDef> = {
 
     // Boolean params
     only_translated: { kind: 'boolean', label: 'Перекладено українською' },
+    hide_listed: {
+        kind: 'boolean',
+        label: 'Без тайтлів з мого списку',
+        viewerOnly: true,
+    },
 
     // Missing-data flags of the /edit/content lists
     issues: {
@@ -106,6 +113,7 @@ export interface ActiveFilter {
 export function useActiveFilters() {
     const router = useRouter();
     const search = useRouteSearch();
+    const { user } = useSession();
 
     const hasGenres = 'genres' in search;
     const hasStudios = 'studios' in search;
@@ -204,6 +212,8 @@ export function useActiveFilters() {
                 }
 
                 case 'boolean': {
+                    if (def.viewerOnly && !user) return;
+
                     result.push({
                         param: key,
                         value: String(rawValue),
@@ -246,7 +256,7 @@ export function useActiveFilters() {
         });
 
         return result;
-    }, [search, dynamicLabelMaps]);
+    }, [search, dynamicLabelMaps, user]);
 
     const removeFilter = (filter: ActiveFilter) => {
         const def = FILTER_REGISTRY[filter.param];

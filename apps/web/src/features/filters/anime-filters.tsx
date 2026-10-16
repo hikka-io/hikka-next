@@ -33,6 +33,9 @@ export const AnimeFiltersBody: FC<BodyProps> = ({
         <div className={cn('flex flex-col gap-8', className)}>
             <Genre />
             <Studio />
+            {sort_type === 'anime' && (
+                <ExcludeListStatus contentType={ContentTypeEnum.ANIME} />
+            )}
             <ReleaseStatus />
             <Season />
             <MediaType content_type={content_type} />
@@ -41,9 +44,6 @@ export const AnimeFiltersBody: FC<BodyProps> = ({
             <Year />
             {sort_type === 'anime' && <DateRange />}
             <Localization />
-            {sort_type === 'anime' && (
-                <ExcludeListStatus contentType={ContentTypeEnum.ANIME} />
-            )}
         </div>
     );
 };

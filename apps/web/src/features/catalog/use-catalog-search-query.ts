@@ -21,14 +21,15 @@ export function useCatalogSearchQuery(
 ) {
     const search = useRouteSearch<CatalogSearch>();
     const { user } = useSession();
-    const excludeStatuses = useUiPreferences((prefs) =>
-        catalogExcludeStatuses(prefs, contentType),
-    );
+    const filters = useUiPreferences((prefs) => prefs.filters);
+    const excludeStatuses = catalogExcludeStatuses({ filters }, contentType);
     const { args, options } = catalogSearchQuery(
         contentType,
         search,
         size,
-        user ? excludeStatuses : undefined,
+        user && search.hide_listed && excludeStatuses.length
+            ? excludeStatuses
+            : undefined,
     );
     const queryResult = useInfiniteList(options);
 

@@ -752,40 +752,57 @@ describe('CatalogList and CatalogListSummary', () => {
 });
 
 describe('useCatalogSearchQuery list-status exclusion', () => {
+    const TYPES = [
+        ContentTypeEnum.ANIME,
+        ContentTypeEnum.MANGA,
+        ContentTypeEnum.NOVEL,
+    ] as const;
     const FILTERS = {
         catalog_exclude_watch: ['completed'],
         catalog_exclude_read: ['reading'],
     };
+    const VIEWER = { username: 'viewer' };
+
+    const excludeArgs = (type: MainContentTypeEnum, raw: object) => {
+        mocks.search = parseSearch(type, raw);
+        const { args } = useCatalogSearchQuery(type) as {
+            args: Record<string, unknown>;
+        };
+
+        return args.exclude_watch_status ?? args.exclude_read_status;
+    };
 
     it.each([
-        [ContentTypeEnum.ANIME, 'exclude_watch_status', ['completed']],
-        [ContentTypeEnum.MANGA, 'exclude_read_status', ['reading']],
-        [ContentTypeEnum.NOVEL, 'exclude_read_status', ['reading']],
-    ] as const)(
-        'sends the stored selection for a viewer: %s',
-        (type, field, value) => {
-            mocks.search = parseSearch(type, {});
-            mocks.filters = FILTERS;
-            mocks.user = { username: 'viewer' };
+        [ContentTypeEnum.ANIME, ['completed']],
+        [ContentTypeEnum.MANGA, ['reading']],
+        [ContentTypeEnum.NOVEL, ['reading']],
+    ] as const)('sends the stored selection when on: %s', (type, value) => {
+        mocks.filters = FILTERS;
+        mocks.user = VIEWER;
 
-            expect(useCatalogSearchQuery(type).args).toHaveProperty(
-                field,
-                value,
-            );
-        },
-    );
+        expect(excludeArgs(type, { hide_listed: 'true' })).toEqual(value);
+    });
 
-    it.each([
-        ContentTypeEnum.ANIME,
-        ContentTypeEnum.MANGA,
-        ContentTypeEnum.NOVEL,
-    ])('ignores the stored selection when logged out: %s', (type) => {
-        mocks.search = parseSearch(type, {});
+    it.each(TYPES)('sends nothing while the switch is off: %s', (type) => {
+        mocks.filters = FILTERS;
+        mocks.user = VIEWER;
+
+        expect(excludeArgs(type, {})).toBeUndefined();
+    });
+
+    it.each(TYPES)('sends nothing when logged out: %s', (type) => {
         mocks.filters = FILTERS;
 
-        const { args } = useCatalogSearchQuery(type);
+        expect(excludeArgs(type, { hide_listed: 'true' })).toBeUndefined();
+    });
 
-        expect(args).not.toHaveProperty('exclude_watch_status');
-        expect(args).not.toHaveProperty('exclude_read_status');
+    it.each(TYPES)('sends nothing for an emptied selection: %s', (type) => {
+        mocks.filters = {
+            catalog_exclude_watch: [],
+            catalog_exclude_read: [],
+        };
+        mocks.user = VIEWER;
+
+        expect(excludeArgs(type, { hide_listed: 'true' })).toBeUndefined();
     });
 });

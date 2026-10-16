@@ -41,15 +41,15 @@ export const ReadFiltersBody: FC<BodyProps> = ({
         <div className={cn('flex flex-col gap-8', className)}>
             <ReleaseStatus />
             <Genre />
+            {(sort_type === 'manga' || sort_type === 'novel') && (
+                <ExcludeListStatus contentType={sort_type} />
+            )}
             <MediaType content_type={content_type} />
             <Localization />
             {(sort_type === 'manga' || sort_type === 'novel') && (
                 <Score score_type="score" />
             )}
             <Year />
-            {(sort_type === 'manga' || sort_type === 'novel') && (
-                <ExcludeListStatus contentType={sort_type} />
-            )}
         </div>
     );
 };

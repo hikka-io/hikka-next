@@ -13,7 +13,11 @@ const STRING_LIST_KEYS = [
     'studios',
 ] as const;
 const NUMBER_LIST_KEYS = ['years', 'score', 'date_range'] as const;
-const FLAG_KEYS = ['only_translated', 'date_range_enabled'] as const;
+const FLAG_KEYS = [
+    'only_translated',
+    'hide_listed',
+    'date_range_enabled',
+] as const;
 const TEXT_KEYS = ['sort', 'order'] as const;
 
 const SEARCH_KEYS = new Set<string>([

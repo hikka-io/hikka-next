@@ -12,11 +12,11 @@ import {
     type NovelResponseWithRead,
     type PaginationResponse,
     paginatedInfiniteOptions,
-    type ReadStatusEnum,
+    ReadStatusEnum,
     searchAnimeInfiniteOptions,
     searchMangaInfiniteOptions,
     searchNovelInfiniteOptions,
-    type WatchStatusEnum,
+    WatchStatusEnum,
 } from '@hikka/api';
 
 import {
@@ -83,14 +83,19 @@ export function catalogPageSize(
     return columns === 1 ? undefined : columns * 4;
 }
 
-/** An empty selection sends nothing, so the field is only ever a non-empty list. */
+/** The statuses `hide_listed` excludes: every status until the viewer narrows them. */
 export function catalogExcludeStatuses(
     prefs: Pick<UiPreferences, 'filters'> | null,
     contentType: MainContentTypeEnum,
-): string[] | undefined {
-    const statuses = prefs?.filters[catalogExcludeKey(contentType)];
-
-    return statuses?.length ? statuses : undefined;
+): string[] {
+    return (
+        prefs?.filters[catalogExcludeKey(contentType)] ??
+        Object.values(
+            contentType === ContentTypeEnum.ANIME
+                ? WatchStatusEnum
+                : ReadStatusEnum,
+        )
+    );
 }
 
 export function catalogSearchQuery(

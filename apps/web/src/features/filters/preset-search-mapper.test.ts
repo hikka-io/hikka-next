@@ -16,6 +16,7 @@ const FULL_SEARCH = {
     score: [6, 9],
     date_range: [-2, 0],
     only_translated: true,
+    hide_listed: true,
     date_range_enabled: false,
     sort: 'score',
     order: 'desc',
@@ -60,6 +61,7 @@ describe('presetFromSearch', () => {
                     score: ['3', '8'],
                     years: '2020',
                     only_translated: 'true',
+                    hide_listed: 'true',
                     date_range_enabled: 'false',
                 },
                 ContentTypeEnum.ANIME,
@@ -69,6 +71,7 @@ describe('presetFromSearch', () => {
             score: [3, 8],
             years: [2020],
             only_translated: true,
+            hide_listed: true,
             date_range_enabled: false,
         });
     });

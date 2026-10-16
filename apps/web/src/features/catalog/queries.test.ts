@@ -11,9 +11,11 @@ import {
     createRequestClient,
     type MainContentTypeEnum,
     paginatedInfiniteOptions,
+    ReadStatusEnum,
     searchAnimeInfiniteOptions,
     searchMangaInfiniteOptions,
     searchNovelInfiniteOptions,
+    WatchStatusEnum,
 } from '@hikka/api';
 
 import { useFiltersSidebar } from '@/features/filters';
@@ -276,11 +278,17 @@ describe('catalog list-status exclusion', () => {
         filters: { [catalogExcludeKey(type)]: statuses },
     });
 
-    it.each(TYPES)('is off without a stored selection: %s', (type) => {
-        expect(catalogExcludeStatuses(null, type)).toBeUndefined();
-        expect(
-            catalogExcludeStatuses(prefsWith(type, []), type),
-        ).toBeUndefined();
+    it('defaults to every list status', () => {
+        expect(catalogExcludeStatuses(null, ContentTypeEnum.ANIME)).toEqual(
+            Object.values(WatchStatusEnum),
+        );
+        expect(catalogExcludeStatuses(null, ContentTypeEnum.NOVEL)).toEqual(
+            Object.values(ReadStatusEnum),
+        );
+    });
+
+    it.each(TYPES)('keeps an emptied selection: %s', (type) => {
+        expect(catalogExcludeStatuses(prefsWith(type, []), type)).toEqual([]);
     });
 
     it('keeps anime and read selections apart', () => {
@@ -289,9 +297,9 @@ describe('catalog list-status exclusion', () => {
         expect(catalogExcludeStatuses(prefs, ContentTypeEnum.ANIME)).toEqual([
             'planned',
         ]);
-        expect(
-            catalogExcludeStatuses(prefs, ContentTypeEnum.MANGA),
-        ).toBeUndefined();
+        expect(catalogExcludeStatuses(prefs, ContentTypeEnum.MANGA)).toEqual(
+            Object.values(ReadStatusEnum),
+        );
         expect(catalogExcludeKey(ContentTypeEnum.MANGA)).toBe(
             catalogExcludeKey(ContentTypeEnum.NOVEL),
         );
