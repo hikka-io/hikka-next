@@ -433,7 +433,7 @@ const FranchiseGraph: FC<Props> = ({ model }) => {
                             <YearAxis layout={layout} />
                             {hasZone && (
                                 <div
-                                    className="absolute top-0 bottom-0 left-(--axis) rounded-lg bg-secondary/20"
+                                    className="absolute top-0 bottom-0 left-(--axis) rounded-(--base-radius) bg-secondary/20"
                                     style={{
                                         width: `calc(var(--cw) * ${layout.sourceColumns})`,
                                     }}

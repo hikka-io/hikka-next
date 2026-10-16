@@ -71,7 +71,7 @@ const GraphNode: FC<Props> = ({
             aria-pressed={isSelected}
             onClick={() => onSelect(node.id)}
             className={cn(
-                'absolute z-1 -mt-[calc(var(--gp)/1.4)] -ml-[calc(var(--gp)/2)] block w-(--gp) cursor-pointer rounded-md transition-opacity',
+                'absolute z-1 -mt-[calc(var(--gp)/1.4)] -ml-[calc(var(--gp)/2)] block w-(--gp) cursor-pointer rounded-(--base-radius) transition-opacity',
                 state === 'isolated' && 'opacity-20 grayscale',
                 state === 'far' && 'opacity-30',
             )}
@@ -88,7 +88,7 @@ const GraphNode: FC<Props> = ({
                 status={statusOf(node)}
                 statusSize="sm"
                 containerClassName={cn(
-                    'shadow-[0_0_0_3px_var(--card)]',
+                    'rounded-(--base-radius) shadow-[0_0_0_3px_var(--card)]',
                     isCurrent &&
                         'shadow-[0_0_0_2px_var(--primary-foreground),0_0_0_5px_var(--card)]',
                     isSelected &&
