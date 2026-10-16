@@ -86,7 +86,7 @@ const EditGroup: FC<Props> = ({
 
                 <CollapsibleContent
                     keepMounted
-                    className="w-full overflow-clip data-closed:animate-collapsible-up data-open:animate-collapsible-down"
+                    className="-mx-1 -mb-1 overflow-clip px-1 pb-1 data-closed:animate-collapsible-up data-open:animate-collapsible-down"
                 >
                     <div className="flex flex-col gap-6 pt-4">
                         {warning}
