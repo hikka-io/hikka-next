@@ -35,6 +35,7 @@ export const UI_PREFS_DEFAULTS = {
 export type UiPreferencesActions = {
     setView: (key: string, view: View) => void;
     setFilter: (key: string, values: string[]) => void;
+    clearFilter: (key: string) => void;
     setCollapsible: (key: string, open: boolean) => void;
 };
 
@@ -69,6 +70,13 @@ const createUiPreferencesStore = (initial: UiPreferences | null) =>
         },
         setFilter: (key, values) => {
             set((state) => ({ filters: { ...state.filters, [key]: values } }));
+            persist(get());
+        },
+        clearFilter: (key) => {
+            set((state) => {
+                const { [key]: _, ...filters } = state.filters;
+                return { filters };
+            });
             persist(get());
         },
         setCollapsible: (key, open) => {

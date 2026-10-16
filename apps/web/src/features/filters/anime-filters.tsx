@@ -6,6 +6,7 @@ import { cn } from '@/utils/cn';
 
 import AgeRating from './age-rating';
 import DateRange from './date-range';
+import ExcludeListStatus from './exclude-list-status';
 import FiltersFooter from './filters-footer';
 import Genre from './genre';
 import Localization from './localization';
@@ -40,6 +41,9 @@ export const AnimeFiltersBody: FC<BodyProps> = ({
             <Year />
             {sort_type === 'anime' && <DateRange />}
             <Localization />
+            {sort_type === 'anime' && (
+                <ExcludeListStatus contentType={ContentTypeEnum.ANIME} />
+            )}
         </div>
     );
 };

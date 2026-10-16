@@ -19,6 +19,7 @@ export {
 export { writeHostCookie } from './ui-cookie';
 export {
     CATALOG_FILTERS_SIDEBAR_KEY,
+    catalogExcludeKey,
     parseUiPrefs,
     type UiPreferences,
     type View,

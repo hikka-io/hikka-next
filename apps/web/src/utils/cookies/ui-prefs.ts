@@ -1,9 +1,18 @@
+import { ContentTypeEnum, type MainContentTypeEnum } from '@hikka/api';
+
 import { COOKIE } from './constants';
 import { writeHostCookie } from './ui-cookie';
 
 export type View = 'table' | 'grid' | 'list';
 
 export const CATALOG_FILTERS_SIDEBAR_KEY = 'catalog_filters_sidebar';
+
+/** A missing key means the catalog list-status exclusion is off. */
+export function catalogExcludeKey(contentType: MainContentTypeEnum) {
+    return contentType === ContentTypeEnum.ANIME
+        ? 'catalog_exclude_watch'
+        : 'catalog_exclude_read';
+}
 
 export type UiPreferences = {
     /** View preferences by context key (e.g., 'catalog', 'userlist', 'franchise') */

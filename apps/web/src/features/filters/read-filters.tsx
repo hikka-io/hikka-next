@@ -7,6 +7,7 @@ import {
 
 import { cn } from '@/utils/cn';
 
+import ExcludeListStatus from './exclude-list-status';
 import FiltersFooter from './filters-footer';
 import Genre from './genre';
 import Localization from './localization';
@@ -46,6 +47,9 @@ export const ReadFiltersBody: FC<BodyProps> = ({
                 <Score score_type="score" />
             )}
             <Year />
+            {(sort_type === 'manga' || sort_type === 'novel') && (
+                <ExcludeListStatus contentType={sort_type} />
+            )}
         </div>
     );
 };

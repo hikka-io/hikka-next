@@ -12,13 +12,16 @@ import {
     type NovelResponseWithRead,
     type PaginationResponse,
     paginatedInfiniteOptions,
+    type ReadStatusEnum,
     searchAnimeInfiniteOptions,
     searchMangaInfiniteOptions,
     searchNovelInfiniteOptions,
+    type WatchStatusEnum,
 } from '@hikka/api';
 
 import {
     CATALOG_FILTERS_SIDEBAR_KEY,
+    catalogExcludeKey,
     type UiPreferences,
 } from '@/utils/cookies';
 import type {
@@ -80,15 +83,32 @@ export function catalogPageSize(
     return columns === 1 ? undefined : columns * 4;
 }
 
+/** An empty selection sends nothing, so the field is only ever a non-empty list. */
+export function catalogExcludeStatuses(
+    prefs: Pick<UiPreferences, 'filters'> | null,
+    contentType: MainContentTypeEnum,
+): string[] | undefined {
+    const statuses = prefs?.filters[catalogExcludeKey(contentType)];
+
+    return statuses?.length ? statuses : undefined;
+}
+
 export function catalogSearchQuery(
     contentType: MainContentTypeEnum,
     search: CatalogSearch,
     size?: number,
+    excludeStatuses?: string[],
     client?: Client,
 ) {
     switch (contentType) {
         case ContentTypeEnum.ANIME: {
-            const { args, page } = buildAnimeSearchArgs(search);
+            const { args: searchArgs, page } = buildAnimeSearchArgs(search);
+            const args = {
+                ...searchArgs,
+                ...(excludeStatuses && {
+                    exclude_watch_status: excludeStatuses as WatchStatusEnum[],
+                }),
+            };
 
             return {
                 args,
@@ -103,7 +123,13 @@ export function catalogSearchQuery(
             };
         }
         case ContentTypeEnum.MANGA: {
-            const { args, page } = buildMangaSearchArgs(search);
+            const { args: searchArgs, page } = buildMangaSearchArgs(search);
+            const args = {
+                ...searchArgs,
+                ...(excludeStatuses && {
+                    exclude_read_status: excludeStatuses as ReadStatusEnum[],
+                }),
+            };
 
             return {
                 args,
@@ -118,7 +144,13 @@ export function catalogSearchQuery(
             };
         }
         case ContentTypeEnum.NOVEL: {
-            const { args, page } = buildNovelSearchArgs(search);
+            const { args: searchArgs, page } = buildNovelSearchArgs(search);
+            const args = {
+                ...searchArgs,
+                ...(excludeStatuses && {
+                    exclude_read_status: excludeStatuses as ReadStatusEnum[],
+                }),
+            };
 
             return {
                 args,
@@ -139,7 +171,14 @@ export function catalogSearchOptions(
     contentType: MainContentTypeEnum,
     search: CatalogSearch,
     size?: number,
+    excludeStatuses?: string[],
     client?: Client,
 ): CatalogSearchOptions {
-    return catalogSearchQuery(contentType, search, size, client).options;
+    return catalogSearchQuery(
+        contentType,
+        search,
+        size,
+        excludeStatuses,
+        client,
+    ).options;
 }

@@ -31,6 +31,8 @@ const mocks = vi.hoisted(() => ({
     summaryProps: [] as Record<string, unknown>[],
     viewKeys: [] as unknown[],
     view: 'grid',
+    user: undefined as object | undefined,
+    filters: {} as Record<string, string[]>,
 }));
 
 vi.mock('@/utils/navigation', async (importOriginal) => ({
@@ -49,6 +51,19 @@ vi.mock('@/services/session/use-session-ui', () => ({
     useSessionUI: () => ({
         preferences: { title_language: 'title_en', name_language: 'name_en' },
     }),
+}));
+
+vi.mock('@/services/session', async (importOriginal) => ({
+    ...(await importOriginal<typeof import('@/services/session')>()),
+    useSession: () => ({ user: mocks.user }),
+}));
+
+vi.mock('@/services/ui-preferences-store', async (importOriginal) => ({
+    ...(await importOriginal<
+        typeof import('@/services/ui-preferences-store')
+    >()),
+    useUiPreferences: <T>(selector: (prefs: object) => T) =>
+        selector({ views: {}, filters: mocks.filters, collapsibles: {} }),
 }));
 
 vi.mock('./catalog-list-view', () => ({
@@ -602,6 +617,8 @@ beforeEach(() => {
     mocks.summaryProps = [];
     mocks.viewKeys = [];
     mocks.view = 'grid';
+    mocks.user = undefined;
+    mocks.filters = {};
 });
 
 describe('catalog search args builders', () => {
@@ -732,4 +749,43 @@ describe('CatalogList and CatalogListSummary', () => {
             expect(serialize(mocks.summaryProps)).toBe(expected.summary);
         },
     );
+});
+
+describe('useCatalogSearchQuery list-status exclusion', () => {
+    const FILTERS = {
+        catalog_exclude_watch: ['completed'],
+        catalog_exclude_read: ['reading'],
+    };
+
+    it.each([
+        [ContentTypeEnum.ANIME, 'exclude_watch_status', ['completed']],
+        [ContentTypeEnum.MANGA, 'exclude_read_status', ['reading']],
+        [ContentTypeEnum.NOVEL, 'exclude_read_status', ['reading']],
+    ] as const)(
+        'sends the stored selection for a viewer: %s',
+        (type, field, value) => {
+            mocks.search = parseSearch(type, {});
+            mocks.filters = FILTERS;
+            mocks.user = { username: 'viewer' };
+
+            expect(useCatalogSearchQuery(type).args).toHaveProperty(
+                field,
+                value,
+            );
+        },
+    );
+
+    it.each([
+        ContentTypeEnum.ANIME,
+        ContentTypeEnum.MANGA,
+        ContentTypeEnum.NOVEL,
+    ])('ignores the stored selection when logged out: %s', (type) => {
+        mocks.search = parseSearch(type, {});
+        mocks.filters = FILTERS;
+
+        const { args } = useCatalogSearchQuery(type);
+
+        expect(args).not.toHaveProperty('exclude_watch_status');
+        expect(args).not.toHaveProperty('exclude_read_status');
+    });
 });

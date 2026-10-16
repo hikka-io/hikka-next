@@ -23,6 +23,7 @@ import {
 } from '@/services/ui-preferences-store';
 import {
     CATALOG_FILTERS_SIDEBAR_KEY,
+    catalogExcludeKey,
     type UiPreferences,
     type View,
 } from '@/utils/cookies';
@@ -35,8 +36,10 @@ import {
 import {
     CATALOG_VIEW_KEY,
     catalogColumns,
+    catalogExcludeStatuses,
     catalogPageSize,
     catalogSearchOptions,
+    catalogSearchQuery,
 } from './queries';
 import {
     buildAnimeSearchArgs,
@@ -231,8 +234,13 @@ describe('catalogSearchOptions', () => {
 
             expect(
                 hashKey(
-                    catalogSearchOptions(type, search, size, requestClient())
-                        .queryKey,
+                    catalogSearchOptions(
+                        type,
+                        search,
+                        size,
+                        undefined,
+                        requestClient(),
+                    ).queryKey,
                 ),
             ).toBe(hashKey(componentOptions(type, RAW_SEARCH, size).queryKey));
         },
@@ -257,5 +265,51 @@ describe('catalogSearchOptions', () => {
         const options = catalogSearchOptions(type, search, 20);
 
         expect(options.initialPageParam).toBe(3);
+    });
+});
+
+describe('catalog list-status exclusion', () => {
+    const prefsWith = (
+        type: MainContentTypeEnum,
+        statuses: string[],
+    ): Pick<UiPreferences, 'filters'> => ({
+        filters: { [catalogExcludeKey(type)]: statuses },
+    });
+
+    it.each(TYPES)('is off without a stored selection: %s', (type) => {
+        expect(catalogExcludeStatuses(null, type)).toBeUndefined();
+        expect(
+            catalogExcludeStatuses(prefsWith(type, []), type),
+        ).toBeUndefined();
+    });
+
+    it('keeps anime and read selections apart', () => {
+        const prefs = prefsWith(ContentTypeEnum.ANIME, ['planned']);
+
+        expect(catalogExcludeStatuses(prefs, ContentTypeEnum.ANIME)).toEqual([
+            'planned',
+        ]);
+        expect(
+            catalogExcludeStatuses(prefs, ContentTypeEnum.MANGA),
+        ).toBeUndefined();
+        expect(catalogExcludeKey(ContentTypeEnum.MANGA)).toBe(
+            catalogExcludeKey(ContentTypeEnum.NOVEL),
+        );
+    });
+
+    it.each([
+        [ContentTypeEnum.ANIME, 'exclude_watch_status'],
+        [ContentTypeEnum.MANGA, 'exclude_read_status'],
+        [ContentTypeEnum.NOVEL, 'exclude_read_status'],
+    ] as const)('sends and keys the selection: %s', (type, field) => {
+        const search = parseSearch(type, RAW_SEARCH);
+        const plain = catalogSearchQuery(type, search, 20);
+        const excluded = catalogSearchQuery(type, search, 20, ['completed']);
+
+        expect(plain.args).not.toHaveProperty(field, expect.anything());
+        expect(excluded.args).toHaveProperty(field, ['completed']);
+        expect(hashKey(excluded.options.queryKey)).not.toBe(
+            hashKey(plain.options.queryKey),
+        );
     });
 });
