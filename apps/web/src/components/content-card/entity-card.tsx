@@ -7,6 +7,7 @@ import { useTitle } from '@/services/session';
 import type { CardStatus } from './content-status';
 import ContextMenuOverlay from './context-menu-overlay';
 import { type CardEntity, type ResolvedEntity, resolveEntity } from './entity';
+import PersonPlaceholder from './person-placeholder';
 import PosterCard, { type PosterCardProps } from './poster-card';
 import { CharacterTooltip, MediaTooltip, PersonTooltip } from './tooltips';
 
@@ -46,13 +47,19 @@ const EntityCard: FC<EntityCardProps> = ({
     const [menuOpen, setMenuOpen] = useState(false);
 
     const resolvedImage = image !== undefined ? image : resolved.image;
+    const posterImage =
+        !resolvedImage && entity.type === ContentTypeEnum.PERSON ? (
+            <PersonPlaceholder person={entity.data} />
+        ) : (
+            resolvedImage
+        );
     const resolvedHref = to ?? href ?? resolved.href;
 
     const card = (
         <PosterCard
             {...props}
             title={title !== undefined ? title : derivedTitle}
-            image={resolvedImage}
+            image={posterImage}
             to={resolvedHref}
             status={statusOf(resolved)}
             tooltipDisabled={menuOpen}

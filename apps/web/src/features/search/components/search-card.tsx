@@ -4,6 +4,7 @@ import type {
     MangaResponseWithRead,
 } from '@hikka/api';
 
+import PersonPlaceholder from '@/components/content-card/person-placeholder';
 import PosterCard from '@/components/content-card/poster-card';
 import { MaterialSymbolsStarRounded } from '@/components/icons/material-symbols/MaterialSymbolsStarRounded';
 import { Badge } from '@/components/ui/badge';
@@ -82,7 +83,12 @@ const SearchCard = ({ content, contentType, type }: Props) => {
             <div className="w-12">
                 <PosterCard
                     containerClassName="rounded-(--base-radius)"
-                    image={content.image}
+                    image={
+                        content.image ||
+                        (content.data_type === 'person' ? (
+                            <PersonPlaceholder person={content} />
+                        ) : undefined)
+                    }
                     status={
                         config.track && trackItem
                             ? { value: trackItem.status, kind: config.track }

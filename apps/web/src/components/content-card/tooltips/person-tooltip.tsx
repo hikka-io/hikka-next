@@ -16,6 +16,7 @@ import { useTitle } from '@/services/session';
 
 import { contentEntity } from '../entity';
 import EntityCard from '../entity-card';
+import PersonPlaceholder from '../person-placeholder';
 import PosterCard from '../poster-card';
 import HoverCardWrapper from './hover-card-wrapper';
 import { PersonTooltipSkeleton } from './tooltip-skeleton';
@@ -128,7 +129,7 @@ const TooltipData: FC<TooltipDataProps> = ({ slug }) => {
         <div className="flex w-96 gap-4 text-left">
             <PosterCard
                 className="w-20"
-                image={data.image}
+                image={data.image || <PersonPlaceholder person={data} />}
                 containerRatio={0.7}
                 href={`/people/${data.slug}`}
             />
