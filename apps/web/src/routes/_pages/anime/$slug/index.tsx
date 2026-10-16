@@ -23,7 +23,7 @@ function AnimeDetailPage() {
             contentType={ContentTypeEnum.ANIME}
             slug={slug}
             afterDescription={<ContentMovieBanner />}
-            afterCharacters={<ContentMedia />}
+            afterStaff={<ContentMedia />}
         />
     );
 }

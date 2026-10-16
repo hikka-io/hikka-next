@@ -30,14 +30,14 @@ type Props = {
     contentType: MainContentTypeEnum;
     slug: string;
     afterDescription?: ReactNode;
-    afterCharacters?: ReactNode;
+    afterStaff?: ReactNode;
 };
 
 const ContentDetailPage: FC<Props> = ({
     contentType,
     slug,
     afterDescription,
-    afterCharacters,
+    afterStaff,
 }) => {
     const { data: content } = useQuery(contentInfoOptions(contentType, slug));
 
@@ -93,8 +93,8 @@ const ContentDetailPage: FC<Props> = ({
                     slug={slug}
                 />
                 <ContentCharacters content_type={contentType} />
-                {afterCharacters}
                 <ContentStaff content_type={contentType} />
+                {afterStaff}
                 <div className="order-last lg:order-0">
                     <CommentList
                         preview
