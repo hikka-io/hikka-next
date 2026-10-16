@@ -10,7 +10,7 @@ import {
     relationText,
 } from './franchise-model';
 import { layoutGraph } from './graph/graph-layout';
-import { computeGraphView } from './graph/graph-view';
+import { computeGraphView, defaultHiddenTypes } from './graph/graph-view';
 
 type Kind = 'anime' | 'manga' | 'novel';
 
@@ -186,5 +186,29 @@ describe('computeGraphView', () => {
             focused.edges.filter((edge) => edge.touched).map((e) => e.type),
         ).toEqual(['adaptation']);
         expect(focused.near.has(nodeId('anime', 'a1'))).toBe(true);
+
+        const fromAnime = computeGraphView(
+            model,
+            layout,
+            hidden,
+            nodeId('anime', 'a1'),
+        );
+        expect(fromAnime.linked.has(m1)).toBe(true);
+    });
+
+    it('hides adaptations by default unless they are all there is', () => {
+        expect([...defaultHiddenTypes(build('a2'))]).toEqual(['adaptation']);
+
+        const onlyAdaptation = buildFranchiseModel(
+            {
+                anime: [item('anime', 'a1', 2021)],
+                manga: [item('manga', 'm1', 2019)],
+                novel: [],
+                relations: [rel('a1', 'm1', 'adaptation', 'anime', 'manga')],
+            } as unknown as FranchiseResponse,
+            'anime',
+            'a1',
+        ) as FranchiseModel;
+        expect(defaultHiddenTypes(onlyAdaptation).size).toBe(0);
     });
 });

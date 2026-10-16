@@ -24,6 +24,15 @@ export type GraphView = {
 
 export const CELL = 100;
 
+/** Adaptations start hidden unless they are the only relations there are. */
+export function defaultHiddenTypes(model: FranchiseModel): Set<GraphEdgeType> {
+    const onlyAdaptations = model.edges.every(
+        (edge) => edge.type === 'adaptation',
+    );
+
+    return new Set(onlyAdaptations ? [] : ['adaptation']);
+}
+
 /**
  * Hidden relation types drop their edges, except the selected title's own:
  * it keeps every edge so filtering never strands the title being inspected.
@@ -38,13 +47,6 @@ export function computeGraphView(
     const placed = model.edges.filter(
         (edge) => positions.has(edge.a) && positions.has(edge.b),
     );
-
-    const linked = new Set<string>();
-    for (const edge of placed) {
-        if (hidden.has(edge.type)) continue;
-        linked.add(edge.a);
-        linked.add(edge.b);
-    }
 
     const seen = new Set<string>();
     const edges: DrawnEdge[] = [];
@@ -78,6 +80,12 @@ export function computeGraphView(
                 (a?.chainIndex != null && b?.chainIndex != null),
             touched,
         });
+    }
+
+    const linked = new Set<string>();
+    for (const edge of edges) {
+        linked.add(edge.a);
+        linked.add(edge.b);
     }
 
     const near = new Set<string>(focus ? [focus] : []);

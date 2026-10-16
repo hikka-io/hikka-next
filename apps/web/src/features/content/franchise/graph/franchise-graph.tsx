@@ -36,7 +36,12 @@ import {
 } from './graph-layout';
 import GraphNode, { type NodeState } from './graph-node';
 import GraphToolbar, { type EdgeFilter } from './graph-toolbar';
-import { CELL, computeGraphView, edgeStyle } from './graph-view';
+import {
+    CELL,
+    computeGraphView,
+    defaultHiddenTypes,
+    edgeStyle,
+} from './graph-view';
 
 type Props = {
     model: FranchiseModel;
@@ -81,7 +86,6 @@ const GUTTER_CLASS = 'pr-8 pl-(--gx) max-md:pr-5';
 const CONTAINER_CLASS = '@container [scrollbar-gutter:stable]';
 
 const GRAPH_WIDTH = 'calc(var(--axis) + var(--cols) * var(--cw))';
-const DEFAULT_HIDDEN: GraphEdgeType[] = ['adaptation'];
 
 const ZoneLabel: FC<{
     types: FranchiseModel['current']['contentType'][];
@@ -227,8 +231,8 @@ const FranchiseGraph: FC<Props> = ({ model }) => {
     const scrollRef = useRef<HTMLDivElement>(null);
     const barRef = useRef<HTMLDivElement>(null);
 
-    const [hidden, setHidden] = useState<ReadonlySet<GraphEdgeType>>(
-        () => new Set(DEFAULT_HIDDEN),
+    const [hidden, setHidden] = useState<ReadonlySet<GraphEdgeType>>(() =>
+        defaultHiddenTypes(model),
     );
     const [mine, setMine] = useState(false);
     const [focus, setFocus] = useState<string | null>(null);
@@ -329,7 +333,13 @@ const FranchiseGraph: FC<Props> = ({ model }) => {
 
     const nodeState = (id: string): NodeState => {
         if (id === focus) return 'default';
-        if (model.edges.length > 0 && !view.linked.has(id)) return 'isolated';
+        if (
+            id !== model.current.id &&
+            model.edges.length > 0 &&
+            !view.linked.has(id)
+        ) {
+            return 'isolated';
+        }
 
         const node = model.byId.get(id);
         if (
