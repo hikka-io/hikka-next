@@ -35,6 +35,23 @@ export function defaultHiddenTypes(model: FranchiseModel): Set<GraphEdgeType> {
     return new Set(onlyAdaptations ? [] : ['adaptation']);
 }
 
+/** The franchise's default hidden types with the viewer's saved switches applied. */
+export function resolveHiddenTypes(
+    model: FranchiseModel,
+    relations: Partial<Record<GraphEdgeType, boolean>>,
+): Set<GraphEdgeType> {
+    const hidden = defaultHiddenTypes(model);
+    for (const [type, shown] of Object.entries(relations) as [
+        GraphEdgeType,
+        boolean,
+    ][]) {
+        if (shown) hidden.delete(type);
+        else hidden.add(type);
+    }
+
+    return hidden;
+}
+
 /**
  * Hidden relation types drop their edges, except the selected title's own:
  * it keeps every edge so filtering never strands the title being inspected.

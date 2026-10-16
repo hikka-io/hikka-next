@@ -9,8 +9,6 @@ import {
 } from 'react';
 import { createPortal } from 'react-dom';
 
-import type { MainContentTypeEnum } from '@hikka/api';
-
 import { CONTENT_TYPE_ICONS } from '@/components/icons/content-type-icons';
 import Card from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -33,6 +31,7 @@ import {
     RELATION_GROUP_STYLES,
 } from '../relation-groups';
 import GraphDetails, { type DetailsVariant } from './graph-details';
+import { useGraphFiltersStore } from './graph-filters-store';
 import {
     DESKTOP_BUDGET,
     type GraphLayout,
@@ -49,6 +48,7 @@ import {
     computeGraphView,
     defaultHiddenTypes,
     edgeStyle,
+    resolveHiddenTypes,
     withoutMedia,
     withoutUnlinked,
 } from './graph-view';
@@ -262,14 +262,16 @@ const FranchiseGraph: FC<Props> = ({ model: franchise }) => {
         panHandlers,
     } = useGraphZoom(scrollRef, graphRef);
 
+    const saved = useGraphFiltersStore();
+    const [restored, setRestored] = useState(false);
     const initialHidden = defaultHiddenTypes(franchise);
-    const [hidden, setHidden] =
-        useState<ReadonlySet<GraphEdgeType>>(initialHidden);
-    const [hiddenMedia, setHiddenMedia] = useState<
-        ReadonlySet<MainContentTypeEnum>
-    >(() => new Set());
-    const [mine, setMine] = useState(false);
-    const [hideUnlinked, setHideUnlinked] = useState(false);
+    const hidden = resolveHiddenTypes(franchise, saved.relations);
+    const otherMedia = sourceTypes(franchise);
+    const hiddenMedia = new Set(
+        saved.hiddenMedia.filter((type) => otherMedia.includes(type)),
+    );
+    const mine = Boolean(user) && saved.mine;
+    const { hideUnlinked } = saved;
     const [selected, setFocus] = useState<string | null>(null);
     const [fullscreen, setFullscreen] = useState(false);
 
@@ -295,11 +297,11 @@ const FranchiseGraph: FC<Props> = ({ model: franchise }) => {
 
     const filters: EdgeFilter[] = EDGE_TYPES.map((edgeType) => ({
         ...edgeType,
-        count: model.edges.filter((edge) => edge.type === edgeType.type).length,
+        count: shown.edges.filter((edge) => edge.type === edgeType.type).length,
         on: !hidden.has(edgeType.type),
     })).filter((filter) => filter.count > 0);
 
-    const media: MediaFilter[] = sourceTypes(franchise).map((type) => ({
+    const media: MediaFilter[] = otherMedia.map((type) => ({
         type,
         count: franchise.nodes.filter((node) => node.contentType === type)
             .length,
@@ -313,10 +315,16 @@ const FranchiseGraph: FC<Props> = ({ model: franchise }) => {
               .length
         : 0;
 
-    // biome-ignore lint/correctness/useExhaustiveDependencies: a new budget or node size moves the current title, so re-centre it.
+    useEffect(() => {
+        Promise.resolve(useGraphFiltersStore.persist.rehydrate()).then(() =>
+            setRestored(true),
+        );
+    }, []);
+
+    // biome-ignore lint/correctness/useExhaustiveDependencies: a new budget, node size or restored filters move the current title, so re-centre it.
     useEffect(() => {
         scrollToNode(scrollRef.current, model.current.id, 'instant');
-    }, [model.current.id, isDesktop, fullscreen]);
+    }, [model.current.id, isDesktop, fullscreen, restored]);
 
     useEffect(() => {
         if (!fullscreen) return;
@@ -375,27 +383,8 @@ const FranchiseGraph: FC<Props> = ({ model: franchise }) => {
         });
     }, [focus]);
 
-    const toggleType = (type: GraphEdgeType) => {
-        const next = new Set(hidden);
-        if (next.has(type)) next.delete(type);
-        else next.add(type);
-        setHidden(next);
-    };
-
-    const toggleMedia = (type: MainContentTypeEnum) => {
-        const next = new Set(hiddenMedia);
-        if (next.has(type)) next.delete(type);
-        else next.add(type);
-        setHiddenMedia(next);
-        if (focusNode?.contentType === type) setFocus(null);
-    };
-
-    const reset = () => {
-        setHidden(initialHidden);
-        setHiddenMedia(new Set());
-        setMine(false);
-        setHideUnlinked(false);
-    };
+    const toggleType = (type: GraphEdgeType) =>
+        saved.setRelation(type, hidden.has(type), !initialHidden.has(type));
 
     const select = (id: string) => setFocus(focus === id ? null : id);
 
@@ -467,12 +456,12 @@ const FranchiseGraph: FC<Props> = ({ model: franchise }) => {
                 }
                 onToggle={toggleType}
                 media={media}
-                onToggleMedia={toggleMedia}
+                onToggleMedia={saved.toggleMedia}
                 mine={user ? mine : null}
-                onToggleMine={() => setMine(!mine)}
+                onToggleMine={saved.toggleMine}
                 hideUnlinked={hideUnlinked}
-                onToggleHideUnlinked={() => setHideUnlinked(!hideUnlinked)}
-                onReset={reset}
+                onToggleHideUnlinked={saved.toggleHideUnlinked}
+                onReset={saved.reset}
                 fullscreen={fullscreen}
                 onToggleFullscreen={() => setFullscreen(!fullscreen)}
                 title={name}

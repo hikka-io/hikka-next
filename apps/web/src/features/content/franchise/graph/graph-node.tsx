@@ -11,9 +11,13 @@ import type { FranchiseNode } from '../franchise-model';
 
 export type NodeState = 'default' | 'isolated' | 'far';
 
-// Dimmed with filters, not opacity: a see-through poster would show the edges drawn beneath it.
-const FADED_CLASS =
-    'brightness-200 contrast-30 dark:brightness-30 dark:contrast-100';
+// Opaque stand-ins for 30% opacity over the card (a see-through poster would show the edges
+// beneath it). The filter order is explicit: contrast then brightness fades towards white.
+const FADED_CLASS: Record<Exclude<NodeState, 'default'>, string> = {
+    far: '[filter:contrast(0.18)_brightness(1.7)] dark:[filter:brightness(0.3)]',
+    isolated:
+        '[filter:grayscale(1)_contrast(0.18)_brightness(1.7)] dark:[filter:grayscale(1)_brightness(0.3)]',
+};
 
 type Props = {
     node: FranchiseNode;
@@ -77,8 +81,7 @@ const GraphNode: FC<Props> = ({
             className={cn(
                 'absolute z-1 -mt-[calc(var(--gp)/1.4)] -ml-[calc(var(--gp)/2)] block w-(--gp) cursor-pointer rounded-(--base-radius) transition-[filter,scale] duration-150 motion-reduce:transition-none',
                 isSelected && 'z-5 scale-125 max-md:scale-120',
-                state !== 'default' && FADED_CLASS,
-                state === 'isolated' && 'grayscale',
+                state !== 'default' && FADED_CLASS[state],
             )}
             style={{
                 left: `calc(var(--cw) * ${column + 0.5})`,

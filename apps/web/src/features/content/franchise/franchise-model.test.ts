@@ -10,10 +10,12 @@ import {
     nodeId,
     relationText,
 } from './franchise-model';
+import { useGraphFiltersStore } from './graph/graph-filters-store';
 import { layoutGraph } from './graph/graph-layout';
 import {
     computeGraphView,
     defaultHiddenTypes,
+    resolveHiddenTypes,
     withoutMedia,
     withoutUnlinked,
 } from './graph/graph-view';
@@ -261,6 +263,27 @@ describe('computeGraphView', () => {
                 )
                 .map((n) => n.content.slug),
         ).toEqual(['n1']);
+    });
+
+    it('applies saved switches over each franchise’s own defaults', () => {
+        const model = build('a2');
+
+        expect([...resolveHiddenTypes(model, {})]).toEqual(['adaptation']);
+        expect([
+            ...resolveHiddenTypes(model, { adaptation: true, summary: false }),
+        ]).toEqual(['summary']);
+    });
+
+    it('saves only the switches that differ from the default', () => {
+        const { setRelation } = useGraphFiltersStore.getState();
+
+        setRelation('adaptation', true, false);
+        expect(useGraphFiltersStore.getState().relations).toEqual({
+            adaptation: true,
+        });
+
+        setRelation('adaptation', false, false);
+        expect(useGraphFiltersStore.getState().relations).toEqual({});
     });
 
     it('hides adaptations by default unless they are all there is', () => {
