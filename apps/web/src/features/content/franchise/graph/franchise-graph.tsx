@@ -252,7 +252,7 @@ const FranchiseGraph: FC<Props> = ({ model }) => {
     const sizes =
         SIZES[isDesktop ? 'desktop' : 'phone'][fullscreen ? 'full' : 'card'];
     const hasZone = layout.sourceColumns > 0;
-    const compactDetails = !isDesktop && !fullscreen;
+    const compactDetails = !isDesktop;
 
     const filters: EdgeFilter[] = EDGE_TYPES.map((edgeType) => ({
         ...edgeType,
@@ -532,21 +532,16 @@ const FranchiseGraph: FC<Props> = ({ model }) => {
                         ref={barRef}
                         role="dialog"
                         aria-label="Деталі тайтлу"
-                        className="absolute inset-x-0 bottom-0 z-8 scroll-mb-20 border-t bg-popover p-3 text-popover-foreground"
+                        className={cn(
+                            'absolute inset-x-0 bottom-0 z-8 scroll-mb-20 border-t bg-popover p-3 text-popover-foreground',
+                            fullscreen &&
+                                'pb-[calc(--spacing(3)+var(--safe-area-bottom))]',
+                        )}
                     >
                         {details(true)}
                     </div>
                 )}
             </div>
-            {fullscreen && !isDesktop && focusNode && (
-                <div
-                    role="dialog"
-                    aria-label="Деталі тайтлу"
-                    className="relative flex flex-col gap-4 border-t bg-popover p-4 text-popover-foreground"
-                >
-                    {details(false)}
-                </div>
-            )}
         </Card>
     );
 
