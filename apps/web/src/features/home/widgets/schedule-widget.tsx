@@ -51,7 +51,7 @@ const ScheduleWidget: FC<WidgetProps> = () => {
 
     return (
         <Card className="p-0" id="calendar">
-            <Block className="w-full py-4">
+            <Block className="w-full gap-4 py-4">
                 <Header href="/schedule" className="px-4">
                     <HeaderContainer>
                         <HeaderTitle variant="h4">Календар</HeaderTitle>
@@ -79,10 +79,11 @@ const ScheduleWidget: FC<WidgetProps> = () => {
                     <HeaderNavButton />
                 </Header>
                 <div className="flex flex-col gap-1 px-2">
-                    <div className="mb-1 flex items-center gap-2 px-2 text-muted-foreground text-sm">
-                        <span>Сьогодні</span>
-                        <div className="size-1 shrink-0 rounded-full bg-muted-foreground" />
-                        <span>{format(new Date(), 'd MMMM')}</span>
+                    <div className="mb-2 flex items-baseline gap-1.5 px-2 text-muted-foreground text-xs">
+                        <span className="font-medium">Сьогодні</span>
+                        <span className="opacity-60">
+                            {format(new Date(), 'd MMMM')}
+                        </span>
                     </div>
                     {todayItems?.map((item) => {
                         const airingTime = item.airing_at * 1000;
