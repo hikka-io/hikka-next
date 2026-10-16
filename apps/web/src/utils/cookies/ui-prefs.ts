@@ -1,4 +1,9 @@
-import { ContentTypeEnum, type MainContentTypeEnum } from '@hikka/api';
+import {
+    ContentTypeEnum,
+    type MainContentTypeEnum,
+    ReadStatusEnum,
+    WatchStatusEnum,
+} from '@hikka/api';
 
 import { COOKIE } from './constants';
 import { writeHostCookie } from './ui-cookie';
@@ -7,11 +12,27 @@ export type View = 'table' | 'grid' | 'list';
 
 export const CATALOG_FILTERS_SIDEBAR_KEY = 'catalog_filters_sidebar';
 
-/** A missing key means the catalog list-status exclusion is off. */
-export function catalogExcludeKey(contentType: MainContentTypeEnum) {
+export function catalogHideListedKey(contentType: MainContentTypeEnum) {
     return contentType === ContentTypeEnum.ANIME
-        ? 'catalog_exclude_watch'
-        : 'catalog_exclude_read';
+        ? 'catalog_hide_listed_watch'
+        : 'catalog_hide_listed_read';
+}
+
+/** Every list status until the viewer narrows them; stale stored values are dropped. */
+export function catalogHideListedStatuses(
+    filters: UiPreferences['filters'],
+    contentType: MainContentTypeEnum,
+): string[] {
+    const statuses: string[] = Object.values(
+        contentType === ContentTypeEnum.ANIME
+            ? WatchStatusEnum
+            : ReadStatusEnum,
+    );
+    const stored = filters[catalogHideListedKey(contentType)];
+
+    return stored
+        ? stored.filter((status) => statuses.includes(status))
+        : statuses;
 }
 
 export type UiPreferences = {

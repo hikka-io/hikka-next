@@ -758,8 +758,8 @@ describe('useCatalogSearchQuery list-status exclusion', () => {
         ContentTypeEnum.NOVEL,
     ] as const;
     const FILTERS = {
-        catalog_exclude_watch: ['completed'],
-        catalog_exclude_read: ['reading'],
+        catalog_hide_listed_watch: ['completed'],
+        catalog_hide_listed_read: ['reading'],
     };
     const VIEWER = { username: 'viewer' };
 
@@ -798,8 +798,8 @@ describe('useCatalogSearchQuery list-status exclusion', () => {
 
     it.each(TYPES)('sends nothing for an emptied selection: %s', (type) => {
         mocks.filters = {
-            catalog_exclude_watch: [],
-            catalog_exclude_read: [],
+            catalog_hide_listed_watch: [],
+            catalog_hide_listed_read: [],
         };
         mocks.user = VIEWER;
 

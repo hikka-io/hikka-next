@@ -7,9 +7,9 @@ import {
 
 import { cn } from '@/utils/cn';
 
-import ExcludeListStatus from './exclude-list-status';
 import FiltersFooter from './filters-footer';
 import Genre from './genre';
+import HideListed from './hide-listed';
 import Localization from './localization';
 import MediaType from './media-type';
 import ReleaseStatus from './release-status';
@@ -42,7 +42,7 @@ export const ReadFiltersBody: FC<BodyProps> = ({
             <ReleaseStatus />
             <Genre />
             {(sort_type === 'manga' || sort_type === 'novel') && (
-                <ExcludeListStatus contentType={sort_type} />
+                <HideListed contentType={sort_type} />
             )}
             <MediaType content_type={content_type} />
             <Localization />

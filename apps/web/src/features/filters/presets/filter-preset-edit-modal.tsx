@@ -13,9 +13,9 @@ import type { SortType } from '@/utils/sort';
 
 import { FormAgeRating } from '../age-rating';
 import { FormDateRange } from '../date-range';
-import { FormExcludeListStatus } from '../exclude-list-status';
 import { SCORE_RANGE, YEARS } from '../filter-ranges';
 import { FormGenre } from '../genre';
+import { FormHideListed } from '../hide-listed';
 import { FormLocalization } from '../localization';
 import { FormMediaType } from '../media-type';
 import { FormReleaseStatus } from '../release-status';
@@ -163,7 +163,7 @@ const FilterPresetEditModal = ({ filterPreset, onClose, onBack }: Props) => {
                             <FormMediaType content_type={content_types[0]} />
                         )}
                         <FormLocalization />
-                        <FormExcludeListStatus />
+                        <FormHideListed />
                         {content_types && content_types.length > 0 && (
                             <FormSort
                                 sort_type={

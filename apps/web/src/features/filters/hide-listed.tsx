@@ -2,7 +2,12 @@ import type { FC } from 'react';
 
 import { ListX } from 'lucide-react';
 
-import { ContentTypeEnum, type MainContentTypeEnum } from '@hikka/api';
+import {
+    ContentTypeEnum,
+    type MainContentTypeEnum,
+    type ReadStatusEnum,
+    type WatchStatusEnum,
+} from '@hikka/api';
 
 import {
     SwitchField,
@@ -26,7 +31,10 @@ import {
 import { Switch } from '@/components/ui/switch';
 import { useSession } from '@/services/session';
 import { useUiPreferences } from '@/services/ui-preferences-store';
-import { catalogExcludeKey } from '@/utils/cookies';
+import {
+    catalogHideListedKey,
+    catalogHideListedStatuses,
+} from '@/utils/cookies';
 import { READ_STATUS, WATCH_STATUS } from '@/utils/labels/enum-labels';
 import { useRouteSearch } from '@/utils/navigation';
 import type { AnimeSearch } from '@/utils/search-schemas';
@@ -38,22 +46,32 @@ type Props = {
     contentType: MainContentTypeEnum;
 };
 
-const ExcludeListStatus: FC<Props> = ({ contentType }) => {
+const STATUS_OPTIONS = {
+    watch: Object.entries(WATCH_STATUS).map(([value, { title_ua }]) => ({
+        value,
+        label: title_ua,
+        Icon: WATCH_STATUS_ICONS[value as WatchStatusEnum],
+    })),
+    read: Object.entries(READ_STATUS).map(([value, { title_ua }]) => ({
+        value,
+        label: title_ua,
+        Icon: READ_STATUS_ICONS[value as ReadStatusEnum],
+    })),
+};
+
+const HideListed: FC<Props> = ({ contentType }) => {
     const { user } = useSession();
     const { hide_listed } = useRouteSearch<Pick<AnimeSearch, 'hide_listed'>>();
     const handleChangeParam = useChangeParam();
-
-    const key = catalogExcludeKey(contentType);
-    const stored = useUiPreferences((prefs) => prefs.filters[key]);
+    const filters = useUiPreferences((prefs) => prefs.filters);
     const setFilter = useUiPreferences((prefs) => prefs.setFilter);
 
     if (!user) return null;
 
-    const isAnime = contentType === ContentTypeEnum.ANIME;
-    const statuses = isAnime ? WATCH_STATUS : READ_STATUS;
-    const icons: Record<string, FC<{ className?: string }>> = isAnime
-        ? WATCH_STATUS_ICONS
-        : READ_STATUS_ICONS;
+    const options =
+        STATUS_OPTIONS[
+            contentType === ContentTypeEnum.ANIME ? 'watch' : 'read'
+        ];
 
     return (
         <div className="flex flex-col gap-4">
@@ -75,11 +93,11 @@ const ExcludeListStatus: FC<Props> = ({ contentType }) => {
             {hide_listed && (
                 <Select
                     multiple
-                    value={stored ?? Object.keys(statuses)}
-                    onValueChange={(value) => setFilter(key, value)}
-                    options={Object.entries(statuses).map(
-                        ([value, { title_ua }]) => ({ value, label: title_ua }),
-                    )}
+                    value={catalogHideListedStatuses(filters, contentType)}
+                    onValueChange={(value) =>
+                        setFilter(catalogHideListedKey(contentType), value)
+                    }
+                    options={options}
                 >
                     <SelectTrigger size="md">
                         <SelectValue
@@ -90,24 +108,18 @@ const ExcludeListStatus: FC<Props> = ({ contentType }) => {
                     <SelectContent>
                         <SelectList>
                             <SelectGroup>
-                                {Object.entries(statuses).map(
-                                    ([status, { title_ua }]) => {
-                                        const Icon = icons[status];
-
-                                        return (
-                                            <SelectItem
-                                                key={status}
-                                                value={status}
-                                                label={title_ua}
-                                            >
-                                                <span className="inline-flex items-center gap-2">
-                                                    <Icon className="size-4 shrink-0" />
-                                                    {title_ua}
-                                                </span>
-                                            </SelectItem>
-                                        );
-                                    },
-                                )}
+                                {options.map(({ value, label, Icon }) => (
+                                    <SelectItem
+                                        key={value}
+                                        value={value}
+                                        label={label}
+                                    >
+                                        <span className="inline-flex items-center gap-2">
+                                            <Icon className="size-4 shrink-0" />
+                                            {label}
+                                        </span>
+                                    </SelectItem>
+                                ))}
                             </SelectGroup>
                         </SelectList>
                     </SelectContent>
@@ -117,7 +129,7 @@ const ExcludeListStatus: FC<Props> = ({ contentType }) => {
     );
 };
 
-export const FormExcludeListStatus: FC<Partial<SwitchFieldProps>> = (props) => {
+export const FormHideListed: FC<Partial<SwitchFieldProps>> = (props) => {
     const form = useTypedAppFormContext(filterPresetFormOptions);
     const { user } = useSession();
 
@@ -136,4 +148,4 @@ export const FormExcludeListStatus: FC<Partial<SwitchFieldProps>> = (props) => {
     );
 };
 
-export default ExcludeListStatus;
+export default HideListed;

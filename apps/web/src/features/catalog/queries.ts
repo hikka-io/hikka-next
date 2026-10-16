@@ -12,16 +12,15 @@ import {
     type NovelResponseWithRead,
     type PaginationResponse,
     paginatedInfiniteOptions,
-    ReadStatusEnum,
+    type ReadStatusEnum,
     searchAnimeInfiniteOptions,
     searchMangaInfiniteOptions,
     searchNovelInfiniteOptions,
-    WatchStatusEnum,
+    type WatchStatusEnum,
 } from '@hikka/api';
 
 import {
     CATALOG_FILTERS_SIDEBAR_KEY,
-    catalogExcludeKey,
     type UiPreferences,
 } from '@/utils/cookies';
 import type {
@@ -83,26 +82,11 @@ export function catalogPageSize(
     return columns === 1 ? undefined : columns * 4;
 }
 
-/** The statuses `hide_listed` excludes: every status until the viewer narrows them. */
-export function catalogExcludeStatuses(
-    prefs: Pick<UiPreferences, 'filters'> | null,
-    contentType: MainContentTypeEnum,
-): string[] {
-    return (
-        prefs?.filters[catalogExcludeKey(contentType)] ??
-        Object.values(
-            contentType === ContentTypeEnum.ANIME
-                ? WatchStatusEnum
-                : ReadStatusEnum,
-        )
-    );
-}
-
 export function catalogSearchQuery(
     contentType: MainContentTypeEnum,
     search: CatalogSearch,
     size?: number,
-    excludeStatuses?: string[],
+    hiddenStatuses?: string[],
     client?: Client,
 ) {
     switch (contentType) {
@@ -110,8 +94,8 @@ export function catalogSearchQuery(
             const { args: searchArgs, page } = buildAnimeSearchArgs(search);
             const args = {
                 ...searchArgs,
-                ...(excludeStatuses && {
-                    exclude_watch_status: excludeStatuses as WatchStatusEnum[],
+                ...(hiddenStatuses && {
+                    exclude_watch_status: hiddenStatuses as WatchStatusEnum[],
                 }),
             };
 
@@ -131,8 +115,8 @@ export function catalogSearchQuery(
             const { args: searchArgs, page } = buildMangaSearchArgs(search);
             const args = {
                 ...searchArgs,
-                ...(excludeStatuses && {
-                    exclude_read_status: excludeStatuses as ReadStatusEnum[],
+                ...(hiddenStatuses && {
+                    exclude_read_status: hiddenStatuses as ReadStatusEnum[],
                 }),
             };
 
@@ -152,8 +136,8 @@ export function catalogSearchQuery(
             const { args: searchArgs, page } = buildNovelSearchArgs(search);
             const args = {
                 ...searchArgs,
-                ...(excludeStatuses && {
-                    exclude_read_status: excludeStatuses as ReadStatusEnum[],
+                ...(hiddenStatuses && {
+                    exclude_read_status: hiddenStatuses as ReadStatusEnum[],
                 }),
             };
 
@@ -176,14 +160,9 @@ export function catalogSearchOptions(
     contentType: MainContentTypeEnum,
     search: CatalogSearch,
     size?: number,
-    excludeStatuses?: string[],
+    hiddenStatuses?: string[],
     client?: Client,
 ): CatalogSearchOptions {
-    return catalogSearchQuery(
-        contentType,
-        search,
-        size,
-        excludeStatuses,
-        client,
-    ).options;
+    return catalogSearchQuery(contentType, search, size, hiddenStatuses, client)
+        .options;
 }

@@ -3,13 +3,10 @@ import type { MainContentTypeEnum } from '@hikka/api';
 import { useSession } from '@/services/session';
 import { useUiPreferences } from '@/services/ui-preferences-store';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
+import { catalogHideListedStatuses } from '@/utils/cookies';
 import { useRouteSearch } from '@/utils/navigation';
 
-import {
-    type CatalogSearch,
-    catalogExcludeStatuses,
-    catalogSearchQuery,
-} from './queries';
+import { type CatalogSearch, catalogSearchQuery } from './queries';
 
 /**
  * Shared catalog query. CatalogList and CatalogListSummary call it with the
@@ -22,13 +19,13 @@ export function useCatalogSearchQuery(
     const search = useRouteSearch<CatalogSearch>();
     const { user } = useSession();
     const filters = useUiPreferences((prefs) => prefs.filters);
-    const excludeStatuses = catalogExcludeStatuses({ filters }, contentType);
+    const hiddenStatuses = catalogHideListedStatuses(filters, contentType);
     const { args, options } = catalogSearchQuery(
         contentType,
         search,
         size,
-        user && search.hide_listed && excludeStatuses.length
-            ? excludeStatuses
+        user && search.hide_listed && hiddenStatuses.length
+            ? hiddenStatuses
             : undefined,
     );
     const queryResult = useInfiniteList(options);
