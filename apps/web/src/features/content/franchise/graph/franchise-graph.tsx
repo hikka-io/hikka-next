@@ -100,14 +100,15 @@ const SIZES: Record<'desktop' | 'phone', Record<'card' | 'full', Sizes>> = {
 };
 
 // Horizontal steps are fixed: years run off to the right instead of filling the card's width.
+// A year step leaves about a poster's width of air; a lane fits a poster, its media label and a gap.
 const SIZES_HORIZONTAL: typeof SIZES = {
     desktop: {
-        card: { cw: '96px', rh: '128px', gp: '60px', gx: '16px', image: 60 },
-        full: { cw: '120px', rh: '156px', gp: '76px', gx: '16px', image: 76 },
+        card: { cw: '132px', rh: '148px', gp: '60px', gx: '16px', image: 60 },
+        full: { cw: '168px', rh: '176px', gp: '76px', gx: '16px', image: 76 },
     },
     phone: {
-        card: { cw: '80px', rh: '116px', gp: '52px', gx: '12px', image: 52 },
-        full: { cw: '88px', rh: '124px', gp: '56px', gx: '12px', image: 56 },
+        card: { cw: '100px', rh: '128px', gp: '52px', gx: '12px', image: 52 },
+        full: { cw: '108px', rh: '136px', gp: '56px', gx: '12px', image: 56 },
     },
 };
 
