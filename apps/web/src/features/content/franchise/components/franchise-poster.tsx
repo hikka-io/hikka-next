@@ -29,6 +29,8 @@ const FranchisePoster: FC<Props> = ({ content, className }) => (
         entity={untrackedEntity(content)}
         title={null}
         imagePreset="cardXs"
+        containerClassName="rounded-(--base-radius)"
+        imageProps={{ resize: 'fill' }}
         className={className}
     />
 );

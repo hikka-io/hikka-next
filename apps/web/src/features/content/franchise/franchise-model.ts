@@ -1,5 +1,6 @@
 import {
     type AnimeResponseWithWatch,
+    ContentStatusEnum,
     ContentTypeEnum,
     type FranchiseRelationResponse,
     FranchiseRelationTypeEnum,
@@ -9,6 +10,7 @@ import {
     type NovelResponseWithRead,
 } from '@hikka/api';
 
+import type { HistoryFact, HistoryFactPart } from '@/components/list-items';
 import {
     CONTENT_TYPES,
     getMediaTypeLabel,
@@ -476,47 +478,42 @@ export function relationText(model: FranchiseModel, node: FranchiseNode) {
     return node.relation?.label ?? CONTENT_TYPES[node.contentType].title_ua;
 }
 
-export type MetaPart = { text: string; className?: string };
+const fact = (text: string, type: HistoryFactPart['type'] = 'text') => [
+    { type, text },
+];
 
-const STATUS_TONES: Partial<Record<string, string>> = {
-    ongoing: 'text-watching-foreground',
-    announced: 'text-planned-foreground',
-};
-
-export function basicMeta(content: FranchiseContent): MetaPart[] {
+export function basicMeta(content: FranchiseContent): HistoryFact[] {
     return [
         content.year ? String(content.year) : null,
         getMediaTypeLabel(content.media_type) ?? null,
     ]
         .filter((text) => text !== null)
-        .map((text) => ({ text }));
+        .map((text) => fact(text));
 }
 
-export function chronologyMeta(content: FranchiseContent): MetaPart[] {
-    const parts: MetaPart[] = [];
+export function chronologyMeta(content: FranchiseContent): HistoryFact[] {
+    const facts: HistoryFact[] = [];
     const season =
         content.data_type === ContentTypeEnum.ANIME && content.season
             ? SEASON[content.season as keyof typeof SEASON]?.title_ua
             : undefined;
     const mediaType = getMediaTypeLabel(content.media_type);
-    const tone = content.status ? STATUS_TONES[content.status] : undefined;
 
-    if (season) parts.push({ text: season });
-    if (mediaType) parts.push({ text: mediaType });
+    if (season) facts.push(fact(season));
+    if (mediaType) facts.push(fact(mediaType));
 
-    if (tone && content.status) {
-        parts.push({
-            text: RELEASE_STATUS[content.status as keyof typeof RELEASE_STATUS]
-                .title_ua,
-            className: tone,
-        });
+    if (
+        content.status === ContentStatusEnum.ONGOING ||
+        content.status === ContentStatusEnum.ANNOUNCED
+    ) {
+        facts.push(fact(RELEASE_STATUS[content.status].title_ua, 'status'));
     } else if (content.data_type === ContentTypeEnum.ANIME) {
         if (content.episodes_total && content.episodes_total > 1) {
-            parts.push({ text: `${content.episodes_total} еп.` });
+            facts.push(fact(`${content.episodes_total} еп.`));
         }
     } else if (content.chapters) {
-        parts.push({ text: `${content.chapters} розд.` });
+        facts.push(fact(`${content.chapters} розд.`));
     }
 
-    return parts;
+    return facts;
 }

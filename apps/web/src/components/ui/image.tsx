@@ -7,11 +7,12 @@ import {
 } from '@unpic/react/base';
 
 import { cn } from '@/utils/cn';
-import { imgproxyTransformer } from '@/utils/imgproxy';
+import { imgproxyTransformer, type ResizeMode } from '@/utils/imgproxy';
 
 type Props = Omit<UnpicImageProps<Operations, undefined>, 'transformer'> & {
     transitionDisabled?: boolean;
     unoptimized?: boolean;
+    resize?: ResizeMode;
 };
 
 const Image = ({
@@ -20,6 +21,7 @@ const Image = ({
     transitionDisabled,
     background,
     unoptimized,
+    resize,
     src,
     onLoad,
     ...props
@@ -53,7 +55,7 @@ const Image = ({
         src,
         onLoad: handleLoad,
         transformer: (str, operations) =>
-            imgproxyTransformer(str, operations, unoptimized),
+            imgproxyTransformer(str, operations, unoptimized, resize),
         className: resolvedClassName,
         background: background ?? 'var(--muted)',
         alt: alt ?? '',

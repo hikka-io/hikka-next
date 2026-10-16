@@ -29,7 +29,9 @@ import { TITLE_FORMS } from '@/utils/i18n/word-forms';
 import { Link } from '@/utils/navigation';
 
 import FranchiseRow from './components/franchise-row';
+import RelationLabel from './components/relation-label';
 import {
+    type DirectRelation,
     type FranchiseModel,
     groupCounts,
     type RelationGroupEnum,
@@ -72,6 +74,17 @@ const FranchiseCardSkeleton: FC = () => (
             </div>
         ))}
     </div>
+);
+
+const DirectRow: FC<{ relation: DirectRelation }> = ({ relation }) => (
+    <FranchiseRow
+        content={relation.node.content}
+        label={
+            <RelationLabel group={relation.group}>
+                <span className="truncate">{relation.label}</span>
+            </RelationLabel>
+        }
+    />
 );
 
 const FranchiseComposition: FC<{ model: FranchiseModel; href: string }> = ({
@@ -144,7 +157,7 @@ const FranchiseCardBody: FC<{ model: FranchiseModel; href: string }> = ({
     const otherRows = (
         <div className="flex flex-col gap-3">
             {others.map((entry) => (
-                <FranchiseRow key={entry.node.id} relation={entry} />
+                <DirectRow key={entry.node.id} relation={entry} />
             ))}
         </div>
     );
@@ -154,7 +167,7 @@ const FranchiseCardBody: FC<{ model: FranchiseModel; href: string }> = ({
             {rail.length > 0 && (
                 <div className="flex flex-col gap-3 px-4">
                     {rail.map((entry) => (
-                        <FranchiseRow key={entry.node.id} relation={entry} />
+                        <DirectRow key={entry.node.id} relation={entry} />
                     ))}
                 </div>
             )}

@@ -1,18 +1,15 @@
-import type { FC } from 'react';
+import { type FC, type ReactNode, useId, useState } from 'react';
 
-import { Bookmark, Maximize, Minimize } from 'lucide-react';
+import { Bookmark, Filter, Maximize, Minimize } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { Chip } from '@/components/ui/chip';
+import { Label } from '@/components/ui/label';
 import {
-    Drawer,
-    DrawerClose,
-    DrawerContent,
-    DrawerFooter,
-    DrawerHeader,
-    DrawerTitle,
-    DrawerTrigger,
-} from '@/components/ui/drawer';
+    ResponsiveModal,
+    ResponsiveModalContent,
+    ResponsiveModalFooter,
+} from '@/components/ui/responsive-modal';
 import { SELECTED_TINT } from '@/components/ui/selected-tint';
 import { Switch } from '@/components/ui/switch';
 import { cn } from '@/utils/cn';
@@ -48,97 +45,84 @@ const Dot: FC<{ on: boolean; className?: string }> = ({ on, className }) => (
     />
 );
 
-const FiltersDrawer: FC<
-    Pick<Props, 'filters' | 'onToggle' | 'mine' | 'onToggleMine'>
-> = ({ filters, onToggle, mine, onToggleMine }) => {
-    const enabled = filters.filter((filter) => filter.on);
+const SwitchRow: FC<{
+    label: ReactNode;
+    checked: boolean;
+    onCheckedChange: () => void;
+}> = ({ label, checked, onCheckedChange }) => {
+    const id = useId();
 
     return (
-        <Drawer>
-            <DrawerTrigger
-                render={
-                    <Button variant="outline" size="sm" className="gap-2" />
-                }
-            >
-                <span className="flex">
-                    {enabled.map((filter) => (
-                        <span
-                            key={filter.type}
-                            className={cn(
-                                'not-first:-ml-1 size-2.5 rounded-full shadow-[0_0_0_2px_var(--card)]',
-                                RELATION_GROUP_STYLES[filter.group].solid,
-                            )}
-                        />
-                    ))}
-                </span>
+        <div className="flex items-center justify-between gap-4">
+            <Label htmlFor={id} className="flex flex-1 items-center gap-2">
+                {label}
+            </Label>
+            <Switch
+                id={id}
+                checked={checked}
+                onCheckedChange={onCheckedChange}
+            />
+        </div>
+    );
+};
+
+const FiltersModal: FC<
+    Pick<Props, 'filters' | 'onToggle' | 'mine' | 'onToggleMine'>
+> = ({ filters, onToggle, mine, onToggleMine }) => {
+    const [open, setOpen] = useState(false);
+    const enabled = filters.filter((filter) => filter.on).length;
+
+    return (
+        <>
+            <Button variant="outline" size="sm" onClick={() => setOpen(true)}>
+                <Filter />
                 Фільтри
                 <span className="text-muted-foreground tabular-nums">
-                    {enabled.length}/{filters.length}
+                    {enabled}/{filters.length}
                 </span>
-            </DrawerTrigger>
-            <DrawerContent>
-                <DrawerHeader>
-                    <DrawerTitle>Фільтри графа</DrawerTitle>
-                </DrawerHeader>
-                <div className="-mx-2 flex flex-col py-2">
-                    {filters.map((filter) => (
-                        // biome-ignore lint/a11y/noLabelWithoutControl: the Switch inside is the control.
-                        <label
-                            key={filter.type}
-                            className="flex cursor-pointer items-center gap-2.5 rounded-sm px-2 py-1.5 font-medium text-sm hover:bg-accent"
-                        >
-                            <Dot
-                                on={filter.on}
-                                className={
-                                    filter.on
-                                        ? RELATION_GROUP_STYLES[filter.group]
-                                              .text
-                                        : 'text-muted-foreground'
-                                }
-                            />
-                            <span
-                                className={cn(
-                                    'flex-1',
-                                    !filter.on && 'text-muted-foreground',
-                                )}
-                            >
-                                {filter.longLabel}
-                            </span>
-                            <span className="text-muted-foreground tabular-nums">
-                                {filter.count}
-                            </span>
-                            <Switch
+            </Button>
+            <ResponsiveModal open={open} onOpenChange={setOpen}>
+                <ResponsiveModalContent title="Фільтри графа">
+                    <div className="flex flex-col gap-4">
+                        {filters.map((filter) => (
+                            <SwitchRow
+                                key={filter.type}
                                 checked={filter.on}
                                 onCheckedChange={() => onToggle(filter.type)}
+                                label={
+                                    <>
+                                        <Dot
+                                            on
+                                            className={
+                                                RELATION_GROUP_STYLES[
+                                                    filter.group
+                                                ].text
+                                            }
+                                        />
+                                        {filter.longLabel}
+                                        <span className="text-muted-foreground tabular-nums">
+                                            {filter.count}
+                                        </span>
+                                    </>
+                                }
                             />
-                        </label>
-                    ))}
-                    {mine !== null && (
-                        // biome-ignore lint/a11y/noLabelWithoutControl: the Switch inside is the control.
-                        <label className="mt-2 flex cursor-pointer items-center gap-2.5 rounded-sm px-2 py-1.5 font-medium text-sm hover:bg-accent">
-                            <span className="flex-1">Лише мій список</span>
-                            <Switch
+                        ))}
+                        {mine !== null && (
+                            <SwitchRow
+                                label="Лише мій список"
                                 checked={mine}
                                 onCheckedChange={onToggleMine}
                             />
-                        </label>
-                    )}
-                </div>
-                <DrawerFooter>
-                    <DrawerClose
-                        render={
-                            <Button
-                                variant="secondary"
-                                size="md"
-                                className="w-full"
-                            />
-                        }
-                    >
-                        Готово
-                    </DrawerClose>
-                </DrawerFooter>
-            </DrawerContent>
-        </Drawer>
+                        )}
+                    </div>
+                    <ResponsiveModalFooter>
+                        <Button size="md" onClick={() => setOpen(false)}>
+                            Готово
+                        </Button>
+                    </ResponsiveModalFooter>
+                </ResponsiveModalContent>
+            </ResponsiveModal>
+        </>
     );
 };
 
@@ -200,7 +184,7 @@ const GraphToolbar: FC<Props> = ({
                 </>
             ) : (
                 <>
-                    <FiltersDrawer
+                    <FiltersModal
                         filters={filters}
                         onToggle={onToggle}
                         mine={mine}

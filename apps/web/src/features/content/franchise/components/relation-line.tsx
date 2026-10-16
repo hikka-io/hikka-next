@@ -10,10 +10,10 @@ import {
     type FranchiseNode,
     relationText,
 } from '../franchise-model';
-import { RELATION_GROUP_STYLES } from '../relation-groups';
+import RelationLabel from './relation-label';
 
 const LINK_CLASS =
-    'underline decoration-1 underline-offset-3 transition-colors hover:text-foreground';
+    'min-w-0 truncate underline decoration-1 underline-offset-3 transition-colors hover:text-foreground';
 
 type Props = {
     model: FranchiseModel;
@@ -62,26 +62,17 @@ const RelationLine: FC<Props> = ({
         node.chainIndex === null && node.relation?.targetId
             ? model.byId.get(node.relation.targetId)
             : undefined;
+    const kind = node.relation?.targetKind;
 
     return (
-        <span
-            className={cn(
-                'truncate font-medium text-xs leading-4',
-                RELATION_GROUP_STYLES[node.group].text,
-                className,
-            )}
-        >
-            {relationText(model, node)}
-            {target && (
-                <>
-                    {' до '}
-                    {node.relation?.targetKind &&
-                        `${node.relation.targetKind} `}
-                    <RelationTarget target={target} onSelect={onSelect} />
-                </>
-            )}
-            {suffix}
-        </span>
+        <RelationLabel group={node.group} className={className}>
+            <span className={cn(target ? 'shrink-0' : 'truncate')}>
+                {relationText(model, node)}
+                {target && ` до ${kind ? `${kind} ` : ''}`}
+            </span>
+            {target && <RelationTarget target={target} onSelect={onSelect} />}
+            {suffix && <span className="shrink-0">{suffix}</span>}
+        </RelationLabel>
     );
 };
 

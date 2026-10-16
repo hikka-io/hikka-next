@@ -3,6 +3,7 @@ import type { FC, ReactNode } from 'react';
 import MaterialSymbolsImageNotSupportedOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsImageNotSupportedOutlineRounded';
 import Image from '@/components/ui/image';
 import { cn } from '@/utils/cn';
+import type { ResizeMode } from '@/utils/imgproxy';
 
 import { IMAGE_PRESETS } from './image-presets';
 
@@ -13,6 +14,8 @@ export type CardImageProps = {
     width?: number;
     height?: number;
     sizes?: string;
+    /** `fill` crops on the server to the box, so an off-ratio source stays sharp. */
+    resize?: ResizeMode;
 };
 
 type Props = {
@@ -43,7 +46,7 @@ const CardImage: FC<Props> = ({
         return image;
     }
 
-    const { width, height, sizes, ...rest } = imageProps || {};
+    const { width, height, sizes, resize, ...rest } = imageProps || {};
 
     // Blurred posters are never revealed, so a heavy blur(16px) hides any
     // detail finer than ~16px. Requesting a tiny source (instead of the
@@ -85,6 +88,7 @@ const CardImage: FC<Props> = ({
                     : DEFAULT_PRESET.height)
             }
             sizes={sizes ?? DEFAULT_PRESET.sizes}
+            resize={resize}
             src={image}
             className={cn('max-h-full! max-w-full!', className)}
             alt="Poster"

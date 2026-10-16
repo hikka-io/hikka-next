@@ -1,6 +1,7 @@
 import {
     type CSSProperties,
     type FC,
+    type MouseEvent,
     useEffect,
     useRef,
     useState,
@@ -74,12 +75,11 @@ const SIZES: Record<'desktop' | 'phone', Record<'card' | 'full', Sizes>> = {
     },
 };
 
-const CARD_CLASS = 'gap-0 overflow-hidden bg-card p-0';
+const CARD_CLASS = 'gap-0 overflow-hidden p-0';
 const SCROLL_HEIGHT = 'h-155 max-md:h-120';
+const GUTTER_CLASS = 'pr-8 pl-(--gx) [scrollbar-gutter:stable] max-md:pr-5';
 
 const GRAPH_WIDTH = 'calc(var(--axis) + var(--cols) * var(--cw))';
-const AXIS_FADE =
-    'linear-gradient(90deg, var(--card) calc(100% - 12px), transparent)';
 const DEFAULT_HIDDEN: GraphEdgeType[] = ['adaptation'];
 
 const ZoneLabel: FC<{
@@ -90,10 +90,9 @@ const ZoneLabel: FC<{
 }> = ({ types, label, count, compact }) => (
     <span
         className={cn(
-            'sticky inline-flex min-w-0 max-w-full items-center',
+            'inline-flex min-w-0 items-center',
             compact ? 'gap-1 pl-1' : 'gap-1.5 pl-2',
         )}
-        style={{ left: 'calc(var(--axis) + var(--gx) + 8px)' }}
     >
         {types.map((type) => {
             const Icon = CONTENT_TYPE_ICONS[type];
@@ -116,73 +115,62 @@ const ZoneHeader: FC<{
 
     return (
         <div
-            className="sticky top-0 z-7 mx-auto mb-1 flex whitespace-nowrap border-b bg-card pt-3 pb-2.5 font-medium text-muted-foreground text-xs leading-4"
-            style={{ width: GRAPH_WIDTH }}
+            className={cn('@container overflow-hidden border-b', GUTTER_CLASS)}
         >
-            <span
-                className="sticky left-0 z-1 -mt-3 -mb-2.5 shrink-0"
-                style={{
-                    width: 'calc(var(--axis) + var(--gx))',
-                    marginLeft: 'calc(var(--gx) * -1)',
-                    background: AXIS_FADE,
-                }}
-            />
-            <span
-                className="flex min-w-0 shrink-0 items-center overflow-hidden"
-                style={{ width: `calc(var(--cw) * ${layout.sourceColumns})` }}
+            <div
+                className="mx-auto flex whitespace-nowrap py-3 pl-(--axis) font-medium text-muted-foreground text-xs leading-4"
+                style={{ width: GRAPH_WIDTH }}
             >
-                <ZoneLabel
-                    types={left}
-                    label={mediaListLabel(left)}
-                    count={leftCount}
-                    compact={!isDesktop}
-                />
-            </span>
-            <span className="flex min-w-0 flex-1 items-center overflow-hidden">
-                <ZoneLabel
-                    types={[model.current.contentType]}
-                    label={CONTENT_TYPES[model.current.contentType].title_ua}
-                    count={model.nodes.length - leftCount}
-                />
-            </span>
+                <span
+                    className="flex min-w-0 shrink-0 overflow-hidden"
+                    style={{
+                        width: `calc(var(--cw) * ${layout.sourceColumns})`,
+                    }}
+                >
+                    <ZoneLabel
+                        types={left}
+                        label={mediaListLabel(left)}
+                        count={leftCount}
+                        compact={!isDesktop}
+                    />
+                </span>
+                <span className="flex min-w-0 flex-1 overflow-hidden">
+                    <ZoneLabel
+                        types={[model.current.contentType]}
+                        label={
+                            CONTENT_TYPES[model.current.contentType].title_ua
+                        }
+                        count={model.nodes.length - leftCount}
+                    />
+                </span>
+            </div>
         </div>
     );
 };
 
-const YearAxis: FC<{ layout: GraphLayout }> = ({ layout }) => (
-    <div
-        className="pointer-events-none sticky left-0 z-4 h-full"
-        style={{
-            width: 'calc(var(--axis) + var(--gx))',
-            marginLeft: 'calc(var(--gx) * -1)',
-            background: AXIS_FADE,
-        }}
-    >
-        {layout.bands.map((band) => (
-            <div
-                key={band.label}
-                className="absolute flex w-9 flex-col items-start font-semibold text-muted-foreground text-xs tabular-nums leading-[18px]"
-                style={{
-                    left: 'var(--gx)',
-                    top: `calc(var(--rh) * ${band.top})`,
-                    height: `calc(var(--rh) * ${band.height})`,
-                    paddingTop: 'calc(var(--rh) / 2 - 9px)',
-                }}
-            >
-                <span>{band.label}</span>
-                {band.height > 1 && (
-                    <span
-                        className="absolute left-[13px] w-px bg-border"
-                        style={{
-                            top: 'calc(var(--rh) / 2 + 14px)',
-                            bottom: 'calc(var(--rh) / 2)',
-                        }}
-                    />
-                )}
-            </div>
-        ))}
-    </div>
-);
+const YearAxis: FC<{ layout: GraphLayout }> = ({ layout }) =>
+    layout.bands.map((band) => (
+        <div
+            key={band.label}
+            className="pointer-events-none absolute left-0 flex w-9 flex-col items-start font-semibold text-muted-foreground text-xs tabular-nums leading-[18px]"
+            style={{
+                top: `calc(var(--rh) * ${band.top})`,
+                height: `calc(var(--rh) * ${band.height})`,
+                paddingTop: 'calc(var(--rh) / 2 - 9px)',
+            }}
+        >
+            <span>{band.label}</span>
+            {band.height > 1 && (
+                <span
+                    className="absolute left-[13px] w-px bg-border"
+                    style={{
+                        top: 'calc(var(--rh) / 2 + 14px)',
+                        bottom: 'calc(var(--rh) / 2)',
+                    }}
+                />
+            )}
+        </div>
+    ));
 
 function popoverStyle(
     [column, row]: [number, number],
@@ -223,7 +211,7 @@ function scrollToNode(
 }
 
 export const FranchiseGraphSkeleton: FC = () => (
-    <Card variant="plain" className={CARD_CLASS}>
+    <Card className={CARD_CLASS}>
         <div className="border-b px-4 py-3 max-md:px-3 max-md:py-2.5">
             <Skeleton className="h-8 w-full" />
         </div>
@@ -235,6 +223,7 @@ const FranchiseGraph: FC<Props> = ({ model }) => {
     const { user } = useSession();
     const isDesktop = useIsDesktop();
     const scrollRef = useRef<HTMLDivElement>(null);
+    const barRef = useRef<HTMLDivElement>(null);
 
     const [hidden, setHidden] = useState<ReadonlySet<GraphEdgeType>>(
         () => new Set(DEFAULT_HIDDEN),
@@ -254,6 +243,7 @@ const FranchiseGraph: FC<Props> = ({ model }) => {
     const hasZone =
         layout.sourceColumns > 0 &&
         model.nodes.some((node) => node.lane === 'source');
+    const compactDetails = !isDesktop && !fullscreen;
 
     const filters: EdgeFilter[] = EDGE_TYPES.map((edgeType) => ({
         ...edgeType,
@@ -278,16 +268,43 @@ const FranchiseGraph: FC<Props> = ({ model }) => {
 
         const { overflow } = document.body.style;
         document.body.style.overflow = 'hidden';
-        const onKeyDown = (event: KeyboardEvent) => {
-            if (event.key === 'Escape') setFullscreen(false);
-        };
-        window.addEventListener('keydown', onKeyDown);
 
         return () => {
             document.body.style.overflow = overflow;
-            window.removeEventListener('keydown', onKeyDown);
         };
     }, [fullscreen]);
+
+    useEffect(() => {
+        if (!focus && !fullscreen) return;
+
+        const onKeyDown = (event: KeyboardEvent) => {
+            if (event.key !== 'Escape') return;
+            if (focus) setFocus(null);
+            else setFullscreen(false);
+        };
+        window.addEventListener('keydown', onKeyDown);
+
+        return () => window.removeEventListener('keydown', onKeyDown);
+    }, [focus, fullscreen]);
+
+    useEffect(() => {
+        const bar = barRef.current;
+        const container = scrollRef.current;
+        if (!compactDetails || !focus || !bar || !container) return;
+
+        bar.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+
+        const node = container.querySelector(
+            `[data-node="${CSS.escape(focus)}"]`,
+        );
+        const hiddenBy = node
+            ? node.getBoundingClientRect().bottom -
+              bar.getBoundingClientRect().top
+            : 0;
+        if (hiddenBy > 0) {
+            container.scrollBy({ top: hiddenBy + 16, behavior: 'smooth' });
+        }
+    }, [compactDetails, focus]);
 
     const toggleType = (type: GraphEdgeType) => {
         const next = new Set(hidden);
@@ -301,6 +318,11 @@ const FranchiseGraph: FC<Props> = ({ model }) => {
     const jumpTo = (id: string) => {
         setFocus(id);
         scrollToNode(scrollRef.current, id, 'smooth');
+    };
+
+    const deselect = (event: MouseEvent) => {
+        const target = event.target as Element;
+        if (!target.closest('[data-node], [role="dialog"]')) setFocus(null);
     };
 
     const nodeState = (id: string): NodeState => {
@@ -318,22 +340,24 @@ const FranchiseGraph: FC<Props> = ({ model }) => {
         return 'default';
     };
 
-    const details = focusNode && (
-        <GraphDetails
-            model={model}
-            node={focusNode}
-            links={focusLinks}
-            onSelect={jumpTo}
-            onClose={() => setFocus(null)}
-        />
-    );
+    const details = (compact: boolean) =>
+        focusNode && (
+            <GraphDetails
+                model={model}
+                node={focusNode}
+                links={focusLinks}
+                compact={compact}
+                onSelect={jumpTo}
+                onClose={() => setFocus(null)}
+            />
+        );
 
     const card = (
         <Card
-            variant="plain"
             className={cn(
                 CARD_CLASS,
-                fullscreen && 'fixed inset-0 z-50 rounded-none border-0',
+                fullscreen &&
+                    'fixed inset-0 z-50 rounded-none border-0 bg-background',
             )}
         >
             <GraphToolbar
@@ -347,140 +371,169 @@ const FranchiseGraph: FC<Props> = ({ model }) => {
                 isDesktop={isDesktop}
             />
             <div
-                ref={scrollRef}
                 className={cn(
-                    '@container overflow-auto overscroll-contain',
-                    fullscreen ? 'flex-1' : SCROLL_HEIGHT,
+                    'relative flex min-h-0 flex-col',
+                    fullscreen && 'flex-1',
                 )}
+                style={
+                    {
+                        '--axis': '48px',
+                        '--cols': layout.columns,
+                        '--cw': sizes.cw,
+                        '--rh': sizes.rh,
+                        '--gp': sizes.gp,
+                        '--gx': sizes.gx,
+                    } as CSSProperties
+                }
             >
+                {hasZone && (
+                    <ZoneHeader
+                        model={model}
+                        layout={layout}
+                        isDesktop={isDesktop}
+                    />
+                )}
+                {/* biome-ignore lint/a11y/noStaticElementInteractions: clicking empty space deselects; Escape does the same from the keyboard. */}
+                {/* biome-ignore lint/a11y/useKeyWithClickEvents: Escape is the keyboard path, handled on window. */}
                 <div
-                    className="w-max min-w-full pr-8 pb-6 pl-(--gx) max-md:pr-5 max-md:pb-5"
-                    style={
-                        {
-                            '--axis': '48px',
-                            '--cols': layout.columns,
-                            '--cw': sizes.cw,
-                            '--rh': sizes.rh,
-                            '--gp': sizes.gp,
-                            '--gx': sizes.gx,
-                        } as CSSProperties
-                    }
-                >
-                    {hasZone ? (
-                        <ZoneHeader
-                            model={model}
-                            layout={layout}
-                            isDesktop={isDesktop}
-                        />
-                    ) : (
-                        <div className="h-5" />
+                    ref={scrollRef}
+                    onClick={deselect}
+                    className={cn(
+                        '@container overflow-auto overscroll-contain',
+                        fullscreen ? 'flex-1' : SCROLL_HEIGHT,
                     )}
+                >
                     <div
-                        className="relative mx-auto"
-                        style={{
-                            width: GRAPH_WIDTH,
-                            height: `calc(var(--rh) * ${layout.rows})`,
-                        }}
-                    >
-                        <YearAxis layout={layout} />
-                        {hasZone && (
-                            <div
-                                className="absolute top-0 bottom-0 left-(--axis) rounded-lg bg-secondary/20"
-                                style={{
-                                    width: `calc(var(--cw) * ${layout.sourceColumns})`,
-                                }}
-                            />
+                        className={cn(
+                            'w-max min-w-full pb-6 max-md:pb-5',
+                            GUTTER_CLASS,
+                            hasZone ? 'pt-2' : 'pt-5',
+                            compactDetails && focusNode && 'pb-28 max-md:pb-28',
                         )}
-                        {layout.bands
-                            .filter((band) => band.top > 0)
-                            .map((band) => (
-                                <div
-                                    key={band.label}
-                                    className="absolute left-(--axis) h-px bg-border"
-                                    style={{
-                                        top: `calc(var(--rh) * ${band.top})`,
-                                        width: 'calc(var(--cols) * var(--cw))',
-                                    }}
-                                />
-                            ))}
-                        <svg
-                            className="pointer-events-none absolute top-0 left-(--axis) overflow-visible"
+                    >
+                        <div
+                            className="relative mx-auto"
                             style={{
-                                width: 'calc(var(--cols) * var(--cw))',
+                                width: GRAPH_WIDTH,
                                 height: `calc(var(--rh) * ${layout.rows})`,
                             }}
-                            viewBox={`0 0 ${layout.columns * CELL} ${layout.rows * CELL}`}
-                            preserveAspectRatio="none"
-                            aria-hidden="true"
                         >
-                            {view.edges.map((edge) => {
-                                const style = edgeStyle(
-                                    edge,
-                                    view.dense,
-                                    focus !== null,
-                                );
-                                const group = EDGE_TYPES.find(
-                                    (entry) => entry.type === edge.type,
-                                )?.group;
+                            <YearAxis layout={layout} />
+                            {hasZone && (
+                                <div
+                                    className="absolute top-0 bottom-0 left-(--axis) rounded-lg bg-secondary/20"
+                                    style={{
+                                        width: `calc(var(--cw) * ${layout.sourceColumns})`,
+                                    }}
+                                />
+                            )}
+                            {layout.bands
+                                .filter((band) => band.top > 0)
+                                .map((band) => (
+                                    <div
+                                        key={band.label}
+                                        className="absolute left-(--axis) h-px bg-border"
+                                        style={{
+                                            top: `calc(var(--rh) * ${band.top})`,
+                                            width: 'calc(var(--cols) * var(--cw))',
+                                        }}
+                                    />
+                                ))}
+                            <svg
+                                className="pointer-events-none absolute top-0 left-(--axis) overflow-visible"
+                                style={{
+                                    width: 'calc(var(--cols) * var(--cw))',
+                                    height: `calc(var(--rh) * ${layout.rows})`,
+                                }}
+                                viewBox={`0 0 ${layout.columns * CELL} ${layout.rows * CELL}`}
+                                preserveAspectRatio="none"
+                                aria-hidden="true"
+                            >
+                                {view.edges.map((edge) => {
+                                    const style = edgeStyle(
+                                        edge,
+                                        view.dense,
+                                        focus !== null,
+                                    );
+                                    const group = EDGE_TYPES.find(
+                                        (entry) => entry.type === edge.type,
+                                    )?.group;
+
+                                    return (
+                                        <path
+                                            key={edge.key}
+                                            d={edge.path}
+                                            fill="none"
+                                            stroke={
+                                                RELATION_GROUP_STYLES[
+                                                    group ?? 'alternative'
+                                                ].stroke
+                                            }
+                                            strokeWidth={style.width}
+                                            strokeDasharray={
+                                                style.dashed ? '4 4' : undefined
+                                            }
+                                            opacity={style.opacity}
+                                            vectorEffect="non-scaling-stroke"
+                                            className="transition-opacity"
+                                        />
+                                    );
+                                })}
+                            </svg>
+                            {model.nodes.map((node) => {
+                                const position = layout.positions.get(node.id);
+                                if (!position) return null;
 
                                 return (
-                                    <path
-                                        key={edge.key}
-                                        d={edge.path}
-                                        fill="none"
-                                        stroke={
-                                            RELATION_GROUP_STYLES[
-                                                group ?? 'alternative'
-                                            ].stroke
+                                    <GraphNode
+                                        key={node.id}
+                                        node={node}
+                                        position={position}
+                                        isCurrent={node === model.current}
+                                        isSelected={node.id === focus}
+                                        state={nodeState(node.id)}
+                                        showMedia={
+                                            node.contentType !==
+                                            model.current.contentType
                                         }
-                                        strokeWidth={style.width}
-                                        strokeDasharray={
-                                            style.dashed ? '4 4' : undefined
-                                        }
-                                        opacity={style.opacity}
-                                        vectorEffect="non-scaling-stroke"
-                                        className="transition-opacity"
+                                        compactMedia={!isDesktop}
+                                        imageSizes={sizes.gp}
+                                        largeImage={fullscreen}
+                                        onSelect={select}
                                     />
                                 );
                             })}
-                        </svg>
-                        {model.nodes.map((node) => {
-                            const position = layout.positions.get(node.id);
-                            if (!position) return null;
-
-                            return (
-                                <GraphNode
-                                    key={node.id}
-                                    node={node}
-                                    position={position}
-                                    isCurrent={node === model.current}
-                                    isSelected={node.id === focus}
-                                    state={nodeState(node.id)}
-                                    showMedia={
-                                        node.contentType !==
-                                        model.current.contentType
-                                    }
-                                    compactMedia={!isDesktop}
-                                    onSelect={select}
-                                />
-                            );
-                        })}
-                        {isDesktop && focusPosition && details && (
-                            <div
-                                role="dialog"
-                                aria-label="Деталі тайтлу"
-                                className="absolute z-6 flex w-80 flex-col gap-4 rounded-md border bg-popover p-4 text-popover-foreground shadow-md"
-                                style={popoverStyle(focusPosition, layout)}
-                            >
-                                {details}
-                            </div>
-                        )}
+                            {isDesktop && focusPosition && focusNode && (
+                                <div
+                                    role="dialog"
+                                    aria-label="Деталі тайтлу"
+                                    className="absolute z-6 flex w-80 flex-col gap-4 rounded-md border bg-popover p-4 text-popover-foreground shadow-md"
+                                    style={popoverStyle(focusPosition, layout)}
+                                >
+                                    {details(false)}
+                                </div>
+                            )}
+                        </div>
                     </div>
                 </div>
+                {compactDetails && focusNode && (
+                    <div
+                        ref={barRef}
+                        role="dialog"
+                        aria-label="Деталі тайтлу"
+                        className="absolute inset-x-0 bottom-0 z-8 scroll-mb-20 border-t bg-popover p-3 text-popover-foreground"
+                    >
+                        {details(true)}
+                    </div>
+                )}
             </div>
-            {!isDesktop && details && (
-                <div className="relative flex flex-col gap-4 border-t bg-popover p-4 text-popover-foreground">
-                    {details}
+            {fullscreen && !isDesktop && focusNode && (
+                <div
+                    role="dialog"
+                    aria-label="Деталі тайтлу"
+                    className="relative flex flex-col gap-4 border-t bg-popover p-4 text-popover-foreground"
+                >
+                    {details(false)}
                 </div>
             )}
         </Card>

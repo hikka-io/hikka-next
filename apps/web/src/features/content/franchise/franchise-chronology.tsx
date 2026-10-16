@@ -1,7 +1,12 @@
 import type { FC } from 'react';
 
 import { CONTENT_TYPE_ICONS } from '@/components/icons/content-type-icons';
-import { HistoryRow, historyRowsVariants } from '@/components/list-items';
+import {
+    HistoryFacts,
+    HistoryRow,
+    historyRowsVariants,
+} from '@/components/list-items';
+import { labelVariants } from '@/components/ui/label';
 import TextLink from '@/components/ui/text-link';
 import { useTitle } from '@/services/session';
 import { cn } from '@/utils/cn';
@@ -9,7 +14,6 @@ import { contentPath } from '@/utils/content-paths';
 import { CONTENT_TYPES } from '@/utils/labels';
 
 import FranchiseListButton from './components/franchise-list-button';
-import FranchiseMeta from './components/franchise-meta';
 import FranchisePoster from './components/franchise-poster';
 import RelationLine from './components/relation-line';
 import {
@@ -76,11 +80,14 @@ const ChronologyRow: FC<{ model: FranchiseModel; node: FranchiseNode }> = ({
                     <RelationLine model={model} node={node} />
                     <TextLink
                         to={contentPath(node.contentType, node.content.slug)}
-                        className="line-clamp-2 font-medium text-sm"
+                        className={cn(labelVariants(), 'line-clamp-2')}
                     >
                         {title}
                     </TextLink>
-                    <FranchiseMeta parts={chronologyMeta(node.content)} />
+                    <HistoryFacts
+                        facts={chronologyMeta(node.content)}
+                        className="md:text-sm"
+                    />
                 </div>
                 <FranchiseListButton content={node.content} size="icon-md" />
             </div>

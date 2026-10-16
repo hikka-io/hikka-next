@@ -13,7 +13,12 @@ function isAllowedSource(url: string): boolean {
     }
 }
 
-function buildProcessingOptions(operations: Operations): string {
+export type ResizeMode = 'fit' | 'fill';
+
+function buildProcessingOptions(
+    operations: Operations,
+    resize: ResizeMode,
+): string {
     const parts: string[] = [];
 
     const width =
@@ -22,7 +27,7 @@ function buildProcessingOptions(operations: Operations): string {
         operations.height != null ? Math.round(Number(operations.height)) : 0;
 
     if (width > 0 || height > 0) {
-        parts.push(`rs:fit:${width}:${height}:0:0`);
+        parts.push(`rs:${resize}:${width}:${height}:0:0`);
     }
 
     return parts.join('/');
@@ -32,6 +37,7 @@ export function imgproxyTransformer(
     src: string | URL,
     operations: Operations,
     skip?: boolean,
+    resize: ResizeMode = 'fit',
 ): string {
     const sourceUrl = typeof src === 'string' ? src : src.toString();
 
@@ -39,7 +45,7 @@ export function imgproxyTransformer(
         return sourceUrl;
     }
 
-    const processingOptions = buildProcessingOptions(operations);
+    const processingOptions = buildProcessingOptions(operations, resize);
 
     if (!processingOptions) {
         return `${IMGPROXY_URL}/insecure/plain/${sourceUrl}`;
