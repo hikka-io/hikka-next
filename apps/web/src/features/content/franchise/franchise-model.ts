@@ -429,6 +429,39 @@ export function buildFranchiseModel(
     return { current, nodes, byId, chain, direct, edges };
 }
 
+/** The shortest chain of relations from one title to another, both ends included; empty when none links them. */
+export function relationPath(
+    model: FranchiseModel,
+    from: string,
+    to: string,
+): FranchiseNode[] {
+    const previous = new Map<string, string | null>([[from, null]]);
+    const queue = [from];
+
+    for (let head = 0; head < queue.length && !previous.has(to); head++) {
+        const id = queue[head];
+        for (const edge of model.edges) {
+            const next = edge.a === id ? edge.b : edge.b === id ? edge.a : null;
+            if (next === null || previous.has(next)) continue;
+            previous.set(next, id);
+            queue.push(next);
+        }
+    }
+
+    if (!previous.has(to)) return [];
+
+    const path: FranchiseNode[] = [];
+    for (
+        let id: string | null = to;
+        id !== null;
+        id = previous.get(id) ?? null
+    ) {
+        path.unshift(model.byId.get(id) as FranchiseNode);
+    }
+
+    return path;
+}
+
 export type CompositionEntry = {
     group: RelationGroupEnum;
     contentType?: MainContentTypeEnum;

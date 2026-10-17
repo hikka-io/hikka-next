@@ -10,6 +10,7 @@ import {
 } from 'react';
 
 import { CONTENT_TYPE_ICONS } from '@/components/icons/content-type-icons';
+import { useBackClose } from '@/services/hooks/use-back-close';
 import { useIsDesktop } from '@/services/hooks/use-media-query';
 import { useSession, useTitle } from '@/services/session';
 import { cn } from '@/utils/cn';
@@ -28,7 +29,7 @@ import {
     mediaListLabel,
     RELATION_GROUP_STYLES,
 } from '../relation-groups';
-import GraphDetails, { type DetailsVariant } from './graph-details';
+import GraphDetails from './graph-details';
 import { type GraphLabels, useGraphFiltersStore } from './graph-filters-store';
 import {
     DESKTOP_BUDGET,
@@ -38,6 +39,7 @@ import {
     transposeLayout,
 } from './graph-layout';
 import GraphNode, { type NodeState } from './graph-node';
+import GraphSheet from './graph-sheet';
 import GraphToolbar, {
     type EdgeFilter,
     type MediaFilter,
@@ -54,6 +56,7 @@ import {
 import GraphZoomControls from './graph-zoom-controls';
 import { useGraphKeys } from './use-graph-keys';
 import { useGraphZoom, type VisibleBox } from './use-graph-zoom';
+import { useSharedFocus } from './use-shared-focus';
 
 type Props = {
     model: FranchiseModel;
@@ -93,7 +96,7 @@ const SIZES_HORIZONTAL: typeof SIZES = {
 
 const GUTTER_CLASS = 'flex w-max min-w-full pr-8 pl-(--gx) max-md:pr-5';
 // Room for the details card, so whatever it covers can be scrolled out from under it.
-const PANEL_ROOM = 'pr-[calc(20rem+1.5rem)]';
+const PANEL_ROOM = 'pr-[calc(21.5rem+1.5rem)]';
 // Only the room closing animates, so the scroll clamps smoothly; opening stays instant for the scroll into view.
 const ROOM_CLOSING =
     'transition-[padding] duration-300 ease-out motion-reduce:transition-none';
@@ -284,6 +287,31 @@ const YearAxis: FC<{ layout: GraphLayout; horizontal: boolean }> = ({
 const findNode = (container: HTMLElement, id: string) =>
     container.querySelector(`[data-node="${CSS.escape(id)}"]`);
 
+// A node's label hangs below its box, so it is measured with its children.
+const nodeParts = (container: HTMLElement, id: string) => {
+    const node = findNode(container, id);
+    return node ? [node, ...node.children] : [];
+};
+
+function visibleBox(
+    container: HTMLElement,
+    panel: HTMLElement | null,
+    bar: HTMLElement | null,
+): VisibleBox {
+    const box = container.getBoundingClientRect();
+
+    return {
+        left: box.left,
+        top: box.top,
+        right:
+            panel?.getBoundingClientRect().left ??
+            box.left + container.clientWidth,
+        bottom:
+            bar?.getBoundingClientRect().top ??
+            box.top + container.clientHeight,
+    };
+}
+
 function boundingRect(elements: Element[]): DOMRect | null {
     const rects = elements.map((element) => element.getBoundingClientRect());
     if (!rects.length) return null;
@@ -335,13 +363,14 @@ const FranchiseGraph: FC<Props> = ({
     const isDesktop = useIsDesktop();
     const scrollRef = useRef<HTMLDivElement>(null);
     const barRef = useRef<HTMLDivElement>(null);
-    const panelRef = useRef<HTMLDivElement>(null);
+    const panelRef = useRef<HTMLElement>(null);
     const headerRef = useRef<HTMLDivElement>(null);
     const railRef = useRef<HTMLDivElement>(null);
     const graphRef = useRef<HTMLDivElement>(null);
 
     const saved = useGraphFiltersStore();
     const [restored, setRestored] = useState(false);
+    const [expanded, setExpanded] = useState(false);
     const initialHidden = defaultHiddenTypes(franchise);
     const hidden = resolveHiddenTypes(franchise, saved.relations);
     const otherMedia = sourceTypes(franchise);
@@ -350,20 +379,6 @@ const FranchiseGraph: FC<Props> = ({
     );
     const mine = Boolean(user) && saved.mine;
     const { hideUnlinked, horizontal } = saved;
-    const visibleBox = (container: HTMLElement): VisibleBox => {
-        const box = container.getBoundingClientRect();
-
-        return {
-            left: box.left,
-            top: box.top,
-            right:
-                panelRef.current?.getBoundingClientRect().left ??
-                box.left + container.clientWidth,
-            bottom:
-                barRef.current?.getBoundingClientRect().top ??
-                box.top + container.clientHeight,
-        };
-    };
     const {
         zoom,
         dragging,
@@ -374,7 +389,9 @@ const FranchiseGraph: FC<Props> = ({
         resetZoom,
         frame,
         panHandlers,
-    } = useGraphZoom(scrollRef, graphRef, visibleBox);
+    } = useGraphZoom(scrollRef, graphRef, (container) =>
+        visibleBox(container, panelRef.current, barRef.current),
+    );
 
     const shown = withoutMedia(franchise, hiddenMedia);
     const model = hideUnlinked ? withoutUnlinked(shown, hidden) : shown;
@@ -400,7 +417,6 @@ const FranchiseGraph: FC<Props> = ({
     const chosenLabels = saved.labels ?? defaultLabels;
     const labels = zoom < LABELS_MIN_ZOOM ? 'none' : chosenLabels;
     const hasOrder = model.chain.length > 1;
-    const compactDetails = !isDesktop;
 
     const filters: EdgeFilter[] = EDGE_TYPES.map((edgeType) => ({
         ...edgeType,
@@ -416,11 +432,8 @@ const FranchiseGraph: FC<Props> = ({
     }));
 
     const focusNode = focus ? model.byId.get(focus) : undefined;
+    const sheetExpanded = expanded && focusNode !== undefined;
     const panelRoom = isDesktop && focusNode ? PANEL_ROOM : ROOM_CLOSING;
-    const focusLinks = focus
-        ? view.edges.filter((edge) => edge.a === focus || edge.b === focus)
-              .length
-        : 0;
 
     useEffect(() => {
         Promise.resolve(useGraphFiltersStore.persist.rehydrate()).then(() =>
@@ -428,23 +441,30 @@ const FranchiseGraph: FC<Props> = ({
         );
     }, []);
 
-    // biome-ignore lint/correctness/useExhaustiveDependencies: a new budget, node size or restored filters move the current title, so re-centre it.
+    // biome-ignore lint/correctness/useExhaustiveDependencies: a new budget, node size or restored filters move the titles, so re-centre the selected or current one.
     useEffect(() => {
         scrollToNode(
             scrollRef.current,
-            model.current.id,
+            focus ?? model.current.id,
             'instant',
             horizontal,
         );
     }, [model.current.id, isDesktop, fullscreen, restored, horizontal]);
 
+    useSharedFocus((slug) => {
+        const node = franchise.nodes.find((item) => item.content.slug === slug);
+        if (node) setFocus(node.id);
+    });
+
     useEffect(() => {
         const container = scrollRef.current;
-        const node = focus && container ? findNode(container, focus) : null;
-        if (!container || !node) return;
+        const rect =
+            focus && container
+                ? boundingRect(nodeParts(container, focus))
+                : null;
+        if (!container || !rect) return;
 
-        const rect = node.getBoundingClientRect();
-        const box = visibleBox(container);
+        const box = visibleBox(container, panelRef.current, barRef.current);
         const hiddenBelow = rect.bottom - box.bottom;
         const hiddenRight = rect.right - box.right;
         const hiddenLeft = box.left - rect.left;
@@ -465,7 +485,17 @@ const FranchiseGraph: FC<Props> = ({
     const toggleType = (type: GraphEdgeType) =>
         saved.setRelation(type, hidden.has(type), !initialHidden.has(type));
 
-    const select = (id: string) => setFocus(focus === id ? null : id);
+    const deselectAll = () => {
+        setFocus(null);
+        setExpanded(false);
+    };
+
+    useBackClose(focusNode !== undefined, (open) => {
+        if (!open) deselectAll();
+    });
+
+    const select = (id: string) =>
+        focus === id ? deselectAll() : setFocus(id);
 
     const jumpTo = (id: string) => {
         setFocus(id);
@@ -476,9 +506,7 @@ const FranchiseGraph: FC<Props> = ({
         const container = scrollRef.current;
         const rect =
             container &&
-            boundingRect(
-                [...ids].flatMap((id) => findNode(container, id) ?? []),
-            );
+            boundingRect([...ids].flatMap((id) => nodeParts(container, id)));
         if (rect) frame(rect, cap);
     };
 
@@ -509,7 +537,7 @@ const FranchiseGraph: FC<Props> = ({
             event.currentTarget.contains(target) &&
             !target.closest('[data-node]')
         ) {
-            setFocus(null);
+            deselectAll();
         }
     };
 
@@ -538,22 +566,24 @@ const FranchiseGraph: FC<Props> = ({
     };
 
     const padding = cn(
-        'pb-6 max-md:pb-5',
+        'pb-6 max-md:pb-20',
         hasZone || horizontal ? 'pt-2' : 'pt-5',
-        compactDetails && focusNode ? 'pb-28 max-md:pb-28' : ROOM_CLOSING,
+        !isDesktop && focusNode ? 'max-md:pb-52' : ROOM_CLOSING,
     );
 
-    const details = (variant: DetailsVariant) =>
-        focusNode && (
-            <GraphDetails
-                model={model}
-                node={focusNode}
-                links={focusLinks}
-                variant={variant}
-                onSelect={jumpTo}
-                onClose={() => setFocus(null)}
-            />
-        );
+    const zoomControls = (className?: string) => (
+        <GraphZoomControls
+            zoom={zoom}
+            canZoomIn={canZoomIn}
+            canZoomOut={canZoomOut}
+            onZoomIn={zoomIn}
+            onZoomOut={zoomOut}
+            onFit={fitAll}
+            onLocate={locate}
+            size={isDesktop ? 'sm' : 'md'}
+            className={className}
+        />
+    );
 
     return (
         <>
@@ -813,38 +843,55 @@ const FranchiseGraph: FC<Props> = ({
                             </div>
                         </div>
                     </div>
-                    {!(compactDetails && focusNode) && (
-                        <GraphZoomControls
-                            zoom={zoom}
-                            canZoomIn={canZoomIn}
-                            canZoomOut={canZoomOut}
-                            onZoomIn={zoomIn}
-                            onZoomOut={zoomOut}
-                            onFit={fitAll}
-                            onLocate={locate}
-                            size={isDesktop ? 'sm' : 'md'}
-                            className="bottom-3 left-[calc(var(--axis)+--spacing(3))] max-md:bottom-[calc(--spacing(3)+var(--safe-area-bottom))]"
-                        />
-                    )}
+                    {isDesktop &&
+                        zoomControls(
+                            'absolute bottom-3 left-[calc(var(--axis)+--spacing(3))] z-7',
+                        )}
                     {isDesktop && focusNode && (
-                        <div
+                        <section
                             ref={panelRef}
-                            role="dialog"
-                            aria-label="Деталі тайтлу"
-                            className="absolute top-3 right-3 z-8 flex max-h-[calc(100%-1.5rem)] w-80 flex-col gap-4 overflow-y-auto rounded-md border bg-popover p-4 text-popover-foreground shadow-md"
+                            aria-label="Обраний тайтл"
+                            className="absolute top-3 right-3 z-8 flex max-h-[calc(100%-1.5rem)] w-86 flex-col gap-4 overflow-y-auto rounded-md border bg-popover p-4 text-popover-foreground shadow-md"
                         >
-                            {details('panel')}
-                        </div>
+                            <GraphDetails
+                                key={focusNode.id}
+                                model={model}
+                                node={focusNode}
+                                variant="panel"
+                                onSelect={jumpTo}
+                                onClose={deselectAll}
+                            />
+                        </section>
                     )}
                 </div>
-                {compactDetails && focusNode && (
+                {!isDesktop && (
                     <div
                         ref={barRef}
-                        role="dialog"
-                        aria-label="Деталі тайтлу"
-                        className="absolute inset-x-0 bottom-0 z-8 border-t bg-popover p-3 pb-[calc(--spacing(3)+var(--safe-area-bottom))] text-popover-foreground"
+                        className="pointer-events-none absolute inset-x-0 bottom-0 z-8 flex flex-col items-center gap-3"
                     >
-                        {details('row')}
+                        {!sheetExpanded &&
+                            zoomControls(
+                                cn(
+                                    'pointer-events-auto',
+                                    !focusNode &&
+                                        'mb-[calc(--spacing(3)+var(--safe-area-bottom))]',
+                                ),
+                            )}
+                        {focusNode && (
+                            <GraphSheet
+                                expanded={sheetExpanded}
+                                onExpandedChange={setExpanded}
+                                onClose={deselectAll}
+                            >
+                                <GraphDetails
+                                    key={focusNode.id}
+                                    model={model}
+                                    node={focusNode}
+                                    variant={sheetExpanded ? 'panel' : 'peek'}
+                                    onSelect={jumpTo}
+                                />
+                            </GraphSheet>
+                        )}
                     </div>
                 )}
             </div>

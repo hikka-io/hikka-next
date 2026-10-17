@@ -17,10 +17,17 @@ type Props = {
     content: FranchiseContent;
     label: ReactNode;
     action?: ReactNode;
+    listSize?: 'icon-sm' | 'icon-md';
     className?: string;
 };
 
-const FranchiseRow: FC<Props> = ({ content, label, action, className }) => {
+const FranchiseRow: FC<Props> = ({
+    content,
+    label,
+    action,
+    listSize = 'icon-sm',
+    className,
+}) => {
     const title = useTitle(content);
 
     return (
@@ -35,7 +42,7 @@ const FranchiseRow: FC<Props> = ({ content, label, action, className }) => {
                 </HorizontalCardTitle>
                 <HistoryFacts facts={basicMeta(content)} />
             </HorizontalCardContainer>
-            <FranchiseListButton content={content} size="icon-sm" />
+            <FranchiseListButton content={content} size={listSize} />
             {action}
         </HorizontalCard>
     );

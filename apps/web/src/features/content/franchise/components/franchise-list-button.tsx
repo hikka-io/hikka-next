@@ -7,7 +7,7 @@ import type { FranchiseContent } from '../franchise-model';
 
 type Props = {
     content: FranchiseContent;
-    size: 'icon-sm' | 'icon-md';
+    size: 'md' | 'icon-sm' | 'icon-md';
 };
 
 const FranchiseListButton: FC<Props> = ({ content, size }) => {

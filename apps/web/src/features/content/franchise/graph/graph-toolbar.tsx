@@ -19,7 +19,7 @@ import AntDesignClearOutlined from '@/components/icons/ant-design/AntDesignClear
 import { CONTENT_TYPE_ICONS } from '@/components/icons/content-type-icons';
 import { Badge } from '@/components/ui/badge';
 import { BadgeFilter } from '@/components/ui/badge-filter';
-import { Button, type ButtonProps } from '@/components/ui/button';
+import { Button } from '@/components/ui/button';
 import { DialogClose, DialogTitle } from '@/components/ui/dialog';
 import { Label } from '@/components/ui/label';
 import {
@@ -45,6 +45,7 @@ import { CONTENT_TYPES } from '@/utils/labels';
 import { type GraphEdgeType, RELATION_TYPE_GROUPS } from '../franchise-model';
 import { EDGE_TYPES, RELATION_GROUP_STYLES } from '../relation-groups';
 import type { GraphLabels } from './graph-filters-store';
+import GraphIconButton from './graph-icon-button';
 
 export type EdgeFilter = (typeof EDGE_TYPES)[number] & {
     count: number;
@@ -124,25 +125,6 @@ const LABEL_OPTIONS: Record<GraphLabels, { title_ua: string }> = {
 const toggled = <T extends string>(before: T[], after: T[]) =>
     before.find((value) => !after.includes(value)) ??
     after.find((value) => !before.includes(value));
-
-const IconButton: FC<Omit<ButtonProps, 'aria-label'> & { label: string }> = ({
-    label,
-    ...props
-}) => (
-    <Tooltip>
-        <TooltipTrigger
-            render={
-                <Button
-                    variant="outline"
-                    size="icon-sm"
-                    aria-label={label}
-                    {...props}
-                />
-            }
-        />
-        <TooltipContent>{label}</TooltipContent>
-    </Tooltip>
-);
 
 const FilterSection: FC<{
     icon: ReactNode;
@@ -457,12 +439,13 @@ const GraphToolbar: FC<Props> = ({
                 </DialogTitle>
                 <FiltersPopover changed={changed} onReset={onReset} {...body} />
                 <Separator orientation="vertical" className="h-5" />
-                <IconButton
+                <GraphIconButton
                     label={fullscreenLabel}
+                    size="icon-sm"
                     onClick={onToggleFullscreen}
                 >
                     {fullscreen ? <Minimize /> : <Maximize />}
-                </IconButton>
+                </GraphIconButton>
                 <CloseButton inHeader={false} />
             </div>
             {chips}

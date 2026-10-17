@@ -212,6 +212,7 @@ export const favoritesSearchSchema = z.object({
 
 export const contentDetailSearchSchema = z.object({
     graph: z.boolean().optional().catch(undefined),
+    focus: z.string().optional().catch(undefined),
 });
 
 export const FRANCHISE_VIEWS = ['related', 'chrono'] as const;

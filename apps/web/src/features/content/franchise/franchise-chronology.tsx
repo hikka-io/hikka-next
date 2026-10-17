@@ -2,30 +2,17 @@ import type { FC } from 'react';
 
 import type { MainContentTypeEnum } from '@hikka/api';
 
-import { CONTENT_TYPE_ICONS } from '@/components/icons/content-type-icons';
-import {
-    HistoryFacts,
-    HistoryRow,
-    historyRowsVariants,
-} from '@/components/list-items';
-import { labelVariants } from '@/components/ui/label';
-import TextLink from '@/components/ui/text-link';
-import { useTitle } from '@/services/session';
-import { cn } from '@/utils/cn';
-import { contentPath } from '@/utils/content-paths';
-import { CONTENT_TYPES } from '@/utils/labels';
+import { historyRowsVariants } from '@/components/list-items';
 import type { FranchiseOrder } from '@/utils/search-schemas';
 
+import ChronologyRow from './components/chronology-row';
 import FranchiseListButton from './components/franchise-list-button';
-import FranchisePoster from './components/franchise-poster';
 import RelationLine from './components/relation-line';
 import {
     chronologyMeta,
     type FranchiseModel,
-    type FranchiseNode,
     groupByYear,
 } from './franchise-model';
-import { RELATION_GROUP_STYLES } from './relation-groups';
 
 type Props = {
     model: FranchiseModel;
@@ -35,54 +22,6 @@ type Props = {
 
 const inOrder = <T,>(items: T[], order: FranchiseOrder) =>
     order === 'desc' ? [...items].reverse() : items;
-
-const ChronologyRow: FC<{ model: FranchiseModel; node: FranchiseNode }> = ({
-    model,
-    node,
-}) => {
-    const title = useTitle(node.content);
-    const isCurrent = node === model.current;
-    const style = RELATION_GROUP_STYLES[node.group];
-    const Icon = CONTENT_TYPE_ICONS[node.contentType];
-
-    return (
-        <HistoryRow
-            node={
-                <span
-                    title={
-                        isCurrent
-                            ? 'Цей тайтл'
-                            : CONTENT_TYPES[node.contentType].title_ua
-                    }
-                    className={cn(
-                        'flex size-8 shrink-0 items-center justify-center rounded-md',
-                        isCurrent ? cn(style.solid, 'text-card') : style.tile,
-                    )}
-                >
-                    <Icon className="size-4" />
-                </span>
-            }
-            poster={<FranchisePoster content={node.content} />}
-        >
-            <div className="flex min-w-0 items-center gap-3">
-                <div className="flex min-w-0 flex-1 flex-col gap-1">
-                    <RelationLine model={model} node={node} />
-                    <TextLink
-                        to={contentPath(node.contentType, node.content.slug)}
-                        className={cn(labelVariants(), 'line-clamp-2')}
-                    >
-                        {title}
-                    </TextLink>
-                    <HistoryFacts
-                        facts={chronologyMeta(node.content)}
-                        className="md:text-sm"
-                    />
-                </div>
-                <FranchiseListButton content={node.content} size="icon-md" />
-            </div>
-        </HistoryRow>
-    );
-};
 
 const FranchiseChronology: FC<Props> = ({ model, order, types }) => {
     const visible = model.nodes.filter((node) =>
@@ -104,8 +43,22 @@ const FranchiseChronology: FC<Props> = ({ model, order, types }) => {
                             .map((node) => (
                                 <ChronologyRow
                                     key={node.id}
-                                    model={model}
                                     node={node}
+                                    isCurrent={node === model.current}
+                                    label={
+                                        <RelationLine
+                                            model={model}
+                                            node={node}
+                                        />
+                                    }
+                                    facts={chronologyMeta(node.content)}
+                                    size="lg"
+                                    action={
+                                        <FranchiseListButton
+                                            content={node.content}
+                                            size="icon-md"
+                                        />
+                                    }
                                 />
                             ))}
                     </div>

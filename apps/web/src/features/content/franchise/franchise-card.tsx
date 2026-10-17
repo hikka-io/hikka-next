@@ -1,18 +1,14 @@
 import type { FC } from 'react';
 
 import { range } from '@antfu/utils';
-import { ChevronDown, Share2 } from 'lucide-react';
+import { Share2 } from 'lucide-react';
 
 import type { MainContentTypeEnum } from '@hikka/api';
 
 import PosterCardSkeleton from '@/components/content-card/poster-card-skeleton';
 import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
-import {
-    Collapsible,
-    CollapsibleContent,
-    CollapsibleTrigger,
-} from '@/components/ui/collapsible';
+import { Collapsible, CollapsibleContent } from '@/components/ui/collapsible';
 import {
     Header,
     HeaderContainer,
@@ -26,6 +22,7 @@ import { contentPath } from '@/utils/content-paths';
 
 import FranchiseRow from './components/franchise-row';
 import RelationLabel from './components/relation-label';
+import ShowMoreTrigger from './components/show-more-trigger';
 import type { DirectRelation, FranchiseModel } from './franchise-model';
 import { useFranchise } from './use-franchise';
 import { useGraphOverlay } from './use-graph-overlay';
@@ -93,23 +90,7 @@ const FranchiseCardBody: FC<{ model: FranchiseModel }> = ({ model }) => {
                             <DirectRow key={entry.node.id} relation={entry} />
                         ))}
                     </CollapsibleContent>
-                    <CollapsibleTrigger
-                        render={
-                            <Button
-                                variant="ghost"
-                                size="md"
-                                className="group w-full text-muted-foreground"
-                            />
-                        }
-                    >
-                        <ChevronDown className="group-data-panel-open:rotate-180" />
-                        <span className="group-data-panel-open:hidden">
-                            Показати ще {rest.length}
-                        </span>
-                        <span className="hidden group-data-panel-open:inline">
-                            Згорнути
-                        </span>
-                    </CollapsibleTrigger>
+                    <ShowMoreTrigger count={rest.length} />
                 </>
             )}
         </Collapsible>

@@ -8,6 +8,7 @@ import {
     type FranchiseModel,
     type GraphEdgeType,
     nodeId,
+    relationPath,
     relationText,
 } from './franchise-model';
 import { useGraphFiltersStore } from './graph/graph-filters-store';
@@ -153,6 +154,33 @@ describe('buildFranchiseModel', () => {
             { group: 'source', contentType: 'manga', count: 2 },
             { group: 'source', contentType: 'novel', count: 1 },
         ]);
+    });
+});
+
+describe('relationPath', () => {
+    it('walks the fewest relations between two titles', () => {
+        const model = build('a3');
+        const path = relationPath(
+            model,
+            nodeId('anime', 's2'),
+            nodeId('anime', 'a3'),
+        );
+
+        expect(path.map((entry) => entry.content.slug)).toEqual([
+            's2',
+            's1',
+            'a1',
+            'a2',
+            'a3',
+        ]);
+    });
+
+    it('is empty when nothing links the titles', () => {
+        const model = build('a3');
+
+        expect(
+            relationPath(model, nodeId('novel', 'n1'), nodeId('anime', 'a3')),
+        ).toEqual([]);
     });
 });
 
