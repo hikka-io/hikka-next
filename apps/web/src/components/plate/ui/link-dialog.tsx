@@ -1,7 +1,7 @@
 import React, { type FC, useCallback, useRef, useState } from 'react';
 
 import { upsertLink } from '@platejs/link';
-import { KEYS } from 'platejs';
+import { KEYS, type TLinkElement } from 'platejs';
 import type { PlateEditor } from 'platejs/react';
 import { useEditorRef } from 'platejs/react';
 import type { BaseRange } from 'slate';
@@ -27,6 +27,25 @@ interface LinkDialogState {
     defaultValues: FormValues;
 }
 
+export function getLinkDialogDefaults(editor: PlateEditor): FormValues {
+    const linkEntry = editor.api.above<TLinkElement>({
+        match: { type: editor.getType(KEYS.link) },
+    });
+
+    if (linkEntry) {
+        const [linkNode, linkPath] = linkEntry;
+
+        return { url: linkNode.url ?? '', text: editor.api.string(linkPath) };
+    }
+
+    const selectedText =
+        editor.selection && !editor.api.isCollapsed()
+            ? editor.api.string(editor.selection)
+            : '';
+
+    return { url: '', text: selectedText };
+}
+
 export function useLinkDialog(editor: PlateEditor) {
     const [state, setState] = useState<LinkDialogState>({
         open: false,
@@ -34,43 +53,12 @@ export function useLinkDialog(editor: PlateEditor) {
     });
     const savedSelection = useRef<BaseRange | null>(null);
 
-    const openInsert = useCallback(() => {
+    const openDialog = useCallback(() => {
         savedSelection.current = editor.selection
             ? { ...editor.selection }
             : null;
 
-        const selectedText =
-            editor.selection && !editor.api.isCollapsed()
-                ? editor.api.string(editor.selection)
-                : '';
-
-        setState({
-            open: true,
-            defaultValues: { url: '', text: selectedText },
-        });
-    }, [editor]);
-
-    const openEdit = useCallback(() => {
-        savedSelection.current = editor.selection
-            ? { ...editor.selection }
-            : null;
-
-        const linkEntry = editor.api.node({
-            match: { type: editor.getType(KEYS.link) },
-        });
-
-        if (!linkEntry) return;
-
-        const [linkNode, linkPath] = linkEntry;
-        const text = editor.api.string(linkPath);
-
-        setState({
-            open: true,
-            defaultValues: {
-                url: (linkNode as { url?: string }).url ?? '',
-                text,
-            },
-        });
+        setState({ open: true, defaultValues: getLinkDialogDefaults(editor) });
     }, [editor]);
 
     const onSubmit = useCallback(
@@ -109,8 +97,7 @@ export function useLinkDialog(editor: PlateEditor) {
     return {
         open: state.open,
         defaultValues: state.defaultValues,
-        openInsert,
-        openEdit,
+        openDialog,
         onSubmit,
         onOpenChange,
     };
@@ -203,14 +190,9 @@ export function LinkDialog({
     );
 }
 
-export interface LinkDialogApi {
-    openInsert: () => void;
-    openEdit: () => void;
-}
+const linkDialogRegistry = new WeakMap<object, () => void>();
 
-const linkDialogRegistry = new WeakMap<object, LinkDialogApi>();
-
-export function getLinkDialog(editor: object): LinkDialogApi | undefined {
+export function getLinkDialog(editor: object): (() => void) | undefined {
     return linkDialogRegistry.get(editor);
 }
 
@@ -223,15 +205,12 @@ export function LinkDialogProvider({
     const dialog = useLinkDialog(editor);
 
     React.useEffect(() => {
-        linkDialogRegistry.set(editor, {
-            openInsert: dialog.openInsert,
-            openEdit: dialog.openEdit,
-        });
+        linkDialogRegistry.set(editor, dialog.openDialog);
 
         return () => {
             linkDialogRegistry.delete(editor);
         };
-    }, [editor, dialog.openInsert, dialog.openEdit]);
+    }, [editor, dialog.openDialog]);
 
     return (
         <>

@@ -33,7 +33,7 @@ const popoverVariants = cva(
 
 export function LinkFloatingToolbar() {
     const editor = useEditorRef();
-    const openEdit = () => getLinkDialog(editor)?.openEdit();
+    const openEdit = () => getLinkDialog(editor)?.();
     const portalContainer = usePortalContainer();
 
     const activeCommentId = usePluginOption({ key: KEYS.comment }, 'activeId');

@@ -37,7 +37,7 @@ export const LinkKit = [
             openLinkDialog: {
                 keys: ['meta+k', 'ctrl+k'],
                 handler: ({ editor }) => {
-                    getLinkDialog(editor)?.openInsert();
+                    getLinkDialog(editor)?.();
                 },
             },
         },

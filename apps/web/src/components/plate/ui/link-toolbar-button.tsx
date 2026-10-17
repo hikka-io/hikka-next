@@ -11,7 +11,7 @@ export function LinkToolbarButton() {
     return (
         <>
             <ToolbarButton
-                onClick={dialog.openInsert}
+                onClick={dialog.openDialog}
                 data-plate-focus
                 tooltip="Посилання"
             >
