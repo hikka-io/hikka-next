@@ -21,13 +21,13 @@ import RelationLine from '../components/relation-line';
 import ShowMoreTrigger from '../components/show-more-trigger';
 import {
     basicMeta,
+    type DirectRelation,
     type FranchiseModel,
     type FranchiseNode,
-    relationPath,
 } from '../franchise-model';
 import GraphIconButton from './graph-icon-button';
 
-const PATH_PREVIEW_ROWS = 2;
+const PREVIEW_ROWS = 2;
 
 type Props = {
     model: FranchiseModel;
@@ -72,13 +72,12 @@ const GraphRelation: FC<NodeProps> = ({ model, node, onSelect }) =>
         <RelationLine model={model} node={node} onSelect={onSelect} />
     );
 
-const GraphPath: FC<Omit<NodeProps, 'node'> & { path: FranchiseNode[] }> = ({
-    model,
-    path,
-    onSelect,
-}) => {
+const GraphRelations: FC<{
+    model: FranchiseModel;
+    relations: DirectRelation[];
+}> = ({ model, relations }) => {
     const [open, setOpen] = useState(false);
-    const rows = open ? path : path.slice(0, PATH_PREVIEW_ROWS);
+    const rows = open ? relations : relations.slice(0, PREVIEW_ROWS);
 
     return (
         <Collapsible
@@ -87,24 +86,24 @@ const GraphPath: FC<Omit<NodeProps, 'node'> & { path: FranchiseNode[] }> = ({
             className="flex flex-col gap-4"
         >
             <div className={historyRowsVariants()}>
-                {rows.map((step) => (
+                {rows.map((relation) => (
                     <ChronologyRow
-                        key={step.id}
-                        node={step}
-                        isCurrent={step === model.current}
+                        key={relation.node.id}
+                        node={relation.node}
+                        isCurrent={relation.node === model.current}
                         label={
-                            <GraphRelation
-                                model={model}
-                                node={step}
-                                onSelect={onSelect}
-                            />
+                            <RelationLabel group={relation.group}>
+                                <span className="truncate">
+                                    {relation.label}
+                                </span>
+                            </RelationLabel>
                         }
-                        facts={basicMeta(step.content)}
+                        facts={basicMeta(relation.node.content)}
                     />
                 ))}
             </div>
-            {path.length > PATH_PREVIEW_ROWS && (
-                <ShowMoreTrigger count={path.length - PATH_PREVIEW_ROWS} />
+            {relations.length > PREVIEW_ROWS && (
+                <ShowMoreTrigger count={relations.length - PREVIEW_ROWS} />
             )}
         </Collapsible>
     );
@@ -133,7 +132,7 @@ const GraphDetails: FC<Props> = ({
         );
     }
 
-    const path = relationPath(model, node.id, model.current.id).slice(1);
+    const relations = model.relations.get(node.id) ?? [];
 
     return (
         <>
@@ -165,10 +164,10 @@ const GraphDetails: FC<Props> = ({
                 </div>
                 <OpenPageButton node={node} />
             </div>
-            {path.length > 0 && (
+            {relations.length > 0 && (
                 <>
                     <Separator className="-mx-4 w-auto" />
-                    <GraphPath model={model} path={path} onSelect={onSelect} />
+                    <GraphRelations model={model} relations={relations} />
                 </>
             )}
         </>

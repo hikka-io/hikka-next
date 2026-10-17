@@ -82,6 +82,8 @@ export type FranchiseModel = {
     byId: Map<string, FranchiseNode>;
     chain: FranchiseNode[];
     direct: DirectRelation[];
+    /** Every title's direct relations, labelled from the other title's side. */
+    relations: Map<string, DirectRelation[]>;
     edges: GraphEdge[];
 };
 
@@ -408,40 +410,49 @@ export function buildFranchiseModel(
         }
     }
 
-    const direct = (neighbours.get(current.id) ?? [])
-        .map(
-            ({ relation, other }): DirectRelation => ({
-                node: other,
-                label: relationLabel(relation, other, current),
-                group: RELATION_TYPE_GROUPS[relation.relation_type],
-            }),
-        )
-        .sort(
-            (a, b) =>
-                (DIRECT_ORDER.indexOf(a.label) + 1 || 99) -
-                    (DIRECT_ORDER.indexOf(b.label) + 1 || 99) ||
-                a.node.when - b.node.when,
-        )
-        .filter(
-            (entry, index, list) =>
-                list.findIndex((other) => other.node === entry.node) === index,
-        );
+    const directById = new Map(
+        nodes.map((node) => [
+            node.id,
+            (neighbours.get(node.id) ?? [])
+                .map(
+                    ({ relation, other }): DirectRelation => ({
+                        node: other,
+                        label: relationLabel(relation, other, node),
+                        group: RELATION_TYPE_GROUPS[relation.relation_type],
+                    }),
+                )
+                .sort(
+                    (a, b) =>
+                        (DIRECT_ORDER.indexOf(a.label) + 1 || 99) -
+                            (DIRECT_ORDER.indexOf(b.label) + 1 || 99) ||
+                        a.node.when - b.node.when,
+                )
+                .filter(
+                    (entry, index, list) =>
+                        list.findIndex((other) => other.node === entry.node) ===
+                        index,
+                ),
+        ]),
+    );
+    const direct = directById.get(current.id) ?? [];
 
-    return { current, nodes, byId, chain, direct, edges };
+    return {
+        current,
+        nodes,
+        byId,
+        chain,
+        direct,
+        relations: directById,
+        edges,
+    };
 }
 
-/** The titles one relation away, in year order. */
+/** The titles one relation away, in the franchise card's order. */
 export function relatedNodes(
     model: FranchiseModel,
     id: string,
 ): FranchiseNode[] {
-    const related = new Set(
-        model.edges.flatMap((edge) =>
-            edge.a === id ? [edge.b] : edge.b === id ? [edge.a] : [],
-        ),
-    );
-
-    return model.nodes.filter((node) => related.has(node.id));
+    return (model.relations.get(id) ?? []).map((relation) => relation.node);
 }
 
 /** The shortest chain of relations from one title to another, both ends included; empty when none links them. */

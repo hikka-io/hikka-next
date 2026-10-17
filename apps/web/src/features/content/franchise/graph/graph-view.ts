@@ -405,6 +405,14 @@ function keepNodes(
         edges: model.edges.filter(
             (edge) => kept.has(edge.a) && kept.has(edge.b),
         ),
+        relations: new Map(
+            [...model.relations]
+                .filter(([id]) => kept.has(id))
+                .map(([id, list]) => [
+                    id,
+                    list.filter((relation) => kept.has(relation.node.id)),
+                ]),
+        ),
     };
 }
 

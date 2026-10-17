@@ -160,14 +160,24 @@ describe('buildFranchiseModel', () => {
 });
 
 describe('relatedNodes', () => {
-    it('lists the titles one relation away in year order', () => {
+    it('lists any title’s relations in the franchise card’s order', () => {
         const model = build('a3');
 
         expect(
             relatedNodes(model, nodeId('anime', 'a2')).map(
                 (entry) => entry.content.slug,
             ),
-        ).toEqual(['a1', 'm2', 'a3', 'r1']);
+        ).toEqual(['a1', 'a3', 'm2', 'r1']);
+    });
+
+    it('drops the relations of hidden media', () => {
+        const model = withoutMedia(build('a3'), new Set(['manga' as const]));
+
+        expect(
+            relatedNodes(model, nodeId('anime', 'a2')).map(
+                (entry) => entry.content.slug,
+            ),
+        ).toEqual(['a1', 'a3', 'r1']);
     });
 });
 
