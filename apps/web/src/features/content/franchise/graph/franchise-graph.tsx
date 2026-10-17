@@ -8,11 +8,8 @@ import {
     useRef,
     useState,
 } from 'react';
-import { createPortal } from 'react-dom';
 
 import { CONTENT_TYPE_ICONS } from '@/components/icons/content-type-icons';
-import Card from '@/components/ui/card';
-import { Skeleton } from '@/components/ui/skeleton';
 import { useIsDesktop } from '@/services/hooks/use-media-query';
 import { useSession, useTitle } from '@/services/session';
 import { cn } from '@/utils/cn';
@@ -59,43 +56,29 @@ import { useGraphZoom } from './use-graph-zoom';
 
 type Props = {
     model: FranchiseModel;
+    selected: string | null;
+    onSelectedChange: (id: string | null) => void;
+    fullscreen: boolean;
+    onToggleFullscreen: () => void;
 };
 
 // `image` is the poster's width in px at 100%, for the `sizes` attribute, which cannot read CSS variables.
 type Sizes = { cw: string; rh: string; gp: string; gx: string; image: number };
 
-const SIZES: Record<'desktop' | 'phone', Record<'card' | 'full', Sizes>> = {
+const SIZES: Record<'desktop' | 'phone', Sizes> = {
     desktop: {
-        card: {
-            cw: 'max(76px, calc((100cqw - 56px) / var(--cols)))',
-            rh: '136px',
-            gp: '60px',
-            gx: '16px',
-            image: 60,
-        },
-        full: {
-            cw: 'clamp(76px, calc((100cqw - 72px) / var(--cols)), 320px)',
-            rh: '164px',
-            gp: 'min(76px, calc(var(--cw0) * 0.78))',
-            gx: '16px',
-            image: 76,
-        },
+        cw: 'clamp(76px, calc((100cqw - 72px) / var(--cols)), 320px)',
+        rh: '164px',
+        gp: 'min(76px, calc(var(--cw0) * 0.78))',
+        gx: '16px',
+        image: 76,
     },
     phone: {
-        card: {
-            cw: 'max(64px, calc((100cqw - 32px) / var(--cols)))',
-            rh: '120px',
-            gp: '52px',
-            gx: '12px',
-            image: 52,
-        },
-        full: {
-            cw: 'max(72px, calc((100cqw - 24px) / var(--cols)))',
-            rh: '128px',
-            gp: '56px',
-            gx: '12px',
-            image: 56,
-        },
+        cw: 'max(72px, calc((100cqw - 24px) / var(--cols)))',
+        rh: '128px',
+        gp: '56px',
+        gx: '12px',
+        image: 56,
     },
 };
 
@@ -103,18 +86,10 @@ const SIZES: Record<'desktop' | 'phone', Record<'card' | 'full', Sizes>> = {
 // A year step leaves about a poster's width of air; a lane fits a poster, its media label and room
 // for the lines that run between lanes.
 const SIZES_HORIZONTAL: typeof SIZES = {
-    desktop: {
-        card: { cw: '132px', rh: '176px', gp: '60px', gx: '16px', image: 60 },
-        full: { cw: '168px', rh: '204px', gp: '76px', gx: '16px', image: 76 },
-    },
-    phone: {
-        card: { cw: '100px', rh: '152px', gp: '52px', gx: '12px', image: 52 },
-        full: { cw: '108px', rh: '160px', gp: '56px', gx: '12px', image: 56 },
-    },
+    desktop: { cw: '168px', rh: '204px', gp: '76px', gx: '16px', image: 76 },
+    phone: { cw: '108px', rh: '160px', gp: '56px', gx: '12px', image: 56 },
 };
 
-const CARD_CLASS = 'gap-0 overflow-hidden p-0';
-const GRAPH_HEIGHT = 'h-165 max-md:h-130';
 const GUTTER_CLASS = 'flex w-max min-w-full pr-8 pl-(--gx) max-md:pr-5';
 // Room for the details card, so whatever it covers can be scrolled out from under it.
 const PANEL_ROOM = 'pr-[calc(20rem+1.5rem)]';
@@ -337,16 +312,13 @@ function scrollToNode(
     });
 }
 
-export const FranchiseGraphSkeleton: FC = () => (
-    <Card className={CARD_CLASS}>
-        <div className="border-b px-4 py-3 max-md:px-3 max-md:py-2.5">
-            <Skeleton className="h-8 w-full" />
-        </div>
-        <Skeleton className={cn(GRAPH_HEIGHT, 'rounded-none')} />
-    </Card>
-);
-
-const FranchiseGraph: FC<Props> = ({ model: franchise }) => {
+const FranchiseGraph: FC<Props> = ({
+    model: franchise,
+    selected,
+    onSelectedChange: setFocus,
+    fullscreen,
+    onToggleFullscreen,
+}) => {
     const { user } = useSession();
     const isDesktop = useIsDesktop();
     const scrollRef = useRef<HTMLDivElement>(null);
@@ -376,8 +348,6 @@ const FranchiseGraph: FC<Props> = ({ model: franchise }) => {
         resetZoom,
         panHandlers,
     } = useGraphZoom(scrollRef, graphRef);
-    const [selected, setFocus] = useState<string | null>(null);
-    const [fullscreen, setFullscreen] = useState(false);
 
     const shown = withoutMedia(franchise, hiddenMedia);
     const model = hideUnlinked ? withoutUnlinked(shown, hidden) : shown;
@@ -397,7 +367,7 @@ const FranchiseGraph: FC<Props> = ({ model: franchise }) => {
     const view = computeGraphView(model, screen, hidden, focus, horizontal);
     const sizes = (horizontal ? SIZES_HORIZONTAL : SIZES)[
         isDesktop ? 'desktop' : 'phone'
-    ][fullscreen ? 'full' : 'card'];
+    ];
     const hasZone = layout.sourceColumns > 0;
     const compactDetails = !isDesktop;
 
@@ -438,36 +408,11 @@ const FranchiseGraph: FC<Props> = ({ model: franchise }) => {
     }, [model.current.id, isDesktop, fullscreen, restored, horizontal]);
 
     useEffect(() => {
-        if (!fullscreen) return;
-
-        const { overflow } = document.body.style;
-        document.body.style.overflow = 'hidden';
-
-        return () => {
-            document.body.style.overflow = overflow;
-        };
-    }, [fullscreen]);
-
-    useEffect(() => {
-        if (!focus && !fullscreen) return;
-
-        const onKeyDown = (event: KeyboardEvent) => {
-            if (event.key !== 'Escape') return;
-            if (focus) setFocus(null);
-            else setFullscreen(false);
-        };
-        window.addEventListener('keydown', onKeyDown);
-
-        return () => window.removeEventListener('keydown', onKeyDown);
-    }, [focus, fullscreen]);
-
-    useEffect(() => {
         const container = scrollRef.current;
         const node = focus && container ? findNode(container, focus) : null;
         if (!container || !node) return;
 
         const bar = barRef.current;
-        bar?.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
 
         const rect = node.getBoundingClientRect();
         const visibleBottom = (bar ?? container).getBoundingClientRect()[
@@ -504,9 +449,15 @@ const FranchiseGraph: FC<Props> = ({ model: franchise }) => {
         scrollToNode(scrollRef.current, id, 'smooth', horizontal);
     };
 
+    // Clicks in portalled popups bubble here through React but sit outside the scroller in the DOM.
     const deselect = (event: MouseEvent) => {
         const target = event.target as Element;
-        if (!target.closest('[data-node], [role="dialog"]')) setFocus(null);
+        if (
+            event.currentTarget.contains(target) &&
+            !target.closest('[data-node]')
+        ) {
+            setFocus(null);
+        }
     };
 
     const nodeState = (node: FranchiseNode): NodeState => {
@@ -546,14 +497,8 @@ const FranchiseGraph: FC<Props> = ({ model: franchise }) => {
             />
         );
 
-    const card = (
-        <Card
-            className={cn(
-                CARD_CLASS,
-                fullscreen &&
-                    'fixed inset-0 z-50 rounded-none border-0 bg-background',
-            )}
-        >
+    return (
+        <>
             <GraphToolbar
                 filters={filters}
                 changed={
@@ -576,15 +521,12 @@ const FranchiseGraph: FC<Props> = ({ model: franchise }) => {
                 onToggleHorizontal={saved.toggleHorizontal}
                 onReset={saved.reset}
                 fullscreen={fullscreen}
-                onToggleFullscreen={() => setFullscreen(!fullscreen)}
+                onToggleFullscreen={onToggleFullscreen}
                 title={name}
                 isDesktop={isDesktop}
             />
             <div
-                className={cn(
-                    'relative flex min-h-0 flex-col',
-                    fullscreen ? 'flex-1' : GRAPH_HEIGHT,
-                )}
+                className="relative flex min-h-0 flex-1 flex-col"
                 style={
                     {
                         '--axis': `${AXIS}px`,
@@ -792,9 +734,6 @@ const FranchiseGraph: FC<Props> = ({ model: franchise }) => {
                                                 }
                                                 compactMedia={!isDesktop}
                                                 imageSizes={`${Math.round(sizes.image * zoom)}px`}
-                                                largeImage={
-                                                    fullscreen || zoom > 1
-                                                }
                                                 onSelect={select}
                                             />
                                         );
@@ -811,7 +750,7 @@ const FranchiseGraph: FC<Props> = ({ model: franchise }) => {
                             onZoomIn={zoomIn}
                             onZoomOut={zoomOut}
                             onReset={resetZoom}
-                            className="bottom-3 left-[calc(var(--axis)+--spacing(3))]"
+                            className="bottom-3 left-[calc(var(--axis)+--spacing(3))] max-md:bottom-[calc(--spacing(3)+var(--safe-area-bottom))]"
                         />
                     )}
                     {isDesktop && focusNode && (
@@ -830,20 +769,14 @@ const FranchiseGraph: FC<Props> = ({ model: franchise }) => {
                         ref={barRef}
                         role="dialog"
                         aria-label="Деталі тайтлу"
-                        className={cn(
-                            'absolute inset-x-0 bottom-0 z-8 scroll-mb-20 border-t bg-popover p-3 text-popover-foreground',
-                            fullscreen &&
-                                'pb-[calc(--spacing(3)+var(--safe-area-bottom))]',
-                        )}
+                        className="absolute inset-x-0 bottom-0 z-8 border-t bg-popover p-3 pb-[calc(--spacing(3)+var(--safe-area-bottom))] text-popover-foreground"
                     >
                         {details('row')}
                     </div>
                 )}
             </div>
-        </Card>
+        </>
     );
-
-    return fullscreen ? createPortal(card, document.body) : card;
 };
 
 export default FranchiseGraph;

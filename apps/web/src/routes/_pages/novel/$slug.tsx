@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { createFileRoute, Outlet } from '@tanstack/react-router';
+import { zodValidator } from '@tanstack/zod-adapter';
 
 import { ContentTypeEnum } from '@hikka/api';
 
@@ -10,8 +11,10 @@ import {
     loadContentDetail,
 } from '@/features/content/detail-route';
 import { contentInfoOptions } from '@/utils/api/content-queries';
+import { contentDetailSearchSchema } from '@/utils/search-schemas';
 
 export const Route = createFileRoute('/_pages/novel/$slug')({
+    validateSearch: zodValidator(contentDetailSearchSchema),
     loader: ({ params, context }) =>
         loadContentDetail(ContentTypeEnum.NOVEL, params.slug, context),
     head: ({ loaderData }) =>

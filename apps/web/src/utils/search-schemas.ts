@@ -210,21 +210,32 @@ export const favoritesSearchSchema = z.object({
     type: z.nativeEnum(FavouriteContentTypeEnum).optional().catch(undefined),
 });
 
-export const FRANCHISE_VIEWS = ['related', 'chrono', 'graph'] as const;
+export const contentDetailSearchSchema = z.object({
+    graph: z.boolean().optional().catch(undefined),
+});
+
+export const FRANCHISE_VIEWS = ['related', 'chrono'] as const;
 export type FranchiseView = (typeof FRANCHISE_VIEWS)[number];
 export type FranchiseOrder = 'asc' | 'desc';
 
-export const franchiseSearchSchema = z.object({
-    view: z.enum(FRANCHISE_VIEWS).optional().catch(undefined),
-    order: z.enum(['asc', 'desc']).optional().catch(undefined),
-    types: z
-        .preprocess(
-            (v) => (v == null ? undefined : Array.isArray(v) ? v : [v]),
-            z.array(z.nativeEnum(MainContentTypeEnum)),
-        )
-        .optional()
-        .catch(undefined),
-});
+export const franchiseSearchSchema = z.preprocess(
+    // The graph used to be a `view=graph` tab; old links open the graph overlay.
+    (search) =>
+        (search as Record<string, unknown> | undefined)?.view === 'graph'
+            ? { ...(search as object), view: undefined, graph: true }
+            : search,
+    contentDetailSearchSchema.extend({
+        view: z.enum(FRANCHISE_VIEWS).optional().catch(undefined),
+        order: z.enum(['asc', 'desc']).optional().catch(undefined),
+        types: z
+            .preprocess(
+                (v) => (v == null ? undefined : Array.isArray(v) ? v : [v]),
+                z.array(z.nativeEnum(MainContentTypeEnum)),
+            )
+            .optional()
+            .catch(undefined),
+    }),
+);
 
 // Type exports for consumers
 export type SortOrderSearch = z.infer<z.ZodObject<typeof sortOrderSearch>>;

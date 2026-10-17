@@ -51,6 +51,10 @@ vi.mock('@/utils/navigation', () => ({
     Link: () => null,
 }));
 
+vi.mock('./franchise/use-graph-overlay', () => ({
+    useGraphOverlay: () => [false, () => {}],
+}));
+
 vi.mock('@/services/hooks/use-close-on-route-change', () => ({
     useCloseOnRouteChange: () => {},
 }));

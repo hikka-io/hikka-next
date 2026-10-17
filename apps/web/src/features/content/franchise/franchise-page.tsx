@@ -1,11 +1,19 @@
 import type { FC } from 'react';
 
+import { Share2 } from 'lucide-react';
+
 import type { MainContentTypeEnum } from '@hikka/api';
 
 import { HistoryTimelineSkeleton } from '@/components/list-items';
 import Block from '@/components/ui/block';
+import { Button } from '@/components/ui/button';
 import { type ChipTabOption, ChipTabs } from '@/components/ui/chip-tabs';
-import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
+import {
+    Header,
+    HeaderActions,
+    HeaderContainer,
+    HeaderTitle,
+} from '@/components/ui/header';
 import { contentPath } from '@/utils/content-paths';
 import type { FranchiseOrder, FranchiseView } from '@/utils/search-schemas';
 
@@ -14,10 +22,8 @@ import FranchiseChronologyToolbar from './franchise-chronology-toolbar';
 import FranchiseComposition from './franchise-composition';
 import { franchiseTypes } from './franchise-model';
 import FranchiseRelated from './franchise-related';
-import FranchiseGraph, {
-    FranchiseGraphSkeleton,
-} from './graph/franchise-graph';
 import { useFranchise } from './use-franchise';
+import { useGraphOverlay } from './use-graph-overlay';
 
 const CHRONOLOGY_SKELETON_ROWS = 4;
 
@@ -37,6 +43,7 @@ const FranchisePage: FC<Props> = ({
     types,
 }) => {
     const { data: model, isPending } = useFranchise(content_type, slug);
+    const [, setGraphOpen] = useGraphOverlay();
 
     if (!model && !isPending) {
         return null;
@@ -57,7 +64,6 @@ const FranchisePage: FC<Props> = ({
             to,
             search: { view: 'related' },
         },
-        { label: 'Граф', value: 'graph', to, search: { view: 'graph' } },
     ];
     const presentTypes = model ? franchiseTypes(model) : [];
     const selectedTypes = presentTypes.filter((type) => types?.includes(type));
@@ -76,6 +82,17 @@ const FranchisePage: FC<Props> = ({
                         )}
                     </HeaderTitle>
                 </HeaderContainer>
+                <HeaderActions>
+                    <Button
+                        size="md"
+                        variant="outline"
+                        disabled={!model}
+                        onClick={() => setGraphOpen(true)}
+                    >
+                        <Share2 />
+                        Граф
+                    </Button>
+                </HeaderActions>
             </Header>
             <FranchiseComposition model={model} />
             <div className="flex flex-col gap-4 md:flex-row md:items-center">
@@ -107,12 +124,6 @@ const FranchisePage: FC<Props> = ({
                         count={CHRONOLOGY_SKELETON_ROWS}
                         size="lg"
                     />
-                ))}
-            {view === 'graph' &&
-                (model ? (
-                    <FranchiseGraph model={model} />
-                ) : (
-                    <FranchiseGraphSkeleton />
                 ))}
         </Block>
     );

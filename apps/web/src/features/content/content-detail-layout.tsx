@@ -14,6 +14,7 @@ import {
     MANGA_NAV_ROUTES,
     NOVEL_NAV_ROUTES,
 } from './content-nav-routes';
+import FranchiseGraphDialog from './franchise/graph/franchise-graph-dialog';
 import NsfwOverlay from './nsfw-overlay';
 
 const CONTENT_NAV_ROUTES = {
@@ -77,6 +78,14 @@ const ContentDetailLayout: FC<Props> = ({
         <>
             {nsfw && !nsfwAllowed && <NsfwOverlay />}
             {children}
+            {contentType !== ContentTypeEnum.CHARACTER &&
+                contentType !== ContentTypeEnum.PERSON &&
+                !(nsfw && !nsfwAllowed) && (
+                    <FranchiseGraphDialog
+                        content_type={contentType}
+                        slug={slug}
+                    />
+                )}
 
             <ContentActionBar content_type={contentType} className="mt-12" />
         </>

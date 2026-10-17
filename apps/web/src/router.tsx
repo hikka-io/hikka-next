@@ -94,4 +94,9 @@ declare module '@tanstack/react-router' {
         /** Screens that render no mobile page header, so it reserves no space. */
         headerless?: boolean;
     }
+
+    interface HistoryState {
+        /** The entry the franchise graph overlay pushed when it opened. */
+        graphOverlay?: boolean;
+    }
 }

@@ -9,6 +9,7 @@ import {
     Link,
     Maximize,
     Minimize,
+    X,
 } from 'lucide-react';
 
 import type { MainContentTypeEnum } from '@hikka/api';
@@ -18,6 +19,7 @@ import { CONTENT_TYPE_ICONS } from '@/components/icons/content-type-icons';
 import { Badge } from '@/components/ui/badge';
 import { BadgeFilter } from '@/components/ui/badge-filter';
 import { Button, type ButtonProps } from '@/components/ui/button';
+import { DialogClose, DialogTitle } from '@/components/ui/dialog';
 import { Label } from '@/components/ui/label';
 import {
     Popover,
@@ -320,16 +322,18 @@ const FiltersPopover: FC<BodyProps & Pick<Props, 'changed' | 'onReset'>> = ({
     </Popover>
 );
 
-const FiltersModal: FC<
-    BodyProps & Pick<Props, 'changed' | 'onReset'> & { inHeader: boolean }
-> = ({ changed, onReset, inHeader, ...body }) => {
+const FiltersModal: FC<BodyProps & Pick<Props, 'changed' | 'onReset'>> = ({
+    changed,
+    onReset,
+    ...body
+}) => {
     const [open, setOpen] = useState(false);
 
     return (
         <>
             <FiltersTrigger
                 changed={changed}
-                inHeader={inHeader}
+                inHeader
                 onClick={() => setOpen(true)}
             />
             <ResponsiveModal open={open} onOpenChange={setOpen}>
@@ -386,6 +390,28 @@ const Legend: FC<{ filters: EdgeFilter[] }> = ({ filters }) => (
     </div>
 );
 
+const CloseButton: FC<{ inHeader: boolean }> = ({ inHeader }) => (
+    <Tooltip>
+        <TooltipTrigger
+            render={
+                <DialogClose
+                    render={
+                        <Button
+                            variant={inHeader ? 'ghost' : 'outline'}
+                            size={inHeader ? 'icon-md' : 'icon-sm'}
+                            aria-label="Закрити"
+                            className={cn(inHeader && HEADER_BUTTON_CLASS)}
+                        />
+                    }
+                />
+            }
+        >
+            <X />
+        </TooltipTrigger>
+        <TooltipContent>Закрити</TooltipContent>
+    </Tooltip>
+);
+
 const GraphToolbar: FC<Props> = ({
     changed,
     onReset,
@@ -395,65 +421,36 @@ const GraphToolbar: FC<Props> = ({
     isDesktop,
     ...body
 }) => {
-    const inHeader = !isDesktop && fullscreen && Boolean(title);
+    if (!isDesktop) {
+        return (
+            <div className="flex h-14 shrink-0 items-center gap-1 border-b pr-2 pl-4">
+                <div className="flex min-w-0 flex-1 flex-col">
+                    <DialogTitle>{title}</DialogTitle>
+                    <span className="text-muted-foreground text-xs">
+                        Франшиза
+                    </span>
+                </div>
+                <FiltersModal changed={changed} onReset={onReset} {...body} />
+                <CloseButton inHeader />
+            </div>
+        );
+    }
+
     const fullscreenLabel = fullscreen
         ? 'Вийти з повноекранного режиму'
         : 'На весь екран';
 
     return (
-        <div
-            className={cn(
-                'flex items-center gap-3 border-b px-4 py-3 max-md:px-3 max-md:py-2.5',
-                inHeader &&
-                    'h-14 gap-1 py-0 pr-2 pl-4 max-md:py-0 max-md:pr-2 max-md:pl-4',
-            )}
-        >
-            {isDesktop ? (
-                <>
-                    {fullscreen && title && (
-                        <span className="max-w-1/2 shrink-0 truncate font-bold">
-                            Франшиза «{title}»
-                        </span>
-                    )}
-                    <Legend filters={body.filters} />
-                    <FiltersPopover
-                        changed={changed}
-                        onReset={onReset}
-                        {...body}
-                    />
-                </>
-            ) : (
-                <>
-                    {inHeader && (
-                        <div className="flex min-w-0 flex-1 flex-col">
-                            <span className="truncate font-semibold text-sm">
-                                {title}
-                            </span>
-                            <span className="text-muted-foreground text-xs">
-                                Франшиза
-                            </span>
-                        </div>
-                    )}
-                    <FiltersModal
-                        changed={changed}
-                        onReset={onReset}
-                        inHeader={inHeader}
-                        {...body}
-                    />
-                    {!inHeader && <span className="flex-1" />}
-                </>
-            )}
-            <IconButton
-                label={fullscreenLabel}
-                onClick={onToggleFullscreen}
-                {...(inHeader && {
-                    variant: 'ghost',
-                    size: 'icon-md',
-                    className: HEADER_BUTTON_CLASS,
-                })}
-            >
+        <div className="flex shrink-0 items-center gap-3 border-b px-4 py-3">
+            <DialogTitle className="max-w-1/2 shrink-0 font-bold">
+                Франшиза «{title}»
+            </DialogTitle>
+            <Legend filters={body.filters} />
+            <FiltersPopover changed={changed} onReset={onReset} {...body} />
+            <IconButton label={fullscreenLabel} onClick={onToggleFullscreen}>
                 {fullscreen ? <Minimize /> : <Maximize />}
             </IconButton>
+            <CloseButton inHeader={false} />
         </div>
     );
 };

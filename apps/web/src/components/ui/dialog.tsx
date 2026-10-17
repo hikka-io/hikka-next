@@ -9,8 +9,11 @@ import { PortalContainerProvider } from '@/components/ui/portal-container-contex
 import { useBackClose } from '@/services/hooks/use-back-close';
 import { cn } from '@/utils/cn';
 
-function Dialog({ ...props }: DialogPrimitive.Root.Props) {
-    useBackClose(props.open, props.onOpenChange);
+function Dialog({
+    backClose = true,
+    ...props
+}: DialogPrimitive.Root.Props & { backClose?: boolean }) {
+    useBackClose(backClose ? props.open : undefined, props.onOpenChange);
 
     return <DialogPrimitive.Root data-slot="dialog" {...props} />;
 }

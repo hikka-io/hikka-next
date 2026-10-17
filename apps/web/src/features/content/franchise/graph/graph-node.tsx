@@ -34,7 +34,6 @@ type Props = {
     showMedia: boolean;
     compactMedia: boolean;
     imageSizes: string;
-    largeImage: boolean;
     onSelect: (id: string) => void;
 };
 
@@ -60,7 +59,6 @@ const GraphNode: FC<Props> = ({
     showMedia,
     compactMedia,
     imageSizes,
-    largeImage,
     onSelect,
 }) => {
     const title = useTitle(node.content);
@@ -109,7 +107,7 @@ const GraphNode: FC<Props> = ({
             >
                 <PosterCard
                     image={node.content.image}
-                    imagePreset={largeImage ? 'cardSm' : 'cardXs'}
+                    imagePreset="cardSm"
                     imageProps={{ sizes: imageSizes, resize: 'fill' }}
                     imageClassName="size-full! object-cover"
                     status={statusOf(node)}

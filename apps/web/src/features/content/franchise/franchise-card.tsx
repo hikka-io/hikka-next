@@ -23,12 +23,12 @@ import { labelVariants } from '@/components/ui/label';
 import { Skeleton, SkeletonText } from '@/components/ui/skeleton';
 import { useVisibleOnce } from '@/services/hooks/use-visible-once';
 import { contentPath } from '@/utils/content-paths';
-import { Link } from '@/utils/navigation';
 
 import FranchiseRow from './components/franchise-row';
 import RelationLabel from './components/relation-label';
 import type { DirectRelation, FranchiseModel } from './franchise-model';
 import { useFranchise } from './use-franchise';
+import { useGraphOverlay } from './use-graph-overlay';
 
 type Props = {
     content_type: MainContentTypeEnum;
@@ -123,6 +123,7 @@ const FranchiseCard: FC<Props> = ({ content_type, slug, className }) => {
         slug,
         visible,
     );
+    const [, setGraphOpen] = useGraphOverlay();
 
     if (!isPending && !model?.direct.length) {
         return null;
@@ -139,7 +140,7 @@ const FranchiseCard: FC<Props> = ({ content_type, slug, className }) => {
                         size="icon-sm"
                         variant="outline"
                         aria-label="Граф франшизи"
-                        render={<Link to={href} search={{ view: 'graph' }} />}
+                        onClick={() => setGraphOpen(true)}
                     >
                         <Share2 />
                     </Button>
