@@ -1,7 +1,9 @@
 import type { MainContentTypeEnum } from '@hikka/api';
 
 import type {
+    FranchiseContent,
     FranchiseModel,
+    FranchiseNode,
     GraphEdge,
     GraphEdgeType,
 } from '../franchise-model';
@@ -434,4 +436,26 @@ export function withoutUnlinked(
     }
 
     return keepNodes(model, (node) => linked.has(node.id));
+}
+
+const titlesOf = (content: FranchiseContent) => [
+    content.title_ua,
+    content.title_en,
+    content.title_native,
+    'title_ja' in content ? content.title_ja : content.title_original,
+];
+
+/** Titles whose name in any language contains the query, in the graph's year order. */
+export function searchNodes(
+    model: FranchiseModel,
+    query: string,
+): FranchiseNode[] {
+    const needle = query.trim().toLocaleLowerCase();
+    if (!needle) return [];
+
+    return model.nodes.filter((node) =>
+        titlesOf(node.content).some((title) =>
+            title?.toLocaleLowerCase().includes(needle),
+        ),
+    );
 }

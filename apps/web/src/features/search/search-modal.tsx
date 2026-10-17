@@ -43,6 +43,7 @@ type Props = {
     /** Controlled mode: the caller owns the state and renders its own trigger. */
     open?: boolean;
     onOpenChange?: (open: boolean) => void;
+    initialQuery?: string;
 };
 
 const SearchModal: FC<Props> = ({
@@ -54,6 +55,7 @@ const SearchModal: FC<Props> = ({
     disableHotkey,
     open: openProp,
     onOpenChange,
+    initialQuery,
 }) => {
     const inputRef = useRef<HTMLInputElement>(null);
     const [searchType, setSearchType] = useState<SearchTypeValue>(
@@ -71,7 +73,7 @@ const SearchModal: FC<Props> = ({
         [isControlled, onOpenChange],
     );
     const [searchValue, setSearchValue] = useState<string | undefined>(
-        undefined,
+        initialQuery,
     );
     const [value, setDebouncedValue] = useDebounce({
         value: searchValue,

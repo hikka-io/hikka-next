@@ -1,6 +1,5 @@
 import type { FC, MouseEvent } from 'react';
 
-import type { CardStatus } from '@/components/content-card/content-status';
 import PosterCard from '@/components/content-card/poster-card';
 import { CONTENT_TYPE_ICONS } from '@/components/icons/content-type-icons';
 import {
@@ -13,7 +12,7 @@ import { cn } from '@/utils/cn';
 import { contentPath } from '@/utils/content-paths';
 import { CONTENT_TYPES, getMediaTypeLabel } from '@/utils/labels';
 
-import type { FranchiseNode } from '../franchise-model';
+import { type FranchiseNode, listStatus } from '../franchise-model';
 
 export type NodeState = 'default' | 'isolated' | 'far';
 
@@ -39,23 +38,11 @@ type Props = {
     order: number | null;
     showLabel: boolean;
     wideLabel: boolean;
+    highlight: boolean;
     showMedia: boolean;
     imageSizes: string;
     onSelect: (id: string) => void;
 };
-
-function statusOf(node: FranchiseNode): CardStatus | undefined {
-    const { content } = node;
-    const entry =
-        content.data_type === 'anime' ? content.watch[0] : content.read[0];
-
-    if (!entry) return undefined;
-
-    return {
-        value: entry.status,
-        kind: content.data_type === 'anime' ? 'watch' : 'read',
-    };
-}
 
 const GraphNode: FC<Props> = ({
     node,
@@ -66,6 +53,7 @@ const GraphNode: FC<Props> = ({
     order,
     showLabel,
     wideLabel,
+    highlight,
     showMedia,
     imageSizes,
     onSelect,
@@ -121,7 +109,7 @@ const GraphNode: FC<Props> = ({
                     imagePreset="cardSm"
                     imageProps={{ sizes: imageSizes, resize: 'fill' }}
                     imageClassName="size-full! object-cover"
-                    status={statusOf(node)}
+                    status={listStatus(node.content)}
                     statusSize="sm"
                     containerClassName={cn(
                         'rounded-(--base-radius)',
@@ -154,7 +142,12 @@ const GraphNode: FC<Props> = ({
                                 ? 'font-semibold text-primary-foreground'
                                 : isSelected
                                   ? 'font-semibold text-foreground'
-                                  : 'font-medium text-muted-foreground',
+                                  : cn(
+                                        'font-medium',
+                                        highlight
+                                            ? 'text-foreground'
+                                            : 'text-muted-foreground',
+                                    ),
                         )}
                     >
                         {showMedia && <MediaIcon className="size-3 shrink-0" />}

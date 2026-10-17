@@ -3,6 +3,7 @@ import { cloneElement, type ReactNode } from 'react';
 
 import MaterialSymbolsSearchRounded from '@/components/icons/material-symbols/MaterialSymbolsSearchRounded';
 import { Button } from '@/components/ui/button';
+import { Kbd } from '@/components/ui/kbd';
 import { cn } from '@/utils/cn';
 
 type Props = {
@@ -34,9 +35,9 @@ const SearchButton = ({ setOpen, children }: Props) => {
                 <span className="hidden lg:block">Пошук...</span>
             </div>
             <div className="hidden items-center lg:flex">
-                <kbd className="pointer-events-none flex select-none items-center gap-1 rounded bg-muted px-1.5 font-medium font-mono text-[10px] opacity-100">
+                <Kbd>
                     <span className="text-xs">/</span>
-                </kbd>
+                </Kbd>
             </div>
         </Button>
     );

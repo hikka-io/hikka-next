@@ -80,6 +80,7 @@ type Props = {
     onToggleFullscreen: () => void;
     title?: string;
     isDesktop: boolean;
+    search: (headerButtonClassName?: string) => ReactNode;
 };
 
 type BodyProps = Pick<
@@ -401,6 +402,7 @@ const GraphToolbar: FC<Props> = ({
     onToggleFullscreen,
     title,
     isDesktop,
+    search,
     ...body
 }) => {
     const chips = <RelationChips filters={filters} onToggle={onToggle} />;
@@ -415,6 +417,7 @@ const GraphToolbar: FC<Props> = ({
                             Франшиза
                         </span>
                     </div>
+                    {search(HEADER_BUTTON_CLASS)}
                     <FiltersModal
                         changed={changed}
                         onReset={onReset}
@@ -434,9 +437,11 @@ const GraphToolbar: FC<Props> = ({
     return (
         <>
             <div className="flex shrink-0 items-center gap-3 border-b px-4 py-3">
-                <DialogTitle className="min-w-0 flex-1 truncate font-bold">
+                <DialogTitle className="min-w-0 truncate font-bold">
                     Франшиза «{title}»
                 </DialogTitle>
+                {search()}
+                <div className="flex-1" />
                 <FiltersPopover changed={changed} onReset={onReset} {...body} />
                 <Separator orientation="vertical" className="h-5" />
                 <GraphIconButton

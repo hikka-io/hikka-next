@@ -5,11 +5,13 @@ import {
     type ReactNode,
     type Ref,
     useEffect,
+    useEffectEvent,
     useRef,
     useState,
 } from 'react';
 
 import { CONTENT_TYPE_ICONS } from '@/components/icons/content-type-icons';
+import { SearchModal } from '@/features/search';
 import { useBackClose } from '@/services/hooks/use-back-close';
 import { useIsDesktop } from '@/services/hooks/use-media-query';
 import { useSession, useTitle } from '@/services/session';
@@ -39,6 +41,7 @@ import {
     transposeLayout,
 } from './graph-layout';
 import GraphNode, { type NodeState } from './graph-node';
+import GraphSearch from './graph-search';
 import GraphSheet from './graph-sheet';
 import GraphToolbar, {
     type EdgeFilter,
@@ -50,6 +53,7 @@ import {
     defaultHiddenTypes,
     edgeStyle,
     resolveHiddenTypes,
+    searchNodes,
     withoutMedia,
     withoutUnlinked,
 } from './graph-view';
@@ -367,10 +371,14 @@ const FranchiseGraph: FC<Props> = ({
     const headerRef = useRef<HTMLDivElement>(null);
     const railRef = useRef<HTMLDivElement>(null);
     const graphRef = useRef<HTMLDivElement>(null);
+    const centreRef = useRef<string | null>(null);
 
     const saved = useGraphFiltersStore();
     const [restored, setRestored] = useState(false);
     const [expanded, setExpanded] = useState(false);
+    const [searchOpen, setSearchOpen] = useState(false);
+    const [query, setQuery] = useState('');
+    const [siteQuery, setSiteQuery] = useState<string | null>(null);
     const initialHidden = defaultHiddenTypes(franchise);
     const hidden = resolveHiddenTypes(franchise, saved.relations);
     const otherMedia = sourceTypes(franchise);
@@ -431,6 +439,11 @@ const FranchiseGraph: FC<Props> = ({
         on: !hiddenMedia.has(type),
     }));
 
+    const results = searchNodes(model, query);
+    const matches =
+        searchOpen && query.trim()
+            ? new Set(results.map((node) => node.id))
+            : null;
     const focusNode = focus ? model.byId.get(focus) : undefined;
     const sheetExpanded = expanded && focusNode !== undefined;
     const panelRoom = isDesktop && focusNode ? PANEL_ROOM : ROOM_CLOSING;
@@ -451,37 +464,6 @@ const FranchiseGraph: FC<Props> = ({
         );
     }, [model.current.id, isDesktop, fullscreen, restored, horizontal]);
 
-    useSharedFocus((slug) => {
-        const node = franchise.nodes.find((item) => item.content.slug === slug);
-        if (node) setFocus(node.id);
-    });
-
-    useEffect(() => {
-        const container = scrollRef.current;
-        const rect =
-            focus && container
-                ? boundingRect(nodeParts(container, focus))
-                : null;
-        if (!container || !rect) return;
-
-        const box = visibleBox(container, panelRef.current, barRef.current);
-        const hiddenBelow = rect.bottom - box.bottom;
-        const hiddenRight = rect.right - box.right;
-        const hiddenLeft = box.left - rect.left;
-        const left =
-            hiddenRight > 0
-                ? hiddenRight + 16
-                : hiddenLeft > 0
-                  ? -(hiddenLeft + 16)
-                  : 0;
-
-        container.scrollBy({
-            top: hiddenBelow > 0 ? hiddenBelow + 16 : 0,
-            left,
-            behavior: 'smooth',
-        });
-    }, [focus]);
-
     const toggleType = (type: GraphEdgeType) =>
         saved.setRelation(type, hidden.has(type), !initialHidden.has(type));
 
@@ -498,8 +480,12 @@ const FranchiseGraph: FC<Props> = ({
         focus === id ? deselectAll() : setFocus(id);
 
     const jumpTo = (id: string) => {
+        if (id === focus) {
+            frameNodes([id], null);
+            return;
+        }
+        centreRef.current = id;
         setFocus(id);
-        scrollToNode(scrollRef.current, id, 'smooth', horizontal);
     };
 
     const frameNodes = (ids: Iterable<string>, cap: number | null) => {
@@ -515,6 +501,42 @@ const FranchiseGraph: FC<Props> = ({
         if (graph) frame(graph.getBoundingClientRect(), 1);
     };
 
+    // A jump centres the title; a click only brings it out from under the panel or sheet.
+    const reveal = useEffectEvent((id: string) => {
+        const container = scrollRef.current;
+        if (centreRef.current === id) {
+            centreRef.current = null;
+            frameNodes([id], null);
+            return;
+        }
+
+        const rect = container && boundingRect(nodeParts(container, id));
+        if (!container || !rect) return;
+
+        const box = visibleBox(container, panelRef.current, barRef.current);
+        const hiddenBelow = rect.bottom - box.bottom;
+        const hiddenRight = rect.right - box.right;
+        const hiddenLeft = box.left - rect.left;
+        const top = hiddenBelow > 0 ? hiddenBelow + 16 : 0;
+        const left =
+            hiddenRight > 0
+                ? hiddenRight + 16
+                : hiddenLeft > 0
+                  ? -(hiddenLeft + 16)
+                  : 0;
+
+        if (top || left) container.scrollBy({ top, left, behavior: 'smooth' });
+    });
+
+    useEffect(() => {
+        if (focus) reveal(focus);
+    }, [focus]);
+
+    useSharedFocus((slug) => {
+        const node = franchise.nodes.find((item) => item.content.slug === slug);
+        if (node) jumpTo(node.id);
+    });
+
     const locate = () => frameNodes([model.current.id], null);
 
     useGraphKeys({
@@ -528,6 +550,7 @@ const FranchiseGraph: FC<Props> = ({
         'Shift+Digit1': fitAll,
         'Shift+Digit2': () => focus && frameNodes(view.near, 1),
         KeyC: locate,
+        'Mod+KeyF': () => toggleSearch(true),
     });
 
     // Clicks in portalled popups bubble here through React but sit outside the scroller in the DOM.
@@ -546,7 +569,23 @@ const FranchiseGraph: FC<Props> = ({
             ? node.chainIndex + 1
             : null;
 
+    const toggleSearch = (open: boolean) => {
+        setSearchOpen(open);
+        if (!open) setQuery('');
+    };
+
+    const pick = (id: string) => {
+        toggleSearch(false);
+        jumpTo(id);
+    };
+
+    const searchSite = (text: string) => {
+        toggleSearch(false);
+        setSiteQuery(text);
+    };
+
     const nodeState = (node: FranchiseNode): NodeState => {
+        if (matches) return matches.has(node.id) ? 'default' : 'far';
         if (node.id === focus) return 'default';
         if (
             node !== model.current &&
@@ -614,6 +653,20 @@ const FranchiseGraph: FC<Props> = ({
                 onToggleFullscreen={onToggleFullscreen}
                 title={name}
                 isDesktop={isDesktop}
+                search={(headerButtonClassName) => (
+                    <GraphSearch
+                        model={model}
+                        isDesktop={isDesktop}
+                        open={searchOpen}
+                        onOpenChange={toggleSearch}
+                        query={query}
+                        onQueryChange={setQuery}
+                        results={results}
+                        onPick={pick}
+                        onSearchSite={searchSite}
+                        headerButtonClassName={headerButtonClassName}
+                    />
+                )}
             />
             <div
                 className="relative flex min-h-0 flex-1 flex-col"
@@ -771,11 +824,26 @@ const FranchiseGraph: FC<Props> = ({
                                         aria-hidden="true"
                                     >
                                         {view.edges.map((edge) => {
-                                            const style = edgeStyle(
-                                                edge,
-                                                view.dense,
-                                                focus !== null,
-                                            );
+                                            const style = matches
+                                                ? edgeStyle(
+                                                      {
+                                                          ...edge,
+                                                          touched:
+                                                              matches.has(
+                                                                  edge.a,
+                                                              ) &&
+                                                              matches.has(
+                                                                  edge.b,
+                                                              ),
+                                                      },
+                                                      view.dense,
+                                                      true,
+                                                  )
+                                                : edgeStyle(
+                                                      edge,
+                                                      view.dense,
+                                                      focus !== null,
+                                                  );
 
                                             return (
                                                 <path
@@ -810,6 +878,8 @@ const FranchiseGraph: FC<Props> = ({
                                         const isCurrent =
                                             node === model.current;
                                         const isSelected = node.id === focus;
+                                        const isMatch =
+                                            matches?.has(node.id) ?? false;
 
                                         return (
                                             <GraphNode
@@ -824,8 +894,10 @@ const FranchiseGraph: FC<Props> = ({
                                                     labels === 'all' ||
                                                     (labels === 'focus' &&
                                                         (isCurrent ||
-                                                            isSelected))
+                                                            isSelected ||
+                                                            isMatch))
                                                 }
+                                                highlight={isMatch}
                                                 wideLabel={
                                                     !isDesktop &&
                                                     (isCurrent || isSelected)
@@ -895,6 +967,14 @@ const FranchiseGraph: FC<Props> = ({
                     </div>
                 )}
             </div>
+            {siteQuery !== null && (
+                <SearchModal
+                    open
+                    onOpenChange={(open) => !open && setSiteQuery(null)}
+                    initialQuery={siteQuery}
+                    disableHotkey
+                />
+            )}
         </>
     );
 };

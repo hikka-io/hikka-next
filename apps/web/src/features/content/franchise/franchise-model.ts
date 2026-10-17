@@ -10,6 +10,7 @@ import {
     type NovelResponseWithRead,
 } from '@hikka/api';
 
+import type { CardStatus } from '@/components/content-card/content-status';
 import type { HistoryFact, HistoryFactPart } from '@/components/list-items';
 import {
     CONTENT_TYPES,
@@ -531,6 +532,23 @@ export function isTracked(content: FranchiseContent): boolean {
         : content.read.length > 0;
 }
 
+export function listStatus(content: FranchiseContent): CardStatus | undefined {
+    const entry =
+        content.data_type === ContentTypeEnum.ANIME
+            ? content.watch[0]
+            : content.read[0];
+
+    return entry
+        ? {
+              value: entry.status,
+              kind:
+                  content.data_type === ContentTypeEnum.ANIME
+                      ? 'watch'
+                      : 'read',
+          }
+        : undefined;
+}
+
 export function relationText(model: FranchiseModel, node: FranchiseNode) {
     if (node.chainIndex !== null) {
         return model.chain.length > 1
@@ -545,13 +563,15 @@ const fact = (text: string, type: HistoryFactPart['type'] = 'text') => [
     { type, text },
 ];
 
-export function basicMeta(content: FranchiseContent): HistoryFact[] {
+export function basicFacts(content: FranchiseContent): string[] {
     return [
         content.year ? String(content.year) : null,
         getMediaTypeLabel(content.media_type) ?? null,
-    ]
-        .filter((text) => text !== null)
-        .map((text) => fact(text));
+    ].filter((text) => text !== null);
+}
+
+export function basicMeta(content: FranchiseContent): HistoryFact[] {
+    return basicFacts(content).map((text) => fact(text));
 }
 
 export function chronologyMeta(content: FranchiseContent): HistoryFact[] {

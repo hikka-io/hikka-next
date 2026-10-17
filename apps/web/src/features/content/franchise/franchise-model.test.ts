@@ -17,6 +17,7 @@ import {
     computeGraphView,
     defaultHiddenTypes,
     resolveHiddenTypes,
+    searchNodes,
     withoutMedia,
     withoutUnlinked,
 } from './graph/graph-view';
@@ -181,6 +182,17 @@ describe('relationPath', () => {
         expect(
             relationPath(model, nodeId('novel', 'n1'), nodeId('anime', 'a3')),
         ).toEqual([]);
+    });
+});
+
+describe('searchNodes', () => {
+    it('matches titles case-insensitively, ignoring blank queries', () => {
+        const model = build('a3');
+
+        expect(
+            searchNodes(model, ' S1 ').map((entry) => entry.content.slug),
+        ).toEqual(['s1']);
+        expect(searchNodes(model, '  ')).toEqual([]);
     });
 });
 
