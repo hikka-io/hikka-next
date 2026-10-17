@@ -49,6 +49,8 @@ export function useGraphZoom(
     const zoomRef = useRef(1);
     const minZoomRef = useRef(ZOOM_LEVELS[0]);
     const draggedRef = useRef(false);
+    const pendingZoomRef = useRef<{ value: number; point: Point } | null>(null);
+    const frameRef = useRef(0);
 
     const clampZoom = (value: number) =>
         Math.min(MAX_ZOOM, Math.max(minZoomRef.current, value));
@@ -138,9 +140,13 @@ export function useGraphZoom(
         const graph = graphRef.current;
         if (!container || !graph) return;
 
+        // Rounded, so the graph resizing on every zoom step does not re-render with a new floor.
         const fit = Math.min(
             ZOOM_LEVELS[0],
-            fitScale(graph.getBoundingClientRect(), visibleBox(container)),
+            Math.floor(
+                fitScale(graph.getBoundingClientRect(), visibleBox(container)) *
+                    1000,
+            ) / 1000,
         );
         minZoomRef.current = fit;
         setMinZoom(fit);
@@ -158,6 +164,20 @@ export function useGraphZoom(
         return () => observer.disconnect();
     }, [scrollRef, graphRef]);
 
+    // Wheels and pinches fire faster than frames, so they render the latest zoom once per frame.
+    const zoomOnFrame = (scale: number, point: Point) => {
+        const base = pendingZoomRef.current?.value ?? zoomRef.current;
+        pendingZoomRef.current = { value: clampZoom(base * scale), point };
+        if (frameRef.current) return;
+
+        frameRef.current = requestAnimationFrame(() => {
+            frameRef.current = 0;
+            const pending = pendingZoomRef.current;
+            pendingZoomRef.current = null;
+            if (pending) zoomTo(pending.value, pending.point);
+        });
+    };
+
     const onWheel = useEffectEvent((event: WheelEvent) => {
         if (!event.ctrlKey && !event.metaKey) return;
         event.preventDefault();
@@ -170,17 +190,14 @@ export function useGraphZoom(
                 event.deltaY * (DELTA_UNITS[event.deltaMode] ?? 1),
             ),
         );
-        zoomTo(zoomRef.current * Math.exp(-delta * WHEEL_SPEED), {
+        zoomOnFrame(Math.exp(-delta * WHEEL_SPEED), {
             x: event.clientX,
             y: event.clientY,
         });
     });
 
     const onPinch = useEffectEvent((touches: TouchList, start: number) => {
-        zoomTo(
-            (zoomRef.current * touchDistance(touches)) / start,
-            touchCentre(touches),
-        );
+        zoomOnFrame(touchDistance(touches) / start, touchCentre(touches));
     });
 
     useEffect(() => {
@@ -220,6 +237,8 @@ export function useGraphZoom(
             container.removeEventListener('touchmove', onTouchMove);
             container.removeEventListener('touchend', onTouchEnd);
             container.removeEventListener('touchcancel', onTouchEnd);
+            cancelAnimationFrame(frameRef.current);
+            frameRef.current = 0;
         };
     }, [scrollRef]);
 

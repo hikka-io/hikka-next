@@ -11,16 +11,18 @@ const isEditable = (target: EventTarget | null) =>
     (target.isContentEditable ||
         target.closest('input, textarea, select, [role="textbox"]') !== null);
 
-/** Keys pressed inside `root`, or with nothing focused. */
+/** Keys pressed inside `root`, or on one of its ancestors (the dialog itself, the page body). */
 export function useGraphKeys(
     rootRef: RefObject<HTMLElement | null>,
     keys: GraphKeys,
 ) {
     const onKeyDown = useEffectEvent((event: KeyboardEvent) => {
         const { target } = event;
+        const root = rootRef.current;
         const inGraph =
-            target === document.body ||
-            (target instanceof Node && rootRef.current?.contains(target));
+            root &&
+            target instanceof Node &&
+            (root.contains(target) || target.contains(root));
         if (!inGraph || event.altKey || isEditable(target)) return;
 
         const mod = event.ctrlKey || event.metaKey ? 'Mod+' : '';

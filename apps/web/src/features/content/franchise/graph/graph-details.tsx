@@ -1,7 +1,6 @@
 import { type FC, useState } from 'react';
 
-import { ArrowUpRight, Link2, X } from 'lucide-react';
-import { toast } from 'sonner';
+import { ArrowUpRight, X } from 'lucide-react';
 
 import { HistoryFacts, historyRowsVariants } from '@/components/list-items';
 import { Collapsible } from '@/components/ui/collapsible';
@@ -48,25 +47,6 @@ export const OpenPageButton: FC<{ node: FranchiseNode }> = ({ node }) => (
         <ArrowUpRight />
     </GraphIconButton>
 );
-
-const CopyLinkButton: FC<{ node: FranchiseNode }> = ({ node }) => {
-    const copy = () => {
-        const url = new URL(window.location.pathname, window.location.origin);
-        url.searchParams.set('graph', 'true');
-        url.searchParams.set('focus', node.content.slug);
-
-        navigator.clipboard
-            .writeText(url.toString())
-            .then(() => toast.success('Посилання скопійовано'))
-            .catch(() => toast.error('Не вдалося скопіювати посилання'));
-    };
-
-    return (
-        <GraphIconButton label="Копіювати посилання" onClick={copy}>
-            <Link2 />
-        </GraphIconButton>
-    );
-};
 
 export const CloseSelectionButton: FC<{
     onClose: () => void;
@@ -183,7 +163,6 @@ const GraphDetails: FC<Props> = ({
                 <div className="min-w-0 flex-1">
                     <FranchiseListButton content={node.content} size="md" />
                 </div>
-                <CopyLinkButton node={node} />
                 <OpenPageButton node={node} />
             </div>
             {path.length > 0 && (

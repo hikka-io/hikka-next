@@ -1,16 +1,10 @@
-import type { FC, MouseEvent } from 'react';
+import { type FC, type MouseEvent, memo } from 'react';
 
 import PosterCard from '@/components/content-card/poster-card';
 import { CONTENT_TYPE_ICONS } from '@/components/icons/content-type-icons';
-import {
-    Tooltip,
-    TooltipContent,
-    TooltipTrigger,
-} from '@/components/ui/tooltip';
 import { useTitle } from '@/services/session';
 import { cn } from '@/utils/cn';
 import { contentPath } from '@/utils/content-paths';
-import { CONTENT_TYPES, getMediaTypeLabel } from '@/utils/labels';
 
 import { type FranchiseNode, listStatus } from '../franchise-model';
 import GraphOrderTile from './graph-order-tile';
@@ -58,17 +52,7 @@ const GraphNode: FC<Props> = ({
     onSelect,
 }) => {
     const title = useTitle(node.content);
-    const media = CONTENT_TYPES[node.contentType].title_ua;
     const MediaIcon = CONTENT_TYPE_ICONS[node.contentType];
-    const details = [
-        ...new Set([
-            media,
-            node.content.year,
-            getMediaTypeLabel(node.content.media_type),
-        ]),
-    ]
-        .filter(Boolean)
-        .join(', ');
 
     // A plain click selects; modified and middle clicks keep the link's own behaviour (new tab).
     const handleClick = (event: MouseEvent) => {
@@ -80,84 +64,72 @@ const GraphNode: FC<Props> = ({
     };
 
     return (
-        <Tooltip>
-            <TooltipTrigger
-                render={
-                    <a
-                        href={contentPath(node.contentType, node.content.slug)}
-                        data-node={node.id}
-                        tabIndex={tabbable ? 0 : -1}
-                        aria-label={title}
-                        aria-current={isSelected || undefined}
-                        onClick={handleClick}
-                        className={cn(
-                            'group/node absolute z-1 -mt-[calc(var(--gp)/1.4)] -ml-[calc(var(--gp)/2)] block w-(--gp) cursor-pointer rounded-(--base-radius) outline-none transition-[filter,scale] duration-150 motion-reduce:transition-none',
-                            NODE_RING_COLOR[isCurrent ? 'current' : 'selected'],
-                            isCurrent && 'z-2',
-                            isSelected && 'z-5 scale-125 max-md:scale-120',
-                            state !== 'default' && FADED_CLASS[state],
-                        )}
-                        style={{
-                            left: `calc(var(--cw) * ${column + 0.5})`,
-                            top: `calc(var(--rh) * ${row + 0.5})`,
-                        }}
-                    />
-                }
+        <a
+            href={contentPath(node.contentType, node.content.slug)}
+            data-node={node.id}
+            tabIndex={tabbable ? 0 : -1}
+            aria-label={title}
+            aria-current={isSelected || undefined}
+            onClick={handleClick}
+            className={cn(
+                'group/node absolute z-1 -mt-[calc(var(--gp)/1.4)] -ml-[calc(var(--gp)/2)] block w-(--gp) cursor-pointer rounded-(--base-radius) outline-none transition-[filter,scale] duration-150 motion-reduce:transition-none',
+                NODE_RING_COLOR[isCurrent ? 'current' : 'selected'],
+                isCurrent && 'z-2',
+                isSelected && 'z-5 scale-125 max-md:scale-120',
+                state !== 'default' && FADED_CLASS[state],
+            )}
+            style={{
+                left: `calc(var(--cw) * ${column + 0.5})`,
+                top: `calc(var(--rh) * ${row + 0.5})`,
+            }}
+        >
+            <PosterCard
+                image={node.content.image}
+                imagePreset="cardSm"
+                imageProps={{ sizes: imageSizes, resize: 'fill' }}
+                imageClassName="size-full! object-cover"
+                status={listStatus(node.content)}
+                statusSize="sm"
+                containerClassName={cn(
+                    'rounded-(--base-radius)',
+                    NODE_RING_CLASS[
+                        isCurrent || isSelected ? 'ringed' : 'plain'
+                    ],
+                )}
             >
-                <PosterCard
-                    image={node.content.image}
-                    imagePreset="cardSm"
-                    imageProps={{ sizes: imageSizes, resize: 'fill' }}
-                    imageClassName="size-full! object-cover"
-                    status={listStatus(node.content)}
-                    statusSize="sm"
-                    containerClassName={cn(
-                        'rounded-(--base-radius)',
-                        NODE_RING_CLASS[
-                            isCurrent || isSelected ? 'ringed' : 'plain'
-                        ],
+                {order !== null && (
+                    <GraphOrderTile
+                        order={order}
+                        isCurrent={isCurrent}
+                        className="absolute bottom-1 left-1 z-1"
+                    />
+                )}
+            </PosterCard>
+            {showLabel && (
+                <span
+                    className={cn(
+                        'absolute top-[calc(100%+6px)] left-1/2 flex -translate-x-1/2 items-center gap-1 rounded-md bg-card px-1.5 text-xs leading-5',
+                        wideLabel
+                            ? 'max-w-[calc(var(--cw)*1.8)]'
+                            : 'max-w-[min(calc(var(--cw)-1rem),12rem)]',
+                        isCurrent
+                            ? 'font-semibold text-primary-foreground'
+                            : isSelected
+                              ? 'font-semibold text-foreground'
+                              : cn(
+                                    'font-medium',
+                                    highlight
+                                        ? 'text-foreground'
+                                        : 'text-muted-foreground',
+                                ),
                     )}
                 >
-                    {order !== null && (
-                        <GraphOrderTile
-                            order={order}
-                            isCurrent={isCurrent}
-                            className="absolute bottom-1 left-1 z-1"
-                        />
-                    )}
-                </PosterCard>
-                {showLabel && (
-                    <span
-                        className={cn(
-                            'absolute top-[calc(100%+6px)] left-1/2 flex -translate-x-1/2 items-center gap-1 rounded-md bg-card px-1.5 text-xs leading-5',
-                            wideLabel
-                                ? 'max-w-[calc(var(--cw)*1.8)]'
-                                : 'max-w-[min(calc(var(--cw)-1rem),12rem)]',
-                            isCurrent
-                                ? 'font-semibold text-primary-foreground'
-                                : isSelected
-                                  ? 'font-semibold text-foreground'
-                                  : cn(
-                                        'font-medium',
-                                        highlight
-                                            ? 'text-foreground'
-                                            : 'text-muted-foreground',
-                                    ),
-                        )}
-                    >
-                        {showMedia && <MediaIcon className="size-3 shrink-0" />}
-                        <span className="truncate">{title}</span>
-                    </span>
-                )}
-            </TooltipTrigger>
-            <TooltipContent className="flex max-w-64 flex-col">
-                <span className="font-medium">{title}</span>
-                <span className="text-tooltip-foreground/70 text-xs">
-                    {details}
+                    {showMedia && <MediaIcon className="size-3 shrink-0" />}
+                    <span className="truncate">{title}</span>
                 </span>
-            </TooltipContent>
-        </Tooltip>
+            )}
+        </a>
     );
 };
 
-export default GraphNode;
+export default memo(GraphNode);

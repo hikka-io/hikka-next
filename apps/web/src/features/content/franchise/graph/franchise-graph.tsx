@@ -6,6 +6,7 @@ import {
     type Ref,
     useEffect,
     useEffectEvent,
+    useMemo,
     useRef,
     useState,
 } from 'react';
@@ -27,6 +28,7 @@ import {
     isTracked,
     RELATION_TYPE_GROUPS,
     relatedNodes,
+    relationPath,
     sourceTypes,
 } from '../franchise-model';
 import {
@@ -382,7 +384,7 @@ const FranchiseGraph: FC<Props> = ({
     const railRef = useRef<HTMLDivElement>(null);
     const graphRef = useRef<HTMLDivElement>(null);
     const rootRef = useRef<HTMLDivElement>(null);
-    const centreRef = useRef<string | null>(null);
+    const pendingRef = useRef<{ id: string; zoom: boolean } | null>(null);
     const stepRef = useRef<{
         anchor: string;
         index: number;
@@ -396,10 +398,18 @@ const FranchiseGraph: FC<Props> = ({
     const [query, setQuery] = useState('');
     const [siteQuery, setSiteQuery] = useState<string | null>(null);
     const initialHidden = defaultHiddenTypes(franchise);
-    const hidden = resolveHiddenTypes(franchise, saved.relations);
-    const otherMedia = sourceTypes(franchise);
-    const hiddenMedia = new Set(
-        saved.hiddenMedia.filter((type) => otherMedia.includes(type)),
+    // Memoised by hand: the compiler rebuilds these on every zoom step, and the edge routing below is costly.
+    const hidden = useMemo(
+        () => resolveHiddenTypes(franchise, saved.relations),
+        [franchise, saved.relations],
+    );
+    const otherMedia = useMemo(() => sourceTypes(franchise), [franchise]);
+    const hiddenMedia = useMemo(
+        () =>
+            new Set(
+                saved.hiddenMedia.filter((type) => otherMedia.includes(type)),
+            ),
+        [saved.hiddenMedia, otherMedia],
     );
     const mine = Boolean(user) && saved.mine;
     const { hideUnlinked, horizontal } = saved;
@@ -417,8 +427,14 @@ const FranchiseGraph: FC<Props> = ({
         visibleBox(container, panelRef.current, barRef.current),
     );
 
-    const shown = withoutMedia(franchise, hiddenMedia);
-    const model = hideUnlinked ? withoutUnlinked(shown, hidden) : shown;
+    const shown = useMemo(
+        () => withoutMedia(franchise, hiddenMedia),
+        [franchise, hiddenMedia],
+    );
+    const model = useMemo(
+        () => (hideUnlinked ? withoutUnlinked(shown, hidden) : shown),
+        [hideUnlinked, shown, hidden],
+    );
     const focus = model.nodes.some((node) => node.id === selected)
         ? selected
         : null;
@@ -427,12 +443,18 @@ const FranchiseGraph: FC<Props> = ({
             node.when < first.when ? node : first,
         ).content,
     );
-    const layout = layoutGraph(
-        model,
-        isDesktop ? DESKTOP_BUDGET : PHONE_BUDGET,
+    const layout = useMemo(
+        () => layoutGraph(model, isDesktop ? DESKTOP_BUDGET : PHONE_BUDGET),
+        [model, isDesktop],
     );
-    const screen = horizontal ? transposeLayout(layout) : layout;
-    const view = computeGraphView(model, screen, hidden, focus, horizontal);
+    const screen = useMemo(
+        () => (horizontal ? transposeLayout(layout) : layout),
+        [horizontal, layout],
+    );
+    const view = useMemo(
+        () => computeGraphView(model, screen, hidden, focus, horizontal),
+        [model, screen, hidden, focus, horizontal],
+    );
     const sizes = (horizontal ? SIZES_HORIZONTAL : SIZES)[
         isDesktop ? 'desktop' : 'phone'
     ];
@@ -441,6 +463,8 @@ const FranchiseGraph: FC<Props> = ({
     const chosenLabels = saved.labels ?? defaultLabels;
     const labels = zoom < LABELS_MIN_ZOOM ? 'none' : chosenLabels;
     const hasOrder = model.chain.length > 1;
+    // Stepped, so zooming does not hand every poster a new `sizes`.
+    const imageSizes = `${sizes.image * Math.max(1, Math.ceil(zoom))}px`;
 
     const filters: EdgeFilter[] = EDGE_TYPES.map((edgeType) => ({
         ...edgeType,
@@ -461,6 +485,13 @@ const FranchiseGraph: FC<Props> = ({
             ? new Set(results.map((node) => node.id))
             : null;
     const focusNode = focus ? model.byId.get(focus) : undefined;
+    const path = new Set(
+        focus
+            ? relationPath(model, focus, model.current.id).map(
+                  (node) => node.id,
+              )
+            : [],
+    );
     const sheetExpanded = expanded && focusNode !== undefined;
     const panelRoom = isDesktop && focusNode ? PANEL_ROOM : ROOM_CLOSING;
 
@@ -495,12 +526,12 @@ const FranchiseGraph: FC<Props> = ({
     const select = (id: string) =>
         focus === id ? deselectAll() : setFocus(id);
 
-    const jumpTo = (id: string) => {
+    const jumpTo = (id: string, zoom = false) => {
         if (id === focus) {
-            frameNodes([id], null);
+            frameTitle(id, zoom);
             return;
         }
-        centreRef.current = id;
+        pendingRef.current = { id, zoom };
         setFocus(id);
     };
 
@@ -512,17 +543,26 @@ const FranchiseGraph: FC<Props> = ({
         if (rect) frame(rect, cap);
     };
 
+    const frameTitle = (id: string, zoom: boolean) =>
+        zoom
+            ? frameNodes(
+                  [id, ...relatedNodes(model, id).map((node) => node.id)],
+                  1,
+              )
+            : frameNodes([id], null);
+
     const fitAll = () => {
         const graph = graphRef.current;
         if (graph) frame(graph.getBoundingClientRect(), 1);
     };
 
-    // A jump centres the title; a click only brings it out from under the panel or sheet.
+    // A jump frames the title after its panel or sheet renders; clicks and arrows only reveal it.
     const reveal = useEffectEvent((id: string) => {
         const container = scrollRef.current;
-        if (centreRef.current === id) {
-            centreRef.current = null;
-            frameNodes([id], null);
+        const pending = pendingRef.current;
+        if (pending?.id === id) {
+            pendingRef.current = null;
+            frameTitle(id, pending.zoom);
             return;
         }
 
@@ -531,9 +571,15 @@ const FranchiseGraph: FC<Props> = ({
 
         const box = visibleBox(container, panelRef.current, barRef.current);
         const hiddenBelow = rect.bottom - box.bottom;
+        const hiddenAbove = box.top - rect.top;
         const hiddenRight = rect.right - box.right;
         const hiddenLeft = box.left - rect.left;
-        const top = hiddenBelow > 0 ? hiddenBelow + 16 : 0;
+        const top =
+            hiddenBelow > 0
+                ? hiddenBelow + 16
+                : hiddenAbove > 0
+                  ? -(hiddenAbove + 16)
+                  : 0;
         const left =
             hiddenRight > 0
                 ? hiddenRight + 16
@@ -554,7 +600,7 @@ const FranchiseGraph: FC<Props> = ({
         if (node) jumpTo(node.id);
     });
 
-    const locate = () => frameNodes([model.current.id], null);
+    const locate = () => jumpTo(model.current.id, true);
 
     const cursor = focus ?? model.current.id;
 
@@ -595,7 +641,7 @@ const FranchiseGraph: FC<Props> = ({
         Digit0: resetZoom,
         Numpad0: resetZoom,
         'Shift+Digit1': fitAll,
-        'Shift+Digit2': () => (focus ? frameNodes(view.near, 1) : false),
+        'Shift+Digit2': () => (focus ? frameTitle(focus, true) : false),
         KeyC: locate,
         'Mod+KeyF': () => toggleSearch(true),
         'Shift+Slash': () => setHelpOpen(true),
@@ -646,6 +692,7 @@ const FranchiseGraph: FC<Props> = ({
     };
 
     const nodeState = (node: FranchiseNode): NodeState => {
+        if (node === model.current) return 'default';
         if (matches) return matches.has(node.id) ? 'default' : 'far';
         if (node.id === focus) return 'default';
         if (
@@ -656,7 +703,7 @@ const FranchiseGraph: FC<Props> = ({
             return 'isolated';
         }
         if (
-            (focus && !view.near.has(node.id)) ||
+            (focus && !view.near.has(node.id) && !path.has(node.id)) ||
             (mine && !isTracked(node.content))
         ) {
             return 'far';
@@ -886,26 +933,18 @@ const FranchiseGraph: FC<Props> = ({
                                         aria-hidden="true"
                                     >
                                         {view.edges.map((edge) => {
-                                            const style = matches
-                                                ? edgeStyle(
-                                                      {
-                                                          ...edge,
-                                                          touched:
-                                                              matches.has(
-                                                                  edge.a,
-                                                              ) &&
-                                                              matches.has(
-                                                                  edge.b,
-                                                              ),
-                                                      },
-                                                      view.dense,
-                                                      true,
-                                                  )
-                                                : edgeStyle(
-                                                      edge,
-                                                      view.dense,
-                                                      focus !== null,
-                                                  );
+                                            const lit = matches
+                                                ? matches.has(edge.a) &&
+                                                  matches.has(edge.b)
+                                                : edge.touched ||
+                                                  (path.has(edge.a) &&
+                                                      path.has(edge.b));
+                                            const style = edgeStyle(
+                                                { ...edge, touched: lit },
+                                                view.dense,
+                                                matches !== null ||
+                                                    focus !== null,
+                                            );
 
                                             return (
                                                 <path
@@ -969,7 +1008,7 @@ const FranchiseGraph: FC<Props> = ({
                                                     model.current.contentType
                                                 }
                                                 tabbable={node.id === cursor}
-                                                imageSizes={`${Math.round(sizes.image * zoom)}px`}
+                                                imageSizes={imageSizes}
                                                 onSelect={select}
                                             />
                                         );
