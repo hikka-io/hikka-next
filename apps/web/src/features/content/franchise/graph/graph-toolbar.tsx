@@ -6,9 +6,10 @@ import {
     EyeOff,
     Filter,
     Layers,
-    Link,
+    ListOrdered,
     Maximize,
     Minimize,
+    Type,
     X,
 } from 'lucide-react';
 
@@ -31,6 +32,7 @@ import {
     ResponsiveModalContent,
     ResponsiveModalFooter,
 } from '@/components/ui/responsive-modal';
+import { Separator } from '@/components/ui/separator';
 import { Switch } from '@/components/ui/switch';
 import {
     Tooltip,
@@ -42,6 +44,7 @@ import { CONTENT_TYPES } from '@/utils/labels';
 
 import { type GraphEdgeType, RELATION_TYPE_GROUPS } from '../franchise-model';
 import { EDGE_TYPES, RELATION_GROUP_STYLES } from '../relation-groups';
+import type { GraphLabels } from './graph-filters-store';
 
 export type EdgeFilter = (typeof EDGE_TYPES)[number] & {
     count: number;
@@ -65,6 +68,10 @@ type Props = {
     onToggleMine: () => void;
     hideUnlinked: boolean;
     onToggleHideUnlinked: () => void;
+    labels: GraphLabels;
+    onLabelsChange: (labels: GraphLabels) => void;
+    order: boolean | null;
+    onToggleOrder: () => void;
     horizontal: boolean;
     onToggleHorizontal: () => void;
     onReset: () => void;
@@ -76,14 +83,16 @@ type Props = {
 
 type BodyProps = Pick<
     Props,
-    | 'filters'
-    | 'onToggle'
     | 'media'
     | 'onToggleMedia'
     | 'mine'
     | 'onToggleMine'
     | 'hideUnlinked'
     | 'onToggleHideUnlinked'
+    | 'labels'
+    | 'onLabelsChange'
+    | 'order'
+    | 'onToggleOrder'
     | 'horizontal'
     | 'onToggleHorizontal'
 >;
@@ -91,19 +100,26 @@ type BodyProps = Pick<
 // Mirrors the mobile page header's action buttons.
 const HEADER_BUTTON_CLASS = 'shrink-0 text-muted-foreground [&_svg]:size-5';
 
-const RELATION_DOTS = Object.fromEntries(
+const RELATION_LINES = Object.fromEntries(
     EDGE_TYPES.map(({ type }) => [
         type,
         () => (
             <span
                 className={cn(
-                    'size-2 shrink-0 rounded-full',
-                    RELATION_GROUP_STYLES[RELATION_TYPE_GROUPS[type]].solid,
+                    'w-3.5 shrink-0 border-current border-t-2',
+                    type === 'adaptation' && 'border-dashed',
+                    RELATION_GROUP_STYLES[RELATION_TYPE_GROUPS[type]].text,
                 )}
             />
         ),
     ]),
 );
+
+const LABEL_OPTIONS: Record<GraphLabels, { title_ua: string }> = {
+    all: { title_ua: 'Усі' },
+    focus: { title_ua: 'Обрані' },
+    none: { title_ua: 'Без підписів' },
+};
 
 const toggled = <T extends string>(before: T[], after: T[]) =>
     before.find((value) => !after.includes(value)) ??
@@ -166,43 +182,33 @@ const FilterSwitch: FC<{
 };
 
 const FiltersBody: FC<BodyProps> = ({
-    filters,
-    onToggle,
     media,
     onToggleMedia,
     mine,
     onToggleMine,
     hideUnlinked,
     onToggleHideUnlinked,
+    labels,
+    onLabelsChange,
+    order,
+    onToggleOrder,
     horizontal,
     onToggleHorizontal,
 }) => {
-    const selectedTypes = filters
-        .filter((filter) => filter.on)
-        .map((filter) => filter.type);
     const selectedMedia = media
         .filter((item) => item.on)
         .map((item) => item.type);
 
     return (
         <div className="flex flex-col gap-8">
-            <FilterSection icon={<Link />} title="Зв’язки">
+            <FilterSection icon={<Type />} title="Підписи">
                 <BadgeFilter
-                    property="relations"
-                    properties={Object.fromEntries(
-                        filters.map((filter) => [
-                            filter.type,
-                            { title_ua: filter.longLabel },
-                        ]),
-                    )}
-                    icons={RELATION_DOTS}
-                    selected={selectedTypes}
+                    property="labels"
+                    properties={LABEL_OPTIONS}
+                    selected={[labels]}
                     onParamChange={(_, value) => {
-                        const type = toggled(
-                            selectedTypes,
-                            value as GraphEdgeType[],
-                        );
-                        if (type) onToggle(type);
+                        const next = toggled([labels], value as GraphLabels[]);
+                        if (next && next !== labels) onLabelsChange(next);
                     }}
                 />
             </FilterSection>
@@ -228,12 +234,14 @@ const FiltersBody: FC<BodyProps> = ({
                     />
                 </FilterSection>
             )}
-            <FilterSwitch
-                icon={<EyeOff />}
-                label="Сховати вимкнені тайтли"
-                checked={hideUnlinked}
-                onCheckedChange={onToggleHideUnlinked}
-            />
+            {order !== null && (
+                <FilterSwitch
+                    icon={<ListOrdered />}
+                    label="Порядок перегляду"
+                    checked={order}
+                    onCheckedChange={onToggleOrder}
+                />
+            )}
             {mine !== null && (
                 <FilterSwitch
                     icon={<Bookmark />}
@@ -242,6 +250,12 @@ const FiltersBody: FC<BodyProps> = ({
                     onCheckedChange={onToggleMine}
                 />
             )}
+            <FilterSwitch
+                icon={<EyeOff />}
+                label="Сховати вимкнені тайтли"
+                checked={hideUnlinked}
+                onCheckedChange={onToggleHideUnlinked}
+            />
             <FilterSwitch
                 icon={<ArrowRightLeft />}
                 label="Горизонтальний вигляд"
@@ -261,34 +275,18 @@ const ResetButton: FC<{ disabled: boolean; onReset: () => void }> = ({
     </Button>
 );
 
-const FiltersTrigger: FC<
-    Omit<ButtonProps, 'aria-label'> & { changed: number; inHeader: boolean }
-> = ({ changed, inHeader, className, ...props }) => (
-    <Button
-        variant={inHeader ? 'ghost' : 'outline'}
-        size={inHeader ? 'icon-md' : 'icon-sm'}
-        aria-label="Фільтри"
-        className={cn(
-            'relative shrink-0 overflow-visible',
-            inHeader && HEADER_BUTTON_CLASS,
-            className,
-        )}
-        {...props}
-    >
-        <Filter />
-        {changed > 0 && (
-            <Badge
-                variant="default"
-                className={cn(
-                    'absolute h-4 min-w-4 px-1 text-[10px]',
-                    inHeader ? 'top-0 right-0' : '-top-1.5 -right-1.5',
-                )}
-            >
-                {changed}
-            </Badge>
-        )}
-    </Button>
-);
+const ChangedBadge: FC<{ changed: number; className?: string }> = ({
+    changed,
+    className,
+}) =>
+    changed > 0 && (
+        <Badge
+            variant="default"
+            className={cn('h-4 min-w-4 px-1 text-[10px]', className)}
+        >
+            {changed}
+        </Badge>
+    );
 
 const FiltersPopover: FC<BodyProps & Pick<Props, 'changed' | 'onReset'>> = ({
     changed,
@@ -296,21 +294,13 @@ const FiltersPopover: FC<BodyProps & Pick<Props, 'changed' | 'onReset'>> = ({
     ...body
 }) => (
     <Popover>
-        <Tooltip>
-            <TooltipTrigger
-                render={
-                    <PopoverTrigger
-                        render={
-                            <FiltersTrigger
-                                changed={changed}
-                                inHeader={false}
-                            />
-                        }
-                    />
-                }
-            />
-            <TooltipContent>Фільтри</TooltipContent>
-        </Tooltip>
+        <PopoverTrigger
+            render={<Button variant="outline" size="sm" className="shrink-0" />}
+        >
+            <Filter />
+            Фільтри
+            <ChangedBadge changed={changed} />
+        </PopoverTrigger>
         <PopoverContent align="end" className="w-96 gap-0 p-0">
             <div className="p-4">
                 <FiltersBody {...body} />
@@ -331,11 +321,19 @@ const FiltersModal: FC<BodyProps & Pick<Props, 'changed' | 'onReset'>> = ({
 
     return (
         <>
-            <FiltersTrigger
-                changed={changed}
-                inHeader
+            <Button
+                variant="ghost"
+                size="icon-md"
+                aria-label="Фільтри"
+                className={cn(HEADER_BUTTON_CLASS, 'relative overflow-visible')}
                 onClick={() => setOpen(true)}
-            />
+            >
+                <Filter />
+                <ChangedBadge
+                    changed={changed}
+                    className="absolute top-0 right-0"
+                />
+            </Button>
             <ResponsiveModal open={open} onOpenChange={setOpen}>
                 <ResponsiveModalContent title="Фільтри графа">
                     <FiltersBody {...body} />
@@ -354,41 +352,41 @@ const FiltersModal: FC<BodyProps & Pick<Props, 'changed' | 'onReset'>> = ({
     );
 };
 
-const Legend: FC<{ filters: EdgeFilter[] }> = ({ filters }) => (
-    <div className="flex min-w-0 flex-1 flex-wrap items-center gap-x-4 gap-y-1.5 font-medium text-muted-foreground text-xs">
-        {filters.map((filter) => {
-            const group =
-                RELATION_GROUP_STYLES[RELATION_TYPE_GROUPS[filter.type]];
+const RelationChips: FC<Pick<Props, 'filters' | 'onToggle'>> = ({
+    filters,
+    onToggle,
+}) => {
+    const selected = filters
+        .filter((filter) => filter.on)
+        .map((filter) => filter.type);
 
-            return (
-                <span
-                    key={filter.type}
-                    className={cn(
-                        'inline-flex items-center gap-1.5',
-                        !filter.on && 'opacity-40',
-                    )}
-                >
-                    {filter.type === 'adaptation' ? (
-                        <span
-                            className={cn(
-                                'w-3.5 shrink-0 border-t-2 border-dashed',
-                                group.text,
-                            )}
-                        />
-                    ) : (
-                        <span
-                            className={cn(
-                                'size-2 shrink-0 rounded-full',
-                                group.solid,
-                            )}
-                        />
-                    )}
-                    {filter.label}
-                </span>
-            );
-        })}
-    </div>
-);
+    return (
+        <fieldset
+            aria-label="Типи зв’язків"
+            className="no-scrollbar m-0 min-w-0 shrink-0 overflow-x-auto border-b px-4 py-2"
+        >
+            <BadgeFilter
+                property="relations"
+                properties={Object.fromEntries(
+                    filters.map((filter) => [
+                        filter.type,
+                        { title_ua: filter.label },
+                    ]),
+                )}
+                icons={RELATION_LINES}
+                counts={Object.fromEntries(
+                    filters.map((filter) => [filter.type, filter.count]),
+                )}
+                selected={selected}
+                onParamChange={(_, value) => {
+                    const type = toggled(selected, value as GraphEdgeType[]);
+                    if (type) onToggle(type);
+                }}
+                className="max-md:flex-nowrap"
+            />
+        </fieldset>
+    );
+};
 
 const CloseButton: FC<{ inHeader: boolean }> = ({ inHeader }) => (
     <Tooltip>
@@ -413,6 +411,8 @@ const CloseButton: FC<{ inHeader: boolean }> = ({ inHeader }) => (
 );
 
 const GraphToolbar: FC<Props> = ({
+    filters,
+    onToggle,
     changed,
     onReset,
     fullscreen,
@@ -421,18 +421,27 @@ const GraphToolbar: FC<Props> = ({
     isDesktop,
     ...body
 }) => {
+    const chips = <RelationChips filters={filters} onToggle={onToggle} />;
+
     if (!isDesktop) {
         return (
-            <div className="flex h-14 shrink-0 items-center gap-1 border-b pr-2 pl-4">
-                <div className="flex min-w-0 flex-1 flex-col">
-                    <DialogTitle>{title}</DialogTitle>
-                    <span className="text-muted-foreground text-xs">
-                        Франшиза
-                    </span>
+            <>
+                <div className="flex h-14 shrink-0 items-center gap-1 border-b pr-2 pl-4">
+                    <div className="flex min-w-0 flex-1 flex-col">
+                        <DialogTitle>{title}</DialogTitle>
+                        <span className="text-muted-foreground text-xs">
+                            Франшиза
+                        </span>
+                    </div>
+                    <FiltersModal
+                        changed={changed}
+                        onReset={onReset}
+                        {...body}
+                    />
+                    <CloseButton inHeader />
                 </div>
-                <FiltersModal changed={changed} onReset={onReset} {...body} />
-                <CloseButton inHeader />
-            </div>
+                {chips}
+            </>
         );
     }
 
@@ -441,17 +450,23 @@ const GraphToolbar: FC<Props> = ({
         : 'На весь екран';
 
     return (
-        <div className="flex shrink-0 items-center gap-3 border-b px-4 py-3">
-            <DialogTitle className="max-w-1/2 shrink-0 font-bold">
-                Франшиза «{title}»
-            </DialogTitle>
-            <Legend filters={body.filters} />
-            <FiltersPopover changed={changed} onReset={onReset} {...body} />
-            <IconButton label={fullscreenLabel} onClick={onToggleFullscreen}>
-                {fullscreen ? <Minimize /> : <Maximize />}
-            </IconButton>
-            <CloseButton inHeader={false} />
-        </div>
+        <>
+            <div className="flex shrink-0 items-center gap-3 border-b px-4 py-3">
+                <DialogTitle className="min-w-0 flex-1 truncate font-bold">
+                    Франшиза «{title}»
+                </DialogTitle>
+                <FiltersPopover changed={changed} onReset={onReset} {...body} />
+                <Separator orientation="vertical" className="h-5" />
+                <IconButton
+                    label={fullscreenLabel}
+                    onClick={onToggleFullscreen}
+                >
+                    {fullscreen ? <Minimize /> : <Maximize />}
+                </IconButton>
+                <CloseButton inHeader={false} />
+            </div>
+            {chips}
+        </>
     );
 };
 

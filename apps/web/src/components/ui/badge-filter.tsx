@@ -8,6 +8,7 @@ import {
     TooltipPortal,
     TooltipTrigger,
 } from '@/components/ui/tooltip';
+import { cn } from '@/utils/cn';
 import type { FilterProperty } from '@/utils/labels/enum-labels';
 
 export type BadgeFilterProps = {
@@ -15,19 +16,23 @@ export type BadgeFilterProps = {
     title?: string;
     properties: FilterProperty<string> | string[];
     icons?: Record<string, ComponentType | null>;
+    counts?: Record<string, number>;
     selected: string[];
     disabled?: boolean;
     onParamChange: (key: string, value: string | string[]) => void;
+    className?: string;
 };
 
 export const BadgeFilter: FC<BadgeFilterProps> = ({
     title,
     properties,
     icons,
+    counts,
     selected,
     disabled,
     onParamChange,
     property,
+    className,
 }) => {
     const isPropertiesArray = Array.isArray(properties);
 
@@ -44,7 +49,7 @@ export const BadgeFilter: FC<BadgeFilterProps> = ({
     };
 
     return (
-        <div className="flex flex-wrap gap-2">
+        <div className={cn('flex flex-wrap gap-2', className)}>
             {(isPropertiesArray ? properties : Object.keys(properties)).map(
                 (slug) => (
                     <Button
@@ -63,6 +68,11 @@ export const BadgeFilter: FC<BadgeFilterProps> = ({
                     >
                         {icons?.[slug] && createElement(icons[slug])}
                         {isPropertiesArray ? slug : properties[slug].title_ua}
+                        {counts?.[slug] !== undefined && (
+                            <span className="tabular-nums opacity-60">
+                                {counts[slug]}
+                            </span>
+                        )}
 
                         {!isPropertiesArray && properties[slug].description && (
                             <Tooltip delay={0}>

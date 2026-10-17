@@ -29,7 +29,7 @@ import {
     RELATION_GROUP_STYLES,
 } from '../relation-groups';
 import GraphDetails, { type DetailsVariant } from './graph-details';
-import { useGraphFiltersStore } from './graph-filters-store';
+import { type GraphLabels, useGraphFiltersStore } from './graph-filters-store';
 import {
     DESKTOP_BUDGET,
     type GraphLayout,
@@ -101,7 +101,6 @@ const CONTAINER_CLASS = '@container [scrollbar-gutter:stable]';
 
 const AXIS = 48;
 
-type GraphLabels = 'all' | 'focus' | 'none';
 // Below this a label has room for a letter or two.
 const LABELS_MIN_ZOOM = 0.5;
 const GRAPH_WIDTH = 'calc(var(--cols) * var(--cw))';
@@ -397,8 +396,10 @@ const FranchiseGraph: FC<Props> = ({
         isDesktop ? 'desktop' : 'phone'
     ];
     const hasZone = layout.sourceColumns > 0;
-    const labels: GraphLabels =
-        zoom < LABELS_MIN_ZOOM ? 'none' : isDesktop ? 'all' : 'focus';
+    const defaultLabels: GraphLabels = isDesktop ? 'all' : 'focus';
+    const chosenLabels = saved.labels ?? defaultLabels;
+    const labels = zoom < LABELS_MIN_ZOOM ? 'none' : chosenLabels;
+    const hasOrder = model.chain.length > 1;
     const compactDetails = !isDesktop;
 
     const filters: EdgeFilter[] = EDGE_TYPES.map((edgeType) => ({
@@ -513,7 +514,7 @@ const FranchiseGraph: FC<Props> = ({
     };
 
     const orderOf = (node: FranchiseNode) =>
-        model.chain.length > 1 && node.chainIndex !== null
+        hasOrder && saved.order && node.chainIndex !== null
             ? node.chainIndex + 1
             : null;
 
@@ -559,13 +560,11 @@ const FranchiseGraph: FC<Props> = ({
             <GraphToolbar
                 filters={filters}
                 changed={
-                    filters.filter(
-                        (filter) =>
-                            filter.on === initialHidden.has(filter.type),
-                    ).length +
                     hiddenMedia.size +
                     Number(mine) +
-                    Number(hideUnlinked)
+                    Number(hideUnlinked) +
+                    Number(saved.labels !== null) +
+                    Number(hasOrder && !saved.order)
                 }
                 onToggle={toggleType}
                 media={media}
@@ -574,6 +573,10 @@ const FranchiseGraph: FC<Props> = ({
                 onToggleMine={saved.toggleMine}
                 hideUnlinked={hideUnlinked}
                 onToggleHideUnlinked={saved.toggleHideUnlinked}
+                labels={chosenLabels}
+                onLabelsChange={(next) => saved.setLabels(next, defaultLabels)}
+                order={hasOrder ? saved.order : null}
+                onToggleOrder={saved.toggleOrder}
                 horizontal={horizontal}
                 onToggleHorizontal={saved.toggleHorizontal}
                 onReset={saved.reset}

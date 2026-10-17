@@ -67,41 +67,16 @@ export const RELATION_GROUP_STYLES = {
     },
 } as const satisfies Record<RelationGroupEnum, GroupStyle>;
 
-export const EDGE_TYPES: {
-    type: GraphEdgeType;
-    label: string;
-    longLabel: string;
-}[] = [
-    {
-        type: FranchiseRelationTypeEnum.SEQUEL,
-        label: 'Сиквели',
-        longLabel: 'Сиквели й приквели',
-    },
-    {
-        type: FranchiseRelationTypeEnum.SIDE_STORY,
-        label: 'Побічні',
-        longLabel: 'Побічні історії',
-    },
+export const EDGE_TYPES: { type: GraphEdgeType; label: string }[] = [
+    { type: FranchiseRelationTypeEnum.SEQUEL, label: 'Основна історія' },
+    { type: FranchiseRelationTypeEnum.SIDE_STORY, label: 'Побічні історії' },
     {
         type: FranchiseRelationTypeEnum.ALTERNATIVE_VERSION,
-        label: 'Альтернативні',
-        longLabel: 'Альтернативні версії',
+        label: 'Альтернативні версії',
     },
-    {
-        type: FranchiseRelationTypeEnum.SUMMARY,
-        label: 'Рекапи',
-        longLabel: 'Рекапи',
-    },
-    {
-        type: FranchiseRelationTypeEnum.SPIN_OFF,
-        label: 'Спінофи',
-        longLabel: 'Спінофи',
-    },
-    {
-        type: FranchiseRelationTypeEnum.ADAPTATION,
-        label: 'Адаптації',
-        longLabel: 'Адаптації',
-    },
+    { type: FranchiseRelationTypeEnum.SUMMARY, label: 'Рекапи' },
+    { type: FranchiseRelationTypeEnum.SPIN_OFF, label: 'Спінофи' },
+    { type: FranchiseRelationTypeEnum.ADAPTATION, label: 'Адаптації' },
 ];
 
 export function mediaListLabel(types: MainContentTypeEnum[]): string {

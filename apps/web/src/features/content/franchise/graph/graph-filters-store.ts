@@ -5,12 +5,17 @@ import type { MainContentTypeEnum } from '@hikka/api';
 
 import type { GraphEdgeType } from '../franchise-model';
 
+export type GraphLabels = 'all' | 'focus' | 'none';
+
 export type GraphFiltersState = {
     /** Relation types switched against the franchise's own default; `true` shows the type. */
     relations: Partial<Record<GraphEdgeType, boolean>>;
     hiddenMedia: MainContentTypeEnum[];
     mine: boolean;
     hideUnlinked: boolean;
+    /** `null` keeps the device's default. */
+    labels: GraphLabels | null;
+    order: boolean;
     /** A view mode rather than a filter: it is not counted and survives a reset. */
     horizontal: boolean;
 };
@@ -24,6 +29,8 @@ export type GraphFiltersActions = {
     toggleMedia: (type: MainContentTypeEnum) => void;
     toggleMine: () => void;
     toggleHideUnlinked: () => void;
+    setLabels: (labels: GraphLabels, byDefault: GraphLabels) => void;
+    toggleOrder: () => void;
     toggleHorizontal: () => void;
     reset: () => void;
 };
@@ -33,6 +40,8 @@ const DEFAULTS: GraphFiltersState = {
     hiddenMedia: [],
     mine: false,
     hideUnlinked: false,
+    labels: null,
+    order: true,
     horizontal: false,
 };
 
@@ -62,10 +71,17 @@ export const useGraphFiltersStore = create<
             toggleMine: () => set((state) => ({ mine: !state.mine })),
             toggleHideUnlinked: () =>
                 set((state) => ({ hideUnlinked: !state.hideUnlinked })),
+            setLabels: (labels, byDefault) =>
+                set({ labels: labels === byDefault ? null : labels }),
+            toggleOrder: () => set((state) => ({ order: !state.order })),
             toggleHorizontal: () =>
                 set((state) => ({ horizontal: !state.horizontal })),
             reset: () =>
-                set((state) => ({ ...DEFAULTS, horizontal: state.horizontal })),
+                set((state) => ({
+                    ...DEFAULTS,
+                    relations: state.relations,
+                    horizontal: state.horizontal,
+                })),
         }),
         {
             name: 'franchise-graph-filters',
@@ -75,8 +91,18 @@ export const useGraphFiltersStore = create<
                 hiddenMedia,
                 mine,
                 hideUnlinked,
+                labels,
+                order,
                 horizontal,
-            }) => ({ relations, hiddenMedia, mine, hideUnlinked, horizontal }),
+            }) => ({
+                relations,
+                hiddenMedia,
+                mine,
+                hideUnlinked,
+                labels,
+                order,
+                horizontal,
+            }),
         },
     ),
 );
