@@ -3,6 +3,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import {
+    ContentStatusEnum,
     ContentTypeEnum,
     type WatchArgs,
     WatchStatusEnum,
@@ -37,7 +38,15 @@ type PendingWatch = {
     args: WatchArgs;
 };
 
-const WatchingTracker = () => {
+type WatchingTrackerProps = {
+    hideOngoings?: boolean;
+    onClearHideOngoings?: () => void;
+};
+
+const WatchingTracker = ({
+    hideOngoings = false,
+    onClearHideOngoings,
+}: WatchingTrackerProps) => {
     const router = useRouter();
     const { user: loggedUser } = useSession();
     const { preferences } = useSessionUI();
@@ -52,8 +61,15 @@ const WatchingTracker = () => {
             enabled: Boolean(loggedUser?.username),
         });
 
+    const filteredList = hideOngoings
+        ? list?.filter(
+              (item) => item.anime.status !== ContentStatusEnum.ONGOING,
+          )
+        : list;
+
     const selectedWatch =
-        list?.find((item) => item.anime.slug === selectedSlug) || list?.[0];
+        filteredList?.find((item) => item.anime.slug === selectedSlug) ||
+        filteredList?.[0];
 
     const [debouncedPending] = useDebounce({
         value: pending,
@@ -154,7 +170,26 @@ const WatchingTracker = () => {
         return <ProgressTrackerSkeleton />;
     }
 
-    if (!list || list.length === 0) {
+    if (!filteredList || filteredList.length === 0) {
+        if (list && list.length > 0) {
+            return (
+                <EmptyState
+                    icon={<StatusWatching />}
+                    title="Усі тайтли - онґоїнґи"
+                    description="У списку Дивлюсь лише онґоїнґи, які зараз приховано"
+                    action={
+                        <Button
+                            variant="secondary"
+                            size="md"
+                            onClick={onClearHideOngoings}
+                        >
+                            Показати онґоїнґи
+                        </Button>
+                    }
+                />
+            );
+        }
+
         return (
             <EmptyState
                 icon={<StatusWatching />}
@@ -187,7 +222,7 @@ const WatchingTracker = () => {
 
     return (
         <ProgressTrackerView
-            items={list.map((item) => ({
+            items={filteredList.map((item) => ({
                 slug: item.anime.slug,
                 image: item.anime.image,
                 title: getTitle(
