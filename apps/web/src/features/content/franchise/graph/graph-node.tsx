@@ -25,14 +25,21 @@ const FADED_CLASS: Record<Exclude<NodeState, 'default'>, string> = {
         '[filter:grayscale(1)_contrast(0.18)_brightness(1.7)] dark:[filter:grayscale(1)_brightness(0.3)]',
 };
 
+const RING_CLASS = {
+    plain: 'shadow-[0_0_0_3px_var(--card)] group-focus-visible/node:shadow-[0_0_0_3px_var(--card),0_0_0_5px_var(--foreground)]',
+    ringed: 'shadow-[0_0_0_2px_var(--node-ring),0_0_0_5px_var(--card)] group-focus-visible/node:shadow-[0_0_0_2px_var(--node-ring),0_0_0_4px_var(--card),0_0_0_6px_var(--foreground)]',
+};
+
 type Props = {
     node: FranchiseNode;
     position: [number, number];
     isCurrent: boolean;
     isSelected: boolean;
     state: NodeState;
+    order: number | null;
+    showLabel: boolean;
+    wideLabel: boolean;
     showMedia: boolean;
-    compactMedia: boolean;
     imageSizes: string;
     onSelect: (id: string) => void;
 };
@@ -56,8 +63,10 @@ const GraphNode: FC<Props> = ({
     isCurrent,
     isSelected,
     state,
+    order,
+    showLabel,
+    wideLabel,
     showMedia,
-    compactMedia,
     imageSizes,
     onSelect,
 }) => {
@@ -94,7 +103,9 @@ const GraphNode: FC<Props> = ({
                         aria-current={isSelected || undefined}
                         onClick={handleClick}
                         className={cn(
-                            'absolute z-1 -mt-[calc(var(--gp)/1.4)] -ml-[calc(var(--gp)/2)] block w-(--gp) cursor-pointer rounded-(--base-radius) transition-[filter,scale] duration-150 motion-reduce:transition-none',
+                            'group/node absolute z-1 -mt-[calc(var(--gp)/1.4)] -ml-[calc(var(--gp)/2)] block w-(--gp) cursor-pointer rounded-(--base-radius) outline-none transition-[filter,scale] duration-150 [--node-ring:var(--foreground)] motion-reduce:transition-none',
+                            isCurrent &&
+                                'z-2 [--node-ring:var(--primary-foreground)]',
                             isSelected && 'z-5 scale-125 max-md:scale-120',
                             state !== 'default' && FADED_CLASS[state],
                         )}
@@ -113,17 +124,41 @@ const GraphNode: FC<Props> = ({
                     status={statusOf(node)}
                     statusSize="sm"
                     containerClassName={cn(
-                        'rounded-(--base-radius) shadow-[0_0_0_3px_var(--card)]',
-                        isCurrent &&
-                            'shadow-[0_0_0_2px_var(--primary-foreground),0_0_0_5px_var(--card)]',
-                        isSelected &&
-                            'shadow-[0_0_0_2px_var(--foreground),0_0_0_5px_var(--card)]',
+                        'rounded-(--base-radius)',
+                        RING_CLASS[
+                            isCurrent || isSelected ? 'ringed' : 'plain'
+                        ],
                     )}
-                />
-                {showMedia && (
-                    <span className="absolute top-[calc(100%+6px)] left-1/2 inline-flex -translate-x-1/2 items-center gap-1 whitespace-nowrap rounded-md bg-card px-1.5 py-0.5 font-medium text-muted-foreground text-xs leading-4">
-                        <MediaIcon className="size-3 shrink-0" />
-                        {!compactMedia && media}
+                >
+                    {order !== null && (
+                        <span
+                            className={cn(
+                                'absolute bottom-1 left-1 z-1 h-4 min-w-4 rounded-sm border px-0.75 text-center font-bold text-[10px] tabular-nums leading-3.5',
+                                isCurrent
+                                    ? 'border-primary-foreground bg-primary-foreground text-primary'
+                                    : 'border-primary-border bg-primary text-primary-foreground',
+                            )}
+                        >
+                            {order}
+                        </span>
+                    )}
+                </PosterCard>
+                {showLabel && (
+                    <span
+                        className={cn(
+                            'absolute top-[calc(100%+6px)] left-1/2 flex -translate-x-1/2 items-center gap-1 rounded-md bg-card px-1.5 text-xs leading-5',
+                            wideLabel
+                                ? 'max-w-[calc(var(--cw)*1.8)]'
+                                : 'max-w-[min(calc(var(--cw)-1rem),12rem)]',
+                            isCurrent
+                                ? 'font-semibold text-primary-foreground'
+                                : isSelected
+                                  ? 'font-semibold text-foreground'
+                                  : 'font-medium text-muted-foreground',
+                        )}
+                    >
+                        {showMedia && <MediaIcon className="size-3 shrink-0" />}
+                        <span className="truncate">{title}</span>
                     </span>
                 )}
             </TooltipTrigger>

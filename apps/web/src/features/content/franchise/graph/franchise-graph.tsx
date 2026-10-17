@@ -99,25 +99,28 @@ const ROOM_CLOSING =
 const CONTAINER_CLASS = '@container [scrollbar-gutter:stable]';
 
 const AXIS = 48;
+
+type GraphLabels = 'all' | 'focus' | 'none';
 const GRAPH_WIDTH = 'calc(var(--cols) * var(--cw))';
 
 const ZoneLabel: FC<{
     types: FranchiseModel['current']['contentType'][];
-    label: string;
+    label?: string;
     count: number;
-    compact?: boolean;
-}> = ({ types, label, count, compact }) => (
+    vertical?: boolean;
+}> = ({ types, label, count, vertical }) => (
     <span
         className={cn(
             'inline-flex min-w-0 items-center',
-            compact ? 'gap-1' : 'gap-1.5',
+            label ? 'gap-1.5' : 'gap-1',
+            vertical && 'flex-col',
         )}
     >
         {types.map((type) => {
             const Icon = CONTENT_TYPE_ICONS[type];
             return <Icon key={type} className="size-3.5 shrink-0" />;
         })}
-        {!compact && <span className="truncate">{label}</span>}
+        {label && <span className="truncate">{label}</span>}
         <span className="tabular-nums opacity-60">{count}</span>
     </span>
 );
@@ -169,9 +172,8 @@ const ZoneLabels: FC<{
             >
                 <ZoneLabel
                     types={zones.types}
-                    label={mediaListLabel(zones.types)}
+                    label={isDesktop ? mediaListLabel(zones.types) : undefined}
                     count={zones.left}
-                    compact={!isDesktop}
                 />
             </span>
             <span className="flex min-w-0 flex-1 items-center justify-center overflow-hidden">
@@ -191,14 +193,10 @@ const RailZone: FC<{
     style: CSSProperties;
 }> = ({ types, count, style }) => (
     <div
-        className="absolute inset-x-0 flex flex-col items-center justify-center gap-1 font-medium text-muted-foreground text-xs leading-4"
+        className="absolute inset-x-0 flex items-center justify-center font-medium text-muted-foreground text-xs leading-4"
         style={style}
     >
-        {types.map((type) => {
-            const Icon = CONTENT_TYPE_ICONS[type];
-            return <Icon key={type} className="size-3.5 shrink-0" />;
-        })}
-        <span className="tabular-nums opacity-60">{count}</span>
+        <ZoneLabel types={types} count={count} vertical />
     </div>
 );
 
@@ -369,6 +367,7 @@ const FranchiseGraph: FC<Props> = ({
         isDesktop ? 'desktop' : 'phone'
     ];
     const hasZone = layout.sourceColumns > 0;
+    const labels: GraphLabels = isDesktop ? 'all' : 'focus';
     const compactDetails = !isDesktop;
 
     const filters: EdgeFilter[] = EDGE_TYPES.map((edgeType) => ({
@@ -459,6 +458,11 @@ const FranchiseGraph: FC<Props> = ({
             setFocus(null);
         }
     };
+
+    const orderOf = (node: FranchiseNode) =>
+        model.chain.length > 1 && node.chainIndex !== null
+            ? node.chainIndex + 1
+            : null;
 
     const nodeState = (node: FranchiseNode): NodeState => {
         if (node.id === focus) return 'default';
@@ -717,22 +721,33 @@ const FranchiseGraph: FC<Props> = ({
                                             node.id,
                                         );
                                         if (!position) return null;
+                                        const isCurrent =
+                                            node === model.current;
+                                        const isSelected = node.id === focus;
 
                                         return (
                                             <GraphNode
                                                 key={node.id}
                                                 node={node}
                                                 position={position}
-                                                isCurrent={
-                                                    node === model.current
-                                                }
-                                                isSelected={node.id === focus}
+                                                isCurrent={isCurrent}
+                                                isSelected={isSelected}
                                                 state={nodeState(node)}
+                                                order={orderOf(node)}
+                                                showLabel={
+                                                    labels === 'all' ||
+                                                    (labels === 'focus' &&
+                                                        (isCurrent ||
+                                                            isSelected))
+                                                }
+                                                wideLabel={
+                                                    !isDesktop &&
+                                                    (isCurrent || isSelected)
+                                                }
                                                 showMedia={
                                                     node.contentType !==
                                                     model.current.contentType
                                                 }
-                                                compactMedia={!isDesktop}
                                                 imageSizes={`${Math.round(sizes.image * zoom)}px`}
                                                 onSelect={select}
                                             />
