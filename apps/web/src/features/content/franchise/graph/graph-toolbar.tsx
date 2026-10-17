@@ -436,7 +436,7 @@ const GraphToolbar: FC<Props> = ({
                 <FiltersPopover changed={changed} onReset={onReset} {...body} />
                 <Separator orientation="vertical" className="h-5" />
                 <GraphIconButton
-                    label="Клавіші й позначки"
+                    label="Клавіші"
                     size="icon-sm"
                     onClick={onHelp}
                 >
