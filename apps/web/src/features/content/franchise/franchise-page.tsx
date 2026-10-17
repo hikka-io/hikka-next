@@ -89,7 +89,7 @@ const FranchisePage: FC<Props> = ({
                         disabled={!model}
                         onClick={() => setGraphOpen(true)}
                     >
-                        <Share2 />
+                        <Share2 className="rotate-90" />
                         Граф
                     </Button>
                 </HeaderActions>

@@ -123,7 +123,7 @@ const FranchiseCard: FC<Props> = ({ content_type, slug, className }) => {
                         aria-label="Граф франшизи"
                         onClick={() => setGraphOpen(true)}
                     >
-                        <Share2 />
+                        <Share2 className="rotate-90" />
                     </Button>
                 </HeaderContainer>
                 <HeaderNavButton />
