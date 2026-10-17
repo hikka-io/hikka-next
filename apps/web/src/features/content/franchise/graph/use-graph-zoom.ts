@@ -10,8 +10,8 @@ import {
 import { flushSync } from 'react-dom';
 
 const ZOOM_LEVELS = [0.5, 0.67, 0.8, 1, 1.25, 1.5, 2];
-const MIN_ZOOM = ZOOM_LEVELS[0];
 const MAX_ZOOM = ZOOM_LEVELS[ZOOM_LEVELS.length - 1];
+const FRAME_MARGIN = 24;
 const DRAG_THRESHOLD = 4;
 const WHEEL_SPEED = 0.01;
 const MAX_WHEEL_DELTA = 23;
@@ -20,8 +20,12 @@ const DELTA_UNITS = [1, 33, 800];
 
 type Point = { x: number; y: number };
 
-const clampZoom = (value: number) =>
-    Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, value));
+export type VisibleBox = {
+    left: number;
+    top: number;
+    right: number;
+    bottom: number;
+};
 
 const touchDistance = (touches: TouchList) =>
     Math.hypot(
@@ -37,11 +41,25 @@ const touchCentre = (touches: TouchList): Point => ({
 export function useGraphZoom(
     scrollRef: RefObject<HTMLDivElement | null>,
     graphRef: RefObject<HTMLDivElement | null>,
+    visibleBox: (container: HTMLElement) => VisibleBox,
 ) {
     const [zoom, setZoom] = useState(1);
+    const [minZoom, setMinZoom] = useState(ZOOM_LEVELS[0]);
     const [dragging, setDragging] = useState(false);
     const zoomRef = useRef(1);
+    const minZoomRef = useRef(ZOOM_LEVELS[0]);
     const draggedRef = useRef(false);
+
+    const clampZoom = (value: number) =>
+        Math.min(MAX_ZOOM, Math.max(minZoomRef.current, value));
+
+    /** The zoom at which `target`, measured at the current zoom, fills the visible box. */
+    const fitScale = (target: DOMRect, box: VisibleBox) =>
+        zoomRef.current *
+        Math.min(
+            (box.right - box.left - 2 * FRAME_MARGIN) / target.width,
+            (box.bottom - box.top - 2 * FRAME_MARGIN) / target.height,
+        );
 
     const zoomTo = (value: number, point?: Point) => {
         const container = scrollRef.current;
@@ -50,10 +68,10 @@ export function useGraphZoom(
         const next = clampZoom(value);
         if (!container || !graph || next === previous) return;
 
-        const box = container.getBoundingClientRect();
+        const box = visibleBox(container);
         const anchor = point ?? {
-            x: box.left + container.clientWidth / 2,
-            y: box.top + container.clientHeight / 2,
+            x: (box.left + box.right) / 2,
+            y: (box.top + box.bottom) / 2,
         };
         const before = graph.getBoundingClientRect();
         const ratio = next / previous;
@@ -70,14 +88,75 @@ export function useGraphZoom(
 
     const step = (direction: 1 | -1) => {
         const current = zoomRef.current;
+        const levels = [minZoomRef.current, ...ZOOM_LEVELS];
         const level =
             direction > 0
-                ? ZOOM_LEVELS.find((value) => value > current + 0.01)
-                : [...ZOOM_LEVELS]
-                      .reverse()
-                      .find((value) => value < current - 0.01);
+                ? levels.find((value) => value > current + 0.01)
+                : levels.reverse().find((value) => value < current - 0.01);
         if (level) zoomTo(level);
     };
+
+    /**
+     * Zooms so `target` fits the visible box, never past `cap`, and scrolls its centre to the box's
+     * centre. Without a cap the zoom stays as it is.
+     */
+    const frame = (
+        target: DOMRect,
+        cap: number | null,
+        behavior: ScrollBehavior = 'smooth',
+    ) => {
+        const container = scrollRef.current;
+        const graph = graphRef.current;
+        if (!container || !graph) return;
+
+        const box = visibleBox(container);
+        const before = graph.getBoundingClientRect();
+        const previous = zoomRef.current;
+        const centre = {
+            x: (target.left + target.width / 2 - before.left) / previous,
+            y: (target.top + target.height / 2 - before.top) / previous,
+        };
+        const next =
+            cap === null
+                ? previous
+                : clampZoom(Math.min(cap, fitScale(target, box)));
+        if (next !== previous) {
+            zoomRef.current = next;
+            flushSync(() => setZoom(next));
+        }
+
+        const after = graph.getBoundingClientRect();
+        container.scrollBy({
+            left: after.left + centre.x * next - (box.left + box.right) / 2,
+            top: after.top + centre.y * next - (box.top + box.bottom) / 2,
+            behavior: next === previous ? behavior : 'instant',
+        });
+    };
+
+    const updateMinZoom = useEffectEvent(() => {
+        const container = scrollRef.current;
+        const graph = graphRef.current;
+        if (!container || !graph) return;
+
+        const fit = Math.min(
+            ZOOM_LEVELS[0],
+            fitScale(graph.getBoundingClientRect(), visibleBox(container)),
+        );
+        minZoomRef.current = fit;
+        setMinZoom(fit);
+    });
+
+    useEffect(() => {
+        const container = scrollRef.current;
+        const graph = graphRef.current;
+        if (!container || !graph) return;
+
+        const observer = new ResizeObserver(() => updateMinZoom());
+        observer.observe(container);
+        observer.observe(graph);
+
+        return () => observer.disconnect();
+    }, [scrollRef, graphRef]);
 
     const onWheel = useEffectEvent((event: WheelEvent) => {
         if (!event.ctrlKey && !event.metaKey) return;
@@ -203,10 +282,11 @@ export function useGraphZoom(
         zoom,
         dragging,
         canZoomIn: zoom < MAX_ZOOM,
-        canZoomOut: zoom > MIN_ZOOM,
+        canZoomOut: zoom > minZoom + 0.001,
         zoomIn: () => step(1),
         zoomOut: () => step(-1),
         resetZoom: () => zoomTo(1),
+        frame,
         panHandlers: {
             onPointerDown,
             onClickCapture,

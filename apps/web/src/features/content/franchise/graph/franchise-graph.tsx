@@ -52,7 +52,8 @@ import {
     withoutUnlinked,
 } from './graph-view';
 import GraphZoomControls from './graph-zoom-controls';
-import { useGraphZoom } from './use-graph-zoom';
+import { useGraphKeys } from './use-graph-keys';
+import { useGraphZoom, type VisibleBox } from './use-graph-zoom';
 
 type Props = {
     model: FranchiseModel;
@@ -101,6 +102,8 @@ const CONTAINER_CLASS = '@container [scrollbar-gutter:stable]';
 const AXIS = 48;
 
 type GraphLabels = 'all' | 'focus' | 'none';
+// Below this a label has room for a letter or two.
+const LABELS_MIN_ZOOM = 0.5;
 const GRAPH_WIDTH = 'calc(var(--cols) * var(--cw))';
 
 const ZoneLabel: FC<{
@@ -282,6 +285,18 @@ const YearAxis: FC<{ layout: GraphLayout; horizontal: boolean }> = ({
 const findNode = (container: HTMLElement, id: string) =>
     container.querySelector(`[data-node="${CSS.escape(id)}"]`);
 
+function boundingRect(elements: Element[]): DOMRect | null {
+    const rects = elements.map((element) => element.getBoundingClientRect());
+    if (!rects.length) return null;
+
+    const left = Math.min(...rects.map((rect) => rect.left));
+    const top = Math.min(...rects.map((rect) => rect.top));
+    const right = Math.max(...rects.map((rect) => rect.right));
+    const bottom = Math.max(...rects.map((rect) => rect.bottom));
+
+    return new DOMRect(left, top, right - left, bottom - top);
+}
+
 function scrollToNode(
     container: HTMLElement | null,
     id: string,
@@ -336,6 +351,20 @@ const FranchiseGraph: FC<Props> = ({
     );
     const mine = Boolean(user) && saved.mine;
     const { hideUnlinked, horizontal } = saved;
+    const visibleBox = (container: HTMLElement): VisibleBox => {
+        const box = container.getBoundingClientRect();
+
+        return {
+            left: box.left,
+            top: box.top,
+            right:
+                panelRef.current?.getBoundingClientRect().left ??
+                box.left + container.clientWidth,
+            bottom:
+                barRef.current?.getBoundingClientRect().top ??
+                box.top + container.clientHeight,
+        };
+    };
     const {
         zoom,
         dragging,
@@ -344,8 +373,9 @@ const FranchiseGraph: FC<Props> = ({
         zoomIn,
         zoomOut,
         resetZoom,
+        frame,
         panHandlers,
-    } = useGraphZoom(scrollRef, graphRef);
+    } = useGraphZoom(scrollRef, graphRef, visibleBox);
 
     const shown = withoutMedia(franchise, hiddenMedia);
     const model = hideUnlinked ? withoutUnlinked(shown, hidden) : shown;
@@ -367,7 +397,8 @@ const FranchiseGraph: FC<Props> = ({
         isDesktop ? 'desktop' : 'phone'
     ];
     const hasZone = layout.sourceColumns > 0;
-    const labels: GraphLabels = isDesktop ? 'all' : 'focus';
+    const labels: GraphLabels =
+        zoom < LABELS_MIN_ZOOM ? 'none' : isDesktop ? 'all' : 'focus';
     const compactDetails = !isDesktop;
 
     const filters: EdgeFilter[] = EDGE_TYPES.map((edgeType) => ({
@@ -411,18 +442,10 @@ const FranchiseGraph: FC<Props> = ({
         const node = focus && container ? findNode(container, focus) : null;
         if (!container || !node) return;
 
-        const bar = barRef.current;
-
         const rect = node.getBoundingClientRect();
-        const visibleBottom = (bar ?? container).getBoundingClientRect()[
-            bar ? 'top' : 'bottom'
-        ];
-        const box = container.getBoundingClientRect();
-        const visibleRight = panelRef.current
-            ? panelRef.current.getBoundingClientRect().left
-            : box.right;
-        const hiddenBelow = rect.bottom - visibleBottom;
-        const hiddenRight = rect.right - visibleRight;
+        const box = visibleBox(container);
+        const hiddenBelow = rect.bottom - box.bottom;
+        const hiddenRight = rect.right - box.right;
         const hiddenLeft = box.left - rect.left;
         const left =
             hiddenRight > 0
@@ -447,6 +470,36 @@ const FranchiseGraph: FC<Props> = ({
         setFocus(id);
         scrollToNode(scrollRef.current, id, 'smooth', horizontal);
     };
+
+    const frameNodes = (ids: Iterable<string>, cap: number | null) => {
+        const container = scrollRef.current;
+        const rect =
+            container &&
+            boundingRect(
+                [...ids].flatMap((id) => findNode(container, id) ?? []),
+            );
+        if (rect) frame(rect, cap);
+    };
+
+    const fitAll = () => {
+        const graph = graphRef.current;
+        if (graph) frame(graph.getBoundingClientRect(), 1);
+    };
+
+    const locate = () => frameNodes([model.current.id], null);
+
+    useGraphKeys({
+        Equal: zoomIn,
+        'Shift+Equal': zoomIn,
+        NumpadAdd: zoomIn,
+        Minus: zoomOut,
+        NumpadSubtract: zoomOut,
+        Digit0: resetZoom,
+        Numpad0: resetZoom,
+        'Shift+Digit1': fitAll,
+        'Shift+Digit2': () => focus && frameNodes(view.near, 1),
+        KeyC: locate,
+    });
 
     // Clicks in portalled popups bubble here through React but sit outside the scroller in the DOM.
     const deselect = (event: MouseEvent) => {
@@ -764,7 +817,9 @@ const FranchiseGraph: FC<Props> = ({
                             canZoomOut={canZoomOut}
                             onZoomIn={zoomIn}
                             onZoomOut={zoomOut}
-                            onReset={resetZoom}
+                            onFit={fitAll}
+                            onLocate={locate}
+                            size={isDesktop ? 'sm' : 'md'}
                             className="bottom-3 left-[calc(var(--axis)+--spacing(3))] max-md:bottom-[calc(--spacing(3)+var(--safe-area-bottom))]"
                         />
                     )}
