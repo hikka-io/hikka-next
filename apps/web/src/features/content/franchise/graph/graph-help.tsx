@@ -15,8 +15,6 @@ import GraphOrderTile from './graph-order-tile';
 import { NODE_RING_CLASS, NODE_RING_COLOR } from './node-rings';
 
 const KEYS: { label: string; keys: string[] }[] = [
-    { label: 'Попередній / наступний', keys: ['←', '→'] },
-    { label: 'Зв’язки обраного', keys: ['↑', '↓'] },
     { label: 'Вибрати', keys: ['Enter'] },
     { label: 'Відкрити сторінку', keys: ['O'] },
     { label: 'Масштаб', keys: ['+', '−'] },

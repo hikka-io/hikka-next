@@ -1,6 +1,6 @@
 import { type FC, useState } from 'react';
 
-import { ArrowUpRight, X } from 'lucide-react';
+import { ArrowUpRight, Crosshair, X } from 'lucide-react';
 
 import { HistoryFacts, historyRowsVariants } from '@/components/list-items';
 import { Collapsible } from '@/components/ui/collapsible';
@@ -34,12 +34,13 @@ type Props = {
     node: FranchiseNode;
     variant: 'panel' | 'peek';
     onSelect: (id: string) => void;
+    onShow: (id: string) => void;
     onClose?: () => void;
 };
 
 type NodeProps = Pick<Props, 'model' | 'node' | 'onSelect'>;
 
-export const OpenPageButton: FC<{ node: FranchiseNode }> = ({ node }) => (
+const OpenPageButton: FC<{ node: FranchiseNode }> = ({ node }) => (
     <GraphIconButton
         label="До сторінки"
         render={<Link to={contentPath(node.contentType, node.content.slug)} />}
@@ -48,7 +49,7 @@ export const OpenPageButton: FC<{ node: FranchiseNode }> = ({ node }) => (
     </GraphIconButton>
 );
 
-export const CloseSelectionButton: FC<{
+const CloseSelectionButton: FC<{
     onClose: () => void;
     className?: string;
 }> = ({ onClose, className }) => (
@@ -72,10 +73,15 @@ const GraphRelation: FC<NodeProps> = ({ model, node, onSelect }) =>
         <RelationLine model={model} node={node} onSelect={onSelect} />
     );
 
-const GraphRelations: FC<{
+type RelationsProps = {
     model: FranchiseModel;
-    relations: DirectRelation[];
-}> = ({ model, relations }) => {
+    node: FranchiseNode;
+    onShow: (id: string) => void;
+};
+
+const GraphRelations: FC<
+    Omit<RelationsProps, 'node'> & { relations: DirectRelation[] }
+> = ({ model, relations, onShow }) => {
     const [open, setOpen] = useState(false);
     const rows = open ? relations : relations.slice(0, PREVIEW_ROWS);
 
@@ -99,6 +105,17 @@ const GraphRelations: FC<{
                             </RelationLabel>
                         }
                         facts={basicMeta(relation.node.content)}
+                        action={
+                            <GraphIconButton
+                                label="Показати на графі"
+                                variant="ghost"
+                                size="icon-sm"
+                                onClick={() => onShow(relation.node.id)}
+                                className="text-muted-foreground"
+                            >
+                                <Crosshair />
+                            </GraphIconButton>
+                        }
                     />
                 ))}
             </div>
@@ -109,11 +126,32 @@ const GraphRelations: FC<{
     );
 };
 
+export const GraphRelationsSection: FC<RelationsProps> = ({
+    model,
+    node,
+    onShow,
+}) => {
+    const relations = model.relations.get(node.id) ?? [];
+    if (!relations.length) return null;
+
+    return (
+        <>
+            <Separator className="-mx-4 w-auto" />
+            <GraphRelations
+                model={model}
+                relations={relations}
+                onShow={onShow}
+            />
+        </>
+    );
+};
+
 const GraphDetails: FC<Props> = ({
     model,
     node,
     variant,
     onSelect,
+    onShow,
     onClose,
 }) => {
     const title = useTitle(node.content);
@@ -131,8 +169,6 @@ const GraphDetails: FC<Props> = ({
             />
         );
     }
-
-    const relations = model.relations.get(node.id) ?? [];
 
     return (
         <>
@@ -164,12 +200,7 @@ const GraphDetails: FC<Props> = ({
                 </div>
                 <OpenPageButton node={node} />
             </div>
-            {relations.length > 0 && (
-                <>
-                    <Separator className="-mx-4 w-auto" />
-                    <GraphRelations model={model} relations={relations} />
-                </>
-            )}
+            <GraphRelationsSection model={model} node={node} onShow={onShow} />
         </>
     );
 };

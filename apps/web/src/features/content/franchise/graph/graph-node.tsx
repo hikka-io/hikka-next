@@ -30,7 +30,9 @@ type Props = {
     showLabel: boolean;
     wideLabel: boolean;
     highlight: boolean;
+    labelLines: 1 | 2;
     showMedia: boolean;
+    showStatus: boolean;
     tabbable: boolean;
     imageSizes: string;
     onSelect: (id: string) => void;
@@ -46,7 +48,9 @@ const GraphNode: FC<Props> = ({
     showLabel,
     wideLabel,
     highlight,
+    labelLines,
     showMedia,
+    showStatus,
     tabbable,
     imageSizes,
     onSelect,
@@ -72,7 +76,7 @@ const GraphNode: FC<Props> = ({
             aria-current={isSelected || undefined}
             onClick={handleClick}
             className={cn(
-                'group/node absolute z-1 -mt-[calc(var(--gp)/1.4)] -ml-[calc(var(--gp)/2)] block w-(--gp) cursor-pointer rounded-(--base-radius) outline-none transition-[filter,scale] duration-150 motion-reduce:transition-none',
+                'group/node absolute z-1 -mt-[calc(var(--gp)/1.4)] -ml-[calc(var(--gp)/2)] block w-(--gp) cursor-pointer rounded-(--node-radius) outline-none transition-[filter,scale] duration-150 motion-reduce:transition-none',
                 NODE_RING_COLOR[isCurrent ? 'current' : 'selected'],
                 isCurrent && 'z-2',
                 isSelected && 'z-5 scale-125 max-md:scale-120',
@@ -88,10 +92,10 @@ const GraphNode: FC<Props> = ({
                 imagePreset="cardSm"
                 imageProps={{ sizes: imageSizes, resize: 'fill' }}
                 imageClassName="size-full! object-cover"
-                status={listStatus(node.content)}
+                status={showStatus ? listStatus(node.content) : undefined}
                 statusSize="sm"
                 containerClassName={cn(
-                    'rounded-(--base-radius)',
+                    'rounded-(--node-radius)',
                     NODE_RING_CLASS[
                         isCurrent || isSelected ? 'ringed' : 'plain'
                     ],
@@ -108,7 +112,7 @@ const GraphNode: FC<Props> = ({
             {showLabel && (
                 <span
                     className={cn(
-                        'absolute top-[calc(100%+6px)] left-1/2 flex -translate-x-1/2 items-center gap-1 rounded-md bg-card px-1.5 text-xs leading-5',
+                        'absolute top-[calc(100%+6px)] left-1/2 flex w-max -translate-x-1/2 items-start gap-1 rounded-md bg-card px-1.5 text-xs leading-5',
                         wideLabel
                             ? 'max-w-[calc(var(--cw)*1.8)]'
                             : 'max-w-[min(calc(var(--cw)-1rem),12rem)]',
@@ -124,8 +128,18 @@ const GraphNode: FC<Props> = ({
                                 ),
                     )}
                 >
-                    {showMedia && <MediaIcon className="size-3 shrink-0" />}
-                    <span className="truncate">{title}</span>
+                    {showMedia && (
+                        <MediaIcon className="mt-1 size-3 shrink-0" />
+                    )}
+                    <span
+                        className={
+                            labelLines === 2
+                                ? 'line-clamp-2 text-center'
+                                : 'truncate'
+                        }
+                    >
+                        {title}
+                    </span>
                 </span>
             )}
         </a>

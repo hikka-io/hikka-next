@@ -11,9 +11,9 @@ import {
     useState,
 } from 'react';
 
+import { DEFAULT_CONTAINER_RATIO } from '@/components/content-card/image-presets';
 import { CONTENT_TYPE_ICONS } from '@/components/icons/content-type-icons';
 import { SearchModal } from '@/features/search';
-import { useBackClose } from '@/services/hooks/use-back-close';
 import { useIsDesktop } from '@/services/hooks/use-media-query';
 import { useSession, useTitle } from '@/services/session';
 import { cn } from '@/utils/cn';
@@ -37,6 +37,7 @@ import {
     RELATION_GROUP_STYLES,
 } from '../relation-groups';
 import GraphDetails from './graph-details';
+import GraphDrawer from './graph-drawer';
 import { type GraphLabels, useGraphFiltersStore } from './graph-filters-store';
 import GraphHelp from './graph-help';
 import GraphHint from './graph-hint';
@@ -49,7 +50,6 @@ import {
 } from './graph-layout';
 import GraphNode, { type NodeState } from './graph-node';
 import GraphSearch from './graph-search';
-import GraphSheet from './graph-sheet';
 import GraphToolbar, {
     type EdgeFilter,
     type MediaFilter,
@@ -117,8 +117,12 @@ const CONTAINER_CLASS = '@container [scrollbar-gutter:stable]';
 
 const AXIS = 48;
 
-// Below this a label has room for a letter or two.
-const LABELS_MIN_ZOOM = 0.5;
+// Below this a poster has no room for its label, order tile or list status.
+const DETAIL_MIN_ZOOM = 0.5;
+// The gap under a poster that fits a two-line label and its offset.
+const TWO_LINE_LABEL_ROOM = 52;
+// Year labels closer than this, along the year axis, would overlap.
+const YEAR_GAP = { vertical: 24, horizontal: 44 };
 const GRAPH_WIDTH = 'calc(var(--cols) * var(--cw))';
 
 const ZoneLabel: FC<{
@@ -126,12 +130,14 @@ const ZoneLabel: FC<{
     label?: string;
     count: number;
     vertical?: boolean;
-}> = ({ types, label, count, vertical }) => (
+    className?: string;
+}> = ({ types, label, count, vertical, className }) => (
     <span
         className={cn(
-            'inline-flex min-w-0 items-center',
-            label ? 'gap-1.5' : 'gap-1',
+            'inline-flex items-center',
+            label ? 'min-w-0 gap-1.5' : 'shrink-0 gap-1',
             vertical && 'flex-col',
+            className,
         )}
     >
         {types.map((type) => {
@@ -173,48 +179,62 @@ const TopAxis: FC<{
     </div>
 );
 
+// Auto margins centre a label in its zone; when it is wider they drop to zero and the label hangs
+// off the border between the zones outwards, so the two never overlap.
 const ZoneLabels: FC<{
     model: FranchiseModel;
     layout: GraphLayout;
-    isDesktop: boolean;
-}> = ({ model, layout, isDesktop }) => {
+    withText: boolean;
+}> = ({ model, layout, withText }) => {
     const zones = zoneCounts(model);
 
     return (
         <>
             <span
-                className="flex min-w-0 shrink-0 items-center justify-center overflow-hidden"
+                className="flex shrink-0 items-center justify-end pr-1.5"
                 style={{
                     width: `calc(var(--cw) * ${layout.sourceColumns})`,
                 }}
             >
                 <ZoneLabel
                     types={zones.types}
-                    label={isDesktop ? mediaListLabel(zones.types) : undefined}
+                    label={withText ? mediaListLabel(zones.types) : undefined}
                     count={zones.left}
+                    className="mx-auto"
                 />
             </span>
-            <span className="flex min-w-0 flex-1 items-center justify-center overflow-hidden">
+            <span className="flex min-w-0 flex-1 items-center pl-1.5">
                 <ZoneLabel
                     types={[model.current.contentType]}
-                    label={CONTENT_TYPES[model.current.contentType].title_ua}
+                    label={
+                        withText
+                            ? CONTENT_TYPES[model.current.contentType].title_ua
+                            : undefined
+                    }
                     count={zones.right}
+                    className="mx-auto"
                 />
             </span>
         </>
     );
 };
 
+// A label taller than its zone sits against the graph's outer edge, so the two only meet when the
+// whole graph is shorter than both.
 const RailZone: FC<{
     types: FranchiseModel['current']['contentType'][];
     count: number;
+    edge: 'top' | 'bottom';
     style: CSSProperties;
-}> = ({ types, count, style }) => (
+}> = ({ types, count, edge, style }) => (
     <div
-        className="absolute inset-x-0 flex items-center justify-center font-medium text-muted-foreground text-xs leading-4"
+        className={cn(
+            'absolute inset-x-0 flex flex-col items-center font-medium text-muted-foreground text-xs leading-4',
+            edge === 'top' ? 'justify-start' : 'justify-end',
+        )}
         style={style}
     >
-        <ZoneLabel types={types} count={count} vertical />
+        <ZoneLabel types={types} count={count} vertical className="my-auto" />
     </div>
 );
 
@@ -229,6 +249,7 @@ const RailZones: FC<{ model: FranchiseModel; layout: GraphLayout }> = ({
             <RailZone
                 types={zones.types}
                 count={zones.left}
+                edge="top"
                 style={{
                     top: 0,
                     height: `calc(var(--rh) * ${layout.sourceColumns})`,
@@ -237,6 +258,7 @@ const RailZones: FC<{ model: FranchiseModel; layout: GraphLayout }> = ({
             <RailZone
                 types={[model.current.contentType]}
                 count={zones.right}
+                edge="bottom"
                 style={{
                     top: `calc(var(--rh) * ${layout.sourceColumns})`,
                     bottom: 0,
@@ -246,11 +268,28 @@ const RailZones: FC<{ model: FranchiseModel; layout: GraphLayout }> = ({
     );
 };
 
-const YearAxis: FC<{ layout: GraphLayout; horizontal: boolean }> = ({
-    layout,
-    horizontal,
-}) =>
-    layout.bands.map((band) =>
+/** The bands whose year labels keep their distance, `step` pixels apart per row or column. */
+function spacedBands(layout: GraphLayout, step: number, gap: number) {
+    let last = Number.NEGATIVE_INFINITY;
+
+    return layout.bands.filter((band) => {
+        const at = (band.top + 0.5) * step;
+        if (at - last < gap) return false;
+        last = at;
+        return true;
+    });
+}
+
+const YearAxis: FC<{
+    layout: GraphLayout;
+    horizontal: boolean;
+    step: number;
+}> = ({ layout, horizontal, step }) =>
+    spacedBands(
+        layout,
+        step,
+        YEAR_GAP[horizontal ? 'horizontal' : 'vertical'],
+    ).map((band) =>
         horizontal ? (
             <div
                 key={band.label}
@@ -276,14 +315,15 @@ const YearAxis: FC<{ layout: GraphLayout; horizontal: boolean }> = ({
         ) : (
             <div
                 key={band.label}
-                className="pointer-events-none absolute inset-x-0 flex flex-col items-center font-semibold text-muted-foreground text-xs tabular-nums leading-[18px]"
+                className="pointer-events-none absolute inset-x-0 font-semibold text-muted-foreground text-xs tabular-nums leading-[18px]"
                 style={{
                     top: `calc(var(--rh) * ${band.top})`,
                     height: `calc(var(--rh) * ${band.height})`,
-                    paddingTop: 'calc(var(--rh) / 2 - 9px)',
                 }}
             >
-                <span>{band.label}</span>
+                <span className="absolute top-[calc(var(--rh)/2)] left-1/2 -translate-x-1/2 -translate-y-1/2">
+                    {band.label}
+                </span>
                 {band.height > 1 && (
                     <span
                         className="absolute left-1/2 w-px bg-border dark:bg-border/50"
@@ -385,15 +425,11 @@ const FranchiseGraph: FC<Props> = ({
     const graphRef = useRef<HTMLDivElement>(null);
     const rootRef = useRef<HTMLDivElement>(null);
     const pendingRef = useRef<{ id: string; zoom: boolean } | null>(null);
-    const stepRef = useRef<{
-        anchor: string;
-        index: number;
-        target: string;
-    } | null>(null);
 
     const saved = useGraphFiltersStore();
     const [restored, setRestored] = useState(false);
     const [helpOpen, setHelpOpen] = useState(false);
+    const [peek, setPeek] = useState(0);
     const [searchOpen, setSearchOpen] = useState(false);
     const [query, setQuery] = useState('');
     const [siteQuery, setSiteQuery] = useState<string | null>(null);
@@ -461,7 +497,15 @@ const FranchiseGraph: FC<Props> = ({
     const hasZone = layout.sourceColumns > 0;
     const defaultLabels: GraphLabels = isDesktop ? 'all' : 'focus';
     const chosenLabels = saved.labels ?? defaultLabels;
-    const labels = zoom < LABELS_MIN_ZOOM ? 'none' : chosenLabels;
+    const detailed = zoom >= DETAIL_MIN_ZOOM;
+    const labels = detailed ? chosenLabels : 'none';
+    const labelLines =
+        (Number.parseFloat(sizes.rh) - sizes.image / DEFAULT_CONTAINER_RATIO) *
+            zoom >=
+        TWO_LINE_LABEL_ROOM
+            ? 2
+            : 1;
+    const yearStep = Number.parseFloat(horizontal ? sizes.cw : sizes.rh) * zoom;
     const hasOrder = model.chain.length > 1;
     // Stepped, so zooming does not hand every poster a new `sizes`.
     const imageSizes = `${sizes.image * Math.max(1, Math.ceil(zoom))}px`;
@@ -519,10 +563,6 @@ const FranchiseGraph: FC<Props> = ({
         setExpanded(false);
     };
 
-    useBackClose(focusNode !== undefined, (open) => {
-        if (!open) deselectAll();
-    });
-
     const select = (id: string) =>
         focus === id ? deselectAll() : setFocus(id);
 
@@ -541,6 +581,11 @@ const FranchiseGraph: FC<Props> = ({
             container &&
             boundingRect([...ids].flatMap((id) => nodeParts(container, id)));
         if (rect) frame(rect, cap);
+    };
+
+    const showOnGraph = (id: string) => {
+        setExpanded(false);
+        jumpTo(id);
     };
 
     const frameTitle = (id: string, zoom: boolean) =>
@@ -591,7 +636,6 @@ const FranchiseGraph: FC<Props> = ({
     });
 
     useEffect(() => {
-        if (stepRef.current?.target !== focus) stepRef.current = null;
         if (focus) reveal(focus);
     }, [focus]);
 
@@ -603,34 +647,6 @@ const FranchiseGraph: FC<Props> = ({
     const locate = () => jumpTo(model.current.id, true);
 
     const cursor = focus ?? model.current.id;
-
-    const stepTo = (id: string) => {
-        setFocus(id);
-        const container = scrollRef.current;
-        const node = container && findNode(container, id);
-        if (node instanceof HTMLElement) node.focus({ preventScroll: true });
-    };
-
-    const stepYear = (direction: 1 | -1) => {
-        const index = model.nodes.findIndex((node) => node.id === cursor);
-        const next = model.nodes[index + direction];
-        if (next) stepTo(next.id);
-    };
-
-    const stepRelation = (direction: 1 | -1) => {
-        const anchor = stepRef.current?.anchor ?? focus;
-        const related = anchor ? relatedNodes(model, anchor) : [];
-        if (!anchor || !related.length) return false;
-
-        const index = stepRef.current
-            ? (stepRef.current.index + direction + related.length) %
-              related.length
-            : direction > 0
-              ? 0
-              : related.length - 1;
-        stepRef.current = { anchor, index, target: related[index].id };
-        stepTo(related[index].id);
-    };
 
     useGraphKeys(rootRef, {
         Equal: zoomIn,
@@ -645,10 +661,6 @@ const FranchiseGraph: FC<Props> = ({
         KeyC: locate,
         'Mod+KeyF': () => toggleSearch(true),
         'Shift+Slash': () => setHelpOpen(true),
-        ArrowLeft: () => stepYear(-1),
-        ArrowRight: () => stepYear(1),
-        ArrowUp: () => stepRelation(-1),
-        ArrowDown: () => stepRelation(1),
         KeyO: () =>
             focusNode
                 ? router.push(
@@ -789,18 +801,24 @@ const FranchiseGraph: FC<Props> = ({
                         '--rh': `calc(${sizes.rh} * var(--zoom))`,
                         '--gp': `calc(${sizes.gp} * var(--zoom))`,
                         '--gx': sizes.gx,
+                        '--node-radius':
+                            'calc(var(--base-radius) * min(1, var(--zoom)))',
                     } as CSSProperties
                 }
             >
                 {(hasZone || horizontal) && (
                     <TopAxis ref={headerRef} className={panelRoom}>
                         {horizontal ? (
-                            <YearAxis layout={layout} horizontal />
+                            <YearAxis
+                                layout={layout}
+                                horizontal
+                                step={yearStep}
+                            />
                         ) : (
                             <ZoneLabels
                                 model={model}
                                 layout={layout}
-                                isDesktop={isDesktop}
+                                withText={isDesktop && detailed}
                             />
                         )}
                     </TopAxis>
@@ -828,6 +846,7 @@ const FranchiseGraph: FC<Props> = ({
                                     <YearAxis
                                         layout={layout}
                                         horizontal={false}
+                                        step={yearStep}
                                     />
                                 ) : (
                                     hasZone && (
@@ -990,7 +1009,13 @@ const FranchiseGraph: FC<Props> = ({
                                                 isCurrent={isCurrent}
                                                 isSelected={isSelected}
                                                 state={nodeState(node)}
-                                                order={orderOf(node)}
+                                                order={
+                                                    detailed
+                                                        ? orderOf(node)
+                                                        : null
+                                                }
+                                                showStatus={detailed}
+                                                labelLines={labelLines}
                                                 showLabel={
                                                     labels === 'all' ||
                                                     (labels === 'focus' &&
@@ -1033,6 +1058,7 @@ const FranchiseGraph: FC<Props> = ({
                                 node={focusNode}
                                 variant="panel"
                                 onSelect={jumpTo}
+                                onShow={showOnGraph}
                                 onClose={deselectAll}
                             />
                         </section>
@@ -1041,7 +1067,10 @@ const FranchiseGraph: FC<Props> = ({
                 {!isDesktop && (
                     <div
                         ref={barRef}
-                        className="pointer-events-none absolute inset-x-0 bottom-0 z-8 flex flex-col items-center gap-3"
+                        className="pointer-events-none absolute inset-x-0 bottom-0 z-8 flex flex-col items-center transition-[padding] duration-450 ease-[cubic-bezier(0.22,1,0.36,1)]"
+                        style={
+                            focusNode ? { paddingBottom: peek + 12 } : undefined
+                        }
                     >
                         {restored && !saved.hintSeen && !focusNode ? (
                             <GraphHint onDismiss={saved.dismissHint} />
@@ -1055,24 +1084,21 @@ const FranchiseGraph: FC<Props> = ({
                                 ),
                             )
                         )}
-                        {focusNode && (
-                            <GraphSheet
-                                expanded={sheetExpanded}
-                                onExpandedChange={setExpanded}
-                                onClose={deselectAll}
-                            >
-                                <GraphDetails
-                                    key={focusNode.id}
-                                    model={model}
-                                    node={focusNode}
-                                    variant={sheetExpanded ? 'panel' : 'peek'}
-                                    onSelect={jumpTo}
-                                />
-                            </GraphSheet>
-                        )}
                     </div>
                 )}
             </div>
+            {!isDesktop && (
+                <GraphDrawer
+                    model={model}
+                    node={focusNode}
+                    expanded={sheetExpanded}
+                    onExpandedChange={setExpanded}
+                    onClose={deselectAll}
+                    onPeekChange={setPeek}
+                    onSelect={jumpTo}
+                    onShow={showOnGraph}
+                />
+            )}
             <GraphHelp open={helpOpen} onOpenChange={setHelpOpen} />
             {siteQuery !== null && (
                 <SearchModal
