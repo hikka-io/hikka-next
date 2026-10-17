@@ -18,6 +18,7 @@ export type GraphFiltersState = {
     order: boolean;
     /** A view mode rather than a filter: it is not counted and survives a reset. */
     horizontal: boolean;
+    hintSeen: boolean;
 };
 
 export type GraphFiltersActions = {
@@ -32,6 +33,7 @@ export type GraphFiltersActions = {
     setLabels: (labels: GraphLabels, byDefault: GraphLabels) => void;
     toggleOrder: () => void;
     toggleHorizontal: () => void;
+    dismissHint: () => void;
     reset: () => void;
 };
 
@@ -43,6 +45,7 @@ const DEFAULTS: GraphFiltersState = {
     labels: null,
     order: true,
     horizontal: false,
+    hintSeen: false,
 };
 
 // Rehydrated after mount (see FranchiseGraph), so the first client render matches the server's.
@@ -76,11 +79,13 @@ export const useGraphFiltersStore = create<
             toggleOrder: () => set((state) => ({ order: !state.order })),
             toggleHorizontal: () =>
                 set((state) => ({ horizontal: !state.horizontal })),
+            dismissHint: () => set({ hintSeen: true }),
             reset: () =>
                 set((state) => ({
                     ...DEFAULTS,
                     relations: state.relations,
                     horizontal: state.horizontal,
+                    hintSeen: state.hintSeen,
                 })),
         }),
         {
@@ -94,6 +99,7 @@ export const useGraphFiltersStore = create<
                 labels,
                 order,
                 horizontal,
+                hintSeen,
             }) => ({
                 relations,
                 hiddenMedia,
@@ -102,6 +108,7 @@ export const useGraphFiltersStore = create<
                 labels,
                 order,
                 horizontal,
+                hintSeen,
             }),
         },
     ),

@@ -13,6 +13,8 @@ import { contentPath } from '@/utils/content-paths';
 import { CONTENT_TYPES, getMediaTypeLabel } from '@/utils/labels';
 
 import { type FranchiseNode, listStatus } from '../franchise-model';
+import GraphOrderTile from './graph-order-tile';
+import { NODE_RING_CLASS, NODE_RING_COLOR } from './node-rings';
 
 export type NodeState = 'default' | 'isolated' | 'far';
 
@@ -22,11 +24,6 @@ const FADED_CLASS: Record<Exclude<NodeState, 'default'>, string> = {
     far: '[filter:contrast(0.18)_brightness(1.7)] dark:[filter:brightness(0.3)]',
     isolated:
         '[filter:grayscale(1)_contrast(0.18)_brightness(1.7)] dark:[filter:grayscale(1)_brightness(0.3)]',
-};
-
-const RING_CLASS = {
-    plain: 'shadow-[0_0_0_3px_var(--card)] group-focus-visible/node:shadow-[0_0_0_3px_var(--card),0_0_0_5px_var(--foreground)]',
-    ringed: 'shadow-[0_0_0_2px_var(--node-ring),0_0_0_5px_var(--card)] group-focus-visible/node:shadow-[0_0_0_2px_var(--node-ring),0_0_0_4px_var(--card),0_0_0_6px_var(--foreground)]',
 };
 
 type Props = {
@@ -40,6 +37,7 @@ type Props = {
     wideLabel: boolean;
     highlight: boolean;
     showMedia: boolean;
+    tabbable: boolean;
     imageSizes: string;
     onSelect: (id: string) => void;
 };
@@ -55,6 +53,7 @@ const GraphNode: FC<Props> = ({
     wideLabel,
     highlight,
     showMedia,
+    tabbable,
     imageSizes,
     onSelect,
 }) => {
@@ -87,13 +86,14 @@ const GraphNode: FC<Props> = ({
                     <a
                         href={contentPath(node.contentType, node.content.slug)}
                         data-node={node.id}
+                        tabIndex={tabbable ? 0 : -1}
                         aria-label={title}
                         aria-current={isSelected || undefined}
                         onClick={handleClick}
                         className={cn(
-                            'group/node absolute z-1 -mt-[calc(var(--gp)/1.4)] -ml-[calc(var(--gp)/2)] block w-(--gp) cursor-pointer rounded-(--base-radius) outline-none transition-[filter,scale] duration-150 [--node-ring:var(--foreground)] motion-reduce:transition-none',
-                            isCurrent &&
-                                'z-2 [--node-ring:var(--primary-foreground)]',
+                            'group/node absolute z-1 -mt-[calc(var(--gp)/1.4)] -ml-[calc(var(--gp)/2)] block w-(--gp) cursor-pointer rounded-(--base-radius) outline-none transition-[filter,scale] duration-150 motion-reduce:transition-none',
+                            NODE_RING_COLOR[isCurrent ? 'current' : 'selected'],
+                            isCurrent && 'z-2',
                             isSelected && 'z-5 scale-125 max-md:scale-120',
                             state !== 'default' && FADED_CLASS[state],
                         )}
@@ -113,22 +113,17 @@ const GraphNode: FC<Props> = ({
                     statusSize="sm"
                     containerClassName={cn(
                         'rounded-(--base-radius)',
-                        RING_CLASS[
+                        NODE_RING_CLASS[
                             isCurrent || isSelected ? 'ringed' : 'plain'
                         ],
                     )}
                 >
                     {order !== null && (
-                        <span
-                            className={cn(
-                                'absolute bottom-1 left-1 z-1 h-4 min-w-4 rounded-sm border px-0.75 text-center font-bold text-[10px] tabular-nums leading-3.5',
-                                isCurrent
-                                    ? 'border-primary-foreground bg-primary-foreground text-primary'
-                                    : 'border-primary-border bg-primary text-primary-foreground',
-                            )}
-                        >
-                            {order}
-                        </span>
+                        <GraphOrderTile
+                            order={order}
+                            isCurrent={isCurrent}
+                            className="absolute bottom-1 left-1 z-1"
+                        />
                     )}
                 </PosterCard>
                 {showLabel && (

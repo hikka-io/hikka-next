@@ -3,6 +3,7 @@ import { type FC, type ReactNode, useId, useState } from 'react';
 import {
     ArrowRightLeft,
     Bookmark,
+    CircleHelp,
     EyeOff,
     Filter,
     Layers,
@@ -81,6 +82,7 @@ type Props = {
     title?: string;
     isDesktop: boolean;
     search: (headerButtonClassName?: string) => ReactNode;
+    onHelp: () => void;
 };
 
 type BodyProps = Pick<
@@ -403,6 +405,7 @@ const GraphToolbar: FC<Props> = ({
     title,
     isDesktop,
     search,
+    onHelp,
     ...body
 }) => {
     const chips = <RelationChips filters={filters} onToggle={onToggle} />;
@@ -444,6 +447,13 @@ const GraphToolbar: FC<Props> = ({
                 <div className="flex-1" />
                 <FiltersPopover changed={changed} onReset={onReset} {...body} />
                 <Separator orientation="vertical" className="h-5" />
+                <GraphIconButton
+                    label="Клавіші й позначки"
+                    size="icon-sm"
+                    onClick={onHelp}
+                >
+                    <CircleHelp />
+                </GraphIconButton>
                 <GraphIconButton
                     label={fullscreenLabel}
                     size="icon-sm"

@@ -430,6 +430,20 @@ export function buildFranchiseModel(
     return { current, nodes, byId, chain, direct, edges };
 }
 
+/** The titles one relation away, in year order. */
+export function relatedNodes(
+    model: FranchiseModel,
+    id: string,
+): FranchiseNode[] {
+    const related = new Set(
+        model.edges.flatMap((edge) =>
+            edge.a === id ? [edge.b] : edge.b === id ? [edge.a] : [],
+        ),
+    );
+
+    return model.nodes.filter((node) => related.has(node.id));
+}
+
 /** The shortest chain of relations from one title to another, both ends included; empty when none links them. */
 export function relationPath(
     model: FranchiseModel,

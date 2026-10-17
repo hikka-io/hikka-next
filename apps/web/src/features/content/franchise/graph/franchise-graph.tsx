@@ -16,7 +16,9 @@ import { useBackClose } from '@/services/hooks/use-back-close';
 import { useIsDesktop } from '@/services/hooks/use-media-query';
 import { useSession, useTitle } from '@/services/session';
 import { cn } from '@/utils/cn';
+import { contentPath } from '@/utils/content-paths';
 import { CONTENT_TYPES } from '@/utils/labels';
+import { useRouter } from '@/utils/navigation';
 
 import {
     type FranchiseModel,
@@ -24,6 +26,7 @@ import {
     type GraphEdgeType,
     isTracked,
     RELATION_TYPE_GROUPS,
+    relatedNodes,
     sourceTypes,
 } from '../franchise-model';
 import {
@@ -33,6 +36,8 @@ import {
 } from '../relation-groups';
 import GraphDetails from './graph-details';
 import { type GraphLabels, useGraphFiltersStore } from './graph-filters-store';
+import GraphHelp from './graph-help';
+import GraphHint from './graph-hint';
 import {
     DESKTOP_BUDGET,
     type GraphLayout,
@@ -66,6 +71,8 @@ type Props = {
     model: FranchiseModel;
     selected: string | null;
     onSelectedChange: (id: string | null) => void;
+    expanded: boolean;
+    onExpandedChange: (expanded: boolean) => void;
     fullscreen: boolean;
     onToggleFullscreen: () => void;
 };
@@ -360,22 +367,31 @@ const FranchiseGraph: FC<Props> = ({
     model: franchise,
     selected,
     onSelectedChange: setFocus,
+    expanded,
+    onExpandedChange: setExpanded,
     fullscreen,
     onToggleFullscreen,
 }) => {
     const { user } = useSession();
     const isDesktop = useIsDesktop();
+    const router = useRouter();
     const scrollRef = useRef<HTMLDivElement>(null);
     const barRef = useRef<HTMLDivElement>(null);
     const panelRef = useRef<HTMLElement>(null);
     const headerRef = useRef<HTMLDivElement>(null);
     const railRef = useRef<HTMLDivElement>(null);
     const graphRef = useRef<HTMLDivElement>(null);
+    const rootRef = useRef<HTMLDivElement>(null);
     const centreRef = useRef<string | null>(null);
+    const stepRef = useRef<{
+        anchor: string;
+        index: number;
+        target: string;
+    } | null>(null);
 
     const saved = useGraphFiltersStore();
     const [restored, setRestored] = useState(false);
-    const [expanded, setExpanded] = useState(false);
+    const [helpOpen, setHelpOpen] = useState(false);
     const [searchOpen, setSearchOpen] = useState(false);
     const [query, setQuery] = useState('');
     const [siteQuery, setSiteQuery] = useState<string | null>(null);
@@ -529,6 +545,7 @@ const FranchiseGraph: FC<Props> = ({
     });
 
     useEffect(() => {
+        if (stepRef.current?.target !== focus) stepRef.current = null;
         if (focus) reveal(focus);
     }, [focus]);
 
@@ -539,7 +556,37 @@ const FranchiseGraph: FC<Props> = ({
 
     const locate = () => frameNodes([model.current.id], null);
 
-    useGraphKeys({
+    const cursor = focus ?? model.current.id;
+
+    const stepTo = (id: string) => {
+        setFocus(id);
+        const container = scrollRef.current;
+        const node = container && findNode(container, id);
+        if (node instanceof HTMLElement) node.focus({ preventScroll: true });
+    };
+
+    const stepYear = (direction: 1 | -1) => {
+        const index = model.nodes.findIndex((node) => node.id === cursor);
+        const next = model.nodes[index + direction];
+        if (next) stepTo(next.id);
+    };
+
+    const stepRelation = (direction: 1 | -1) => {
+        const anchor = stepRef.current?.anchor ?? focus;
+        const related = anchor ? relatedNodes(model, anchor) : [];
+        if (!anchor || !related.length) return false;
+
+        const index = stepRef.current
+            ? (stepRef.current.index + direction + related.length) %
+              related.length
+            : direction > 0
+              ? 0
+              : related.length - 1;
+        stepRef.current = { anchor, index, target: related[index].id };
+        stepTo(related[index].id);
+    };
+
+    useGraphKeys(rootRef, {
         Equal: zoomIn,
         'Shift+Equal': zoomIn,
         NumpadAdd: zoomIn,
@@ -548,9 +595,23 @@ const FranchiseGraph: FC<Props> = ({
         Digit0: resetZoom,
         Numpad0: resetZoom,
         'Shift+Digit1': fitAll,
-        'Shift+Digit2': () => focus && frameNodes(view.near, 1),
+        'Shift+Digit2': () => (focus ? frameNodes(view.near, 1) : false),
         KeyC: locate,
         'Mod+KeyF': () => toggleSearch(true),
+        'Shift+Slash': () => setHelpOpen(true),
+        ArrowLeft: () => stepYear(-1),
+        ArrowRight: () => stepYear(1),
+        ArrowUp: () => stepRelation(-1),
+        ArrowDown: () => stepRelation(1),
+        KeyO: () =>
+            focusNode
+                ? router.push(
+                      contentPath(
+                          focusNode.contentType,
+                          focusNode.content.slug,
+                      ),
+                  )
+                : false,
     });
 
     // Clicks in portalled popups bubble here through React but sit outside the scroller in the DOM.
@@ -625,7 +686,7 @@ const FranchiseGraph: FC<Props> = ({
     );
 
     return (
-        <>
+        <div ref={rootRef} className="contents">
             <GraphToolbar
                 filters={filters}
                 changed={
@@ -653,6 +714,7 @@ const FranchiseGraph: FC<Props> = ({
                 onToggleFullscreen={onToggleFullscreen}
                 title={name}
                 isDesktop={isDesktop}
+                onHelp={() => setHelpOpen(true)}
                 search={(headerButtonClassName) => (
                     <GraphSearch
                         model={model}
@@ -906,6 +968,7 @@ const FranchiseGraph: FC<Props> = ({
                                                     node.contentType !==
                                                     model.current.contentType
                                                 }
+                                                tabbable={node.id === cursor}
                                                 imageSizes={`${Math.round(sizes.image * zoom)}px`}
                                                 onSelect={select}
                                             />
@@ -941,14 +1004,18 @@ const FranchiseGraph: FC<Props> = ({
                         ref={barRef}
                         className="pointer-events-none absolute inset-x-0 bottom-0 z-8 flex flex-col items-center gap-3"
                     >
-                        {!sheetExpanded &&
+                        {restored && !saved.hintSeen && !focusNode ? (
+                            <GraphHint onDismiss={saved.dismissHint} />
+                        ) : (
+                            !sheetExpanded &&
                             zoomControls(
                                 cn(
                                     'pointer-events-auto',
                                     !focusNode &&
                                         'mb-[calc(--spacing(3)+var(--safe-area-bottom))]',
                                 ),
-                            )}
+                            )
+                        )}
                         {focusNode && (
                             <GraphSheet
                                 expanded={sheetExpanded}
@@ -967,6 +1034,7 @@ const FranchiseGraph: FC<Props> = ({
                     </div>
                 )}
             </div>
+            <GraphHelp open={helpOpen} onOpenChange={setHelpOpen} />
             {siteQuery !== null && (
                 <SearchModal
                     open
@@ -975,7 +1043,7 @@ const FranchiseGraph: FC<Props> = ({
                     disableHotkey
                 />
             )}
-        </>
+        </div>
     );
 };
 

@@ -33,6 +33,7 @@ const FranchiseGraphDialog: FC<Props> = ({ content_type, slug }) => {
     const [open, setOpen] = useGraphOverlay();
     const { data: model, isPending } = useFranchise(content_type, slug, open);
     const [selected, setSelected] = useState<string | null>(null);
+    const [expanded, setExpanded] = useState(false);
     const [fullscreen, setFullscreen] = useState(false);
 
     return (
@@ -40,11 +41,20 @@ const FranchiseGraphDialog: FC<Props> = ({ content_type, slug }) => {
             backClose={false}
             open={open && (isPending || Boolean(model))}
             onOpenChange={(next, details) => {
-                if (!next && details?.reason === 'escape-key' && selected) {
-                    setSelected(null);
-                    return;
+                if (!next && details?.reason === 'escape-key') {
+                    if (expanded) {
+                        setExpanded(false);
+                        return;
+                    }
+                    if (selected) {
+                        setSelected(null);
+                        return;
+                    }
                 }
-                if (!next) setSelected(null);
+                if (!next) {
+                    setSelected(null);
+                    setExpanded(false);
+                }
                 setOpen(next);
             }}
         >
@@ -58,6 +68,8 @@ const FranchiseGraphDialog: FC<Props> = ({ content_type, slug }) => {
                             model={model}
                             selected={selected}
                             onSelectedChange={setSelected}
+                            expanded={expanded}
+                            onExpandedChange={setExpanded}
                             fullscreen={fullscreen}
                             onToggleFullscreen={() =>
                                 setFullscreen(!fullscreen)

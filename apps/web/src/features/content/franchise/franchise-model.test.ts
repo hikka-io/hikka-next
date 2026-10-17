@@ -8,6 +8,7 @@ import {
     type FranchiseModel,
     type GraphEdgeType,
     nodeId,
+    relatedNodes,
     relationPath,
     relationText,
 } from './franchise-model';
@@ -155,6 +156,18 @@ describe('buildFranchiseModel', () => {
             { group: 'source', contentType: 'manga', count: 2 },
             { group: 'source', contentType: 'novel', count: 1 },
         ]);
+    });
+});
+
+describe('relatedNodes', () => {
+    it('lists the titles one relation away in year order', () => {
+        const model = build('a3');
+
+        expect(
+            relatedNodes(model, nodeId('anime', 'a2')).map(
+                (entry) => entry.content.slug,
+            ),
+        ).toEqual(['a1', 'm2', 'a3', 'r1']);
     });
 });
 
