@@ -35,11 +35,6 @@ import {
 } from '@/components/ui/responsive-modal';
 import { Separator } from '@/components/ui/separator';
 import { Switch } from '@/components/ui/switch';
-import {
-    Tooltip,
-    TooltipContent,
-    TooltipTrigger,
-} from '@/components/ui/tooltip';
 import { cn } from '@/utils/cn';
 import { CONTENT_TYPES } from '@/utils/labels';
 
@@ -374,25 +369,18 @@ const RelationChips: FC<Pick<Props, 'filters' | 'onToggle'>> = ({
 };
 
 const CloseButton: FC<{ inHeader: boolean }> = ({ inHeader }) => (
-    <Tooltip>
-        <TooltipTrigger
-            render={
-                <DialogClose
-                    render={
-                        <Button
-                            variant={inHeader ? 'ghost' : 'outline'}
-                            size={inHeader ? 'icon-md' : 'icon-sm'}
-                            aria-label="Закрити"
-                            className={cn(inHeader && HEADER_BUTTON_CLASS)}
-                        />
-                    }
-                />
-            }
-        >
-            <X />
-        </TooltipTrigger>
-        <TooltipContent>Закрити</TooltipContent>
-    </Tooltip>
+    <DialogClose
+        render={
+            <GraphIconButton
+                label="Закрити"
+                variant={inHeader ? 'ghost' : 'outline'}
+                size={inHeader ? 'icon-md' : 'icon-sm'}
+                className={cn(inHeader && HEADER_BUTTON_CLASS)}
+            />
+        }
+    >
+        <X />
+    </DialogClose>
 );
 
 const GraphToolbar: FC<Props> = ({

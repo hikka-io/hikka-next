@@ -7,6 +7,7 @@ import GraphDetails, { GraphRelationsSection } from './graph-details';
 
 // Snap points above 1 are pixels and 1 is the full height, so the measured peek is never 1.
 const EXPANDED = 1;
+// Until the title row is measured.
 const PEEK_ESTIMATE = 120;
 
 type Props = {
@@ -15,6 +16,8 @@ type Props = {
     expanded: boolean;
     onExpandedChange: (expanded: boolean) => void;
     onClose: () => void;
+    /** The visible height at the peek snap point, 0 until measured. */
+    peek: number;
     onPeekChange: (height: number) => void;
     onSelect: (id: string) => void;
     onShow: (id: string) => void;
@@ -26,11 +29,12 @@ const GraphDrawer: FC<Props> = ({
     expanded,
     onExpandedChange,
     onClose,
+    peek,
     onPeekChange,
     onSelect,
     onShow,
 }) => {
-    const [peek, setPeek] = useState(PEEK_ESTIMATE);
+    const peekPoint = peek || PEEK_ESTIMATE;
     // The last title stays in the drawer while it slides out.
     const [shown, setShown] = useState(node);
     if (node && node !== shown) setShown(node);
@@ -40,14 +44,12 @@ const GraphDrawer: FC<Props> = ({
         const popup = row?.offsetParent;
         if (!row || !(popup instanceof HTMLElement)) return;
 
-        const measure = () => {
-            const height =
+        const measure = () =>
+            onPeekChange(
                 row.offsetTop +
-                row.offsetHeight +
-                Number.parseFloat(getComputedStyle(popup).paddingBottom);
-            setPeek(height);
-            onPeekChange(height);
-        };
+                    row.offsetHeight +
+                    Number.parseFloat(getComputedStyle(popup).paddingBottom),
+            );
         measure();
         const observer = new ResizeObserver(measure);
         observer.observe(row);
@@ -69,8 +71,8 @@ const GraphDrawer: FC<Props> = ({
             modal={false}
             disablePointerDismissal
             showSwipeHandle={false}
-            snapPoints={[peek, EXPANDED]}
-            snapPoint={expanded ? EXPANDED : peek}
+            snapPoints={[peekPoint, EXPANDED]}
+            snapPoint={expanded ? EXPANDED : peekPoint}
             onSnapPointChange={(point) => onExpandedChange(point === EXPANDED)}
         >
             <DrawerContent>

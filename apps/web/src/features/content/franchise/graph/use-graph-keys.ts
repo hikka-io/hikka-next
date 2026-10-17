@@ -1,8 +1,9 @@
 import { type RefObject, useEffect, useEffectEvent } from 'react';
 
 /**
- * Handlers keyed by `KeyboardEvent.code` with `Mod+` and `Shift+` prefixes, so any layout works.
- * A handler returns `false` to leave the key to the browser.
+ * Handlers keyed by `KeyboardEvent.code` with `Mod+` and `Shift+` prefixes, so letters and digits
+ * work on any layout, or by the printed character for a symbol such as `?`, whose key moves between
+ * layouts. A handler returns `false` to leave the key to the browser.
  */
 export type GraphKeys = Partial<Record<string, () => unknown>>;
 
@@ -27,7 +28,9 @@ export function useGraphKeys(
 
         const mod = event.ctrlKey || event.metaKey ? 'Mod+' : '';
         const shift = event.shiftKey ? 'Shift+' : '';
-        const handler = keys[`${mod}${shift}${event.code}`];
+        const handler =
+            keys[`${mod}${shift}${event.code}`] ??
+            (mod ? undefined : keys[event.key]);
         if (handler && handler() !== false) event.preventDefault();
     });
 

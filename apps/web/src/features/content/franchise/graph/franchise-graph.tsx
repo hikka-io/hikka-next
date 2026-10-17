@@ -65,7 +65,6 @@ import {
 import GraphZoomControls from './graph-zoom-controls';
 import { useGraphKeys } from './use-graph-keys';
 import { useGraphZoom, type VisibleBox } from './use-graph-zoom';
-import { useSharedFocus } from './use-shared-focus';
 
 type Props = {
     model: FranchiseModel;
@@ -77,20 +76,23 @@ type Props = {
     onToggleFullscreen: () => void;
 };
 
-// `image` is the poster's width in px at 100%, for the `sizes` attribute, which cannot read CSS variables.
-type Sizes = { cw: string; rh: string; gp: string; gx: string; image: number };
+type Device = 'desktop' | 'phone';
 
-const SIZES: Record<'desktop' | 'phone', Sizes> = {
+// `rh` is the row height in px at 100%; `image` is the poster's width in px at 100%, for the
+// `sizes` attribute, which cannot read CSS variables.
+type Sizes = { cw: string; rh: number; gp: string; gx: string; image: number };
+
+const SIZES: Record<Device, Sizes> = {
     desktop: {
         cw: 'clamp(76px, calc((100cqw - 72px) / var(--cols)), 320px)',
-        rh: '164px',
+        rh: 164,
         gp: 'min(76px, calc(var(--cw0) * 0.78))',
         gx: '16px',
         image: 76,
     },
     phone: {
         cw: 'max(72px, calc((100cqw - 24px) / var(--cols)))',
-        rh: '128px',
+        rh: 128,
         gp: '56px',
         gx: '12px',
         image: 56,
@@ -100,14 +102,28 @@ const SIZES: Record<'desktop' | 'phone', Sizes> = {
 // Horizontal steps are fixed: years run off to the right instead of filling the card's width.
 // A year step leaves about a poster's width of air; a lane fits a poster, its media label and room
 // for the lines that run between lanes.
+const YEAR_WIDTH: Record<Device, number> = { desktop: 168, phone: 108 };
 const SIZES_HORIZONTAL: typeof SIZES = {
-    desktop: { cw: '168px', rh: '204px', gp: '76px', gx: '16px', image: 76 },
-    phone: { cw: '108px', rh: '160px', gp: '56px', gx: '12px', image: 56 },
+    desktop: {
+        cw: `${YEAR_WIDTH.desktop}px`,
+        rh: 204,
+        gp: '76px',
+        gx: '16px',
+        image: 76,
+    },
+    phone: {
+        cw: `${YEAR_WIDTH.phone}px`,
+        rh: 160,
+        gp: '56px',
+        gx: '12px',
+        image: 56,
+    },
 };
 
 const GUTTER_CLASS = 'flex w-max min-w-full pr-8 pl-(--gx) max-md:pr-5';
 // Room for the details card, so whatever it covers can be scrolled out from under it.
-const PANEL_ROOM = 'pr-[calc(21.5rem+1.5rem)]';
+const PANEL_ROOM = 'pr-[calc(var(--panel-w)+1.5rem)]';
+const PANEL_WIDTH = '21.5rem';
 // Only the room closing animates, so the scroll clamps smoothly; opening stays instant for the scroll into view.
 const ROOM_CLOSING =
     'transition-[padding] duration-300 ease-out motion-reduce:transition-none';
@@ -488,21 +504,19 @@ const FranchiseGraph: FC<Props> = ({
         () => computeGraphView(model, screen, hidden, focus, horizontal),
         [model, screen, hidden, focus, horizontal],
     );
-    const sizes = (horizontal ? SIZES_HORIZONTAL : SIZES)[
-        isDesktop ? 'desktop' : 'phone'
-    ];
+    const device: Device = isDesktop ? 'desktop' : 'phone';
+    const sizes = (horizontal ? SIZES_HORIZONTAL : SIZES)[device];
     const hasZone = layout.sourceColumns > 0;
     const defaultLabels: GraphLabels = isDesktop ? 'all' : 'focus';
     const chosenLabels = saved.labels ?? defaultLabels;
     const detailed = zoom >= DETAIL_MIN_ZOOM;
     const labels = detailed ? chosenLabels : 'none';
     const labelLines =
-        (Number.parseFloat(sizes.rh) - sizes.image / DEFAULT_CONTAINER_RATIO) *
-            zoom >=
+        (sizes.rh - sizes.image / DEFAULT_CONTAINER_RATIO) * zoom >=
         TWO_LINE_LABEL_ROOM
             ? 2
             : 1;
-    const yearStep = Number.parseFloat(horizontal ? sizes.cw : sizes.rh) * zoom;
+    const yearStep = (horizontal ? YEAR_WIDTH[device] : sizes.rh) * zoom;
     const hasOrder = model.chain.length > 1;
     // Stepped, so zooming does not hand every poster a new `sizes`.
     const imageSizes = `${sizes.image * Math.max(1, Math.ceil(zoom))}px`;
@@ -526,12 +540,16 @@ const FranchiseGraph: FC<Props> = ({
             ? new Set(results.map((node) => node.id))
             : null;
     const focusNode = focus ? model.byId.get(focus) : undefined;
-    const path = new Set(
-        focus
-            ? relationPath(model, focus, model.current.id).map(
-                  (node) => node.id,
-              )
-            : [],
+    const path = useMemo(
+        () =>
+            new Set(
+                focus
+                    ? relationPath(model, focus, model.current.id).map(
+                          (node) => node.id,
+                      )
+                    : [],
+            ),
+        [model, focus],
     );
     const sheetExpanded = expanded && focusNode !== undefined;
     const panelRoom = isDesktop && focusNode ? PANEL_ROOM : ROOM_CLOSING;
@@ -598,7 +616,7 @@ const FranchiseGraph: FC<Props> = ({
         if (graph) frame(graph.getBoundingClientRect(), 1);
     };
 
-    // A jump frames the title after its panel or sheet renders; clicks and arrows only reveal it.
+    // A jump frames the title after its panel or sheet renders; a click only reveals it.
     const reveal = useEffectEvent((id: string) => {
         const container = scrollRef.current;
         const pending = pendingRef.current;
@@ -636,11 +654,6 @@ const FranchiseGraph: FC<Props> = ({
         if (focus) reveal(focus);
     }, [focus]);
 
-    useSharedFocus((slug) => {
-        const node = franchise.nodes.find((item) => item.content.slug === slug);
-        if (node) jumpTo(node.id);
-    });
-
     const locate = () => jumpTo(model.current.id, true);
 
     const cursor = focus ?? model.current.id;
@@ -657,7 +670,7 @@ const FranchiseGraph: FC<Props> = ({
         'Shift+Digit2': () => (focus ? frameTitle(focus, true) : false),
         KeyC: locate,
         'Mod+KeyF': () => toggleSearch(true),
-        'Shift+Slash': () => setHelpOpen(true),
+        '?': () => setHelpOpen(true),
         KeyF: () => (isDesktop ? onToggleFullscreen() : false),
     });
 
@@ -696,11 +709,7 @@ const FranchiseGraph: FC<Props> = ({
         if (node === model.current) return 'default';
         if (matches) return matches.has(node.id) ? 'default' : 'far';
         if (node.id === focus) return 'default';
-        if (
-            node !== model.current &&
-            model.edges.length > 0 &&
-            !view.linked.has(node.id)
-        ) {
+        if (model.edges.length > 0 && !view.linked.has(node.id)) {
             return 'isolated';
         }
         if (
@@ -783,11 +792,12 @@ const FranchiseGraph: FC<Props> = ({
                 style={
                     {
                         '--axis': `${AXIS}px`,
+                        '--panel-w': PANEL_WIDTH,
                         '--cols': screen.columns,
                         '--zoom': zoom,
                         '--cw0': sizes.cw,
                         '--cw': 'calc(var(--cw0) * var(--zoom))',
-                        '--rh': `calc(${sizes.rh} * var(--zoom))`,
+                        '--rh': `calc(${sizes.rh}px * var(--zoom))`,
                         '--gp': `calc(${sizes.gp} * var(--zoom))`,
                         '--gx': sizes.gx,
                         '--node-radius':
@@ -1039,7 +1049,7 @@ const FranchiseGraph: FC<Props> = ({
                         <section
                             ref={panelRef}
                             aria-label="Обраний тайтл"
-                            className="absolute top-3 right-3 z-8 flex max-h-[calc(100%-1.5rem)] w-86 flex-col gap-4 overflow-y-auto rounded-md border bg-popover p-4 text-popover-foreground shadow-md"
+                            className="absolute top-3 right-3 z-8 flex max-h-[calc(100%-1.5rem)] w-(--panel-w) flex-col gap-4 overflow-y-auto rounded-md border bg-popover p-4 text-popover-foreground shadow-md"
                         >
                             <GraphDetails
                                 key={focusNode.id}
@@ -1083,6 +1093,7 @@ const FranchiseGraph: FC<Props> = ({
                     expanded={sheetExpanded}
                     onExpandedChange={setExpanded}
                     onClose={deselectAll}
+                    peek={peek}
                     onPeekChange={setPeek}
                     onSelect={jumpTo}
                     onShow={showOnGraph}
