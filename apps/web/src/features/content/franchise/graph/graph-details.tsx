@@ -77,6 +77,8 @@ type RelationsProps = {
     model: FranchiseModel;
     node: FranchiseNode;
     onShow: (id: string) => void;
+    /** Scrolls the list under a fixed divider, for a container that does not scroll itself. */
+    scroll?: boolean;
 };
 
 const GraphRelations: FC<
@@ -105,6 +107,7 @@ const GraphRelations: FC<
                             </RelationLabel>
                         }
                         facts={basicMeta(relation.node.content)}
+                        withStatus
                         action={
                             <GraphIconButton
                                 label="Показати на графі"
@@ -130,18 +133,25 @@ export const GraphRelationsSection: FC<RelationsProps> = ({
     model,
     node,
     onShow,
+    scroll,
 }) => {
     const relations = model.relations.get(node.id) ?? [];
     if (!relations.length) return null;
 
+    const list = (
+        <GraphRelations model={model} relations={relations} onShow={onShow} />
+    );
+
     return (
         <>
             <Separator className="-mx-4 w-auto" />
-            <GraphRelations
-                model={model}
-                relations={relations}
-                onShow={onShow}
-            />
+            {scroll ? (
+                <div className="-mx-4 -mt-4 min-h-0 flex-1 overflow-y-auto px-4 pt-4">
+                    {list}
+                </div>
+            ) : (
+                list
+            )}
         </>
     );
 };
@@ -175,6 +185,7 @@ const GraphDetails: FC<Props> = ({
             <div className="flex gap-3">
                 <FranchisePoster
                     content={node.content}
+                    withStatus
                     className="w-14 shrink-0"
                 />
                 <div className="flex min-w-0 flex-1 flex-col justify-center gap-1">

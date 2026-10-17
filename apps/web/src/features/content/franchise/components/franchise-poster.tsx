@@ -9,24 +9,45 @@ import type { FranchiseContent } from '../franchise-model';
 
 type Props = {
     content: FranchiseContent;
+    /** Off where a list button beside the poster already shows the status. */
+    withStatus?: boolean;
     className?: string;
 };
 
-// The row's list button already shows the status, so the poster drops its chip.
-function untrackedEntity(content: FranchiseContent): CardEntity {
+function cardEntity(
+    content: FranchiseContent,
+    withStatus: boolean,
+): CardEntity {
     switch (content.data_type) {
         case ContentTypeEnum.ANIME:
-            return { type: content.data_type, data: content, watch: null };
+            return {
+                type: content.data_type,
+                data: content,
+                watch: withStatus ? (content.watch[0] ?? null) : null,
+            };
         case ContentTypeEnum.MANGA:
-            return { type: content.data_type, data: content, read: null };
+            return {
+                type: content.data_type,
+                data: content,
+                read: withStatus ? (content.read[0] ?? null) : null,
+            };
         default:
-            return { type: content.data_type, data: content, read: null };
+            return {
+                type: content.data_type,
+                data: content,
+                read: withStatus ? (content.read[0] ?? null) : null,
+            };
     }
 }
 
-const FranchisePoster: FC<Props> = ({ content, className }) => (
+const FranchisePoster: FC<Props> = ({
+    content,
+    withStatus = false,
+    className,
+}) => (
     <EntityCard
-        entity={untrackedEntity(content)}
+        entity={cardEntity(content, withStatus)}
+        statusSize="sm"
         title={null}
         imagePreset="cardXs"
         containerClassName="rounded-(--base-radius)"

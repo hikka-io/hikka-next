@@ -17,9 +17,7 @@ import { SearchModal } from '@/features/search';
 import { useIsDesktop } from '@/services/hooks/use-media-query';
 import { useSession, useTitle } from '@/services/session';
 import { cn } from '@/utils/cn';
-import { contentPath } from '@/utils/content-paths';
 import { CONTENT_TYPES } from '@/utils/labels';
-import { useRouter } from '@/utils/navigation';
 
 import {
     type FranchiseModel,
@@ -416,7 +414,6 @@ const FranchiseGraph: FC<Props> = ({
 }) => {
     const { user } = useSession();
     const isDesktop = useIsDesktop();
-    const router = useRouter();
     const scrollRef = useRef<HTMLDivElement>(null);
     const barRef = useRef<HTMLDivElement>(null);
     const panelRef = useRef<HTMLElement>(null);
@@ -661,15 +658,7 @@ const FranchiseGraph: FC<Props> = ({
         KeyC: locate,
         'Mod+KeyF': () => toggleSearch(true),
         'Shift+Slash': () => setHelpOpen(true),
-        KeyO: () =>
-            focusNode
-                ? router.push(
-                      contentPath(
-                          focusNode.contentType,
-                          focusNode.content.slug,
-                      ),
-                  )
-                : false,
+        KeyF: () => (isDesktop ? onToggleFullscreen() : false),
     });
 
     // Clicks in portalled popups bubble here through React but sit outside the scroller in the DOM.

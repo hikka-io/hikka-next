@@ -23,6 +23,7 @@ type Props = {
     label: ReactNode;
     facts: HistoryFact[];
     size?: 'default' | 'lg';
+    withStatus?: boolean;
     action?: ReactNode;
 };
 
@@ -32,6 +33,7 @@ const ChronologyRow: FC<Props> = ({
     label,
     facts,
     size = 'default',
+    withStatus,
     action,
 }) => {
     const title = useTitle(node.content);
@@ -55,7 +57,12 @@ const ChronologyRow: FC<Props> = ({
                     <Icon className="size-4" />
                 </span>
             }
-            poster={<FranchisePoster content={node.content} />}
+            poster={
+                <FranchisePoster
+                    content={node.content}
+                    withStatus={withStatus}
+                />
+            }
         >
             <div className="flex min-w-0 items-center gap-3">
                 <div className="flex min-w-0 flex-1 flex-col gap-1">

@@ -112,7 +112,11 @@ const GraphNode: FC<Props> = ({
             {showLabel && (
                 <span
                     className={cn(
-                        'absolute top-[calc(100%+6px)] left-1/2 flex w-max -translate-x-1/2 items-start gap-1 rounded-md bg-card px-1.5 text-xs leading-5',
+                        'absolute top-[calc(100%+6px)] left-1/2 flex w-max -translate-x-1/2 bg-card text-xs leading-5',
+                        // A two-line pill cannot be fully round without cutting into its text.
+                        labelLines === 2
+                            ? 'rounded-[min(var(--radius-md),0.5rem)] px-2'
+                            : 'rounded-md px-1.5',
                         wideLabel
                             ? 'max-w-[calc(var(--cw)*1.8)]'
                             : 'max-w-[min(calc(var(--cw)-1rem),12rem)]',
@@ -128,9 +132,6 @@ const GraphNode: FC<Props> = ({
                                 ),
                     )}
                 >
-                    {showMedia && (
-                        <MediaIcon className="mt-1 size-3 shrink-0" />
-                    )}
                     <span
                         className={
                             labelLines === 2
@@ -138,6 +139,9 @@ const GraphNode: FC<Props> = ({
                                 : 'truncate'
                         }
                     >
+                        {showMedia && (
+                            <MediaIcon className="mr-1 inline size-3 align-[-2px]" />
+                        )}
                         {title}
                     </span>
                 </span>

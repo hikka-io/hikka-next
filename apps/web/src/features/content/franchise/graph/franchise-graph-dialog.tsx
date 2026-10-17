@@ -12,7 +12,7 @@ import { useGraphOverlay } from '../use-graph-overlay';
 const FranchiseGraph = lazy(() => import('./franchise-graph'));
 
 const POPUP_CLASS =
-    'inset-0 w-auto max-h-none max-w-none translate-x-0 gap-0 p-0 pt-[env(safe-area-inset-top,0px)] ring-0 md:inset-6 md:max-h-none md:max-w-none md:translate-y-0 md:overflow-hidden md:pt-0 md:ring-1';
+    'inset-0 w-auto max-h-none max-w-none translate-x-0 gap-0 p-0 pt-[env(safe-area-inset-top,0px)] ring-0 md:inset-12 md:max-h-none md:max-w-none md:translate-y-0 md:overflow-hidden md:pt-0 md:ring-1';
 const FULLSCREEN_CLASS = 'md:inset-0 md:rounded-none md:ring-0';
 
 type Props = {

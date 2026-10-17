@@ -95,14 +95,13 @@ const GraphDrawer: FC<Props> = ({
                                 onShow={onShow}
                             />
                         </div>
-                        <div className="-mx-4 flex min-h-0 flex-1 flex-col gap-4 overflow-y-auto px-4">
-                            <GraphRelationsSection
-                                key={shown.id}
-                                model={model}
-                                node={shown}
-                                onShow={onShow}
-                            />
-                        </div>
+                        <GraphRelationsSection
+                            key={shown.id}
+                            model={model}
+                            node={shown}
+                            onShow={onShow}
+                            scroll
+                        />
                     </>
                 )}
             </DrawerContent>

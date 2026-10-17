@@ -16,12 +16,12 @@ import { NODE_RING_CLASS, NODE_RING_COLOR } from './node-rings';
 
 const KEYS: { label: string; keys: string[] }[] = [
     { label: 'Вибрати', keys: ['Enter'] },
-    { label: 'Відкрити сторінку', keys: ['O'] },
     { label: 'Масштаб', keys: ['+', '−'] },
     { label: 'Уся франшиза', keys: ['Shift', '1'] },
     { label: 'До обраного', keys: ['Shift', '2'] },
     { label: 'До цього тайтлу', keys: ['C'] },
     { label: 'Пошук', keys: ['Ctrl', 'F'] },
+    { label: 'На весь екран', keys: ['F'] },
     { label: 'Закрити', keys: ['Esc'] },
 ];
 
