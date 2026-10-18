@@ -18,7 +18,6 @@ import ContentDescription from './description';
 import ContentCover from './detail-header/cover';
 import ContentHero from './detail-header/hero';
 import ContentHeroPoster from './detail-header/hero-poster';
-import ContentTitle from './detail-header/title';
 import ContentDetails from './details';
 import Followings from './followings/followings';
 import FranchiseCard from './franchise/franchise-card';
@@ -42,26 +41,35 @@ const ContentDetailPage: FC<Props> = ({
     const { data: content } = useQuery(contentInfoOptions(contentType, slug));
 
     return (
-        <div className="grid grid-cols-1 gap-x-10 gap-y-8 lg:grid-cols-4">
+        <div className="grid grid-cols-1 gap-x-10 gap-y-8 lg:grid-cols-4 lg:grid-rows-[auto_1fr]">
             {content && (
                 <JsonLd data={contentJsonLd({ content, contentType })} />
             )}
             <div
-                className="flex flex-col gap-4 md:flex-row md:items-start md:gap-6 lg:hidden"
+                className="flex flex-col gap-4 md:flex-row md:items-start md:gap-6 lg:contents"
                 id="content-header-mobile"
             >
                 <ContentHeroPoster
                     content_type={contentType}
-                    className="mx-auto md:mx-0 md:w-64"
+                    className="mx-auto md:mx-0 md:w-64 lg:hidden"
                 />
-                <div className="flex min-w-0 flex-col gap-4 md:flex-1">
-                    <ContentHero content_type={contentType} />
-                    <ContentScores content_type={contentType} />
-                    <ContentActions content_type={contentType} />
+                <div className="flex min-w-0 flex-col gap-4 md:flex-1 lg:contents">
+                    <ContentHero
+                        className="lg:col-span-2 lg:col-start-2 lg:row-start-1"
+                        content_type={contentType}
+                    />
+                    <ContentScores
+                        className="lg:hidden"
+                        content_type={contentType}
+                    />
+                    <ContentActions
+                        className="lg:hidden"
+                        content_type={contentType}
+                    />
                 </div>
             </div>
             <div
-                className="hidden flex-col gap-8 lg:col-span-1 lg:flex"
+                className="hidden flex-col gap-8 lg:col-span-1 lg:col-start-1 lg:row-span-2 lg:row-start-1 lg:flex"
                 id="content-left-side"
             >
                 <div className="flex flex-col gap-4">
@@ -73,13 +81,9 @@ const ContentDetailPage: FC<Props> = ({
                 <ContentCollections content_type={contentType} />
             </div>
             <div
-                className="contents lg:col-span-2 lg:flex lg:flex-col lg:gap-8"
+                className="contents lg:col-span-2 lg:col-start-2 lg:row-start-2 lg:flex lg:flex-col lg:gap-8"
                 id="content-center"
             >
-                <ContentTitle
-                    className="max-lg:hidden"
-                    content_type={contentType}
-                />
                 <ContentDescription content_type={contentType} />
                 {afterDescription}
 
@@ -105,7 +109,7 @@ const ContentDetailPage: FC<Props> = ({
             </div>
 
             <div
-                className="flex flex-col gap-8 lg:col-span-1"
+                className="flex flex-col gap-8 lg:col-span-1 lg:col-start-4 lg:row-span-2 lg:row-start-1"
                 id="content-right-side"
             >
                 <ContentScores

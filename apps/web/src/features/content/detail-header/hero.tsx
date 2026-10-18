@@ -6,15 +6,17 @@ import ContentGenres from '@/components/content-genres';
 import { usePageTitleAnchor } from '@/features/app-shell';
 import { useTitle } from '@/services/session';
 import { contentInfoOptions } from '@/utils/api/content-queries';
+import { cn } from '@/utils/cn';
 import { useParams } from '@/utils/navigation';
 
 import { getOriginalTitle } from './get-original-title';
 
 type Props = {
+    className?: string;
     content_type: MainContentTypeEnum;
 };
 
-const ContentHero = ({ content_type }: Props) => {
+const ContentHero = ({ className, content_type }: Props) => {
     const params = useParams();
     const { data } = useQuery(
         contentInfoOptions(content_type, String(params.slug)),
@@ -30,17 +32,23 @@ const ContentHero = ({ content_type }: Props) => {
 
     const titleSizeClass =
         title && title.length > 80
-            ? 'text-lg leading-snug'
+            ? 'text-lg leading-snug lg:text-2xl lg:leading-8'
             : title && title.length > 40
-              ? 'text-xl leading-snug'
-              : 'text-2xl';
+              ? 'text-xl leading-snug lg:text-2xl lg:leading-8'
+              : 'text-2xl leading-8';
 
     return (
-        <div className="flex min-w-0 flex-col gap-4" id="content-hero">
+        <div
+            className={cn('flex min-w-0 flex-col gap-4', className)}
+            id="content-hero"
+        >
             <div className="flex flex-col">
-                <h2 ref={titleAnchor} className={titleSizeClass}>
+                <h1
+                    ref={titleAnchor}
+                    className={cn('font-bold', titleSizeClass)}
+                >
                     {title}
-                </h2>
+                </h1>
                 {originalTitle && (
                     <p className="text-muted-foreground text-sm">
                         {originalTitle}

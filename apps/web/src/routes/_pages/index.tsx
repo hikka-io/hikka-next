@@ -45,6 +45,7 @@ function HomePage() {
     return (
         <>
             <CoverImage cover={loggedUser?.cover} />
+            <h1 className="sr-only">Головна</h1>
             <FeedLayout />
         </>
     );

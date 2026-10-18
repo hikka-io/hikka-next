@@ -26,7 +26,9 @@ const PersonTitle = () => {
             <div className="flex justify-between gap-4" ref={divRef}>
                 <div>
                     <div className="flex gap-4">
-                        <h2 ref={titleAnchor}>{title}</h2>
+                        <h1 ref={titleAnchor} className="font-bold text-2xl">
+                            {title}
+                        </h1>
                     </div>
                     <p className="mt-2">{person.name_native}</p>
                 </div>

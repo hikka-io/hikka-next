@@ -22,7 +22,9 @@ const CharacterTitle = () => {
         <div className="flex flex-col gap-4">
             <div className="flex justify-between gap-4">
                 <div>
-                    <h2 ref={titleAnchor}>{title}</h2>
+                    <h1 ref={titleAnchor} className="font-bold text-2xl">
+                        {title}
+                    </h1>
                     <p className="text-muted-foreground text-sm">
                         {character.name_ja}
                     </p>

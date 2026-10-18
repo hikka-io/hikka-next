@@ -46,10 +46,6 @@ function CommandDialog({
 }) {
     return (
         <Dialog {...props}>
-            <DialogHeader className="sr-only">
-                <DialogTitle>{title}</DialogTitle>
-                <DialogDescription>{description}</DialogDescription>
-            </DialogHeader>
             <DialogContent
                 className={cn(
                     'flex max-h-[calc(var(--visual-viewport-height,100dvh)*0.8)] flex-col overflow-hidden p-0 md:max-w-lg md:rounded-xl!',
@@ -57,6 +53,10 @@ function CommandDialog({
                 )}
                 showCloseButton={showCloseButton}
             >
+                <DialogHeader className="sr-only">
+                    <DialogTitle>{title}</DialogTitle>
+                    <DialogDescription>{description}</DialogDescription>
+                </DialogHeader>
                 <Command
                     shouldFilter={shouldFilter}
                     className="h-auto max-h-full rounded-none! md:rounded-xl! [&_[cmdk-group]:not([hidden])_~[cmdk-group]]:pt-0 [&_[cmdk-input-wrapper]_svg]:size-5 **:[[cmdk-group-heading]]:px-2 **:[[cmdk-group-heading]]:font-medium **:[[cmdk-group-heading]]:text-muted-foreground **:[[cmdk-group]]:px-2 **:[[cmdk-input]]:h-12 **:[[cmdk-item]]:px-2 **:[[cmdk-item]]:py-3"

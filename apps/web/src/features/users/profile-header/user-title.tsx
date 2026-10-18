@@ -26,9 +26,12 @@ const UserTitle = () => {
         <div className="flex min-w-0 flex-1 flex-col gap-2">
             <div className="flex items-center gap-2">
                 <Link to={`/u/${user.username}`} className="min-w-0">
-                    <h3 ref={titleAnchor} className="truncate hover:underline">
+                    <h1
+                        ref={titleAnchor}
+                        className="truncate font-bold text-2xl leading-8 hover:underline"
+                    >
                         {user.username}
-                    </h3>
+                    </h1>
                 </Link>
                 <RoleBadge role={user.role} />
             </div>
