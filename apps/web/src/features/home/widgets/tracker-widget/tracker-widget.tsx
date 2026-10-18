@@ -1,7 +1,13 @@
 import { type FC, useState } from 'react';
 
-import { ContentTypeEnum, ReadStatusEnum, WatchStatusEnum } from '@hikka/api';
+import {
+    ContentStatusEnum,
+    ContentTypeEnum,
+    ReadStatusEnum,
+    WatchStatusEnum,
+} from '@hikka/api';
 
+import MaterialSymbolsCalendarClockRounded from '@/components/icons/material-symbols/MaterialSymbolsCalendarClockRounded';
 import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
 import {
@@ -10,8 +16,11 @@ import {
     HeaderNavButton,
     HeaderTitle,
 } from '@/components/ui/header';
+import { Label } from '@/components/ui/label';
+import { Switch } from '@/components/ui/switch';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useSession } from '@/services/session';
+import { useUiPreferences } from '@/services/ui-preferences-store';
 
 import type { WidgetProps } from '../../types';
 import ReadingTracker from './components/reading-tracker';
@@ -41,17 +50,29 @@ const TAB_LIST_CONFIG: Record<
     },
 };
 
+const HIDDEN_STATUSES_KEY = 'trackerHiddenStatuses';
+
 const TrackerWidget: FC<WidgetProps> = () => {
     const { user } = useSession();
     const [activeTab, setActiveTab] = useState<CommonContentType>(
         ContentTypeEnum.ANIME,
     );
 
+    const hideOngoings = useUiPreferences(
+        (state) =>
+            state.filters[HIDDEN_STATUSES_KEY]?.includes(
+                ContentStatusEnum.ONGOING,
+            ) ?? false,
+    );
+    const setFilter = useUiPreferences((state) => state.setFilter);
+    const setHideOngoings = (hide: boolean) =>
+        setFilter(HIDDEN_STATUSES_KEY, hide ? [ContentStatusEnum.ONGOING] : []);
+
     if (!user) return null;
 
     return (
-        <Card id="tracker">
-            <Block>
+        <Card id="tracker" className="gap-0 divide-y divide-border p-0">
+            <Block className="p-4">
                 <Header
                     href={`/u/${user.username}/${TAB_LIST_CONFIG[activeTab].path}`}
                     search={TAB_LIST_CONFIG[activeTab].search}
@@ -92,14 +113,38 @@ const TrackerWidget: FC<WidgetProps> = () => {
                         </TabsTrigger>
                     </TabsList>
                 </Tabs>
-                {activeTab === ContentTypeEnum.ANIME && <WatchingTracker />}
+                {activeTab === ContentTypeEnum.ANIME && (
+                    <WatchingTracker
+                        hideOngoings={hideOngoings}
+                        onClearHideOngoings={() => setHideOngoings(false)}
+                    />
+                )}
                 {activeTab === ContentTypeEnum.MANGA && (
-                    <ReadingTracker contentType={ContentTypeEnum.MANGA} />
+                    <ReadingTracker
+                        contentType={ContentTypeEnum.MANGA}
+                        hideOngoings={hideOngoings}
+                        onClearHideOngoings={() => setHideOngoings(false)}
+                    />
                 )}
                 {activeTab === ContentTypeEnum.NOVEL && (
-                    <ReadingTracker contentType={ContentTypeEnum.NOVEL} />
+                    <ReadingTracker
+                        contentType={ContentTypeEnum.NOVEL}
+                        hideOngoings={hideOngoings}
+                        onClearHideOngoings={() => setHideOngoings(false)}
+                    />
                 )}
             </Block>
+            <div className="flex items-center gap-2 px-4 py-3 text-muted-foreground">
+                <MaterialSymbolsCalendarClockRounded className="size-4 shrink-0" />
+                <Label htmlFor="tracker-hide-ongoings" className="flex-1">
+                    Приховати онґоїнґи
+                </Label>
+                <Switch
+                    id="tracker-hide-ongoings"
+                    checked={hideOngoings}
+                    onCheckedChange={setHideOngoings}
+                />
+            </div>
         </Card>
     );
 };

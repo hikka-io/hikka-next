@@ -3,6 +3,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import {
+    ContentStatusEnum,
     ContentTypeEnum,
     type ReadArgs,
     type ReadContentTypeEnum,
@@ -51,9 +52,15 @@ type PendingRead = {
 
 type ReadingTrackerProps = {
     contentType: typeof ContentTypeEnum.MANGA | typeof ContentTypeEnum.NOVEL;
+    hideOngoings?: boolean;
+    onClearHideOngoings?: () => void;
 };
 
-const ReadingTracker = ({ contentType }: ReadingTrackerProps) => {
+const ReadingTracker = ({
+    contentType,
+    hideOngoings = false,
+    onClearHideOngoings,
+}: ReadingTrackerProps) => {
     const router = useRouter();
     const { user: loggedUser } = useSession();
     const { preferences } = useSessionUI();
@@ -67,23 +74,46 @@ const ReadingTracker = ({ contentType }: ReadingTrackerProps) => {
     // the `ContentTypeEnum.MANGA | NOVEL` values are identical strings.
     const apiContentType = contentType as unknown as ReadContentTypeEnum;
 
-    const { list, ref, isFetchingNextPage, hasNextPage, isPending } =
-        useInfiniteList(
-            userReadListInfiniteOptions({
-                path: {
-                    content_type: apiContentType,
-                    username: String(loggedUser?.username),
-                },
-                body: {
-                    read_status: ReadStatusEnum.READING,
-                    sort: ['read_updated:desc'],
-                },
-            }),
-            { enabled: Boolean(loggedUser?.username) },
-        );
+    const {
+        list,
+        ref,
+        isFetchingNextPage,
+        hasNextPage,
+        fetchNextPage,
+        isFetchNextPageError,
+        isPending,
+    } = useInfiniteList(
+        userReadListInfiniteOptions({
+            path: {
+                content_type: apiContentType,
+                username: String(loggedUser?.username),
+            },
+            body: {
+                read_status: ReadStatusEnum.READING,
+                sort: ['read_updated:desc'],
+            },
+        }),
+        { enabled: Boolean(loggedUser?.username) },
+    );
+
+    const filteredList = hideOngoings
+        ? list?.filter(
+              (item) => item.content.status !== ContentStatusEnum.ONGOING,
+          )
+        : list;
 
     const selectedRead =
-        list?.find((item) => item.content.slug === selectedSlug) || list?.[0];
+        filteredList?.find((item) => item.content.slug === selectedSlug) ||
+        filteredList?.[0];
+
+    const isSkippingHidden =
+        filteredList?.length === 0 &&
+        !isFetchNextPageError &&
+        (hasNextPage || isFetchingNextPage);
+
+    useEffect(() => {
+        if (isSkippingHidden && !isFetchingNextPage) fetchNextPage();
+    }, [isSkippingHidden, isFetchingNextPage, fetchNextPage]);
 
     const [debouncedPending] = useDebounce({
         value: pending,
@@ -186,11 +216,30 @@ const ReadingTracker = ({ contentType }: ReadingTrackerProps) => {
         invalidateReadLists,
     ]);
 
-    if (isPending) {
+    if (isPending || isSkippingHidden) {
         return <ProgressTrackerSkeleton />;
     }
 
-    if (!list || list.length === 0) {
+    if (!filteredList || filteredList.length === 0) {
+        if (list && list.length > 0) {
+            return (
+                <EmptyState
+                    icon={<MaterialSymbolsBookmarkOutline />}
+                    title="Усі тайтли - онґоїнґи"
+                    description="У списку Читаю лише онґоїнґи, які зараз приховано"
+                    action={
+                        <Button
+                            variant="secondary"
+                            size="md"
+                            onClick={onClearHideOngoings}
+                        >
+                            Показати онґоїнґи
+                        </Button>
+                    }
+                />
+            );
+        }
+
         return (
             <EmptyState
                 icon={<MaterialSymbolsBookmarkOutline />}
@@ -226,7 +275,7 @@ const ReadingTracker = ({ contentType }: ReadingTrackerProps) => {
 
     return (
         <ProgressTrackerView
-            items={list.map((item) => ({
+            items={filteredList.map((item) => ({
                 slug: item.content.slug,
                 image: item.content.image,
                 title: getTitle(
