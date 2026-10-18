@@ -1,13 +1,13 @@
 import { describe, expect, it } from 'vitest';
 
 import {
-    extractYouTubeVideoId,
     isYouTubeVideoUrl,
     normalizeYouTubeVideoUrl,
+    readYouTubeVideo,
 } from './youtube';
 
 const ID = 'dQw4w9WgXcQ';
-const WATCH = `https://www.youtube.com/watch?v=${ID}`;
+const WATCH = `https://youtube.com/watch?v=${ID}`;
 
 describe('youtube video urls', () => {
     it.each([
@@ -29,7 +29,7 @@ describe('youtube video urls', () => {
         [`  //youtube.com/embed/${ID}  `, WATCH],
         [
             `https://www.youtube.com/watch?v=a-b_c-d_e-f`,
-            `https://www.youtube.com/watch?v=a-b_c-d_e-f`,
+            `https://youtube.com/watch?v=a-b_c-d_e-f`,
         ],
     ])('accepts %j as %j', (url, normalized) => {
         expect(isYouTubeVideoUrl(url)).toBe(true);
@@ -122,13 +122,38 @@ describe('youtube video urls', () => {
     });
 });
 
-describe('extractYouTubeVideoId', () => {
+describe('readYouTubeVideo', () => {
     it.each([
         [`https://www.youtube.com/watch?v=${ID}&t=42`],
         [`https://youtu.be/${ID}`],
         [`https://www.youtube.com/embed/${ID}?si=AbCdEf`],
+        [`https://m.youtube.com/watch?feature=shared&v=${ID}`],
         [`youtube.com/watch?v=${ID}`],
     ])('still reads the video of a saved %j', (url) => {
-        expect(extractYouTubeVideoId(url)).toBe(ID);
+        expect(readYouTubeVideo(url)?.id).toBe(ID);
+    });
+
+    it.each([
+        ['42', 42],
+        ['42s', 42],
+        ['1m5s', 65],
+        ['1h2m3s', 3723],
+    ])('reads a start time of %j as %i seconds', (time, seconds) => {
+        expect(
+            readYouTubeVideo(`https://youtube.com/watch?v=${ID}&t=${time}`),
+        ).toEqual({
+            id: ID,
+            start: seconds,
+        });
+    });
+
+    it('ignores an unreadable start time and other hosts', () => {
+        expect(
+            readYouTubeVideo(`https://youtube.com/watch?v=${ID}&t=abc`),
+        ).toEqual({
+            id: ID,
+            start: undefined,
+        });
+        expect(readYouTubeVideo(`https://evil.com/watch?v=${ID}`)).toBeNull();
     });
 });

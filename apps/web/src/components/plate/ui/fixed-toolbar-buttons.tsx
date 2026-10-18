@@ -1,12 +1,8 @@
-import { useRef } from 'react';
-
 import { KEYS } from 'platejs';
 import { useEditorReadOnly } from 'platejs/react';
 
-import { useScrollGradientMask } from '@/services/hooks/use-scroll-position';
-import { cn } from '@/utils/cn';
-
 import { EmojiToolbarButton } from './emoji-toolbar-button';
+import { FixedToolbarScroller } from './fixed-toolbar';
 import { RedoToolbarButton, UndoToolbarButton } from './history-toolbar-button';
 import { LinkToolbarButton } from './link-toolbar-button';
 import { MarkToolbarButtons, type ToolbarMark } from './mark-toolbar-buttons';
@@ -26,21 +22,9 @@ type Props = {
 
 export function FixedMarkdownToolbarButtons({ className }: Props) {
     const readOnly = useEditorReadOnly();
-    const scrollRef = useRef<HTMLDivElement>(null);
-    const { gradientClassName } = useScrollGradientMask(
-        scrollRef,
-        'horizontal',
-    );
 
     return (
-        <div
-            ref={scrollRef}
-            className={cn(
-                'flex flex-1 overflow-x-scroll md:overflow-x-hidden',
-                gradientClassName,
-                className,
-            )}
-        >
+        <FixedToolbarScroller className={className}>
             {!readOnly && (
                 <>
                     <MarkToolbarButtons marks={MARKDOWN_MARKS} />
@@ -61,6 +45,6 @@ export function FixedMarkdownToolbarButtons({ className }: Props) {
                     </ToolbarGroup>
                 </>
             )}
-        </div>
+        </FixedToolbarScroller>
     );
 }

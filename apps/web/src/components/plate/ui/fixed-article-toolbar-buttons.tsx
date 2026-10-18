@@ -1,12 +1,13 @@
-import { KEYS } from 'platejs';
 import { useEditorReadOnly } from 'platejs/react';
 
+import { ARTICLE_MARKS } from '../editor/plate-types';
 import { EmojiToolbarButton } from './emoji-toolbar-button';
+import { FixedToolbarScroller } from './fixed-toolbar';
 import { RedoToolbarButton, UndoToolbarButton } from './history-toolbar-button';
 import { ImageGroupToolbarButton } from './image-group-toolbar-button';
 import { InsertToolbarButton } from './insert-toolbar-button';
 import { LinkToolbarButton } from './link-toolbar-button';
-import { MarkToolbarButtons, type ToolbarMark } from './mark-toolbar-buttons';
+import { MarkToolbarButtons } from './mark-toolbar-buttons';
 import {
     ContentSearchToolbarButton,
     UserSearchToolbarButton,
@@ -15,17 +16,15 @@ import { SpoilerToolbarButton } from './spoiler-toolbar-button';
 import { ToolbarGroup } from './toolbar';
 import { VideoToolbarButton } from './video-toolbar-button';
 
-const ARTICLE_MARKS: ToolbarMark[] = [KEYS.bold, KEYS.italic];
-
 export function FixedArticleToolbarButtons() {
     const readOnly = useEditorReadOnly();
 
     return (
-        <div className="flex w-full">
+        <FixedToolbarScroller>
             {!readOnly && (
                 <>
                     <ToolbarGroup>
-                        <InsertToolbarButton type="article" />
+                        <InsertToolbarButton />
                     </ToolbarGroup>
 
                     <MarkToolbarButtons marks={ARTICLE_MARKS} />
@@ -47,6 +46,6 @@ export function FixedArticleToolbarButtons() {
                     </ToolbarGroup>
                 </>
             )}
-        </div>
+        </FixedToolbarScroller>
     );
 }

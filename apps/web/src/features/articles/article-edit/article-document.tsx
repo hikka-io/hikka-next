@@ -1,35 +1,25 @@
-import { memo } from 'react';
+import { memo, useState } from 'react';
 
 import { ArticlePlateEditor } from '@/components/plate/editor/article-editor';
-import { hasPlateContent } from '@/components/plate/editor/value/has-content';
-import { Label } from '@/components/ui/label';
-import { usePreventUnsavedClose } from '@/services/hooks/use-prevent-unsaved-close';
 
-import { useArticleContext } from './article-provider';
+import { useArticleContext, useArticleStoreApi } from './article-provider';
 
 const ArticleEditDocument = () => {
-    const document = useArticleContext((state) => state.document);
-    const title = useArticleContext((state) => state.title);
+    const store = useArticleStoreApi();
+    // The editor only reads its starting value, so edits need not re-render it.
+    const [value] = useState(() => store.getState().document);
     const setDocument = useArticleContext((state) => state.setDocument);
-
-    const hasTitle = Boolean(title && title.trim().length > 0);
-    const hasDocumentContent = hasPlateContent(document);
-    const hasUnsavedContent = hasTitle || hasDocumentContent;
-
-    usePreventUnsavedClose(hasUnsavedContent);
+    const setEditorDocument = useArticleContext(
+        (state) => state.setEditorDocument,
+    );
 
     return (
-        <div className="flex flex-col gap-4">
-            <Label>Зміст</Label>
-            <ArticlePlateEditor
-                editorId="article-editor"
-                value={document}
-                onValueChange={setDocument}
-                className="min-h-44"
-                placeholder="Напишіть зміст статті..."
-                modalDescription={title}
-            />
-        </div>
+        <ArticlePlateEditor
+            editorId="article-editor"
+            value={value}
+            onValueChange={setDocument}
+            onReady={setEditorDocument}
+        />
     );
 };
 

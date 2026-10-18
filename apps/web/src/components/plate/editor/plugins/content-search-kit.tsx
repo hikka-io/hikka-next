@@ -11,8 +11,7 @@ import { toPlatePlugin } from 'platejs/react';
 
 import { ContentSearchInputElement } from '@/components/plate/ui/content-search-node';
 
-export const CONTENT_SEARCH_KEY = 'content_search';
-export const CONTENT_SEARCH_INPUT_KEY = 'content_search_input';
+import { CONTENT_SEARCH_INPUT_KEY, CONTENT_SEARCH_KEY } from './trigger-keys';
 
 const BaseContentSearchInputPlugin = createSlatePlugin({
     key: CONTENT_SEARCH_INPUT_KEY,

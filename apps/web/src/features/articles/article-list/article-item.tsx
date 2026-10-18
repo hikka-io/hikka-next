@@ -9,12 +9,12 @@ import { StaticViewer } from '@/components/plate/editor/static-viewer';
 import { Badge } from '@/components/ui/badge';
 import Card from '@/components/ui/card';
 import { StatItem, StatItemGroup } from '@/components/ui/stat-item';
-import { useTitle } from '@/services/session';
 import { cn } from '@/utils/cn';
 import { CONTENT_TYPE_LINKS } from '@/utils/content-paths';
 import { Link } from '@/utils/navigation';
 
 import ArticleAuthorCard from '../article-author-card';
+import ArticleContentChip from '../article-content-chip';
 
 type Props = {
     article: ArticlePreviewResponse;
@@ -22,7 +22,6 @@ type Props = {
 };
 
 const ArticleItem: FC<Props> = ({ article, className }) => {
-    const contentTitle = useTitle(article.content);
     const document = article.preview as Value;
 
     return (
@@ -38,11 +37,12 @@ const ArticleItem: FC<Props> = ({ article, className }) => {
                     to={`${CONTENT_TYPE_LINKS.article}/${article.slug}`}
                     className="absolute top-0 left-0 z-10 size-full"
                 />
-                <div className="flex flex-col gap-1">
+                <div className="flex flex-col gap-3">
                     {article.content && (
-                        <p className="text-muted-foreground text-sm">
-                            {contentTitle}
-                        </p>
+                        <ArticleContentChip
+                            content={article.content}
+                            className="relative z-10 self-start"
+                        />
                     )}
                     <h2 className="font-bold text-lg leading-7">
                         {article.title}

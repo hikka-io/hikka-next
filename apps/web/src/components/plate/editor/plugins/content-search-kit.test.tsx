@@ -6,7 +6,7 @@ import { describe, expect, it } from 'vitest';
 
 import { ArticleKit } from '../article-kit';
 import { MarkdownEditorKit } from '../markdown-editor-kit';
-import { CONTENT_SEARCH_INPUT_KEY } from './content-search-kit';
+import { CONTENT_SEARCH_INPUT_KEY } from './trigger-keys';
 
 const makeEditor = (value: Value = [{ type: 'p', children: [{ text: '' }] }]) =>
     createPlateEditor({ plugins: MarkdownEditorKit, value }) as any;

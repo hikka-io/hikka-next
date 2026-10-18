@@ -134,12 +134,15 @@ describe('kit plugin keys', () => {
             'user_search',
             'user_search>user_search_input',
             'user_search_input',
+            'slash_command',
+            'slash_command>slash_input',
+            'slash_input',
+            'block_insert',
             'trailingBlock',
             'exitBreak',
             'text_substitutions',
             ...EDITOR_LIST_KEYS,
             'markdown',
-            'fixed-article-toolbar',
         ]);
     });
 
@@ -233,6 +236,7 @@ describe('kit node components', () => {
             'emoji_input:EmojiInputElement',
             'content_search_input:ContentSearchInputElement',
             'user_search_input:UserSearchInputElement',
+            'slash_input:SlashInputElement',
             'ul:BulletedListElement',
             'ol:NumberedListElement',
             'li:ListItemElement',

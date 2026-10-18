@@ -1,9 +1,9 @@
-import type { FC } from 'react';
+import type { FC, ReactNode } from 'react';
 
 import type {
     ArticleCategoryEnum,
-    ArticleDocumentResponse,
     ArticlePreviewResponse,
+    FollowUserResponse,
 } from '@hikka/api';
 
 import { FollowButton } from '@/components/action-buttons';
@@ -20,13 +20,28 @@ import { useIsDesktop } from '@/services/hooks/use-media-query';
 import { cn } from '@/utils/cn';
 import { ARTICLE_CATEGORY } from '@/utils/labels/enum-labels';
 
+type Author =
+    | FollowUserResponse
+    | Pick<FollowUserResponse, 'username' | 'avatar'>;
+
 type Props = {
-    article: ArticlePreviewResponse | ArticleDocumentResponse;
+    article: Pick<ArticlePreviewResponse, 'category'> &
+        Partial<Pick<ArticlePreviewResponse, 'draft' | 'updated'>> & {
+            /** Without follow state (the editor's own user), no follow button is shown. */
+            author: Author;
+        };
     preview?: boolean;
+    /** Replaces the publication date, e.g. with the editor's save status. */
+    status?: ReactNode;
     className?: string;
 };
 
-const ArticleAuthorCard: FC<Props> = ({ article, preview, className }) => {
+const ArticleAuthorCard: FC<Props> = ({
+    article,
+    preview,
+    status,
+    className,
+}) => {
     const isDesktop = useIsDesktop();
 
     // Generated responses type `category` as a plain string; narrow to the enum.
@@ -56,24 +71,28 @@ const ArticleAuthorCard: FC<Props> = ({ article, preview, className }) => {
                         </TextLink>
                     </HorizontalCardDescription>
                     <div className="size-1 rounded-full bg-muted-foreground" />
-                    <HorizontalCardDescription
-                        className={cn(
-                            article.draft && 'line-clamp-1 leading-relaxed',
-                        )}
-                    >
-                        {article.draft ? (
-                            'Чернетка'
-                        ) : (
-                            <RelativeTime value={article.updated} />
-                        )}
-                    </HorizontalCardDescription>
+                    {status ?? (
+                        <HorizontalCardDescription
+                            className={cn(
+                                article.draft && 'line-clamp-1 leading-relaxed',
+                            )}
+                        >
+                            {article.draft
+                                ? 'Чернетка'
+                                : article.updated !== undefined && (
+                                      <RelativeTime value={article.updated} />
+                                  )}
+                        </HorizontalCardDescription>
+                    )}
                 </HorizontalCardContainer>
             </HorizontalCardContainer>
-            <FollowButton
-                iconOnly={!isDesktop || preview}
-                size={!isDesktop || preview ? 'icon-md' : 'md'}
-                user={article.author}
-            />
+            {'is_followed' in article.author && (
+                <FollowButton
+                    iconOnly={!isDesktop || preview}
+                    size={!isDesktop || preview ? 'icon-md' : 'md'}
+                    user={article.author}
+                />
+            )}
         </HorizontalCard>
     );
 };

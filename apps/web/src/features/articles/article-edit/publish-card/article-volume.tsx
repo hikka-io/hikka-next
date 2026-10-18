@@ -1,0 +1,82 @@
+import { type FC, useId } from 'react';
+
+import { TextCursorInput } from 'lucide-react';
+
+import { Label } from '@/components/ui/label';
+import { Progress } from '@/components/ui/progress';
+import { cn } from '@/utils/cn';
+import { getDeclensionWord } from '@/utils/i18n/declension';
+import { formatNumber } from '@/utils/i18n/number';
+import { SYMBOL_FORMS, WORD_FORMS } from '@/utils/i18n/word-forms';
+
+import { ARTICLE_TEXT_MAX, documentFacts } from '../article-body';
+import { useArticleContext } from '../article-provider';
+
+const WORDS_PER_MINUTE = 200;
+
+/** Share of the limit from which the counter warns. */
+const NEAR_LIMIT = 0.9;
+
+const ArticleVolume: FC = () => {
+    const { characters, words } = useArticleContext((state) =>
+        documentFacts(state.document),
+    );
+    const minutes = Math.ceil(words / WORDS_PER_MINUTE);
+    const labelId = useId();
+
+    const share = characters / ARTICLE_TEXT_MAX;
+    const over = share > 1;
+    const near = !over && share >= NEAR_LIMIT;
+
+    return (
+        <div className="flex flex-col gap-3">
+            <div className="flex items-center gap-2 text-muted-foreground">
+                <TextCursorInput className="size-4 shrink-0" />
+                <Label id={labelId}>Обсяг</Label>
+            </div>
+            <div className="flex items-baseline justify-between gap-2">
+                <span
+                    className={cn(
+                        'font-medium text-sm tabular-nums',
+                        near && 'text-warning-foreground',
+                        over && 'text-destructive-foreground',
+                    )}
+                >
+                    {formatNumber(characters)} /{' '}
+                    {formatNumber(ARTICLE_TEXT_MAX)}{' '}
+                    {getDeclensionWord(ARTICLE_TEXT_MAX, SYMBOL_FORMS)}
+                </span>
+                {words > 0 && (
+                    <span className="text-muted-foreground text-xs tabular-nums">
+                        {words} {getDeclensionWord(words, WORD_FORMS)} · ≈{' '}
+                        {minutes} хв
+                    </span>
+                )}
+            </div>
+            <Progress
+                value={Math.min(share, 1) * 100}
+                aria-labelledby={labelId}
+                className={cn(
+                    'h-1.5 rounded-xs',
+                    near &&
+                        '[&_[data-slot=progress-indicator]]:bg-warning-foreground',
+                    over &&
+                        '[&_[data-slot=progress-indicator]]:bg-destructive-foreground',
+                )}
+            />
+            {over && (
+                <p className="text-destructive-foreground text-xs">
+                    Скоротіть текст на{' '}
+                    {formatNumber(characters - ARTICLE_TEXT_MAX)}{' '}
+                    {getDeclensionWord(
+                        characters - ARTICLE_TEXT_MAX,
+                        SYMBOL_FORMS,
+                    )}
+                    , щоб зберегти статтю.
+                </p>
+            )}
+        </div>
+    );
+};
+
+export default ArticleVolume;

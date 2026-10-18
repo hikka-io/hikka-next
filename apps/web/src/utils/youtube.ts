@@ -1,21 +1,3 @@
-/** Extracts the YouTube video ID from watch/embed/youtu.be URLs (null if none). */
-export function extractYouTubeVideoId(url: string): string | null {
-    if (!url) return null;
-
-    const patterns = [
-        /(?:https?:\/\/)?(?:www\.)?youtube\.com\/watch\?v=([^&]+)/,
-        /(?:https?:\/\/)?(?:www\.)?youtube\.com\/embed\/([^?&]+)/,
-        /(?:https?:\/\/)?(?:www\.)?youtu\.be\/([^?&]+)/,
-    ];
-
-    for (const pattern of patterns) {
-        const match = url.match(pattern);
-        if (match) return match[1];
-    }
-
-    return null;
-}
-
 const YOUTUBE_HOSTS = new Set([
     'youtube.com',
     'www.youtube.com',
@@ -46,24 +28,62 @@ const pathVideoId = (url: URL): string | null => {
     return null;
 };
 
-/** One YouTube video as a youtube.com watch url (article save rejects youtu.be), or null. */
-export function normalizeYouTubeVideoUrl(value: string): string | null {
-    const url = parseUrl(value);
+const HAS_SCHEME = /^[a-z][a-z0-9+.-]*:/i;
+const TIME_PART = /(\d+)([hms]?)/g;
+const SECONDS_PER_UNIT: Record<string, number> = {
+    h: 3600,
+    m: 60,
+    s: 1,
+    '': 1,
+};
 
+/** `1h2m3s`, `1m5s`, `42s` or `42` as seconds. */
+const toSeconds = (time: string) =>
+    [...time.matchAll(TIME_PART)].reduce(
+        (sum, [, value, unit]) => sum + Number(value) * SECONDS_PER_UNIT[unit],
+        0,
+    );
+
+const videoParts = (url: URL | null) => {
     if (!url || (url.protocol !== 'https:' && url.protocol !== 'http:')) {
         return null;
     }
 
-    const videoId = pathVideoId(url);
+    const id = pathVideoId(url);
+    if (!id || !VIDEO_ID.test(id)) return null;
 
-    if (!videoId || !VIDEO_ID.test(videoId)) return null;
+    const time = url.searchParams.get('t') ?? url.searchParams.get('start');
 
-    const watchUrl = `https://www.youtube.com/watch?v=${videoId}`;
-    const start = url.searchParams.get('t') ?? url.searchParams.get('start');
+    return { id, time: time && START_TIME.test(time) ? time : undefined };
+};
 
-    return start && START_TIME.test(start)
-        ? `${watchUrl}&t=${start}`
-        : watchUrl;
+/** One YouTube video as a watch url on the bare youtube.com host, the only one article save accepts, or null. */
+export function normalizeYouTubeVideoUrl(value: string): string | null {
+    const parts = videoParts(parseUrl(value));
+    if (!parts) return null;
+
+    const watchUrl = `https://youtube.com/watch?v=${parts.id}`;
+
+    return parts.time ? `${watchUrl}&t=${parts.time}` : watchUrl;
+}
+
+/**
+ * The video and start time of a saved url. More lenient than the normalizer,
+ * since stored urls predate it (some have no scheme).
+ */
+export function readYouTubeVideo(
+    value: string,
+): { id: string; start?: number } | null {
+    const trimmed = value.trim();
+    const parts = videoParts(
+        parseUrl(HAS_SCHEME.test(trimmed) ? trimmed : `https://${trimmed}`),
+    );
+    if (!parts) return null;
+
+    return {
+        id: parts.id,
+        start: parts.time ? toSeconds(parts.time) : undefined,
+    };
 }
 
 export const isYouTubeVideoUrl = (value: string) =>
@@ -99,6 +119,5 @@ export function parseYouTubeThumbnail(
     url: string,
     quality: YouTubeThumbnailQuality = 'medium',
 ): string | null {
-    const videoId = extractYouTubeVideoId(url);
-    return getYouTubeThumbnail(videoId, quality);
+    return getYouTubeThumbnail(readYouTubeVideo(url)?.id ?? null, quality);
 }

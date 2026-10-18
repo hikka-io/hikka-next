@@ -33,8 +33,12 @@ export default function ArticleProvider({
     );
 }
 
-export function useArticleContext<T>(selector: (state: ArticleStore) => T): T {
+export function useArticleStoreApi(): ArticleReturnStore {
     const store = useContext(ArticleContext);
     if (!store) throw new Error('Missing ArticleContext.Provider in the tree');
-    return useStore(store, selector);
+    return store;
+}
+
+export function useArticleContext<T>(selector: (state: ArticleStore) => T): T {
+    return useStore(useArticleStoreApi(), selector);
 }

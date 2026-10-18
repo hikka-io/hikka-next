@@ -2,7 +2,6 @@
 
 import * as React from 'react';
 
-import { Popover } from '@base-ui/react/popover';
 import type { Emoji } from '@emoji-mart/data';
 import {
     type EmojiCategoryList,
@@ -30,8 +29,11 @@ import {
 } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
-import { STAY_ON_AXIS } from '@/components/ui/popup-positioning';
-import { usePortalContainer } from '@/components/ui/portal-container-context';
+import {
+    Popover,
+    PopoverContent,
+    PopoverTrigger,
+} from '@/components/ui/popover';
 import {
     Tooltip,
     TooltipContent,
@@ -118,22 +120,13 @@ export function EmojiPopover({
     isOpen: boolean;
     setIsOpen: (open: boolean) => void;
 }) {
-    const portalContainer = usePortalContainer();
-
     return (
-        <Popover.Root open={isOpen} onOpenChange={setIsOpen}>
-            <Popover.Trigger render={control as React.ReactElement} />
-
-            <Popover.Portal container={portalContainer ?? undefined}>
-                <Popover.Positioner
-                    sideOffset={4}
-                    collisionAvoidance={STAY_ON_AXIS}
-                    className="z-100"
-                >
-                    <Popover.Popup>{children}</Popover.Popup>
-                </Popover.Positioner>
-            </Popover.Portal>
-        </Popover.Root>
+        <Popover open={isOpen} onOpenChange={setIsOpen}>
+            <PopoverTrigger render={control as React.ReactElement} />
+            <PopoverContent className="w-auto gap-0 overflow-hidden p-0">
+                {children}
+            </PopoverContent>
+        </Popover>
     );
 }
 
@@ -162,12 +155,7 @@ export function EmojiPicker({
     icons?: EmojiIconList<React.ReactElement>;
 }) {
     return (
-        <div
-            className={cn(
-                'flex flex-col rounded-xl bg-popover text-popover-foreground',
-                'h-92 w-80 border shadow-md',
-            )}
-        >
+        <div className={cn('flex h-92 w-80 flex-col')}>
             <EmojiPickerNavigation
                 onClick={handleCategoryClick}
                 emojiLibrary={emojiLibrary}

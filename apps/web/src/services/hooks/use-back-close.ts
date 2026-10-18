@@ -7,6 +7,8 @@ import { useIsDesktop } from '@/services/hooks/use-media-query';
 /** Open modals, innermost last. */
 const openModals: string[] = [];
 
+export const hasOpenBackCloseModal = () => openModals.length > 0;
+
 /**
  * Closes a controlled modal on browser back navigation instead of leaving
  * the page, on mobile viewports only. Uses the router blocker, so no extra

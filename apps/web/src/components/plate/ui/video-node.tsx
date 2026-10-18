@@ -1,70 +1,33 @@
 import type { PlateElementProps } from 'platejs/react';
-import { PlateElement } from 'platejs/react';
+import { PlateElement, useSelected } from 'platejs/react';
 
-import MaterialSymbolsDeleteForever from '@/components/icons/material-symbols/MaterialSymbolsDeleteForever';
-import { Button } from '@/components/ui/button';
 import { cn } from '@/utils/cn';
-import { extractYouTubeVideoId, getYouTubeThumbnail } from '@/utils/youtube';
 
 import type { TVideoElement } from '../editor/plate-types';
+import { MediaActions } from './media-actions';
+import { MEDIA_NODE } from './media-node';
+import { YouTubeEmbed } from './youtube-embed';
 
 export type VideoElementProps = PlateElementProps<TVideoElement> & {
     className?: string;
 };
 
-interface VideoInfo {
-    embedUrl: string;
-    thumbnailUrl: string | null;
-}
-
-function getVideoInfo(url: string): VideoInfo {
-    const videoId = extractYouTubeVideoId(url);
-
-    if (videoId) {
-        return {
-            embedUrl: `https://www.youtube.com/embed/${videoId}`,
-            thumbnailUrl: getYouTubeThumbnail(videoId),
-        };
-    }
-
-    // Already an embed URL or direct video file
-    return {
-        embedUrl: url,
-        thumbnailUrl: null,
-    };
-}
-
 export function VideoElement({ className, ...props }: VideoElementProps) {
-    const { children, element, editor } = props;
-    const url = element.url ?? '';
-
-    const handleDeleteMediaItem = () => {
-        editor.tf.removeNodes({
-            at: editor.api.findPath(element),
-        });
-    };
-
-    const videoInfo = getVideoInfo(url);
+    const { children, element } = props;
+    const selected = useSelected();
 
     return (
         <PlateElement
             {...props}
-            className={cn(
-                className,
-                'video-embed relative h-28 w-44 cursor-pointer rounded-md bg-center bg-cover',
-            )}
-            style={{
-                backgroundImage: `url(${videoInfo.thumbnailUrl})`,
-            }}
+            className={cn(MEDIA_NODE, 'video-embed', className)}
         >
-            <div className="absolute bottom-0 left-0 flex w-full justify-end p-2">
-                <Button
-                    variant="secondary"
-                    size="icon-sm"
-                    onClick={handleDeleteMediaItem}
-                >
-                    <MaterialSymbolsDeleteForever />
-                </Button>
+            <div
+                contentEditable={false}
+                data-selected={selected}
+                className="group/media relative rounded-md data-[selected=true]:ring-2 data-[selected=true]:ring-ring data-[selected=true]:ring-offset-2 data-[selected=true]:ring-offset-background"
+            >
+                <YouTubeEmbed url={element.url ?? ''} />
+                <MediaActions element={element} />
             </div>
             {children}
         </PlateElement>

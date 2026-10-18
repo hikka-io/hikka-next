@@ -68,6 +68,37 @@ const wrapBlock = (editor: PlateEditor, type: string) => {
 };
 
 /**
+ * Put a block where the caret is: in place of an empty paragraph, otherwise
+ * after the current block (never splitting it); with no selection, at the end.
+ * `highest` places it at the top level, for blocks the document only allows
+ * there. Returns its path.
+ */
+export const insertBlockAtSelection = (
+    editor: PlateEditor,
+    node: TElement,
+    { highest = false }: { highest?: boolean } = {},
+): Path => {
+    restoreSelection(editor);
+
+    const lowest = editor.api.block();
+    // A void inside a container (an image in its group) only accepts its own kind as a sibling.
+    const nestedVoid =
+        !!lowest && lowest[1].length > 1 && editor.api.isVoid(lowest[0]);
+    const block = editor.api.block({ highest: highest || nestedVoid });
+    const replace =
+        !!block && block[0].type === KEYS.p && editor.api.isEmpty(block[0]);
+    let at: Path = [editor.children.length];
+    if (block) at = replace ? block[1] : PathApi.next(block[1]);
+
+    editor.tf.withoutNormalizing(() => {
+        if (replace) editor.tf.removeNodes({ at });
+        editor.tf.insertNodes(node, { at, select: true });
+    });
+
+    return at;
+};
+
+/**
  * Insert a new block.
  * - Containers with a text selection: wraps the selected blocks
  * - On an empty paragraph: replaces it
@@ -97,21 +128,10 @@ export const insertBlock = (editor: PlateEditor, type: string) => {
             return;
         }
 
-        const block = editor.api.block();
-        if (!block) return;
-
-        const [node, path] = block;
-        const newNode = createBlockNode(editor, type);
-
-        let insertPath: Path;
-        if (node.type === KEYS.p && editor.api.isEmpty(node)) {
-            editor.tf.removeNodes({ at: path });
-            insertPath = path;
-        } else {
-            insertPath = PathApi.next(path);
-        }
-
-        editor.tf.insertNodes(newNode, { at: insertPath, select: true });
+        const insertPath = insertBlockAtSelection(
+            editor,
+            createBlockNode(editor, type),
+        );
 
         // Trailing paragraph so the user can keep typing after the container
         if (isContainer) {

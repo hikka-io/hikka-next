@@ -1,21 +1,8 @@
 import * as React from 'react';
 
 import type { Menu as MenuPrimitive } from '@base-ui/react/menu';
-import {
-    EyeOffIcon,
-    Heading3Icon,
-    ListIcon,
-    ListOrderedIcon,
-    PilcrowIcon,
-    PlusIcon,
-    QuoteIcon,
-} from 'lucide-react';
-import { KEYS } from 'platejs';
-import {
-    type PlateEditor,
-    useEditorRef,
-    useEditorSelector,
-} from 'platejs/react';
+import { PlusIcon } from 'lucide-react';
+import { useEditorRef } from 'platejs/react';
 
 import {
     DropdownMenu,
@@ -24,148 +11,17 @@ import {
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 
-import { ELEMENT_SPOILER } from '../editor/plate-types';
-import { insertBlock, isInsideBlock } from '../editor/transforms';
+import {
+    ARTICLE_INSERT_GROUPS,
+    useDisabledInsertTypes,
+} from './insert-block-items';
 import { ToolbarButton, ToolbarMenuGroup } from './toolbar';
 
-// Cannot be nested inside themselves
-const NO_NEST_TYPES: Set<string> = new Set([ELEMENT_SPOILER, KEYS.blockquote]);
-
-type Group = {
-    group: string;
-    items: Item[];
-};
-
-interface Item {
-    icon: React.ReactNode;
-    value: string;
-    onSelect: (editor: PlateEditor, value: string) => void;
-    focusEditor?: boolean;
-    label?: string;
-}
-
-const COMMENT_GROUPS: Group[] = [
-    {
-        group: 'Базові блоки',
-        items: [
-            {
-                icon: <PilcrowIcon />,
-                label: 'Параграф',
-                value: KEYS.p,
-            },
-            {
-                icon: <QuoteIcon />,
-                label: 'Цитата',
-                value: KEYS.blockquote,
-            },
-            {
-                icon: <EyeOffIcon />,
-                label: 'Спойлер',
-                value: ELEMENT_SPOILER,
-            },
-        ].map((item) => ({
-            ...item,
-            onSelect: (editor, value) => {
-                insertBlock(editor, value);
-            },
-        })),
-    },
-    {
-        group: 'Списки',
-        items: [
-            {
-                icon: <ListIcon />,
-                label: 'Непозначений список',
-                value: KEYS.ulClassic,
-            },
-            {
-                icon: <ListOrderedIcon />,
-                label: 'Нумерований список',
-                value: KEYS.olClassic,
-            },
-        ].map((item) => ({
-            ...item,
-            onSelect: (editor, value) => {
-                insertBlock(editor, value);
-            },
-        })),
-    },
-];
-
-const ARTICLE_GROUPS: Group[] = [
-    {
-        group: 'Базові блоки',
-        items: [
-            {
-                icon: <PilcrowIcon />,
-                label: 'Параграф',
-                value: KEYS.p,
-            },
-            {
-                icon: <Heading3Icon />,
-                label: 'Заголовок 3',
-                value: 'h3',
-            },
-            {
-                icon: <QuoteIcon />,
-                label: 'Цитата',
-                value: KEYS.blockquote,
-            },
-            {
-                icon: <EyeOffIcon />,
-                label: 'Спойлер',
-                value: ELEMENT_SPOILER,
-            },
-        ].map((item) => ({
-            ...item,
-            onSelect: (editor, value) => {
-                insertBlock(editor, value);
-            },
-        })),
-    },
-    {
-        group: 'Списки',
-        items: [
-            {
-                icon: <ListIcon />,
-                label: 'Непозначений список',
-                value: KEYS.ulClassic,
-            },
-            {
-                icon: <ListOrderedIcon />,
-                label: 'Нумерований список',
-                value: KEYS.olClassic,
-            },
-        ].map((item) => ({
-            ...item,
-            onSelect: (editor, value) => {
-                insertBlock(editor, value);
-            },
-        })),
-    },
-];
-
-export function InsertToolbarButton(
-    props: MenuPrimitive.Root.Props & {
-        type: 'comment' | 'article';
-    },
-) {
+export function InsertToolbarButton(props: MenuPrimitive.Root.Props) {
     const editor = useEditorRef();
     const [open, setOpen] = React.useState(false);
 
-    const disabledTypes = useEditorSelector((editor) => {
-        const disabled = new Set<string>();
-
-        for (const type of NO_NEST_TYPES) {
-            if (isInsideBlock(editor, type)) {
-                disabled.add(type);
-            }
-        }
-
-        return disabled;
-    }, []);
-
-    const groups = props.type === 'comment' ? COMMENT_GROUPS : ARTICLE_GROUPS;
+    const disabledTypes = useDisabledInsertTypes();
 
     return (
         <DropdownMenu
@@ -186,8 +42,8 @@ export function InsertToolbarButton(
                 <PlusIcon />
             </DropdownMenuTrigger>
 
-            <DropdownMenuContent className="w-52" align="start">
-                {groups.map(({ group, items: nestedItems }) => (
+            <DropdownMenuContent className="w-56" align="start">
+                {ARTICLE_INSERT_GROUPS.map(({ group, items: nestedItems }) => (
                     <ToolbarMenuGroup key={group} label={group}>
                         {nestedItems.map(({ icon, label, value, onSelect }) => {
                             const disabled = disabledTypes.has(value);

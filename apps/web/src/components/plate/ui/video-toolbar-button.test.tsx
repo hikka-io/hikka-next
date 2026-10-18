@@ -6,6 +6,7 @@ import { afterEach, describe, expect, it, vi } from 'vitest';
 
 import { ELEMENT_VIDEO } from '../editor/plate-types';
 import { VideoKit } from '../editor/plugins/video-kit';
+import { VideoDialogProvider } from './video-dialog';
 import { VideoToolbarButton } from './video-toolbar-button';
 
 (
@@ -57,6 +58,7 @@ async function addVideo(url: string) {
             <Plate editor={editor}>
                 <PlateContent />
                 <VideoToolbarButton />
+                <VideoDialogProvider />
             </Plate>,
         ),
     );
@@ -108,7 +110,7 @@ describe('video toolbar button', () => {
         [`https://m.youtube.com/watch?v=${ID}&list=PL123`],
     ])('inserts %j as a youtube.com watch url', async (url) => {
         expect(await addVideo(url)).toEqual({
-            videos: [`https://www.youtube.com/watch?v=${ID}`],
+            videos: [`https://youtube.com/watch?v=${ID}`],
             error: null,
         });
     });

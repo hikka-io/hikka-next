@@ -11,8 +11,7 @@ import { toPlatePlugin } from 'platejs/react';
 
 import { UserSearchInputElement } from '@/components/plate/ui/user-search-node';
 
-export const USER_SEARCH_KEY = 'user_search';
-export const USER_SEARCH_INPUT_KEY = 'user_search_input';
+import { USER_SEARCH_INPUT_KEY, USER_SEARCH_KEY } from './trigger-keys';
 
 const BaseUserSearchInputPlugin = createSlatePlugin({
     key: USER_SEARCH_INPUT_KEY,

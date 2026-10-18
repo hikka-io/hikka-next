@@ -7,7 +7,7 @@ import { getSiteUrl } from '@/utils/url';
 
 import { ArticleKit } from '../article-kit';
 import { MarkdownEditorKit } from '../markdown-editor-kit';
-import { USER_SEARCH_INPUT_KEY } from './user-search-kit';
+import { USER_SEARCH_INPUT_KEY } from './trigger-keys';
 
 const REFERENCE = '58f47b8e-4d3b-4b9f-9a0b-7c2d9f0a1b23';
 const SITE = getSiteUrl();

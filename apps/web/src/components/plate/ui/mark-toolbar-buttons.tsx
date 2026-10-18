@@ -12,7 +12,11 @@ const MARKS = {
 
 export type ToolbarMark = keyof typeof MARKS;
 
-export function MarkToolbarButtons({ marks }: { marks: ToolbarMark[] }) {
+export function MarkToolbarButtons({
+    marks,
+}: {
+    marks: readonly ToolbarMark[];
+}) {
     return (
         <ToolbarGroup>
             {marks.map((mark) => {

@@ -24,6 +24,7 @@ const editorContainerVariants = cva(
                     'has-[[data-slate-editor][aria-disabled=true]]:opacity-50',
                 ),
                 drawer: cn('flex flex-1 flex-col overflow-hidden'),
+                inline: 'flex flex-col gap-3',
             },
         },
     },
@@ -46,11 +47,12 @@ export function EditorContainer({
     );
 }
 
+const boxedEditor = 'overflow-x-hidden rounded-md ring-offset-background';
+
 const editorVariants = cva(
     cn(
         'group/editor prose',
-        'wrap-break-word relative w-full cursor-text select-text overflow-x-hidden whitespace-pre-wrap',
-        'rounded-md ring-offset-background focus-visible:outline-hidden',
+        'wrap-break-word relative w-full cursor-text select-text whitespace-pre-wrap focus-visible:outline-hidden',
         'placeholder:text-muted-foreground/80 **:data-slate-placeholder:text-muted-foreground/80 **:data-slate-placeholder:opacity-100!',
         '[&_strong]:font-bold',
     ),
@@ -66,9 +68,13 @@ const editorVariants = cva(
                 true: 'ring-2 ring-ring ring-offset-2',
             },
             variant: {
-                default: 'flex-1 p-4 text-[0.9375rem]',
-                comment: 'p-4 text-[0.9375rem]',
-                drawer: 'p-4 text-[0.9375rem] flex-1 overflow-y-auto',
+                default: cn(boxedEditor, 'flex-1 p-4 text-[0.9375rem]'),
+                comment: cn(boxedEditor, 'p-4 text-[0.9375rem]'),
+                drawer: cn(
+                    boxedEditor,
+                    'flex-1 overflow-y-auto p-4 text-[0.9375rem]',
+                ),
+                inline: 'min-h-80 text-[0.9375rem]',
             },
         },
     },

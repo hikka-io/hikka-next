@@ -3,7 +3,7 @@ import { PlateElement } from 'platejs/react';
 
 export function ParagraphElement(props: PlateElementProps) {
     return (
-        <PlateElement as="p" {...props}>
+        <PlateElement as="p" className="relative" {...props}>
             {props.children}
         </PlateElement>
     );

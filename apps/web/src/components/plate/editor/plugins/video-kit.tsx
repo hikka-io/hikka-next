@@ -1,10 +1,11 @@
-import type { Path } from 'platejs';
+import { KEYS, PathApi } from 'platejs';
 import { createPlatePlugin } from 'platejs/react';
 
 import { VideoElement } from '@/components/plate/ui/video-node';
 import { normalizeYouTubeVideoUrl } from '@/utils/youtube';
 
-import { ELEMENT_VIDEO, type TVideoElement } from '../plate-types';
+import { ELEMENT_VIDEO } from '../plate-types';
+import { insertBlockAtSelection } from '../transforms';
 
 export const VideoPlugin = createPlatePlugin({
     key: ELEMENT_VIDEO,
@@ -44,20 +45,49 @@ export const VideoPlugin = createPlatePlugin({
             },
         },
     },
-}).extendEditorTransforms(({ editor }) => ({
-    insert: {
-        video: (options: { url: string; at?: Path }) => {
-            const { url, at } = options;
+})
+    .overrideEditor(({ editor, tf: { insertData } }) => ({
+        transforms: {
+            insertData(data: DataTransfer) {
+                const text = data.getData('text/plain').trim();
+                const url = /\s/.test(text)
+                    ? null
+                    : normalizeYouTubeVideoUrl(text);
+                const block = editor.api.block();
+                const emptyLine =
+                    !!block &&
+                    block[1].length === 1 &&
+                    block[0].type === KEYS.p &&
+                    editor.api.isEmpty(block[0]);
 
-            const videoNode: TVideoElement = {
-                type: ELEMENT_VIDEO,
-                url,
-                children: [{ text: '' }],
-            };
+                if (url && emptyLine) {
+                    editor.getTransforms(VideoPlugin).insert.video({ url });
+                    return;
+                }
 
-            editor.tf.insertNodes(videoNode, { at });
+                insertData(data);
+            },
         },
-    },
-}));
+    }))
+    .extendEditorTransforms(({ editor }) => ({
+        insert: {
+            video: ({ url }: { url: string }) => {
+                const at = insertBlockAtSelection(
+                    editor,
+                    { type: ELEMENT_VIDEO, url, children: [{ text: '' }] },
+                    { highest: true },
+                );
+
+                // A void cannot hold the caret for typing; move it to the next line.
+                const next = PathApi.next(at);
+                if (!editor.api.node(next)) {
+                    editor.tf.insertNodes(editor.api.create.block(), {
+                        at: next,
+                    });
+                }
+                editor.tf.select(editor.api.start(next));
+            },
+        },
+    }));
 
 export const VideoKit = [VideoPlugin.withComponent(VideoElement)];

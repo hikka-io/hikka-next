@@ -4,6 +4,7 @@ import type { ContentTypeEnum } from '@hikka/api';
 
 import ContentTypeIcon from '@/components/content-type-icon';
 import { Chip } from '@/components/ui/chip';
+import { cn } from '@/utils/cn';
 import { contentPath } from '@/utils/content-paths';
 import { CONTENT_TYPES } from '@/utils/labels/content-types';
 import { Link } from '@/utils/navigation';
@@ -12,17 +13,37 @@ type Props = {
     contentType?: ContentTypeEnum;
     slug?: string;
     title?: string;
+    className?: string;
+    /** Makes the chip a button instead of a link to the content. */
+    onClick?: () => void;
+    'aria-label'?: string;
 };
 
-const ContentRefChip: FC<Props> = ({ contentType, slug, title }) => {
+const ContentRefChip: FC<Props> = ({
+    contentType,
+    slug,
+    title,
+    className,
+    onClick,
+    ...props
+}) => {
     if (!contentType || !slug) return null;
 
     const label = contentType === 'edit' ? `#${slug}` : title;
 
     return (
         <Chip
-            className="min-w-0 max-w-full shrink bg-secondary/40 text-muted-foreground hover:bg-accent"
-            render={<Link to={contentPath(contentType, slug)} />}
+            className={cn(
+                'min-w-0 max-w-full shrink bg-secondary/40 text-muted-foreground hover:bg-accent',
+                className,
+            )}
+            render={
+                onClick ? undefined : (
+                    <Link to={contentPath(contentType, slug)} />
+                )
+            }
+            onClick={onClick}
+            {...props}
         >
             <ContentTypeIcon
                 contentType={contentType}
@@ -31,7 +52,7 @@ const ContentRefChip: FC<Props> = ({ contentType, slug, title }) => {
             <span className="min-w-0 max-w-[16rem] truncate text-foreground">
                 {label}
             </span>
-            <div className="size-1 shrink-0 rounded-full bg-muted-foreground" />
+            <span className="size-1 shrink-0 rounded-full bg-muted-foreground" />
             <span className="shrink-0">
                 {CONTENT_TYPES[contentType].title_ua}
             </span>

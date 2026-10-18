@@ -69,6 +69,8 @@ type InlineComboboxProps = {
     filter?: FilterFn | false;
     hideWhenNoValue?: boolean;
     showTrigger?: boolean;
+    /** Write the trigger and query back as text when the input is dismissed. */
+    restoreOnCancel?: boolean;
     value?: string;
     setValue?: (value: string) => void;
 };
@@ -78,6 +80,7 @@ const InlineCombobox = ({
     element,
     filter = defaultFilter,
     hideWhenNoValue = false,
+    restoreOnCancel = true,
     setValue: setValueProp,
     showTrigger = true,
     trigger,
@@ -130,7 +133,7 @@ const InlineCombobox = ({
         cursorState,
         ref: inputRef,
         onCancelInput: (cause) => {
-            if (cause !== 'backspace') {
+            if (restoreOnCancel && cause !== 'backspace') {
                 editor.tf.insertText(trigger + value, {
                     at: insertPoint?.current ?? undefined,
                 });
@@ -266,7 +269,7 @@ const InlineComboboxContent = ({
         <Portal portalElement={portalContainer ?? undefined}>
             <ComboboxPopover
                 className={cn(
-                    'no-scrollbar z-100 max-h-72 w-72 max-w-[calc(100vw-2rem)] scroll-py-1 overflow-y-auto overflow-x-hidden rounded-(--base-radius) border bg-popover p-1 text-popover-foreground shadow-md outline-hidden',
+                    'no-scrollbar z-100 max-h-72 w-72 max-w-[calc(100vw-2rem)] scroll-py-1 overflow-y-auto overflow-x-hidden rounded-lg bg-popover p-1 text-popover-foreground shadow-md outline-hidden ring-1 ring-border',
                     className,
                 )}
                 {...props}
@@ -278,7 +281,7 @@ const InlineComboboxContent = ({
 };
 
 const comboboxItemVariants = cva(
-    'relative flex select-none items-center gap-2 rounded-(--base-radius) p-2 text-foreground text-sm outline-hidden [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0',
+    'relative flex select-none items-center gap-2 rounded-md p-2 text-foreground text-sm outline-hidden [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0',
     {
         defaultVariants: {
             interactive: true,
@@ -383,6 +386,8 @@ function InlineComboboxGroup({
             {...props}
             className={cn(
                 'hidden overflow-hidden [&:has([role=option])]:block',
+                // The dropdown separator between visible groups (filtering can hide any of them).
+                '[[role=group]:has([role=option])~&]:-mx-1 [[role=group]:has([role=option])~&]:mt-1 [[role=group]:has([role=option])~&]:border-t [[role=group]:has([role=option])~&]:px-1 [[role=group]:has([role=option])~&]:pt-1',
                 className,
             )}
         />
@@ -397,7 +402,7 @@ function InlineComboboxGroupLabel({
         <ComboboxGroupLabel
             {...props}
             className={cn(
-                'px-2 py-1.5 font-medium text-muted-foreground text-xs',
+                'p-2 font-medium text-muted-foreground text-xs',
                 className,
             )}
         />

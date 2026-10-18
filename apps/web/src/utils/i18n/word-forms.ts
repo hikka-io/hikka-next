@@ -85,3 +85,11 @@ export const RELATION_FORMS = [
     'зв’язки',
     'зв’язків',
 ] as const satisfies WordForms;
+
+export const TAG_FORMS = ['тег', 'теги', 'тегів'] as const satisfies WordForms;
+
+export const WORD_FORMS = [
+    'слово',
+    'слова',
+    'слів',
+] as const satisfies WordForms;

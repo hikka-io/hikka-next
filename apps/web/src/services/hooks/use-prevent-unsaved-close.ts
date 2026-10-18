@@ -1,29 +1,39 @@
-import { useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 
-// Warns before tab/window close while there is unsaved content.
-export function usePreventUnsavedClose(hasUnsavedContent: boolean) {
-    const handlerRef = useRef<((e: BeforeUnloadEvent) => void) | null>(null);
+import { useBlocker } from '@tanstack/react-router';
+
+import { hasOpenBackCloseModal } from './use-back-close';
+
+type Options = {
+    /** Also hold in-app navigation; the returned blocker resolves the prompt. */
+    navigation?: boolean;
+};
+
+/** Warns before the tab closes while there are unsaved changes. */
+export function usePreventUnsavedClose(
+    hasUnsavedChanges: boolean,
+    { navigation = false }: Options = {},
+) {
+    const unsaved = useRef(hasUnsavedChanges);
 
     useEffect(() => {
-        if (handlerRef.current) {
-            window.removeEventListener('beforeunload', handlerRef.current);
-            handlerRef.current = null;
-        }
+        unsaved.current = hasUnsavedChanges;
+    });
 
-        if (hasUnsavedContent) {
-            const handleBeforeUnload = (e: BeforeUnloadEvent) => {
-                e.preventDefault();
-            };
+    // Blockers run in registration order and the first `true` wins, so a back
+    // press that an open modal will take for closing itself is let through.
+    const shouldBlockFn = useCallback(
+        ({ action }: { action: string }) =>
+            navigation &&
+            unsaved.current &&
+            !(action === 'BACK' && hasOpenBackCloseModal()),
+        [navigation],
+    );
+    const enableBeforeUnload = useCallback(() => unsaved.current, []);
 
-            handlerRef.current = handleBeforeUnload;
-            window.addEventListener('beforeunload', handleBeforeUnload);
-        }
-
-        return () => {
-            if (handlerRef.current) {
-                window.removeEventListener('beforeunload', handlerRef.current);
-                handlerRef.current = null;
-            }
-        };
-    }, [hasUnsavedContent]);
+    return useBlocker({
+        shouldBlockFn,
+        enableBeforeUnload,
+        withResolver: true,
+    });
 }

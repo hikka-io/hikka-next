@@ -2,10 +2,12 @@ import { UploadTypeEnum, uploadImage } from '@hikka/api';
 
 import { convertPngToJpeg } from '@/utils/image';
 
-/** Max attachment size accepted by the backend (2 MB). */
+// Mirrors `validate_upload_file` in the backend `app/upload/dependencies.py`.
 const ATTACHMENT_MAX_BYTES = 2 * 1024 * 1024;
+const ATTACHMENT_SIDE = { min: 200, max: 2000 } as const;
 
-/** Mimes the attachment endpoint accepts without conversion. */
+const JPEG_QUALITIES = [0.9, 0.8, 0.65] as const;
+
 const ATTACHMENT_PASSTHROUGH_MIMES = [
     'image/jpeg',
     'image/webp',
@@ -37,6 +39,9 @@ function isWithinAttachmentSize(size: number): boolean {
 
 export const UPLOAD_VALIDATION_MESSAGES = {
     'too-large': `Зображення завелике (максимум ${ATTACHMENT_MAX_BYTES / 1024 / 1024} МБ).`,
+    'too-small': `Зображення замале: щонайменше ${ATTACHMENT_SIDE.min}×${ATTACHMENT_SIDE.min} пікселів.`,
+    'animation-too-big': `Анімація завелика: до ${ATTACHMENT_SIDE.max} пікселів по кожній стороні.`,
+    'too-elongated': `Зображення надто видовжене: після зменшення до ${ATTACHMENT_SIDE.max} пікселів коротша сторона стане меншою за ${ATTACHMENT_SIDE.min}.`,
     'unsupported-type': 'Непідтримуваний формат зображення.',
     'decode-failed': 'Не вдалося обробити зображення.',
 } as const;
@@ -59,11 +64,56 @@ export interface UploadAttachmentOptions {
     signal?: AbortSignal;
 }
 
+const readImageSize = async (file: File) => {
+    const url = URL.createObjectURL(file);
+
+    try {
+        const img = new Image();
+        img.src = url;
+        await img.decode();
+
+        return { width: img.naturalWidth, height: img.naturalHeight };
+    } finally {
+        URL.revokeObjectURL(url);
+    }
+};
+
+const VP8X_ANIMATION_FLAG = 0x02;
+
+/** GIFs, and WebPs whose extended header sets the animation flag. */
+async function isAnimated(file: File) {
+    if (file.type === 'image/gif') return true;
+    if (file.type !== 'image/webp') return false;
+
+    const header = new Uint8Array(await file.slice(0, 21).arrayBuffer());
+    const text = (start: number) =>
+        String.fromCharCode(...header.subarray(start, start + 4));
+
+    return (
+        text(0) === 'RIFF' &&
+        text(8) === 'WEBP' &&
+        text(12) === 'VP8X' &&
+        (header[20] & VP8X_ANIMATION_FLAG) !== 0
+    );
+}
+
+async function encodeJpeg(file: File, quality: number) {
+    const { blob } = await convertPngToJpeg({
+        file,
+        quality,
+        outputFormat: 'blob',
+        maxWidth: ATTACHMENT_SIDE.max,
+        maxHeight: ATTACHMENT_SIDE.max,
+    });
+
+    return blob!;
+}
+
 /**
- * Validate and, when needed, transcode a file so it satisfies the backend's
- * attachment contract (jpeg/webp/gif, ≤2 MB). Animated gif/webp pass through
- * unchanged; png/bmp/etc. are converted to JPEG; svg and non-images are
- * rejected. Throws {@link UploadValidationError} on failure.
+ * Fit a file to the backend's attachment contract. Images that are too large
+ * or in another format are re-encoded as JPEG, scaled down and compressed
+ * until they fit; animations pass through untouched, so an oversized one is
+ * rejected rather than flattened. Throws {@link UploadValidationError}.
  */
 export async function prepareAttachmentFile(file: File): Promise<File | Blob> {
     const classification = classifyAttachmentType(file.type);
@@ -72,26 +122,46 @@ export async function prepareAttachmentFile(file: File): Promise<File | Blob> {
         throw new UploadValidationError('unsupported-type');
     }
 
-    let prepared: File | Blob = file;
+    const { width, height } = await readImageSize(file).catch(() => {
+        throw new UploadValidationError('decode-failed');
+    });
 
-    if (classification === 'convert') {
-        try {
-            const result = await convertPngToJpeg({
-                file,
-                outputFormat: 'blob',
-            });
-            prepared = result.blob!;
-        } catch {
+    if (width < ATTACHMENT_SIDE.min || height < ATTACHMENT_SIDE.min) {
+        throw new UploadValidationError('too-small');
+    }
+
+    const longest = Math.max(width, height);
+    const oversized = longest > ATTACHMENT_SIDE.max;
+    const fits = !oversized && isWithinAttachmentSize(file.size);
+
+    if (classification === 'passthrough' && fits) return file;
+
+    if (await isAnimated(file)) {
+        throw new UploadValidationError(
+            oversized ? 'animation-too-big' : 'too-large',
+        );
+    }
+
+    const scale = Math.min(1, ATTACHMENT_SIDE.max / longest);
+    if (Math.min(width, height) * scale < ATTACHMENT_SIDE.min) {
+        throw new UploadValidationError('too-elongated');
+    }
+
+    for (const quality of JPEG_QUALITIES) {
+        const encoded = await encodeJpeg(file, quality).catch(() => {
             throw new UploadValidationError('decode-failed');
-        }
+        });
+
+        if (isWithinAttachmentSize(encoded.size)) return encoded;
     }
 
-    if (!isWithinAttachmentSize(prepared.size)) {
-        throw new UploadValidationError('too-large');
-    }
-
-    return prepared;
+    throw new UploadValidationError('too-large');
 }
+
+/** Whether trying the same file again can succeed (a network or server hiccup, not a rejected file). */
+export const isRetryableUploadError = (code?: string) =>
+    !code ||
+    (!(code in UPLOAD_VALIDATION_MESSAGES) && !code.startsWith('upload:'));
 
 /**
  * Prepare then upload an attachment image. Shared by the image-group toolbar

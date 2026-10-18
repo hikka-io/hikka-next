@@ -6,9 +6,9 @@ import { getArticleOptions } from '@hikka/api';
 
 import { Header, HeaderTitle } from '@/components/ui/header';
 import { usePageTitleAnchor } from '@/features/app-shell';
-import { useTitle } from '@/services/session';
-import { CONTENT_TYPE_LINKS } from '@/utils/content-paths';
-import { Link, useParams } from '@/utils/navigation';
+import { useParams } from '@/utils/navigation';
+
+import ArticleContentChip from '../article-content-chip';
 
 type Props = {};
 
@@ -19,18 +19,15 @@ const ArticleViewTitle: FC<Props> = () => {
         getArticleOptions({ path: { slug: String(params.slug) } }),
     );
 
-    const contentTitle = useTitle(article?.content);
     const titleAnchor = usePageTitleAnchor();
 
     return (
-        <div className="flex flex-col gap-1">
+        <div className="flex flex-col gap-3">
             {article?.content && (
-                <Link
-                    to={`${CONTENT_TYPE_LINKS[article.content.data_type as keyof typeof CONTENT_TYPE_LINKS]}/${article.content.slug}`}
-                    className="w-fit text-muted-foreground text-sm hover:underline"
-                >
-                    {contentTitle}
-                </Link>
+                <ArticleContentChip
+                    content={article.content}
+                    className="self-start"
+                />
             )}
             <Header>
                 <HeaderTitle ref={titleAnchor} as="h1" size="page">

@@ -9,7 +9,11 @@ import { getSiteUrl } from '@/utils/url';
 
 import { ArticleKit } from './article-kit';
 import { MarkdownEditorKit } from './markdown-editor-kit';
-import { insertContentLink, insertMentionLink } from './transforms';
+import {
+    insertBlockAtSelection,
+    insertContentLink,
+    insertMentionLink,
+} from './transforms';
 
 const SITE = getSiteUrl();
 
@@ -123,5 +127,69 @@ describe('comment markdown', () => {
         expect(serialize(editor)).toBe(
             `див. [@second_user](${SITE}/u/${USER.reference})\n`,
         );
+    });
+});
+
+describe('insertBlockAtSelection', () => {
+    const quote = () => ({
+        type: 'blockquote',
+        children: [{ text: 'Цитата' }],
+    });
+
+    const shape = (editor: PlateEditor) =>
+        (editor.children as { type: string }[]).map((node) => node.type);
+
+    const editorWith = (value: Value) =>
+        createPlateEditor({ plugins: ArticleKit, value });
+
+    it('takes the place of an empty paragraph', () => {
+        const editor = editorWith([
+            { type: 'p', children: [{ text: 'Текст' }] },
+            { type: 'p', children: [{ text: '' }] },
+        ]);
+        editor.tf.select(editor.api.start([1]));
+
+        expect(insertBlockAtSelection(editor, quote())).toEqual([1]);
+        expect(shape(editor)).toEqual(['p', 'blockquote', 'p']);
+    });
+
+    it('goes after a block with text instead of splitting it', () => {
+        const editor = editorWith([
+            { type: 'p', children: [{ text: 'Текст' }] },
+        ]);
+        editor.tf.select({ path: [0, 0], offset: 2 });
+
+        insertBlockAtSelection(editor, quote());
+
+        expect(editor.api.string([0])).toBe('Текст');
+        expect(shape(editor)[1]).toBe('blockquote');
+    });
+
+    it('leaves an image group for blocks other than images', () => {
+        const editor = editorWith([
+            {
+                type: 'image_group',
+                children: [
+                    { type: 'image', url: 'a.jpg', children: [{ text: '' }] },
+                ],
+            },
+        ]);
+        editor.tf.select(editor.api.start([0, 0]));
+
+        expect(insertBlockAtSelection(editor, quote())).toEqual([1]);
+        expect(shape(editor)).toContain('blockquote');
+        expect(
+            (
+                editor.children[0] as { children: { type: string }[] }
+            ).children.map((node) => node.type),
+        ).toEqual(['image']);
+    });
+
+    it('appends to the end without a selection', () => {
+        const editor = editorWith([
+            { type: 'p', children: [{ text: 'Текст' }] },
+        ]);
+
+        expect(insertBlockAtSelection(editor, quote())).toEqual([1]);
     });
 });
