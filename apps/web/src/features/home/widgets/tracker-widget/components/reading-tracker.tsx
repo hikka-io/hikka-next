@@ -74,20 +74,27 @@ const ReadingTracker = ({
     // the `ContentTypeEnum.MANGA | NOVEL` values are identical strings.
     const apiContentType = contentType as unknown as ReadContentTypeEnum;
 
-    const { list, ref, isFetchingNextPage, hasNextPage, isPending } =
-        useInfiniteList(
-            userReadListInfiniteOptions({
-                path: {
-                    content_type: apiContentType,
-                    username: String(loggedUser?.username),
-                },
-                body: {
-                    read_status: ReadStatusEnum.READING,
-                    sort: ['read_updated:desc'],
-                },
-            }),
-            { enabled: Boolean(loggedUser?.username) },
-        );
+    const {
+        list,
+        ref,
+        isFetchingNextPage,
+        hasNextPage,
+        fetchNextPage,
+        isFetchNextPageError,
+        isPending,
+    } = useInfiniteList(
+        userReadListInfiniteOptions({
+            path: {
+                content_type: apiContentType,
+                username: String(loggedUser?.username),
+            },
+            body: {
+                read_status: ReadStatusEnum.READING,
+                sort: ['read_updated:desc'],
+            },
+        }),
+        { enabled: Boolean(loggedUser?.username) },
+    );
 
     const filteredList = hideOngoings
         ? list?.filter(
@@ -98,6 +105,15 @@ const ReadingTracker = ({
     const selectedRead =
         filteredList?.find((item) => item.content.slug === selectedSlug) ||
         filteredList?.[0];
+
+    const isSkippingHidden =
+        filteredList?.length === 0 &&
+        !isFetchNextPageError &&
+        (hasNextPage || isFetchingNextPage);
+
+    useEffect(() => {
+        if (isSkippingHidden && !isFetchingNextPage) fetchNextPage();
+    }, [isSkippingHidden, isFetchingNextPage, fetchNextPage]);
 
     const [debouncedPending] = useDebounce({
         value: pending,
@@ -200,7 +216,7 @@ const ReadingTracker = ({
         invalidateReadLists,
     ]);
 
-    if (isPending) {
+    if (isPending || isSkippingHidden) {
         return <ProgressTrackerSkeleton />;
     }
 

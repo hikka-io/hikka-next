@@ -56,10 +56,17 @@ const WatchingTracker = ({
     const [selectedSlug, setSelectedSlug] = useState<string>();
     const [pending, setPending] = useState<PendingWatch | null>(null);
 
-    const { list, ref, isFetchingNextPage, hasNextPage, isPending } =
-        useInfiniteList(homeWatchingOptions(String(loggedUser?.username)), {
-            enabled: Boolean(loggedUser?.username),
-        });
+    const {
+        list,
+        ref,
+        isFetchingNextPage,
+        hasNextPage,
+        fetchNextPage,
+        isFetchNextPageError,
+        isPending,
+    } = useInfiniteList(homeWatchingOptions(String(loggedUser?.username)), {
+        enabled: Boolean(loggedUser?.username),
+    });
 
     const filteredList = hideOngoings
         ? list?.filter(
@@ -70,6 +77,15 @@ const WatchingTracker = ({
     const selectedWatch =
         filteredList?.find((item) => item.anime.slug === selectedSlug) ||
         filteredList?.[0];
+
+    const isSkippingHidden =
+        filteredList?.length === 0 &&
+        !isFetchNextPageError &&
+        (hasNextPage || isFetchingNextPage);
+
+    useEffect(() => {
+        if (isSkippingHidden && !isFetchingNextPage) fetchNextPage();
+    }, [isSkippingHidden, isFetchingNextPage, fetchNextPage]);
 
     const [debouncedPending] = useDebounce({
         value: pending,
@@ -166,7 +182,7 @@ const WatchingTracker = ({
         );
     }, [debouncedPending, mutateCreateWatch, invalidateWatchLists]);
 
-    if (isPending) {
+    if (isPending || isSkippingHidden) {
         return <ProgressTrackerSkeleton />;
     }
 
