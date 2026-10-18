@@ -5,7 +5,6 @@ import { range } from '@antfu/utils';
 import type { MainContentTypeEnum } from '@hikka/api';
 
 import Block from '@/components/ui/block';
-import Card from '@/components/ui/card';
 import { Header, HeaderTitle } from '@/components/ui/header';
 import {
     ResponsiveModal,
@@ -44,51 +43,39 @@ const Followings: FC<Props> = ({ content_type }) => {
         return null;
     }
 
-    const title = (
-        <span>
-            Відстежується{' '}
-            {pagination && (
-                <span className="text-muted-foreground">
-                    ({pagination.total})
-                </span>
-            )}
-        </span>
-    );
-
     return (
         <>
             <div ref={ref}>
-                <Card id="content-followings">
-                    <Block>
-                        <Header>
-                            <HeaderTitle onClick={() => setOpen(true)}>
-                                {title}
-                            </HeaderTitle>
-                        </Header>
-                        <div className="flex flex-col gap-6">
-                            {!list &&
-                                range(0, FOLLOWING_PREVIEW_SIZE).map(
-                                    (index) => (
-                                        <FollowingItemSkeleton key={index} />
-                                    ),
-                                )}
-                            {list?.map((item) => (
-                                <FollowingItem
-                                    data={{
-                                        type:
-                                            'watch' in item ? 'watch' : 'read',
-                                        content:
-                                            'watch' in item
-                                                ? item.watch
-                                                : item.read,
-                                        ...item,
-                                    }}
-                                    key={item.reference}
-                                />
+                <Block variant="card" id="content-followings">
+                    <Header>
+                        <HeaderTitle
+                            onClick={() => setOpen(true)}
+                            count={pagination?.total}
+                            countPending={!list}
+                        >
+                            Відстежується
+                        </HeaderTitle>
+                    </Header>
+                    <div className="flex flex-col gap-6">
+                        {!list &&
+                            range(0, FOLLOWING_PREVIEW_SIZE).map((index) => (
+                                <FollowingItemSkeleton key={index} />
                             ))}
-                        </div>
-                    </Block>
-                </Card>
+                        {list?.map((item) => (
+                            <FollowingItem
+                                data={{
+                                    type: 'watch' in item ? 'watch' : 'read',
+                                    content:
+                                        'watch' in item
+                                            ? item.watch
+                                            : item.read,
+                                    ...item,
+                                }}
+                                key={item.reference}
+                            />
+                        ))}
+                    </div>
+                </Block>
             </div>
             <ResponsiveModal open={open} onOpenChange={setOpen} type="sheet">
                 <ResponsiveModalContent side="left" title="Відстежується">

@@ -4,7 +4,6 @@ import { ChevronDown } from 'lucide-react';
 
 import Block from '@/components/ui/block';
 import { buttonVariants } from '@/components/ui/button';
-import Card from '@/components/ui/card';
 import {
     Collapsible,
     CollapsibleContent,
@@ -52,114 +51,106 @@ const SettingsSidebar: FC<Props> = ({ className }) => {
     const activeTopLevel = getActiveTopLevelHref(SETTINGS_MENU, pathname);
 
     return (
-        <Card className={cn('w-full p-0', className)}>
-            <Block className="w-full gap-4 py-4">
-                <Header className="px-4">
-                    <HeaderTitle as="h3" size="subsection">
-                        Налаштування
-                    </HeaderTitle>
-                </Header>
+        <Block variant="card" className={cn('w-full', className)}>
+            <Header>
+                <HeaderTitle as="h3" size="subsection">
+                    Налаштування
+                </HeaderTitle>
+            </Header>
 
-                {/* Desktop: always-expanded groups */}
-                <nav className="hidden flex-col gap-1 px-2 md:flex">
-                    {SETTINGS_MENU.map((item) => (
-                        <div key={item.href} className="flex flex-col gap-1">
-                            <Link
-                                to={item.children?.[0]?.href ?? item.href}
-                                className={
-                                    item.children
-                                        ? parentRowClass(
-                                              isGroupActive(
-                                                  item.href,
-                                                  pathname,
-                                              ),
-                                          )
-                                        : leafRowClass(
-                                              isNavLinkActive(
-                                                  item.href,
-                                                  pathname,
-                                              ),
-                                          )
-                                }
-                            >
-                                <item.icon />
-                                {item.title}
-                            </Link>
-                            {item.children && (
-                                <div className="ml-5 flex flex-col gap-1 border-border/60 border-l pl-2">
-                                    {item.children.map((child) => (
-                                        <Link
-                                            key={child.href}
-                                            to={child.href}
-                                            className={subRowClass(
-                                                isNavLinkActive(
-                                                    child.href,
-                                                    pathname,
-                                                ),
-                                            )}
-                                        >
-                                            {child.title}
-                                        </Link>
-                                    ))}
-                                </div>
-                            )}
-                        </div>
-                    ))}
-                </nav>
+            {/* Desktop: always-expanded groups */}
+            <nav className="-mx-2 hidden flex-col gap-1 md:flex">
+                {SETTINGS_MENU.map((item) => (
+                    <div key={item.href} className="flex flex-col gap-1">
+                        <Link
+                            to={item.children?.[0]?.href ?? item.href}
+                            className={
+                                item.children
+                                    ? parentRowClass(
+                                          isGroupActive(item.href, pathname),
+                                      )
+                                    : leafRowClass(
+                                          isNavLinkActive(item.href, pathname),
+                                      )
+                            }
+                        >
+                            <item.icon />
+                            {item.title}
+                        </Link>
+                        {item.children && (
+                            <div className="ml-5 flex flex-col gap-1 border-border/60 border-l pl-2">
+                                {item.children.map((child) => (
+                                    <Link
+                                        key={child.href}
+                                        to={child.href}
+                                        className={subRowClass(
+                                            isNavLinkActive(
+                                                child.href,
+                                                pathname,
+                                            ),
+                                        )}
+                                    >
+                                        {child.title}
+                                    </Link>
+                                ))}
+                            </div>
+                        )}
+                    </div>
+                ))}
+            </nav>
 
-                {/* Mobile: collapsible accordion, active group open by default */}
-                <nav className="flex flex-col gap-1 px-2 md:hidden">
-                    {SETTINGS_MENU.map((item) =>
-                        item.children ? (
-                            <Collapsible
-                                key={item.href}
-                                defaultOpen={activeTopLevel === item.href}
-                            >
-                                <CollapsibleTrigger
-                                    className={cn(
-                                        parentRowClass(
-                                            isGroupActive(item.href, pathname),
-                                        ),
-                                        '[&[data-state=open]>svg:last-child]:rotate-180',
-                                    )}
-                                >
-                                    <item.icon />
-                                    {item.title}
-                                    <ChevronDown className="ml-auto transition-transform" />
-                                </CollapsibleTrigger>
-                                <CollapsibleContent className="mt-1 ml-5 flex flex-col gap-1 border-border/60 border-l pl-2">
-                                    {item.children.map((child) => (
-                                        <Link
-                                            key={child.href}
-                                            to={child.href}
-                                            className={subRowClass(
-                                                isNavLinkActive(
-                                                    child.href,
-                                                    pathname,
-                                                ),
-                                            )}
-                                        >
-                                            {child.title}
-                                        </Link>
-                                    ))}
-                                </CollapsibleContent>
-                            </Collapsible>
-                        ) : (
-                            <Link
-                                key={item.href}
-                                to={item.href}
-                                className={leafRowClass(
-                                    isNavLinkActive(item.href, pathname),
+            {/* Mobile: collapsible accordion, active group open by default */}
+            <nav className="-mx-2 flex flex-col gap-1 md:hidden">
+                {SETTINGS_MENU.map((item) =>
+                    item.children ? (
+                        <Collapsible
+                            key={item.href}
+                            defaultOpen={activeTopLevel === item.href}
+                        >
+                            <CollapsibleTrigger
+                                className={cn(
+                                    parentRowClass(
+                                        isGroupActive(item.href, pathname),
+                                    ),
+                                    '[&[data-state=open]>svg:last-child]:rotate-180',
                                 )}
                             >
                                 <item.icon />
                                 {item.title}
-                            </Link>
-                        ),
-                    )}
-                </nav>
-            </Block>
-        </Card>
+                                <ChevronDown className="ml-auto transition-transform" />
+                            </CollapsibleTrigger>
+                            <CollapsibleContent className="mt-1 ml-5 flex flex-col gap-1 border-border/60 border-l pl-2">
+                                {item.children.map((child) => (
+                                    <Link
+                                        key={child.href}
+                                        to={child.href}
+                                        className={subRowClass(
+                                            isNavLinkActive(
+                                                child.href,
+                                                pathname,
+                                            ),
+                                        )}
+                                    >
+                                        {child.title}
+                                    </Link>
+                                ))}
+                            </CollapsibleContent>
+                        </Collapsible>
+                    ) : (
+                        <Link
+                            key={item.href}
+                            to={item.href}
+                            className={leafRowClass(
+                                isNavLinkActive(item.href, pathname),
+                            )}
+                        >
+                            <item.icon />
+                            {item.title}
+                        </Link>
+                    ),
+                )}
+            </nav>
+        </Block>
     );
 };
 

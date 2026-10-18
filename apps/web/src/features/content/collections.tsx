@@ -10,7 +10,6 @@ import {
     CollectionItemSkeleton,
 } from '@/components/list-items';
 import Block from '@/components/ui/block';
-import Card from '@/components/ui/card';
 import EmptyState from '@/components/ui/empty-state';
 import { Header, HeaderTitle } from '@/components/ui/header';
 import {
@@ -37,7 +36,7 @@ const ContentCollections: FC<Props> = ({ content_type }) => {
     const slug = String(params.slug);
 
     const { ref, visible } = useVisibleOnce();
-    const { list, isPending } = useInfiniteList(
+    const { list, pagination, isPending } = useInfiniteList(
         contentCollectionsOptions(content_type, slug, { preview: true }),
         { enabled: visible },
     );
@@ -47,29 +46,31 @@ const ContentCollections: FC<Props> = ({ content_type }) => {
     return (
         <>
             <div ref={ref}>
-                <Card id="content-collections">
-                    <Block>
-                        <Header>
-                            <HeaderTitle onClick={() => setOpen(true)}>
-                                Колекції
-                            </HeaderTitle>
-                        </Header>
-                        <div className="flex flex-col gap-6">
-                            {list
-                                ? list.map((collection) => (
-                                      <CollectionItem
-                                          key={collection.reference}
-                                          data={collection}
-                                      />
-                                  ))
-                                : range(0, COLLECTIONS_PREVIEW_SIZE).map(
-                                      (index) => (
-                                          <CollectionItemSkeleton key={index} />
-                                      ),
-                                  )}
-                        </div>
-                    </Block>
-                </Card>
+                <Block variant="card" id="content-collections">
+                    <Header>
+                        <HeaderTitle
+                            onClick={() => setOpen(true)}
+                            count={pagination?.total}
+                            countPending={!list}
+                        >
+                            Колекції
+                        </HeaderTitle>
+                    </Header>
+                    <div className="flex flex-col gap-6">
+                        {list
+                            ? list.map((collection) => (
+                                  <CollectionItem
+                                      key={collection.reference}
+                                      data={collection}
+                                  />
+                              ))
+                            : range(0, COLLECTIONS_PREVIEW_SIZE).map(
+                                  (index) => (
+                                      <CollectionItemSkeleton key={index} />
+                                  ),
+                              )}
+                    </div>
+                </Block>
             </div>
             <ResponsiveModal open={open} onOpenChange={setOpen} type="sheet">
                 <ResponsiveModalContent side="left" title="Колекції">

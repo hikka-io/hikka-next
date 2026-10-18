@@ -14,7 +14,6 @@ import MaterialSymbolsInfoIRounded from '@/components/icons/material-symbols/Mat
 import MaterialSymbolsPlayArrowRounded from '@/components/icons/material-symbols/MaterialSymbolsPlayArrowRounded';
 import TextExpand from '@/components/text-expand';
 import Block from '@/components/ui/block';
-import Card from '@/components/ui/card';
 import { Header, HeaderTitle } from '@/components/ui/header';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useSession } from '@/services/session';
@@ -74,67 +73,65 @@ const ContentLinks: FC<Props> = ({ content_type }) => {
     };
 
     return (
-        <Card id="content-links">
-            <Block>
-                <Header>
-                    <HeaderTitle>Посилання</HeaderTitle>
-                    {hasWatchLinks && (
-                        <Tabs value={active} onValueChange={handleChangeActive}>
-                            <TabsList size="sm">
-                                <TabsTrigger
-                                    value={ExternalTypeEnum.GENERAL}
-                                    aria-label="Загальні посилання"
+        <Block variant="card" id="content-links">
+            <Header>
+                <HeaderTitle>Посилання</HeaderTitle>
+                {hasWatchLinks && (
+                    <Tabs value={active} onValueChange={handleChangeActive}>
+                        <TabsList size="sm">
+                            <TabsTrigger
+                                value={ExternalTypeEnum.GENERAL}
+                                aria-label="Загальні посилання"
+                            >
+                                <MaterialSymbolsInfoIRounded />
+                            </TabsTrigger>
+                            <TabsTrigger
+                                value={ExternalTypeEnum.WATCH}
+                                aria-label="Посилання для перегляду"
+                            >
+                                <MaterialSymbolsPlayArrowRounded />
+                            </TabsTrigger>
+                        </TabsList>
+                    </Tabs>
+                )}
+            </Header>
+            <TextExpand
+                expanded={isExpanded}
+                setExpanded={setIsExpanded}
+                className="max-h-40"
+            >
+                <div className="flex flex-col gap-4">
+                    {linksData.map((link) => (
+                        <HorizontalCard key={link.url}>
+                            <HorizontalCardImage
+                                imageRatio={1}
+                                className="w-10"
+                                image={
+                                    getPlatformIcon(link.url) ? (
+                                        <img
+                                            src={getPlatformIcon(link.url)!}
+                                            alt={link.text}
+                                            className="size-full object-contain"
+                                        />
+                                    ) : (
+                                        <p>{link.text[0]}</p>
+                                    )
+                                }
+                                to={link.url}
+                            />
+                            <HorizontalCardContainer>
+                                <HorizontalCardTitle
+                                    href={link.url}
+                                    target="_blank"
                                 >
-                                    <MaterialSymbolsInfoIRounded />
-                                </TabsTrigger>
-                                <TabsTrigger
-                                    value={ExternalTypeEnum.WATCH}
-                                    aria-label="Посилання для перегляду"
-                                >
-                                    <MaterialSymbolsPlayArrowRounded />
-                                </TabsTrigger>
-                            </TabsList>
-                        </Tabs>
-                    )}
-                </Header>
-                <TextExpand
-                    expanded={isExpanded}
-                    setExpanded={setIsExpanded}
-                    className="max-h-40"
-                >
-                    <div className="flex flex-col gap-4">
-                        {linksData.map((link) => (
-                            <HorizontalCard key={link.url}>
-                                <HorizontalCardImage
-                                    imageRatio={1}
-                                    className="w-10"
-                                    image={
-                                        getPlatformIcon(link.url) ? (
-                                            <img
-                                                src={getPlatformIcon(link.url)!}
-                                                alt={link.text}
-                                                className="size-full object-contain"
-                                            />
-                                        ) : (
-                                            <p>{link.text[0]}</p>
-                                        )
-                                    }
-                                    to={link.url}
-                                />
-                                <HorizontalCardContainer>
-                                    <HorizontalCardTitle
-                                        href={link.url}
-                                        target="_blank"
-                                    >
-                                        {link.text}
-                                    </HorizontalCardTitle>
-                                </HorizontalCardContainer>
-                            </HorizontalCard>
-                        ))}
-                    </div>
-                </TextExpand>
-            </Block>
-        </Card>
+                                    {link.text}
+                                </HorizontalCardTitle>
+                            </HorizontalCardContainer>
+                        </HorizontalCard>
+                    ))}
+                </div>
+            </TextExpand>
+        </Block>
     );
 };
 

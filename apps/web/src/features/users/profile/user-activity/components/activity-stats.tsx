@@ -6,8 +6,8 @@ import { MessageCircle, Star } from 'lucide-react';
 import { serviceUserStatsOptions } from '@hikka/api';
 
 import MaterialSymbolsEditRounded from '@/components/icons/material-symbols/MaterialSymbolsEditRounded';
+import BlockFooter from '@/components/ui/block-footer';
 import { Label } from '@/components/ui/label';
-import { Separator } from '@/components/ui/separator';
 import { cn } from '@/utils/cn';
 import { Link, useParams } from '@/utils/navigation';
 
@@ -24,9 +24,8 @@ const ActivityStats: FC = () => {
     const edits = data.edits_count ?? 0;
 
     return (
-        <div className="mt-auto flex flex-col gap-4">
-            <Separator />
-            <div className="-my-2 flex flex-col gap-1 px-2 md:flex-row md:flex-wrap">
+        <BlockFooter className="mt-auto">
+            <div className="-mx-2 -my-2 flex flex-1 flex-col gap-1 md:flex-row md:flex-wrap">
                 <Link
                     to={`/comments/user/${username}`}
                     search={{ comment_type: 'comment' }}
@@ -76,7 +75,7 @@ const ActivityStats: FC = () => {
                     <Label className="cursor-pointer">{edits}</Label>
                 </Link>
             </div>
-        </div>
+        </BlockFooter>
     );
 };
 

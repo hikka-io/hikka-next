@@ -9,7 +9,7 @@ import {
 
 import MaterialSymbolsCalendarClockRounded from '@/components/icons/material-symbols/MaterialSymbolsCalendarClockRounded';
 import Block from '@/components/ui/block';
-import Card from '@/components/ui/card';
+import BlockFooter from '@/components/ui/block-footer';
 import { Header, HeaderTitle } from '@/components/ui/header';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
@@ -66,67 +66,63 @@ const TrackerWidget: FC<WidgetProps> = () => {
     if (!user) return null;
 
     return (
-        <Card id="tracker" className="gap-0 divide-y divide-border p-0">
-            <Block className="p-4">
-                <Header>
-                    <HeaderTitle
-                        to={`/u/${user.username}/${TAB_LIST_CONFIG[activeTab].path}`}
-                        search={TAB_LIST_CONFIG[activeTab].search}
-                    >
-                        {activeTab === ContentTypeEnum.ANIME
-                            ? 'Дивлюсь'
-                            : 'Читаю'}
-                    </HeaderTitle>
-                </Header>
-                <Tabs
-                    value={activeTab}
-                    onValueChange={(value) =>
-                        setActiveTab(value as CommonContentType)
-                    }
+        <Block variant="card" id="tracker">
+            <Header>
+                <HeaderTitle
+                    to={`/u/${user.username}/${TAB_LIST_CONFIG[activeTab].path}`}
+                    search={TAB_LIST_CONFIG[activeTab].search}
                 >
-                    <TabsList size="sm" className="w-full">
-                        <TabsTrigger
-                            value={ContentTypeEnum.ANIME}
-                            aria-label="Аніме"
-                        >
-                            Аніме
-                        </TabsTrigger>
-                        <TabsTrigger
-                            value={ContentTypeEnum.MANGA}
-                            aria-label="Манґа"
-                        >
-                            Манґа
-                        </TabsTrigger>
-                        <TabsTrigger
-                            value={ContentTypeEnum.NOVEL}
-                            aria-label="Ранобе"
-                        >
-                            Ранобе
-                        </TabsTrigger>
-                    </TabsList>
-                </Tabs>
-                {activeTab === ContentTypeEnum.ANIME && (
-                    <WatchingTracker
-                        hideOngoings={hideOngoings}
-                        onClearHideOngoings={() => setHideOngoings(false)}
-                    />
-                )}
-                {activeTab === ContentTypeEnum.MANGA && (
-                    <ReadingTracker
-                        contentType={ContentTypeEnum.MANGA}
-                        hideOngoings={hideOngoings}
-                        onClearHideOngoings={() => setHideOngoings(false)}
-                    />
-                )}
-                {activeTab === ContentTypeEnum.NOVEL && (
-                    <ReadingTracker
-                        contentType={ContentTypeEnum.NOVEL}
-                        hideOngoings={hideOngoings}
-                        onClearHideOngoings={() => setHideOngoings(false)}
-                    />
-                )}
-            </Block>
-            <div className="flex items-center gap-2 px-4 py-3 text-muted-foreground">
+                    {activeTab === ContentTypeEnum.ANIME ? 'Дивлюсь' : 'Читаю'}
+                </HeaderTitle>
+            </Header>
+            <Tabs
+                value={activeTab}
+                onValueChange={(value) =>
+                    setActiveTab(value as CommonContentType)
+                }
+            >
+                <TabsList size="sm" className="w-full">
+                    <TabsTrigger
+                        value={ContentTypeEnum.ANIME}
+                        aria-label="Аніме"
+                    >
+                        Аніме
+                    </TabsTrigger>
+                    <TabsTrigger
+                        value={ContentTypeEnum.MANGA}
+                        aria-label="Манґа"
+                    >
+                        Манґа
+                    </TabsTrigger>
+                    <TabsTrigger
+                        value={ContentTypeEnum.NOVEL}
+                        aria-label="Ранобе"
+                    >
+                        Ранобе
+                    </TabsTrigger>
+                </TabsList>
+            </Tabs>
+            {activeTab === ContentTypeEnum.ANIME && (
+                <WatchingTracker
+                    hideOngoings={hideOngoings}
+                    onClearHideOngoings={() => setHideOngoings(false)}
+                />
+            )}
+            {activeTab === ContentTypeEnum.MANGA && (
+                <ReadingTracker
+                    contentType={ContentTypeEnum.MANGA}
+                    hideOngoings={hideOngoings}
+                    onClearHideOngoings={() => setHideOngoings(false)}
+                />
+            )}
+            {activeTab === ContentTypeEnum.NOVEL && (
+                <ReadingTracker
+                    contentType={ContentTypeEnum.NOVEL}
+                    hideOngoings={hideOngoings}
+                    onClearHideOngoings={() => setHideOngoings(false)}
+                />
+            )}
+            <BlockFooter className="gap-2 text-muted-foreground">
                 <MaterialSymbolsCalendarClockRounded className="size-4 shrink-0" />
                 <Label htmlFor="tracker-hide-ongoings" className="flex-1">
                     Приховати онґоїнґи
@@ -136,8 +132,8 @@ const TrackerWidget: FC<WidgetProps> = () => {
                     checked={hideOngoings}
                     onCheckedChange={setHideOngoings}
                 />
-            </div>
-        </Card>
+            </BlockFooter>
+        </Block>
     );
 };
 

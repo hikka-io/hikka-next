@@ -149,6 +149,6 @@ describe.each([
             isPending: false,
         };
 
-        expect(render()).toContain('(42)');
+        expect(render()).toMatch(/Відстежується<\/span><span[^>]*>42<\/span>/);
     });
 });

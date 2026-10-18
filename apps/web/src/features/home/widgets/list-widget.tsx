@@ -2,7 +2,7 @@ import { type FC, useState } from 'react';
 
 import { ContentTypeEnum } from '@hikka/api';
 
-import Card from '@/components/ui/card';
+import Block from '@/components/ui/block';
 import { Header, HeaderTitle } from '@/components/ui/header';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ListTabContent } from '@/features/users';
@@ -25,8 +25,8 @@ const ListWidget: FC<WidgetProps> = () => {
     if (!user) return null;
 
     return (
-        <Card className="px-2" id="sidebar-list-stats">
-            <Header className="px-2">
+        <Block variant="card" id="sidebar-list-stats">
+            <Header>
                 <HeaderTitle>Список</HeaderTitle>
             </Header>
             <Tabs
@@ -34,7 +34,6 @@ const ListWidget: FC<WidgetProps> = () => {
                 onValueChange={(value) =>
                     setActiveTab(value as CommonContentType)
                 }
-                className="mx-2"
             >
                 <TabsList size="sm" className="w-full">
                     <TabsTrigger
@@ -57,12 +56,8 @@ const ListWidget: FC<WidgetProps> = () => {
                     </TabsTrigger>
                 </TabsList>
             </Tabs>
-            <ListTabContent
-                type={activeTab}
-                username={user.username}
-                className="-mx-2"
-            />
-        </Card>
+            <ListTabContent type={activeTab} username={user.username} />
+        </Block>
     );
 };
 

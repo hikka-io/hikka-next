@@ -9,7 +9,7 @@ import {
     ArticlePreviewCardSkeleton,
 } from '@/components/list-items';
 import Block from '@/components/ui/block';
-import Card from '@/components/ui/card';
+import BlockBleed from '@/components/ui/block-bleed';
 import { Header, HeaderTitle } from '@/components/ui/header';
 import {
     ResponsiveModal,
@@ -33,7 +33,7 @@ const ContentArticles: FC<Props> = ({ content_type }) => {
     useCloseOnRouteChange(setOpen);
 
     const { ref, visible } = useVisibleOnce();
-    const { list, isPending } = useInfiniteList(
+    const { list, pagination, isPending } = useInfiniteList(
         contentArticlesOptions(content_type, String(params.slug), {
             preview: true,
         }),
@@ -45,31 +45,33 @@ const ContentArticles: FC<Props> = ({ content_type }) => {
     return (
         <>
             <div ref={ref}>
-                <Card id="content-articles">
-                    <Block>
-                        <Header>
-                            <HeaderTitle onClick={() => setOpen(true)}>
-                                Статті
-                            </HeaderTitle>
-                        </Header>
-                        <div className="-mx-2 flex flex-col">
-                            {list
-                                ? list.map((article) => (
-                                      <ArticlePreviewCard
-                                          key={article.slug}
-                                          article={article}
-                                      />
-                                  ))
-                                : range(0, ARTICLES_PREVIEW_SIZE).map(
-                                      (index) => (
-                                          <ArticlePreviewCardSkeleton
-                                              key={index}
-                                          />
-                                      ),
-                                  )}
-                        </div>
-                    </Block>
-                </Card>
+                <Block variant="card" id="content-articles">
+                    <Header>
+                        <HeaderTitle
+                            onClick={() => setOpen(true)}
+                            count={pagination?.total}
+                            countPending={!list}
+                        >
+                            Статті
+                        </HeaderTitle>
+                    </Header>
+                    <BlockBleed>
+                        {list
+                            ? list.map((article) => (
+                                  <ArticlePreviewCard
+                                      key={article.slug}
+                                      article={article}
+                                      className="rounded-none px-4"
+                                  />
+                              ))
+                            : range(0, ARTICLES_PREVIEW_SIZE).map((index) => (
+                                  <ArticlePreviewCardSkeleton
+                                      key={index}
+                                      className="rounded-none px-4"
+                                  />
+                              ))}
+                    </BlockBleed>
+                </Block>
             </div>
             <ResponsiveModal open={open} onOpenChange={setOpen} type="sheet">
                 <ResponsiveModalContent side="left" title="Статті">

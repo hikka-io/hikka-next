@@ -5,7 +5,6 @@ import MaterialSymbolsHistoryRounded from '@/components/icons/material-symbols/M
 import { HistoryTimeline } from '@/components/list-items';
 import Block from '@/components/ui/block';
 import { Button } from '@/components/ui/button';
-import Card from '@/components/ui/card';
 import EmptyState from '@/components/ui/empty-state';
 import { Header, HeaderActions, HeaderTitle } from '@/components/ui/header';
 import {
@@ -37,45 +36,41 @@ const UserHistory: FC<Props> = ({ className }) => {
 
     return (
         <>
-            <Card className={cn(className)} id="user-history">
-                <Block>
-                    <Header>
-                        <HeaderTitle
-                            onClick={
-                                activity && activity.length > 0
-                                    ? () => setOpen(true)
-                                    : undefined
+            <Block variant="card" className={cn(className)} id="user-history">
+                <Header>
+                    <HeaderTitle
+                        onClick={
+                            activity && activity.length > 0
+                                ? () => setOpen(true)
+                                : undefined
+                        }
+                    >
+                        Історія
+                    </HeaderTitle>
+                    <HeaderActions>
+                        <Button
+                            size="icon-sm"
+                            variant="outline"
+                            aria-label="Сторінка історії"
+                            render={
+                                <Link to={`/u/${params.username}/history`} />
                             }
                         >
-                            Історія
-                        </HeaderTitle>
-                        <HeaderActions>
-                            <Button
-                                size="icon-sm"
-                                variant="outline"
-                                aria-label="Сторінка історії"
-                                render={
-                                    <Link
-                                        to={`/u/${params.username}/history`}
-                                    />
-                                }
-                            >
-                                <MaterialSymbolsGridViewRounded />
-                            </Button>
-                        </HeaderActions>
-                    </Header>
-                    {filteredActivity && filteredActivity.length > 0 && (
-                        <HistoryTimeline items={filteredActivity} />
-                    )}
-                    {activity && activity.length === 0 && (
-                        <EmptyState
-                            icon={<MaterialSymbolsHistoryRounded />}
-                            title="Історія відсутня"
-                            description="Інформація оновиться після змін у списку"
-                        />
-                    )}
-                </Block>
-            </Card>
+                            <MaterialSymbolsGridViewRounded />
+                        </Button>
+                    </HeaderActions>
+                </Header>
+                {filteredActivity && filteredActivity.length > 0 && (
+                    <HistoryTimeline items={filteredActivity} />
+                )}
+                {activity && activity.length === 0 && (
+                    <EmptyState
+                        icon={<MaterialSymbolsHistoryRounded />}
+                        title="Історія відсутня"
+                        description="Інформація оновиться після змін у списку"
+                    />
+                )}
+            </Block>
             <ResponsiveModal open={open} onOpenChange={setOpen} type="sheet">
                 <ResponsiveModalContent side="right" title="Історія">
                     <UserHistoryModal />

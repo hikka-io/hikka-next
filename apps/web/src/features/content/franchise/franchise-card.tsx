@@ -6,8 +6,8 @@ import { Share2 } from 'lucide-react';
 import type { MainContentTypeEnum } from '@hikka/api';
 
 import PosterCardSkeleton from '@/components/content-card/poster-card-skeleton';
+import Block from '@/components/ui/block';
 import { Button } from '@/components/ui/button';
-import Card from '@/components/ui/card';
 import { Collapsible, CollapsibleContent } from '@/components/ui/collapsible';
 import { Header, HeaderActions, HeaderTitle } from '@/components/ui/header';
 import { labelVariants } from '@/components/ui/label';
@@ -108,7 +108,12 @@ const FranchiseCard: FC<Props> = ({ content_type, slug, className }) => {
     const href = `${contentPath(content_type, slug)}/franchise`;
 
     return (
-        <Card ref={ref} id="content-franchise" className={className}>
+        <Block
+            variant="card"
+            ref={ref}
+            id="content-franchise"
+            className={className}
+        >
             <Header>
                 <HeaderTitle to={href}>Франшиза</HeaderTitle>
                 <HeaderActions>
@@ -127,7 +132,7 @@ const FranchiseCard: FC<Props> = ({ content_type, slug, className }) => {
             ) : (
                 <FranchiseCardSkeleton />
             )}
-        </Card>
+        </Block>
     );
 };
 

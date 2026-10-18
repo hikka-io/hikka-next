@@ -3,7 +3,7 @@ import type { FC } from 'react';
 import type { CommentContentTypeEnum, ContentTypeEnum } from '@hikka/api';
 
 import PosterCard from '@/components/content-card/poster-card';
-import Card from '@/components/ui/card';
+import Block from '@/components/ui/block';
 import { Header, HeaderTitle } from '@/components/ui/header';
 import { contentPath } from '@/utils/content-paths';
 import { CONTENT_TYPES } from '@/utils/labels/content-types';
@@ -24,7 +24,7 @@ const ContentHeader: FC<Props> = ({ slug, content_type }) => {
     const link = contentPath(content_type, slug);
 
     return (
-        <Card className="backdrop-blur">
+        <Block variant="card" className="backdrop-blur">
             <Header className="gap-4">
                 {data?.image && (
                     <PosterCard
@@ -43,7 +43,7 @@ const ContentHeader: FC<Props> = ({ slug, content_type }) => {
                     </p>
                 </div>
             </Header>
-        </Card>
+        </Block>
     );
 };
 

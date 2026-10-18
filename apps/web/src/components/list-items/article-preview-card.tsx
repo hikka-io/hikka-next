@@ -8,12 +8,14 @@ import RelativeTime from '@/components/relative-time';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { StatItem, StatItemGroup } from '@/components/ui/stat-item';
+import { cn } from '@/utils/cn';
 import { CONTENT_TYPE_LINKS } from '@/utils/content-paths';
 import { ARTICLE_CATEGORY } from '@/utils/labels/enum-labels';
 import { Link } from '@/utils/navigation';
 
 type Props = {
     article: ArticlePreviewResponse;
+    className?: string;
 };
 
 type SlateNode = {
@@ -36,7 +38,7 @@ const getFirstLine = (preview: ArticlePreviewResponse['preview']): string => {
     return '';
 };
 
-const ArticlePreviewCard: FC<Props> = ({ article }) => {
+const ArticlePreviewCard: FC<Props> = ({ article, className }) => {
     const href = `${CONTENT_TYPE_LINKS.article}/${article.slug}`;
     const excerpt = getFirstLine(article.preview);
 
@@ -45,7 +47,12 @@ const ArticlePreviewCard: FC<Props> = ({ article }) => {
     const categoryOption = ARTICLE_CATEGORY[category];
 
     return (
-        <div className="group before:-top-px relative flex flex-col gap-2 rounded-sm px-2 py-2 transition-colors duration-100 before:pointer-events-none before:absolute before:right-0 before:left-0 before:h-px before:bg-border/60 first:before:hidden hover:bg-accent">
+        <div
+            className={cn(
+                'group before:-top-px relative flex flex-col gap-2 rounded-sm px-2 py-2 transition-colors duration-100 before:pointer-events-none before:absolute before:right-0 before:left-0 before:h-px before:bg-border/60 first:before:hidden hover:bg-accent',
+                className,
+            )}
+        >
             <div className="flex items-center justify-between gap-2">
                 <Link
                     to={`/u/${article.author.username}`}

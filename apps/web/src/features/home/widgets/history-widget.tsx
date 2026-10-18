@@ -3,7 +3,6 @@ import type { FC } from 'react';
 import MaterialSymbolsHistoryRounded from '@/components/icons/material-symbols/MaterialSymbolsHistoryRounded';
 import { HistoryTimeline } from '@/components/list-items';
 import Block from '@/components/ui/block';
-import Card from '@/components/ui/card';
 import EmptyState from '@/components/ui/empty-state';
 import { Header, HeaderTitle } from '@/components/ui/header';
 import { useVisible } from '@/services/hooks/use-visible';
@@ -29,31 +28,27 @@ const HistoryWidget: FC<WidgetProps> = () => {
     if (!user) return null;
 
     return (
-        <Card ref={ref} className="p-0" id="history">
-            <Block className="w-full gap-4 py-4">
-                <Header className="px-4">
-                    <HeaderTitle
-                        to={`/u/${user.username}/history`}
-                        search={{ type: 'following' }}
-                    >
-                        Активність
-                    </HeaderTitle>
-                </Header>
+        <Block variant="card" ref={ref} id="history">
+            <Header>
+                <HeaderTitle
+                    to={`/u/${user.username}/history`}
+                    search={{ type: 'following' }}
+                >
+                    Активність
+                </HeaderTitle>
+            </Header>
 
-                <div className="px-4">
-                    {list && list.length > 0 && (
-                        <HistoryTimeline items={list} withUser />
-                    )}
-                    {list?.length === 0 && (
-                        <EmptyState
-                            icon={<MaterialSymbolsHistoryRounded />}
-                            title="Історія відсутня"
-                            description="Історія оновиться після змін у Вашому списку, або у списку користувачів, яких Ви відстежуєте"
-                        />
-                    )}
-                </div>
-            </Block>
-        </Card>
+            {list && list.length > 0 && (
+                <HistoryTimeline items={list} withUser />
+            )}
+            {list?.length === 0 && (
+                <EmptyState
+                    icon={<MaterialSymbolsHistoryRounded />}
+                    title="Історія відсутня"
+                    description="Історія оновиться після змін у Вашому списку, або у списку користувачів, яких Ви відстежуєте"
+                />
+            )}
+        </Block>
     );
 };
 

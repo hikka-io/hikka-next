@@ -1,17 +1,13 @@
 import { type ComponentProps, memo } from 'react';
 
+import {
+    SURFACE_CLASS_NAME,
+    SURFACE_VARIANTS,
+    type SurfaceVariant,
+} from '@/components/ui/surface';
 import { cn } from '@/utils/cn';
 
-type Variant = 'surface' | 'inset' | 'glass' | 'plain';
-
-type Props = ComponentProps<'div'> & { variant?: Variant };
-
-const VARIANTS: Record<Variant, string> = {
-    surface: 'surface',
-    inset: 'surface-inset',
-    glass: 'surface-glass',
-    plain: '',
-};
+type Props = ComponentProps<'div'> & { variant?: SurfaceVariant };
 
 const Card = ({
     children,
@@ -22,8 +18,9 @@ const Card = ({
     return (
         <div
             className={cn(
-                'relative isolate flex flex-col gap-4 rounded-lg border border-border p-4 will-change-transform',
-                VARIANTS[variant],
+                'flex flex-col gap-4 p-4',
+                SURFACE_CLASS_NAME,
+                SURFACE_VARIANTS[variant],
                 className,
             )}
             {...props}

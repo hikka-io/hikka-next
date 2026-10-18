@@ -1,6 +1,13 @@
-import type { AnchorHTMLAttributes, FC, PropsWithChildren, Ref } from 'react';
+import {
+    type AnchorHTMLAttributes,
+    type FC,
+    type PropsWithChildren,
+    type Ref,
+    useId,
+} from 'react';
 
 import { MaterialSymbolsChevronRightRounded } from '@/components/icons/material-symbols/MaterialSymbolsChevronRightRounded';
+import { Skeleton } from '@/components/ui/skeleton';
 import { cn } from '@/utils/cn';
 import { Link } from '@/utils/navigation';
 
@@ -40,7 +47,34 @@ type HeaderTitleProps = {
     linkProps?: Partial<AnchorHTMLAttributes<HTMLAnchorElement>>;
     onClick?: () => void;
     truncate?: boolean;
+    count?: number;
+    countPending?: boolean;
     ref?: Ref<HTMLDivElement>;
+};
+
+type HeaderCountProps = {
+    count?: number;
+    pending?: boolean;
+};
+
+const COUNT_CLASS_NAME =
+    'relative ml-0.5 shrink-0 font-medium text-muted-foreground tabular-nums';
+
+const HeaderCount: FC<HeaderCountProps> = ({ count, pending }) => {
+    if (count !== undefined) {
+        return <span className={COUNT_CLASS_NAME}>{count}</span>;
+    }
+
+    if (pending) {
+        return (
+            <span aria-hidden className={COUNT_CLASS_NAME}>
+                <span className="invisible">00</span>
+                <Skeleton className="absolute inset-x-0 top-1/2 h-[1em] -translate-y-1/2" />
+            </span>
+        );
+    }
+
+    return null;
 };
 
 const HeaderTitle: FC<PropsWithChildren<HeaderTitleProps>> = ({
@@ -54,9 +88,14 @@ const HeaderTitle: FC<PropsWithChildren<HeaderTitleProps>> = ({
     linkProps,
     onClick,
     truncate,
+    count,
+    countPending,
     ref,
 }) => {
+    const titleId = useId();
     const url = to ?? href;
+    const hasCount = count !== undefined || !!countPending;
+    const countSlot = <HeaderCount count={count} pending={countPending} />;
     const sizeClass = TITLE_SIZES[size];
     const triggerClass = cn(
         'group/header-title -mx-1.5 -my-1.5 inline-flex min-h-10 min-w-0 items-center gap-1 rounded-md px-1.5 py-1.5 text-left outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50',
@@ -66,6 +105,7 @@ const HeaderTitle: FC<PropsWithChildren<HeaderTitleProps>> = ({
     const content = (
         <>
             <span
+                id={titleId}
                 className={cn(
                     'underline-offset-4 group-hover/header-title:underline',
                     truncate && 'truncate',
@@ -73,6 +113,7 @@ const HeaderTitle: FC<PropsWithChildren<HeaderTitleProps>> = ({
             >
                 {children}
             </span>
+            {countSlot}
             <MaterialSymbolsChevronRightRounded
                 aria-hidden
                 className="shrink-0 text-muted-foreground transition-transform group-hover/header-title:translate-x-0.5 group-hover/header-title:text-foreground"
@@ -90,7 +131,10 @@ const HeaderTitle: FC<PropsWithChildren<HeaderTitleProps>> = ({
             )}
         >
             {url || onClick ? (
-                <Tag className={cn('flex min-w-0', sizeClass)}>
+                <Tag
+                    aria-labelledby={hasCount ? titleId : undefined}
+                    className={cn('flex min-w-0', sizeClass)}
+                >
                     {url ? (
                         <Link
                             to={url}
@@ -111,9 +155,16 @@ const HeaderTitle: FC<PropsWithChildren<HeaderTitleProps>> = ({
                     )}
                 </Tag>
             ) : (
-                <Tag className={cn(sizeClass, truncate && 'truncate')}>
-                    {children}
-                </Tag>
+                <>
+                    <Tag className={cn(sizeClass, truncate && 'truncate')}>
+                        {children}
+                    </Tag>
+                    {hasCount && (
+                        <span className={cn('ml-1.5 flex', sizeClass)}>
+                            {countSlot}
+                        </span>
+                    )}
+                </>
             )}
         </div>
     );

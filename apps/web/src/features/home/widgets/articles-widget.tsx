@@ -9,8 +9,8 @@ import {
     ArticlePreviewCardSkeleton,
 } from '@/components/list-items';
 import Block from '@/components/ui/block';
+import BlockBleed from '@/components/ui/block-bleed';
 import { Button } from '@/components/ui/button';
-import Card from '@/components/ui/card';
 import EmptyState from '@/components/ui/empty-state';
 import { Header, HeaderActions, HeaderTitle } from '@/components/ui/header';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -69,77 +69,72 @@ const ArticlesWidget: FC<WidgetProps> = () => {
     const isLoading = isPublishedLoading || isDraftsLoading;
 
     return (
-        <Card className="p-0" id="articles">
-            <Block className="w-full gap-4 py-4">
-                <Header className="px-4">
-                    <HeaderTitle
-                        to={CONTENT_TYPE_LINKS.article}
-                        search={
-                            isOwn && user
-                                ? { author: user.username }
-                                : undefined
-                        }
-                    >
-                        Статті
-                    </HeaderTitle>
-                    {user && (
-                        <HeaderActions>
-                            <Button
-                                size="icon-sm"
-                                variant="outline"
-                                render={
-                                    <Link
-                                        to={`${CONTENT_TYPE_LINKS.article}/new`}
-                                    />
-                                }
-                            >
-                                <MaterialSymbolsAddRounded />
-                            </Button>
-                        </HeaderActions>
-                    )}
-                </Header>
-
-                <Tabs
-                    value={tab}
-                    onValueChange={(value) => setTab(value as ArticlesTab)}
-                    className="mx-4"
+        <Block variant="card" id="articles">
+            <Header>
+                <HeaderTitle
+                    to={CONTENT_TYPE_LINKS.article}
+                    search={
+                        isOwn && user ? { author: user.username } : undefined
+                    }
                 >
-                    <TabsList size="sm" className="w-full">
-                        <TabsTrigger value="newest">Нові</TabsTrigger>
-                        <TabsTrigger value="popular">Популярні</TabsTrigger>
-                        {user && <TabsTrigger value="own">Мої</TabsTrigger>}
-                    </TabsList>
-                </Tabs>
-
-                <div className="flex flex-col px-2">
-                    {isLoading &&
-                        range(0, HOME_ARTICLES_SIZE).map((i) => (
-                            <ArticlePreviewCardSkeleton
-                                key={i}
-                                titleLines={1}
-                            />
-                        ))}
-
-                    {!isLoading &&
-                        list?.map((article) => (
-                            <ArticlePreviewCard
-                                key={article.slug}
-                                article={article}
-                            />
-                        ))}
-
-                    {!isLoading && (!list || list.length === 0) && (
-                        <EmptyState
-                            size="sm"
-                            icon={<MaterialSymbolsDynamicFeedRounded />}
-                            title={
-                                isOwn ? 'У вас ще немає статей' : 'Немає статей'
+                    Статті
+                </HeaderTitle>
+                {user && (
+                    <HeaderActions>
+                        <Button
+                            size="icon-sm"
+                            variant="outline"
+                            render={
+                                <Link
+                                    to={`${CONTENT_TYPE_LINKS.article}/new`}
+                                />
                             }
+                        >
+                            <MaterialSymbolsAddRounded />
+                        </Button>
+                    </HeaderActions>
+                )}
+            </Header>
+
+            <Tabs
+                value={tab}
+                onValueChange={(value) => setTab(value as ArticlesTab)}
+            >
+                <TabsList size="sm" className="w-full">
+                    <TabsTrigger value="newest">Нові</TabsTrigger>
+                    <TabsTrigger value="popular">Популярні</TabsTrigger>
+                    {user && <TabsTrigger value="own">Мої</TabsTrigger>}
+                </TabsList>
+            </Tabs>
+
+            <BlockBleed>
+                {isLoading &&
+                    range(0, HOME_ARTICLES_SIZE).map((i) => (
+                        <ArticlePreviewCardSkeleton
+                            key={i}
+                            titleLines={1}
+                            className="rounded-none px-4"
                         />
-                    )}
-                </div>
-            </Block>
-        </Card>
+                    ))}
+
+                {!isLoading &&
+                    list?.map((article) => (
+                        <ArticlePreviewCard
+                            key={article.slug}
+                            article={article}
+                            className="rounded-none px-4"
+                        />
+                    ))}
+
+                {!isLoading && (!list || list.length === 0) && (
+                    <EmptyState
+                        size="sm"
+                        icon={<MaterialSymbolsDynamicFeedRounded />}
+                        title={isOwn ? 'У вас ще немає статей' : 'Немає статей'}
+                    />
+                )}
+            </BlockBleed>
+        </Block>
     );
 };
 

@@ -7,7 +7,8 @@ import { ContentTypeEnum } from '@hikka/api';
 
 import MaterialSymbolsDynamicFeedRounded from '@/components/icons/material-symbols/MaterialSymbolsDynamicFeedRounded';
 import LoadMoreButton from '@/components/load-more-button';
-import Card from '@/components/ui/card';
+import Block from '@/components/ui/block';
+import BlockBleed from '@/components/ui/block-bleed';
 import { Checkbox } from '@/components/ui/checkbox';
 import EmptyState from '@/components/ui/empty-state';
 import { Field, FieldLabel, FieldTitle } from '@/components/ui/field';
@@ -17,7 +18,6 @@ import {
     useSessionUI,
     useUpdateSessionUI,
 } from '@/services/session';
-import { cn } from '@/utils/cn';
 
 import { buildFeedArgs, homeFeedOptions, isFeedDisabled } from '../../queries';
 import type { WidgetProps } from '../../types';
@@ -119,54 +119,44 @@ const FeedWidget: FC<WidgetProps> = ({ isLast, side }) => {
     }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage]);
 
     return (
-        <Card
-            className={cn(
-                'gap-0 p-0',
-                // the center column bleeds its children itself; only sidebar
-                // placements need to cancel the page padding on their own
-                side !== 'center' &&
-                    '-mx-4 rounded-none border-x-0 sm:mx-0 sm:rounded-lg sm:border-x',
-            )}
+        <Block
+            variant="card"
+            // the center column bleeds its children itself; only sidebar
+            // placements need to cancel the page padding on their own
+            flushOnMobile={side !== 'center'}
             id="feed-widget"
         >
-            <div className="flex flex-col gap-4 p-4">
-                <Header>
-                    <HeaderTitle>Стрічка</HeaderTitle>
-                    <HeaderActions>
-                        {user && (
-                            <FieldLabel className="h-8 w-fit! shrink-0 cursor-pointer">
-                                <Field
-                                    orientation="horizontal"
-                                    className="h-full items-center"
-                                >
-                                    <Checkbox
-                                        checked={onlyFollowed}
-                                        onCheckedChange={
-                                            handleOnlyFollowedChange
-                                        }
-                                        id="only-followed-checkbox"
-                                        name="only-followed-checkbox"
-                                    />
-                                    <FieldTitle className="whitespace-nowrap font-normal text-muted-foreground text-sm">
-                                        Власна
-                                    </FieldTitle>
-                                </Field>
-                            </FieldLabel>
-                        )}
-                        <FeedSubTypeSelect
-                            value={filters}
-                            onChange={handleFiltersChange}
-                        />
-                    </HeaderActions>
-                </Header>
+            <Header>
+                <HeaderTitle>Стрічка</HeaderTitle>
+                <HeaderActions>
+                    {user && (
+                        <FieldLabel className="h-8 w-fit! shrink-0 cursor-pointer">
+                            <Field
+                                orientation="horizontal"
+                                className="h-full items-center"
+                            >
+                                <Checkbox
+                                    checked={onlyFollowed}
+                                    onCheckedChange={handleOnlyFollowedChange}
+                                    id="only-followed-checkbox"
+                                    name="only-followed-checkbox"
+                                />
+                                <FieldTitle className="whitespace-nowrap font-normal text-muted-foreground text-sm">
+                                    Власна
+                                </FieldTitle>
+                            </Field>
+                        </FieldLabel>
+                    )}
+                    <FeedSubTypeSelect
+                        value={filters}
+                        onChange={handleFiltersChange}
+                    />
+                </HeaderActions>
+            </Header>
 
-                <FeedQuickFilters
-                    value={filters}
-                    onChange={handleFiltersChange}
-                />
-            </div>
+            <FeedQuickFilters value={filters} onChange={handleFiltersChange} />
 
-            <div className="flex flex-col divide-y divide-border border-border border-t">
+            <BlockBleed className="-mb-4 divide-y divide-border border-border border-t">
                 {isPending && !allSectionsDisabled
                     ? Array.from({ length: 3 }).map((_, i) => (
                           <FeedItemSkeleton key={i} />
@@ -203,8 +193,8 @@ const FeedWidget: FC<WidgetProps> = ({ isLast, side }) => {
                         />
                     </div>
                 )}
-            </div>
-        </Card>
+            </BlockBleed>
+        </Block>
     );
 };
 

@@ -1,4 +1,4 @@
-import Card from '@/components/ui/card';
+import Block from '@/components/ui/block';
 import { Header, HeaderTitle } from '@/components/ui/header';
 
 import ActivityHeatmap from './components/activity-heatmap';
@@ -6,15 +6,13 @@ import ActivityStats from './components/activity-stats';
 
 const UserActivity = () => {
     return (
-        <Card className="p-0 py-4" id="user-activity">
-            <Header className="px-4">
+        <Block variant="card" id="user-activity">
+            <Header>
                 <HeaderTitle>Активність</HeaderTitle>
             </Header>
-            <div className="px-4">
-                <ActivityHeatmap />
-            </div>
+            <ActivityHeatmap />
             <ActivityStats />
-        </Card>
+        </Block>
     );
 };
 

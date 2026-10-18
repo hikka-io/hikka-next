@@ -4,7 +4,6 @@ import { ContentTypeEnum, type MainContentTypeEnum } from '@hikka/api';
 
 import { Badge } from '@/components/ui/badge';
 import Block from '@/components/ui/block';
-import Card from '@/components/ui/card';
 import { Header, HeaderTitle } from '@/components/ui/header';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
@@ -22,29 +21,25 @@ const ContentStats = ({ content_type }: Props) => {
     const [stat, setStat] = useState(defaultValue);
 
     return (
-        <Card id="content-stats">
-            <Block>
-                <Header>
-                    <HeaderTitle>Статистика</HeaderTitle>
-                    <Badge variant="secondary">MAL</Badge>
-                </Header>
-                <Tabs value={stat} onValueChange={setStat}>
-                    <TabsList size="sm" className="w-full">
-                        <TabsTrigger value={defaultValue}>
-                            У списках
-                        </TabsTrigger>
-                        <TabsTrigger value="score">Оцінки</TabsTrigger>
-                    </TabsList>
-                </Tabs>
-                {stat === 'readlist' && (
-                    <ReadStatusStats
-                        content_type={content_type as 'manga' | 'novel'}
-                    />
-                )}
-                {stat === 'watchlist' && <WatchStatusStats />}
-                {stat === 'score' && <Score content_type={content_type} />}
-            </Block>
-        </Card>
+        <Block variant="card" id="content-stats">
+            <Header>
+                <HeaderTitle>Статистика</HeaderTitle>
+                <Badge variant="secondary">MAL</Badge>
+            </Header>
+            <Tabs value={stat} onValueChange={setStat}>
+                <TabsList size="sm" className="w-full">
+                    <TabsTrigger value={defaultValue}>У списках</TabsTrigger>
+                    <TabsTrigger value="score">Оцінки</TabsTrigger>
+                </TabsList>
+            </Tabs>
+            {stat === 'readlist' && (
+                <ReadStatusStats
+                    content_type={content_type as 'manga' | 'novel'}
+                />
+            )}
+            {stat === 'watchlist' && <WatchStatusStats />}
+            {stat === 'score' && <Score content_type={content_type} />}
+        </Block>
     );
 };
 

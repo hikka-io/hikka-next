@@ -12,8 +12,8 @@ import {
 } from '@hikka/api';
 
 import { MaterialSymbolsClockLoader10 } from '@/components/icons/material-symbols/MaterialSymbolsClockLoader10';
+import BlockFooter from '@/components/ui/block-footer';
 import { Label } from '@/components/ui/label';
-import { Separator } from '@/components/ui/separator';
 import { Skeleton } from '@/components/ui/skeleton';
 import {
     Tooltip,
@@ -33,7 +33,6 @@ import StatusProgressBar from './status-progress-bar';
 type Props = {
     type: MainContentTypeEnum;
     username: string;
-    className?: string;
 };
 
 const WATCH_ORDER: WatchStatusEnum[] = [
@@ -52,7 +51,7 @@ const READ_ORDER: ReadStatusEnum[] = [
     ReadStatusEnum.ON_HOLD,
 ];
 
-const ListTabContent: FC<Props> = ({ type, username, className }) => {
+const ListTabContent: FC<Props> = ({ type, username }) => {
     const [hoveredStatus, setHoveredStatus] = useState<string | null>(null);
     const isAnime = type === ContentTypeEnum.ANIME;
     const sortParam = isAnime ? 'watch_score' : 'read_score';
@@ -62,18 +61,24 @@ const ListTabContent: FC<Props> = ({ type, username, className }) => {
 
     if (!data) {
         return isPending ? (
-            <div className={cn('flex grow flex-col gap-2', className)}>
-                <div className="px-4">
+            <>
+                <div className="flex flex-col gap-2">
                     <Skeleton className="h-2 w-full rounded-xs" />
+                    <div className="-mx-2 grid grid-cols-2 gap-1">
+                        {range(0, statusCount + 1).map((index) => (
+                            <div key={index} className="p-2">
+                                <Skeleton className="h-4.5 w-full rounded-sm" />
+                            </div>
+                        ))}
+                    </div>
                 </div>
-                <div className="grid grid-cols-2 gap-1 px-2">
-                    {range(0, statusCount + 1).map((index) => (
-                        <div key={index} className="p-2">
-                            <Skeleton className="h-4.5 w-full rounded-sm" />
-                        </div>
-                    ))}
-                </div>
-            </div>
+                {isAnime && (
+                    <BlockFooter className="mt-auto justify-between">
+                        <Skeleton className="h-4.5 w-32 rounded-sm" />
+                        <Skeleton className="h-4.5 w-24 rounded-sm" />
+                    </BlockFooter>
+                )}
+            </>
         ) : null;
     }
 
@@ -116,110 +121,109 @@ const ListTabContent: FC<Props> = ({ type, username, className }) => {
         .join(' ');
 
     return (
-        <div className={cn('flex grow flex-col gap-2', className)}>
-            <div className="flex flex-col gap-2 px-2">
+        <>
+            <div className="flex flex-col gap-2">
                 <StatusProgressBar
                     segments={segments}
                     hoveredStatus={hoveredStatus}
                 />
-            </div>
-            <div className="grid grid-cols-2 gap-1 px-2">
-                <Link
-                    to={`/u/${username}/list/${type}`}
-                    search={{ status: 'all' }}
-                    className={cn(
-                        'flex items-center justify-between gap-2 rounded-sm p-2 hover:bg-accent',
-                        total === 0 && 'opacity-50',
-                    )}
-                >
-                    <div className="flex min-w-0 items-center gap-2">
-                        <div
-                            className={cn(
-                                'size-2 rounded-full',
-                                `bg-foreground`,
-                            )}
-                        />
-                        <Label className="cursor-pointer truncate text-muted-foreground">
-                            Всього
-                        </Label>
-                    </div>
-                    <Label>{total}</Label>
-                </Link>
-                {statuses.map((status) => {
-                    const count = data[status as keyof typeof data] as number;
-                    const info = statusMap[
-                        status as keyof typeof statusMap
-                    ] as {
-                        title_ua?: string;
-                        title_en: string;
-                    };
+                <div className="-mx-2 grid grid-cols-2 gap-1">
+                    <Link
+                        to={`/u/${username}/list/${type}`}
+                        search={{ status: 'all' }}
+                        className={cn(
+                            'flex items-center justify-between gap-2 rounded-sm p-2 hover:bg-accent',
+                            total === 0 && 'opacity-50',
+                        )}
+                    >
+                        <div className="flex min-w-0 items-center gap-2">
+                            <div
+                                className={cn(
+                                    'size-2 rounded-full',
+                                    `bg-foreground`,
+                                )}
+                            />
+                            <Label className="cursor-pointer truncate text-muted-foreground">
+                                Всього
+                            </Label>
+                        </div>
+                        <Label>{total}</Label>
+                    </Link>
+                    {statuses.map((status) => {
+                        const count = data[
+                            status as keyof typeof data
+                        ] as number;
+                        const info = statusMap[
+                            status as keyof typeof statusMap
+                        ] as {
+                            title_ua?: string;
+                            title_en: string;
+                        };
 
-                    return (
-                        <Tooltip key={status}>
-                            <TooltipTrigger
-                                render={
-                                    <Link
-                                        to={`/u/${username}/list/${type}`}
-                                        search={{ status, sort: sortParam }}
-                                        preload={false}
-                                        onMouseEnter={() =>
-                                            setHoveredStatus(status)
-                                        }
-                                        onMouseLeave={() =>
-                                            setHoveredStatus(null)
-                                        }
-                                        className={cn(
-                                            'flex items-center justify-between gap-2 rounded-sm p-2 hover:bg-accent',
-                                            count === 0 && 'opacity-50',
-                                        )}
-                                    />
-                                }
-                            >
-                                <div className="flex min-w-0 items-center gap-2">
-                                    <div
-                                        className={cn(
-                                            'size-2 rounded-full',
-                                            `bg-${status}-foreground`,
-                                        )}
-                                    />
-                                    <Label className="cursor-pointer truncate text-muted-foreground">
-                                        {info.title_ua || info.title_en}
+                        return (
+                            <Tooltip key={status}>
+                                <TooltipTrigger
+                                    render={
+                                        <Link
+                                            to={`/u/${username}/list/${type}`}
+                                            search={{ status, sort: sortParam }}
+                                            preload={false}
+                                            onMouseEnter={() =>
+                                                setHoveredStatus(status)
+                                            }
+                                            onMouseLeave={() =>
+                                                setHoveredStatus(null)
+                                            }
+                                            className={cn(
+                                                'flex items-center justify-between gap-2 rounded-sm p-2 hover:bg-accent',
+                                                count === 0 && 'opacity-50',
+                                            )}
+                                        />
+                                    }
+                                >
+                                    <div className="flex min-w-0 items-center gap-2">
+                                        <div
+                                            className={cn(
+                                                'size-2 rounded-full',
+                                                `bg-${status}-foreground`,
+                                            )}
+                                        />
+                                        <Label className="cursor-pointer truncate text-muted-foreground">
+                                            {info.title_ua || info.title_en}
+                                        </Label>
+                                    </div>
+                                    <Label className="cursor-pointer">
+                                        {count}
                                     </Label>
-                                </div>
-                                <Label className="cursor-pointer">
-                                    {count}
-                                </Label>
-                            </TooltipTrigger>
-                            <TooltipContent side="bottom">
-                                {Math.round((count / total) * 100)}%
-                            </TooltipContent>
-                        </Tooltip>
-                    );
-                })}
+                                </TooltipTrigger>
+                                <TooltipContent side="bottom">
+                                    {Math.round((count / total) * 100)}%
+                                </TooltipContent>
+                            </Tooltip>
+                        );
+                    })}
+                </div>
             </div>
             {watchHours !== null && (
-                <div className="mt-auto flex flex-col gap-4">
-                    <Separator />
-                    <div className="flex items-center justify-between gap-2 px-4">
-                        <div className="flex items-center gap-2 text-muted-foreground">
-                            <MaterialSymbolsClockLoader10 className="size-4" />
-                            <Label>Час перегляду</Label>
-                        </div>
-                        <Tooltip>
-                            <TooltipTrigger
-                                render={<Label className="cursor-pointer" />}
-                            >
-                                {watchDisplayLabel}
-                            </TooltipTrigger>
-                            <TooltipContent>
-                                {watchHours}{' '}
-                                {getDeclensionWord(watchHours, HOUR_FORMS)}
-                            </TooltipContent>
-                        </Tooltip>
+                <BlockFooter className="mt-auto justify-between">
+                    <div className="flex items-center gap-2 text-muted-foreground">
+                        <MaterialSymbolsClockLoader10 className="size-4" />
+                        <Label>Час перегляду</Label>
                     </div>
-                </div>
+                    <Tooltip>
+                        <TooltipTrigger
+                            render={<Label className="cursor-pointer" />}
+                        >
+                            {watchDisplayLabel}
+                        </TooltipTrigger>
+                        <TooltipContent>
+                            {watchHours}{' '}
+                            {getDeclensionWord(watchHours, HOUR_FORMS)}
+                        </TooltipContent>
+                    </Tooltip>
+                </BlockFooter>
             )}
-        </div>
+        </>
     );
 };
 

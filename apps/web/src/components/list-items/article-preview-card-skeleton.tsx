@@ -1,13 +1,23 @@
 import type { FC } from 'react';
 
 import { Skeleton, SkeletonText } from '@/components/ui/skeleton';
+import { cn } from '@/utils/cn';
 
 type Props = {
     titleLines?: 1 | 2;
+    className?: string;
 };
 
-const ArticlePreviewCardSkeleton: FC<Props> = ({ titleLines = 2 }) => (
-    <div className="relative flex flex-col gap-2 rounded-sm px-2 py-2 before:pointer-events-none before:absolute before:-top-px before:right-0 before:left-0 before:h-px before:bg-border/60 first:before:hidden">
+const ArticlePreviewCardSkeleton: FC<Props> = ({
+    titleLines = 2,
+    className,
+}) => (
+    <div
+        className={cn(
+            'relative flex flex-col gap-2 rounded-sm px-2 py-2 before:pointer-events-none before:absolute before:-top-px before:right-0 before:left-0 before:h-px before:bg-border/60 first:before:hidden',
+            className,
+        )}
+    >
         <div className="flex items-center justify-between gap-2">
             <div className="flex items-center gap-2">
                 <Skeleton className="size-5 shrink-0 rounded-sm" />

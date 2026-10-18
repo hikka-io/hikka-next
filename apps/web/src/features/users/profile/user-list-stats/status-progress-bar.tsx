@@ -16,7 +16,6 @@ type Props = {
 // `bg-${status}-foreground` is safelisted for watch/read statuses — see globals.css.
 const StatusProgressBar: FC<Props> = ({ segments, hoveredStatus }) => (
     <SegmentedBar
-        className="px-2"
         dimmedKey={hoveredStatus}
         segments={segments.map((segment) => ({
             key: segment.status,

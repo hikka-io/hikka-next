@@ -4,7 +4,7 @@ import { useQueryClient } from '@tanstack/react-query';
 
 import { ContentTypeEnum, type MainContentTypeEnum } from '@hikka/api';
 
-import Card from '@/components/ui/card';
+import Block from '@/components/ui/block';
 import { Header, HeaderTitle } from '@/components/ui/header';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useParams } from '@/utils/navigation';
@@ -45,8 +45,8 @@ const UserListStats = () => {
         queryClient.prefetchQuery(userListStatsOptions(username, content_type));
 
     return (
-        <Card className="p-0 py-4" id="user-list-stats">
-            <Header className="px-4">
+        <Block variant="card" id="user-list-stats">
+            <Header>
                 <HeaderTitle
                     to={`/u/${username}/${tabConfig.path}`}
                     search={tabConfig.search}
@@ -86,7 +86,7 @@ const UserListStats = () => {
                 </Tabs>
             </Header>
             <ListTabContent type={activeTab} username={username} />
-        </Card>
+        </Block>
     );
 };
 

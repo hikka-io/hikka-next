@@ -9,7 +9,7 @@ import { AspectRatio } from '@/components/ui/aspect-ratio';
 import { Skeleton } from '@/components/ui/skeleton';
 
 const CollectionWidgetSkeleton: FC = () => (
-    <HorizontalCard className="px-2 py-2">
+    <HorizontalCard className="px-4 py-2">
         <div className="w-14 shrink-0">
             <AspectRatio ratio={DEFAULT_CONTAINER_RATIO}>
                 <Skeleton className="size-full rounded-(--base-radius)" />

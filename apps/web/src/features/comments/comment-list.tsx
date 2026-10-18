@@ -156,8 +156,7 @@ const CommentList: FC<Props> = ({
     const isLoading = isFetchingList || (deferred && listQuery.isPending);
 
     // Content types without review chips have no other place to show a total.
-    const headerTotal =
-        !showTypeTabs && !comment_reference ? pagination?.total : undefined;
+    const showHeaderTotal = !showTypeTabs && !comment_reference;
 
     // Carry the preview block's filter over to the full page.
     const allCommentsSearch = {
@@ -173,13 +172,13 @@ const CommentList: FC<Props> = ({
     return (
         <Block className={cn('break-inside-avoid', className)} id="comments">
             <Header>
-                <HeaderTitle to={`/comments/${content_type}/${slug}`} truncate>
-                    Обговорення{' '}
-                    {headerTotal !== undefined && (
-                        <span className="text-muted-foreground">
-                            ({headerTotal})
-                        </span>
-                    )}
+                <HeaderTitle
+                    to={`/comments/${content_type}/${slug}`}
+                    truncate
+                    count={showHeaderTotal ? pagination?.total : undefined}
+                    countPending={showHeaderTotal && isLoading}
+                >
+                    Обговорення
                 </HeaderTitle>
                 {!comment_reference && (
                     <HeaderActions>

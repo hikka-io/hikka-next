@@ -8,7 +8,6 @@ import { type EditStatusEnum, getEditOptions } from '@hikka/api';
 import MaterialSymbolsHourglassEmptyRounded from '@/components/icons/material-symbols/MaterialSymbolsHourglassEmptyRounded';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import Block from '@/components/ui/block';
-import Card from '@/components/ui/card';
 import { Header, HeaderActions, HeaderTitle } from '@/components/ui/header';
 import { Link } from '@/utils/navigation';
 
@@ -98,63 +97,61 @@ const EditTimeline: FC<Props> = ({ editId }) => {
     const hasSecondNode = Boolean(moderator) || isPending;
 
     return (
-        <Card className="p-0">
-            <Block className="py-4">
-                <Header className="px-4">
-                    <HeaderTitle>Деталі</HeaderTitle>
-                    <HeaderActions>
-                        <EditStatusBadge editId={editId} />
-                    </HeaderActions>
-                </Header>
-                <div className="flex flex-col gap-6 px-4">
-                    {author && (
-                        <TimelineNode
-                            label="Автор"
-                            showConnector={hasSecondNode}
-                            media={
-                                <UserAvatar
-                                    username={author.username}
-                                    avatar={author.avatar}
-                                />
-                            }
-                        >
-                            <Username username={author.username} />
-                            <NodeMeta action="Створив правку" date={created} />
-                        </TimelineNode>
-                    )}
-                    {moderator ? (
+        <Block variant="card">
+            <Header>
+                <HeaderTitle>Деталі</HeaderTitle>
+                <HeaderActions>
+                    <EditStatusBadge editId={editId} />
+                </HeaderActions>
+            </Header>
+            <div className="flex flex-col gap-6">
+                {author && (
+                    <TimelineNode
+                        label="Автор"
+                        showConnector={hasSecondNode}
+                        media={
+                            <UserAvatar
+                                username={author.username}
+                                avatar={author.avatar}
+                            />
+                        }
+                    >
+                        <Username username={author.username} />
+                        <NodeMeta action="Створив правку" date={created} />
+                    </TimelineNode>
+                )}
+                {moderator ? (
+                    <TimelineNode
+                        label="Модератор"
+                        showConnector={false}
+                        media={
+                            <UserAvatar
+                                username={moderator.username}
+                                avatar={moderator.avatar}
+                            />
+                        }
+                    >
+                        <Username username={moderator.username} />
+                        <NodeMeta
+                            action={MOD_VERB[status] || 'Опрацював правку'}
+                            date={updated}
+                        />
+                    </TimelineNode>
+                ) : (
+                    isPending && (
                         <TimelineNode
                             label="Модератор"
                             showConnector={false}
-                            media={
-                                <UserAvatar
-                                    username={moderator.username}
-                                    avatar={moderator.avatar}
-                                />
-                            }
+                            media={<PendingDisc />}
                         >
-                            <Username username={moderator.username} />
-                            <NodeMeta
-                                action={MOD_VERB[status] || 'Опрацював правку'}
-                                date={updated}
-                            />
+                            <span className="text-muted-foreground text-sm">
+                                Очікує на розгляд
+                            </span>
                         </TimelineNode>
-                    ) : (
-                        isPending && (
-                            <TimelineNode
-                                label="Модератор"
-                                showConnector={false}
-                                media={<PendingDisc />}
-                            >
-                                <span className="text-muted-foreground text-sm">
-                                    Очікує на розгляд
-                                </span>
-                            </TimelineNode>
-                        )
-                    )}
-                </div>
-            </Block>
-        </Card>
+                    )
+                )}
+            </div>
+        </Block>
     );
 };
 

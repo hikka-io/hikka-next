@@ -77,6 +77,12 @@ const UserFavorites: FC<Props> = ({ extended, type }) => {
         !!loggedUser?.username && loggedUser.username === params.username;
 
     const counts = stats?.favourites_count;
+    const total = counts
+        ? CONTENT_OPTIONS.reduce(
+              (sum, option) => sum + (counts[option.value] ?? 0),
+              0,
+          )
+        : undefined;
     // Empty categories are dropped for visitors; the owner keeps every tab.
     const visibleOptions =
         counts && !isOwner
@@ -136,6 +142,8 @@ const UserFavorites: FC<Props> = ({ extended, type }) => {
                             : undefined
                     }
                     search={!extended ? { type: activeContent } : undefined}
+                    count={!extended ? total : undefined}
+                    countPending={!extended && !stats}
                 >
                     Улюблені
                 </HeaderTitle>

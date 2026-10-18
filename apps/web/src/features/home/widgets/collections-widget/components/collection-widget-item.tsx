@@ -23,7 +23,7 @@ const CollectionWidgetItem: FC<Props> = ({ collection }) => {
     const cover = collection.collection[0]?.content.image;
 
     return (
-        <HorizontalCard className="rounded-sm px-2 py-2 transition-colors duration-100 hover:bg-accent">
+        <HorizontalCard className="px-4 py-2 transition-colors duration-100 hover:bg-accent">
             <PosterCard
                 className="w-14"
                 containerClassName="rounded-(--base-radius)"
