@@ -63,24 +63,21 @@ const HeaderTitle: FC<PropsWithChildren<HeaderTitleProps>> = ({
         sizeClass,
     );
 
-    const heading = (
-        <Tag
-            className={cn(
-                sizeClass,
-                truncate && 'truncate',
-                (url || onClick) &&
+    const content = (
+        <>
+            <span
+                className={cn(
                     'underline-offset-4 group-hover/header-title:underline',
-            )}
-        >
-            {children}
-        </Tag>
-    );
-
-    const chevron = (
-        <MaterialSymbolsChevronRightRounded
-            aria-hidden
-            className="shrink-0 text-muted-foreground transition-transform group-hover/header-title:translate-x-0.5 group-hover/header-title:text-foreground"
-        />
+                    truncate && 'truncate',
+                )}
+            >
+                {children}
+            </span>
+            <MaterialSymbolsChevronRightRounded
+                aria-hidden
+                className="shrink-0 text-muted-foreground transition-transform group-hover/header-title:translate-x-0.5 group-hover/header-title:text-foreground"
+            />
+        </>
     );
 
     return (
@@ -92,27 +89,31 @@ const HeaderTitle: FC<PropsWithChildren<HeaderTitleProps>> = ({
                 className,
             )}
         >
-            {url ? (
-                <Link
-                    to={url}
-                    search={search}
-                    {...linkProps}
-                    className={triggerClass}
-                >
-                    {heading}
-                    {chevron}
-                </Link>
-            ) : onClick ? (
-                <button
-                    type="button"
-                    onClick={onClick}
-                    className={triggerClass}
-                >
-                    {heading}
-                    {chevron}
-                </button>
+            {url || onClick ? (
+                <Tag className={cn('flex min-w-0', sizeClass)}>
+                    {url ? (
+                        <Link
+                            to={url}
+                            search={search}
+                            {...linkProps}
+                            className={triggerClass}
+                        >
+                            {content}
+                        </Link>
+                    ) : (
+                        <button
+                            type="button"
+                            onClick={onClick}
+                            className={triggerClass}
+                        >
+                            {content}
+                        </button>
+                    )}
+                </Tag>
             ) : (
-                heading
+                <Tag className={cn(sizeClass, truncate && 'truncate')}>
+                    {children}
+                </Tag>
             )}
         </div>
     );
