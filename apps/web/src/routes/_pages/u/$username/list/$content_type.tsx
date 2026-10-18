@@ -5,7 +5,7 @@ import { ContentTypeEnum, type MainContentTypeEnum } from '@hikka/api';
 
 import ContentTypeTabs from '@/components/content-type-tabs';
 import Block from '@/components/ui/block';
-import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
+import { Header, HeaderTitle } from '@/components/ui/header';
 import type { StackSize } from '@/components/ui/stack';
 import { useCatalogView } from '@/features/catalog';
 import {
@@ -82,11 +82,9 @@ function ListPage() {
     return (
         <Block>
             <Header>
-                <HeaderContainer>
-                    <HeaderTitle variant="h2">
-                        Список {CONTENT_TYPES[content_type].genitive}
-                    </HeaderTitle>
-                </HeaderContainer>
+                <HeaderTitle size="page">
+                    Список {CONTENT_TYPES[content_type].genitive}
+                </HeaderTitle>
             </Header>
             <ContentTypeTabs
                 value={content_type}

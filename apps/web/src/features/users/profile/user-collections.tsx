@@ -12,17 +12,11 @@ import Block from '@/components/ui/block';
 import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
 import EmptyState from '@/components/ui/empty-state';
-import {
-    Header,
-    HeaderContainer,
-    HeaderNavButton,
-    HeaderTitle,
-} from '@/components/ui/header';
+import { Header, HeaderActions, HeaderTitle } from '@/components/ui/header';
 import {
     ResponsiveModal,
     ResponsiveModalContent,
 } from '@/components/ui/responsive-modal';
-import { Skeleton } from '@/components/ui/skeleton';
 import { CollectionListModal } from '@/features/collections';
 import { useCloseOnRouteChange } from '@/services/hooks/use-close-on-route-change';
 import { useVisibleOnce } from '@/services/hooks/use-visible-once';
@@ -62,18 +56,18 @@ const UserCollections: FC<Props> = ({ className }) => {
                 {!hidden && (
                     <Card className={cn(className)} id="user-collections">
                         <Block>
-                            <Header
-                                onClick={
-                                    collections && collections.length > 0
-                                        ? () => setOpen(true)
-                                        : undefined
-                                }
-                            >
-                                <HeaderContainer>
-                                    <HeaderTitle variant="h4">
-                                        Колекції
-                                    </HeaderTitle>
-                                    {isOwner && collections && (
+                            <Header>
+                                <HeaderTitle
+                                    onClick={
+                                        collections && collections.length > 0
+                                            ? () => setOpen(true)
+                                            : undefined
+                                    }
+                                >
+                                    Колекції
+                                </HeaderTitle>
+                                {isOwner && collections && (
+                                    <HeaderActions>
                                         <Button
                                             size="icon-sm"
                                             variant="outline"
@@ -83,12 +77,7 @@ const UserCollections: FC<Props> = ({ className }) => {
                                         >
                                             <MaterialSymbolsAddRounded />
                                         </Button>
-                                    )}
-                                </HeaderContainer>
-                                {isPending ? (
-                                    <Skeleton className="size-8 rounded-md" />
-                                ) : (
-                                    <HeaderNavButton />
+                                    </HeaderActions>
                                 )}
                             </Header>
 

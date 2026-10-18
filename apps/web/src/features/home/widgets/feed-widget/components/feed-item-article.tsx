@@ -5,7 +5,6 @@ import type { Value } from 'platejs';
 import type { ArticlePreviewResponse } from '@hikka/api';
 
 import { Badge } from '@/components/ui/badge';
-import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import { Link } from '@/utils/navigation';
 
 const StaticViewer = lazy(() =>
@@ -21,11 +20,12 @@ type Props = {
 const FeedItemArticle: FC<Props> = ({ data }) => {
     return (
         <div className="flex flex-col gap-4">
-            <Header href={`/articles/${data.slug}`}>
-                <HeaderContainer>
-                    <HeaderTitle variant="h4">{data.title}</HeaderTitle>
-                </HeaderContainer>
-            </Header>
+            <Link
+                to={`/articles/${data.slug}`}
+                className="w-fit hover:underline"
+            >
+                <h3 className="font-bold text-base">{data.title}</h3>
+            </Link>
 
             {data.tags.length > 0 && (
                 <div className="flex gap-2">

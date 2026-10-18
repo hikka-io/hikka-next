@@ -12,12 +12,7 @@ import Block from '@/components/ui/block';
 import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
 import EmptyState from '@/components/ui/empty-state';
-import {
-    Header,
-    HeaderContainer,
-    HeaderNavButton,
-    HeaderTitle,
-} from '@/components/ui/header';
+import { Header, HeaderActions, HeaderTitle } from '@/components/ui/header';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useSession } from '@/services/session';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
@@ -76,16 +71,19 @@ const ArticlesWidget: FC<WidgetProps> = () => {
     return (
         <Card className="p-0" id="articles">
             <Block className="w-full gap-4 py-4">
-                <Header
-                    to={CONTENT_TYPE_LINKS.article}
-                    search={
-                        isOwn && user ? { author: user.username } : undefined
-                    }
-                    className="px-4"
-                >
-                    <HeaderContainer>
-                        <HeaderTitle variant="h4">Статті</HeaderTitle>
-                        {user && (
+                <Header className="px-4">
+                    <HeaderTitle
+                        to={CONTENT_TYPE_LINKS.article}
+                        search={
+                            isOwn && user
+                                ? { author: user.username }
+                                : undefined
+                        }
+                    >
+                        Статті
+                    </HeaderTitle>
+                    {user && (
+                        <HeaderActions>
                             <Button
                                 size="icon-sm"
                                 variant="outline"
@@ -97,9 +95,8 @@ const ArticlesWidget: FC<WidgetProps> = () => {
                             >
                                 <MaterialSymbolsAddRounded />
                             </Button>
-                        )}
-                    </HeaderContainer>
-                    <HeaderNavButton />
+                        </HeaderActions>
+                    )}
                 </Header>
 
                 <Tabs

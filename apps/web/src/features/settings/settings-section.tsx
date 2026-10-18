@@ -1,6 +1,6 @@
 import type { FC, ReactNode } from 'react';
 
-import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
+import { Header, HeaderTitle } from '@/components/ui/header';
 
 type Props = {
     title: string;
@@ -10,9 +10,9 @@ type Props = {
 const SettingsSection: FC<Props> = ({ title, children }) => (
     <div className="flex flex-col gap-4">
         <Header>
-            <HeaderContainer>
-                <HeaderTitle variant="h4">{title}</HeaderTitle>
-            </HeaderContainer>
+            <HeaderTitle as="h3" size="subsection">
+                {title}
+            </HeaderTitle>
         </Header>
         {children}
     </div>

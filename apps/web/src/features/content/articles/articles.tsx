@@ -10,12 +10,7 @@ import {
 } from '@/components/list-items';
 import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
-import {
-    Header,
-    HeaderContainer,
-    HeaderNavButton,
-    HeaderTitle,
-} from '@/components/ui/header';
+import { Header, HeaderTitle } from '@/components/ui/header';
 import {
     ResponsiveModal,
     ResponsiveModalContent,
@@ -52,11 +47,10 @@ const ContentArticles: FC<Props> = ({ content_type }) => {
             <div ref={ref}>
                 <Card id="content-articles">
                     <Block>
-                        <Header onClick={() => setOpen(true)}>
-                            <HeaderContainer>
-                                <HeaderTitle variant="h4">Статті</HeaderTitle>
-                            </HeaderContainer>
-                            <HeaderNavButton />
+                        <Header>
+                            <HeaderTitle onClick={() => setOpen(true)}>
+                                Статті
+                            </HeaderTitle>
                         </Header>
                         <div className="-mx-2 flex flex-col">
                             {list

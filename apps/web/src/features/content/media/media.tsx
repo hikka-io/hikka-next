@@ -5,12 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 import { animeSlugOptions } from '@hikka/api';
 
 import Block from '@/components/ui/block';
-import {
-    Header,
-    HeaderContainer,
-    HeaderNavButton,
-    HeaderTitle,
-} from '@/components/ui/header';
+import { Header, HeaderTitle } from '@/components/ui/header';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useParams } from '@/utils/navigation';
 
@@ -44,30 +39,29 @@ const ContentMedia: FC<Props> = ({ extended }) => {
 
     return (
         <Block id="content-media">
-            <Header
-                href={!extended ? `/anime/${params.slug}/media` : undefined}
-            >
-                <HeaderContainer>
-                    <HeaderTitle>Медіа</HeaderTitle>
-                    {hasVideo && hasMusic && (
-                        <Tabs
-                            value={effectiveActive}
-                            onValueChange={(value) =>
-                                setActive(value as 'video' | 'music')
-                            }
-                        >
-                            <TabsList size="sm">
-                                <TabsTrigger value="video" aria-label="Відео">
-                                    Відео
-                                </TabsTrigger>
-                                <TabsTrigger value="music" aria-label="Музика">
-                                    Музика
-                                </TabsTrigger>
-                            </TabsList>
-                        </Tabs>
-                    )}
-                </HeaderContainer>
-                <HeaderNavButton />
+            <Header>
+                <HeaderTitle
+                    to={!extended ? `/anime/${params.slug}/media` : undefined}
+                >
+                    Медіа
+                </HeaderTitle>
+                {hasVideo && hasMusic && (
+                    <Tabs
+                        value={effectiveActive}
+                        onValueChange={(value) =>
+                            setActive(value as 'video' | 'music')
+                        }
+                    >
+                        <TabsList size="sm">
+                            <TabsTrigger value="video" aria-label="Відео">
+                                Відео
+                            </TabsTrigger>
+                            <TabsTrigger value="music" aria-label="Музика">
+                                Музика
+                            </TabsTrigger>
+                        </TabsList>
+                    </Tabs>
+                )}
             </Header>
 
             {effectiveActive === 'video' && (

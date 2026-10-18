@@ -5,7 +5,7 @@ import { getCollectionOptions } from '@hikka/api';
 import { MDViewer } from '@/components/markdown';
 import TextExpand from '@/components/text-expand';
 import { Badge } from '@/components/ui/badge';
-import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
+import { Header, HeaderTitle } from '@/components/ui/header';
 import { usePageTitleAnchor } from '@/features/app-shell';
 import { useParams } from '@/utils/navigation';
 
@@ -20,11 +20,9 @@ const CollectionViewTitle = () => {
         <div className="flex flex-col gap-6">
             <div className="flex flex-col gap-4">
                 <Header>
-                    <HeaderContainer>
-                        <HeaderTitle ref={titleAnchor} variant="h2">
-                            {collection?.title || 'Нова колекція'}
-                        </HeaderTitle>
-                    </HeaderContainer>
+                    <HeaderTitle ref={titleAnchor} as="h1" size="page">
+                        {collection?.title || 'Нова колекція'}
+                    </HeaderTitle>
                 </Header>
                 <div className="flex flex-wrap gap-2">
                     {collection!.spoiler && (

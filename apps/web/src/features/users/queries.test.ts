@@ -54,8 +54,7 @@ import { useUserList } from './list/use-user-list';
 import UserArticles from './profile/user-articles';
 import UserCollections from './profile/user-collections';
 import FavoriteSection from './profile/user-favorites/components/favorite-section';
-import HistoryModal from './profile/user-history/history-modal';
-import UserHistory from './profile/user-history/user-history';
+import UserHistory from './profile/user-history';
 import {
     FAVOURITES_PREVIEW_SIZE,
     userArticlesPreviewOptions,
@@ -965,18 +964,6 @@ describe('profile previews', () => {
         const [[options]] = mocks.infiniteListCalls as [[CapturedOptions]];
         expect(options.queryKey).toStrictEqual(
             userHistoryPreviewOptions(username).queryKey,
-        );
-    });
-
-    it('HistoryModal keeps the unsized history key', () => {
-        mocks.params = { username };
-        mocks.list = [];
-
-        renderToStaticMarkup(createElement(HistoryModal));
-
-        const [[options]] = mocks.infiniteListCalls as [[CapturedOptions]];
-        expect(options.queryKey).toStrictEqual(
-            userHistoryInfiniteOptions({ path: { username } }).queryKey,
         );
     });
 

@@ -13,13 +13,7 @@ import Block from '@/components/ui/block';
 import { Button } from '@/components/ui/button';
 import { ChipTabs } from '@/components/ui/chip-tabs';
 import EmptyState from '@/components/ui/empty-state';
-import {
-    Header,
-    HeaderActions,
-    HeaderContainer,
-    HeaderNavButton,
-    HeaderTitle,
-} from '@/components/ui/header';
+import { Header, HeaderActions, HeaderTitle } from '@/components/ui/header';
 import { Skeleton } from '@/components/ui/skeleton';
 import { LoginButton } from '@/features/auth';
 import { Sort } from '@/features/filters';
@@ -178,24 +172,15 @@ const CommentList: FC<Props> = ({
 
     return (
         <Block className={cn('break-inside-avoid', className)} id="comments">
-            <Header href={`/comments/${content_type}/${slug}`}>
-                <HeaderContainer className="min-w-0">
-                    <HeaderTitle truncate>
-                        Обговорення{' '}
-                        {headerTotal !== undefined && (
-                            <span className="text-muted-foreground">
-                                ({headerTotal})
-                            </span>
-                        )}
-                    </HeaderTitle>
-                    {comment_reference && (
-                        <Button size="md" variant="outline">
-                            <Link to={`/comments/${content_type}/${slug}`}>
-                                Усі коментарі
-                            </Link>
-                        </Button>
+            <Header>
+                <HeaderTitle to={`/comments/${content_type}/${slug}`} truncate>
+                    Обговорення{' '}
+                    {headerTotal !== undefined && (
+                        <span className="text-muted-foreground">
+                            ({headerTotal})
+                        </span>
                     )}
-                </HeaderContainer>
+                </HeaderTitle>
                 {!comment_reference && (
                     <HeaderActions>
                         <Sort
@@ -211,7 +196,6 @@ const CommentList: FC<Props> = ({
                         />
                     </HeaderActions>
                 )}
-                <HeaderNavButton />
             </Header>
             <CommentsProvider lazyThread={!comment_reference}>
                 <div ref={visibleRef} className="flex flex-col gap-4">

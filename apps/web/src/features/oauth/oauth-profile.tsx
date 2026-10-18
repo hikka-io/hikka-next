@@ -3,7 +3,7 @@ import type { FC } from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
-import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
+import { Header, HeaderTitle } from '@/components/ui/header';
 import { useSession } from '@/services/session';
 import { useCurrentUrl } from '@/utils/navigation';
 
@@ -32,11 +32,7 @@ const OAuthProfile: FC<Props> = () => {
                 </Avatar>
                 <div className="flex flex-col">
                     <Header>
-                        <HeaderContainer>
-                            <HeaderTitle className="line-clamp-1">
-                                {user?.username}
-                            </HeaderTitle>
-                        </HeaderContainer>
+                        <HeaderTitle truncate>{user?.username}</HeaderTitle>
                     </Header>
                     <p className="text-muted-foreground text-sm">
                         Ваш обліковий запис

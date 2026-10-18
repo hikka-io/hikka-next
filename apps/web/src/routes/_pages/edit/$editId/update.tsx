@@ -2,7 +2,7 @@ import { createFileRoute } from '@tanstack/react-router';
 
 import { getEditOptions } from '@hikka/api';
 
-import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
+import { Header, HeaderTitle } from '@/components/ui/header';
 import { usePageTitleAnchor } from '@/features/app-shell';
 import { EditViewForm } from '@/features/edit';
 import { retryOnCancel } from '@/utils/api/retry-on-cancel';
@@ -43,11 +43,9 @@ function EditUpdatePage() {
     return (
         <div className="flex flex-col gap-6">
             <Header>
-                <HeaderContainer>
-                    <HeaderTitle ref={titleAnchor}>
-                        Редагування правки #{editId}
-                    </HeaderTitle>
-                </HeaderContainer>
+                <HeaderTitle ref={titleAnchor} as="h1" size="page">
+                    Редагування правки #{editId}
+                </HeaderTitle>
             </Header>
             <EditViewForm editId={editId} mode="update" />
         </div>

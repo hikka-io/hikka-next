@@ -10,7 +10,7 @@ import MaterialSymbolsAddRounded from '@/components/icons/material-symbols/Mater
 import LoadMoreButton from '@/components/load-more-button';
 import Block from '@/components/ui/block';
 import { Button } from '@/components/ui/button';
-import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
+import { Header, HeaderActions, HeaderTitle } from '@/components/ui/header';
 import { usePageTitleAnchor } from '@/features/app-shell';
 import { FiltersModal } from '@/features/filters';
 import { useSession } from '@/services/session';
@@ -52,39 +52,33 @@ const ArticleList: FC<Props> = () => {
     return (
         <Block>
             <Header>
-                <HeaderContainer>
-                    <HeaderTitle ref={titleAnchor} variant="h2">
-                        {selectedCategory
-                            ? ARTICLE_CATEGORY[selectedCategory]?.title_ua
-                            : 'Статті'}
-                    </HeaderTitle>
-                    {user && (
-                        <Button
-                            size="icon-sm"
-                            variant="outline"
-                            render={
-                                <Link
-                                    to={`${CONTENT_TYPE_LINKS.article}/new`}
-                                />
-                            }
-                        >
-                            <MaterialSymbolsAddRounded className="size-4" />
-                        </Button>
-                    )}
-                </HeaderContainer>
-                <FiltersModal
-                    body={
-                        <ArticleFiltersBody className="-m-4 flex-1 overflow-y-auto p-4" />
-                    }
-                >
+                <HeaderTitle ref={titleAnchor} as="h1" size="page">
+                    {selectedCategory
+                        ? ARTICLE_CATEGORY[selectedCategory]?.title_ua
+                        : 'Статті'}
+                </HeaderTitle>
+                {user && (
                     <Button
+                        size="icon-sm"
                         variant="outline"
-                        size="md"
-                        className="flex md:hidden"
+                        render={
+                            <Link to={`${CONTENT_TYPE_LINKS.article}/new`} />
+                        }
                     >
-                        <AntDesignFilterFilled /> Фільтри
+                        <MaterialSymbolsAddRounded className="size-4" />
                     </Button>
-                </FiltersModal>
+                )}
+                <HeaderActions className="md:hidden">
+                    <FiltersModal
+                        body={
+                            <ArticleFiltersBody className="-m-4 flex-1 overflow-y-auto p-4" />
+                        }
+                    >
+                        <Button variant="outline" size="md">
+                            <AntDesignFilterFilled /> Фільтри
+                        </Button>
+                    </FiltersModal>
+                </HeaderActions>
             </Header>
             <div
                 className={cn(

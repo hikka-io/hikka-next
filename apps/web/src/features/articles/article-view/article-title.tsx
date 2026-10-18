@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 
 import { getArticleOptions } from '@hikka/api';
 
-import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
+import { Header, HeaderTitle } from '@/components/ui/header';
 import { usePageTitleAnchor } from '@/features/app-shell';
 import { useTitle } from '@/services/session';
 import { CONTENT_TYPE_LINKS } from '@/utils/content-paths';
@@ -33,11 +33,9 @@ const ArticleViewTitle: FC<Props> = () => {
                 </Link>
             )}
             <Header>
-                <HeaderContainer>
-                    <HeaderTitle ref={titleAnchor} variant="h2">
-                        {article!.title}
-                    </HeaderTitle>
-                </HeaderContainer>
+                <HeaderTitle ref={titleAnchor} as="h1" size="page">
+                    {article!.title}
+                </HeaderTitle>
             </Header>
         </div>
     );

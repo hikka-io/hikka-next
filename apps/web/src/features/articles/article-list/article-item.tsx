@@ -8,7 +8,6 @@ import type { ArticlePreviewResponse } from '@hikka/api';
 import { StaticViewer } from '@/components/plate/editor/static-viewer';
 import { Badge } from '@/components/ui/badge';
 import Card from '@/components/ui/card';
-import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import { StatItem, StatItemGroup } from '@/components/ui/stat-item';
 import { useTitle } from '@/services/session';
 import { cn } from '@/utils/cn';
@@ -45,13 +44,9 @@ const ArticleItem: FC<Props> = ({ article, className }) => {
                             {contentTitle}
                         </p>
                     )}
-                    <Header>
-                        <HeaderContainer>
-                            <HeaderTitle variant="h3">
-                                {article.title}
-                            </HeaderTitle>
-                        </HeaderContainer>
-                    </Header>
+                    <h2 className="font-bold text-lg leading-7">
+                        {article.title}
+                    </h2>
                 </div>
                 {article.tags.length > 0 && (
                     <div className="flex gap-2">

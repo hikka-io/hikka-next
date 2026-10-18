@@ -4,7 +4,7 @@ import { zodValidator } from '@tanstack/zod-adapter';
 import MaterialSymbolsAddRounded from '@/components/icons/material-symbols/MaterialSymbolsAddRounded';
 import Block from '@/components/ui/block';
 import { Button } from '@/components/ui/button';
-import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
+import { Header, HeaderTitle } from '@/components/ui/header';
 import { usePageHeader, usePageTitleAnchor } from '@/features/app-shell';
 import { CollectionList, CollectionSort } from '@/features/collections';
 import {
@@ -54,18 +54,16 @@ function CollectionsPage() {
         <Block>
             <div className="flex items-center justify-between gap-4">
                 <Header>
-                    <HeaderContainer>
-                        <HeaderTitle ref={titleAnchor} variant="h2">
-                            Колекції
-                        </HeaderTitle>
-                        <Button
-                            size="icon-sm"
-                            variant="outline"
-                            render={<Link to="/collections/new" />}
-                        >
-                            <MaterialSymbolsAddRounded />
-                        </Button>
-                    </HeaderContainer>
+                    <HeaderTitle ref={titleAnchor} as="h1" size="page">
+                        Колекції
+                    </HeaderTitle>
+                    <Button
+                        size="icon-sm"
+                        variant="outline"
+                        render={<Link to="/collections/new" />}
+                    >
+                        <MaterialSymbolsAddRounded />
+                    </Button>
                 </Header>
                 <CollectionSort />
             </div>

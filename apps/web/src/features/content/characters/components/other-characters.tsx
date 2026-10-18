@@ -4,7 +4,7 @@ import type { MainContentTypeEnum } from '@hikka/api';
 
 import CharacterCard from '@/components/content-card/character-card';
 import Block from '@/components/ui/block';
-import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
+import { Header, HeaderTitle } from '@/components/ui/header';
 import Stack from '@/components/ui/stack';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { useParams } from '@/utils/navigation';
@@ -35,9 +35,7 @@ const OtherCharacters: FC<Props> = ({ extended, content_type }) => {
     return (
         <Block>
             <Header>
-                <HeaderContainer>
-                    <HeaderTitle>Другорядні Персонажі</HeaderTitle>
-                </HeaderContainer>
+                <HeaderTitle>Другорядні персонажі</HeaderTitle>
             </Header>
             <Stack
                 size={5}

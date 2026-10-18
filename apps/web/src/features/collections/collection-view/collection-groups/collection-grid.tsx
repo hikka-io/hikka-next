@@ -7,7 +7,7 @@ import type { CollectionContentResponse } from '@hikka/api';
 import { contentEntity } from '@/components/content-card';
 import EntityCard from '@/components/content-card/entity-card';
 import { DEFAULT_CONTAINER_RATIO } from '@/components/content-card/image-presets';
-import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
+import { Header, HeaderTitle } from '@/components/ui/header';
 import {
     Popover,
     PopoverContent,
@@ -85,10 +85,10 @@ const CollectionDisplayGrid: FC<Props> = ({ group, items }) => {
     return (
         <div className="flex scroll-mt-20 flex-col gap-4" id={group}>
             {group && (
-                <Header href={`#${group}`}>
-                    <HeaderContainer>
-                        <HeaderTitle variant="h5">{group}</HeaderTitle>
-                    </HeaderContainer>
+                <Header>
+                    <HeaderTitle as="h3" size="subsection">
+                        {group}
+                    </HeaderTitle>
                 </Header>
             )}
             <Stack size={5} extendedSize={5} extended>

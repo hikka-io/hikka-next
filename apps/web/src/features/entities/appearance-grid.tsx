@@ -2,12 +2,7 @@ import type { ForwardedRef, ReactNode } from 'react';
 
 import LoadMoreButton from '@/components/load-more-button';
 import Block from '@/components/ui/block';
-import {
-    Header,
-    HeaderContainer,
-    HeaderNavButton,
-    HeaderTitle,
-} from '@/components/ui/header';
+import { Header, HeaderTitle } from '@/components/ui/header';
 import Stack from '@/components/ui/stack';
 
 type Props<T> = {
@@ -44,11 +39,10 @@ function AppearanceGrid<T>({
 
     return (
         <Block>
-            <Header href={!extended ? href : undefined}>
-                <HeaderContainer>
-                    <HeaderTitle>{title}</HeaderTitle>
-                </HeaderContainer>
-                <HeaderNavButton />
+            <Header>
+                <HeaderTitle to={!extended ? href : undefined}>
+                    {title}
+                </HeaderTitle>
             </Header>
             <Stack
                 size={4}

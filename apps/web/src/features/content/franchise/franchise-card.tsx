@@ -9,12 +9,7 @@ import PosterCardSkeleton from '@/components/content-card/poster-card-skeleton';
 import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
 import { Collapsible, CollapsibleContent } from '@/components/ui/collapsible';
-import {
-    Header,
-    HeaderContainer,
-    HeaderNavButton,
-    HeaderTitle,
-} from '@/components/ui/header';
+import { Header, HeaderActions, HeaderTitle } from '@/components/ui/header';
 import { labelVariants } from '@/components/ui/label';
 import { Skeleton, SkeletonText } from '@/components/ui/skeleton';
 import { useVisibleOnce } from '@/services/hooks/use-visible-once';
@@ -114,9 +109,9 @@ const FranchiseCard: FC<Props> = ({ content_type, slug, className }) => {
 
     return (
         <Card ref={ref} id="content-franchise" className={className}>
-            <Header href={href}>
-                <HeaderContainer>
-                    <HeaderTitle variant="h4">Франшиза</HeaderTitle>
+            <Header>
+                <HeaderTitle to={href}>Франшиза</HeaderTitle>
+                <HeaderActions>
                     <Button
                         size="icon-sm"
                         variant="outline"
@@ -125,8 +120,7 @@ const FranchiseCard: FC<Props> = ({ content_type, slug, className }) => {
                     >
                         <Share2 className="rotate-90" />
                     </Button>
-                </HeaderContainer>
-                <HeaderNavButton />
+                </HeaderActions>
             </Header>
             {model ? (
                 <FranchiseCardBody model={model} />

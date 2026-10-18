@@ -10,7 +10,7 @@ import {
     CollapsibleContent,
     CollapsibleTrigger,
 } from '@/components/ui/collapsible';
-import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
+import { Header, HeaderTitle } from '@/components/ui/header';
 import { cn } from '@/utils/cn';
 import { Link, usePathname } from '@/utils/navigation';
 
@@ -55,9 +55,9 @@ const SettingsSidebar: FC<Props> = ({ className }) => {
         <Card className={cn('w-full p-0', className)}>
             <Block className="w-full gap-4 py-4">
                 <Header className="px-4">
-                    <HeaderContainer>
-                        <HeaderTitle variant="h4">Налаштування</HeaderTitle>
-                    </HeaderContainer>
+                    <HeaderTitle as="h3" size="subsection">
+                        Налаштування
+                    </HeaderTitle>
                 </Header>
 
                 {/* Desktop: always-expanded groups */}

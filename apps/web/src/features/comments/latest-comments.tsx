@@ -8,7 +8,7 @@ import { Badge } from '@/components/ui/badge';
 import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
 import EmptyState from '@/components/ui/empty-state';
-import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
+import { Header, HeaderTitle } from '@/components/ui/header';
 import Stack from '@/components/ui/stack';
 import { usePageTitleAnchor } from '@/features/app-shell';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
@@ -28,11 +28,9 @@ const LatestComments: FC<Props> = ({ className }) => {
     return (
         <Block className={cn(className)}>
             <Header>
-                <HeaderContainer>
-                    <HeaderTitle ref={titleAnchor} variant="h2">
-                        Останні коментарі
-                    </HeaderTitle>
-                </HeaderContainer>
+                <HeaderTitle ref={titleAnchor} as="h1" size="page">
+                    Останні коментарі
+                </HeaderTitle>
             </Header>
             <Stack
                 extended

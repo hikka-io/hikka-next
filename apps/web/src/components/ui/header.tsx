@@ -1,88 +1,30 @@
-import React, { type FC, type PropsWithChildren } from 'react';
+import type { AnchorHTMLAttributes, FC, PropsWithChildren, Ref } from 'react';
 
-import { MaterialSymbolsArrowRightAltRounded } from '@/components/icons/material-symbols/MaterialSymbolsArrowRightAltRounded';
+import { MaterialSymbolsChevronRightRounded } from '@/components/icons/material-symbols/MaterialSymbolsChevronRightRounded';
 import { cn } from '@/utils/cn';
 import { Link } from '@/utils/navigation';
 
-import { Button } from './button';
-
-type HeaderContextValue = {
-    href?: string;
-    to?: string;
-    search?: Record<string, unknown>;
-    onClick?: () => void;
-    linkProps?: Partial<React.AnchorHTMLAttributes<HTMLAnchorElement>>;
-};
-
-const HeaderContext = React.createContext<HeaderContextValue | undefined>(
-    undefined,
-);
-
-const useHeader = () => {
-    const context = React.useContext(HeaderContext);
-
-    if (!context) {
-        throw new Error('useHeader must be used within HeaderContext');
-    }
-
-    return context;
-};
+const TITLE_SIZES = {
+    page: 'text-2xl leading-8 font-bold',
+    section: 'text-lg leading-7 font-bold',
+    subsection: 'text-base leading-6 font-semibold',
+} as const;
 
 type HeaderProps = {
     className?: string;
-    href?: string;
-    to?: string;
-    search?: Record<string, unknown>;
-    linkProps?: Partial<React.AnchorHTMLAttributes<HTMLAnchorElement>>;
-    onClick?: () => void;
     id?: string;
 };
 
 const Header: FC<PropsWithChildren<HeaderProps>> = ({
     className,
     children,
-    href,
-    to,
-    search,
-    onClick,
-    linkProps,
     ...props
 }) => {
-    const url = to ?? href;
-    const contextValue = React.useMemo(() => {
-        return {
-            href: url,
-            search,
-            onClick,
-            linkProps,
-        };
-    }, [url, search, onClick, linkProps]);
-
     return (
-        <HeaderContext.Provider value={contextValue}>
-            <div
-                className={cn(
-                    'flex items-center justify-between gap-2',
-                    className,
-                )}
-                {...props}
-            >
-                {children}
-            </div>
-        </HeaderContext.Provider>
-    );
-};
-
-type HeaderContainerProps = {
-    className?: string;
-};
-
-const HeaderContainer: FC<PropsWithChildren<HeaderContainerProps>> = ({
-    className,
-    children,
-}) => {
-    return (
-        <div className={cn('flex flex-1 items-center gap-4', className)}>
+        <div
+            className={cn('flex min-h-8 items-center gap-3', className)}
+            {...props}
+        >
             {children}
         </div>
     );
@@ -90,55 +32,84 @@ const HeaderContainer: FC<PropsWithChildren<HeaderContainerProps>> = ({
 
 type HeaderTitleProps = {
     className?: string;
-    variant?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5';
-    href?: string;
+    as?: 'h1' | 'h2' | 'h3' | 'h4';
+    size?: keyof typeof TITLE_SIZES;
     to?: string;
+    href?: string;
+    search?: Record<string, unknown>;
+    linkProps?: Partial<AnchorHTMLAttributes<HTMLAnchorElement>>;
+    onClick?: () => void;
     truncate?: boolean;
-    ref?: React.Ref<HTMLDivElement>;
+    ref?: Ref<HTMLDivElement>;
 };
 
 const HeaderTitle: FC<PropsWithChildren<HeaderTitleProps>> = ({
     className,
     children,
-    variant,
-    href: hrefProp,
-    to: toProp,
+    as: Tag = 'h2',
+    size = 'section',
+    to,
+    href,
+    search,
+    linkProps,
+    onClick,
     truncate,
     ref,
 }) => {
-    const resolvedProp = toProp ?? hrefProp;
-    const { href, search, onClick, linkProps } = useHeader();
-    const Tag = variant || 'h3';
+    const url = to ?? href;
+    const sizeClass = TITLE_SIZES[size];
+    const triggerClass = cn(
+        'group/header-title -mx-1.5 -my-1.5 inline-flex min-h-10 min-w-0 items-center gap-1 rounded-md px-1.5 py-1.5 text-left outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50',
+        sizeClass,
+    );
 
     const heading = (
-        <Tag className={cn(truncate && 'truncate')}>{children}</Tag>
+        <Tag
+            className={cn(
+                sizeClass,
+                truncate && 'truncate',
+                (url || onClick) &&
+                    'underline-offset-4 group-hover/header-title:underline',
+            )}
+        >
+            {children}
+        </Tag>
+    );
+
+    const chevron = (
+        <MaterialSymbolsChevronRightRounded
+            aria-hidden
+            className="shrink-0 text-muted-foreground transition-transform group-hover/header-title:translate-x-0.5 group-hover/header-title:text-foreground"
+        />
     );
 
     return (
         <div
             ref={ref}
             className={cn(
-                'flex items-center gap-4',
-                truncate && 'min-w-0 [&>a]:min-w-0 [&>button]:min-w-0',
+                'flex items-center',
+                truncate && 'min-w-0',
                 className,
             )}
         >
-            {resolvedProp || href ? (
+            {url ? (
                 <Link
-                    to={resolvedProp || href || ''}
+                    to={url}
                     search={search}
                     {...linkProps}
-                    className="text-left hover:underline"
+                    className={triggerClass}
                 >
                     {heading}
+                    {chevron}
                 </Link>
             ) : onClick ? (
                 <button
                     type="button"
                     onClick={onClick}
-                    className="text-left hover:underline"
+                    className={triggerClass}
                 >
                     {heading}
+                    {chevron}
                 </button>
             ) : (
                 heading
@@ -156,48 +127,15 @@ const HeaderActions: FC<PropsWithChildren<HeaderActionsProps>> = ({
     children,
 }) => {
     return (
-        <div className={cn('flex shrink-0 items-center gap-2', className)}>
+        <div
+            className={cn(
+                'ml-auto flex shrink-0 items-center gap-2',
+                className,
+            )}
+        >
             {children}
         </div>
     );
 };
 
-const HeaderNavButton: FC = () => {
-    const { href, search, onClick, linkProps } = useHeader();
-
-    if (!href && !onClick) {
-        return null;
-    }
-
-    if (href) {
-        return (
-            <Button
-                size="icon-sm"
-                variant="outline"
-                render={
-                    <Link
-                        to={href}
-                        search={search}
-                        className="flex items-center gap-2 text-muted-foreground"
-                        {...linkProps}
-                    />
-                }
-            >
-                <MaterialSymbolsArrowRightAltRounded className="text-lg" />
-            </Button>
-        );
-    }
-
-    return (
-        <Button
-            onClick={onClick}
-            size="icon-sm"
-            className="flex items-center gap-2 text-muted-foreground"
-            variant="outline"
-        >
-            <MaterialSymbolsArrowRightAltRounded className="text-lg" />
-        </Button>
-    );
-};
-
-export { Header, HeaderActions, HeaderContainer, HeaderNavButton, HeaderTitle };
+export { Header, HeaderActions, HeaderTitle };

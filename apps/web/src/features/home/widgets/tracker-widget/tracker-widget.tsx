@@ -10,12 +10,7 @@ import {
 import MaterialSymbolsCalendarClockRounded from '@/components/icons/material-symbols/MaterialSymbolsCalendarClockRounded';
 import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
-import {
-    Header,
-    HeaderContainer,
-    HeaderNavButton,
-    HeaderTitle,
-} from '@/components/ui/header';
+import { Header, HeaderTitle } from '@/components/ui/header';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -73,18 +68,15 @@ const TrackerWidget: FC<WidgetProps> = () => {
     return (
         <Card id="tracker" className="gap-0 divide-y divide-border p-0">
             <Block className="p-4">
-                <Header
-                    href={`/u/${user.username}/${TAB_LIST_CONFIG[activeTab].path}`}
-                    search={TAB_LIST_CONFIG[activeTab].search}
-                >
-                    <HeaderContainer>
-                        <HeaderTitle variant="h4">
-                            {activeTab === ContentTypeEnum.ANIME
-                                ? 'Дивлюсь'
-                                : 'Читаю'}
-                        </HeaderTitle>
-                    </HeaderContainer>
-                    <HeaderNavButton />
+                <Header>
+                    <HeaderTitle
+                        to={`/u/${user.username}/${TAB_LIST_CONFIG[activeTab].path}`}
+                        search={TAB_LIST_CONFIG[activeTab].search}
+                    >
+                        {activeTab === ContentTypeEnum.ANIME
+                            ? 'Дивлюсь'
+                            : 'Читаю'}
+                    </HeaderTitle>
                 </Header>
                 <Tabs
                     value={activeTab}

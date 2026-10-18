@@ -2,7 +2,7 @@ import { createFileRoute } from '@tanstack/react-router';
 
 import { ContentTypeEnum } from '@hikka/api';
 
-import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
+import { Header, HeaderTitle } from '@/components/ui/header';
 import { usePageTitleAnchor } from '@/features/app-shell';
 import { CommentList } from '@/features/comments';
 import { commentListOptions } from '@/features/comments/queries';
@@ -30,11 +30,9 @@ function EditPage() {
         <div className="flex flex-col gap-12">
             <div className="flex flex-col gap-6">
                 <Header>
-                    <HeaderContainer>
-                        <HeaderTitle ref={titleAnchor}>
-                            Правка #{editId}
-                        </HeaderTitle>
-                    </HeaderContainer>
+                    <HeaderTitle ref={titleAnchor} as="h1" size="page">
+                        Правка #{editId}
+                    </HeaderTitle>
                 </Header>
                 <EditViewForm editId={editId} mode="view" />
             </div>

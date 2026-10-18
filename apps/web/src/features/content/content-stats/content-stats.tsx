@@ -5,12 +5,7 @@ import { ContentTypeEnum, type MainContentTypeEnum } from '@hikka/api';
 import { Badge } from '@/components/ui/badge';
 import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
-import {
-    Header,
-    HeaderContainer,
-    HeaderNavButton,
-    HeaderTitle,
-} from '@/components/ui/header';
+import { Header, HeaderTitle } from '@/components/ui/header';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 import ReadStatusStats from './components/read-status-stats';
@@ -30,11 +25,8 @@ const ContentStats = ({ content_type }: Props) => {
         <Card id="content-stats">
             <Block>
                 <Header>
-                    <HeaderContainer>
-                        <HeaderTitle variant="h4">Статистика</HeaderTitle>
-                        <Badge variant="secondary">MAL</Badge>
-                    </HeaderContainer>
-                    <HeaderNavButton />
+                    <HeaderTitle>Статистика</HeaderTitle>
+                    <Badge variant="secondary">MAL</Badge>
                 </Header>
                 <Tabs value={stat} onValueChange={setStat}>
                     <TabsList size="sm" className="w-full">

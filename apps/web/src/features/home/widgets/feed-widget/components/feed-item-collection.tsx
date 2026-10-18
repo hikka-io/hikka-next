@@ -6,9 +6,9 @@ import { contentEntity } from '@/components/content-card';
 import EntityCard from '@/components/content-card/entity-card';
 import PosterCard from '@/components/content-card/poster-card';
 import { Badge } from '@/components/ui/badge';
-import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import Image from '@/components/ui/image';
 import Stack, { type StackSize } from '@/components/ui/stack';
+import { Link } from '@/utils/navigation';
 
 type Props = {
     data: CollectionResponse;
@@ -26,11 +26,12 @@ const FeedItemCollection: FC<Props> = ({ data }) => {
 
     return (
         <div className="flex flex-col gap-4">
-            <Header href={`/collections/${data.reference}`}>
-                <HeaderContainer>
-                    <HeaderTitle variant="h4">{data.title}</HeaderTitle>
-                </HeaderContainer>
-            </Header>
+            <Link
+                to={`/collections/${data.reference}`}
+                className="w-fit hover:underline"
+            >
+                <h3 className="font-bold text-base">{data.title}</h3>
+            </Link>
 
             {(data.tags.length > 0 || data.spoiler || data.nsfw) && (
                 <div className="flex gap-2">

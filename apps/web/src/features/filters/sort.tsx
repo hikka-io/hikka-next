@@ -39,7 +39,7 @@ const SORT_SIZES: Record<
     SortSize,
     { trigger: 'sm' | 'md'; button: 'icon-sm' | 'icon-md' }
 > = {
-    // Matches `HeaderNavButton` (`icon-sm`, h-8) so both sit flush in a header.
+    // h-8 matches the `min-h-8` Header row so the control sits flush in it.
     sm: { trigger: 'sm', button: 'icon-sm' },
     md: { trigger: 'md', button: 'icon-md' },
 };

@@ -5,7 +5,7 @@ import { useDroppable } from '@dnd-kit/react';
 
 import PosterCard from '@/components/content-card/poster-card';
 import { MaterialSymbolsAddRounded } from '@/components/icons/material-symbols/MaterialSymbolsAddRounded';
-import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
+import { Header, HeaderTitle } from '@/components/ui/header';
 import { SearchModal } from '@/features/search';
 import { cn } from '@/utils/cn';
 
@@ -28,11 +28,9 @@ const GroupTitle: FC<Props> = ({ groupId }) => {
 
     return (
         <Header>
-            <HeaderContainer>
-                <HeaderTitle variant="h5">
-                    {title.trim().length > 0 ? title : 'Нова група'}
-                </HeaderTitle>
-            </HeaderContainer>
+            <HeaderTitle as="h3" size="subsection">
+                {title.trim().length > 0 ? title : 'Нова група'}
+            </HeaderTitle>
         </Header>
     );
 };

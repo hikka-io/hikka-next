@@ -14,7 +14,7 @@ import {
 import { MDViewer } from '@/components/markdown';
 import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
-import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
+import { Header, HeaderTitle } from '@/components/ui/header';
 
 type Props = {};
 
@@ -25,9 +25,7 @@ const ArticleListPopularAuthors: FC<Props> = () => {
         <Card>
             <Block>
                 <Header>
-                    <HeaderContainer>
-                        <HeaderTitle variant="h4">Популярні автори</HeaderTitle>
-                    </HeaderContainer>
+                    <HeaderTitle>Популярні автори</HeaderTitle>
                 </Header>
                 <div className="flex flex-col gap-6">
                     {articleTop?.authors.slice(0, 4).map((author) => (

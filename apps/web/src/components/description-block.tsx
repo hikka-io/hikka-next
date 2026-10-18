@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { MDViewer } from '@/components/markdown';
 import TextExpand from '@/components/text-expand';
 import Block from '@/components/ui/block';
-import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
+import { Header, HeaderTitle } from '@/components/ui/header';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { BLANK_CHARS } from '@/utils/text';
 
@@ -67,24 +67,22 @@ const DescriptionBlock = ({
     return (
         <Block className={className} id={id}>
             <Header>
-                <HeaderContainer>
-                    <HeaderTitle>{title}</HeaderTitle>
-                    {valid.length > 1 && (
-                        <Tabs value={activeValue} onValueChange={setActive}>
-                            <TabsList size="sm">
-                                {valid.map((option) => (
-                                    <TabsTrigger
-                                        key={option.key}
-                                        value={option.key}
-                                        aria-label={option.ariaLabel}
-                                    >
-                                        {option.label}
-                                    </TabsTrigger>
-                                ))}
-                            </TabsList>
-                        </Tabs>
-                    )}
-                </HeaderContainer>
+                <HeaderTitle>{title}</HeaderTitle>
+                {valid.length > 1 && (
+                    <Tabs value={activeValue} onValueChange={setActive}>
+                        <TabsList size="sm">
+                            {valid.map((option) => (
+                                <TabsTrigger
+                                    key={option.key}
+                                    value={option.key}
+                                    aria-label={option.ariaLabel}
+                                >
+                                    {option.label}
+                                </TabsTrigger>
+                            ))}
+                        </TabsList>
+                    </Tabs>
+                )}
             </Header>
             <TextExpand>
                 <MDViewer>{description}</MDViewer>

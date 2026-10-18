@@ -1,6 +1,6 @@
 import type { FC, ReactNode } from 'react';
 
-import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
+import { Header, HeaderActions, HeaderTitle } from '@/components/ui/header';
 
 type Props = {
     title: string;
@@ -20,11 +20,11 @@ const SettingsPage: FC<Props> = ({
     <div className="flex flex-col gap-8">
         <div className="flex flex-col">
             <Header>
-                <HeaderContainer>
-                    <HeaderTitle>{title}</HeaderTitle>
-                    {action}
-                </HeaderContainer>
-                {trailingAction}
+                <HeaderTitle>{title}</HeaderTitle>
+                {action}
+                {trailingAction && (
+                    <HeaderActions>{trailingAction}</HeaderActions>
+                )}
             </Header>
             <p className="text-muted-foreground text-sm">{description}</p>
         </div>

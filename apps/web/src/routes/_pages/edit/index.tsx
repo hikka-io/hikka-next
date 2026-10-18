@@ -6,7 +6,7 @@ import { editsTopInfiniteOptions, paginationPageParam } from '@hikka/api';
 import AntDesignFilterFilled from '@/components/icons/ant-design/AntDesignFilterFilled';
 import Block from '@/components/ui/block';
 import { Button } from '@/components/ui/button';
-import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
+import { Header, HeaderTitle } from '@/components/ui/header';
 import { usePageHeader, usePageTitleAnchor } from '@/features/app-shell';
 import {
     EditFilters,
@@ -68,11 +68,9 @@ function EditListPage() {
                 <Block>
                     <div className="flex items-center justify-between">
                         <Header>
-                            <HeaderContainer>
-                                <HeaderTitle ref={titleAnchor} variant="h2">
-                                    Правки
-                                </HeaderTitle>
-                            </HeaderContainer>
+                            <HeaderTitle ref={titleAnchor} as="h1" size="page">
+                                Правки
+                            </HeaderTitle>
                         </Header>
                         <FiltersModal
                             body={

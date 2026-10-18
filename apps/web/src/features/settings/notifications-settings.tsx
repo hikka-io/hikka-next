@@ -10,7 +10,7 @@ import {
 } from '@hikka/api';
 
 import { SubmitButton, useAppForm } from '@/components/form';
-import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
+import { Header, HeaderTitle } from '@/components/ui/header';
 import { writeIgnoredNotifications } from '@/utils/api/invalidate-content-state';
 
 const GROUPS = [
@@ -155,9 +155,9 @@ const NotificationsSettings = () => {
                 {NOTIFICATION_GROUPS.map(({ id, title, items }) => (
                     <div key={id} className="flex w-full flex-col gap-6">
                         <Header>
-                            <HeaderContainer>
-                                <HeaderTitle variant="h4">{title}</HeaderTitle>
-                            </HeaderContainer>
+                            <HeaderTitle as="h3" size="subsection">
+                                {title}
+                            </HeaderTitle>
                         </Header>
                         {items.map(({ type, label, description }) => (
                             <form.AppField

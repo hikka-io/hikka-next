@@ -8,12 +8,7 @@ import { HistoryTimelineSkeleton } from '@/components/list-items';
 import Block from '@/components/ui/block';
 import { Button } from '@/components/ui/button';
 import { type ChipTabOption, ChipTabs } from '@/components/ui/chip-tabs';
-import {
-    Header,
-    HeaderActions,
-    HeaderContainer,
-    HeaderTitle,
-} from '@/components/ui/header';
+import { Header, HeaderActions, HeaderTitle } from '@/components/ui/header';
 import { contentPath } from '@/utils/content-paths';
 import type { FranchiseOrder, FranchiseView } from '@/utils/search-schemas';
 
@@ -72,16 +67,14 @@ const FranchisePage: FC<Props> = ({
     return (
         <Block>
             <Header>
-                <HeaderContainer>
-                    <HeaderTitle>
-                        Франшиза{' '}
-                        {model && (
-                            <span className="text-muted-foreground">
-                                ({model.nodes.length})
-                            </span>
-                        )}
-                    </HeaderTitle>
-                </HeaderContainer>
+                <HeaderTitle>
+                    Франшиза{' '}
+                    {model && (
+                        <span className="text-muted-foreground">
+                            ({model.nodes.length})
+                        </span>
+                    )}
+                </HeaderTitle>
                 <HeaderActions>
                     <Button
                         size="md"

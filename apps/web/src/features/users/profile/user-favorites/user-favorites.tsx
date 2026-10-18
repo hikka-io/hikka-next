@@ -14,12 +14,7 @@ import MaterialSymbolsStack from '@/components/icons/material-symbols/MaterialSy
 import Block from '@/components/ui/block';
 import { type ChipTabOption, ChipTabs } from '@/components/ui/chip-tabs';
 import EmptyState from '@/components/ui/empty-state';
-import {
-    Header,
-    HeaderContainer,
-    HeaderNavButton,
-    HeaderTitle,
-} from '@/components/ui/header';
+import { Header, HeaderTitle } from '@/components/ui/header';
 import { useSession } from '@/services/session';
 import { CONTENT_TYPES } from '@/utils/labels';
 import { useParams } from '@/utils/navigation';
@@ -118,9 +113,7 @@ const UserFavorites: FC<Props> = ({ extended, type }) => {
         return (
             <Block id="user-favorites">
                 <Header>
-                    <HeaderContainer>
-                        <HeaderTitle variant="h2">Улюблені</HeaderTitle>
-                    </HeaderContainer>
+                    <HeaderTitle size="page">Улюблені</HeaderTitle>
                 </Header>
                 <EmptyState
                     bordered
@@ -134,16 +127,18 @@ const UserFavorites: FC<Props> = ({ extended, type }) => {
 
     return (
         <Block id="user-favorites">
-            <Header
-                to={!extended ? `/u/${params.username}/favorites` : undefined}
-                search={!extended ? { type: activeContent } : undefined}
-            >
-                <HeaderContainer>
-                    <HeaderTitle variant={extended ? 'h2' : 'h3'}>
-                        Улюблені
-                    </HeaderTitle>
-                </HeaderContainer>
-                <HeaderNavButton />
+            <Header>
+                <HeaderTitle
+                    size={extended ? 'page' : 'section'}
+                    to={
+                        !extended
+                            ? `/u/${params.username}/favorites`
+                            : undefined
+                    }
+                    search={!extended ? { type: activeContent } : undefined}
+                >
+                    Улюблені
+                </HeaderTitle>
             </Header>
             <ChipTabs
                 options={options}

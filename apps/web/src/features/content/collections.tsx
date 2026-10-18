@@ -12,12 +12,7 @@ import {
 import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
 import EmptyState from '@/components/ui/empty-state';
-import {
-    Header,
-    HeaderContainer,
-    HeaderNavButton,
-    HeaderTitle,
-} from '@/components/ui/header';
+import { Header, HeaderTitle } from '@/components/ui/header';
 import {
     ResponsiveModal,
     ResponsiveModalContent,
@@ -54,11 +49,10 @@ const ContentCollections: FC<Props> = ({ content_type }) => {
             <div ref={ref}>
                 <Card id="content-collections">
                     <Block>
-                        <Header onClick={() => setOpen(true)}>
-                            <HeaderContainer>
-                                <HeaderTitle variant="h4">Колекції</HeaderTitle>
-                            </HeaderContainer>
-                            <HeaderNavButton />
+                        <Header>
+                            <HeaderTitle onClick={() => setOpen(true)}>
+                                Колекції
+                            </HeaderTitle>
                         </Header>
                         <div className="flex flex-col gap-6">
                             {list

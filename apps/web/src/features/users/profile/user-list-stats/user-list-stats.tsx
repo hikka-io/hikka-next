@@ -5,12 +5,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { ContentTypeEnum, type MainContentTypeEnum } from '@hikka/api';
 
 import Card from '@/components/ui/card';
-import {
-    Header,
-    HeaderContainer,
-    HeaderNavButton,
-    HeaderTitle,
-} from '@/components/ui/header';
+import { Header, HeaderTitle } from '@/components/ui/header';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useParams } from '@/utils/navigation';
 
@@ -51,50 +46,44 @@ const UserListStats = () => {
 
     return (
         <Card className="p-0 py-4" id="user-list-stats">
-            <Header
-                href={`/u/${username}/${tabConfig.path}`}
-                search={tabConfig.search}
-                className="px-4"
-            >
-                <HeaderContainer>
-                    <HeaderTitle variant="h4">Список</HeaderTitle>
-                    <Tabs
-                        value={activeTab}
-                        onValueChange={(value) =>
-                            setActiveTab(value as ListContentType)
-                        }
-                    >
-                        <TabsList size="sm">
-                            <TabsTrigger
-                                value={ContentTypeEnum.ANIME}
-                                aria-label="Аніме"
-                            >
-                                Аніме
-                            </TabsTrigger>
-                            <TabsTrigger
-                                value={ContentTypeEnum.MANGA}
-                                onPointerEnter={warmStats(
-                                    ContentTypeEnum.MANGA,
-                                )}
-                                onFocus={warmStats(ContentTypeEnum.MANGA)}
-                                aria-label="Манґа"
-                            >
-                                Манґа
-                            </TabsTrigger>
-                            <TabsTrigger
-                                value={ContentTypeEnum.NOVEL}
-                                onPointerEnter={warmStats(
-                                    ContentTypeEnum.NOVEL,
-                                )}
-                                onFocus={warmStats(ContentTypeEnum.NOVEL)}
-                                aria-label="Ранобе"
-                            >
-                                Ранобе
-                            </TabsTrigger>
-                        </TabsList>
-                    </Tabs>
-                </HeaderContainer>
-                <HeaderNavButton />
+            <Header className="px-4">
+                <HeaderTitle
+                    to={`/u/${username}/${tabConfig.path}`}
+                    search={tabConfig.search}
+                >
+                    Список
+                </HeaderTitle>
+                <Tabs
+                    value={activeTab}
+                    onValueChange={(value) =>
+                        setActiveTab(value as ListContentType)
+                    }
+                >
+                    <TabsList size="sm">
+                        <TabsTrigger
+                            value={ContentTypeEnum.ANIME}
+                            aria-label="Аніме"
+                        >
+                            Аніме
+                        </TabsTrigger>
+                        <TabsTrigger
+                            value={ContentTypeEnum.MANGA}
+                            onPointerEnter={warmStats(ContentTypeEnum.MANGA)}
+                            onFocus={warmStats(ContentTypeEnum.MANGA)}
+                            aria-label="Манґа"
+                        >
+                            Манґа
+                        </TabsTrigger>
+                        <TabsTrigger
+                            value={ContentTypeEnum.NOVEL}
+                            onPointerEnter={warmStats(ContentTypeEnum.NOVEL)}
+                            onFocus={warmStats(ContentTypeEnum.NOVEL)}
+                            aria-label="Ранобе"
+                        >
+                            Ранобе
+                        </TabsTrigger>
+                    </TabsList>
+                </Tabs>
             </Header>
             <ListTabContent type={activeTab} username={username} />
         </Card>

@@ -13,12 +13,7 @@ import {
 import PersonCard from '@/components/content-card/person-card';
 import LoadMoreButton from '@/components/load-more-button';
 import Block from '@/components/ui/block';
-import {
-    Header,
-    HeaderContainer,
-    HeaderNavButton,
-    HeaderTitle,
-} from '@/components/ui/header';
+import { Header, HeaderTitle } from '@/components/ui/header';
 import Stack from '@/components/ui/stack';
 import { useVisibleOnce } from '@/services/hooks/use-visible-once';
 import {
@@ -69,17 +64,16 @@ const StaffBlock: FC<StaffBlockProps> = ({
 
     const block = (
         <Block id="content-staff">
-            <Header
-                href={
-                    !extended
-                        ? `${CONTENT_TYPE_LINKS[content_type]}/${slug}/staff`
-                        : undefined
-                }
-            >
-                <HeaderContainer>
-                    <HeaderTitle>Автори</HeaderTitle>
-                </HeaderContainer>
-                <HeaderNavButton />
+            <Header>
+                <HeaderTitle
+                    to={
+                        !extended
+                            ? `${CONTENT_TYPE_LINKS[content_type]}/${slug}/staff`
+                            : undefined
+                    }
+                >
+                    Автори
+                </HeaderTitle>
             </Header>
             <Stack
                 size={5}

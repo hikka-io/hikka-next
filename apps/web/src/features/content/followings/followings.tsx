@@ -6,12 +6,7 @@ import type { MainContentTypeEnum } from '@hikka/api';
 
 import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
-import {
-    Header,
-    HeaderContainer,
-    HeaderNavButton,
-    HeaderTitle,
-} from '@/components/ui/header';
+import { Header, HeaderTitle } from '@/components/ui/header';
 import {
     ResponsiveModal,
     ResponsiveModalContent,
@@ -65,11 +60,10 @@ const Followings: FC<Props> = ({ content_type }) => {
             <div ref={ref}>
                 <Card id="content-followings">
                     <Block>
-                        <Header onClick={() => setOpen(true)}>
-                            <HeaderContainer>
-                                <HeaderTitle variant="h4">{title}</HeaderTitle>
-                            </HeaderContainer>
-                            <HeaderNavButton />
+                        <Header>
+                            <HeaderTitle onClick={() => setOpen(true)}>
+                                {title}
+                            </HeaderTitle>
                         </Header>
                         <div className="flex flex-col gap-6">
                             {!list &&

@@ -12,6 +12,5 @@
     "features/home/widgets/collections-widget/components",
     "features/users/follow-list-modal/components",
     "features/users/history",
-    "features/users/profile/user-history",
     "utils/title"
 ]

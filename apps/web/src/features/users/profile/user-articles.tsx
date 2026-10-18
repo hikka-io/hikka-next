@@ -4,12 +4,7 @@ import MaterialSymbolsDraftRounded from '@/components/icons/material-symbols/Mat
 import { ArticleItemCompact } from '@/components/list-items';
 import Block from '@/components/ui/block';
 import { Button } from '@/components/ui/button';
-import {
-    Header,
-    HeaderContainer,
-    HeaderNavButton,
-    HeaderTitle,
-} from '@/components/ui/header';
+import { Header, HeaderActions, HeaderTitle } from '@/components/ui/header';
 import {
     Tooltip,
     TooltipContent,
@@ -35,13 +30,15 @@ const UserArticles: FC<Props> = () => {
 
     return (
         <Block id="user-articles">
-            <Header
-                to={CONTENT_TYPE_LINKS.article}
-                search={{ author: params.username }}
-            >
-                <HeaderContainer>
-                    <HeaderTitle>Статті</HeaderTitle>
-                    {user?.username === params.username && (
+            <Header>
+                <HeaderTitle
+                    to={CONTENT_TYPE_LINKS.article}
+                    search={{ author: params.username }}
+                >
+                    Статті
+                </HeaderTitle>
+                {user?.username === params.username && (
+                    <HeaderActions>
                         <Tooltip>
                             <TooltipTrigger
                                 render={
@@ -61,9 +58,8 @@ const UserArticles: FC<Props> = () => {
                             </TooltipTrigger>
                             <TooltipContent>Чернетки</TooltipContent>
                         </Tooltip>
-                    )}
-                </HeaderContainer>
-                <HeaderNavButton />
+                    </HeaderActions>
+                )}
             </Header>
             <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
                 {availableArticles?.map((article) => (

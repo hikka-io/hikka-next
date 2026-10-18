@@ -11,12 +11,7 @@ import Card from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
 import EmptyState from '@/components/ui/empty-state';
 import { Field, FieldLabel, FieldTitle } from '@/components/ui/field';
-import {
-    Header,
-    HeaderContainer,
-    HeaderNavButton,
-    HeaderTitle,
-} from '@/components/ui/header';
+import { Header, HeaderActions, HeaderTitle } from '@/components/ui/header';
 import { useSession, useSessionUI } from '@/services/session';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { cn } from '@/utils/cn';
@@ -52,31 +47,30 @@ const ScheduleWidget: FC<WidgetProps> = () => {
     return (
         <Card className="p-0" id="calendar">
             <Block className="w-full gap-4 py-4">
-                <Header href="/schedule" className="px-4">
-                    <HeaderContainer>
-                        <HeaderTitle variant="h4">Календар</HeaderTitle>
-                    </HeaderContainer>
+                <Header className="px-4">
+                    <HeaderTitle to="/schedule">Календар</HeaderTitle>
                     {user && (
-                        <FieldLabel className="h-8 w-fit! shrink-0 cursor-pointer">
-                            <Field
-                                orientation="horizontal"
-                                className="h-full items-center"
-                            >
-                                <Checkbox
-                                    checked={onlyWatch}
-                                    onCheckedChange={(checked) =>
-                                        setOnlyWatch(checked === true)
-                                    }
-                                    id="schedule-only-watch"
-                                    name="schedule-only-watch"
-                                />
-                                <FieldTitle className="whitespace-nowrap font-normal text-muted-foreground text-sm">
-                                    У списку
-                                </FieldTitle>
-                            </Field>
-                        </FieldLabel>
+                        <HeaderActions>
+                            <FieldLabel className="h-8 w-fit! shrink-0 cursor-pointer">
+                                <Field
+                                    orientation="horizontal"
+                                    className="h-full items-center"
+                                >
+                                    <Checkbox
+                                        checked={onlyWatch}
+                                        onCheckedChange={(checked) =>
+                                            setOnlyWatch(checked === true)
+                                        }
+                                        id="schedule-only-watch"
+                                        name="schedule-only-watch"
+                                    />
+                                    <FieldTitle className="whitespace-nowrap font-normal text-muted-foreground text-sm">
+                                        У списку
+                                    </FieldTitle>
+                                </Field>
+                            </FieldLabel>
+                        </HeaderActions>
                     )}
-                    <HeaderNavButton />
                 </Header>
                 <div className="flex flex-col gap-1 px-2">
                     <div className="mb-2 flex items-baseline gap-1.5 px-2 text-muted-foreground text-xs">

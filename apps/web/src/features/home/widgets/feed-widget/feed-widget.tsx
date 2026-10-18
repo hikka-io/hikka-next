@@ -11,7 +11,7 @@ import Card from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
 import EmptyState from '@/components/ui/empty-state';
 import { Field, FieldLabel, FieldTitle } from '@/components/ui/field';
-import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
+import { Header, HeaderActions, HeaderTitle } from '@/components/ui/header';
 import {
     useSession,
     useSessionUI,
@@ -131,31 +131,33 @@ const FeedWidget: FC<WidgetProps> = ({ isLast, side }) => {
         >
             <div className="flex flex-col gap-4 p-4">
                 <Header>
-                    <HeaderContainer>
-                        <HeaderTitle variant="h4">Стрічка</HeaderTitle>
-                    </HeaderContainer>
-                    {user && (
-                        <FieldLabel className="h-8 w-fit! shrink-0 cursor-pointer">
-                            <Field
-                                orientation="horizontal"
-                                className="h-full items-center"
-                            >
-                                <Checkbox
-                                    checked={onlyFollowed}
-                                    onCheckedChange={handleOnlyFollowedChange}
-                                    id="only-followed-checkbox"
-                                    name="only-followed-checkbox"
-                                />
-                                <FieldTitle className="whitespace-nowrap font-normal text-muted-foreground text-sm">
-                                    Власна
-                                </FieldTitle>
-                            </Field>
-                        </FieldLabel>
-                    )}
-                    <FeedSubTypeSelect
-                        value={filters}
-                        onChange={handleFiltersChange}
-                    />
+                    <HeaderTitle>Стрічка</HeaderTitle>
+                    <HeaderActions>
+                        {user && (
+                            <FieldLabel className="h-8 w-fit! shrink-0 cursor-pointer">
+                                <Field
+                                    orientation="horizontal"
+                                    className="h-full items-center"
+                                >
+                                    <Checkbox
+                                        checked={onlyFollowed}
+                                        onCheckedChange={
+                                            handleOnlyFollowedChange
+                                        }
+                                        id="only-followed-checkbox"
+                                        name="only-followed-checkbox"
+                                    />
+                                    <FieldTitle className="whitespace-nowrap font-normal text-muted-foreground text-sm">
+                                        Власна
+                                    </FieldTitle>
+                                </Field>
+                            </FieldLabel>
+                        )}
+                        <FeedSubTypeSelect
+                            value={filters}
+                            onChange={handleFiltersChange}
+                        />
+                    </HeaderActions>
                 </Header>
 
                 <FeedQuickFilters

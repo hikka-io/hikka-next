@@ -43,8 +43,6 @@ vi.mock('@/components/content-card/person-card', () => ({
 
 vi.mock('@/components/ui/header', () => ({
     Header: ({ children }: { children: React.ReactNode }) => children,
-    HeaderContainer: ({ children }: { children: React.ReactNode }) => children,
-    HeaderNavButton: () => null,
     HeaderTitle: ({ children }: { children: React.ReactNode }) => children,
 }));
 

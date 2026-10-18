@@ -27,7 +27,7 @@ const ListWidget: FC<WidgetProps> = () => {
     return (
         <Card className="px-2" id="sidebar-list-stats">
             <Header className="px-2">
-                <HeaderTitle variant="h4">Список</HeaderTitle>
+                <HeaderTitle>Список</HeaderTitle>
             </Header>
             <Tabs
                 value={activeTab}

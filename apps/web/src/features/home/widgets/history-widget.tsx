@@ -5,12 +5,7 @@ import { HistoryTimeline } from '@/components/list-items';
 import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
 import EmptyState from '@/components/ui/empty-state';
-import {
-    Header,
-    HeaderContainer,
-    HeaderNavButton,
-    HeaderTitle,
-} from '@/components/ui/header';
+import { Header, HeaderTitle } from '@/components/ui/header';
 import { useVisible } from '@/services/hooks/use-visible';
 import { useSession } from '@/services/session';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
@@ -36,15 +31,13 @@ const HistoryWidget: FC<WidgetProps> = () => {
     return (
         <Card ref={ref} className="p-0" id="history">
             <Block className="w-full gap-4 py-4">
-                <Header
-                    href={`/u/${user.username}/history`}
-                    search={{ type: 'following' }}
-                    className="px-4"
-                >
-                    <HeaderContainer>
-                        <HeaderTitle variant="h4">Активність</HeaderTitle>
-                    </HeaderContainer>
-                    <HeaderNavButton />
+                <Header className="px-4">
+                    <HeaderTitle
+                        to={`/u/${user.username}/history`}
+                        search={{ type: 'following' }}
+                    >
+                        Активність
+                    </HeaderTitle>
                 </Header>
 
                 <div className="px-4">

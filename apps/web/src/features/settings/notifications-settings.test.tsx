@@ -194,7 +194,7 @@ describe('notifications settings', () => {
 
         const groups = [...container.querySelectorAll('form > div')].map(
             (group) => ({
-                title: must(group.querySelector('h4'), 'title').textContent,
+                title: must(group.querySelector('h3'), 'title').textContent,
                 items: [...group.querySelectorAll('[data-slot="field"]')].map(
                     (field) => [
                         must(field.querySelector('label'), 'label').htmlFor,

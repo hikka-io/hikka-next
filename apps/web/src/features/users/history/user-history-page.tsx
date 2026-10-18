@@ -3,7 +3,7 @@ import type { FC } from 'react';
 import { useRouter } from '@tanstack/react-router';
 
 import Block from '@/components/ui/block';
-import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
+import { Header, HeaderTitle } from '@/components/ui/header';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useSession } from '@/services/session';
 import { cn } from '@/utils/cn';
@@ -37,29 +37,27 @@ const UserHistoryPage: FC<Props> = ({ className }) => {
     return (
         <Block className={cn(className)}>
             <Header>
-                <HeaderContainer>
-                    <HeaderTitle variant="h2">Історія</HeaderTitle>
-                    <Tabs value={type} onValueChange={handleChangeType}>
-                        <TabsList size="sm">
+                <HeaderTitle size="page">Історія</HeaderTitle>
+                <Tabs value={type} onValueChange={handleChangeType}>
+                    <TabsList size="sm">
+                        <TabsTrigger
+                            value="user"
+                            className={TRIGGER_CLASSES}
+                            aria-label="Власна історія"
+                        >
+                            Власна
+                        </TabsTrigger>
+                        {params.username === loggedUser?.username && (
                             <TabsTrigger
-                                value="user"
+                                value="following"
                                 className={TRIGGER_CLASSES}
-                                aria-label="Власна історія"
+                                aria-label="Історія відстежуючих"
                             >
-                                Власна
+                                Відстежується
                             </TabsTrigger>
-                            {params.username === loggedUser?.username && (
-                                <TabsTrigger
-                                    value="following"
-                                    className={TRIGGER_CLASSES}
-                                    aria-label="Історія відстежуючих"
-                                >
-                                    Відстежується
-                                </TabsTrigger>
-                            )}
-                        </TabsList>
-                    </Tabs>
-                </HeaderContainer>
+                        )}
+                    </TabsList>
+                </Tabs>
             </Header>
             {type === 'user' && <HistoryFeed source="user" />}
             {type === 'following' && <HistoryFeed source="following" />}

@@ -4,7 +4,7 @@ import { ContentTypeEnum, type MainContentTypeEnum } from '@hikka/api';
 
 import ContentTypeTabs from '@/components/content-type-tabs';
 import Block from '@/components/ui/block';
-import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
+import { Header, HeaderTitle } from '@/components/ui/header';
 import { usePageHeader, usePageTitleAnchor } from '@/features/app-shell';
 import {
     AnimeFilters,
@@ -63,11 +63,9 @@ const CatalogPage: FC<Props> = ({ contentType, title, searchPlaceholder }) => {
     return (
         <Block>
             <Header>
-                <HeaderContainer>
-                    <HeaderTitle ref={titleAnchor} variant="h2">
-                        {title}
-                    </HeaderTitle>
-                </HeaderContainer>
+                <HeaderTitle ref={titleAnchor} as="h1" size="page">
+                    {title}
+                </HeaderTitle>
             </Header>
             <ContentTypeTabs
                 value={contentType}

@@ -15,7 +15,7 @@ import MaterialSymbolsPlayArrowRounded from '@/components/icons/material-symbols
 import TextExpand from '@/components/text-expand';
 import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
-import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
+import { Header, HeaderTitle } from '@/components/ui/header';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useSession } from '@/services/session';
 import { contentInfoOptions } from '@/utils/api/content-queries';
@@ -77,30 +77,25 @@ const ContentLinks: FC<Props> = ({ content_type }) => {
         <Card id="content-links">
             <Block>
                 <Header>
-                    <HeaderContainer>
-                        <HeaderTitle variant="h4">Посилання</HeaderTitle>
-                        {hasWatchLinks && (
-                            <Tabs
-                                value={active}
-                                onValueChange={handleChangeActive}
-                            >
-                                <TabsList size="sm">
-                                    <TabsTrigger
-                                        value={ExternalTypeEnum.GENERAL}
-                                        aria-label="Загальні посилання"
-                                    >
-                                        <MaterialSymbolsInfoIRounded />
-                                    </TabsTrigger>
-                                    <TabsTrigger
-                                        value={ExternalTypeEnum.WATCH}
-                                        aria-label="Посилання для перегляду"
-                                    >
-                                        <MaterialSymbolsPlayArrowRounded />
-                                    </TabsTrigger>
-                                </TabsList>
-                            </Tabs>
-                        )}
-                    </HeaderContainer>
+                    <HeaderTitle>Посилання</HeaderTitle>
+                    {hasWatchLinks && (
+                        <Tabs value={active} onValueChange={handleChangeActive}>
+                            <TabsList size="sm">
+                                <TabsTrigger
+                                    value={ExternalTypeEnum.GENERAL}
+                                    aria-label="Загальні посилання"
+                                >
+                                    <MaterialSymbolsInfoIRounded />
+                                </TabsTrigger>
+                                <TabsTrigger
+                                    value={ExternalTypeEnum.WATCH}
+                                    aria-label="Посилання для перегляду"
+                                >
+                                    <MaterialSymbolsPlayArrowRounded />
+                                </TabsTrigger>
+                            </TabsList>
+                        </Tabs>
+                    )}
                 </Header>
                 <TextExpand
                     expanded={isExpanded}

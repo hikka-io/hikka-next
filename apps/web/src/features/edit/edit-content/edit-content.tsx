@@ -4,12 +4,7 @@ import type { EditContentTypeEnum } from '@hikka/api';
 
 import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
-import {
-    Header,
-    HeaderContainer,
-    HeaderNavButton,
-    HeaderTitle,
-} from '@/components/ui/header';
+import { Header, HeaderTitle } from '@/components/ui/header';
 import { contentPath } from '@/utils/content-paths';
 
 import type { EditMainContent } from '../types';
@@ -32,15 +27,10 @@ const EditContent: FC<Props> = ({ slug, content_type, content }) => {
     return (
         <Card className="p-0">
             <Block className="py-4">
-                <Header
-                    to={link}
-                    linkProps={{ target: '_blank' }}
-                    className="px-4"
-                >
-                    <HeaderContainer>
-                        <HeaderTitle variant="h4">Контент</HeaderTitle>
-                    </HeaderContainer>
-                    <HeaderNavButton />
+                <Header className="px-4">
+                    <HeaderTitle to={link} linkProps={{ target: '_blank' }}>
+                        Контент
+                    </HeaderTitle>
                 </Header>
                 <div className="flex flex-col gap-4 px-4">
                     <EditContentGeneral

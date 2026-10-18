@@ -1,6 +1,6 @@
 import { PlateMarkdownEditor } from '@/components/plate/editor/markdown-editor';
 import RulesAlert from '@/components/rules-alert';
-import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
+import { Header, HeaderTitle } from '@/components/ui/header';
 import { useParams } from '@/utils/navigation';
 
 import { useCollectionContext } from './collection-provider';
@@ -18,11 +18,9 @@ const CollectionEditTitle = () => {
     return (
         <div className="flex flex-col gap-4">
             <Header>
-                <HeaderContainer>
-                    <HeaderTitle variant="h2">
-                        {title || 'Нова колекція'}
-                    </HeaderTitle>
-                </HeaderContainer>
+                <HeaderTitle as="h1" size="page">
+                    {title || 'Нова колекція'}
+                </HeaderTitle>
             </Header>
             <RulesAlert
                 rulesFile="COLLECTION_RULES.md"

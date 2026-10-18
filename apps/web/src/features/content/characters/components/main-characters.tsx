@@ -4,12 +4,7 @@ import type { MainContentTypeEnum } from '@hikka/api';
 
 import CharacterCard from '@/components/content-card/character-card';
 import Block from '@/components/ui/block';
-import {
-    Header,
-    HeaderContainer,
-    HeaderNavButton,
-    HeaderTitle,
-} from '@/components/ui/header';
+import { Header, HeaderTitle } from '@/components/ui/header';
 import Stack from '@/components/ui/stack';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { CONTENT_TYPE_LINKS } from '@/utils/content-paths';
@@ -36,17 +31,16 @@ const MainCharacters: FC<Props> = ({ extended, content_type }) => {
 
     return (
         <Block>
-            <Header
-                href={
-                    !extended
-                        ? `${CONTENT_TYPE_LINKS[content_type]}/${params.slug}/characters`
-                        : undefined
-                }
-            >
-                <HeaderContainer>
-                    <HeaderTitle>Головні Персонажі</HeaderTitle>
-                </HeaderContainer>
-                <HeaderNavButton />
+            <Header>
+                <HeaderTitle
+                    to={
+                        !extended
+                            ? `${CONTENT_TYPE_LINKS[content_type]}/${params.slug}/characters`
+                            : undefined
+                    }
+                >
+                    Головні персонажі
+                </HeaderTitle>
             </Header>
             <Stack
                 size={5}

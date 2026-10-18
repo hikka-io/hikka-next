@@ -7,7 +7,7 @@ import { API_LIMITS, getArticleTopOptions } from '@hikka/api';
 import { BadgeFilter } from '@/components/ui/badge-filter';
 import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
-import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
+import { Header, HeaderTitle } from '@/components/ui/header';
 import { useChangeParam } from '@/features/filters';
 import { useRouteSearch } from '@/utils/navigation';
 import type { ArticlesSearch } from '@/utils/search-schemas';
@@ -28,9 +28,7 @@ const ArticleListPopularTags: FC<Props> = () => {
         <Card>
             <Block>
                 <Header>
-                    <HeaderContainer>
-                        <HeaderTitle variant="h4">Популярні теги</HeaderTitle>
-                    </HeaderContainer>
+                    <HeaderTitle>Популярні теги</HeaderTitle>
                 </Header>
                 <BadgeFilter
                     disabled={tags.length >= API_LIMITS.tags.max}

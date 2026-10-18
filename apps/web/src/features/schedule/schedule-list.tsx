@@ -6,7 +6,7 @@ import type { AnimeScheduleResponse } from '@hikka/api';
 import FiltersNotFound from '@/components/filters-not-found';
 import LoadMoreButton from '@/components/load-more-button';
 import Block from '@/components/ui/block';
-import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
+import { Header, HeaderTitle } from '@/components/ui/header';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { useRouteSearch } from '@/utils/navigation';
 import type { ScheduleSearch } from '@/utils/search-schemas';
@@ -43,22 +43,19 @@ const ScheduleList = () => {
         <div className="flex flex-col gap-12">
             {sortedList &&
                 Object.keys(sortedList).map((day) => {
-                    const formattedDay = format(
-                        Number(day) * 1000,
-                        'eeee ,d MMMM',
-                    ).split(',');
+                    const weekday = format(Number(day) * 1000, 'eeee');
+                    const date = format(Number(day) * 1000, 'd MMMM');
 
                     return (
                         <Block key={day}>
-                            <Header className="capitalize">
-                                <HeaderContainer>
-                                    <HeaderTitle>
-                                        {formattedDay[0]}
-                                        <span className="rounded-sm border border-primary-border bg-primary p-1 px-2 text-primary-foreground">
-                                            {formattedDay[1]}
-                                        </span>
-                                    </HeaderTitle>
-                                </HeaderContainer>
+                            <Header>
+                                <HeaderTitle>
+                                    {weekday.charAt(0).toUpperCase()}
+                                    {weekday.slice(1)}{' '}
+                                    <span className="rounded-sm border border-primary-border bg-primary p-1 px-2 text-primary-foreground">
+                                        {date}
+                                    </span>
+                                </HeaderTitle>
                             </Header>
                             <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
                                 {sortedList[day].map((item, index) => (

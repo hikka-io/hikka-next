@@ -2,7 +2,7 @@ import { createFileRoute } from '@tanstack/react-router';
 import { zodValidator } from '@tanstack/zod-adapter';
 
 import Block from '@/components/ui/block';
-import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
+import { Header, HeaderTitle } from '@/components/ui/header';
 import { usePageHeader, usePageTitleAnchor } from '@/features/app-shell';
 import {
     TodoContentList,
@@ -75,11 +75,9 @@ function ContentPage() {
     return (
         <Block>
             <Header>
-                <HeaderContainer>
-                    <HeaderTitle ref={titleAnchor} variant="h2">
-                        Незаповнений контент
-                    </HeaderTitle>
-                </HeaderContainer>
+                <HeaderTitle ref={titleAnchor} as="h1" size="page">
+                    Незаповнений контент
+                </HeaderTitle>
             </Header>
             <TodoContentTabs value={contentType} />
 

@@ -5,7 +5,7 @@ import { ContentTypeEnum, type EditContentTypeEnum } from '@hikka/api';
 
 import RulesAlert from '@/components/rules-alert';
 import Block from '@/components/ui/block';
-import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
+import { Header, HeaderTitle } from '@/components/ui/header';
 import { usePageHeader } from '@/features/app-shell';
 import { EditContent, EditCreateForm, useContentBySlug } from '@/features/edit';
 import { contentInfoOptions } from '@/utils/api/content-queries';
@@ -59,9 +59,9 @@ function EditNewPage() {
         <div className="grid grid-cols-1 gap-x-10 gap-y-8 lg:grid-cols-[1fr_25%]">
             <Block>
                 <Header>
-                    <HeaderContainer>
-                        <HeaderTitle>Нова правка</HeaderTitle>
-                    </HeaderContainer>
+                    <HeaderTitle as="h1" size="page">
+                        Нова правка
+                    </HeaderTitle>
                 </Header>
                 <div>
                     <RulesAlert

@@ -3,7 +3,7 @@ import { renderToStaticMarkup } from 'react-dom/server';
 
 import { describe, expect, it } from 'vitest';
 
-import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
+import { Header, HeaderActions, HeaderTitle } from '@/components/ui/header';
 
 import SettingsPage from './settings-page';
 import SettingsSection from './settings-section';
@@ -23,9 +23,7 @@ describe('SettingsPage', () => {
                 <div className="flex flex-col gap-8">
                     <div className="flex flex-col">
                         <Header>
-                            <HeaderContainer>
-                                <HeaderTitle>Профіль</HeaderTitle>
-                            </HeaderContainer>
+                            <HeaderTitle>Профіль</HeaderTitle>
                         </Header>
                         <p className="text-muted-foreground text-sm">Опис</p>
                     </div>
@@ -35,7 +33,7 @@ describe('SettingsPage', () => {
         );
     });
 
-    it('renders the action inside the header container', () => {
+    it('renders the action inline after the title', () => {
         expect(
             html(
                 <SettingsPage
@@ -51,10 +49,8 @@ describe('SettingsPage', () => {
                 <div className="flex flex-col gap-8">
                     <div className="flex flex-col">
                         <Header>
-                            <HeaderContainer>
-                                <HeaderTitle>Мої застосунки</HeaderTitle>
-                                <b>add</b>
-                            </HeaderContainer>
+                            <HeaderTitle>Мої застосунки</HeaderTitle>
+                            <b>add</b>
                         </Header>
                         <p className="text-muted-foreground text-sm">Опис</p>
                     </div>
@@ -64,7 +60,7 @@ describe('SettingsPage', () => {
         );
     });
 
-    it('renders the trailing action beside the header container', () => {
+    it('renders the trailing action in the header actions', () => {
         expect(
             html(
                 <SettingsPage
@@ -80,10 +76,10 @@ describe('SettingsPage', () => {
                 <div className="flex flex-col gap-8">
                     <div className="flex flex-col">
                         <Header>
-                            <HeaderContainer>
-                                <HeaderTitle>Вигляд</HeaderTitle>
-                            </HeaderContainer>
-                            <b>reset</b>
+                            <HeaderTitle>Вигляд</HeaderTitle>
+                            <HeaderActions>
+                                <b>reset</b>
+                            </HeaderActions>
                         </Header>
                         <p className="text-muted-foreground text-sm">Опис</p>
                     </div>
@@ -95,7 +91,7 @@ describe('SettingsPage', () => {
 });
 
 describe('SettingsSection', () => {
-    it('renders an h4 header above the content', () => {
+    it('renders an h3 subsection header above the content', () => {
         expect(
             html(
                 <SettingsSection title="Пароль">
@@ -106,9 +102,9 @@ describe('SettingsSection', () => {
             html(
                 <div className="flex flex-col gap-4">
                     <Header>
-                        <HeaderContainer>
-                            <HeaderTitle variant="h4">Пароль</HeaderTitle>
-                        </HeaderContainer>
+                        <HeaderTitle as="h3" size="subsection">
+                            Пароль
+                        </HeaderTitle>
                     </Header>
                     <i>content</i>
                 </div>,

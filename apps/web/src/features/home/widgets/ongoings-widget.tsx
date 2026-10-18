@@ -16,12 +16,7 @@ import { Badge } from '@/components/ui/badge';
 import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
 import EmptyState from '@/components/ui/empty-state';
-import {
-    Header,
-    HeaderContainer,
-    HeaderNavButton,
-    HeaderTitle,
-} from '@/components/ui/header';
+import { Header, HeaderTitle } from '@/components/ui/header';
 import { Skeleton } from '@/components/ui/skeleton';
 import Stack from '@/components/ui/stack';
 import { useSessionUI } from '@/services/session';
@@ -81,11 +76,10 @@ const OngoingsWidget: FC<WidgetProps> = ({ side }) => {
         return (
             <Card className="p-0" id="ongoings">
                 <Block className="w-full gap-4 py-4">
-                    <Header href="/anime" search={search} className="px-4">
-                        <HeaderContainer>
-                            <HeaderTitle variant="h4">Онґоїнґи</HeaderTitle>
-                        </HeaderContainer>
-                        <HeaderNavButton />
+                    <Header className="px-4">
+                        <HeaderTitle to="/anime" search={search}>
+                            Онґоїнґи
+                        </HeaderTitle>
                     </Header>
                     {((list && list.length > 0) || isLoading) && (
                         <Stack
@@ -127,11 +121,10 @@ const OngoingsWidget: FC<WidgetProps> = ({ side }) => {
     return (
         <Card className="p-0" id="ongoings">
             <Block className="w-full gap-4 py-4">
-                <Header href="/anime" search={search} className="px-4">
-                    <HeaderContainer>
-                        <HeaderTitle variant="h4">Онґоїнґи</HeaderTitle>
-                    </HeaderContainer>
-                    <HeaderNavButton />
+                <Header className="px-4">
+                    <HeaderTitle to="/anime" search={search}>
+                        Онґоїнґи
+                    </HeaderTitle>
                 </Header>
 
                 <div className="flex flex-col gap-1 px-2">

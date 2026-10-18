@@ -8,12 +8,7 @@ import Block from '@/components/ui/block';
 import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
 import EmptyState from '@/components/ui/empty-state';
-import {
-    Header,
-    HeaderContainer,
-    HeaderNavButton,
-    HeaderTitle,
-} from '@/components/ui/header';
+import { Header, HeaderActions, HeaderTitle } from '@/components/ui/header';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useVisibleOnce } from '@/services/hooks/use-visible-once';
 import { useSession } from '@/services/session';
@@ -43,10 +38,12 @@ const CollectionsWidget: FC<WidgetProps> = () => {
     return (
         <Card ref={ref} className="p-0" id="collections">
             <Block className="w-full gap-4 py-4">
-                <Header to="/collections" search={{ page: 1 }} className="px-4">
-                    <HeaderContainer>
-                        <HeaderTitle variant="h4">Колекції</HeaderTitle>
-                        {user && (
+                <Header className="px-4">
+                    <HeaderTitle to="/collections" search={{ page: 1 }}>
+                        Колекції
+                    </HeaderTitle>
+                    {user && (
+                        <HeaderActions>
                             <Button
                                 size="icon-sm"
                                 variant="outline"
@@ -54,9 +51,8 @@ const CollectionsWidget: FC<WidgetProps> = () => {
                             >
                                 <MaterialSymbolsAddRounded />
                             </Button>
-                        )}
-                    </HeaderContainer>
-                    <HeaderNavButton />
+                        </HeaderActions>
+                    )}
                 </Header>
 
                 <Tabs

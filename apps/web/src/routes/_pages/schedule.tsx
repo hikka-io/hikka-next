@@ -5,7 +5,7 @@ import AntDesignFilterFilled from '@/components/icons/ant-design/AntDesignFilter
 import Block from '@/components/ui/block';
 import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
-import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
+import { Header, HeaderTitle } from '@/components/ui/header';
 import { usePageHeader, usePageTitleAnchor } from '@/features/app-shell';
 import { FiltersModal } from '@/features/filters';
 import {
@@ -45,11 +45,9 @@ function ScheduleListPage() {
             <Block>
                 <div className="flex items-center justify-between">
                     <Header>
-                        <HeaderContainer>
-                            <HeaderTitle ref={titleAnchor} variant="h2">
-                                Календар
-                            </HeaderTitle>
-                        </HeaderContainer>
+                        <HeaderTitle ref={titleAnchor} as="h1" size="page">
+                            Календар
+                        </HeaderTitle>
                     </Header>
                     <FiltersModal
                         body={

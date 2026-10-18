@@ -9,7 +9,7 @@ import MaterialSymbolsHourglassEmptyRounded from '@/components/icons/material-sy
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
-import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
+import { Header, HeaderActions, HeaderTitle } from '@/components/ui/header';
 import { Link } from '@/utils/navigation';
 
 import EditStatusBadge from './edit-status-badge';
@@ -101,10 +101,10 @@ const EditTimeline: FC<Props> = ({ editId }) => {
         <Card className="p-0">
             <Block className="py-4">
                 <Header className="px-4">
-                    <HeaderContainer>
-                        <HeaderTitle variant="h4">Деталі</HeaderTitle>
-                    </HeaderContainer>
-                    <EditStatusBadge editId={editId} />
+                    <HeaderTitle>Деталі</HeaderTitle>
+                    <HeaderActions>
+                        <EditStatusBadge editId={editId} />
+                    </HeaderActions>
                 </Header>
                 <div className="flex flex-col gap-6 px-4">
                     {author && (
