@@ -1,20 +1,18 @@
-import type { FC, ReactNode } from 'react';
-
-import type { CommentContentTypeEnum, ContentTypeEnum } from '@hikka/api';
+import type { ComponentProps, FC, ReactNode } from 'react';
 
 import ContentHeader from './content-header';
 
-type Props = {
-    slug: string;
-    contentType: CommentContentTypeEnum | typeof ContentTypeEnum.USER;
+type Props = Omit<ComponentProps<typeof ContentHeader>, 'content_type'> & {
+    contentType: ComponentProps<typeof ContentHeader>['content_type'];
     children: ReactNode;
 };
 
-const ContentSubpage: FC<Props> = ({ slug, contentType, children }) => {
+const ContentSubpage: FC<Props> = ({ contentType, children, ...header }) => {
     return (
-        <div className="mx-auto flex w-full max-w-3xl flex-col gap-12 p-0">
-            <ContentHeader slug={slug} content_type={contentType} />
-            {children}
+        <div className="mx-auto flex w-full max-w-3xl flex-col">
+            <ContentHeader content_type={contentType} {...header} />
+            {/* Contains the cards' z-indexed overlays below the sticky tab strip. */}
+            <div className="isolate mt-12 flex flex-col gap-12">{children}</div>
         </div>
     );
 };

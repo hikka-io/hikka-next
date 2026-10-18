@@ -37,6 +37,26 @@ export type NavRoute = {
     linkProps?: Record<string, any>;
 };
 
+/** The deepest route whose url is the pathname or one of its ancestors. */
+export function findCurrentNavRoute(
+    routes: NavRoute[],
+    pathname: string,
+    urlPrefix = '',
+): NavRoute | undefined {
+    let current: NavRoute | undefined;
+
+    for (const route of routes) {
+        const url = `${urlPrefix}${route.url}`;
+        const matches = pathname === url || pathname.startsWith(`${url}/`);
+
+        if (matches && route.url.length >= (current?.url.length ?? 0)) {
+            current = route;
+        }
+    }
+
+    return current;
+}
+
 const isExternalUrl = (url: string) =>
     url.startsWith('http://') || url.startsWith('https://');
 

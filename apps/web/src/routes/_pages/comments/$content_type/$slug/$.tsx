@@ -57,14 +57,17 @@ function CommentsThreadPage() {
         title: contentTitle,
         subtitle: 'Гілка',
         parent: `/comments/${content_type}/${slug}`,
+        anchored: true,
     });
 
     return (
         <ContentSubpage
             slug={slug}
             contentType={content_type as CommentContentTypeEnum}
+            title="Гілка"
         >
             <CommentList
+                hideTitle
                 comment_reference={commentReference}
                 slug={slug}
                 content_type={content_type as CommentContentTypeEnum}

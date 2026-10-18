@@ -166,7 +166,7 @@ const MobileHeader = () => {
                             revealClassName,
                         )}
                     >
-                        {navRoutes && navUrlPrefix ? (
+                        {navRoutes ? (
                             <HeaderNavSheet
                                 routes={navRoutes}
                                 urlPrefix={navUrlPrefix}

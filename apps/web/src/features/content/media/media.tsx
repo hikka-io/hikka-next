@@ -42,6 +42,7 @@ const ContentMedia: FC<Props> = ({ extended }) => {
 
     const hasVideo = anime.videos.length > 0;
     const hasMusic = anime.ost.length > 0;
+    const hasTabs = hasVideo && hasMusic;
 
     const effectiveActive =
         active === 'video' && !hasVideo
@@ -52,30 +53,32 @@ const ContentMedia: FC<Props> = ({ extended }) => {
 
     return (
         <Block id="content-media">
-            <Header>
-                <HeaderTitle
-                    to={!extended ? `/anime/${params.slug}/media` : undefined}
-                >
-                    Медіа
-                </HeaderTitle>
-                {hasVideo && hasMusic && (
-                    <Tabs
-                        value={effectiveActive}
-                        onValueChange={(value) =>
-                            setActive(value as 'video' | 'music')
-                        }
-                    >
-                        <TabsList size="sm">
-                            <TabsTrigger value="video" aria-label="Відео">
-                                Відео
-                            </TabsTrigger>
-                            <TabsTrigger value="music" aria-label="Музика">
-                                Музика
-                            </TabsTrigger>
-                        </TabsList>
-                    </Tabs>
-                )}
-            </Header>
+            {(!extended || hasTabs) && (
+                <Header>
+                    {!extended && (
+                        <HeaderTitle to={`/anime/${params.slug}/media`}>
+                            Медіа
+                        </HeaderTitle>
+                    )}
+                    {hasTabs && (
+                        <Tabs
+                            value={effectiveActive}
+                            onValueChange={(value) =>
+                                setActive(value as 'video' | 'music')
+                            }
+                        >
+                            <TabsList size="sm">
+                                <TabsTrigger value="video" aria-label="Відео">
+                                    Відео
+                                </TabsTrigger>
+                                <TabsTrigger value="music" aria-label="Музика">
+                                    Музика
+                                </TabsTrigger>
+                            </TabsList>
+                        </Tabs>
+                    )}
+                </Header>
+            )}
 
             {effectiveActive === 'video' && (
                 <Video videos={anime.videos} extended={extended} />

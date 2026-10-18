@@ -8,7 +8,6 @@ import {
     entityDetailHead,
     loadEntityDetail,
 } from '@/features/content/detail-route';
-import { CHARACTER_NAV_ROUTES } from '@/features/entities';
 import { useTitle } from '@/services/session';
 import { contentInfoOptions } from '@/utils/api/content-queries';
 
@@ -31,7 +30,6 @@ function CharacterDetailLayout() {
         <ContentDetailLayout
             slug={character?.slug ?? slug}
             contentType={ContentTypeEnum.CHARACTER}
-            navRoutes={CHARACTER_NAV_ROUTES}
             title={title}
         >
             <Outlet />

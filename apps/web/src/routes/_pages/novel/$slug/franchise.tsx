@@ -3,7 +3,7 @@ import { zodValidator } from '@tanstack/zod-adapter';
 
 import { ContentTypeEnum } from '@hikka/api';
 
-import { ContentSubpage, FranchisePage } from '@/features/content';
+import { FranchisePage } from '@/features/content';
 import { loadContentTab } from '@/features/content/detail-route';
 import { generateHeadMeta } from '@/utils/metadata';
 import { franchiseSearchSchema } from '@/utils/search-schemas';
@@ -27,14 +27,12 @@ function NovelFranchiseRoute() {
     const { view, order, types } = Route.useSearch();
 
     return (
-        <ContentSubpage slug={slug} contentType={ContentTypeEnum.NOVEL}>
-            <FranchisePage
-                content_type={ContentTypeEnum.NOVEL}
-                slug={slug}
-                view={view}
-                order={order}
-                types={types}
-            />
-        </ContentSubpage>
+        <FranchisePage
+            content_type={ContentTypeEnum.NOVEL}
+            slug={slug}
+            view={view}
+            order={order}
+            types={types}
+        />
     );
 }

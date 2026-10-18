@@ -8,7 +8,6 @@ import {
     entityDetailHead,
     loadEntityDetail,
 } from '@/features/content/detail-route';
-import { PERSON_NAV_ROUTES } from '@/features/entities';
 import { useTitle } from '@/services/session';
 import { contentInfoOptions } from '@/utils/api/content-queries';
 
@@ -31,7 +30,6 @@ function PersonDetailLayout() {
         <ContentDetailLayout
             slug={person?.slug ?? slug}
             contentType={ContentTypeEnum.PERSON}
-            navRoutes={PERSON_NAV_ROUTES}
             title={title}
         >
             <Outlet />

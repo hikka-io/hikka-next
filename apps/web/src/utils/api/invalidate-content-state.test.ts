@@ -74,6 +74,11 @@ const COMMENT_IDS = [
     'animeSlug',
     'mangaInfo',
     'novelInfo',
+    'characterInfo',
+    'personInfo',
+    'getCollection',
+    'getEdit',
+    'getArticle',
 ];
 const EDIT_LIST_IDS = [
     'getEdits',
@@ -204,7 +209,7 @@ describe('invalidation registry ids', () => {
             (id) => builders[`${id}QueryKey`]?.()[0]._id !== id,
         );
 
-        expect(registered.size).toBe(60);
+        expect(registered.size).toBe(61);
         expect(drifted).toEqual([]);
     });
 });

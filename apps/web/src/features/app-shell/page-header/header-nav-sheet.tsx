@@ -7,23 +7,25 @@ import {
     DrawerTitle,
     DrawerTrigger,
 } from '@/components/ui/drawer';
-import { Link, type NavRoute, usePathname } from '@/utils/navigation';
+import {
+    findCurrentNavRoute,
+    Link,
+    type NavRoute,
+    usePathname,
+} from '@/utils/navigation';
 
 import { NAV_ROW_CLASS_NAME } from '../nav-styles';
 
 type Props = PropsWithChildren & {
     routes: NavRoute[];
-    urlPrefix: string;
+    urlPrefix?: string;
 };
 
-const HeaderNavSheet: FC<Props> = ({ routes, urlPrefix, children }) => {
+const HeaderNavSheet: FC<Props> = ({ routes, urlPrefix = '', children }) => {
     const [open, setOpen] = useState(false);
     const pathname = usePathname();
-
-    const isCurrent = (route: NavRoute) =>
-        pathname === `${urlPrefix}${route.url}`;
-
-    const current = routes.find(isCurrent) ?? routes[0];
+    const active = findCurrentNavRoute(routes, pathname, urlPrefix);
+    const current = active ?? routes[0];
 
     return (
         <Drawer open={open} onOpenChange={setOpen}>
@@ -46,7 +48,7 @@ const HeaderNavSheet: FC<Props> = ({ routes, urlPrefix, children }) => {
                             search={route.search}
                             onClick={() => setOpen(false)}
                             className={NAV_ROW_CLASS_NAME}
-                            data-active={isCurrent(route)}
+                            data-active={route === active}
                         >
                             {route.icon && <route.icon />}
                             <span>{route.title_ua}</span>

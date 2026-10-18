@@ -12,7 +12,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { ChipTabs } from '@/components/ui/chip-tabs';
 import EmptyState from '@/components/ui/empty-state';
 import { Field, FieldLabel, FieldTitle } from '@/components/ui/field';
-import { Header, HeaderActions, HeaderTitle } from '@/components/ui/header';
+import { Header, HeaderActions } from '@/components/ui/header';
 import { Sort } from '@/features/filters';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { cn } from '@/utils/cn';
@@ -93,9 +93,6 @@ const UserCommentList: FC<Props> = ({
     return (
         <Block className={cn('break-inside-avoid', className)} id="comments">
             <Header className="flex-wrap">
-                <HeaderTitle className="max-md:w-full" truncate>
-                    Обговорення
-                </HeaderTitle>
                 <HeaderActions className="max-md:w-full max-md:justify-between">
                     <FieldLabel className="h-8 w-fit! shrink-0 cursor-pointer">
                         <Field

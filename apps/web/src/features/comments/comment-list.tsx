@@ -41,6 +41,8 @@ type Props = {
     content_type: CommentContentTypeEnum;
     comment_reference?: string;
     preview?: boolean;
+    /** The page heading already names the list (comments pages). */
+    hideTitle?: boolean;
     className?: string;
     contentTitle?: string;
     commentType?: CommentTypeEnum;
@@ -54,6 +56,7 @@ const CommentList: FC<Props> = ({
     content_type,
     comment_reference,
     preview,
+    hideTitle,
     className,
     contentTitle,
     commentType: controlledCommentType,
@@ -169,42 +172,53 @@ const CommentList: FC<Props> = ({
         [rows, isLoading],
     );
 
+    const typeTabs = showTypeTabs && (
+        <ChipTabs
+            options={chipOptions}
+            value={commentType}
+            onValueChange={setCommentType}
+            className={cn(hideTitle && 'min-w-0 flex-1')}
+        />
+    );
+
     return (
         <Block className={cn('break-inside-avoid', className)} id="comments">
-            <Header>
-                <HeaderTitle
-                    to={`/comments/${content_type}/${slug}`}
-                    truncate
-                    count={showHeaderTotal ? pagination?.total : undefined}
-                    countPending={showHeaderTotal && isLoading}
-                >
-                    Обговорення
-                </HeaderTitle>
-                {!comment_reference && (
-                    <HeaderActions>
-                        <Sort
-                            sort_type="comment"
-                            compact
-                            size="sm"
-                            placeholder="Сортування"
-                            className="w-32 md:w-48"
-                            sort={sort}
-                            order={order}
-                            onSortChange={setSort}
-                            onOrderChange={setOrder}
-                        />
-                    </HeaderActions>
-                )}
-            </Header>
+            {(!hideTitle || !comment_reference) && (
+                <Header>
+                    {hideTitle ? (
+                        typeTabs
+                    ) : (
+                        <HeaderTitle
+                            to={`/comments/${content_type}/${slug}`}
+                            truncate
+                            count={
+                                showHeaderTotal ? pagination?.total : undefined
+                            }
+                            countPending={showHeaderTotal && isLoading}
+                        >
+                            Обговорення
+                        </HeaderTitle>
+                    )}
+                    {!comment_reference && (
+                        <HeaderActions>
+                            <Sort
+                                sort_type="comment"
+                                compact
+                                size="sm"
+                                placeholder="Сортування"
+                                className="w-32 md:w-48"
+                                sort={sort}
+                                order={order}
+                                onSortChange={setSort}
+                                onOrderChange={setOrder}
+                            />
+                        </HeaderActions>
+                    )}
+                </Header>
+            )}
             <CommentsProvider lazyThread={!comment_reference}>
                 <div ref={visibleRef} className="flex flex-col gap-4">
-                    {showTypeTabs && (
-                        <ChipTabs
-                            options={chipOptions}
-                            value={commentType}
-                            onValueChange={setCommentType}
-                        />
-                    )}
+                    {!hideTitle && typeTabs}
                     {reviewStats && (
                         <ReviewStatsCard
                             stats={reviewStats}

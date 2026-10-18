@@ -21,6 +21,8 @@ vi.mock('@/features/app-shell', () => ({ usePageHeader: pageHeader }));
 
 vi.mock('@/features/content', () => ({
     ContentSubpage: ({ children }: { children: ReactNode }) => children,
+    contentNavRoutes: () => [],
+    hasContentNav: () => false,
     useContentTitle: (_type: string, content?: { title_ua?: string }) =>
         content?.title_ua ?? '',
 }));
@@ -28,6 +30,7 @@ vi.mock('@/features/content', () => ({
 vi.mock('@/features/comments', () => ({
     CommentList: () => null,
     UserCommentList: () => null,
+    supportsReviews: () => true,
 }));
 
 vi.mock('@/features/filters', () => ({ useChangeParam: () => () => {} }));

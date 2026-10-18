@@ -1,3 +1,5 @@
+import { useMemo } from 'react';
+
 import { useQuery } from '@tanstack/react-query';
 import { createFileRoute, redirect } from '@tanstack/react-router';
 import { zodValidator } from '@tanstack/zod-adapter';
@@ -11,6 +13,7 @@ import {
 import { usePageHeader } from '@/features/app-shell';
 import {
     CommentList,
+    supportsReviews,
     UserCommentList,
     type Verdict,
 } from '@/features/comments';
@@ -19,7 +22,12 @@ import {
     loadCommentsContent,
     userCommentListOptions,
 } from '@/features/comments/queries';
-import { ContentSubpage, useContentTitle } from '@/features/content';
+import {
+    ContentSubpage,
+    contentNavRoutes,
+    hasContentNav,
+    useContentTitle,
+} from '@/features/content';
 import { useChangeParam } from '@/features/filters';
 import {
     type ContentInfoType,
@@ -112,11 +120,20 @@ function CommentsPage() {
     const contentTitle =
         useContentTitle(content_type as ContentTypeEnum, content) || undefined;
     const isUser = content_type === ContentTypeEnum.USER;
+    const navRoutes = useMemo(
+        () =>
+            hasContentNav(content_type)
+                ? contentNavRoutes(content_type, slug)
+                : undefined,
+        [content_type, slug],
+    );
 
     usePageHeader({
         title: contentTitle,
         subtitle: 'Коментарі',
         parent: contentPath(content_type as ContentTypeEnum, slug),
+        navRoutes,
+        anchored: true,
     });
 
     const commentType = comment_type ?? 'all';
@@ -165,6 +182,14 @@ function CommentsPage() {
                     | CommentContentTypeEnum
                     | typeof ContentTypeEnum.USER
             }
+            title={isUser ? 'Коментарі' : 'Обговорення'}
+            count={
+                content &&
+                'comments_count' in content &&
+                !supportsReviews(content_type)
+                    ? content.comments_count
+                    : undefined
+            }
         >
             {isUser ? (
                 <UserCommentList
@@ -179,6 +204,7 @@ function CommentsPage() {
                 />
             ) : (
                 <CommentList
+                    hideTitle
                     slug={slug}
                     content_type={content_type as CommentContentTypeEnum}
                     contentTitle={contentTitle}

@@ -9,10 +9,10 @@ import Block from '@/components/ui/block';
 import { Button } from '@/components/ui/button';
 import { type ChipTabOption, ChipTabs } from '@/components/ui/chip-tabs';
 import EmptyState from '@/components/ui/empty-state';
-import { Header, HeaderActions, HeaderTitle } from '@/components/ui/header';
 import { contentPath } from '@/utils/content-paths';
 import type { FranchiseOrder, FranchiseView } from '@/utils/search-schemas';
 
+import ContentSubpage from '../content-subpage';
 import FranchiseChronology from './franchise-chronology';
 import FranchiseChronologyToolbar from './franchise-chronology-toolbar';
 import FranchiseComposition from './franchise-composition';
@@ -41,17 +41,6 @@ const FranchisePage: FC<Props> = ({
     const { data: model, isPending } = useFranchise(content_type, slug);
     const [, setGraphOpen] = useGraphOverlay();
 
-    if (!model && !isPending) {
-        return (
-            <EmptyState
-                bordered
-                icon={<Share2 className="rotate-90" />}
-                title="Франшизу не знайдено"
-                description="Інформацію ще не додано"
-            />
-        );
-    }
-
     const to = `${contentPath(content_type, slug)}/franchise`;
     const options: ChipTabOption<FranchiseView>[] = [
         {
@@ -73,60 +62,64 @@ const FranchisePage: FC<Props> = ({
     const activeTypes = selectedTypes.length ? selectedTypes : presentTypes;
 
     return (
-        <Block>
-            <Header>
-                <HeaderTitle>
-                    Франшиза{' '}
-                    {model && (
-                        <span className="text-muted-foreground">
-                            ({model.nodes.length})
-                        </span>
-                    )}
-                </HeaderTitle>
-                <HeaderActions>
-                    <Button
-                        size="md"
-                        variant="outline"
-                        disabled={!model}
-                        onClick={() => setGraphOpen(true)}
-                    >
-                        <Share2 className="rotate-90" />
-                        Граф
-                    </Button>
-                </HeaderActions>
-            </Header>
-            <FranchiseComposition model={model} />
-            <div className="flex flex-col gap-4 md:flex-row md:items-center">
-                <ChipTabs
-                    options={options}
-                    value={view}
-                    className="md:min-w-0 md:flex-1"
+        <ContentSubpage
+            slug={slug}
+            contentType={content_type}
+            actions={
+                <Button
+                    size="md"
+                    variant="outline"
+                    disabled={!model}
+                    onClick={() => setGraphOpen(true)}
+                >
+                    <Share2 className="rotate-90" />
+                    Граф
+                </Button>
+            }
+        >
+            {model || isPending ? (
+                <Block>
+                    <FranchiseComposition model={model} />
+                    <div className="flex flex-col gap-4 md:flex-row md:items-center">
+                        <ChipTabs
+                            options={options}
+                            value={view}
+                            className="md:min-w-0 md:flex-1"
+                        />
+                        {view === 'chrono' && (
+                            <FranchiseChronologyToolbar
+                                to={to}
+                                order={order}
+                                model={model}
+                                types={presentTypes}
+                                selected={selectedTypes}
+                            />
+                        )}
+                    </div>
+                    {view === 'related' && <FranchiseRelated model={model} />}
+                    {view === 'chrono' &&
+                        (model ? (
+                            <FranchiseChronology
+                                model={model}
+                                order={order}
+                                types={activeTypes}
+                            />
+                        ) : (
+                            <HistoryTimelineSkeleton
+                                count={CHRONOLOGY_SKELETON_ROWS}
+                                size="lg"
+                            />
+                        ))}
+                </Block>
+            ) : (
+                <EmptyState
+                    bordered
+                    icon={<Share2 className="rotate-90" />}
+                    title="Франшизу не знайдено"
+                    description="Інформацію ще не додано"
                 />
-                {view === 'chrono' && (
-                    <FranchiseChronologyToolbar
-                        to={to}
-                        order={order}
-                        model={model}
-                        types={presentTypes}
-                        selected={selectedTypes}
-                    />
-                )}
-            </div>
-            {view === 'related' && <FranchiseRelated model={model} />}
-            {view === 'chrono' &&
-                (model ? (
-                    <FranchiseChronology
-                        model={model}
-                        order={order}
-                        types={activeTypes}
-                    />
-                ) : (
-                    <HistoryTimelineSkeleton
-                        count={CHRONOLOGY_SKELETON_ROWS}
-                        size="lg"
-                    />
-                ))}
-        </Block>
+            )}
+        </ContentSubpage>
     );
 };
 

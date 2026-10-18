@@ -2,6 +2,7 @@ export { default as ContentCharacters } from './characters';
 export { default as ContentCollections } from './collections';
 export { default as ContentDetailLayout } from './content-detail-layout';
 export { default as ContentDetailPage } from './content-detail-page';
+export { contentNavRoutes, hasContentNav } from './content-nav-routes';
 export { default as ContentSubpage } from './content-subpage';
 export { default as ContentDetails } from './details';
 export { default as FranchisePage } from './franchise';

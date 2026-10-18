@@ -1,4 +1,4 @@
-import { type ComponentType, useRef } from 'react';
+import { type ComponentType, useEffect, useRef } from 'react';
 
 import { Tabs as TabsPrimitive } from '@base-ui/react/tabs';
 
@@ -75,6 +75,23 @@ function ChipTabs<T extends string>({
         scrollRef,
         'horizontal',
     );
+
+    // Horizontal only: scrollIntoView would also scroll the page to a row below the fold.
+    // biome-ignore lint/correctness/useExhaustiveDependencies(value): re-run when the active chip changes
+    useEffect(() => {
+        const row = scrollRef.current;
+        const active = row?.querySelector(
+            '[aria-current="page"], [aria-selected="true"]',
+        );
+        if (!row || !active) return;
+
+        const rowRect = row.getBoundingClientRect();
+        const activeRect = active.getBoundingClientRect();
+        if (activeRect.right > rowRect.right) {
+            row.scrollLeft += activeRect.right - rowRect.right;
+        }
+    }, [value]);
+
     const rowClassName = cn(
         'no-scrollbar -mr-4 flex gap-2 overflow-x-auto pr-4',
         gradientClassName,

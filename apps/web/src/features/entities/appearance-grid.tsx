@@ -10,7 +10,7 @@ type Props<T> = {
     title: string;
     emptyTitle: string;
     emptyIcon: ReactNode;
-    /** Link target for the section header in collapsed mode. */
+    /** Link target for the section header; extended pages have none. */
     href?: string;
     extended?: boolean;
     list: T[] | undefined;
@@ -51,11 +51,11 @@ function AppearanceGrid<T>({
 
     return (
         <Block>
-            <Header>
-                <HeaderTitle to={!extended ? href : undefined}>
-                    {title}
-                </HeaderTitle>
-            </Header>
+            {!extended && (
+                <Header>
+                    <HeaderTitle to={href}>{title}</HeaderTitle>
+                </Header>
+            )}
             <Stack
                 size={4}
                 extendedSize={5}

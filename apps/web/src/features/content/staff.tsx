@@ -77,17 +77,15 @@ const StaffBlock: FC<StaffBlockProps> = ({
 
     const block = (
         <Block id="content-staff">
-            <Header>
-                <HeaderTitle
-                    to={
-                        !extended
-                            ? `${CONTENT_TYPE_LINKS[content_type]}/${slug}/staff`
-                            : undefined
-                    }
-                >
-                    Автори
-                </HeaderTitle>
-            </Header>
+            {!extended && (
+                <Header>
+                    <HeaderTitle
+                        to={`${CONTENT_TYPE_LINKS[content_type]}/${slug}/staff`}
+                    >
+                        Автори
+                    </HeaderTitle>
+                </Header>
+            )}
             <Stack
                 size={5}
                 extendedSize={5}

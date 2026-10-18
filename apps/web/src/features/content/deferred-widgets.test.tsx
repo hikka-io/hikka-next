@@ -1,4 +1,4 @@
-import { act } from 'react';
+import { act, type ReactNode } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
 
 import {
@@ -49,6 +49,10 @@ vi.mock('@/services/session', () => ({
 vi.mock('@/utils/navigation', () => ({
     useParams: () => ({ slug: SLUG }),
     Link: () => null,
+}));
+
+vi.mock('./content-subpage', () => ({
+    default: ({ children }: { children: ReactNode }) => children,
 }));
 
 vi.mock('./franchise/use-graph-overlay', () => ({

@@ -77,6 +77,11 @@ const COMMENT_IDS: readonly QueryId[] = [
     'animeSlug',
     'mangaInfo',
     'novelInfo',
+    'characterInfo',
+    'personInfo',
+    'getCollection',
+    'getEdit',
+    'getArticle',
 ];
 
 /** Community-edit list queries (the `/edit` index, top stats, content todo). */
