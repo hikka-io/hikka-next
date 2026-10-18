@@ -1,6 +1,8 @@
 import { type ComponentType, useRef } from 'react';
 
-import { Chip } from '@/components/ui/chip';
+import { Tabs as TabsPrimitive } from '@base-ui/react/tabs';
+
+import { chipVariants } from '@/components/ui/chip';
 import { SELECTED_TINT } from '@/components/ui/selected-tint';
 import { useScrollGradientMask } from '@/services/hooks/use-scroll-position';
 import { cn } from '@/utils/cn';
@@ -25,6 +27,43 @@ type Props<T extends string> = {
     className?: string;
 };
 
+const chipClassName = <T extends string>(
+    option: ChipTabOption<T>,
+    isActive: boolean,
+) =>
+    cn(
+        chipVariants(),
+        'border border-transparent px-3.5 text-sm',
+        isActive
+            ? (option.activeClass ?? SELECTED_TINT)
+            : 'bg-secondary/40 text-muted-foreground hover:bg-accent',
+    );
+
+// An explicit aria-label replaces the name computed from the content, so the
+// count is folded in rather than dropped.
+const chipAriaLabel = <T extends string>(option: ChipTabOption<T>) =>
+    option.count !== undefined
+        ? `${option.label}: ${option.count}`
+        : option.label;
+
+const ChipContent = <T extends string>({
+    option,
+}: {
+    option: ChipTabOption<T>;
+}) => {
+    const Icon = option.icon;
+
+    return (
+        <>
+            {Icon && <Icon className="size-4 shrink-0" />}
+            {option.label}
+            {option.count !== undefined && (
+                <span className="tabular-nums opacity-60">{option.count}</span>
+            )}
+        </>
+    );
+};
+
 function ChipTabs<T extends string>({
     options,
     value,
@@ -36,73 +75,57 @@ function ChipTabs<T extends string>({
         scrollRef,
         'horizontal',
     );
+    const rowClassName = cn(
+        'no-scrollbar -mr-4 flex gap-2 overflow-x-auto pr-4',
+        gradientClassName,
+    );
+
+    if (options.some((option) => option.to)) {
+        return (
+            <div ref={scrollRef} className={cn(rowClassName, className)}>
+                {options.map((option) => {
+                    const isActive = value === option.value;
+
+                    return (
+                        <Link
+                            key={option.value}
+                            to={option.to ?? '.'}
+                            search={isActive ? true : (option.search ?? {})}
+                            activeOptions={{ exact: true }}
+                            aria-current={isActive ? 'page' : undefined}
+                            aria-label={chipAriaLabel(option)}
+                            className={chipClassName(option, isActive)}
+                        >
+                            <ChipContent option={option} />
+                        </Link>
+                    );
+                })}
+            </div>
+        );
+    }
 
     return (
-        <div
-            ref={scrollRef}
-            role="tablist"
-            className={cn(
-                'no-scrollbar -mr-4 flex gap-2 overflow-x-auto pr-4',
-                gradientClassName,
-                className,
-            )}
+        <TabsPrimitive.Root
+            value={value}
+            onValueChange={(next) => onValueChange?.(next as T)}
+            className={className}
         >
-            {options.map((option) => {
-                const isActive = value === option.value;
-                const Icon = option.icon;
-                const content = (
-                    <>
-                        {Icon && <Icon className="size-4 shrink-0" />}
-                        {option.label}
-                        {option.count !== undefined && (
-                            <span className="tabular-nums opacity-60">
-                                {option.count}
-                            </span>
+            <TabsPrimitive.List ref={scrollRef} className={rowClassName}>
+                {options.map((option) => (
+                    <TabsPrimitive.Tab
+                        key={option.value}
+                        value={option.value}
+                        aria-label={chipAriaLabel(option)}
+                        className={chipClassName(
+                            option,
+                            value === option.value,
                         )}
-                    </>
-                );
-                const chipProps = {
-                    role: 'tab',
-                    'aria-selected': isActive,
-                    // Folded in, not just the label: an explicit aria-label
-                    // replaces the accessible name computed from the content,
-                    // which would drop the count.
-                    'aria-label':
-                        option.count !== undefined
-                            ? `${option.label}: ${option.count}`
-                            : option.label,
-                    className: cn(
-                        'border border-transparent px-3.5 text-sm',
-                        isActive
-                            ? (option.activeClass ?? SELECTED_TINT)
-                            : 'bg-secondary/40 text-muted-foreground hover:bg-accent',
-                    ),
-                };
-
-                return option.to ? (
-                    <Chip
-                        key={option.value}
-                        {...chipProps}
-                        render={
-                            <Link
-                                to={option.to}
-                                search={isActive ? true : (option.search ?? {})}
-                            />
-                        }
                     >
-                        {content}
-                    </Chip>
-                ) : (
-                    <Chip
-                        key={option.value}
-                        onClick={() => onValueChange?.(option.value)}
-                        {...chipProps}
-                    >
-                        {content}
-                    </Chip>
-                );
-            })}
-        </div>
+                        <ChipContent option={option} />
+                    </TabsPrimitive.Tab>
+                ))}
+            </TabsPrimitive.List>
+        </TabsPrimitive.Root>
     );
 }
 
