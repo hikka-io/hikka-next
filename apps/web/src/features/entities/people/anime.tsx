@@ -3,6 +3,7 @@ import type { FC } from 'react';
 import { ContentTypeEnum } from '@hikka/api';
 
 import AnimeCard from '@/components/content-card/anime-card';
+import MaterialSymbolsAnimatedImages from '@/components/icons/material-symbols/MaterialSymbolsAnimatedImages';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { useParams } from '@/utils/navigation';
 import { getTitle } from '@/utils/title/get-title';
@@ -29,6 +30,8 @@ const PersonAnime: FC<Props> = ({ extended }) => {
     return (
         <AppearanceGrid
             title="Аніме"
+            emptyTitle="Аніме не знайдено"
+            emptyIcon={<MaterialSymbolsAnimatedImages />}
             href={`/people/${params.slug}/anime`}
             extended={extended}
             list={list}

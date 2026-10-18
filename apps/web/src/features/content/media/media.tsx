@@ -4,7 +4,9 @@ import { useQuery } from '@tanstack/react-query';
 
 import { animeSlugOptions } from '@hikka/api';
 
+import MaterialSymbolsLibraryMusicRounded from '@/components/icons/material-symbols/MaterialSymbolsLibraryMusicRounded';
 import Block from '@/components/ui/block';
+import EmptyState from '@/components/ui/empty-state';
 import { Header, HeaderTitle } from '@/components/ui/header';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useParams } from '@/utils/navigation';
@@ -23,8 +25,19 @@ const ContentMedia: FC<Props> = ({ extended }) => {
     );
     const [active, setActive] = useState<'video' | 'music'>('video');
 
-    if (!anime || (anime.ost.length === 0 && anime.videos.length === 0)) {
+    if (!anime) {
         return null;
+    }
+
+    if (anime.ost.length === 0 && anime.videos.length === 0) {
+        return extended ? (
+            <EmptyState
+                bordered
+                icon={<MaterialSymbolsLibraryMusicRounded />}
+                title="Медіа не знайдено"
+                description="Інформацію ще не додано"
+            />
+        ) : null;
     }
 
     const hasVideo = anime.videos.length > 0;

@@ -3,6 +3,7 @@ import type { FC } from 'react';
 import { ContentTypeEnum } from '@hikka/api';
 
 import MangaCard from '@/components/content-card/manga-card';
+import MaterialSymbolsPalette from '@/components/icons/material-symbols/MaterialSymbolsPalette';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { useParams } from '@/utils/navigation';
 
@@ -28,6 +29,8 @@ const CharacterManga: FC<Props> = ({ extended }) => {
     return (
         <AppearanceGrid
             title="Манґа"
+            emptyTitle="Манґу не знайдено"
+            emptyIcon={<MaterialSymbolsPalette />}
             href={`/characters/${params.slug}/manga`}
             extended={extended}
             list={list}

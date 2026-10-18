@@ -11,8 +11,10 @@ import {
 } from '@hikka/api';
 
 import PersonCard from '@/components/content-card/person-card';
+import MaterialSymbolsPerson from '@/components/icons/material-symbols/MaterialSymbolsPerson';
 import LoadMoreButton from '@/components/load-more-button';
 import Block from '@/components/ui/block';
+import EmptyState from '@/components/ui/empty-state';
 import { Header, HeaderTitle } from '@/components/ui/header';
 import Stack from '@/components/ui/stack';
 import { useVisibleOnce } from '@/services/hooks/use-visible-once';
@@ -56,6 +58,17 @@ const StaffBlock: FC<StaffBlockProps> = ({
     isPending,
     loadMore,
 }) => {
+    if (extended && list?.length === 0) {
+        return (
+            <EmptyState
+                bordered
+                icon={<MaterialSymbolsPerson />}
+                title="Авторів не знайдено"
+                description="Інформацію ще не додано"
+            />
+        );
+    }
+
     if (!list ? extended || !isPending : list.length === 0) {
         return null;
     }

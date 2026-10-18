@@ -8,6 +8,7 @@ import { HistoryTimelineSkeleton } from '@/components/list-items';
 import Block from '@/components/ui/block';
 import { Button } from '@/components/ui/button';
 import { type ChipTabOption, ChipTabs } from '@/components/ui/chip-tabs';
+import EmptyState from '@/components/ui/empty-state';
 import { Header, HeaderActions, HeaderTitle } from '@/components/ui/header';
 import { contentPath } from '@/utils/content-paths';
 import type { FranchiseOrder, FranchiseView } from '@/utils/search-schemas';
@@ -41,7 +42,14 @@ const FranchisePage: FC<Props> = ({
     const [, setGraphOpen] = useGraphOverlay();
 
     if (!model && !isPending) {
-        return null;
+        return (
+            <EmptyState
+                bordered
+                icon={<Share2 className="rotate-90" />}
+                title="Франшизу не знайдено"
+                description="Інформацію ще не додано"
+            />
+        );
     }
 
     const to = `${contentPath(content_type, slug)}/franchise`;

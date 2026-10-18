@@ -2,11 +2,14 @@ import type { ForwardedRef, ReactNode } from 'react';
 
 import LoadMoreButton from '@/components/load-more-button';
 import Block from '@/components/ui/block';
+import EmptyState from '@/components/ui/empty-state';
 import { Header, HeaderTitle } from '@/components/ui/header';
 import Stack from '@/components/ui/stack';
 
 type Props<T> = {
     title: string;
+    emptyTitle: string;
+    emptyIcon: ReactNode;
     /** Link target for the section header in collapsed mode. */
     href?: string;
     extended?: boolean;
@@ -23,6 +26,8 @@ type Props<T> = {
 /** Shared "appearances" section for character and person pages. */
 function AppearanceGrid<T>({
     title,
+    emptyTitle,
+    emptyIcon,
     href,
     extended,
     list,
@@ -34,7 +39,14 @@ function AppearanceGrid<T>({
     stackClassName,
 }: Props<T>) {
     if (!list || list.length === 0) {
-        return null;
+        return extended && list ? (
+            <EmptyState
+                bordered
+                icon={emptyIcon}
+                title={emptyTitle}
+                description="Інформацію ще не додано"
+            />
+        ) : null;
     }
 
     return (

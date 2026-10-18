@@ -3,6 +3,7 @@ import type { FC } from 'react';
 import { ContentTypeEnum } from '@hikka/api';
 
 import CharacterAnimeCard from '@/components/content-card/character-anime-card';
+import MaterialSymbolsFace3 from '@/components/icons/material-symbols/MaterialSymbolsFace3';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { useParams } from '@/utils/navigation';
 
@@ -28,6 +29,8 @@ const PersonCharacters: FC<Props> = ({ extended }) => {
     return (
         <AppearanceGrid
             title="Персонажі"
+            emptyTitle="Персонажів не знайдено"
+            emptyIcon={<MaterialSymbolsFace3 />}
             href={`/people/${params.slug}/characters`}
             extended={extended}
             stackClassName="grid-cols-3 sm:grid-cols-4"

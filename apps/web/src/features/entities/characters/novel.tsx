@@ -3,6 +3,7 @@ import type { FC } from 'react';
 import { ContentTypeEnum } from '@hikka/api';
 
 import NovelCard from '@/components/content-card/novel-card';
+import MaterialSymbolsMenuBookRounded from '@/components/icons/material-symbols/MaterialSymbolsMenuBookRounded';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { useParams } from '@/utils/navigation';
 
@@ -28,6 +29,8 @@ const CharacterNovel: FC<Props> = ({ extended }) => {
     return (
         <AppearanceGrid
             title="Ранобе"
+            emptyTitle="Ранобе не знайдено"
+            emptyIcon={<MaterialSymbolsMenuBookRounded />}
             href={`/characters/${params.slug}/novel`}
             extended={extended}
             list={list}

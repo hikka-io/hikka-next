@@ -2,7 +2,9 @@ import type { FC } from 'react';
 
 import type { MainContentTypeEnum } from '@hikka/api';
 
+import MaterialSymbolsFace3 from '@/components/icons/material-symbols/MaterialSymbolsFace3';
 import LoadMoreButton from '@/components/load-more-button';
+import EmptyState from '@/components/ui/empty-state';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { useParams } from '@/utils/navigation';
 
@@ -17,10 +19,21 @@ type Props = {
 
 const ContentCharacters: FC<Props> = ({ extended, content_type }) => {
     const params = useParams();
-    const { fetchNextPage, hasNextPage, isFetchingNextPage, ref } =
+    const { list, fetchNextPage, hasNextPage, isFetchingNextPage, ref } =
         useInfiniteList(
             contentCharactersOptions(content_type, String(params.slug)),
         );
+
+    if (extended && list?.length === 0) {
+        return (
+            <EmptyState
+                bordered
+                icon={<MaterialSymbolsFace3 />}
+                title="Персонажів не знайдено"
+                description="Інформацію ще не додано"
+            />
+        );
+    }
 
     return (
         <div className="flex flex-col gap-12" id="content-characters">

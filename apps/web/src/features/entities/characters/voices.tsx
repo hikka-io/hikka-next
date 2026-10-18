@@ -3,6 +3,7 @@ import type { FC } from 'react';
 import { ContentTypeEnum } from '@hikka/api';
 
 import VoiceCard from '@/components/content-card/voice-card';
+import MaterialSymbolsPerson from '@/components/icons/material-symbols/MaterialSymbolsPerson';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { useParams } from '@/utils/navigation';
 
@@ -28,6 +29,8 @@ const CharacterVoices: FC<Props> = ({ extended }) => {
     return (
         <AppearanceGrid
             title="Сейю"
+            emptyTitle="Сейю не знайдено"
+            emptyIcon={<MaterialSymbolsPerson />}
             href={`/characters/${params.slug}/voices`}
             stackClassName="grid-cols-3 sm:grid-cols-4"
             extended={extended}
