@@ -20,6 +20,11 @@ import {
     ResponsiveModalFooter,
 } from '@/components/ui/responsive-modal';
 import { Switch } from '@/components/ui/switch';
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipTrigger,
+} from '@/components/ui/tooltip';
 import { cn } from '@/utils/cn';
 import {
     COLLECTION_CONTENT_TYPE_OPTIONS,
@@ -335,23 +340,30 @@ const FeedSubTypeSelect: FC<{
 
     return (
         <>
-            <Button
-                variant="outline"
-                size="icon-sm"
-                onClick={() => setOpen(true)}
-                className="relative shrink-0 overflow-visible"
-                aria-label="Фільтри"
-            >
-                <Filter className="size-4" />
-                {subFilterCount > 0 && (
-                    <Badge
-                        variant="default"
-                        className="absolute -top-1.5 -right-1.5 h-4 min-w-4 px-1 text-[10px]"
-                    >
-                        {subFilterCount}
-                    </Badge>
-                )}
-            </Button>
+            <Tooltip>
+                <TooltipTrigger
+                    render={
+                        <Button
+                            variant="outline"
+                            size="icon-sm"
+                            onClick={() => setOpen(true)}
+                            className="relative shrink-0 overflow-visible"
+                            aria-label="Фільтри стрічки"
+                        />
+                    }
+                >
+                    <Filter className="size-4" />
+                    {subFilterCount > 0 && (
+                        <Badge
+                            variant="default"
+                            className="absolute -top-1.5 -right-1.5 h-4 min-w-4 px-1 text-[10px]"
+                        >
+                            {subFilterCount}
+                        </Badge>
+                    )}
+                </TooltipTrigger>
+                <TooltipContent>Фільтри стрічки</TooltipContent>
+            </Tooltip>
 
             <ResponsiveModal open={open} onOpenChange={setOpen} mobile="page">
                 <ResponsiveModalContent

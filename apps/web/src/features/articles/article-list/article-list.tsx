@@ -11,6 +11,11 @@ import LoadMoreButton from '@/components/load-more-button';
 import Block from '@/components/ui/block';
 import { Button } from '@/components/ui/button';
 import { Header, HeaderActions, HeaderTitle } from '@/components/ui/header';
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipTrigger,
+} from '@/components/ui/tooltip';
 import { usePageTitleAnchor } from '@/features/app-shell';
 import { FiltersModal } from '@/features/filters';
 import { useSession } from '@/services/session';
@@ -58,15 +63,25 @@ const ArticleList: FC<Props> = () => {
                         : 'Статті'}
                 </HeaderTitle>
                 {user && (
-                    <Button
-                        size="icon-sm"
-                        variant="outline"
-                        render={
-                            <Link to={`${CONTENT_TYPE_LINKS.article}/new`} />
-                        }
-                    >
-                        <MaterialSymbolsAddRounded className="size-4" />
-                    </Button>
+                    <Tooltip>
+                        <TooltipTrigger
+                            render={
+                                <Button
+                                    size="icon-sm"
+                                    variant="outline"
+                                    aria-label="Нова стаття"
+                                    render={
+                                        <Link
+                                            to={`${CONTENT_TYPE_LINKS.article}/new`}
+                                        />
+                                    }
+                                />
+                            }
+                        >
+                            <MaterialSymbolsAddRounded className="size-4" />
+                        </TooltipTrigger>
+                        <TooltipContent>Нова стаття</TooltipContent>
+                    </Tooltip>
                 )}
                 <HeaderActions className="md:hidden">
                     <FiltersModal

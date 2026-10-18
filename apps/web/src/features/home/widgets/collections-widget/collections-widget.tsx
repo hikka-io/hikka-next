@@ -10,6 +10,11 @@ import { Button } from '@/components/ui/button';
 import EmptyState from '@/components/ui/empty-state';
 import { Header, HeaderActions, HeaderTitle } from '@/components/ui/header';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipTrigger,
+} from '@/components/ui/tooltip';
 import { useVisibleOnce } from '@/services/hooks/use-visible-once';
 import { useSession } from '@/services/session';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
@@ -43,13 +48,21 @@ const CollectionsWidget: FC<WidgetProps> = () => {
                 </HeaderTitle>
                 {user && (
                     <HeaderActions>
-                        <Button
-                            size="icon-sm"
-                            variant="outline"
-                            render={<Link to="/collections/new" />}
-                        >
-                            <MaterialSymbolsAddRounded />
-                        </Button>
+                        <Tooltip>
+                            <TooltipTrigger
+                                render={
+                                    <Button
+                                        size="icon-sm"
+                                        variant="outline"
+                                        aria-label="Нова колекція"
+                                        render={<Link to="/collections/new" />}
+                                    />
+                                }
+                            >
+                                <MaterialSymbolsAddRounded />
+                            </TooltipTrigger>
+                            <TooltipContent>Нова колекція</TooltipContent>
+                        </Tooltip>
                     </HeaderActions>
                 )}
             </Header>

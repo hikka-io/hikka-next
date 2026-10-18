@@ -11,6 +11,11 @@ import {
     ResponsiveModal,
     ResponsiveModalContent,
 } from '@/components/ui/responsive-modal';
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipTrigger,
+} from '@/components/ui/tooltip';
 import { useCloseOnRouteChange } from '@/services/hooks/use-close-on-route-change';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { cn } from '@/utils/cn';
@@ -48,16 +53,25 @@ const UserHistory: FC<Props> = ({ className }) => {
                         Історія
                     </HeaderTitle>
                     <HeaderActions>
-                        <Button
-                            size="icon-sm"
-                            variant="outline"
-                            aria-label="Сторінка історії"
-                            render={
-                                <Link to={`/u/${params.username}/history`} />
-                            }
-                        >
-                            <MaterialSymbolsGridViewRounded />
-                        </Button>
+                        <Tooltip>
+                            <TooltipTrigger
+                                render={
+                                    <Button
+                                        size="icon-sm"
+                                        variant="outline"
+                                        aria-label="Сторінка історії"
+                                        render={
+                                            <Link
+                                                to={`/u/${params.username}/history`}
+                                            />
+                                        }
+                                    />
+                                }
+                            >
+                                <MaterialSymbolsGridViewRounded />
+                            </TooltipTrigger>
+                            <TooltipContent>Сторінка історії</TooltipContent>
+                        </Tooltip>
                     </HeaderActions>
                 </Header>
                 {filteredActivity && filteredActivity.length > 0 && (

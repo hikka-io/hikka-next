@@ -5,6 +5,11 @@ import MaterialSymbolsAddRounded from '@/components/icons/material-symbols/Mater
 import Block from '@/components/ui/block';
 import { Button } from '@/components/ui/button';
 import { Header, HeaderTitle } from '@/components/ui/header';
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipTrigger,
+} from '@/components/ui/tooltip';
 import { usePageHeader, usePageTitleAnchor } from '@/features/app-shell';
 import { CollectionList, CollectionSort } from '@/features/collections';
 import {
@@ -57,13 +62,21 @@ function CollectionsPage() {
                     <HeaderTitle ref={titleAnchor} as="h1" size="page">
                         Колекції
                     </HeaderTitle>
-                    <Button
-                        size="icon-sm"
-                        variant="outline"
-                        render={<Link to="/collections/new" />}
-                    >
-                        <MaterialSymbolsAddRounded />
-                    </Button>
+                    <Tooltip>
+                        <TooltipTrigger
+                            render={
+                                <Button
+                                    size="icon-sm"
+                                    variant="outline"
+                                    aria-label="Нова колекція"
+                                    render={<Link to="/collections/new" />}
+                                />
+                            }
+                        >
+                            <MaterialSymbolsAddRounded />
+                        </TooltipTrigger>
+                        <TooltipContent>Нова колекція</TooltipContent>
+                    </Tooltip>
                 </Header>
                 <CollectionSort />
             </div>

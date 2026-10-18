@@ -16,6 +16,11 @@ import {
     ResponsiveModal,
     ResponsiveModalContent,
 } from '@/components/ui/responsive-modal';
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipTrigger,
+} from '@/components/ui/tooltip';
 import { CollectionListModal } from '@/features/collections';
 import { useCloseOnRouteChange } from '@/services/hooks/use-close-on-route-change';
 import { useVisibleOnce } from '@/services/hooks/use-visible-once';
@@ -75,13 +80,25 @@ const UserCollections: FC<Props> = ({ className }) => {
                             </HeaderTitle>
                             {isOwner && collections && (
                                 <HeaderActions>
-                                    <Button
-                                        size="icon-sm"
-                                        variant="outline"
-                                        render={<Link to="/collections/new" />}
-                                    >
-                                        <MaterialSymbolsAddRounded />
-                                    </Button>
+                                    <Tooltip>
+                                        <TooltipTrigger
+                                            render={
+                                                <Button
+                                                    size="icon-sm"
+                                                    variant="outline"
+                                                    aria-label="Нова колекція"
+                                                    render={
+                                                        <Link to="/collections/new" />
+                                                    }
+                                                />
+                                            }
+                                        >
+                                            <MaterialSymbolsAddRounded />
+                                        </TooltipTrigger>
+                                        <TooltipContent>
+                                            Нова колекція
+                                        </TooltipContent>
+                                    </Tooltip>
                                 </HeaderActions>
                             )}
                         </Header>

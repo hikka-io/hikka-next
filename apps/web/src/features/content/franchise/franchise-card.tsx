@@ -12,6 +12,11 @@ import { Collapsible, CollapsibleContent } from '@/components/ui/collapsible';
 import { Header, HeaderActions, HeaderTitle } from '@/components/ui/header';
 import { labelVariants } from '@/components/ui/label';
 import { Skeleton, SkeletonText } from '@/components/ui/skeleton';
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipTrigger,
+} from '@/components/ui/tooltip';
 import { useVisibleOnce } from '@/services/hooks/use-visible-once';
 import { contentPath } from '@/utils/content-paths';
 
@@ -117,14 +122,21 @@ const FranchiseCard: FC<Props> = ({ content_type, slug, className }) => {
             <Header>
                 <HeaderTitle to={href}>Франшиза</HeaderTitle>
                 <HeaderActions>
-                    <Button
-                        size="icon-sm"
-                        variant="outline"
-                        aria-label="Граф франшизи"
-                        onClick={() => setGraphOpen(true)}
-                    >
-                        <Share2 className="rotate-90" />
-                    </Button>
+                    <Tooltip>
+                        <TooltipTrigger
+                            render={
+                                <Button
+                                    size="icon-sm"
+                                    variant="outline"
+                                    aria-label="Граф франшизи"
+                                    onClick={() => setGraphOpen(true)}
+                                />
+                            }
+                        >
+                            <Share2 className="rotate-90" />
+                        </TooltipTrigger>
+                        <TooltipContent>Граф франшизи</TooltipContent>
+                    </Tooltip>
                 </HeaderActions>
             </Header>
             {model ? (

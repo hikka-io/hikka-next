@@ -14,6 +14,11 @@ import { Button } from '@/components/ui/button';
 import EmptyState from '@/components/ui/empty-state';
 import { Header, HeaderActions, HeaderTitle } from '@/components/ui/header';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipTrigger,
+} from '@/components/ui/tooltip';
 import { useSession } from '@/services/session';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { CONTENT_TYPE_LINKS } from '@/utils/content-paths';
@@ -81,17 +86,25 @@ const ArticlesWidget: FC<WidgetProps> = () => {
                 </HeaderTitle>
                 {user && (
                     <HeaderActions>
-                        <Button
-                            size="icon-sm"
-                            variant="outline"
-                            render={
-                                <Link
-                                    to={`${CONTENT_TYPE_LINKS.article}/new`}
-                                />
-                            }
-                        >
-                            <MaterialSymbolsAddRounded />
-                        </Button>
+                        <Tooltip>
+                            <TooltipTrigger
+                                render={
+                                    <Button
+                                        size="icon-sm"
+                                        variant="outline"
+                                        aria-label="Нова стаття"
+                                        render={
+                                            <Link
+                                                to={`${CONTENT_TYPE_LINKS.article}/new`}
+                                            />
+                                        }
+                                    />
+                                }
+                            >
+                                <MaterialSymbolsAddRounded />
+                            </TooltipTrigger>
+                            <TooltipContent>Нова стаття</TooltipContent>
+                        </Tooltip>
                     </HeaderActions>
                 )}
             </Header>
