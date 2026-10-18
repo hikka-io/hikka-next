@@ -62,8 +62,11 @@ const ContentLinks: FC<Props> = ({ content_type }) => {
         content.external.filter((l) => l.type === ExternalTypeEnum.GENERAL),
     );
 
+    const hasWatchLinks = watchLinksData.length > 0;
     const linksData =
-        active === ExternalTypeEnum.GENERAL ? generalLinksData : watchLinksData;
+        active === ExternalTypeEnum.WATCH && hasWatchLinks
+            ? watchLinksData
+            : generalLinksData;
 
     const handleChangeActive = (value: string) => {
         setActive(value as ExternalTypeEnum);
@@ -76,24 +79,27 @@ const ContentLinks: FC<Props> = ({ content_type }) => {
                 <Header>
                     <HeaderContainer>
                         <HeaderTitle variant="h4">Посилання</HeaderTitle>
-                        <Tabs value={active} onValueChange={handleChangeActive}>
-                            <TabsList size="sm">
-                                <TabsTrigger
-                                    value={ExternalTypeEnum.GENERAL}
-                                    aria-label="Загальні посилання"
-                                >
-                                    <MaterialSymbolsInfoIRounded />
-                                </TabsTrigger>
-                                {watchLinksData.length > 0 && (
+                        {hasWatchLinks && (
+                            <Tabs
+                                value={active}
+                                onValueChange={handleChangeActive}
+                            >
+                                <TabsList size="sm">
+                                    <TabsTrigger
+                                        value={ExternalTypeEnum.GENERAL}
+                                        aria-label="Загальні посилання"
+                                    >
+                                        <MaterialSymbolsInfoIRounded />
+                                    </TabsTrigger>
                                     <TabsTrigger
                                         value={ExternalTypeEnum.WATCH}
                                         aria-label="Посилання для перегляду"
                                     >
                                         <MaterialSymbolsPlayArrowRounded />
                                     </TabsTrigger>
-                                )}
-                            </TabsList>
-                        </Tabs>
+                                </TabsList>
+                            </Tabs>
+                        )}
                     </HeaderContainer>
                 </Header>
                 <TextExpand

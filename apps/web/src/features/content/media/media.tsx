@@ -49,25 +49,23 @@ const ContentMedia: FC<Props> = ({ extended }) => {
             >
                 <HeaderContainer>
                     <HeaderTitle>Медіа</HeaderTitle>
-                    <Tabs
-                        value={effectiveActive}
-                        onValueChange={(value) =>
-                            setActive(value as 'video' | 'music')
-                        }
-                    >
-                        <TabsList size="sm">
-                            {anime.videos.length > 0 && (
+                    {hasVideo && hasMusic && (
+                        <Tabs
+                            value={effectiveActive}
+                            onValueChange={(value) =>
+                                setActive(value as 'video' | 'music')
+                            }
+                        >
+                            <TabsList size="sm">
                                 <TabsTrigger value="video" aria-label="Відео">
                                     Відео
                                 </TabsTrigger>
-                            )}
-                            {anime.ost.length > 0 && (
                                 <TabsTrigger value="music" aria-label="Музика">
                                     Музика
                                 </TabsTrigger>
-                            )}
-                        </TabsList>
-                    </Tabs>
+                            </TabsList>
+                        </Tabs>
+                    )}
                 </HeaderContainer>
                 <HeaderNavButton />
             </Header>
