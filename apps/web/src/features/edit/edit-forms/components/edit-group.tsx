@@ -74,7 +74,7 @@ const EditGroup: FC<Props> = ({
                         <Icon className="size-5" />
                     </div>
                     <div className="flex min-w-0 flex-1 flex-col gap-0.5">
-                        <h5>{title}</h5>
+                        <span className="font-semibold text-base">{title}</span>
                         {meta?.description && (
                             <span className="text-muted-foreground text-sm">
                                 {meta.description}

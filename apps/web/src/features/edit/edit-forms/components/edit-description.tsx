@@ -34,7 +34,7 @@ const EditDescription: FC<Props> = ({ mode, className }) => {
         <Card className={className}>
             <div className="flex flex-col gap-1">
                 <div className="flex items-center gap-2">
-                    <h5>Опис правки</h5>
+                    <h3 className="font-semibold text-base">Опис правки</h3>
                     <span className="font-normal text-muted-foreground text-sm">
                         Необов'язково
                     </span>

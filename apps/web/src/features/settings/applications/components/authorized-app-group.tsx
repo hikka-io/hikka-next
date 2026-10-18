@@ -168,7 +168,7 @@ const AppGroupHeaderInfo: FC<{
     return (
         <div className="flex flex-1 flex-col gap-2">
             <div className="flex items-center gap-2">
-                <h5 className="line-clamp-1">{appName}</h5>
+                <h3 className="line-clamp-1 font-bold text-base">{appName}</h3>
                 {verified && (
                     <Tooltip delay={0}>
                         <TooltipTrigger>

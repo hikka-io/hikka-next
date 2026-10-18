@@ -34,13 +34,15 @@ const ScheduleItem: FC<Props> = ({ item, ...props }) => {
                         </span>
                         /{item.anime.episodes_total || '?'}
                     </p>
-                    <h5
+                    <time
+                        dateTime={new Date(item.airing_at * 1000).toISOString()}
                         className={cn(
+                            'font-bold',
                             item.time_left <= 0 && 'text-muted-foreground',
                         )}
                     >
                         {getScheduleDuration(item.airing_at, item.time_left)}
-                    </h5>
+                    </time>
                 </div>
 
                 <WatchListButton

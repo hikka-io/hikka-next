@@ -32,7 +32,7 @@ const FranchiseChronology: FC<Props> = ({ model, order, types }) => {
         <div className="flex flex-col gap-10">
             {inOrder(groupByYear(visible), order).map(({ label, nodes }) => (
                 <section key={label}>
-                    <h4 className="mb-4">{label}</h4>
+                    <h3 className="mb-4 font-semibold text-base">{label}</h3>
                     <div className={historyRowsVariants({ size: 'lg' })}>
                         {[...inOrder(nodes, order)]
                             .sort(

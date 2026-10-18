@@ -23,7 +23,9 @@ const ClientItem: FC<Props> = ({ client }) => {
         <Card className="justify-between gap-6">
             <div className="flex flex-col gap-2">
                 <div className="flex items-center gap-2">
-                    <h5 className="line-clamp-1">{client.name}</h5>
+                    <h3 className="line-clamp-1 font-bold text-base">
+                        {client.name}
+                    </h3>
                     {client.verified && (
                         <Tooltip delay={0}>
                             <TooltipTrigger>

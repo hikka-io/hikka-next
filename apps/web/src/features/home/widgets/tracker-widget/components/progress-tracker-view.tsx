@@ -109,7 +109,9 @@ const ProgressTrackerView = ({
                 {selected && (
                     <>
                         <Link className="w-fit flex-1" to={selected.href}>
-                            <h5>{selected.title}</h5>
+                            <h3 className="font-bold text-base">
+                                {selected.title}
+                            </h3>
                             <div className="mt-1 flex cursor-pointer items-center gap-2">
                                 {selected.year && (
                                     <Label className="cursor-pointer text-muted-foreground text-xs">

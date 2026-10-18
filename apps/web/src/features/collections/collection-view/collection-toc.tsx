@@ -83,7 +83,7 @@ function CollectionToc({ className }: Props) {
 
     return (
         <Card className={cn(className)}>
-            <h4>Зміст</h4>
+            <h2 className="font-bold text-base">Зміст</h2>
 
             <ul
                 ref={tocScrollRef}

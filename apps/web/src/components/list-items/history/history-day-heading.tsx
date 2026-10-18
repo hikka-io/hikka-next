@@ -11,7 +11,7 @@ type Props = {
 const HistoryDayHeading: FC<Props> = ({ label, detail, size }) =>
     size === 'lg' ? (
         <div className="mb-4 flex items-baseline gap-2">
-            <h4>{label}</h4>
+            <h3 className="font-bold text-base">{label}</h3>
             <span className="text-muted-foreground text-sm">{detail}</span>
         </div>
     ) : (

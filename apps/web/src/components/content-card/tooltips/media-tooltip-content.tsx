@@ -69,7 +69,7 @@ const MediaTooltipContent: FC<Props> = ({
     return (
         <>
             <div className="flex flex-col gap-2">
-                <h5>
+                <h3 className="font-bold text-base">
                     {titleHref ? (
                         <Link to={titleHref} className="hover:underline">
                             {title}
@@ -77,7 +77,7 @@ const MediaTooltipContent: FC<Props> = ({
                     ) : (
                         title
                     )}
-                </h5>
+                </h3>
                 <InlineScores
                     malScore={score}
                     malScoreCount={scored_by}

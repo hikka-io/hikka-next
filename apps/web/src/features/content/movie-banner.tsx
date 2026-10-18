@@ -44,7 +44,9 @@ const ContentMovieBanner: FC<Props> = () => {
             <div className="flex items-center gap-4">
                 <Popcorn className="size-6" />
                 <div className="flex flex-col justify-center gap-1">
-                    <h3 className="leading-5">{banner.title}</h3>
+                    <h3 className="font-bold text-lg leading-5">
+                        {banner.title}
+                    </h3>
                     <Label>{banner.description}</Label>
                 </div>
             </div>

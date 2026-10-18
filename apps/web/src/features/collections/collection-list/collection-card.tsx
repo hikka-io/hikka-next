@@ -81,7 +81,7 @@ const CollectionCard: FC<Props> = ({
             </HorizontalCard>
 
             <Link to={`/collections/${collection.reference}`} className="block">
-                <h3>{collection.title}</h3>
+                <h3 className="font-bold text-lg">{collection.title}</h3>
             </Link>
 
             {(collection.tags.length > 0 ||

@@ -25,7 +25,7 @@ const ScheduleCard: FC<ScheduleCardProps> = ({
     ref,
     ...props
 }) => {
-    const Title = size === 'md' ? 'h5' : Label;
+    const Title = size === 'md' ? 'h3' : Label;
 
     return (
         <div
@@ -50,7 +50,8 @@ const ScheduleCard: FC<ScheduleCardProps> = ({
                     <Title
                         className={cn(
                             'line-clamp-1 w-fit cursor-pointer',
-                            size === 'md' && 'sm:line-clamp-2',
+                            size === 'md' &&
+                                'font-bold text-base sm:line-clamp-2',
                         )}
                     >
                         <Link to={href}>{title}</Link>

@@ -697,21 +697,8 @@
         background-image: none !important;
     }
 
-    h1 {
-        @apply font-display scroll-m-20 text-4xl font-bold tracking-normal lg:text-5xl;
-    }
-
-    h2 {
-        @apply font-display scroll-m-20 text-2xl font-bold tracking-normal first:mt-0;
-    }
-
-    h3 {
-        @apply font-display scroll-m-20 text-lg font-bold tracking-normal;
-    }
-
-    h4,
-    h5 {
-        @apply font-display scroll-m-20 text-base font-bold tracking-normal;
+    :is(h1, h2, h3, h4, h5) {
+        @apply font-display scroll-m-20 tracking-normal;
     }
 
     p {
