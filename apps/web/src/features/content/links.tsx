@@ -118,11 +118,13 @@ const ContentLinks: FC<Props> = ({ content_type }) => {
                                     )
                                 }
                                 to={link.url}
+                                referrerPolicy="origin"
                             />
                             <HorizontalCardContainer>
                                 <HorizontalCardTitle
                                     href={link.url}
                                     target="_blank"
+                                    referrerPolicy="origin"
                                 >
                                     {link.text}
                                 </HorizontalCardTitle>

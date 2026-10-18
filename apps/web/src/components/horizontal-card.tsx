@@ -3,6 +3,7 @@ import type {
     ComponentPropsWithoutRef,
     FC,
     HTMLAttributeAnchorTarget,
+    HTMLAttributeReferrerPolicy,
     PropsWithChildren,
     ReactNode,
 } from 'react';
@@ -17,6 +18,7 @@ type HorizontalCardTitleProps = ComponentPropsWithoutRef<'div'> & {
     href?: string;
     to?: string;
     target?: HTMLAttributeAnchorTarget;
+    referrerPolicy?: HTMLAttributeReferrerPolicy;
     titleMeta?: ReactNode;
 };
 
@@ -26,6 +28,7 @@ const HorizontalCardTitle: FC<HorizontalCardTitleProps> = ({
     href,
     to,
     target,
+    referrerPolicy,
     titleMeta,
 }) => {
     return (
@@ -34,6 +37,7 @@ const HorizontalCardTitle: FC<HorizontalCardTitleProps> = ({
                 title={children as string}
                 href={to ?? href}
                 target={target}
+                referrerPolicy={referrerPolicy}
                 className={cn(
                     labelVariants(),
                     'line-clamp-1 inline-block min-w-0 flex-1 truncate',
@@ -88,6 +92,7 @@ type HorizontalCardImageProps = {
     href?: string;
     to?: string;
     imageBlur?: boolean;
+    referrerPolicy?: HTMLAttributeReferrerPolicy;
 };
 
 const HorizontalCardImage: FC<PropsWithChildren<HorizontalCardImageProps>> = ({
@@ -99,6 +104,7 @@ const HorizontalCardImage: FC<PropsWithChildren<HorizontalCardImageProps>> = ({
     className,
     imageClassName,
     imageBlur,
+    referrerPolicy,
 }) => {
     return (
         <PosterCard
@@ -112,6 +118,7 @@ const HorizontalCardImage: FC<PropsWithChildren<HorizontalCardImageProps>> = ({
             href={to ?? href}
             image={image}
             imageBlur={imageBlur}
+            linkProps={referrerPolicy ? { referrerPolicy } : undefined}
         >
             {children}
         </PosterCard>

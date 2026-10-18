@@ -43,7 +43,8 @@ const isExternalUrl = (url: string) =>
 /**
  * App-wide Link component.
  * - Accepts any string URL (not restricted to registered route paths)
- * - External URLs (http/https) render as native <a> tags
+ * - External URLs (http/https) render as native <a> tags, sent without a
+ *   referrer unless `referrerPolicy` is given
  * - Internal URLs use TanStack Router navigation
  */
 export const Link = forwardRef<HTMLAnchorElement, LinkProps>(function Link(
@@ -51,14 +52,25 @@ export const Link = forwardRef<HTMLAnchorElement, LinkProps>(function Link(
     ref,
 ) {
     if (isExternalUrl(to)) {
-        const { target, rel, className, style, onClick, id, ...htmlProps } =
-            rest as React.AnchorHTMLAttributes<HTMLAnchorElement>;
+        const {
+            target,
+            rel,
+            referrerPolicy,
+            className,
+            style,
+            onClick,
+            id,
+            ...htmlProps
+        } = rest as React.AnchorHTMLAttributes<HTMLAnchorElement>;
         return (
             <a
                 ref={ref}
                 href={to}
                 target={target ?? '_blank'}
-                rel={['noopener', 'noreferrer', rel].filter(Boolean).join(' ')}
+                rel={['noopener', !referrerPolicy && 'noreferrer', rel]
+                    .filter(Boolean)
+                    .join(' ')}
+                referrerPolicy={referrerPolicy}
                 className={className}
                 style={style}
                 onClick={onClick}
