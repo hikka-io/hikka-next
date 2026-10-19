@@ -1,4 +1,4 @@
-// Compiles the web color tokens (apps/web/src/globals.css) to hex for Uniwind; React Native parses neither oklch nor relative colors.
+// Compiles the web design tokens (apps/web/src/globals.css: colors, radii, card shadow) to plain values for Uniwind; React Native parses neither oklch nor relative colors.
 import { readFileSync, writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { converter, formatHex, formatHex8, parse } from 'culori';
@@ -7,7 +7,10 @@ const SOURCE = fileURLToPath(
     new URL('../../web/src/globals.css', import.meta.url),
 );
 const TARGET = fileURLToPath(new URL('../src/theme.css', import.meta.url));
-const RELATIVE_OKLCH_SUPPORTS = '@supports (color: oklch(from red l c h))';
+const MODERN_COLOR_SUPPORTS = [
+    '@supports (color: oklch(from red l c h))',
+    '@supports (color: color-mix(in lab, red, red))',
+];
 
 function stripComments(css) {
     return css.replace(/\/\*[\s\S]*?\*\//g, '');
@@ -68,7 +71,7 @@ function collectThemes(css) {
             Object.assign(dark, readDeclarations(body));
     }
     for (const { selector, body } of blocks) {
-        if (selector !== RELATIVE_OKLCH_SUPPORTS) continue;
+        if (!MODERN_COLOR_SUPPORTS.includes(selector)) continue;
         for (const inner of readBlocks(body)) {
             const target = inner.selector.startsWith('.dark')
                 ? relativeDark
@@ -141,6 +144,18 @@ function resolveValue(value, vars, seen) {
         };
     }
 
+    const mix = value.match(
+        /^color-mix\(in oklab, var\((--[\w-]+)\) ([\d.]+)%, transparent\)$/,
+    );
+    if (mix) {
+        const origin = resolve(mix[1], vars, seen);
+        if (!origin) return undefined;
+        return {
+            ...origin,
+            alpha: (origin.alpha ?? 1) * (Number(mix[2]) / 100),
+        };
+    }
+
     return parse(value) ?? undefined;
 }
 
@@ -161,11 +176,49 @@ function buildTheme(mapping, vars) {
         const color = resolveValue(value, vars, new Set());
         if (color) lines.push(`${name}: ${toHex(color)};`);
     }
-    for (const token of ['--brand', '--surface', '--surface-glass']) {
+    for (const token of [
+        '--brand',
+        '--surface',
+        '--surface-glass',
+        '--surface-inset',
+        '--surface-inset-border',
+    ]) {
         const color = resolve(token, vars);
         if (color) lines.push(`--color-${token.slice(2)}: ${toHex(color)};`);
     }
+    for (const [name, value] of Object.entries(mapping)) {
+        if (name.startsWith('--radius-'))
+            lines.push(`${name}: ${resolveLength(value, vars)}px;`);
+    }
+    if (vars['--shadow-card']) {
+        lines.push(`--shadow-card: ${resolveShadow(vars['--shadow-card'])};`);
+    }
     return lines;
+}
+
+const REM = 16;
+
+function resolveLength(value, vars) {
+    const expression = value
+        .replace(/^calc\((.*)\)$/, '$1')
+        .replace(/var\((--[\w-]+)\)/g, (_, name) => vars[name])
+        .replace(/([\d.]+)rem/g, (_, n) => String(Number(n) * REM))
+        .replace(/([\d.]+)px/g, '$1');
+    if (!/^[\d.\s+\-*/]+$/.test(expression)) {
+        throw new Error(`Unsupported length: ${value}`);
+    }
+    return new Function(`return (${expression});`)();
+}
+
+function resolveShadow(value) {
+    return value
+        .split(/,(?![^(]*\))/)
+        .map((layer) => {
+            const parts = splitChannels(layer);
+            const color = resolveValue(parts.pop(), {}, new Set());
+            return [...parts, toHex(color)].join(' ');
+        })
+        .join(', ');
 }
 
 const { mapping, light, dark } = collectThemes(readFileSync(SOURCE, 'utf8'));
