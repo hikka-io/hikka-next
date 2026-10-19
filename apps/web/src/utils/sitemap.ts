@@ -1,6 +1,10 @@
-import type { Client, MainContentTypeEnum } from '@hikka/api';
+import {
+    type Client,
+    createRequestClient,
+    type MainContentTypeEnum,
+} from '@hikka/api';
 
-import { createServerHikkaClient } from './api/server-client';
+import { PUBLIC_API_URL } from './api/base-url';
 import { getSiteUrl } from './url';
 
 /**
@@ -16,6 +20,11 @@ export const SITEMAP_RESPONSE_HEADERS = {
     'Content-Type': 'application/xml',
     'Cache-Control': 'public, max-age=3600, s-maxage=3600',
 };
+
+// nginx serves /sitemap/ on the public API host; the app behind the internal API_URL has no such route.
+export function createSitemapClient(): Client {
+    return createRequestClient({ baseUrl: PUBLIC_API_URL });
+}
 
 const SITEMAP_ENTRIES_TTL_MS = 60 * 60 * 1000;
 
@@ -111,7 +120,7 @@ export async function handleTypeSitemapRequest(
     const pageParam = url.searchParams.get('page');
     const page = pageParam === null ? 1 : Number(pageParam);
 
-    const client = createServerHikkaClient();
+    const client = createSitemapClient();
     const entries = await fetchEntries(client);
     const pageEntries = paginateSitemap(entries, page);
 

@@ -2,7 +2,6 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import type { Client } from '@hikka/api';
 
-vi.mock('./api/server-client', () => ({ createServerHikkaClient: vi.fn() }));
 vi.mock('./url', () => ({ getSiteUrl: () => 'https://hikka.io' }));
 
 const HOUR = 60 * 60 * 1000;
