@@ -31,6 +31,7 @@
         "zod": "^3.25.76"
     },
     "devDependencies": {
+        "@resvg/resvg-js": "^2.6.2",
         "@types/culori": "^4.0.1",
         "@types/react": "~19.2.2",
         "culori": "^4.0.2",
@@ -41,7 +42,8 @@
         "ios": "expo start --ios",
         "android": "expo start --android",
         "typecheck": "tsc --noEmit",
-        "tokens": "node scripts/generate-tokens.mjs"
+        "tokens": "node scripts/generate-tokens.mjs",
+        "icons": "node scripts/generate-icons.mjs"
     },
     "private": true
 }
