@@ -82,7 +82,7 @@ Names match the web component with the same role, so reviewers can compare side 
 | `ui/stat-item` | `ui/stat-item` | Open |
 | `content-card/poster-card` | `content-card/poster-card` | Open |
 | `horizontal-card` | `horizontal-card` | Open |
-| `markdown` (`MDViewer`) | `markdown` | Open (markdown task) |
+| `markdown` (`MDViewer`) | `markdown` (`MDViewer`, `Link`, `Mention`, `Spoiler`, `SpoilerInline`) | Decided: see section 11 |
 
 ## 10. Code structure (Decided)
 
@@ -95,8 +95,21 @@ Mirrors the web so reviews read the same way:
 - Pure logic shared with the web lives in `@hikka/core` (`packages/core`), never copied.
 - `src/app/dev/ui.tsx` (dev builds only) shows every primitive in light and dark for visual review.
 
+## 11. Markdown (Decided)
+
+`MDViewer` (`src/components/markdown`) renders the web's markdown dialect read-only. Renderer choice and rejected alternatives: STACK.md "Markdown renderer choice".
+
+- Text: `text-base leading-6 text-foreground` by default (`textClassName` overrides it for dense uses, for example a comment row); blocks are spaced `gap-4`, like the web's `mb-4`. `selectable` is opt-in (off in lists).
+- Links and mentions: `text-primary-foreground`, no underline. Links to hosts that need a signed-in user (`toloka.to`, `anitube.in.ua`) are `text-muted-foreground` plain text unless `authenticated` is passed. Mentions show the user's current username and a 20 px avatar from `userReferenceOptions`/`userProfileOptions`, like the web.
+- Link routing (`links.ts`): hikka.io `/anime|manga|novel|characters|people|u/<slug>` push the matching Expo Router route (routes that do not exist yet show the router's unmatched screen until their task lands); other hikka.io paths and listed hosts (`myanimelist.net`, `anilist.co`, `mikai.me`, `watari-anime.com`, `aniage.net`) open in `expo-web-browser`; any other host asks first through a native `Alert` (the web's `AlertDialog` copy).
+- Inline spoiler (`:spoiler[...]`): hidden as a `bg-muted-foreground/30` block with transparent text, tap reveals in place (`bg-muted-foreground/10`); no re-hide, like the web.
+- Block spoiler (`:::spoiler`): `bg-muted` card with `border-border`, content clamped to 88 px and hidden (opacity 0, hidden from accessibility) behind a centered "Спойлер" pill; tap reveals everything and shows "Приховати спойлер". Hiding is an opaque overlay, not a blur, so it looks the same on iOS and Android.
+- Images: full width, rounded `rounded-lg`, aspect ratio taken from the loaded image (16:9 placeholder), a linked image opens its link.
+- Not rendered, as on the web: code spans and fences, tables, bare-url autolinks, raw HTML; headings render as paragraphs.
+
 ## Decision log
 
 Append one line per decision: date, decision, task.
 
 - 2026-10-20: Initial principles, tokens, typography, icons, motion, states, pattern map and structure. (planning)
+- 2026-10-20: Markdown viewer is a `marked` lexer with directive/mention/strikethrough extensions and an own React Native renderer, not `react-native-marked` or a native text view; web dialect kept (no code/tables/autolinks); block spoiler hides behind an opaque pill, not a blur. (markdown task)
