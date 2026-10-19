@@ -19,6 +19,7 @@
         "build:web": "turbo run build --filter=@hikka/web",
         "start:web": "turbo run start --filter=@hikka/web",
         "dev:api": "turbo run dev --filter=@hikka/api",
+        "dev:core": "turbo run dev --filter=@hikka/core",
         "build:api": "turbo run build --filter=@hikka/api",
         "api:generate": "turbo run api:generate --filter=@hikka/api"
     },
