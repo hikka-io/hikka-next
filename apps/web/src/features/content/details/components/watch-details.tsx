@@ -13,6 +13,7 @@ import {
 } from 'lucide-react';
 
 import { type AnimeInfoResponse, AnimeStatusEnum } from '@hikka/api';
+import { AGE_RATING, getMediaTypeLabel, SEASON } from '@hikka/core';
 
 import { ReleaseStatusBadge } from '@/components/badges';
 import Card from '@/components/ui/card';
@@ -25,7 +26,6 @@ import {
 import { useTitle } from '@/services/session';
 import { cn } from '@/utils/cn';
 import { getScheduleDuration } from '@/utils/i18n';
-import { AGE_RATING, getMediaTypeLabel, SEASON } from '@/utils/labels';
 import { Link } from '@/utils/navigation';
 
 import DetailItem from './detail-item';

@@ -1,6 +1,6 @@
 import { UserLinkIconEnum, type UserLinkResponse } from '@hikka/api';
+import { USER_LINK_ICON } from '@hikka/core';
 
-import { USER_LINK_ICON } from '@/utils/labels';
 import { parseUrl } from '@/utils/url';
 
 export const USER_LINK_REL = 'noopener noreferrer nofollow ugc';

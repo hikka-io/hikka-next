@@ -3,6 +3,7 @@ import type { FC } from 'react';
 import { Play } from 'lucide-react';
 
 import type { ContentTypeEnum } from '@hikka/api';
+import { CONTENT_TYPES } from '@hikka/core';
 
 import { Label } from '@/components/ui/label';
 import {
@@ -14,7 +15,6 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
-import { CONTENT_TYPES } from '@/utils/labels/content-types';
 import { useRouteSearch } from '@/utils/navigation';
 import type { EditSearch } from '@/utils/search-schemas';
 

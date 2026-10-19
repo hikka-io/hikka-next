@@ -66,7 +66,7 @@ const CANARIES = [
         "import '@/services/x';\nexport const a = process.env.A;\nexport enum E {\n    A,\n}",
         ['D5', 'lint/style/noProcessEnv', 'lint/style/noEnum'],
     ],
-    ['utils/labels/canary.ts', "import 'react';", ['D12']],
+    ['utils/auth/canary.ts', "import 'react';", ['D12']],
     [
         'components/canary.tsx',
         'const Component = () => null;\nexport default Component;',

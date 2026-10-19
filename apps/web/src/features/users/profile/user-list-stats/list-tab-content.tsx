@@ -10,6 +10,7 @@ import {
     type UserWatchStatsResponse,
     WatchStatusEnum,
 } from '@hikka/api';
+import { LIST_STATUS } from '@hikka/core';
 
 import { MaterialSymbolsClockLoader10 } from '@/components/icons/material-symbols/MaterialSymbolsClockLoader10';
 import BlockFooter from '@/components/ui/block-footer';
@@ -24,7 +25,6 @@ import {
 import { cn } from '@/utils/cn';
 import { getDeclensionWord } from '@/utils/i18n/declension';
 import { DAY_FORMS, HOUR_FORMS, MONTH_FORMS } from '@/utils/i18n/word-forms';
-import { LIST_STATUS } from '@/utils/labels';
 import { Link } from '@/utils/navigation';
 
 import { userListStatsOptions } from '../../queries';

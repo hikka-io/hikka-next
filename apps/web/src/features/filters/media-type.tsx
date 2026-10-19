@@ -3,6 +3,7 @@ import type { FC } from 'react';
 import { Play } from 'lucide-react';
 
 import type { ContentTypeEnum } from '@hikka/api';
+import { ANIME_MEDIA_TYPE, MEDIA_TYPE_BY_CONTENT_TYPE } from '@hikka/core';
 
 import {
     BadgeFilterField,
@@ -11,7 +12,6 @@ import {
 } from '@/components/form';
 import { BadgeFilter } from '@/components/ui/badge-filter';
 import { Label } from '@/components/ui/label';
-import { ANIME_MEDIA_TYPE, MEDIA_TYPE_BY_CONTENT_TYPE } from '@/utils/labels';
 import { useRouteSearch } from '@/utils/navigation';
 import type { ContentFilterSearch } from '@/utils/search-schemas';
 

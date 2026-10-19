@@ -1,6 +1,7 @@
 import type { FC } from 'react';
 
 import { EditStatusEnum, type UserResponse } from '@hikka/api';
+import { EDIT_STATUS } from '@hikka/core';
 
 import {
     HorizontalCard,
@@ -17,7 +18,6 @@ import {
     TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { cn } from '@/utils/cn';
-import { EDIT_STATUS } from '@/utils/labels/enum-labels';
 
 type Props = {
     user: UserResponse;

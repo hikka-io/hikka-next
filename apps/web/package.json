@@ -29,6 +29,7 @@
         "@emoji-mart/data": "^1.2.1",
         "@fontsource-variable/geist": "^5.3.0",
         "@hikka/api": "workspace:*",
+        "@hikka/core": "workspace:*",
         "@marsidev/react-turnstile": "1.6.1",
         "@platejs/basic-nodes": "^53.0.0",
         "@platejs/combobox": "^53.0.0",

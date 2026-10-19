@@ -3,6 +3,7 @@ import { type FC, useId } from 'react';
 import { LockIcon, SquareLibrary } from 'lucide-react';
 
 import { ArticleCategoryEnum } from '@hikka/api';
+import { ARTICLE_CATEGORY } from '@hikka/core';
 
 import { ARTICLE_CATEGORY_ICONS } from '@/components/icons/article-category-icons';
 import MaterialSymbolsInfoRounded from '@/components/icons/material-symbols/MaterialSymbolsInfoRounded';
@@ -17,7 +18,6 @@ import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { useSession } from '@/services/session';
 import { cn } from '@/utils/cn';
-import { ARTICLE_CATEGORY } from '@/utils/labels/enum-labels';
 
 import { useArticleContext } from '../article-provider';
 

@@ -11,6 +11,7 @@ import type {
     TodoContentIssuesInfo,
     TodoPersonIssuesInfo,
 } from '@hikka/api';
+import { getMediaTypeLabel, RELEASE_STATUS } from '@hikka/core';
 
 import CompanyTitleLink from '@/components/company-title-link';
 import { contentEntity, EntityCard } from '@/components/content-card';
@@ -34,7 +35,6 @@ import {
 import { useSession, useTitle } from '@/services/session';
 import { cn } from '@/utils/cn';
 import { contentPath } from '@/utils/content-paths';
-import { getMediaTypeLabel, RELEASE_STATUS } from '@/utils/labels';
 import { Link } from '@/utils/navigation';
 
 import QuickEditButton from '../quick-edit/quick-edit-button';

@@ -1,6 +1,5 @@
 import { ContentTypeEnum } from '@hikka/api';
-
-import { CONTENT_TYPES } from '@/utils/labels';
+import { CONTENT_TYPES } from '@hikka/core';
 
 type Props = {
     list: Record<string, any>[];

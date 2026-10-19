@@ -2,6 +2,7 @@ import { createFileRoute, redirect } from '@tanstack/react-router';
 import { zodValidator } from '@tanstack/zod-adapter';
 
 import { ContentTypeEnum, type MainContentTypeEnum } from '@hikka/api';
+import { CONTENT_TYPES } from '@hikka/core';
 
 import ContentTypeTabs from '@/components/content-type-tabs';
 import Block from '@/components/ui/block';
@@ -24,7 +25,6 @@ import {
     userListStatsOptions,
 } from '@/features/users/queries';
 import { awaitOnServer } from '@/utils/api/loader-prefetch';
-import { CONTENT_TYPES } from '@/utils/labels';
 import { generateHeadMeta } from '@/utils/metadata';
 import { userlistSearchSchema } from '@/utils/search-schemas';
 

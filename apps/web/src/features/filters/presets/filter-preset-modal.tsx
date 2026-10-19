@@ -1,6 +1,7 @@
 import type { FC } from 'react';
 
 import type { ContentTypeEnum } from '@hikka/api';
+import { CONTENT_TYPES } from '@hikka/core';
 
 import CustomCopyAddRounded from '@/components/icons/custom/CustomCopyAddRounded';
 import MaterialSymbolsAddRounded from '@/components/icons/material-symbols/MaterialSymbolsAddRounded';
@@ -9,7 +10,6 @@ import MaterialSymbolsEditRounded from '@/components/icons/material-symbols/Mate
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import TextLink from '@/components/ui/text-link';
-import { CONTENT_TYPES } from '@/utils/labels/content-types';
 import { usePathname, useRouteSearch } from '@/utils/navigation';
 
 import { presetFromSearch, presetToSearch } from '../preset-search-mapper';

@@ -2,6 +2,8 @@ import type { FC } from 'react';
 
 import { SunSnow } from 'lucide-react';
 
+import { SEASON } from '@hikka/core';
+
 import {
     BadgeFilterField,
     type BadgeFilterFieldProps,
@@ -9,7 +11,6 @@ import {
 } from '@/components/form';
 import { BadgeFilter } from '@/components/ui/badge-filter';
 import { Label } from '@/components/ui/label';
-import { SEASON } from '@/utils/labels/enum-labels';
 import { useRouteSearch } from '@/utils/navigation';
 import type { AnimeFilterSearch } from '@/utils/search-schemas';
 

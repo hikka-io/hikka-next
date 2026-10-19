@@ -1,12 +1,12 @@
 import type { FC } from 'react';
 
 import type { ContentTypeEnum } from '@hikka/api';
+import { CONTENT_TYPES } from '@hikka/core';
 
 import ContentTypeIcon from '@/components/content-type-icon';
 import { Chip } from '@/components/ui/chip';
 import { cn } from '@/utils/cn';
 import { contentPath } from '@/utils/content-paths';
-import { CONTENT_TYPES } from '@/utils/labels/content-types';
 import { Link } from '@/utils/navigation';
 
 type Props = {

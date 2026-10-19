@@ -20,12 +20,12 @@ import {
     searchNovelOptions,
     searchPeopleOptions,
 } from '@hikka/api';
+import { CONTENT_TYPES } from '@hikka/core';
 
 import { DEBOUNCE_MS, useDebounce } from '@/services/hooks/use-debounce';
 import { useSessionUI } from '@/services/session';
 import { getDeclensionWord } from '@/utils/i18n/declension';
 import { SYMBOL_FORMS } from '@/utils/i18n/word-forms';
-import { CONTENT_TYPES } from '@/utils/labels';
 import { getTitle } from '@/utils/title/get-title';
 
 import { insertContentLink } from '../editor/transforms';

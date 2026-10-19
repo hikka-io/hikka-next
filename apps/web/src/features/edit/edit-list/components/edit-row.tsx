@@ -3,6 +3,7 @@ import type { FC, MouseEvent } from 'react';
 import { format } from 'date-fns';
 
 import type { EditSimpleResponse } from '@hikka/api';
+import { CONTENT_TYPES, EDIT_STATUS } from '@hikka/core';
 
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
@@ -11,8 +12,6 @@ import { TableCell, TableRow } from '@/components/ui/table';
 import { useTitle } from '@/services/session';
 import { cn } from '@/utils/cn';
 import { CONTENT_TYPE_LINKS } from '@/utils/content-paths';
-import { CONTENT_TYPES } from '@/utils/labels/content-types';
-import { EDIT_STATUS } from '@/utils/labels/enum-labels';
 import { Link, useRouter } from '@/utils/navigation';
 
 import { EDIT_PARAMS } from '../../edit-params';

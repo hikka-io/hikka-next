@@ -9,15 +9,15 @@ import {
     type MangaResponseWithRead,
     type NovelResponseWithRead,
 } from '@hikka/api';
-
-import type { CardStatus } from '@/components/content-card/content-status';
-import type { HistoryFact, HistoryFactPart } from '@/components/list-items';
 import {
     CONTENT_TYPES,
     getMediaTypeLabel,
     RELEASE_STATUS,
     SEASON,
-} from '@/utils/labels';
+} from '@hikka/core';
+
+import type { CardStatus } from '@/components/content-card/content-status';
+import type { HistoryFact, HistoryFactPart } from '@/components/list-items';
 
 export type FranchiseContent =
     | AnimeResponseWithWatch

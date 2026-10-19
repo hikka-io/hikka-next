@@ -1013,8 +1013,7 @@
                 "apps/web/src/utils/text.ts",
                 "apps/web/src/utils/url.ts",
                 "apps/web/src/utils/season.ts",
-                "apps/web/src/utils/search-schemas.ts",
-                "apps/web/src/utils/labels/**"
+                "apps/web/src/utils/search-schemas.ts"
             ],
             "linter": {
                 "rules": {

@@ -4,11 +4,11 @@ import {
     type ReadStatusEnum,
     type WatchStatusEnum,
 } from '@hikka/api';
+import { CONTENT_TYPES, LIST_STATUS } from '@hikka/core';
 
 import { LIST_STATUS_ICONS } from '@/components/icons/list-status-icons';
 import MaterialSymbolsBookmarkOutline from '@/components/icons/material-symbols/MaterialSymbolsBookmarkOutline';
 import EmptyState from '@/components/ui/empty-state';
-import { CONTENT_TYPES, LIST_STATUS } from '@/utils/labels';
 
 type Props = {
     status: ReadStatusEnum | WatchStatusEnum | 'all';

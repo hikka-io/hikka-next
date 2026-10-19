@@ -11,11 +11,11 @@ import {
     searchNovelInfiniteOptions,
     searchPeopleInfiniteOptions,
 } from '@hikka/api';
+import { CONTENT_TYPES } from '@hikka/core';
 
 import { CommandItem } from '@/components/ui/command';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { CONTENT_TYPE_LINKS, contentPath } from '@/utils/content-paths';
-import { CONTENT_TYPES } from '@/utils/labels';
 import { useRouter } from '@/utils/navigation';
 
 import SearchCard from '../components/search-card';

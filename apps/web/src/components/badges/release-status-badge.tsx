@@ -1,8 +1,9 @@
 import type { FC } from 'react';
 
+import { RELEASE_STATUS } from '@hikka/core';
+
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/utils/cn';
-import { RELEASE_STATUS } from '@/utils/labels';
 
 type Props = {
     status: string;

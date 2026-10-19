@@ -1,5 +1,7 @@
 import type { FC } from 'react';
 
+import { USER_ROLE } from '@hikka/core';
+
 import MaterialSymbolsSecurity from '@/components/icons/material-symbols/MaterialSymbolsSecurity';
 import MaterialSymbolsShieldPerson from '@/components/icons/material-symbols/MaterialSymbolsShieldPerson';
 import {
@@ -8,7 +10,6 @@ import {
     TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { cn } from '@/utils/cn';
-import { USER_ROLE } from '@/utils/labels';
 
 const ROLE = {
     admin: {

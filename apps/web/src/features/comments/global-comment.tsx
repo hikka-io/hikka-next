@@ -3,6 +3,7 @@ import type { FC } from 'react';
 import { ArrowBigUp } from 'lucide-react';
 
 import type { CommentResponse } from '@hikka/api';
+import { CONTENT_TYPES } from '@hikka/core';
 
 import {
     HorizontalCard,
@@ -16,7 +17,6 @@ import RelativeTime from '@/components/relative-time';
 import { Badge } from '@/components/ui/badge';
 import { StatItem } from '@/components/ui/stat-item';
 import { CONTENT_TYPE_LINKS } from '@/utils/content-paths';
-import { CONTENT_TYPES } from '@/utils/labels/content-types';
 import { Link } from '@/utils/navigation';
 
 type Props = {

@@ -8,11 +8,11 @@ import {
     EditStatusEnum,
     type UserResponse,
 } from '@hikka/api';
+import { EDIT_STATUS } from '@hikka/core';
 
 import { badgeVariants } from '@/components/ui/badge';
 import { buttonVariants } from '@/components/ui/button';
 import { cn } from '@/utils/cn';
-import { EDIT_STATUS } from '@/utils/labels/enum-labels';
 
 import EditCard from './content-edits/edit-card';
 import EditRow from './edit-list/components/edit-row';

@@ -1,5 +1,7 @@
 import { type ComponentType, createElement, type FC } from 'react';
 
+import type { FilterProperty } from '@hikka/core';
+
 import MaterialSymbolsInfoRounded from '@/components/icons/material-symbols/MaterialSymbolsInfoRounded';
 import { Button } from '@/components/ui/button';
 import {
@@ -9,7 +11,6 @@ import {
     TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { cn } from '@/utils/cn';
-import type { FilterProperty } from '@/utils/labels/enum-labels';
 
 export type BadgeFilterProps = {
     property: string;

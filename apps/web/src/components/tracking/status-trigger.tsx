@@ -7,6 +7,7 @@ import {
     type WatchResponse,
     type WatchResponseBase,
 } from '@hikka/api';
+import { LIST_STATUS } from '@hikka/core';
 
 import { LIST_STATUS_ICONS } from '@/components/icons/list-status-icons';
 import MaterialSymbolsSettingsOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsSettingsOutlineRounded';
@@ -14,7 +15,6 @@ import { Button } from '@/components/ui/button';
 import { SelectTrigger } from '@/components/ui/select';
 import Spinner from '@/components/ui/spinner';
 import { cn } from '@/utils/cn';
-import { LIST_STATUS } from '@/utils/labels/enum-labels';
 
 type Props = {
     disabled?: boolean;

@@ -1,6 +1,7 @@
 import type { FC } from 'react';
 
 import { ContentTypeEnum } from '@hikka/api';
+import { CONTENT_ISSUES } from '@hikka/core';
 
 import {
     AgeRating,
@@ -14,7 +15,6 @@ import {
     Studio,
     Year,
 } from '@/features/filters';
-import { CONTENT_ISSUES } from '@/utils/labels/enum-labels';
 
 import type { TodoFiltersValue } from './todo-filters-value';
 

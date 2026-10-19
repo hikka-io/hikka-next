@@ -6,6 +6,7 @@ import type {
     MangaResponseWithRead,
     NovelResponseWithRead,
 } from '@hikka/api';
+import { getMediaTypeLabel, RELEASE_STATUS } from '@hikka/core';
 
 import CompanyTitleLink from '@/components/company-title-link';
 import { PosterCard } from '@/components/content-card';
@@ -19,7 +20,6 @@ import MagazineTitleLink from '@/components/magazine-title-link';
 import { TrackingButtonsGroup } from '@/components/tracking';
 import { Separator } from '@/components/ui/separator';
 import { useTitle } from '@/services/session';
-import { getMediaTypeLabel, RELEASE_STATUS } from '@/utils/labels';
 
 type Props =
     | {

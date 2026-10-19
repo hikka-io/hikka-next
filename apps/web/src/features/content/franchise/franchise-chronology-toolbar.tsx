@@ -3,6 +3,7 @@ import type { FC } from 'react';
 import { useNavigate } from '@tanstack/react-router';
 
 import type { MainContentTypeEnum } from '@hikka/api';
+import { CONTENT_TYPES } from '@hikka/core';
 
 import { CONTENT_TYPE_ICONS } from '@/components/icons/content-type-icons';
 import MaterialSymbolsSortRounded from '@/components/icons/material-symbols/MaterialSymbolsSortRounded';
@@ -22,7 +23,6 @@ import {
     TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { cn } from '@/utils/cn';
-import { CONTENT_TYPES } from '@/utils/labels';
 import { Link } from '@/utils/navigation';
 import type { FranchiseOrder } from '@/utils/search-schemas';
 

@@ -1,11 +1,11 @@
 import type { FC } from 'react';
 
 import type { AnimeOstResponse } from '@hikka/api';
+import { OST } from '@hikka/core';
 
 import PosterCard from '@/components/content-card/poster-card';
 import MaterialSymbolsLibraryMusicRounded from '@/components/icons/material-symbols/MaterialSymbolsLibraryMusicRounded';
 import Stack from '@/components/ui/stack';
-import { OST } from '@/utils/labels/enum-labels';
 
 type Props = {
     extended?: boolean;

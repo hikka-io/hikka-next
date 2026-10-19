@@ -4,6 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { Drama } from 'lucide-react';
 
 import { type GenreTypeEnum, genresOptions } from '@hikka/api';
+import { GENRE_TYPES } from '@hikka/core';
 
 import {
     SelectField,
@@ -23,7 +24,6 @@ import {
     SelectValue,
 } from '@/components/ui/select';
 import { useVisibleOnce } from '@/services/hooks/use-visible-once';
-import { GENRE_TYPES } from '@/utils/labels/enum-labels';
 import { useRouteSearch } from '@/utils/navigation';
 import type { ContentFilterSearch } from '@/utils/search-schemas';
 

@@ -5,6 +5,7 @@ import type {
     UserResponse,
     WatchResponseBase,
 } from '@hikka/api';
+import { LIST_STATUS } from '@hikka/core';
 
 import {
     HorizontalCard,
@@ -15,7 +16,6 @@ import {
 } from '@/components/horizontal-card';
 import MaterialSymbolsStarRounded from '@/components/icons/material-symbols/MaterialSymbolsStarRounded';
 import { Badge } from '@/components/ui/badge';
-import { LIST_STATUS } from '@/utils/labels';
 
 type Props = {
     data: {

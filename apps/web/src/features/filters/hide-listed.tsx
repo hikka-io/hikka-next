@@ -8,6 +8,7 @@ import {
     type ReadStatusEnum,
     type WatchStatusEnum,
 } from '@hikka/api';
+import { READ_STATUS, WATCH_STATUS } from '@hikka/core';
 
 import {
     SwitchField,
@@ -35,7 +36,6 @@ import {
     catalogHideListedKey,
     catalogHideListedStatuses,
 } from '@/utils/cookies';
-import { READ_STATUS, WATCH_STATUS } from '@/utils/labels/enum-labels';
 import { useRouteSearch } from '@/utils/navigation';
 import type { AnimeSearch } from '@/utils/search-schemas';
 
