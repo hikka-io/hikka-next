@@ -13,6 +13,9 @@ const TRUSTED_HOSTS = [
 
 const ROUTE = /^\/(anime|manga|novel|characters|people|u)\/([^/?#]+)\/?$/;
 
+// Routes that exist in the app; every other hikka.io link opens in the browser. Add a segment when its route lands.
+const IN_APP_ROUTES = new Set(['anime']);
+
 export type LinkTarget =
     | { kind: 'route'; href: string }
     | { kind: 'external'; url: string; trusted: boolean; authOnly: boolean }
@@ -41,7 +44,9 @@ export const resolveLink = (href: string): LinkTarget => {
     if (hostname === 'hikka.io' || hostname.endsWith('.hikka.io')) {
         const match = ROUTE.exec(url.pathname);
 
-        if (match) return { kind: 'route', href: `/${match[1]}/${match[2]}` };
+        if (match && IN_APP_ROUTES.has(match[1])) {
+            return { kind: 'route', href: `/${match[1]}/${match[2]}` };
+        }
 
         return {
             kind: 'external',
@@ -57,4 +62,10 @@ export const resolveLink = (href: string): LinkTarget => {
         trusted: hostMatches(hostname, TRUSTED_HOSTS),
         authOnly: hostMatches(hostname, AUTH_ONLY_HOSTS),
     };
+};
+
+export const resolveImageUrl = (href: string): string | null => {
+    const url = href.trim() ? parseUrl(href.trim()) : null;
+
+    return url?.protocol === 'https:' ? url.toString() : null;
 };

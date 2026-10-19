@@ -1,15 +1,10 @@
 import { describe, expect, it } from 'vitest';
 
-import { resolveLink } from './links';
+import { resolveImageUrl, resolveLink } from './links';
 
 describe('in-app routes', () => {
     it.each([
         ['https://hikka.io/anime/re-zero-4-a1b2c3', '/anime/re-zero-4-a1b2c3'],
-        ['https://hikka.io/manga/berserk-4f2d1c', '/manga/berserk-4f2d1c'],
-        ['https://hikka.io/novel/slug', '/novel/slug'],
-        ['https://hikka.io/characters/emilia-abc', '/characters/emilia-abc'],
-        ['https://hikka.io/people/person-abc', '/people/person-abc'],
-        ['https://hikka.io/u/olexh', '/u/olexh'],
         ['https://hikka.io/anime/slug/', '/anime/slug'],
         ['https://www.hikka.io/anime/slug?x=1#top', '/anime/slug'],
         ['/anime/slug', '/anime/slug'],
@@ -17,10 +12,18 @@ describe('in-app routes', () => {
         expect(resolveLink(href)).toEqual({ kind: 'route', href: route });
     });
 
-    it('opens other hikka.io pages in the browser', () => {
-        expect(resolveLink('https://hikka.io/anime/slug/characters')).toEqual({
+    it.each([
+        'https://hikka.io/manga/berserk-4f2d1c',
+        'https://hikka.io/novel/slug',
+        'https://hikka.io/characters/emilia-abc',
+        'https://hikka.io/people/person-abc',
+        'https://hikka.io/u/olexh',
+        'https://hikka.io/anime/slug/characters',
+        'https://hikka.io/collections/abc',
+    ])('opens %s in the browser until its route exists', (href) => {
+        expect(resolveLink(href)).toEqual({
             kind: 'external',
-            url: 'https://hikka.io/anime/slug/characters',
+            url: href,
             trusted: true,
             authOnly: false,
         });
@@ -66,10 +69,50 @@ describe('external links', () => {
         });
     });
 
-    it.each(['javascript:alert(1)', 'mailto:a@b.c', 'tel:123', ''])(
-        'ignores %j',
-        (href) => {
-            expect(resolveLink(href).kind).not.toBe('external');
-        },
-    );
+    it('treats a protocol-relative url as an unknown external host', () => {
+        expect(resolveLink('//evil.example/x')).toEqual({
+            kind: 'external',
+            url: 'https://evil.example/x',
+            trusted: false,
+            authOnly: false,
+        });
+    });
+
+    it.each([
+        'javascript:alert(1)',
+        'mailto:a@b.c',
+        'tel:123',
+        'data:text/html,<b>x</b>',
+        'intent://scan/#Intent;scheme=zxing;end',
+        'file:///etc/passwd',
+        'hikka://anime/x',
+        '',
+    ])('ignores %j', (href) => {
+        expect(resolveLink(href).kind).not.toBe('external');
+    });
+});
+
+describe('image urls', () => {
+    it('allows https and resolves relative paths against the site', () => {
+        expect(resolveImageUrl('https://cdn.hikka.io/a.jpg')).toBe(
+            'https://cdn.hikka.io/a.jpg',
+        );
+        expect(resolveImageUrl('/uploads/a.jpg')).toBe(
+            'https://hikka.io/uploads/a.jpg',
+        );
+        expect(resolveImageUrl('//cdn.example/a.jpg')).toBe(
+            'https://cdn.example/a.jpg',
+        );
+    });
+
+    it.each([
+        'http://example.com/a.jpg',
+        'data:image/png;base64,AAAA',
+        'file:///private/var/a.png',
+        'content://media/a',
+        'javascript:alert(1)',
+        '',
+    ])('drops %j', (href) => {
+        expect(resolveImageUrl(href)).toBeNull();
+    });
 });

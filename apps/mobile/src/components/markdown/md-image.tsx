@@ -4,7 +4,8 @@ import { useState } from 'react';
 import { Image } from 'expo-image';
 import { Pressable, View } from 'react-native';
 
-import { useOpenLink } from './link';
+import { resolveImageUrl } from './links';
+import { useOpenLink } from './use-open-link';
 
 type Props = {
     uri: string;
@@ -16,13 +17,17 @@ const MDImage: FC<Props> = ({ uri, alt, href }) => {
     const openLink = useOpenLink();
     const [ratio, setRatio] = useState<number | null>(null);
 
+    const source = resolveImageUrl(uri);
+
+    if (!source) return null;
+
     const image = (
         <View
             className="overflow-hidden rounded-lg bg-muted"
             style={{ aspectRatio: ratio ?? 16 / 9 }}
         >
             <Image
-                source={uri}
+                source={source}
                 accessibilityLabel={alt}
                 style={{ width: '100%', height: '100%' }}
                 contentFit="contain"

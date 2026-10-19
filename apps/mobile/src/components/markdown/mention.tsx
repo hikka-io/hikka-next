@@ -2,10 +2,11 @@ import type { FC } from 'react';
 
 import { useQuery } from '@tanstack/react-query';
 import { Image } from 'expo-image';
-import { type Href, useRouter } from 'expo-router';
 import { Text, View } from 'react-native';
 
 import { userProfileOptions, userReferenceOptions } from '@hikka/api';
+
+import { useOpenLink } from './use-open-link';
 
 type Props = {
     username: string;
@@ -29,7 +30,7 @@ const useMentionUser = (username: string, reference?: string) => {
 };
 
 const Mention: FC<Props> = ({ username: storedUsername, reference }) => {
-    const router = useRouter();
+    const openLink = useOpenLink();
     const user = useMentionUser(storedUsername, reference);
     const username = user?.username || storedUsername;
 
@@ -39,7 +40,7 @@ const Mention: FC<Props> = ({ username: storedUsername, reference }) => {
         <Text
             className="text-primary-foreground"
             accessibilityRole="link"
-            onPress={() => router.push(`/u/${username}` as Href)}
+            onPress={() => openLink(`/u/${username}`)}
         >
             {user?.avatar ? (
                 <>
