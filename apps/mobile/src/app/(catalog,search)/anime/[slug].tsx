@@ -5,6 +5,7 @@ import { ActivityIndicator, ScrollView, Text, View } from 'react-native';
 
 import { animeSlugOptions } from '@hikka/api';
 
+import { MDViewer } from '@/components/markdown';
 import { getTitle } from '@/utils/title';
 
 export default function AnimeDetailScreen() {
@@ -108,14 +109,7 @@ export default function AnimeDetailScreen() {
                     </View>
                 ) : null}
 
-                {synopsis ? (
-                    <Text
-                        className="text-base text-foreground leading-6"
-                        selectable
-                    >
-                        {synopsis}
-                    </Text>
-                ) : null}
+                {synopsis ? <MDViewer selectable>{synopsis}</MDViewer> : null}
             </ScrollView>
         </>
     );
