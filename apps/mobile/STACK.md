@@ -67,7 +67,7 @@ Neither extreme. Do not do a full Figma pass up front, and do not port screens o
 
 ## Repository layout
 
-Decided: `apps/mobile` (`@hikka/mobile`) inside `hikka-next`. `@hikka/api` is consumed as `workspace:*`; pure utils move into a shared `packages/core` as features need them (the spike keeps a local `getTitle` copy). Expo configures Metro for pnpm monorepos itself; no `watchFolders`.
+Decided: `apps/mobile` (`@hikka/mobile`) inside `hikka-next`. `@hikka/api` and `@hikka/core` (runtime-agnostic labels, i18n, title, sort and markdown helpers shared with the web app) are consumed as `workspace:*`; further pure utils move into `packages/core` as features need them. Expo configures Metro for pnpm monorepos itself; no `watchFolders`.
 
 ## Spike results
 
