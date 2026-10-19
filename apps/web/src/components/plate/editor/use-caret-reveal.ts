@@ -5,12 +5,21 @@ import { RangeApi, type TRange } from 'platejs';
 const KEYBOARD_SETTLE_MS = 500;
 const CARET_MARGIN = 16;
 
+// A collapsed range has no box on an empty line, so the node it sits in is measured, never the whole editor.
 const caretRect = (caret: Range) => {
     const rect = caret.getBoundingClientRect();
+    if (rect.height > 0) return rect;
 
-    return rect.height > 0
-        ? rect
-        : caret.startContainer.parentElement?.getBoundingClientRect();
+    const { startContainer, startOffset } = caret;
+    const node =
+        startContainer instanceof Element
+            ? (startContainer.childNodes[startOffset] ?? startContainer)
+            : startContainer;
+    const element = node instanceof Element ? node : node.parentElement;
+
+    return element && !element.matches('[data-slate-editor]')
+        ? element.getBoundingClientRect()
+        : undefined;
 };
 
 /**

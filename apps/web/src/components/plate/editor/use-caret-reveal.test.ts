@@ -75,6 +75,34 @@ describe('revealCaret', () => {
 
         expect(scrollBy).toHaveBeenCalledWith(0, 310 - (TOOLBAR_TOP - 16));
     });
+
+    const emptyCaretIn = (container: Element, offset = 0) =>
+        ({
+            getBoundingClientRect: () => rect(0, 0),
+            startContainer: container,
+            startOffset: offset,
+        }) as unknown as Range;
+
+    it('measures the block an empty-line caret sits in', () => {
+        const block = document.createElement('p');
+        block.getBoundingClientRect = () => rect(290, 310);
+        const parent = document.createElement('div');
+        parent.append(block);
+
+        revealCaret(emptyCaretIn(parent), toolbar);
+
+        expect(scrollBy).toHaveBeenCalledWith(0, 310 - (TOOLBAR_TOP - 16));
+    });
+
+    it('never measures the whole editor', () => {
+        const editor = document.createElement('div');
+        editor.setAttribute('data-slate-editor', 'true');
+        editor.getBoundingClientRect = () => rect(-500, 2000);
+
+        revealCaret(emptyCaretIn(editor, 3), toolbar);
+
+        expect(scrollBy).not.toHaveBeenCalled();
+    });
 });
 
 describe('revealSelection', () => {

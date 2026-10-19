@@ -32,6 +32,7 @@ export function FixedToolbar(
 ) {
     return (
         <Toolbar
+            data-docked-toolbar={props.variant === 'docked' || undefined}
             {...props}
             className={cn(
                 fixedToolbarVariants({ variant: props.variant }),

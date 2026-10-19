@@ -342,6 +342,13 @@
     --tab-bar-height: 0px;
 }
 
+/* On phones the article editor's docked toolbar takes the tab bar's place at the bottom edge. */
+@media (width < 48rem) {
+    :root:has(main[data-immersive] [data-docked-toolbar]) {
+        --tab-bar-height: calc(2.75rem + var(--safe-area-bottom));
+    }
+}
+
 @supports (-moz-appearance: none) {
     :root {
         --safe-area-bottom: 0px;
