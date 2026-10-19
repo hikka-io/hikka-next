@@ -7,7 +7,14 @@
     },
     "files": {
         "ignoreUnknown": true,
-        "includes": ["**", "!**/.nitro", "!**/public", "!**/routeTree.gen.ts"]
+        "includes": [
+            "**",
+            "!**/.nitro",
+            "!**/public",
+            "!**/routeTree.gen.ts",
+            "!apps/mobile/src/theme.css",
+            "!apps/mobile/src/uniwind-types.d.ts"
+        ]
     },
     "formatter": {
         "enabled": true,
