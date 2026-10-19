@@ -89,8 +89,8 @@ export function ArticlePlateEditor({
         >
             <EditorContainer
                 variant="inline"
-                // Room for the docked toolbar; iOS also caps the scroll as if its keyboard bar were not there.
-                className={cn(touch && 'pb-40', className)}
+                // Room for the phone's fixed toolbar; iOS also caps the scroll as if its keyboard bar were not there.
+                className={cn(touch && 'max-md:pb-40', className)}
             >
                 <Editor
                     variant="inline"

@@ -17,9 +17,10 @@ const fixedToolbarVariants = cva(
             variant: {
                 default: 'sticky bottom-0 border-t',
                 top: 'sticky top-[var(--plate-sticky-top,calc(3.5rem+env(safe-area-inset-top)))] md:top-[var(--plate-sticky-top,4rem)] overflow-x-auto border-b',
-                // Pinned to the visible bottom (`useKeyboardInset`). While the keyboard is open, iOS Safari floats its
+                // Phones: pinned to the visible bottom (`useKeyboardInset`). While the keyboard is open, iOS Safari floats its
                 // address bar over the strip just above it and takes the taps there, so the buttons sit above that strip.
-                docked: 'fixed inset-x-0 bottom-(--keyboard-inset,0px) w-auto rounded-none border-t bg-background/80 px-2 pb-[calc(0.25rem+max(var(--safe-area-bottom),min(var(--keyboard-height,0px),3rem)))]',
+                // Wider screens: sticks to the bottom of its column, which shares the page with other columns.
+                docked: 'fixed inset-x-0 bottom-(--keyboard-inset,0px) w-auto rounded-none border-t bg-background/80 px-2 pb-[calc(0.25rem+max(var(--safe-area-bottom),min(var(--keyboard-height,0px),3rem)))] md:sticky md:inset-x-auto md:self-stretch md:pb-1',
             },
         },
     },
