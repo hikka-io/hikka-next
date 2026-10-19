@@ -1,8 +1,8 @@
-import {
-    hashKey,
-    type QueryClient,
-    type QueryKey,
-    type Updater,
+import type {
+    InfiniteData,
+    QueryClient,
+    QueryKey,
+    Updater,
 } from '@tanstack/react-query';
 
 import {
@@ -17,6 +17,8 @@ import {
     type ReadResponse,
     readGetQueryKey,
     type SetVoteData,
+    type UserCollectionResponse,
+    type UserCollectionsListResponse,
     type UserCustomizationResponse,
     VoteContentTypeEnum,
     type VoteResponse,
@@ -102,7 +104,13 @@ const EDIT_LIST_IDS: readonly QueryId[] = [
 ];
 
 /** Collection list + detail queries. */
-const COLLECTION_IDS: readonly QueryId[] = ['getCollections', 'getCollection'];
+const USER_COLLECTIONS_ID: QueryId = 'getUserCollections';
+
+const COLLECTION_IDS: readonly QueryId[] = [
+    'getCollections',
+    'getCollection',
+    USER_COLLECTIONS_ID,
+];
 
 /** Article list + detail queries. */
 const ARTICLE_IDS: readonly QueryId[] = [
@@ -423,24 +431,51 @@ export function invalidateCollections(
 }
 
 /**
- * After adding or removing one collection entry: refetch the membership list the picker shows
- * (resolves once it is fresh) and refresh every other collection query in the background.
+ * Store a quick add/remove result: the response is authoritative for that collection, so the
+ * picker lists are patched (membership only for the same title) and other collection queries
+ * refresh in the background.
  */
-export async function applyCollectionEntryChange(
+export function applyUserCollectionChange(
     queryClient: QueryClient,
-    membershipKey: QueryKey,
-): Promise<void> {
-    const membershipHash = hashKey(membershipKey);
-    const ids = new Set<string>(COLLECTION_IDS);
-    void queryClient.invalidateQueries({
-        predicate: (query) =>
-            ids.has(queryId(query.queryKey) ?? '') &&
-            hashKey(query.queryKey) !== membershipHash,
+    slug: string,
+    saved: UserCollectionResponse,
+): void {
+    const lists = queryClient.getQueryCache().findAll({
+        predicate: (query) => queryId(query.queryKey) === USER_COLLECTIONS_ID,
     });
-    await queryClient.invalidateQueries({
-        queryKey: membershipKey,
-        exact: true,
-    });
+
+    for (const { queryKey } of lists) {
+        const sameTitle =
+            (queryKey[0] as { query?: { content?: string } }).query?.content ===
+            slug;
+        queryClient.setQueryData<InfiniteData<UserCollectionsListResponse>>(
+            queryKey,
+            (data) =>
+                data && {
+                    ...data,
+                    pages: data.pages.map((page) => ({
+                        ...page,
+                        list: page.list.map((collection) => {
+                            if (collection.reference !== saved.reference) {
+                                return collection;
+                            }
+                            return sameTitle
+                                ? saved
+                                : {
+                                      ...saved,
+                                      has_content: collection.has_content,
+                                      content_label: collection.content_label,
+                                  };
+                        }),
+                    })),
+                },
+        );
+    }
+
+    void invalidateByIds(
+        queryClient,
+        COLLECTION_IDS.filter((id) => id !== USER_COLLECTIONS_ID),
+    );
 }
 
 /** Invalidate article list/detail queries after an article mutation. */

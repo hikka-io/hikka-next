@@ -239,6 +239,14 @@ export const zCodeArgs = z.object({
 });
 
 /**
+ * CollectionContentAddArgs
+ */
+export const zCollectionContentAddArgs = z.object({
+    comment: z.string().min(3).nullish(),
+    label: z.string().min(1).nullish(),
+});
+
+/**
  * CollectionContentArgs
  */
 export const zCollectionContentArgs = z.object({
@@ -721,15 +729,6 @@ export const zCompanyAnimeResponse = z.object({
  */
 export const zGenreListResponse = z.object({
     list: z.array(zGenreResponse),
-});
-
-/**
- * HSLColor
- */
-export const zHslColor = z.object({
-    h: z.number().gte(0).lte(360),
-    s: z.number().gte(0).lte(100),
-    l: z.number().gte(0).lte(100),
 });
 
 /**
@@ -1879,46 +1878,6 @@ export const zUiBackdrop = z.object({
 });
 
 /**
- * UIColorTokens
- */
-export const zUiColorTokens = z.object({
-    background: zHslColor.nullish(),
-    foreground: zHslColor.nullish(),
-    primary: zHslColor.nullish(),
-    primary_foreground: zHslColor.nullish(),
-    primary_border: zHslColor.nullish(),
-    secondary: zHslColor.nullish(),
-    secondary_foreground: zHslColor.nullish(),
-    muted: zHslColor.nullish(),
-    muted_foreground: zHslColor.nullish(),
-    accent_foreground: zHslColor.nullish(),
-    border: zHslColor.nullish(),
-    ring: zHslColor.nullish(),
-    popover: zHslColor.nullish(),
-    popover_foreground: zHslColor.nullish(),
-    sidebar_background: zHslColor.nullish(),
-    sidebar_foreground: zHslColor.nullish(),
-    sidebar_primary: zHslColor.nullish(),
-    sidebar_primary_foreground: zHslColor.nullish(),
-    sidebar_accent: zHslColor.nullish(),
-    sidebar_accent_foreground: zHslColor.nullish(),
-    sidebar_border: zHslColor.nullish(),
-    sidebar_ring: zHslColor.nullish(),
-});
-
-/**
- * UIStylesTypography
- */
-export const zUiStylesTypography = z.object({
-    h1: z.string().nullish(),
-    h2: z.string().nullish(),
-    h3: z.string().nullish(),
-    h4: z.string().nullish(),
-    h5: z.string().nullish(),
-    p: z.string().nullish(),
-});
-
-/**
  * UISurfaceOverrides
  */
 export const zUiSurfaceOverrides = z.object({
@@ -1956,52 +1915,33 @@ export const zUiOverridesOutput = z.object({
 });
 
 /**
- * UIThemeStylesBody
- */
-export const zUiThemeStylesBody = z.object({
-    background_image: z.string().nullish(),
-});
-
-/**
- * UIThemeStyles
- */
-export const zUiThemeStylesInput = z.object({
-    colors: zUiColorTokens.nullish(),
-    body: zUiThemeStylesBody.nullish(),
-});
-
-/**
  * UIStyles
  */
 export const zUiStylesInput = z.object({
-    light: zUiThemeStylesInput.nullish(),
-    dark: zUiThemeStylesInput.nullish(),
-    typography: zUiStylesTypography.nullish(),
     overrides: zUiOverridesInput.nullish(),
     backdrop: zUiBackdrop.nullish(),
     brand: zOklchColor.nullish(),
-    radius: z.string().nullish(),
-});
-
-/**
- * UIThemeStyles
- */
-export const zUiThemeStylesOutput = z.object({
-    colors: zUiColorTokens.nullish(),
-    body: zUiThemeStylesBody.nullish(),
+    radius: z
+        .string()
+        .regex(
+            /^-?\d+(\.\d+)?([pP][xX]|[rR][eE][mM]|[eE][mM]|%|[vV][hH]|[vV][wW]|[cC][hH]|[eE][xX]|[vV][mM][iI][nN]|[vV][mM][aA][xX])$/,
+        )
+        .nullish(),
 });
 
 /**
  * UIStyles
  */
 export const zUiStylesOutput = z.object({
-    light: zUiThemeStylesOutput.nullish(),
-    dark: zUiThemeStylesOutput.nullish(),
-    typography: zUiStylesTypography.nullish(),
     overrides: zUiOverridesOutput.nullish(),
     backdrop: zUiBackdrop.nullish(),
     brand: zOklchColor.nullish(),
-    radius: z.string().nullish(),
+    radius: z
+        .string()
+        .regex(
+            /^-?\d+(\.\d+)?([pP][xX]|[rR][eE][mM]|[eE][mM]|%|[vV][hH]|[vV][wW]|[cC][hH]|[eE][xX]|[vV][mM][iI][nN]|[vV][mM][aA][xX])$/,
+        )
+        .nullish(),
 });
 
 /**
@@ -2188,6 +2128,31 @@ export const zUpdateUserBody = z.object({
  * UploadTypeEnum
  */
 export const zUploadTypeEnum = z.enum(['attachment', 'avatar', 'cover']);
+
+/**
+ * UserCollectionResponse
+ */
+export const zUserCollectionResponse = z.object({
+    content_type: zCollectionContentTypeEnum,
+    visibility: zCollectionVisibilityEnum,
+    content_label: z.string().nullable(),
+    labels_order: z.array(z.string()),
+    has_content: z.boolean(),
+    image: z.string().nullable(),
+    reference: z.string(),
+    spoiler: z.boolean(),
+    entries: z.number().int(),
+    title: z.string(),
+    nsfw: z.boolean(),
+});
+
+/**
+ * UserCollectionsListResponse
+ */
+export const zUserCollectionsListResponse = z.object({
+    pagination: zPaginationResponse,
+    list: z.array(zUserCollectionResponse),
+});
 
 /**
  * UserCommentsFilterArgs
@@ -3487,6 +3452,23 @@ export const zGetCollectionsQuery = z.object({
  */
 export const zGetCollectionsResponse = zCollectionsListResponse;
 
+export const zGetUserCollectionsHeaders = z.object({
+    auth: z.string().nullish(),
+});
+
+export const zGetUserCollectionsQuery = z.object({
+    content_type: zCollectionContentTypeEnum,
+    content: z.string().nullish(),
+    query: z.string().min(2).max(255).nullish(),
+    page: z.number().int().gt(0).lte(10000).optional().default(1),
+    size: z.number().int().gte(1).lte(100).optional().default(15),
+});
+
+/**
+ * Successful Response
+ */
+export const zGetUserCollectionsResponse = zUserCollectionsListResponse;
+
 export const zCreateCollectionBody = zCollectionArgs;
 
 export const zCreateCollectionHeaders = z.object({
@@ -3538,6 +3520,36 @@ export const zUpdateCollectionPath = z.object({
  * Successful Response
  */
 export const zUpdateCollectionResponse = zCollectionResponse;
+
+export const zDeleteCollectionContentHeaders = z.object({
+    auth: z.string().nullish(),
+});
+
+export const zDeleteCollectionContentPath = z.object({
+    slug: z.string(),
+    reference: z.string().uuid(),
+});
+
+/**
+ * Successful Response
+ */
+export const zDeleteCollectionContentResponse = zUserCollectionResponse;
+
+export const zAddCollectionContentBody = zCollectionContentAddArgs;
+
+export const zAddCollectionContentHeaders = z.object({
+    auth: z.string().nullish(),
+});
+
+export const zAddCollectionContentPath = z.object({
+    slug: z.string(),
+    reference: z.string().uuid(),
+});
+
+/**
+ * Successful Response
+ */
+export const zAddCollectionContentResponse = zUserCollectionResponse;
 
 export const zCharacterInfoPath = z.object({
     slug: z.string(),
