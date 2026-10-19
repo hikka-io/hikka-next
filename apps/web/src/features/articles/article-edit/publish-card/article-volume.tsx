@@ -47,9 +47,11 @@ const ArticleVolume: FC = () => {
                     {getDeclensionWord(ARTICLE_TEXT_MAX, SYMBOL_FORMS)}
                 </span>
                 {words > 0 && (
-                    <span className="text-muted-foreground text-xs tabular-nums">
-                        {words} {getDeclensionWord(words, WORD_FORMS)} · ≈{' '}
-                        {minutes} хв
+                    <span className="flex gap-3 text-muted-foreground text-xs tabular-nums">
+                        <span>
+                            {words} {getDeclensionWord(words, WORD_FORMS)}
+                        </span>
+                        <span>≈ {minutes} хв</span>
                     </span>
                 )}
             </div>
