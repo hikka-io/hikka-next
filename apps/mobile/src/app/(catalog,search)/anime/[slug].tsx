@@ -109,7 +109,11 @@ export default function AnimeDetailScreen() {
                     </View>
                 ) : null}
 
-                {synopsis ? <MDViewer selectable>{synopsis}</MDViewer> : null}
+                {synopsis ? (
+                    <MDViewer key={anime.slug} selectable>
+                        {synopsis}
+                    </MDViewer>
+                ) : null}
             </ScrollView>
         </>
     );

@@ -93,7 +93,7 @@ Decided 2026-10-20 (markdown task). The viewer must render the web's dialect: `:
 | `react-native-remark` (unified) | Rejected. Last release 2025-06, pulls the whole unified stack and a syntax highlighter; Hermes parse cost per comment row is the worst of the set. |
 | **`marked` lexer + own renderer (chosen)** | `marked.lexer` with four small extensions gives a plain token tree; a ~200 line recursive renderer maps it to `Text`/`View`. Pure JS (New Architecture irrelevant, works in Expo Go), the same library the web already depends on, no native module, no `react-native-svg`. Nested `Text` keeps selection and lets spoilers, links and mentions live inside a paragraph. Lexing is memoised per source string, cheap enough for FlashList rows. |
 
-Web-dialect decisions that follow from the web's remark pipeline (`remark-disable-tokenizer`, no `remark-gfm`): code, fenced blocks, tables and bare-url autolinks stay literal text; headings render as plain paragraphs; raw HTML is dropped; soft line breaks collapse to a space (HTML does the same), hard breaks (two trailing spaces or backslash) are real breaks.
+Web-dialect decisions that follow from the web's remark pipeline (`remark-disable-tokenizer`, no `remark-gfm`): the lexer runs with `gfm: false`, so tables, task-list markers and bare-url autolinks stay literal text, as do code and fenced blocks; headings render as plain paragraphs; raw HTML stays literal text (react-markdown shows it as text); soft line breaks collapse to a space (HTML does the same), hard breaks (two trailing spaces or backslash) are real breaks.
 
 ## First milestones
 
