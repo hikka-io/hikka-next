@@ -1,6 +1,7 @@
 import { z } from 'zod';
 
 import {
+    CollectionContentTypeEnum,
     EditContentToDoEnum,
     EditContentTypeEnum,
     FavouriteContentTypeEnum,
@@ -172,6 +173,14 @@ export const collectionsSearchSchema = z.object({
     ...paginationSearch,
 });
 
+export const collectionNewSearchSchema = z.object({
+    content_type: z
+        .nativeEnum(CollectionContentTypeEnum)
+        .optional()
+        .catch(undefined),
+    slug: z.string().optional().catch(undefined),
+});
+
 export const userlistSearchSchema = z.object({
     status: z.string().optional().catch(undefined),
     view: z.string().optional().catch(undefined),
@@ -252,6 +261,7 @@ export type ArticlesSearch = z.infer<typeof articlesSearchSchema>;
 export type EditSearch = z.infer<typeof editSearchSchema>;
 export type EditContentSearch = z.infer<typeof editContentSearchSchema>;
 export type CollectionsSearch = z.infer<typeof collectionsSearchSchema>;
+export type CollectionNewSearch = z.infer<typeof collectionNewSearchSchema>;
 export type UserlistSearch = z.infer<typeof userlistSearchSchema>;
 export type LoginSearch = z.infer<typeof loginSearchSchema>;
 export type HistorySearch = z.infer<typeof historySearchSchema>;

@@ -1,3 +1,4 @@
+export { default as AddToCollectionButton } from './add-to-collection/add-to-collection-button';
 export { default as CollectionEditorPage } from './collection-editor-page';
 export { default as CollectionList } from './collection-list';
 export { default as CollectionSort } from './collection-list/collection-sort';

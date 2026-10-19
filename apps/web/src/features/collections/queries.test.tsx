@@ -5,9 +5,11 @@ import { beforeAll, describe, expect, it, vi } from 'vitest';
 
 import { configureBrowserClient, createRequestClient } from '@hikka/api';
 
+import { contentInfoOptions } from '@/utils/api/content-queries';
+
 import { Route } from '../../routes/_pages/collections/index';
 import CollectionList from './collection-list/collection-list';
-import { collectionListOptions } from './queries';
+import { collectionListOptions, loadCollectionNew } from './queries';
 
 type Options = { queryKey: readonly unknown[] };
 
@@ -81,5 +83,38 @@ describe('collectionListOptions', () => {
                 collectionListOptions({ page: 1, sort: 'created' }).queryKey,
             ),
         ).not.toBe(first);
+    });
+});
+
+describe('loadCollectionNew', () => {
+    const run = async (search: { content_type?: 'anime'; slug?: string }) => {
+        const keys: Options['queryKey'][] = [];
+        const queryClient = new QueryClient();
+        Object.assign(queryClient, {
+            prefetchQuery: vi.fn(async (options: Options) => {
+                keys.push(options.queryKey);
+            }),
+        });
+        await loadCollectionNew(search, {
+            queryClient,
+            apiClient: createRequestClient({
+                baseUrl: BASE_URL,
+                internalBaseUrl: 'http://backend:8000',
+            }),
+        });
+        return keys;
+    };
+
+    it('prefetches the title the editor starts with under the component key', async () => {
+        const [key] = await run({ content_type: 'anime', slug: 'frieren' });
+
+        expect(hashKey(key)).toBe(
+            hashKey(contentInfoOptions('anime', 'frieren').queryKey),
+        );
+    });
+
+    it('prefetches nothing without a title', async () => {
+        expect(await run({})).toEqual([]);
+        expect(await run({ content_type: 'anime' })).toEqual([]);
     });
 });

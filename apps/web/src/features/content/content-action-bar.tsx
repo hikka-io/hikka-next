@@ -9,6 +9,7 @@ import { FavoriteButton } from '@/components/action-buttons';
 import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
 import { usePageTitleReveal } from '@/features/app-shell';
+import { AddToCollectionButton } from '@/features/collections';
 import { ContentEditsButton } from '@/features/edit';
 import { useSession } from '@/services/session';
 import { contentInfoOptions } from '@/utils/api/content-queries';
@@ -65,6 +66,11 @@ const ContentActionBar: FC<Props> = ({ className, content_type }) => {
                     size="icon-md"
                     variant="ghost"
                     disabled={!loggedUser}
+                />
+                <AddToCollectionButton
+                    key={String(params.slug)}
+                    content_type={content_type}
+                    slug={String(params.slug)}
                 />
                 <Button
                     size="md"

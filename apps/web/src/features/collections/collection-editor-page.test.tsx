@@ -13,6 +13,7 @@ import { describe, expect, it, vi } from 'vitest';
 import { type GetCollectionResponse, getCollectionOptions } from '@hikka/api';
 
 import { usePageHeader } from '@/features/app-shell';
+import { contentInfoOptions } from '@/utils/api/content-queries';
 import {
     applyQueryDefaults,
     QUERY_CLIENT_DEFAULTS,
@@ -151,6 +152,34 @@ describe('CollectionEditorPage', () => {
             visibility: 'public',
             tags: ['a'],
         });
+    });
+
+    it('starts a new collection with the title it was opened from', () => {
+        const queryClient = new QueryClient();
+        queryClient.setQueryData(
+            contentInfoOptions('anime', 'frieren').queryKey,
+            { slug: 'frieren', title_ua: 'Фрірен' } as never,
+        );
+        const html = renderToString(
+            <QueryClientProvider client={queryClient}>
+                <CollectionEditorPage
+                    initialContent={{ content_type: 'anime', slug: 'frieren' }}
+                />
+            </QueryClientProvider>,
+        );
+        const state = JSON.parse(
+            new DOMParser()
+                .parseFromString(html, 'text/html')
+                .querySelector('pre')?.textContent ?? '',
+        );
+
+        expect(state.content_type).toBe('anime');
+        expect(state.groups).toEqual([
+            {
+                title: null,
+                items: [{ content: { slug: 'frieren', title_ua: 'Фрірен' } }],
+            },
+        ]);
     });
 
     it('starts a fresh store when the route switches to another collection', async () => {

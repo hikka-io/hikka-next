@@ -37,7 +37,10 @@ import {
 } from '@/components/ui/tooltip';
 import { invalidateCollections } from '@/utils/api/invalidate-content-state';
 import { CONTENT_TYPE_LINKS } from '@/utils/content-paths';
-import { COLLECTION_CONTENT_TYPE_OPTIONS } from '@/utils/labels';
+import {
+    COLLECTION_CONTENT_TYPE_OPTIONS,
+    COLLECTION_VISIBILITY,
+} from '@/utils/labels';
 import { Link, useParams, useRouter } from '@/utils/navigation';
 import { isValidTitleLength } from '@/utils/title-length';
 
@@ -47,20 +50,9 @@ import {
 } from '../collection-provider';
 import GroupInputs from './components/group-inputs';
 
-const COLLECTION_VISIBILITY_OPTIONS = [
-    {
-        value: 'public',
-        label: 'Публічна',
-    },
-    {
-        value: 'private',
-        label: 'Приватна',
-    },
-    {
-        value: 'unlisted',
-        label: 'Лише у профілі',
-    },
-] satisfies { value: CollectionVisibilityEnum; label: string }[];
+const COLLECTION_VISIBILITY_OPTIONS = (
+    Object.keys(COLLECTION_VISIBILITY) as CollectionVisibilityEnum[]
+).map((value) => ({ value, label: COLLECTION_VISIBILITY[value].label }));
 
 type Props = {
     mode?: 'create' | 'edit';

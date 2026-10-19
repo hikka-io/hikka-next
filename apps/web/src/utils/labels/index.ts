@@ -1,3 +1,4 @@
+export { COLLECTION_VISIBILITY } from './collection-visibility';
 export {
     COLLECTION_CONTENT_TYPE_OPTIONS,
     CONTENT_TYPES,

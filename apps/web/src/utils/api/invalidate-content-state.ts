@@ -1,4 +1,9 @@
-import type { QueryClient, QueryKey, Updater } from '@tanstack/react-query';
+import {
+    hashKey,
+    type QueryClient,
+    type QueryKey,
+    type Updater,
+} from '@tanstack/react-query';
 
 import {
     type FavouriteContentTypeEnum,
@@ -415,6 +420,27 @@ export function invalidateCollections(
     options?: InvalidateOptions,
 ): Promise<void> {
     return invalidateByIds(queryClient, COLLECTION_IDS, options);
+}
+
+/**
+ * After adding or removing one collection entry: refetch the membership list the picker shows
+ * (resolves once it is fresh) and refresh every other collection query in the background.
+ */
+export async function applyCollectionEntryChange(
+    queryClient: QueryClient,
+    membershipKey: QueryKey,
+): Promise<void> {
+    const membershipHash = hashKey(membershipKey);
+    const ids = new Set<string>(COLLECTION_IDS);
+    void queryClient.invalidateQueries({
+        predicate: (query) =>
+            ids.has(queryId(query.queryKey) ?? '') &&
+            hashKey(query.queryKey) !== membershipHash,
+    });
+    await queryClient.invalidateQueries({
+        queryKey: membershipKey,
+        exact: true,
+    });
 }
 
 /** Invalidate article list/detail queries after an article mutation. */
