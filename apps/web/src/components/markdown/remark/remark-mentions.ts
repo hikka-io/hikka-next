@@ -2,8 +2,7 @@ import type { Link, Parent, PhrasingContent, Root } from 'mdast';
 import { findAndReplace } from 'mdast-util-find-and-replace';
 
 import { API_LIMITS } from '@hikka/api';
-
-import { isUserReference, userUrlTarget } from '@/utils/mentions';
+import { isUserReference, userUrlTarget } from '@hikka/core';
 
 const { min, max } = API_LIMITS.username;
 const userGroup = `[a-z][\\da-z_]{${min - 1},${max - 1}}`;

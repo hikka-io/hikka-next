@@ -4,6 +4,7 @@ export * from './get-title';
 export * from './i18n';
 export * from './labels';
 export * from './markdown';
+export * from './mentions';
 export * from './new-id';
 export * from './search-schemas';
 export * from './season';
