@@ -107,6 +107,8 @@ Expo Go on Android specifics:
 - The first launch shows the Expo Go developer-menu sheet; dismiss it with the close button.
 - `adb shell input text` types Latin only; Cyrillic queries need the on-screen keyboard, so search was verified with a Latin query.
 
+Dev client and brand assets (verified the same day): `npx expo run:android --port 8085` built a debug dev client in about 5 minutes (JDK 21 from Android Studio, JDK 24 on the PATH was not used), installed it and connected to Metro; the pink adaptive icon shows correctly in the launcher (circle mask), the dev launcher and dev menu show the logo, the Expo Go Tools button is absent, and the app behaves as in Expo Go. The light splash (brand-pink X on white, centered) was captured on cold start; the dark splash was verified through the generated `values-night/colors.xml` (`#000000`) and `drawable-night-*` images because the cold-start window is too short to screenshot reliably. With `expo-dev-client` installed a bare `expo start` targets the dev client, so the `dev`, `ios` and `android` scripts pass `--go` and `dev-client` was added.
+
 Not covered: tablets and foldables, 3-button navigation, font scale above 1.0, predictive back (disabled in `app.json`), screen readers.
 
 ## First milestones
