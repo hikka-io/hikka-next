@@ -249,7 +249,7 @@
                                             "**/utils/constants",
                                             "**/utils/constants/**"
                                         ],
-                                        "message": "[C1] utils/constants/ is dissolved: import the owner module (utils/labels, utils/sort, a domain-named file or the owning feature)."
+                                        "message": "[C1] utils/constants/ is dissolved: import the owner module (@hikka/core, a domain-named file or the owning feature)."
                                     }
                                 ]
                             }
@@ -289,7 +289,7 @@
                                             "**/utils/constants",
                                             "**/utils/constants/**"
                                         ],
-                                        "message": "[C1] utils/constants/ is dissolved: import the owner module (utils/labels, utils/sort, a domain-named file or the owning feature)."
+                                        "message": "[C1] utils/constants/ is dissolved: import the owner module (@hikka/core, a domain-named file or the owning feature)."
                                     }
                                 ]
                             }
@@ -328,7 +328,7 @@
                                             "**/utils/constants",
                                             "**/utils/constants/**"
                                         ],
-                                        "message": "[C1] utils/constants/ is dissolved: import the owner module (utils/labels, utils/sort, a domain-named file or the owning feature)."
+                                        "message": "[C1] utils/constants/ is dissolved: import the owner module (@hikka/core, a domain-named file or the owning feature)."
                                     }
                                 ]
                             }
@@ -368,7 +368,7 @@
                                             "**/utils/constants",
                                             "**/utils/constants/**"
                                         ],
-                                        "message": "[C1] utils/constants/ is dissolved: import the owner module (utils/labels, utils/sort, a domain-named file or the owning feature)."
+                                        "message": "[C1] utils/constants/ is dissolved: import the owner module (@hikka/core, a domain-named file or the owning feature)."
                                     }
                                 ]
                             }
@@ -408,7 +408,7 @@
                                             "**/utils/constants",
                                             "**/utils/constants/**"
                                         ],
-                                        "message": "[C1] utils/constants/ is dissolved: import the owner module (utils/labels, utils/sort, a domain-named file or the owning feature)."
+                                        "message": "[C1] utils/constants/ is dissolved: import the owner module (@hikka/core, a domain-named file or the owning feature)."
                                     }
                                 ]
                             }
@@ -455,7 +455,7 @@
                                             "**/utils/constants",
                                             "**/utils/constants/**"
                                         ],
-                                        "message": "[C1] utils/constants/ is dissolved: import the owner module (utils/labels, utils/sort, a domain-named file or the owning feature)."
+                                        "message": "[C1] utils/constants/ is dissolved: import the owner module (@hikka/core, a domain-named file or the owning feature)."
                                     }
                                 ]
                             }
@@ -527,7 +527,7 @@
                                             "**/utils/constants",
                                             "**/utils/constants/**"
                                         ],
-                                        "message": "[C1] utils/constants/ is dissolved: import the owner module (utils/labels, utils/sort, a domain-named file or the owning feature)."
+                                        "message": "[C1] utils/constants/ is dissolved: import the owner module (@hikka/core, a domain-named file or the owning feature)."
                                     }
                                 ]
                             }
@@ -582,7 +582,7 @@
                                             "**/utils/constants",
                                             "**/utils/constants/**"
                                         ],
-                                        "message": "[C1] utils/constants/ is dissolved: import the owner module (utils/labels, utils/sort, a domain-named file or the owning feature)."
+                                        "message": "[C1] utils/constants/ is dissolved: import the owner module (@hikka/core, a domain-named file or the owning feature)."
                                     }
                                 ]
                             }
@@ -629,7 +629,7 @@
                                             "**/utils/constants",
                                             "**/utils/constants/**"
                                         ],
-                                        "message": "[C1] utils/constants/ is dissolved: import the owner module (utils/labels, utils/sort, a domain-named file or the owning feature)."
+                                        "message": "[C1] utils/constants/ is dissolved: import the owner module (@hikka/core, a domain-named file or the owning feature)."
                                     }
                                 ]
                             }
@@ -676,7 +676,7 @@
                                             "**/utils/constants",
                                             "**/utils/constants/**"
                                         ],
-                                        "message": "[C1] utils/constants/ is dissolved: import the owner module (utils/labels, utils/sort, a domain-named file or the owning feature)."
+                                        "message": "[C1] utils/constants/ is dissolved: import the owner module (@hikka/core, a domain-named file or the owning feature)."
                                     }
                                 ]
                             }
@@ -723,7 +723,7 @@
                                             "**/utils/constants",
                                             "**/utils/constants/**"
                                         ],
-                                        "message": "[C1] utils/constants/ is dissolved: import the owner module (utils/labels, utils/sort, a domain-named file or the owning feature)."
+                                        "message": "[C1] utils/constants/ is dissolved: import the owner module (@hikka/core, a domain-named file or the owning feature)."
                                     }
                                 ]
                             }
@@ -770,7 +770,7 @@
                                             "**/utils/constants",
                                             "**/utils/constants/**"
                                         ],
-                                        "message": "[C1] utils/constants/ is dissolved: import the owner module (utils/labels, utils/sort, a domain-named file or the owning feature)."
+                                        "message": "[C1] utils/constants/ is dissolved: import the owner module (@hikka/core, a domain-named file or the owning feature)."
                                     }
                                 ]
                             }
@@ -817,7 +817,7 @@
                                             "**/utils/constants",
                                             "**/utils/constants/**"
                                         ],
-                                        "message": "[C1] utils/constants/ is dissolved: import the owner module (utils/labels, utils/sort, a domain-named file or the owning feature)."
+                                        "message": "[C1] utils/constants/ is dissolved: import the owner module (@hikka/core, a domain-named file or the owning feature)."
                                     }
                                 ]
                             }
@@ -871,7 +871,7 @@
                                             "**/utils/constants",
                                             "**/utils/constants/**"
                                         ],
-                                        "message": "[C1] utils/constants/ is dissolved: import the owner module (utils/labels, utils/sort, a domain-named file or the owning feature)."
+                                        "message": "[C1] utils/constants/ is dissolved: import the owner module (@hikka/core, a domain-named file or the owning feature)."
                                     }
                                 ]
                             }
@@ -928,7 +928,7 @@
                                             "**/utils/constants",
                                             "**/utils/constants/**"
                                         ],
-                                        "message": "[C1] utils/constants/ is dissolved: import the owner module (utils/labels, utils/sort, a domain-named file or the owning feature)."
+                                        "message": "[C1] utils/constants/ is dissolved: import the owner module (@hikka/core, a domain-named file or the owning feature)."
                                     }
                                 ]
                             }
@@ -985,7 +985,7 @@
                                             "**/utils/constants",
                                             "**/utils/constants/**"
                                         ],
-                                        "message": "[C1] utils/constants/ is dissolved: import the owner module (utils/labels, utils/sort, a domain-named file or the owning feature)."
+                                        "message": "[C1] utils/constants/ is dissolved: import the owner module (@hikka/core, a domain-named file or the owning feature)."
                                     }
                                 ]
                             }
@@ -1050,7 +1050,36 @@
                                             "**/utils/constants",
                                             "**/utils/constants/**"
                                         ],
-                                        "message": "[C1] utils/constants/ is dissolved: import the owner module (utils/labels, utils/sort, a domain-named file or the owning feature)."
+                                        "message": "[C1] utils/constants/ is dissolved: import the owner module (@hikka/core, a domain-named file or the owning feature)."
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "includes": ["packages/core/src/**"],
+            "linter": {
+                "rules": {
+                    "style": {
+                        "noRestrictedImports": {
+                            "level": "error",
+                            "options": {
+                                "patterns": [
+                                    {
+                                        "group": [
+                                            "react",
+                                            "react/**",
+                                            "react-dom",
+                                            "react-dom/**",
+                                            "react-native",
+                                            "react-native/**",
+                                            "@tanstack/react-*",
+                                            "@/**"
+                                        ],
+                                        "message": "@hikka/core is runtime-agnostic: no React, React Native or app aliases; it imports only @hikka/api and plain npm libraries."
                                     }
                                 ]
                             }
