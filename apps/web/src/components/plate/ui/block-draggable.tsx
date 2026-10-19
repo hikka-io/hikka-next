@@ -17,6 +17,7 @@ import { BlockActionsMenu } from './block-actions-menu';
 import { BlockInsertMenu } from './block-insert-menu';
 
 const SELECTION_PADDING = 4;
+const DROP_LINE_HEIGHT = 3;
 
 /** Wraps every top-level block with Notion-like controls: "+" and a drag handle. */
 export const BlockDraggable: RenderNodeWrapper = ({ editor, path }) => {
@@ -90,24 +91,30 @@ function Draggable({ children, editor, element }: PlateElementProps) {
                         className="pointer-events-none absolute -inset-x-1.5 rounded-[min(var(--radius-sm),0.375rem)] bg-primary-foreground/10"
                     />
                 )}
-                <DropLine />
+                <DropLine gap={blockGap} />
             </div>
         </div>
     );
 }
 
-function DropLine() {
+/** Centred in the gap between blocks; the plugin shows "above a block" as the previous block's bottom line. */
+function DropLine({ gap }: { gap: number }) {
     const { dropLine } = useDropLine();
 
     if (!dropLine) return null;
 
+    const offset = (gap - DROP_LINE_HEIGHT) / 2;
+
     return (
         <div
             contentEditable={false}
-            className={cn(
-                'absolute inset-x-0 h-0.5 rounded-full bg-primary-foreground',
-                dropLine === 'top' ? '-top-px' : '-bottom-px',
-            )}
+            style={{
+                height: DROP_LINE_HEIGHT,
+                ...(dropLine === 'top'
+                    ? { top: -offset - DROP_LINE_HEIGHT }
+                    : { bottom: offset }),
+            }}
+            className="pointer-events-none absolute -inset-x-1.5 rounded-full bg-primary-foreground before:absolute before:top-1/2 before:-left-1.5 before:size-2.5 before:-translate-y-1/2 before:rounded-full before:border-2 before:border-primary-foreground before:bg-background"
         />
     );
 }
