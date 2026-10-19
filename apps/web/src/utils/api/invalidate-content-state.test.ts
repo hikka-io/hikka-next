@@ -8,6 +8,7 @@ import {
     applyFavouriteMutation,
     applyFollowChange,
     applyReadDeletion,
+    applyUserCollectionChange,
     applyVoteMutation,
     applyWatchDeletion,
     invalidateArticles,
@@ -90,7 +91,11 @@ const EDIT_LIST_IDS = [
     'getTodoCharacterList',
     'getTodoPersonList',
 ];
-const COLLECTION_IDS = ['getCollections', 'getCollection'];
+const COLLECTION_IDS = [
+    'getCollections',
+    'getCollection',
+    'getUserCollections',
+];
 const ARTICLE_IDS = ['getArticles', 'getArticleTop', 'getArticle'];
 const FOLLOW_IDS = [
     'followingList',
@@ -209,7 +214,7 @@ describe('invalidation registry ids', () => {
             (id) => builders[`${id}QueryKey`]?.()[0]._id !== id,
         );
 
-        expect(registered.size).toBe(61);
+        expect(registered.size).toBe(62);
         expect(drifted).toEqual([]);
     });
 });
@@ -782,5 +787,63 @@ describe('resetPageList', () => {
         expect(queryClient.getQueryData(['list', 1])).toBeUndefined();
         expect(queryClient.getQueryData(['list', 2])).toBeUndefined();
         expect(queryClient.getQueryData(['other'])).toBe('kept');
+    });
+});
+
+describe('applyUserCollectionChange', () => {
+    const row = (reference: string, has_content: boolean, entries: number) =>
+        ({
+            reference,
+            has_content,
+            content_label: has_content ? 'Шедеври' : null,
+            entries,
+        }) as unknown as api.UserCollectionResponse;
+    const page = (list: api.UserCollectionResponse[]) => ({
+        pages: [{ pagination: { total: list.length }, list }],
+        pageParams: [1],
+    });
+    const listKey = (content: string) =>
+        api.getUserCollectionsInfiniteQueryKey({
+            query: { content_type: 'anime', content },
+        });
+
+    it('stores the response for the same title and keeps membership of other titles', () => {
+        const queryClient = new QueryClient();
+        const other = row('b', false, 4);
+        queryClient.setQueryData(
+            listKey(SLUG),
+            page([row('a', false, 2), other]),
+        );
+        queryClient.setQueryData(listKey('naruto'), page([row('a', true, 2)]));
+        const saved = { ...row('a', true, 3), content_label: 'Нове' };
+
+        applyUserCollectionChange(queryClient, SLUG, saved);
+
+        type Pages = ReturnType<typeof page>;
+        const same = queryClient.getQueryData<Pages>(listKey(SLUG));
+        const another = queryClient.getQueryData<Pages>(listKey('naruto'));
+        expect(same?.pages[0].list).toEqual([saved, other]);
+        expect(same?.pages[0].list[1]).toBe(other);
+        expect(another?.pages[0].list[0]).toEqual({
+            ...saved,
+            has_content: true,
+            content_label: 'Шедеври',
+        });
+    });
+
+    it('refreshes the other collection queries without refetching the patched lists', () => {
+        const queryClient = new QueryClient();
+        queryClient.setQueryData(listKey(SLUG), page([row('a', false, 2)]));
+        const collectionsKey = api.getCollectionsQueryKey({ body: {} });
+        queryClient.setQueryData(collectionsKey, { list: [] });
+
+        applyUserCollectionChange(queryClient, SLUG, row('a', true, 3));
+
+        expect(queryClient.getQueryState(collectionsKey)?.isInvalidated).toBe(
+            true,
+        );
+        expect(queryClient.getQueryState(listKey(SLUG))?.isInvalidated).toBe(
+            false,
+        );
     });
 });

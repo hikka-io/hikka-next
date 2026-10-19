@@ -1,9 +1,13 @@
-import { type FC, useEffect, useState } from 'react';
+import { type FC, useState } from 'react';
 
 import { range } from '@antfu/utils';
+import { keepPreviousData } from '@tanstack/react-query';
 import { ChevronRight, Plus, Search } from 'lucide-react';
 
-import type { CollectionContentTypeEnum, CollectionResponse } from '@hikka/api';
+import type {
+    CollectionContentTypeEnum,
+    UserCollectionResponse,
+} from '@hikka/api';
 
 import { DEFAULT_CONTAINER_RATIO } from '@/components/content-card/image-presets';
 import HorizontalCardSkeleton from '@/components/horizontal-card-skeleton';
@@ -13,26 +17,24 @@ import BlockBleed from '@/components/ui/block-bleed';
 import { buttonVariants } from '@/components/ui/button';
 import EmptyState from '@/components/ui/empty-state';
 import { Skeleton } from '@/components/ui/skeleton';
+import { DEBOUNCE_MS, useDebounce } from '@/services/hooks/use-debounce';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { cn } from '@/utils/cn';
 import { Link } from '@/utils/navigation';
 
-import {
-    OWN_COLLECTIONS_PAGE_SIZE,
-    ownCollectionsOptions,
-    ownContentCollectionsOptions,
-} from '../queries';
+import { USER_COLLECTIONS_PAGE_SIZE, userCollectionsOptions } from '../queries';
 import CollectionEntryPanel from './collection-entry-panel';
 import CollectionPickerItem from './collection-picker-item';
 import { COLLECTION_PICKER_TITLE } from './constants';
 
 const SEARCH_THRESHOLD = 6;
+// Backend bound (`UserCollectionsArgs.query`, min_length=2).
+const SEARCH_MIN_LENGTH = 2;
 const NEW_COLLECTION_LABEL = 'Додати у нову колекцію';
 
 type Props = {
     content_type: CollectionContentTypeEnum;
     slug: string;
-    username: string;
 };
 
 const CollectionPickerItemSkeleton: FC = () => (
@@ -43,40 +45,24 @@ const CollectionPickerItemSkeleton: FC = () => (
     />
 );
 
-const CollectionPicker: FC<Props> = ({ content_type, slug, username }) => {
+const CollectionPicker: FC<Props> = ({ content_type, slug }) => {
     const [query, setQuery] = useState('');
-    const [selected, setSelected] = useState<CollectionResponse | null>(null);
+    const [selected, setSelected] = useState<UserCollectionResponse | null>(
+        null,
+    );
     const [returnedFrom, setReturnedFrom] = useState<string>();
+    const [debouncedQuery] = useDebounce({
+        value: query.trim(),
+        delay: DEBOUNCE_MS.input,
+    });
+    const search =
+        debouncedQuery.length >= SEARCH_MIN_LENGTH ? debouncedQuery : undefined;
 
-    const {
-        list,
-        pagination,
-        ref,
-        isError: listError,
-        isFetchingNextPage,
-    } = useInfiniteList(ownCollectionsOptions(username, content_type));
-    const membershipOptions = ownContentCollectionsOptions(
-        username,
-        content_type,
-        slug,
-    );
-    const {
-        list: memberships,
-        isError: membershipError,
-        hasNextPage: moreMemberships,
-        isFetchingNextPage: fetchingMemberships,
-        fetchNextPage: fetchMoreMemberships,
-    } = useInfiniteList(membershipOptions);
-
-    useEffect(() => {
-        if (moreMemberships && !fetchingMemberships) fetchMoreMemberships();
-    }, [moreMemberships, fetchingMemberships, fetchMoreMemberships]);
-
-    const memberReferences = new Set(
-        memberships?.map((collection) => collection.reference),
-    );
-    const loaded = Boolean(list && memberships && !moreMemberships);
-    const failed = listError || membershipError;
+    const { list, pagination, ref, isError, isFetchingNextPage } =
+        useInfiniteList({
+            ...userCollectionsOptions(content_type, slug, search),
+            placeholderData: keepPreviousData,
+        });
 
     if (selected) {
         return (
@@ -84,8 +70,6 @@ const CollectionPicker: FC<Props> = ({ content_type, slug, username }) => {
                 <CollectionEntryPanel
                     collection={selected}
                     slug={slug}
-                    member={memberReferences.has(selected.reference)}
-                    membershipKey={membershipOptions.queryKey}
                     onBack={() => {
                         setSelected(null);
                         setReturnedFrom(selected.reference);
@@ -95,17 +79,10 @@ const CollectionPicker: FC<Props> = ({ content_type, slug, username }) => {
         );
     }
 
-    // Members come from their own query, so they lead the list even when their page of the paged list is not loaded yet.
-    const needle = query.trim().toLowerCase();
-    const rows = [
-        ...(memberships ?? []),
-        ...(list ?? []).filter(
-            (collection) => !memberReferences.has(collection.reference),
-        ),
-    ].filter(
-        (collection) =>
-            !needle || collection.title.toLowerCase().includes(needle),
+    const rows = [...(list ?? [])].sort(
+        (a, b) => Number(b.has_content) - Number(a.has_content),
     );
+    const searching = query.trim().length > 0;
 
     return (
         <div
@@ -119,7 +96,7 @@ const CollectionPicker: FC<Props> = ({ content_type, slug, username }) => {
                 {COLLECTION_PICKER_TITLE}
             </h2>
 
-            {list?.length === 0 ? (
+            {list?.length === 0 && !search ? (
                 <EmptyState
                     size="sm"
                     icon={<MaterialSymbolsStack />}
@@ -138,7 +115,8 @@ const CollectionPicker: FC<Props> = ({ content_type, slug, username }) => {
                 />
             ) : (
                 <>
-                    {(pagination?.total ?? 0) > SEARCH_THRESHOLD && (
+                    {(searching ||
+                        (pagination?.total ?? 0) > SEARCH_THRESHOLD) && (
                         <label className="flex h-9 items-center gap-2 rounded-md border bg-secondary/20 px-3 text-muted-foreground">
                             <Search className="size-4" />
                             <input
@@ -153,22 +131,19 @@ const CollectionPicker: FC<Props> = ({ content_type, slug, username }) => {
                         </label>
                     )}
                     <BlockBleed className="max-h-80 overflow-y-auto">
-                        {loaded
+                        {list
                             ? rows.map((collection) => (
                                   <CollectionPickerItem
                                       key={collection.reference}
                                       collection={collection}
-                                      member={memberReferences.has(
-                                          collection.reference,
-                                      )}
                                       focusOnMount={
                                           collection.reference === returnedFrom
                                       }
                                       onSelect={() => setSelected(collection)}
                                   />
                               ))
-                            : !failed &&
-                              range(0, OWN_COLLECTIONS_PAGE_SIZE).map(
+                            : !isError &&
+                              range(0, USER_COLLECTIONS_PAGE_SIZE).map(
                                   (index) => (
                                       <CollectionPickerItemSkeleton
                                           key={index}
@@ -176,12 +151,12 @@ const CollectionPicker: FC<Props> = ({ content_type, slug, username }) => {
                                   ),
                               )}
                         {isFetchingNextPage && <CollectionPickerItemSkeleton />}
-                        {loaded && rows.length === 0 && (
+                        {list && rows.length === 0 && (
                             <p className="py-4 text-center text-muted-foreground text-sm">
                                 Нічого не знайдено
                             </p>
                         )}
-                        {failed && (
+                        {isError && (
                             <p className="px-4 py-4 text-center text-muted-foreground text-sm">
                                 Не вдалося завантажити колекції
                             </p>

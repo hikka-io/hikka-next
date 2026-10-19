@@ -2,6 +2,7 @@ import {
     type Client,
     type CollectionContentTypeEnum,
     getCollectionsInfiniteOptions,
+    getUserCollectionsInfiniteOptions,
     paginatedInfiniteOptions,
     paginationPageParam,
 } from '@hikka/api';
@@ -14,11 +15,6 @@ import type {
 } from '@/utils/search-schemas';
 
 export const DEFAULT_COLLECTION_SORT = 'system_ranking';
-
-export const OWN_COLLECTIONS_PAGE_SIZE = 50;
-
-// Backend page-size cap (`get_size`, le=100).
-const OWN_CONTENT_COLLECTIONS_PAGE_SIZE = 100;
 
 export function collectionListOptions(
     { page, sort = DEFAULT_COLLECTION_SORT }: CollectionsSearch,
@@ -33,41 +29,22 @@ export function collectionListOptions(
     );
 }
 
-export function ownCollectionsOptions(
-    username: string,
-    content_type: CollectionContentTypeEnum,
-    client?: Client,
-) {
-    return {
-        ...getCollectionsInfiniteOptions({
-            body: {
-                author: username,
-                content_type,
-                only_public: false,
-                sort: ['created:desc'],
-            },
-            query: { size: OWN_COLLECTIONS_PAGE_SIZE },
-            client,
-        }),
-        ...paginationPageParam(),
-    };
-}
+export const USER_COLLECTIONS_PAGE_SIZE = 50;
 
-export function ownContentCollectionsOptions(
-    username: string,
+export function userCollectionsOptions(
     content_type: CollectionContentTypeEnum,
     slug: string,
+    search?: string,
     client?: Client,
 ) {
     return {
-        ...getCollectionsInfiniteOptions({
-            body: {
-                author: username,
+        ...getUserCollectionsInfiniteOptions({
+            query: {
                 content_type,
-                content: [slug],
-                only_public: false,
+                content: slug,
+                query: search,
+                size: USER_COLLECTIONS_PAGE_SIZE,
             },
-            query: { size: OWN_CONTENT_COLLECTIONS_PAGE_SIZE },
             client,
         }),
         ...paginationPageParam(),

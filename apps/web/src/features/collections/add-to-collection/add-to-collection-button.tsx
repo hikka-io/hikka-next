@@ -21,10 +21,7 @@ import { useCloseOnRouteChange } from '@/services/hooks/use-close-on-route-chang
 import { useIsDesktop } from '@/services/hooks/use-media-query';
 import { useSession } from '@/services/session';
 
-import {
-    ownCollectionsOptions,
-    ownContentCollectionsOptions,
-} from '../queries';
+import { userCollectionsOptions } from '../queries';
 import AnimatedHeight from './animated-height';
 import CollectionPicker from './collection-picker';
 import { COLLECTION_PICKER_TITLE as TITLE } from './constants';
@@ -45,10 +42,7 @@ const AddToCollectionButton: FC<Props> = ({ content_type, slug }) => {
     const warm = () => {
         if (!user || open) return;
         void queryClient.prefetchInfiniteQuery(
-            ownContentCollectionsOptions(user.username, content_type, slug),
-        );
-        void queryClient.prefetchInfiniteQuery(
-            ownCollectionsOptions(user.username, content_type),
+            userCollectionsOptions(content_type, slug),
         );
     };
 
@@ -67,11 +61,7 @@ const AddToCollectionButton: FC<Props> = ({ content_type, slug }) => {
     );
 
     const picker = user && (
-        <CollectionPicker
-            content_type={content_type}
-            slug={slug}
-            username={user.username}
-        />
+        <CollectionPicker content_type={content_type} slug={slug} />
     );
 
     if (isDesktop) {
