@@ -2,6 +2,9 @@ import { useEffect } from 'react';
 
 type ViewportEvent = 'resize' | 'scroll';
 
+// Smaller shortfalls are zoom, a hardware keyboard's bar or iOS 26.0 keeping the viewport short after the keyboard closes.
+const KEYBOARD_MIN_HEIGHT = 150;
+
 /**
  * Mirrors a measurement of `window.visualViewport` into a CSS variable on the
  * root, throttled to one write per frame, while `enabled`.
@@ -50,11 +53,15 @@ const SCROLL_AND_RESIZE: ViewportEvent[] = ['scroll', 'resize'];
 
 const visibleHeight = (viewport: VisualViewport) => viewport.height;
 const offsetTop = (viewport: VisualViewport) => viewport.offsetTop;
-const keyboardHeight = (viewport: VisualViewport) =>
+const coveredHeight = (viewport: VisualViewport) =>
     Math.max(0, document.documentElement.clientHeight - viewport.height);
 // While zoomed (iOS zooms on focus) this also lifts docked UI to the visible bottom, keeping it in view.
 const keyboardInset = (viewport: VisualViewport) =>
-    Math.max(0, keyboardHeight(viewport) - viewport.offsetTop);
+    Math.max(0, coveredHeight(viewport) - viewport.offsetTop);
+const keyboardHeight = (viewport: VisualViewport) => {
+    const covered = coveredHeight(viewport);
+    return covered > KEYBOARD_MIN_HEIGHT ? covered : 0;
+};
 
 /**
  * Sets `--visual-viewport-height` on the root so fixed modals stay visible

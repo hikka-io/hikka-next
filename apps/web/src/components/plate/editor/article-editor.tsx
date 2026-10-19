@@ -24,7 +24,7 @@ import {
     withoutTriggerPlugins,
 } from './plugins/trigger-plugins';
 import { uploadAttachmentImage } from './upload-image';
-import { revealCaret, useCaretReveal } from './use-caret-reveal';
+import { revealSelection, useCaretReveal } from './use-caret-reveal';
 import { useEditorApi } from './use-editor-api';
 
 const TOUCH_PLACEHOLDER = 'Напишіть зміст статті...';
@@ -96,8 +96,12 @@ export function ArticlePlateEditor({
                     variant="inline"
                     scrollSelectionIntoView={
                         touch
-                            ? (_editor, range) =>
-                                  revealCaret(range, toolbarRef.current)
+                            ? (editor, range) =>
+                                  revealSelection(
+                                      editor,
+                                      range,
+                                      toolbarRef.current,
+                                  )
                             : undefined
                     }
                     placeholder={

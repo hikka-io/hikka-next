@@ -1,11 +1,11 @@
 import { type RefObject, useEffect } from 'react';
 
+import { RangeApi, type TRange } from 'platejs';
+
 const KEYBOARD_SETTLE_MS = 500;
 const CARET_MARGIN = 16;
 
-const caretRect = (range: Range) => {
-    const caret = range.cloneRange();
-    caret.collapse(false);
+const caretRect = (caret: Range) => {
     const rect = caret.getBoundingClientRect();
 
     return rect.height > 0
@@ -14,21 +14,36 @@ const caretRect = (range: Range) => {
 };
 
 /**
- * Scrolls the caret between the fixed header and the docked toolbar. Rects are measured against
- * the visible area here: iOS reports them that way while the keyboard is open, and other browsers
- * keep the visible area at the top of the layout viewport.
+ * Scrolls a collapsed caret between the fixed header and the docked toolbar. The toolbar is pinned
+ * to the visible bottom, so the visible area is measured from it, in the caret's own coordinates.
  */
-export function revealCaret(range: Range, toolbar: Element | null) {
-    const rect = caretRect(range);
-    if (!toolbar || !rect) return;
+export function revealCaret(caret: Range, toolbar: Element | null) {
+    const viewport = window.visualViewport;
+    const rect = caretRect(caret);
+    if (!viewport || !toolbar || !rect) return;
 
-    const top = Number.parseFloat(
-        getComputedStyle(document.documentElement).scrollPaddingTop,
-    );
-    const bottom = toolbar.getBoundingClientRect().top - CARET_MARGIN;
+    const toolbarRect = toolbar.getBoundingClientRect();
+    const top =
+        toolbarRect.bottom -
+        viewport.height +
+        Number.parseFloat(
+            getComputedStyle(document.documentElement).scrollPaddingTop,
+        );
+    const bottom = toolbarRect.top - CARET_MARGIN;
 
     if (rect.top < top) window.scrollBy(0, rect.top - top);
     else if (rect.bottom > bottom) window.scrollBy(0, rect.bottom - bottom);
+}
+
+/** Slate's `scrollSelectionIntoView`; like its default, it follows the focus end of the selection. */
+export function revealSelection(
+    editor: { selection: TRange | null },
+    range: Range,
+    toolbar: Element | null,
+) {
+    const focus = range.cloneRange();
+    focus.collapse(!!editor.selection && RangeApi.isBackward(editor.selection));
+    revealCaret(focus, toolbar);
 }
 
 /** iOS scrolls the page on its own while the keyboard opens, ignoring the fixed bars, so the caret is revealed again once that settles. */
@@ -40,6 +55,7 @@ export function useCaretReveal(
         const viewport = window.visualViewport;
         if (!enabled || !viewport) return;
 
+        let lastHeight = viewport.height;
         let settleUntil = 0;
         let rafId = 0;
 
@@ -47,12 +63,14 @@ export function useCaretReveal(
             rafId = 0;
             const selection = document.getSelection();
             if (
-                !selection?.rangeCount ||
+                !selection?.focusNode ||
                 !document.activeElement?.closest('[data-slate-editor]')
             ) {
                 return;
             }
-            revealCaret(selection.getRangeAt(0), toolbarRef.current);
+            const focus = document.createRange();
+            focus.setStart(selection.focusNode, selection.focusOffset);
+            revealCaret(focus, toolbarRef.current);
         };
 
         const schedule = () => {
@@ -60,6 +78,10 @@ export function useCaretReveal(
         };
 
         const onResize = () => {
+            const opening = viewport.height < lastHeight;
+            lastHeight = viewport.height;
+            if (!opening) return;
+
             settleUntil = performance.now() + KEYBOARD_SETTLE_MS;
             schedule();
         };
