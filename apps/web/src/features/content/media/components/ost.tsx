@@ -28,6 +28,7 @@ const Ost: FC<Props> = ({ extended, ost }) => {
                     href={ost.spotify || undefined}
                     title={ost.title}
                     containerRatio={1}
+                    containerClassName="ring-1 ring-border"
                     description={
                         OST[ost.ost_type].title_ua || OST[ost.ost_type].title_en
                     }

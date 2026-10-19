@@ -35,6 +35,7 @@ const Video: FC<Props> = ({ extended, videos }) => {
                     title={video.title}
                     image={parseYouTubeThumbnail(video.url)}
                     containerRatio={1.7}
+                    containerClassName="ring-1 ring-border"
                     description={
                         VIDEO[video.video_type].title_ua ||
                         VIDEO[video.video_type].title_en
