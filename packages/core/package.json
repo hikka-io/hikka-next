@@ -29,6 +29,7 @@
         "zod": "^3.25.76"
     },
     "devDependencies": {
+        "@tanstack/router-core": "^1.171.38",
         "@types/node": "^22.12.0",
         "rimraf": "^5.0.1",
         "tsup": "^8.4.0",

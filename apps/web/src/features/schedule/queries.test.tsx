@@ -4,11 +4,7 @@ import { hashKey, QueryClient } from '@tanstack/react-query';
 import { afterEach, beforeAll, describe, expect, it, vi } from 'vitest';
 
 import { configureBrowserClient, createRequestClient } from '@hikka/api';
-
-import {
-    type ScheduleSearch,
-    scheduleSearchSchema,
-} from '@/utils/search-schemas';
+import { type ScheduleSearch, scheduleSearchSchema } from '@hikka/core';
 
 import { Route } from '../../routes/_pages/schedule';
 import { scheduleOptions } from './queries';

@@ -1,8 +1,9 @@
 import { useRouter } from '@tanstack/react-router';
 
+import type { CollectionsSearch } from '@hikka/core';
+
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { useRouteSearch } from '@/utils/navigation';
-import type { CollectionsSearch } from '@/utils/search-schemas';
 
 const CollectionSort = () => {
     const router = useRouter();

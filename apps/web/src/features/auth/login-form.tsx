@@ -1,12 +1,12 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { loginMutation } from '@hikka/api';
+import type { LoginSearch } from '@hikka/core';
 
 import { SubmitButton, useAppForm } from '@/components/form';
 import { passwordSchema } from '@/utils/form-schemas';
 import { z } from '@/utils/i18n-zod';
 import { Link, useRouter, useRouteSearch } from '@/utils/navigation';
-import type { LoginSearch } from '@/utils/search-schemas';
 import { validateRedirectUrl } from '@/utils/url';
 
 import Captcha from './captcha';

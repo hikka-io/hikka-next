@@ -2,6 +2,7 @@ import type { FC } from 'react';
 
 import { Activity } from 'lucide-react';
 
+import type { ContentFilterSearch } from '@hikka/core';
 import { RELEASE_STATUS } from '@hikka/core';
 
 import {
@@ -12,7 +13,6 @@ import {
 import { BadgeFilter } from '@/components/ui/badge-filter';
 import { Label } from '@/components/ui/label';
 import { useRouteSearch } from '@/utils/navigation';
-import type { ContentFilterSearch } from '@/utils/search-schemas';
 
 import { filterPresetFormOptions } from './presets/filter-preset-form';
 import { useChangeParam } from './use-change-param';

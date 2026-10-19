@@ -5,8 +5,8 @@ import {
     paginationPageParam,
     type SeasonEnum,
 } from '@hikka/api';
+import type { ScheduleSearch } from '@hikka/core';
 
-import type { ScheduleSearch } from '@/utils/search-schemas';
 import { getCurrentSeason } from '@/utils/season';
 
 const DEFAULT_SCHEDULE_STATUS = [

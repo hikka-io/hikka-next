@@ -2,6 +2,7 @@ import { getUnixTime, startOfDay } from 'date-fns';
 import { format } from 'date-fns/format';
 
 import type { AnimeScheduleResponse } from '@hikka/api';
+import type { ScheduleSearch } from '@hikka/core';
 
 import FiltersNotFound from '@/components/filters-not-found';
 import LoadMoreButton from '@/components/load-more-button';
@@ -9,7 +10,6 @@ import Block from '@/components/ui/block';
 import { Header, HeaderTitle } from '@/components/ui/header';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { useRouteSearch } from '@/utils/navigation';
-import type { ScheduleSearch } from '@/utils/search-schemas';
 
 import { scheduleOptions } from './queries';
 import ScheduleItem from './schedule-item';

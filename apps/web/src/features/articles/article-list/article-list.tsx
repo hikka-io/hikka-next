@@ -3,6 +3,7 @@ import type { FC } from 'react';
 import { range } from '@antfu/utils';
 
 import type { ArticleCategoryEnum } from '@hikka/api';
+import type { ArticlesSearch } from '@hikka/core';
 import { ARTICLE_CATEGORY } from '@hikka/core';
 
 import FiltersNotFound from '@/components/filters-not-found';
@@ -24,7 +25,6 @@ import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { cn } from '@/utils/cn';
 import { CONTENT_TYPE_LINKS } from '@/utils/content-paths';
 import { Link, useRouteSearch } from '@/utils/navigation';
-import type { ArticlesSearch } from '@/utils/search-schemas';
 
 import { articleListOptions } from '../queries';
 import { ArticleFiltersBody } from './article-filters';

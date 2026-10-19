@@ -4,6 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { Drama } from 'lucide-react';
 
 import { type GenreTypeEnum, genresOptions } from '@hikka/api';
+import type { ContentFilterSearch } from '@hikka/core';
 import { GENRE_TYPES } from '@hikka/core';
 
 import {
@@ -25,7 +26,6 @@ import {
 } from '@/components/ui/select';
 import { useVisibleOnce } from '@/services/hooks/use-visible-once';
 import { useRouteSearch } from '@/utils/navigation';
-import type { ContentFilterSearch } from '@/utils/search-schemas';
 
 import { filterPresetFormOptions } from './presets/filter-preset-form';
 import { useChangeParam } from './use-change-param';

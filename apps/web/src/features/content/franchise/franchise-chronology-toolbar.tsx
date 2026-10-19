@@ -3,6 +3,7 @@ import type { FC } from 'react';
 import { useNavigate } from '@tanstack/react-router';
 
 import type { MainContentTypeEnum } from '@hikka/api';
+import type { FranchiseOrder } from '@hikka/core';
 import { CONTENT_TYPES } from '@hikka/core';
 
 import { CONTENT_TYPE_ICONS } from '@/components/icons/content-type-icons';
@@ -24,7 +25,6 @@ import {
 } from '@/components/ui/tooltip';
 import { cn } from '@/utils/cn';
 import { Link } from '@/utils/navigation';
-import type { FranchiseOrder } from '@/utils/search-schemas';
 
 import type { FranchiseModel } from './franchise-model';
 

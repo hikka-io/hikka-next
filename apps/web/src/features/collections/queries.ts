@@ -5,13 +5,10 @@ import {
     paginatedInfiniteOptions,
     paginationPageParam,
 } from '@hikka/api';
+import type { CollectionNewSearch, CollectionsSearch } from '@hikka/core';
 
 import { contentInfoOptions } from '@/utils/api/content-queries';
 import type { LoaderContext } from '@/utils/api/loader-prefetch';
-import type {
-    CollectionNewSearch,
-    CollectionsSearch,
-} from '@/utils/search-schemas';
 
 export const DEFAULT_COLLECTION_SORT = 'system_ranking';
 

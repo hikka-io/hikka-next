@@ -22,13 +22,13 @@ import {
     userWatchListInfiniteOptions,
     WatchStatusEnum,
 } from '@hikka/api';
+import { getOngoingsSort } from '@hikka/core';
 
 import { scheduleOptions } from '@/features/schedule/queries';
 import type { LoaderContext } from '@/utils/api/loader-prefetch';
 import { getSessionFromPagesCache } from '@/utils/auth';
 import { DEFAULT_USER_UI, mergePreferences } from '@/utils/customization';
 import { getCurrentSeason } from '@/utils/season';
-import { getOngoingsSort } from '@/utils/sort';
 
 import type { HomeCollectionsTab } from './types';
 

@@ -8,6 +8,7 @@ import {
     type ReadStatusEnum,
     type WatchStatusEnum,
 } from '@hikka/api';
+import type { AnimeSearch } from '@hikka/core';
 import { READ_STATUS, WATCH_STATUS } from '@hikka/core';
 
 import {
@@ -37,7 +38,6 @@ import {
     catalogHideListedStatuses,
 } from '@/utils/cookies';
 import { useRouteSearch } from '@/utils/navigation';
-import type { AnimeSearch } from '@/utils/search-schemas';
 
 import { filterPresetFormOptions } from './presets/filter-preset-form';
 import { useChangeParam } from './use-change-param';

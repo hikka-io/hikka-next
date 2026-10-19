@@ -14,6 +14,7 @@ import {
     type WatchStatsResponse,
     type WatchStatusEnum,
 } from '@hikka/api';
+import type { UserlistSearch } from '@hikka/core';
 import { CONTENT_TYPES, LIST_STATUS } from '@hikka/core';
 
 import FeRandom from '@/components/icons/fe/FeRandom';
@@ -43,7 +44,6 @@ import {
 } from '@/features/filters';
 import { cn } from '@/utils/cn';
 import { useParams, useRouteSearch } from '@/utils/navigation';
-import type { UserlistSearch } from '@/utils/search-schemas';
 
 import { userListStatsOptions } from '../queries';
 import { USER_LIST_FILTERS_SIDEBAR_KEY } from './filters-sidebar-key';

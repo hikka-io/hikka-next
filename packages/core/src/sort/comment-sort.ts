@@ -50,7 +50,7 @@ export function getCommentSort(sort?: string, order?: CommentOrder): string[] {
 
     if (isCommentSort(sort)) {
         field = sort;
-    } else if (sort && import.meta.env.DEV) {
+    } else if (sort && process.env.NODE_ENV !== 'production') {
         // Stale URLs should degrade quietly; bad call sites should not.
         console.warn(`[comment-sort] unknown sort "${sort}", using "${field}"`);
     }

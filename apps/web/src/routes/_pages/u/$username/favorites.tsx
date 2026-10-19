@@ -2,12 +2,12 @@ import { createFileRoute } from '@tanstack/react-router';
 import { zodValidator } from '@tanstack/zod-adapter';
 
 import { ContentTypeEnum, serviceUserStatsOptions } from '@hikka/api';
+import { favoritesSearchSchema } from '@hikka/core';
 
 import { UserFavorites } from '@/features/users';
 import { userFavouritesOptions } from '@/features/users/queries';
 import { awaitOnServer } from '@/utils/api/loader-prefetch';
 import { generateHeadMeta } from '@/utils/metadata';
-import { favoritesSearchSchema } from '@/utils/search-schemas';
 
 export const Route = createFileRoute('/_pages/u/$username/favorites')({
     validateSearch: zodValidator(favoritesSearchSchema),

@@ -1,11 +1,12 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { zodValidator } from '@tanstack/zod-adapter';
 
+import { collectionNewSearchSchema } from '@hikka/core';
+
 import { CollectionEditorPage } from '@/features/collections';
 import { loadCollectionNew } from '@/features/collections/queries';
 import { requireAuth } from '@/utils/auth';
 import { generateHeadMeta } from '@/utils/metadata';
-import { collectionNewSearchSchema } from '@/utils/search-schemas';
 
 export const Route = createFileRoute('/_pages/collections/new')({
     validateSearch: zodValidator(collectionNewSearchSchema),

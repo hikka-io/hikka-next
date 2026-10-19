@@ -4,7 +4,7 @@ import {
     type CommentOrder,
     DEFAULT_COMMENT_ORDER,
     DEFAULT_COMMENT_SORT,
-} from '@/utils/sort';
+} from '@hikka/core';
 
 /** All four go together — a half set freezes the control. */
 type ControlledCommentSort = {

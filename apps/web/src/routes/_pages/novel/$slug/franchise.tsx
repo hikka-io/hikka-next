@@ -2,11 +2,11 @@ import { createFileRoute } from '@tanstack/react-router';
 import { zodValidator } from '@tanstack/zod-adapter';
 
 import { ContentTypeEnum } from '@hikka/api';
+import { franchiseSearchSchema } from '@hikka/core';
 
 import { FranchisePage } from '@/features/content';
 import { loadContentTab } from '@/features/content/detail-route';
 import { generateHeadMeta } from '@/utils/metadata';
-import { franchiseSearchSchema } from '@/utils/search-schemas';
 
 export const Route = createFileRoute('/_pages/novel/$slug/franchise')({
     validateSearch: zodValidator(franchiseSearchSchema),

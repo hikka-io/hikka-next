@@ -1,4 +1,4 @@
-import { expandSort } from '@/utils/sort';
+import { expandSort } from '@hikka/core';
 
 import { useTodoContentList } from './use-todo-content-list';
 import { getTodoSortType, useTodoFilters } from './use-todo-filters';

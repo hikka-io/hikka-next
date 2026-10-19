@@ -38,12 +38,11 @@ import {
     userWatchListInfiniteOptions,
     type WatchStatusEnum,
 } from '@hikka/api';
-
 import {
+    expandSort,
     type UserlistSearch,
     userlistSearchSchema,
-} from '@/utils/search-schemas';
-import { expandSort } from '@/utils/sort';
+} from '@hikka/core';
 
 import { Route as LayoutRoute } from '../../routes/_pages/u/$username';
 import { Route as FavoritesRoute } from '../../routes/_pages/u/$username/favorites';

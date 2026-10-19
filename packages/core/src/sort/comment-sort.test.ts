@@ -1,7 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { commentsSearchSchema } from '@/utils/search-schemas';
-
+import { commentsSearchSchema } from '../search-schemas';
 import {
     COMMENT_SORT_OPTIONS,
     COMMENT_SORT_VALUES,

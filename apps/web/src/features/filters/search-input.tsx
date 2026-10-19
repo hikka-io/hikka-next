@@ -2,10 +2,11 @@ import { type FC, useEffect, useRef, useState } from 'react';
 
 import { useNavigate } from '@tanstack/react-router';
 
+import type { TextSearch } from '@hikka/core';
+
 import { Input } from '@/components/ui/input';
 import { DEBOUNCE_MS, useDebounce } from '@/services/hooks/use-debounce';
 import { useRouteSearch } from '@/utils/navigation';
-import type { TextSearch } from '@/utils/search-schemas';
 
 type Props = {
     placeholder: string;

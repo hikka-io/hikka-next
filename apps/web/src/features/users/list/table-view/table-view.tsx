@@ -10,6 +10,7 @@ import {
     type ReadResponse,
     type WatchResponse,
 } from '@hikka/api';
+import type { UserlistSearch } from '@hikka/core';
 
 import {
     Table,
@@ -20,7 +21,6 @@ import {
 } from '@/components/ui/table';
 import { useSession } from '@/services/session';
 import { useParams, useRouteSearch } from '@/utils/navigation';
-import type { UserlistSearch } from '@/utils/search-schemas';
 
 import { DEFAULT_PAGE_SIZE } from '../../queries';
 import DetailsCell from './details-cell';

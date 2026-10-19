@@ -1,6 +1,8 @@
 import { createFileRoute, redirect } from '@tanstack/react-router';
 import { zodValidator } from '@tanstack/zod-adapter';
 
+import { collectionsSearchSchema } from '@hikka/core';
+
 import MaterialSymbolsAddRounded from '@/components/icons/material-symbols/MaterialSymbolsAddRounded';
 import Block from '@/components/ui/block';
 import { Button } from '@/components/ui/button';
@@ -18,7 +20,6 @@ import {
 } from '@/features/collections/queries';
 import { generateHeadMeta } from '@/utils/metadata';
 import { Link } from '@/utils/navigation';
-import { collectionsSearchSchema } from '@/utils/search-schemas';
 import { SITE_ORIGIN } from '@/utils/url';
 
 export const Route = createFileRoute('/_pages/collections/')({

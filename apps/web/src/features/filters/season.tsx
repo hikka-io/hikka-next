@@ -2,6 +2,7 @@ import type { FC } from 'react';
 
 import { SunSnow } from 'lucide-react';
 
+import type { AnimeFilterSearch } from '@hikka/core';
 import { SEASON } from '@hikka/core';
 
 import {
@@ -12,7 +13,6 @@ import {
 import { BadgeFilter } from '@/components/ui/badge-filter';
 import { Label } from '@/components/ui/label';
 import { useRouteSearch } from '@/utils/navigation';
-import type { AnimeFilterSearch } from '@/utils/search-schemas';
 
 import { filterPresetFormOptions } from './presets/filter-preset-form';
 import { useChangeParam } from './use-change-param';

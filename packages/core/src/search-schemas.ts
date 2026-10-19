@@ -9,7 +9,7 @@ import {
     ReviewRecommendedEnum,
 } from '@hikka/api';
 
-import { COMMENT_SORT_VALUES } from '@/utils/sort';
+import { COMMENT_SORT_VALUES } from './sort';
 
 // Helpers: normalize URL search param values
 // TanStack Router parses ?key=a&key=b → ['a','b'] but ?key=a → 'a' (string, not array)

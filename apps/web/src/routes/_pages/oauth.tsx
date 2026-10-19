@@ -2,6 +2,7 @@ import { createFileRoute, redirect } from '@tanstack/react-router';
 import { zodValidator } from '@tanstack/zod-adapter';
 
 import { getClientByReferenceOptions } from '@hikka/api';
+import { oauthSearchSchema } from '@hikka/core';
 
 import {
     OAuthClient,
@@ -10,7 +11,6 @@ import {
     OAuthProfile,
 } from '@/features/oauth';
 import { generateHeadMeta } from '@/utils/metadata';
-import { oauthSearchSchema } from '@/utils/search-schemas';
 
 export const Route = createFileRoute('/_pages/oauth')({
     staticData: { headerless: true },

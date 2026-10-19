@@ -2,6 +2,7 @@ import { createFileRoute, redirect } from '@tanstack/react-router';
 import { zodValidator } from '@tanstack/zod-adapter';
 
 import { editsTopInfiniteOptions, paginationPageParam } from '@hikka/api';
+import { editSearchSchema } from '@hikka/core';
 
 import AntDesignFilterFilled from '@/components/icons/ant-design/AntDesignFilterFilled';
 import Block from '@/components/ui/block';
@@ -17,7 +18,6 @@ import {
 import { editListOptions } from '@/features/edit/queries';
 import { FiltersModal, FiltersSidebarLayout } from '@/features/filters';
 import { generateHeadMeta } from '@/utils/metadata';
-import { editSearchSchema } from '@/utils/search-schemas';
 import { SITE_ORIGIN } from '@/utils/url';
 
 export const Route = createFileRoute('/_pages/edit/')({

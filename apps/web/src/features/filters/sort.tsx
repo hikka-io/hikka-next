@@ -3,6 +3,9 @@ import type { FC } from 'react';
 import { useStore } from '@tanstack/react-form';
 import { ArrowDownWideNarrow } from 'lucide-react';
 
+import type { SortOrderSearch } from '@hikka/core';
+import { getSort, type SortType } from '@hikka/core';
+
 import {
     SelectField,
     type SelectFieldProps,
@@ -27,8 +30,6 @@ import {
 } from '@/components/ui/tooltip';
 import { cn } from '@/utils/cn';
 import { useRouteSearch } from '@/utils/navigation';
-import type { SortOrderSearch } from '@/utils/search-schemas';
-import { getSort, type SortType } from '@/utils/sort';
 
 import { filterPresetFormOptions } from './presets/filter-preset-form';
 import { useChangeParam } from './use-change-param';

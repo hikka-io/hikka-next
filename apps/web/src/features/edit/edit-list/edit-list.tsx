@@ -1,12 +1,13 @@
 import type { FC } from 'react';
 
+import type { EditSearch } from '@hikka/core';
+
 import FiltersNotFound from '@/components/filters-not-found';
 import PagePagination from '@/components/page-pagination';
 import Block from '@/components/ui/block';
 import { Table, TableBody } from '@/components/ui/table';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { useRouteSearch } from '@/utils/navigation';
-import type { EditSearch } from '@/utils/search-schemas';
 
 import { editListOptions } from '../queries';
 import EditHead from './components/edit-head';
