@@ -10,7 +10,10 @@ import { FixedToolbar } from '@/components/plate/ui/fixed-toolbar';
 import { FloatingArticleToolbarButtons } from '@/components/plate/ui/floating-article-toolbar-buttons';
 import { FloatingToolbar } from '@/components/plate/ui/floating-toolbar';
 import { VideoDialogProvider } from '@/components/plate/ui/video-dialog';
-import { useVisualViewportOffset } from '@/services/hooks/use-visual-viewport';
+import {
+    useKeyboardInset,
+    useVisualViewportOffset,
+} from '@/services/hooks/use-visual-viewport';
 import { cn } from '@/utils/cn';
 
 import { ArticleKit } from './article-kit';
@@ -70,6 +73,7 @@ export function ArticlePlateEditor({
 
     const toolbarRef = useRef<HTMLDivElement>(null);
 
+    useKeyboardInset(touch);
     useVisualViewportOffset(touch);
     useCaretReveal(toolbarRef, touch);
 
@@ -85,18 +89,9 @@ export function ArticlePlateEditor({
         >
             <EditorContainer
                 variant="inline"
-                // iOS caps the scroll as if its keyboard bar were not there, so the last lines need room to clear it.
-                className={cn(touch && 'pb-32', className)}
+                // Room for the docked toolbar; iOS also caps the scroll as if its keyboard bar were not there.
+                className={cn(touch && 'pb-40', className)}
             >
-                {touch && (
-                    <FixedToolbar
-                        ref={toolbarRef}
-                        variant="top"
-                        className="-mx-4 w-auto self-stretch rounded-none bg-background/80 px-2"
-                    >
-                        <FixedArticleToolbarButtons />
-                    </FixedToolbar>
-                )}
                 <Editor
                     variant="inline"
                     scrollSelectionIntoView={
@@ -109,7 +104,11 @@ export function ArticlePlateEditor({
                         touch ? TOUCH_PLACEHOLDER : ARTICLE_BLOCK_PLACEHOLDER
                     }
                 />
-                {!touch && (
+                {touch ? (
+                    <FixedToolbar ref={toolbarRef} variant="docked">
+                        <FixedArticleToolbarButtons />
+                    </FixedToolbar>
+                ) : (
                     <FloatingToolbar>
                         <FloatingArticleToolbarButtons />
                     </FloatingToolbar>

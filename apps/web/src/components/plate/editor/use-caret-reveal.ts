@@ -14,23 +14,24 @@ const caretRect = (range: Range) => {
 };
 
 /**
- * Scrolls the caret below the sticky toolbar and above the keyboard. Rects are measured against
+ * Scrolls the caret between the fixed header and the docked toolbar. Rects are measured against
  * the visible area here: iOS reports them that way while the keyboard is open, and other browsers
  * keep the visible area at the top of the layout viewport.
  */
 export function revealCaret(range: Range, toolbar: Element | null) {
-    const viewport = window.visualViewport;
     const rect = caretRect(range);
-    if (!viewport || !toolbar || !rect) return;
+    if (!toolbar || !rect) return;
 
-    const top = toolbar.getBoundingClientRect().bottom + CARET_MARGIN;
-    const bottom = viewport.height - CARET_MARGIN;
+    const top = Number.parseFloat(
+        getComputedStyle(document.documentElement).scrollPaddingTop,
+    );
+    const bottom = toolbar.getBoundingClientRect().top - CARET_MARGIN;
 
     if (rect.top < top) window.scrollBy(0, rect.top - top);
     else if (rect.bottom > bottom) window.scrollBy(0, rect.bottom - bottom);
 }
 
-/** iOS scrolls the page on its own while the keyboard opens, ignoring the sticky bars, so the caret is revealed again once that settles. */
+/** iOS scrolls the page on its own while the keyboard opens, ignoring the fixed bars, so the caret is revealed again once that settles. */
 export function useCaretReveal(
     toolbarRef: RefObject<HTMLElement | null>,
     enabled: boolean,

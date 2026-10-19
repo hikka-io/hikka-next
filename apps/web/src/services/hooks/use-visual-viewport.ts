@@ -50,6 +50,11 @@ const SCROLL_AND_RESIZE: ViewportEvent[] = ['scroll', 'resize'];
 
 const visibleHeight = (viewport: VisualViewport) => viewport.height;
 const offsetTop = (viewport: VisualViewport) => viewport.offsetTop;
+const keyboardHeight = (viewport: VisualViewport) =>
+    Math.max(0, document.documentElement.clientHeight - viewport.height);
+// While zoomed (iOS zooms on focus) this also lifts docked UI to the visible bottom, keeping it in view.
+const keyboardInset = (viewport: VisualViewport) =>
+    Math.max(0, keyboardHeight(viewport) - viewport.offsetTop);
 
 /**
  * Sets `--visual-viewport-height` on the root so fixed modals stay visible
@@ -72,4 +77,20 @@ export function useVisualViewportOffset(enabled: boolean) {
         SCROLL_AND_RESIZE,
         enabled,
     );
+}
+
+/**
+ * Sets `--keyboard-inset` on the root: how much of the layout viewport the
+ * on-screen keyboard covers, for UI docked above it, and `--keyboard-height`,
+ * which is 0 while the keyboard is closed. Usage:
+ * `bottom: var(--keyboard-inset, 0px)`.
+ */
+export function useKeyboardInset(enabled: boolean) {
+    useViewportVar(
+        '--keyboard-inset',
+        keyboardInset,
+        SCROLL_AND_RESIZE,
+        enabled,
+    );
+    useViewportVar('--keyboard-height', keyboardHeight, RESIZE, enabled);
 }
