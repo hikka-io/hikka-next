@@ -32,7 +32,7 @@ import {
 } from '@/components/ui/select';
 import Spinner from '@/components/ui/spinner';
 import { listEntryOptions } from '@/utils/api/content-queries';
-import { z } from '@/utils/i18n/zod';
+import { z } from '@/utils/i18n-zod';
 import { getTitle } from '@/utils/title/get-title';
 
 import { StatusIconChip } from './status-options';

@@ -4,12 +4,15 @@ import { useQuery } from '@tanstack/react-query';
 import { format } from 'date-fns';
 
 import { serviceUserActivityOptions } from '@hikka/api';
+import {
+    APP_LOCALE_TAG,
+    DAY_FORMS,
+    getDeclensionWord,
+    type WordForms,
+} from '@hikka/core';
 
 import { Tooltip, TooltipContent } from '@/components/ui/tooltip';
 import { cn } from '@/utils/cn';
-import { getDeclensionWord, type WordForms } from '@/utils/i18n/declension';
-import { APP_LOCALE_TAG } from '@/utils/i18n/locale';
-import { DAY_FORMS } from '@/utils/i18n/word-forms';
 import { useParams } from '@/utils/navigation';
 
 import { type ActivityDay, buildActivityGrid } from './activity-grid';

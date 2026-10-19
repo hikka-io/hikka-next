@@ -5,7 +5,7 @@ import { passwordResetMutation } from '@hikka/api';
 
 import { SubmitButton, useAppForm } from '@/components/form';
 import { matchFields, passwordSchema } from '@/utils/form-schemas';
-import { z } from '@/utils/i18n/zod';
+import { z } from '@/utils/i18n-zod';
 import { useParams, useRouter } from '@/utils/navigation';
 
 import { handleAuthSuccess } from './handle-auth-success';

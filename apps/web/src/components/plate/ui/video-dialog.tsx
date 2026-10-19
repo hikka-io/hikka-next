@@ -9,7 +9,7 @@ import {
     ResponsiveModalContent,
     ResponsiveModalFooter,
 } from '@/components/ui/responsive-modal';
-import { z } from '@/utils/i18n/zod';
+import { z } from '@/utils/i18n-zod';
 import { isYouTubeVideoUrl, normalizeYouTubeVideoUrl } from '@/utils/youtube';
 
 import { VideoPlugin } from '../editor/plugins/video-kit';

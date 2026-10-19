@@ -6,7 +6,7 @@ import { changeEmailMutation } from '@hikka/api';
 import { SubmitButton, useAppForm } from '@/components/form';
 import { invalidateSession } from '@/utils/api/invalidate-content-state';
 import { emailSchema, matchFields } from '@/utils/form-schemas';
-import { z } from '@/utils/i18n/zod';
+import { z } from '@/utils/i18n-zod';
 
 const formSchema = z
     .object({

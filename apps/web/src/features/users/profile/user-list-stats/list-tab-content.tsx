@@ -10,7 +10,13 @@ import {
     type UserWatchStatsResponse,
     WatchStatusEnum,
 } from '@hikka/api';
-import { LIST_STATUS } from '@hikka/core';
+import {
+    DAY_FORMS,
+    getDeclensionWord,
+    HOUR_FORMS,
+    LIST_STATUS,
+    MONTH_FORMS,
+} from '@hikka/core';
 
 import { MaterialSymbolsClockLoader10 } from '@/components/icons/material-symbols/MaterialSymbolsClockLoader10';
 import BlockFooter from '@/components/ui/block-footer';
@@ -23,8 +29,6 @@ import {
     TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { cn } from '@/utils/cn';
-import { getDeclensionWord } from '@/utils/i18n/declension';
-import { DAY_FORMS, HOUR_FORMS, MONTH_FORMS } from '@/utils/i18n/word-forms';
 import { Link } from '@/utils/navigation';
 
 import { userListStatsOptions } from '../../queries';

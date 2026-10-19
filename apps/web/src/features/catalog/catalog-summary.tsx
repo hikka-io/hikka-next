@@ -1,9 +1,10 @@
 import type { FC } from 'react';
 
+import { APP_LOCALE_TAG } from '@hikka/core';
+
 import { Skeleton } from '@/components/ui/skeleton';
 import { ActiveFilters, useActiveFilters } from '@/features/filters';
 import { cn } from '@/utils/cn';
-import { APP_LOCALE_TAG } from '@/utils/i18n/locale';
 
 type Props = {
     total?: number;

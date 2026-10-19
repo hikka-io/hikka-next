@@ -1,6 +1,7 @@
 import { type FC, useState } from 'react';
 
 import type { UserLinkResponse } from '@hikka/api';
+import { getDeclensionWord, LINK_FORMS } from '@hikka/core';
 
 import MaterialSymbolsOpenInNewRounded from '@/components/icons/material-symbols/MaterialSymbolsOpenInNewRounded';
 import { buttonVariants } from '@/components/ui/button';
@@ -19,8 +20,6 @@ import {
 import UserLinkSummary from '@/components/user-link-summary';
 import { useIsDesktop } from '@/services/hooks/use-media-query';
 import { cn } from '@/utils/cn';
-import { getDeclensionWord } from '@/utils/i18n/declension';
-import { LINK_FORMS } from '@/utils/i18n/word-forms';
 import { USER_LINK_REL } from '@/utils/user-links';
 
 import UserLinksStack from './user-links-stack';

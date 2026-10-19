@@ -1,9 +1,10 @@
 import type { FC, PropsWithChildren } from 'react';
 
+import { applyDefaultLocale } from '@hikka/core';
+
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { EffectsManager } from '@/features/effects';
 import ThemeProvider from '@/services/theme-provider';
-import { applyDefaultLocale } from '@/utils/i18n/locale';
 
 import UIStylesSyncer from './ui-styles-syncer';
 import VisualViewportSyncer from './visual-viewport-syncer';

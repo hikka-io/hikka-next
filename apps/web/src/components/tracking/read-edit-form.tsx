@@ -32,7 +32,7 @@ import {
 import Spinner from '@/components/ui/spinner';
 import { listEntryOptions } from '@/utils/api/content-queries';
 import { cn } from '@/utils/cn';
-import { z } from '@/utils/i18n/zod';
+import { z } from '@/utils/i18n-zod';
 import { getTitle } from '@/utils/title/get-title';
 
 import { useAddRead, useDeleteRead } from './use-tracking-mutations';
