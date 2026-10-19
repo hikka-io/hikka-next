@@ -1,7 +1,5 @@
 import type { OklchColor, UiStylesOutput } from '@hikka/api';
-
-import { isValidOklch, oklchToCss } from './color';
-import { DEFAULT_STYLES } from './defaults';
+import { DEFAULT_STYLES, isValidOklch, oklchToCss } from '@hikka/core';
 
 export const BACKDROP_ATTR = 'data-backdrop';
 

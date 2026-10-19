@@ -10,9 +10,9 @@ import {
     type UserCustomizationResponse,
 } from '@hikka/api';
 import type { NameLanguage, TitleLanguage } from '@hikka/core';
+import { DEFAULT_USER_UI } from '@hikka/core';
 
 import {
-    DEFAULT_USER_UI,
     getActiveEventTheme,
     mergeEffects,
     mergePreferences,

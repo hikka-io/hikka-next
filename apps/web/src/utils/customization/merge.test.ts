@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'vitest';
 
 import type { UiStylesOutput } from '@hikka/api';
+import { DEFAULT_STYLES } from '@hikka/core';
 
-import { DEFAULT_STYLES } from './defaults';
 import { diffStyles, mergeStyles } from './merge';
 
 describe('diffStyles', () => {

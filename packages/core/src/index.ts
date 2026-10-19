@@ -1,5 +1,6 @@
 export * from './api-error-message';
 export * from './content-paths';
+export * from './customization-defaults';
 export * from './get-content-title';
 export * from './get-title';
 export * from './i18n';
@@ -8,6 +9,7 @@ export * from './markdown';
 export * from './mentions';
 export * from './mutation-meta';
 export * from './new-id';
+export * from './oklch';
 export * from './patch-embedded';
 export * from './query-id';
 export * from './search-schemas';

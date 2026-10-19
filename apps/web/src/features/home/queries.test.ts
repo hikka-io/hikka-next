@@ -37,10 +37,13 @@ import {
     type UiFeedSettingsOutput,
     type UserCustomizationResponse,
 } from '@hikka/api';
-import { getCurrentSeason, getOngoingsSort } from '@hikka/core';
+import {
+    DEFAULT_USER_UI,
+    getCurrentSeason,
+    getOngoingsSort,
+} from '@hikka/core';
 
 import { scheduleOptions } from '@/features/schedule/queries';
-import { DEFAULT_USER_UI } from '@/utils/customization';
 
 import { Route as HomeRoute } from '../../routes/_pages/index';
 import {

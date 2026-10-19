@@ -9,9 +9,10 @@ import {
     type UserCustomizationArgs,
     type UserCustomizationResponse,
 } from '@hikka/api';
+import { DEFAULT_USER_UI } from '@hikka/core';
 
 import { writeSessionUI } from '@/utils/api/invalidate-content-state';
-import { DEFAULT_USER_UI, diffStyles } from '@/utils/customization';
+import { diffStyles } from '@/utils/customization';
 
 type SessionUIPatch = {
     styles?: UserCustomizationResponse['styles'];
