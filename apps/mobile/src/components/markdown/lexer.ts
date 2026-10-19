@@ -5,25 +5,24 @@ import { mentionInline } from './mentions';
 
 const none = () => undefined;
 
-// Same dialect as the web viewer: no code, tables or bare-url autolinks, `~~` only.
+// Same dialect as the web viewer: no GFM (no tables, task lists or bare-url autolinks), no code, raw HTML as text, `~~` only.
 const marked = new Marked({
-    gfm: true,
+    gfm: false,
     breaks: false,
     extensions: [directiveBlock, spoilerInline, strikethrough, mentionInline],
     tokenizer: {
         code: none,
         fences: none,
         codespan: none,
-        table: none,
-        del: none,
-        url: none,
+        html: none,
+        tag: none,
     },
 });
 
 // Marked splits text at its own boundaries, so the previous character is only known here.
 const BOUNDARY: Record<string, RegExp> = {
     mention: /\s/,
-    spoiler: /[^A-Za-z0-9]/,
+    spoiler: /[^:]/,
 };
 
 const demoteMisplaced = (tokens: Token[]) => {

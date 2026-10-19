@@ -109,12 +109,46 @@ describe('inline spoiler', () => {
         ['::note[leaf]', '::note[leaf]'],
         ['no label :spoiler[] here', 'no label :spoiler[] here'],
         ['unclosed :spoiler[x', 'unclosed :spoiler[x'],
-        ['word:spoiler[x]', 'word:spoiler[x]'],
+        ['a::spoiler[x]', 'a::spoiler[x]'],
     ])('keeps %j as text', (source, expected) => {
         const tokens = inline(source);
 
         expect(tokens.some((token) => token.type === 'spoiler')).toBe(false);
         expect(plainText(tokens)).toBe(expected);
+    });
+});
+
+describe('spoiler boundary', () => {
+    it('hides a spoiler directly after a word or digit, like the web', () => {
+        expect(types(inline('Серія 12:spoiler[Рем помирає]'))).toContain(
+            'spoiler',
+        );
+        expect(types(inline('word:spoiler[x]'))).toContain('spoiler');
+    });
+
+    it('rejects a spoiler right after a colon', () => {
+        expect(types(inline('a::spoiler[x]'))).not.toContain('spoiler');
+    });
+});
+
+describe('pathological input', () => {
+    const fast = (source: string) => {
+        const started = performance.now();
+
+        lexMarkdown(source);
+
+        return performance.now() - started;
+    };
+
+    it('lexes a padded container opener quickly', () => {
+        expect(fast(`:::spoiler${' '.repeat(2000)}x`)).toBeLessThan(50);
+        expect(fast(`:::spoiler[a]${' \t'.repeat(1000)}x`)).toBeLessThan(50);
+    });
+
+    it('lexes repeated openers and tildes quickly', () => {
+        expect(fast(':::spoiler\n'.repeat(180))).toBeLessThan(200);
+        expect(fast('~~a '.repeat(500))).toBeLessThan(200);
+        expect(fast(':spoiler['.repeat(250))).toBeLessThan(200);
     });
 });
 
@@ -155,6 +189,45 @@ describe('web dialect', () => {
         const tokens = inline('see https://hikka.io/anime/x now');
 
         expect(types(tokens)).not.toContain('link');
+    });
+
+    it.each([
+        ['an inline tag', 'a <b>bold</b> b', 'a <b>bold</b> b'],
+        ['a block tag', '<div>box</div>', '<div>box</div>'],
+        [
+            'a link tag',
+            '<a href="https://x.y">x</a> @olexh',
+            '<a href="https://x.y">x</a> @olexh',
+        ],
+        ['a comment', 'a <!-- note --> b', 'a <!-- note --> b'],
+    ])('shows %s as literal text', (_, source, expected) => {
+        const tokens = visible(lexMarkdown(source));
+        const flat = plainText(tokens.flatMap((t: any) => t.tokens ?? [t]));
+
+        expect(flat).toBe(expected);
+    });
+
+    it('still reads a mention after a literal tag', () => {
+        expect(types(inline('<a href="x"> @olexh'))).toContain('mention');
+    });
+
+    it('keeps task list markers literal', () => {
+        const [list] = visible(lexMarkdown('- [x] done\n- [ ] todo')) as any[];
+
+        expect(list.items.map((item: any) => item.task)).toEqual([
+            false,
+            false,
+        ]);
+        expect(
+            plainText(
+                list.items[0].tokens.flatMap((t: any) => t.tokens ?? [t]),
+            ),
+        ).toBe('[x] done');
+        expect(
+            plainText(
+                list.items[1].tokens.flatMap((t: any) => t.tokens ?? [t]),
+            ),
+        ).toBe('[ ] todo');
     });
 
     it('keeps table syntax as text', () => {

@@ -14,7 +14,7 @@ export type SpoilerToken = {
 };
 
 const OPEN =
-    /^(:{3,})[ \t]*([A-Za-z][\w-]*)[ \t]*(?:\[[^\]\n]*\])?[ \t]*(?:\{[^}\n]*\})?[ \t]*(?:\n|$)/;
+    /^(:{3,})[ \t]*([A-Za-z][\w-]*)(?:\[[^\]\n]*\])?(?:\{[^}\n]*\})?[ \t]*(?:\n|$)/;
 
 const closesContainer = (line: string, colons: number) => {
     const match = /^[ \t]{0,3}(:+)[ \t]*$/.exec(line);
