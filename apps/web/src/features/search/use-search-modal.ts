@@ -1,8 +1,8 @@
 import { type Dispatch, type SetStateAction, useEffect } from 'react';
 
 import { type AnimeResponse, ContentTypeEnum } from '@hikka/api';
+import { CONTENT_TYPE_LINKS } from '@hikka/core';
 
-import { CONTENT_TYPE_LINKS } from '@/utils/content-paths';
 import { usePathname } from '@/utils/navigation';
 
 import type { SearchTypeValue } from './types';

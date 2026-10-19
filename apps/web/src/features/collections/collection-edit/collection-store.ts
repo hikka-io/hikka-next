@@ -9,8 +9,7 @@ import {
     CollectionVisibilityEnum,
     ContentTypeEnum,
 } from '@hikka/api';
-
-import { newId } from '@/utils/new-id';
+import { newId } from '@hikka/core';
 
 // `@hikka/api` has no single `CollectionContent` alias; the per-item content
 // union (with `slug`/`title`) lives on `CollectionContentResponse['content']`.

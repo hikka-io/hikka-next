@@ -1,6 +1,7 @@
 import type { FC } from 'react';
 
 import { ContentTypeEnum } from '@hikka/api';
+import { contentPath } from '@hikka/core';
 
 import MaterialSymbolsVisibilityOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsVisibilityOutlineRounded';
 import { Button } from '@/components/ui/button';
@@ -9,7 +10,6 @@ import {
     TooltipContent,
     TooltipTrigger,
 } from '@/components/ui/tooltip';
-import { contentPath } from '@/utils/content-paths';
 import { Link } from '@/utils/navigation';
 
 import { useArticleContext } from '../article-provider';

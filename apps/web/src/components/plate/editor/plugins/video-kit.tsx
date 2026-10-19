@@ -1,8 +1,9 @@
 import { KEYS, PathApi } from 'platejs';
 import { createPlatePlugin } from 'platejs/react';
 
+import { normalizeYouTubeVideoUrl } from '@hikka/core';
+
 import { VideoElement } from '@/components/plate/ui/video-node';
-import { normalizeYouTubeVideoUrl } from '@/utils/youtube';
 
 import { ELEMENT_VIDEO } from '../plate-types';
 import { insertBlockAtSelection } from '../transforms';

@@ -1,6 +1,7 @@
 import type { FC, ReactNode } from 'react';
 
 import { type CommentContentTypeEnum, ContentTypeEnum } from '@hikka/api';
+import { contentPath } from '@hikka/core';
 
 import PosterCard from '@/components/content-card/poster-card';
 import { MaterialSymbolsChevronRightRounded } from '@/components/icons/material-symbols/MaterialSymbolsChevronRightRounded';
@@ -10,7 +11,6 @@ import { Header, HeaderActions, HeaderTitle } from '@/components/ui/header';
 import TextLink from '@/components/ui/text-link';
 import { usePageTitleAnchor } from '@/features/app-shell';
 import { cn } from '@/utils/cn';
-import { contentPath } from '@/utils/content-paths';
 import { findCurrentNavRoute, usePathname } from '@/utils/navigation';
 
 import { contentNavRoutes, hasContentNav } from './content-nav-routes';

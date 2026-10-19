@@ -1,6 +1,5 @@
 import type { CollectionArgs, CollectionResponse } from '@hikka/api';
-
-import { newId } from '@/utils/new-id';
+import { newId } from '@hikka/core';
 
 import {
     type CollectionStore,

@@ -1,10 +1,10 @@
 import { type FC, type PropsWithChildren, useMemo } from 'react';
 
 import { ContentTypeEnum } from '@hikka/api';
+import { CONTENT_TYPE_LINKS } from '@hikka/core';
 
 import { usePageHeader } from '@/features/app-shell';
 import { useSessionUI } from '@/services/session';
-import { CONTENT_TYPE_LINKS } from '@/utils/content-paths';
 import { usePathname } from '@/utils/navigation';
 
 import ContentActionBar from './content-action-bar';

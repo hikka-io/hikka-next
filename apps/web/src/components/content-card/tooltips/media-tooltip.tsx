@@ -12,7 +12,7 @@ import {
     type ReadResponseBase,
     type WatchResponseBase,
 } from '@hikka/api';
-import { getMediaTypeLabel } from '@hikka/core';
+import { CONTENT_TYPE_LINKS, getMediaTypeLabel } from '@hikka/core';
 
 import {
     ReadListButton,
@@ -21,7 +21,6 @@ import {
 } from '@/components/tracking';
 import { useSession, useTitle } from '@/services/session';
 import { contentInfoOptions } from '@/utils/api/content-queries';
-import { CONTENT_TYPE_LINKS } from '@/utils/content-paths';
 
 import HoverCardWrapper from './hover-card-wrapper';
 import MediaTooltipContent, {

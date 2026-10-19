@@ -1,8 +1,9 @@
 import { type FC, useEffect, useState } from 'react';
 
+import { POSITIVE_INTEGER_PATTERN } from '@hikka/core';
+
 import { Input } from '@/components/ui/input';
 import { cn } from '@/utils/cn';
-import { POSITIVE_INTEGER_PATTERN } from '@/utils/text';
 
 import { YEAR_RANGE, YEARS } from '../filter-ranges';
 

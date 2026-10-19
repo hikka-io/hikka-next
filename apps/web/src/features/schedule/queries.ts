@@ -6,8 +6,7 @@ import {
     type SeasonEnum,
 } from '@hikka/api';
 import type { ScheduleSearch } from '@hikka/core';
-
-import { getCurrentSeason } from '@/utils/season';
+import { getCurrentSeason } from '@hikka/core';
 
 const DEFAULT_SCHEDULE_STATUS = [
     AnimeStatusEnum.ONGOING,

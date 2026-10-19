@@ -3,14 +3,13 @@ import type { FC } from 'react';
 import { ArrowBigUp, Eye, MessageCircle } from 'lucide-react';
 
 import type { ArticleCategoryEnum, ArticlePreviewResponse } from '@hikka/api';
-import { ARTICLE_CATEGORY } from '@hikka/core';
+import { ARTICLE_CATEGORY, CONTENT_TYPE_LINKS } from '@hikka/core';
 
 import RelativeTime from '@/components/relative-time';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { StatItem, StatItemGroup } from '@/components/ui/stat-item';
 import { cn } from '@/utils/cn';
-import { CONTENT_TYPE_LINKS } from '@/utils/content-paths';
 import { Link } from '@/utils/navigation';
 
 type Props = {

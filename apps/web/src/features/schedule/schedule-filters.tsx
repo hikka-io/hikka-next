@@ -3,7 +3,7 @@ import type { FC } from 'react';
 import { range } from '@antfu/utils';
 import { useRouter } from '@tanstack/react-router';
 
-import { RELEASE_STATUS, SEASON } from '@hikka/core';
+import { getCurrentSeason, RELEASE_STATUS, SEASON } from '@hikka/core';
 
 import { Label } from '@/components/ui/label';
 import {
@@ -20,7 +20,6 @@ import { ClearFiltersFooter } from '@/features/filters';
 import { useSession } from '@/services/session';
 import { cn } from '@/utils/cn';
 import { useRouteSearch } from '@/utils/navigation';
-import { getCurrentSeason } from '@/utils/season';
 
 const YEARS = range(2023, new Date().getFullYear() + 1).reverse();
 

@@ -1,6 +1,7 @@
 import type { FC, PropsWithChildren, ReactElement, ReactNode } from 'react';
 
 import { ContentTypeEnum, type MainContentTypeEnum } from '@hikka/api';
+import { CONTENT_TYPE_LINKS } from '@hikka/core';
 
 import {
     CharacterTooltip,
@@ -22,7 +23,6 @@ import {
 } from '@/components/ui/alert-dialog';
 import { useSession } from '@/services/session';
 import { cn } from '@/utils/cn';
-import { CONTENT_TYPE_LINKS } from '@/utils/content-paths';
 import { Link as TanstackLink } from '@/utils/navigation';
 import { SITE_ORIGIN } from '@/utils/url';
 

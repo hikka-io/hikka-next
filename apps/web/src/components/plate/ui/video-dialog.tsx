@@ -2,6 +2,8 @@ import { type FC, useCallback, useEffect, useState } from 'react';
 
 import { useEditorRef } from 'platejs/react';
 
+import { isYouTubeVideoUrl, normalizeYouTubeVideoUrl } from '@hikka/core';
+
 import { useAppForm } from '@/components/form';
 import { Button } from '@/components/ui/button';
 import {
@@ -10,7 +12,6 @@ import {
     ResponsiveModalFooter,
 } from '@/components/ui/responsive-modal';
 import { z } from '@/utils/i18n-zod';
-import { isYouTubeVideoUrl, normalizeYouTubeVideoUrl } from '@/utils/youtube';
 
 import { VideoPlugin } from '../editor/plugins/video-kit';
 

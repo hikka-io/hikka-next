@@ -1004,13 +1004,9 @@
                 "apps/web/src/utils/auth/**",
                 "apps/web/src/utils/cookies/**",
                 "apps/web/src/utils/customization/**",
-                "apps/web/src/utils/content-paths.ts",
                 "apps/web/src/utils/is-server.ts",
-                "apps/web/src/utils/markdown.ts",
                 "apps/web/src/utils/metadata.ts",
-                "apps/web/src/utils/text.ts",
-                "apps/web/src/utils/url.ts",
-                "apps/web/src/utils/season.ts"
+                "apps/web/src/utils/url.ts"
             ],
             "linter": {
                 "rules": {

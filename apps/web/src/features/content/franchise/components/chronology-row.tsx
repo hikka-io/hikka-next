@@ -1,6 +1,6 @@
 import type { FC, ReactNode } from 'react';
 
-import { CONTENT_TYPES } from '@hikka/core';
+import { CONTENT_TYPES, contentPath } from '@hikka/core';
 
 import { CONTENT_TYPE_ICONS } from '@/components/icons/content-type-icons';
 import {
@@ -12,7 +12,6 @@ import { labelVariants } from '@/components/ui/label';
 import TextLink from '@/components/ui/text-link';
 import { useTitle } from '@/services/session';
 import { cn } from '@/utils/cn';
-import { contentPath } from '@/utils/content-paths';
 
 import type { FranchiseNode } from '../franchise-model';
 import { RELATION_GROUP_STYLES } from '../relation-groups';

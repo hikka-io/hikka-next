@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 
 import { ContentTypeEnum, type EditContentTypeEnum } from '@hikka/api';
-import { CONTENT_TYPES } from '@hikka/core';
+import { CONTENT_TYPES, contentPath } from '@hikka/core';
 
 import {
     HorizontalCard,
@@ -12,7 +12,6 @@ import {
 } from '@/components/horizontal-card';
 import MaterialSymbolsCalendarClockRounded from '@/components/icons/material-symbols/MaterialSymbolsCalendarClockRounded';
 import MaterialSymbolsCategoryOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsCategoryOutlineRounded';
-import { contentPath } from '@/utils/content-paths';
 
 import type { EditMainContent } from '../types';
 

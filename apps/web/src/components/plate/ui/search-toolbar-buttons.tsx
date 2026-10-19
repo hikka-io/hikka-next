@@ -4,11 +4,10 @@ import { AtSignIcon, SearchIcon } from 'lucide-react';
 import { useEditorRef } from 'platejs/react';
 
 import { ContentTypeEnum, type UserResponse } from '@hikka/api';
-import { getTitle } from '@hikka/core';
+import { CONTENT_TYPE_LINKS, getTitle } from '@hikka/core';
 
 import { type SearchContent, SearchModal } from '@/features/search';
 import { useSessionUI } from '@/services/session';
-import { CONTENT_TYPE_LINKS } from '@/utils/content-paths';
 
 import {
     insertContentLink,

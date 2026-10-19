@@ -2,6 +2,8 @@ import { type FC, useState } from 'react';
 
 import { ArrowUpRight, Crosshair, X } from 'lucide-react';
 
+import { contentPath } from '@hikka/core';
+
 import { HistoryFacts, historyRowsVariants } from '@/components/list-items';
 import { Collapsible } from '@/components/ui/collapsible';
 import { labelVariants } from '@/components/ui/label';
@@ -9,7 +11,6 @@ import { Separator } from '@/components/ui/separator';
 import TextLink from '@/components/ui/text-link';
 import { useTitle } from '@/services/session';
 import { cn } from '@/utils/cn';
-import { contentPath } from '@/utils/content-paths';
 import { Link } from '@/utils/navigation';
 
 import ChronologyRow from '../components/chronology-row';

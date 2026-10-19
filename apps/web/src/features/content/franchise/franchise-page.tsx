@@ -4,13 +4,13 @@ import { Share2 } from 'lucide-react';
 
 import type { MainContentTypeEnum } from '@hikka/api';
 import type { FranchiseOrder, FranchiseView } from '@hikka/core';
+import { contentPath } from '@hikka/core';
 
 import { HistoryTimelineSkeleton } from '@/components/list-items';
 import Block from '@/components/ui/block';
 import { Button } from '@/components/ui/button';
 import { type ChipTabOption, ChipTabs } from '@/components/ui/chip-tabs';
 import EmptyState from '@/components/ui/empty-state';
-import { contentPath } from '@/utils/content-paths';
 
 import ContentSubpage from '../content-subpage';
 import FranchiseChronology from './franchise-chronology';

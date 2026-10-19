@@ -12,6 +12,7 @@ import {
 import {
     type CommentOrder,
     commentsSearchSchema,
+    contentPath,
     DEFAULT_COMMENT_ORDER,
     DEFAULT_COMMENT_SORT,
     getContentTitle,
@@ -41,7 +42,6 @@ import {
     contentInfoOptions,
     isContentInfoType,
 } from '@/utils/api/content-queries';
-import { contentPath } from '@/utils/content-paths';
 import { generateHeadMeta } from '@/utils/metadata';
 
 export const Route = createFileRoute('/_pages/comments/$content_type/$slug/')({

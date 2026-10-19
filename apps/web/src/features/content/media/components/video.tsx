@@ -1,11 +1,10 @@
 import type { FC } from 'react';
 
 import type { AnimeVideoResponse } from '@hikka/api';
-import { VIDEO } from '@hikka/core';
+import { parseYouTubeThumbnail, VIDEO } from '@hikka/core';
 
 import PosterCard from '@/components/content-card/poster-card';
 import Stack from '@/components/ui/stack';
-import { parseYouTubeThumbnail } from '@/utils/youtube';
 
 type Props = {
     extended?: boolean;

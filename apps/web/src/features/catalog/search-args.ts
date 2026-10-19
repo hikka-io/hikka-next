@@ -8,9 +8,7 @@ import type {
     SeasonEnum,
 } from '@hikka/api';
 import type { AnimeSearch, MangaSearch, NovelSearch } from '@hikka/core';
-import { expandSort } from '@hikka/core';
-
-import { getSeasonByOffset } from '@/utils/season';
+import { expandSort, getSeasonByOffset } from '@hikka/core';
 
 /** Converts URL search params into the Hikka anime search API args shape. */
 export function buildAnimeSearchArgs(search: AnimeSearch) {

@@ -1,9 +1,9 @@
 import { formOptions } from '@tanstack/react-form';
 
 import { ContentTypeEnum } from '@hikka/api';
+import { DATE_RANGE } from '@hikka/core';
 
 import { z } from '@/utils/i18n-zod';
-import { DATE_RANGE } from '@/utils/season';
 
 import { SCORE_RANGE, YEARS } from '../filter-ranges';
 

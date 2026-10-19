@@ -1,10 +1,11 @@
 import { type FC, type MouseEvent, memo } from 'react';
 
+import { contentPath } from '@hikka/core';
+
 import PosterCard from '@/components/content-card/poster-card';
 import { CONTENT_TYPE_ICONS } from '@/components/icons/content-type-icons';
 import { useTitle } from '@/services/session';
 import { cn } from '@/utils/cn';
-import { contentPath } from '@/utils/content-paths';
 
 import { type FranchiseNode, listStatus } from '../franchise-model';
 

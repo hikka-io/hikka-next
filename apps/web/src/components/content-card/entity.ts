@@ -5,9 +5,9 @@ import {
     type ReadResponseBase,
     type WatchResponseBase,
 } from '@hikka/api';
+import { contentPath } from '@hikka/core';
 
 import { resolveTrackingEntry } from '@/utils/api/tracking-entry';
-import { contentPath } from '@/utils/content-paths';
 
 import type { MediaTooltipItem, MediaTooltipItemOf } from './tooltips';
 

@@ -1,7 +1,7 @@
 import LiteYouTubeEmbed from 'react-lite-youtube-embed';
 import 'react-lite-youtube-embed/dist/LiteYouTubeEmbed.css';
 
-import { readYouTubeVideo } from '@/utils/youtube';
+import { readYouTubeVideo } from '@hikka/core';
 
 /** A YouTube thumbnail that loads the player on click, starting at the saved time. */
 export function YouTubeEmbed({ url }: { url: string }) {
