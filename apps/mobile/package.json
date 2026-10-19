@@ -18,6 +18,9 @@
         "expo-status-bar": "~57.0.1",
         "expo-symbols": "~57.0.3",
         "expo-system-ui": "~57.0.4",
+        "expo-web-browser": "~57.0.3",
+        "html-entities": "^2.6.0",
+        "marked": "^12.0.2",
         "react": "19.2.3",
         "react-dom": "19.2.3",
         "react-native": "0.86.3",
@@ -34,14 +37,17 @@
         "@types/culori": "^4.0.1",
         "@types/react": "~19.2.2",
         "culori": "^4.0.2",
-        "typescript": "~6.0.3"
+        "typescript": "~6.0.3",
+        "vitest": "^4.1.9"
     },
     "scripts": {
         "dev": "expo start",
         "ios": "expo start --ios",
         "android": "expo start --android",
         "typecheck": "tsc --noEmit",
-        "tokens": "node scripts/generate-tokens.mjs"
+        "tokens": "node scripts/generate-tokens.mjs",
+        "test": "vitest run",
+        "test:watch": "vitest"
     },
     "private": true
 }
