@@ -1,9 +1,9 @@
 import type { FC } from 'react';
 
 import type { UserLinkResponse } from '@hikka/api';
+import { getUserLinkDisplayUrl, getUserLinkLabel } from '@hikka/core';
 
 import { USER_LINK_ICONS } from '@/components/icons/user-link-icons';
-import { getUserLinkDisplayUrl, getUserLinkLabel } from '@/utils/user-links';
 
 type Props = {
     link: UserLinkResponse;

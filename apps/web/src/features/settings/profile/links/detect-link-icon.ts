@@ -1,7 +1,5 @@
 import { UserLinkIconEnum } from '@hikka/api';
-
-import { parseUrl } from '@/utils/url';
-import { getUserLinkHost } from '@/utils/user-links';
+import { getUserLinkHost, parseUrl } from '@hikka/core';
 
 // Previews the backend's host check (exact host without `www.`); the saved icon always comes from the backend.
 const HOST_ICONS: Record<string, UserLinkIconEnum> = {
