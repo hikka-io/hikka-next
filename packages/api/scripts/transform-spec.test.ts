@@ -1,6 +1,10 @@
 import { describe, expect, it } from 'vitest';
 
-import { addDiscriminators, hoistInlineEnums } from './transform-spec';
+import {
+    addDiscriminators,
+    hoistInlineEnums,
+    toJsPatterns,
+} from './transform-spec';
 
 const kindEnum = () => ({ type: 'string', enum: ['a', 'b'] });
 
@@ -191,5 +195,51 @@ describe('addDiscriminators', () => {
         ] as const) {
             expect(properties[key]).toEqual(before[key]);
         }
+    });
+});
+
+describe('toJsPatterns', () => {
+    const specWith = (pattern: string) => ({
+        paths: {},
+        components: {
+            schemas: {
+                Styles: {
+                    type: 'object',
+                    properties: {
+                        radius: { anyOf: [{ type: 'string', pattern }] },
+                    },
+                },
+            },
+        },
+    });
+    const patternOf = (spec: ReturnType<typeof specWith>) =>
+        spec.components.schemas.Styles.properties.radius.anyOf[0].pattern;
+
+    it('spells out a leading (?i) flag as case-insensitive letter classes', () => {
+        const spec = toJsPatterns(specWith('(?i)^-?\\d+(\\.\\d+)?(px|rem|%)$'));
+        const pattern = patternOf(spec);
+
+        expect(pattern).toBe('^-?\\d+(\\.\\d+)?([pP][xX]|[rR][eE][mM]|%)$');
+        expect(new RegExp(pattern).test('1.5REM')).toBe(true);
+        expect(new RegExp(pattern).test('2Px')).toBe(true);
+        expect(new RegExp(pattern).test('2pt')).toBe(false);
+    });
+
+    it('leaves escapes, character classes and plain patterns alone', () => {
+        expect(patternOf(toJsPatterns(specWith('(?i)[a-z]\\w')))).toBe(
+            '[a-z]\\w',
+        );
+        expect(patternOf(toJsPatterns(specWith('^(?:ab)+$')))).toBe(
+            '^(?:ab)+$',
+        );
+    });
+
+    it('throws on any other inline flag', () => {
+        expect(() => toJsPatterns(specWith('^(?i:ab)$'))).toThrow(
+            'Unsupported inline regex flag',
+        );
+        expect(() => toJsPatterns(specWith('(?i)a(?s)b'))).toThrow(
+            'Unsupported inline regex flag',
+        );
     });
 });
