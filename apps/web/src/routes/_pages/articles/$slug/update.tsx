@@ -8,6 +8,7 @@ import { requireOwner } from '@/utils/auth';
 import { generateHeadMeta } from '@/utils/metadata';
 
 export const Route = createFileRoute('/_pages/articles/$slug/update')({
+    staticData: { immersive: true },
     beforeLoad: async ({ params, context: { queryClient, apiClient } }) => {
         const article = await retryOnCancel(() =>
             queryClient.fetchQuery({

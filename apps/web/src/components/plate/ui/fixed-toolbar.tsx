@@ -16,9 +16,8 @@ const fixedToolbarVariants = cva(
         variants: {
             variant: {
                 default: 'sticky bottom-0 border-t',
-                top: 'sticky top-[var(--plate-sticky-top,calc(3.5rem+env(safe-area-inset-top)))] md:top-[var(--plate-sticky-top,4rem)] overflow-x-auto border-b',
-                // Above the tab bar, or above the keyboard while it is open (`useKeyboardInset`).
-                docked: '-mx-4 sticky bottom-[max(var(--tab-bar-height),var(--keyboard-inset,0px))] w-auto self-stretch rounded-none border-t bg-background/80 px-2',
+                // Below the mobile header, which follows the visible area while the keyboard is open.
+                top: 'sticky top-[var(--plate-sticky-top,calc(var(--visual-viewport-offset-top,0px)+3.5rem+env(safe-area-inset-top)))] md:top-[var(--plate-sticky-top,4rem)] overflow-x-auto border-b',
             },
         },
     },

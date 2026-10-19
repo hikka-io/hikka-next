@@ -93,6 +93,8 @@ declare module '@tanstack/react-router' {
     interface StaticDataRouteOption {
         /** Screens that render no mobile page header, so it reserves no space. */
         headerless?: boolean;
+        /** Phone screens that hide the tab bar and footer to give the page the whole screen. */
+        immersive?: boolean;
     }
 
     interface HistoryState {

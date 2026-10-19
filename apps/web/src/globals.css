@@ -338,6 +338,10 @@
     --tab-bar-height: calc(4.25rem + var(--safe-area-bottom));
 }
 
+:root:has(main[data-immersive]) {
+    --tab-bar-height: 0px;
+}
+
 @supports (-moz-appearance: none) {
     :root {
         --safe-area-bottom: 0px;

@@ -5,6 +5,7 @@ import { requireAuth } from '@/utils/auth';
 import { generateHeadMeta } from '@/utils/metadata';
 
 export const Route = createFileRoute('/_pages/articles/new')({
+    staticData: { immersive: true },
     beforeLoad: async ({ context: { queryClient } }) => {
         requireAuth(queryClient);
     },

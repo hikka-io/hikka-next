@@ -1,4 +1,9 @@
-import { createFileRoute, Outlet, redirect } from '@tanstack/react-router';
+import {
+    createFileRoute,
+    Outlet,
+    redirect,
+    useMatches,
+} from '@tanstack/react-router';
 
 import { profileOptions, unseenNotificationsCountOptions } from '@hikka/api';
 
@@ -12,6 +17,7 @@ import {
 } from '@/features/app-shell';
 import { retryOnCancel } from '@/utils/api/retry-on-cancel';
 import { isDeadSessionError } from '@/utils/auth';
+import { cn } from '@/utils/cn';
 import { readAuthToken } from '@/utils/cookies';
 
 export const Route = createFileRoute('/_pages')({
@@ -43,15 +49,28 @@ export const Route = createFileRoute('/_pages')({
 });
 
 function PagesLayout() {
+    const immersive = useMatches({
+        select: (matches) =>
+            matches.some((match) => match.staticData.immersive),
+    });
+
     return (
         <PageHeaderProvider>
             <Navbar />
             <MobileHeader />
-            <main className="mx-auto mt-8 mb-8 w-full max-w-350 px-4 pt-[env(safe-area-inset-top)] lg:mt-16">
+            <main
+                data-immersive={immersive || undefined}
+                className="mx-auto mt-8 mb-8 w-full max-w-350 px-4 pt-[env(safe-area-inset-top)] lg:mt-16"
+            >
                 <Outlet />
             </main>
-            <Footer className="pb-[var(--tab-bar-height)]" />
-            <MobileTabBar />
+            <Footer
+                className={cn(
+                    'pb-[var(--tab-bar-height)]',
+                    immersive && 'max-md:hidden',
+                )}
+            />
+            {!immersive && <MobileTabBar />}
             <Toaster
                 richColors
                 position="bottom-right"
