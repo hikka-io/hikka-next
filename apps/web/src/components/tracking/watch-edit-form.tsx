@@ -11,7 +11,7 @@ import {
     type WatchResponseBase,
     type WatchStatusEnum,
 } from '@hikka/api';
-import { WATCH_STATUS } from '@hikka/core';
+import { getTitle, WATCH_STATUS } from '@hikka/core';
 
 import CharacterCounter from '@/components/character-counter';
 import { useAppForm } from '@/components/form';
@@ -33,7 +33,6 @@ import {
 import Spinner from '@/components/ui/spinner';
 import { listEntryOptions } from '@/utils/api/content-queries';
 import { z } from '@/utils/i18n-zod';
-import { getTitle } from '@/utils/title/get-title';
 
 import { StatusIconChip } from './status-options';
 import { useAddWatch, useDeleteWatch } from './use-tracking-mutations';

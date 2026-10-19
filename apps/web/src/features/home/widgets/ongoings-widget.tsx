@@ -3,7 +3,7 @@ import type { FC } from 'react';
 import { range } from '@antfu/utils';
 
 import { ContentTypeEnum, type SeasonEnum } from '@hikka/api';
-import { EPISODE_FORMS, getDeclensionWord } from '@hikka/core';
+import { EPISODE_FORMS, getDeclensionWord, getTitle } from '@hikka/core';
 
 import { MediaTooltip } from '@/components/content-card';
 import AnimeCard from '@/components/content-card/anime-card';
@@ -25,7 +25,6 @@ import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { cn } from '@/utils/cn';
 import { Link } from '@/utils/navigation';
 import { getCurrentSeason } from '@/utils/season';
-import { getTitle } from '@/utils/title/get-title';
 
 import { homeOngoingsOptions, ONGOINGS_SIZE } from '../queries';
 import type { WidgetProps } from '../types';

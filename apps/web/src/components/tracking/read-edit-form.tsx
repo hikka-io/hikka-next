@@ -10,7 +10,7 @@ import {
     type ReadResponseBase,
     type ReadStatusEnum,
 } from '@hikka/api';
-import { READ_STATUS } from '@hikka/core';
+import { getTitle, READ_STATUS } from '@hikka/core';
 
 import CharacterCounter from '@/components/character-counter';
 import { useAppForm } from '@/components/form';
@@ -33,7 +33,6 @@ import Spinner from '@/components/ui/spinner';
 import { listEntryOptions } from '@/utils/api/content-queries';
 import { cn } from '@/utils/cn';
 import { z } from '@/utils/i18n-zod';
-import { getTitle } from '@/utils/title/get-title';
 
 import { useAddRead, useDeleteRead } from './use-tracking-mutations';
 

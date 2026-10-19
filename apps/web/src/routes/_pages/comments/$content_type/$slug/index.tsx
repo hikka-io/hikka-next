@@ -9,6 +9,7 @@ import {
     ContentTypeEnum,
     serviceUserStatsOptions,
 } from '@hikka/api';
+import { getContentTitle } from '@hikka/core';
 
 import { usePageHeader } from '@/features/app-shell';
 import {
@@ -42,7 +43,6 @@ import {
     DEFAULT_COMMENT_ORDER,
     DEFAULT_COMMENT_SORT,
 } from '@/utils/sort';
-import { getContentTitle } from '@/utils/title/get-content-title';
 
 export const Route = createFileRoute('/_pages/comments/$content_type/$slug/')({
     validateSearch: zodValidator(commentsSearchSchema),

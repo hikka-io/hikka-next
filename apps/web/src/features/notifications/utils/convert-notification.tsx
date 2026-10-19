@@ -6,6 +6,7 @@ import {
     type NotificationResponse,
     NotificationTypeEnum,
 } from '@hikka/api';
+import { getTitle } from '@hikka/core';
 
 import FeMention from '@/components/icons/fe/FeMention';
 import MaterialSymbolsAddCommentRounded from '@/components/icons/material-symbols/MaterialSymbolsAddCommentRounded';
@@ -19,7 +20,6 @@ import MaterialSymbolsInfoRounded from '@/components/icons/material-symbols/Mate
 import MaterialSymbolsLiveTvRounded from '@/components/icons/material-symbols/MaterialSymbolsLiveTvRounded';
 import MaterialSymbolsLockOpenRightOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsLockOpenRightOutlineRounded';
 import MaterialSymbolsPersonAddRounded from '@/components/icons/material-symbols/MaterialSymbolsPersonAddRounded';
-import { getTitle } from '@/utils/title/get-title';
 
 import type {
     Notification,

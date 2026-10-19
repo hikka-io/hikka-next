@@ -1,11 +1,11 @@
 import type { FC, ReactNode } from 'react';
 
 import { ContentTypeEnum, type MainContentTypeEnum } from '@hikka/api';
+import { getTitle } from '@hikka/core';
 
 import { AnimeCard, MangaCard, NovelCard } from '@/components/content-card';
 import type { StackSize } from '@/components/ui/stack';
 import { useSessionUI } from '@/services/session';
-import { getTitle } from '@/utils/title/get-title';
 
 import CatalogListItem from './catalog-list-item';
 import CatalogListView from './catalog-list-view';

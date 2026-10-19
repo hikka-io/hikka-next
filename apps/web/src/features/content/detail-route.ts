@@ -8,6 +8,7 @@ import {
     type NovelInfoResponse,
     type PersonInfoResponse,
 } from '@hikka/api';
+import { getTitle } from '@hikka/core';
 
 import {
     type ContentInfo,
@@ -25,7 +26,6 @@ import { readNsfwConsent } from '@/utils/cookies';
 import { parseTextFromMarkDown } from '@/utils/markdown';
 import { generateHeadMeta } from '@/utils/metadata';
 import { truncateText } from '@/utils/text';
-import { getTitle } from '@/utils/title/get-title';
 import { getPublicSiteUrl, SITE_ORIGIN } from '@/utils/url';
 
 import {

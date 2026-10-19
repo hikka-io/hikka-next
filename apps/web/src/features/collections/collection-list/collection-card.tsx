@@ -3,6 +3,7 @@ import type { FC } from 'react';
 import { ArrowBigUp, MessageCircle } from 'lucide-react';
 
 import type { CollectionResponse } from '@hikka/api';
+import { getTitle } from '@hikka/core';
 
 import { FollowButton } from '@/components/action-buttons';
 import { contentEntity } from '@/components/content-card';
@@ -25,7 +26,6 @@ import { useIsDesktop } from '@/services/hooks/use-media-query';
 import { useSessionUI } from '@/services/session';
 import { cn } from '@/utils/cn';
 import { Link } from '@/utils/navigation';
-import { getTitle } from '@/utils/title/get-title';
 
 type Props = {
     collection: CollectionResponse;

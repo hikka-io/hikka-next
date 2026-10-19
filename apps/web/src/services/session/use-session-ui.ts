@@ -9,6 +9,7 @@ import {
     type UiStylesOutput,
     type UserCustomizationResponse,
 } from '@hikka/api';
+import type { NameLanguage, TitleLanguage } from '@hikka/core';
 
 import {
     DEFAULT_USER_UI,
@@ -21,7 +22,6 @@ import {
     resolveBackdrop,
     type UIEffect,
 } from '@/utils/customization';
-import type { NameLanguage, TitleLanguage } from '@/utils/title/get-title';
 
 import { useSession } from './use-session';
 

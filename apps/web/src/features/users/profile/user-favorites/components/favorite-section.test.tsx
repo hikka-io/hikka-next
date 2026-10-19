@@ -16,6 +16,7 @@ import {
     type FavouritePersonResponse,
     favouriteListInfiniteOptions,
 } from '@hikka/api';
+import { getTitle } from '@hikka/core';
 
 import AnimeCard from '@/components/content-card/anime-card';
 import EntityCard from '@/components/content-card/entity-card';
@@ -33,7 +34,6 @@ import Stack from '@/components/ui/stack';
 import { useSessionUI } from '@/services/session';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { useParams } from '@/utils/navigation';
-import { getTitle } from '@/utils/title/get-title';
 
 import { userFavouritesOptions } from '../../../queries';
 import { favoritePreview } from '../favorite-preview';

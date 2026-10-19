@@ -1,10 +1,6 @@
 import { ContentTypeEnum } from '@hikka/api';
 
-import {
-    getTitle,
-    type NameLanguage,
-    type TitleLanguage,
-} from '@/utils/title/get-title';
+import { getTitle, type NameLanguage, type TitleLanguage } from './get-title';
 
 /**
  * `getTitle` handles none of these: collections/articles carry a plain `title`,

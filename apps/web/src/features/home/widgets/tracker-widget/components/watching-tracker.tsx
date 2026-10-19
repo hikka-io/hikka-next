@@ -13,6 +13,7 @@ import {
     EPISODE_FORMS,
     getDeclensionWord,
     getMediaTypeLabel,
+    getTitle,
 } from '@hikka/core';
 
 import StatusWatching from '@/components/icons/list-status/StatusWatching';
@@ -28,7 +29,6 @@ import {
 import { carryOverWatchArgs } from '@/utils/api/tracking-args';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { Link, useRouter } from '@/utils/navigation';
-import { getTitle } from '@/utils/title/get-title';
 
 import { homeWatchingOptions } from '../../../queries';
 import ProgressTrackerSkeleton from './progress-tracker-skeleton';

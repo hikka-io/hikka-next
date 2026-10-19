@@ -15,6 +15,7 @@ import {
     CHAPTER_FORMS,
     getDeclensionWord,
     getMediaTypeLabel,
+    getTitle,
 } from '@hikka/core';
 
 import MaterialSymbolsBookmarkOutline from '@/components/icons/material-symbols/MaterialSymbolsBookmarkOutline';
@@ -30,7 +31,6 @@ import {
 import { carryOverReadArgs } from '@/utils/api/tracking-args';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { Link, useRouter } from '@/utils/navigation';
-import { getTitle } from '@/utils/title/get-title';
 
 import ProgressTrackerSkeleton from './progress-tracker-skeleton';
 import ProgressTrackerView from './progress-tracker-view';
