@@ -8,8 +8,7 @@ import {
     ImportReadStatusEnum,
     ImportWatchStatusEnum,
 } from '@hikka/api';
-
-import { MUTATION_META_SKIP_ERROR_TOAST } from '@/utils/api/mutation-meta';
+import { MUTATION_META_SKIP_ERROR_TOAST } from '@hikka/core';
 
 import ListExportItem from './list-export-item';
 

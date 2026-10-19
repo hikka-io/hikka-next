@@ -6,12 +6,11 @@ import {
     HikkaApiError,
     userProfileOptions,
 } from '@hikka/api';
+import { apiErrorMessage, MUTATION_META_SKIP_ERROR_TOAST } from '@hikka/core';
 
 import MaterialSymbolsInfoRounded from '@/components/icons/material-symbols/MaterialSymbolsInfoRounded';
 import { Button } from '@/components/ui/button';
 import { useSession } from '@/services/session';
-import { apiErrorMessage } from '@/utils/api/api-error-message';
-import { MUTATION_META_SKIP_ERROR_TOAST } from '@/utils/api/mutation-meta';
 import { useParams } from '@/utils/navigation';
 
 const ActivationAlert = () => {

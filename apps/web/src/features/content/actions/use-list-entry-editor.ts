@@ -11,13 +11,10 @@ import {
     type WatchResponse,
     WatchStatusEnum,
 } from '@hikka/api';
+import { carryOverReadArgs, carryOverWatchArgs } from '@hikka/core';
 
 import { useAddRead, useAddWatch } from '@/components/tracking';
 import { DEBOUNCE_MS, useDebounce } from '@/services/hooks/use-debounce';
-import {
-    carryOverReadArgs,
-    carryOverWatchArgs,
-} from '@/utils/api/tracking-args';
 
 type MappedListItem = {
     progress: number;

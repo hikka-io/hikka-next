@@ -23,15 +23,16 @@ import {
     type WatchResponse,
     watchGetQueryKey,
 } from '@hikka/api';
-
 import {
     type FollowChange,
+    matchesPath,
     patchEmbeddedFollow,
     patchEmbeddedStatus,
     patchEmbeddedVote,
+    type QueryId,
+    queryId,
     type StatusField,
-} from './patch-embedded';
-import { matchesPath, type QueryId, queryId } from './query-id';
+} from '@hikka/core';
 
 // The user's own watch list — refetched on every change so the entry reorders
 // (sorted by updated-at). Its status is top-level, so the patcher below skips it.

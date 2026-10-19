@@ -8,6 +8,7 @@ import {
     UploadTypeEnum,
     uploadImageMutation as uploadImageMutation_,
 } from '@hikka/api';
+import { apiErrorMessage, MUTATION_META_SKIP_ERROR_TOAST } from '@hikka/core';
 
 import MaterialSymbolsZoomInRounded from '@/components/icons/material-symbols/MaterialSymbolsZoomInRounded';
 import MaterialSymbolsZoomOutRounded from '@/components/icons/material-symbols/MaterialSymbolsZoomOutRounded';
@@ -20,12 +21,10 @@ import {
 import { Slider } from '@/components/ui/slider';
 import Spinner from '@/components/ui/spinner';
 import { useSession } from '@/services/session';
-import { apiErrorMessage } from '@/utils/api/api-error-message';
 import {
     invalidateSession,
     invalidateUserProfile,
 } from '@/utils/api/invalidate-content-state';
-import { MUTATION_META_SKIP_ERROR_TOAST } from '@/utils/api/mutation-meta';
 import { cn } from '@/utils/cn';
 import { getImage } from '@/utils/image';
 
