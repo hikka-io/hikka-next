@@ -1,9 +1,11 @@
 import { isServer } from '@/utils/is-server';
 
 import {
-    BLOCK_INSERT_KEY,
+    BLOCK_PLACEHOLDER_KEY,
+    BLOCK_SELECTION_KEY,
     CONTENT_SEARCH_INPUT_KEY,
     CONTENT_SEARCH_KEY,
+    DND_KEY,
     SLASH_INPUT_KEY,
     SLASH_KEY,
     USER_SEARCH_INPUT_KEY,
@@ -17,7 +19,9 @@ const TRIGGER_KEYS = new Set<string>([
     USER_SEARCH_INPUT_KEY,
     SLASH_KEY,
     SLASH_INPUT_KEY,
-    BLOCK_INSERT_KEY,
+    DND_KEY,
+    BLOCK_SELECTION_KEY,
+    BLOCK_PLACEHOLDER_KEY,
 ]);
 
 export const isTouchDevice = () =>
@@ -26,8 +30,8 @@ export const isTouchDevice = () =>
 /**
  * The `@`/`#`/`/` triggers put the query in an input of their own, and focusing it
  * closes the Android keyboard — leaving nothing to type the query into. Touch
- * devices reach the same pickers through the toolbar instead, and lose the
- * gutter "+", which opens the `/` input.
+ * devices reach the same pickers through the toolbar instead. They also skip
+ * the mouse-only block handles, block selection and the "/" hint on empty lines.
  */
 export const withoutTriggerPlugins = <T extends { key: string }>(
     plugins: T[],

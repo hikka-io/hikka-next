@@ -1,6 +1,15 @@
 import { createLinkNode } from '@platejs/link';
 import { toggleList } from '@platejs/list-classic';
-import { KEYS, type Path, PathApi, type TElement } from 'platejs';
+import { BlockSelectionPlugin } from '@platejs/selection/react';
+import {
+    type Descendant,
+    ElementApi,
+    KEYS,
+    NodeApi,
+    type Path,
+    PathApi,
+    type TElement,
+} from 'platejs';
 import type { PlateEditor } from 'platejs/react';
 
 import type { ContentTypeEnum, UserResponse } from '@hikka/api';
@@ -13,6 +22,19 @@ import { CONTAINER_BLOCK_TYPES } from './plate-types';
 
 // These use toggleList instead of insertNodes
 const LIST_TYPES: Set<string> = new Set([KEYS.ulClassic, KEYS.olClassic]);
+
+const HEADING_TYPES: ReadonlySet<string> = new Set([KEYS.h3, KEYS.h4, KEYS.h5]);
+
+const TEXT_BLOCK_TYPES: ReadonlySet<string> = new Set([
+    KEYS.p,
+    ...HEADING_TYPES,
+]);
+
+const TURN_INTO_TYPES: ReadonlySet<string> = new Set([
+    ...TEXT_BLOCK_TYPES,
+    ...LIST_TYPES,
+    ...CONTAINER_BLOCK_TYPES,
+]);
 
 const createBlockNode = (editor: PlateEditor, type: string): TElement => {
     // Containers need a paragraph child, not bare text
@@ -232,4 +254,104 @@ export const insertMentionLink = (
             text: `@${username}`,
         }),
     );
+};
+
+const containsType = (element: TElement, type: string) =>
+    [...NodeApi.descendants(element)].some(
+        ([node]) => ElementApi.isElement(node) && node.type === type,
+    );
+
+/** Whether the block menu can turn a top-level block into `type`; containers only swap or unwrap. */
+export const canTurnInto = (element: TElement, type: string) => {
+    if (!TURN_INTO_TYPES.has(type)) return false;
+
+    if (CONTAINER_BLOCK_TYPES.has(element.type)) {
+        return (
+            type === KEYS.p ||
+            (CONTAINER_BLOCK_TYPES.has(type) && !containsType(element, type))
+        );
+    }
+
+    return TEXT_BLOCK_TYPES.has(element.type) || LIST_TYPES.has(element.type);
+};
+
+const listLines = (list: TElement) =>
+    [...NodeApi.descendants(list)]
+        .map(([node]) => node)
+        .filter(
+            (node): node is TElement =>
+                ElementApi.isElement(node) && node.type === KEYS.lic,
+        )
+        .map((lic) => lic.children);
+
+// The backend allows a heading one plain text node, so a heading keeps only the text.
+const createLineBlock = (type: string, children: Descendant[]): TElement =>
+    HEADING_TYPES.has(type)
+        ? { type, children: [{ text: NodeApi.string({ type, children }) }] }
+        : { type: KEYS.p, children };
+
+const createTurnedBlocks = (type: string, lines: Descendant[][]) => {
+    if (LIST_TYPES.has(type)) {
+        return [
+            {
+                type,
+                children: lines.map((children) => ({
+                    type: KEYS.li,
+                    children: [{ type: KEYS.lic, children }],
+                })),
+            },
+        ];
+    }
+
+    if (CONTAINER_BLOCK_TYPES.has(type)) {
+        return [
+            {
+                type,
+                children: lines.map((line) => createLineBlock(KEYS.p, line)),
+            },
+        ];
+    }
+
+    return lines.map((line) => createLineBlock(type, line));
+};
+
+/** Turns the top-level block at `path` into `type`, keeping its text; a list turns item by item. */
+export const turnBlockInto = (
+    editor: PlateEditor,
+    path: Path,
+    type: string,
+) => {
+    const element = editor.api.node<TElement>(path)?.[0];
+    if (!element || element.type === type || !canTurnInto(element, type)) {
+        return;
+    }
+
+    editor.tf.withoutNormalizing(() => {
+        if (CONTAINER_BLOCK_TYPES.has(element.type)) {
+            if (type === KEYS.p) editor.tf.unwrapNodes({ at: path });
+            else editor.tf.setNodes({ type }, { at: path });
+            return;
+        }
+
+        if (LIST_TYPES.has(element.type) && LIST_TYPES.has(type)) {
+            editor.tf.setNodes({ type }, { at: path });
+            return;
+        }
+
+        const lines = LIST_TYPES.has(element.type)
+            ? listLines(element)
+            : [element.children];
+
+        editor.tf.removeNodes({ at: path });
+        editor.tf.insertNodes(createTurnedBlocks(type, lines) as TElement[], {
+            at: path,
+        });
+    });
+};
+
+/** Lets go of selected blocks, so focus can move into the text again. */
+export const deselectBlocks = (editor: PlateEditor) => {
+    if (editor.plugins[KEYS.blockSelection]) {
+        editor.getApi(BlockSelectionPlugin).blockSelection.deselect();
+    }
 };

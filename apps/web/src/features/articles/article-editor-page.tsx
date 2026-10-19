@@ -100,7 +100,8 @@ const ArticleEditorLayout: FC<LayoutProps> = ({ title, parent, author }) => {
 
     return (
         <>
-            <div className="mx-auto grid w-full max-w-6xl grid-cols-1 gap-12 lg:grid-cols-[minmax(0,48rem)_20rem] lg:items-start lg:justify-center">
+            {/* Mouse users get block handles 4rem left of the text; until the centred layout leaves that margin, reserve it. */}
+            <div className="mx-auto grid w-full max-w-6xl grid-cols-1 gap-12 pointer-fine:max-[80rem]:pl-16 lg:grid-cols-[minmax(0,48rem)_20rem] lg:items-start lg:justify-center">
                 <article className="flex min-w-0 flex-col gap-8">
                     {author && <ArticleEditorAuthor author={author} />}
                     <div className="flex flex-col gap-3">

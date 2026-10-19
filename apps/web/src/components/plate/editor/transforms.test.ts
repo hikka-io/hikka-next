@@ -1,5 +1,12 @@
 import { MarkdownPlugin } from '@platejs/markdown';
-import type { AnyPluginConfig, Value } from 'platejs';
+import { BlockSelectionPlugin } from '@platejs/selection/react';
+import type {
+    AnyPluginConfig,
+    Descendant,
+    TElement,
+    TText,
+    Value,
+} from 'platejs';
 import { createPlateEditor, type PlateEditor } from 'platejs/react';
 import { describe, expect, it } from 'vitest';
 
@@ -10,9 +17,12 @@ import { getSiteUrl } from '@/utils/url';
 import { ArticleKit } from './article-kit';
 import { MarkdownEditorKit } from './markdown-editor-kit';
 import {
+    canTurnInto,
+    deselectBlocks,
     insertBlockAtSelection,
     insertContentLink,
     insertMentionLink,
+    turnBlockInto,
 } from './transforms';
 
 const SITE = getSiteUrl();
@@ -191,5 +201,143 @@ describe('insertBlockAtSelection', () => {
         ]);
 
         expect(insertBlockAtSelection(editor, quote())).toEqual([1]);
+    });
+});
+
+describe('turnBlockInto', () => {
+    const turn = (value: Value, type: string) => {
+        const editor = createPlateEditor({ plugins: ArticleKit, value });
+        turnBlockInto(editor, [0], type);
+        const last = editor.children.at(-1);
+        // The trailing-block plugin adds an empty paragraph after anything else.
+        return last && editor.api.isEmpty(last) && editor.children.length > 1
+            ? editor.children.slice(0, -1)
+            : editor.children;
+    };
+    const text = (value: string, marks = {}): TText => ({
+        text: value,
+        ...marks,
+    });
+    const p = (...children: Descendant[]): TElement => ({
+        type: 'p',
+        children,
+    });
+    const item = (...children: Descendant[]): TElement => ({
+        type: 'li',
+        children: [{ type: 'lic', children }],
+    });
+
+    it('keeps one plain text node in a heading', () => {
+        expect(
+            turn([p(text('Жирний', { bold: true }), text(' текст'))], 'h3'),
+        ).toMatchObject([{ type: 'h3', children: [{ text: 'Жирний текст' }] }]);
+    });
+
+    it('wraps a paragraph in a quote', () => {
+        expect(turn([p(text('Цитата'))], 'blockquote')).toMatchObject([
+            { type: 'blockquote', children: [p(text('Цитата'))] },
+        ]);
+    });
+
+    it('turns a heading into a list item', () => {
+        expect(
+            turn([{ type: 'h3', children: [text('Пункт')] }], 'ul'),
+        ).toMatchObject([{ type: 'ul', children: [item(text('Пункт'))] }]);
+    });
+
+    it('turns every list item into its own block', () => {
+        expect(
+            turn(
+                [
+                    {
+                        type: 'ol',
+                        children: [item(text('Один')), item(text('Два'))],
+                    },
+                ],
+                'p',
+            ),
+        ).toMatchObject([p(text('Один')), p(text('Два'))]);
+    });
+
+    it('swaps one list kind for the other', () => {
+        expect(
+            turn([{ type: 'ol', children: [item(text('Один'))] }], 'ul'),
+        ).toMatchObject([{ type: 'ul', children: [item(text('Один'))] }]);
+    });
+
+    it('unwraps a container into its blocks', () => {
+        expect(
+            turn(
+                [
+                    {
+                        type: 'spoiler',
+                        children: [p(text('Один')), p(text('Два'))],
+                    },
+                ],
+                'p',
+            ),
+        ).toMatchObject([p(text('Один')), p(text('Два'))]);
+    });
+
+    it('swaps one container for another', () => {
+        expect(
+            turn(
+                [{ type: 'spoiler', children: [p(text('Один'))] }],
+                'blockquote',
+            ),
+        ).toMatchObject([{ type: 'blockquote', children: [p(text('Один'))] }]);
+    });
+
+    it('never nests a container inside one of its own kind', () => {
+        const value = [
+            {
+                type: 'spoiler',
+                children: [
+                    { type: 'blockquote', children: [p(text('Цитата'))] },
+                ],
+            },
+        ];
+
+        expect(canTurnInto(value[0], 'blockquote')).toBe(false);
+        expect(turn(value, 'blockquote')).toMatchObject(value);
+    });
+
+    it('turns blocks only into text, list and container kinds', () => {
+        expect(canTurnInto(p(text('Текст')), 'image')).toBe(false);
+        expect(canTurnInto(p(text('Текст')), 'video')).toBe(false);
+    });
+
+    it('offers containers only an unwrap or another container', () => {
+        const spoiler = { type: 'spoiler', children: [p(text(''))] };
+
+        expect(canTurnInto(spoiler, 'h3')).toBe(false);
+        expect(canTurnInto(spoiler, 'ul')).toBe(false);
+        expect(canTurnInto({ type: 'video', url: '', children: [] }, 'p')).toBe(
+            false,
+        );
+    });
+});
+
+describe('deselectBlocks', () => {
+    it('clears the block selection', () => {
+        const editor = createPlateEditor({
+            plugins: ArticleKit,
+            nodeId: true,
+            value: [{ type: 'p', children: [{ text: 'Текст' }] }] as Value,
+        });
+        const { blockSelection } = editor.getApi(BlockSelectionPlugin);
+        blockSelection.set((editor.children[0] as TElement).id as string);
+
+        deselectBlocks(editor);
+
+        expect(
+            editor.getOption(BlockSelectionPlugin, 'selectedIds')?.size,
+        ).toBe(0);
+    });
+
+    it('does nothing in an editor without block selection', () => {
+        const editor = createPlateEditor({ plugins: MarkdownEditorKit });
+
+        expect(() => deselectBlocks(editor)).not.toThrow();
     });
 });

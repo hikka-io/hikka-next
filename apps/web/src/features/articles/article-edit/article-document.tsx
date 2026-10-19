@@ -18,7 +18,7 @@ const ArticleEditDocument = () => {
             editorId="article-editor"
             value={value}
             onValueChange={setDocument}
-            onReady={setEditorDocument}
+            onReady={(editor) => setEditorDocument(editor.children, editor)}
         />
     );
 };

@@ -9,6 +9,9 @@ export const ELEMENT_SPOILER_INLINE = 'spoiler_inline';
 
 export const MAX_IMAGE_COUNT = 4;
 
+export const ARTICLE_BLOCK_PLACEHOLDER =
+    'Пишіть тут або натисніть «/», щоб додати блок';
+
 export const ARTICLE_MARKS = [KEYS.bold, KEYS.italic] as const;
 
 export const CONTAINER_BLOCK_TYPES: ReadonlySet<string> = new Set([

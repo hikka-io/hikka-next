@@ -1,8 +1,6 @@
-import { FilmIcon, ImageIcon } from 'lucide-react';
 import type { PlateElementProps } from 'platejs/react';
 import { PlateElement } from 'platejs/react';
 
-import { openImagePicker } from './image-group-add-image';
 import {
     InlineCombobox,
     InlineComboboxContent,
@@ -13,43 +11,21 @@ import {
     InlineComboboxItem,
 } from './inline-combobox';
 import {
-    ARTICLE_INSERT_GROUPS,
-    type InsertGroup,
+    BLOCK_MENU_GROUPS,
     useDisabledInsertTypes,
 } from './insert-block-items';
-import { getVideoDialog } from './video-dialog';
-
-const MEDIA_GROUP: InsertGroup = {
-    group: 'Медіа',
-    items: [
-        {
-            icon: <ImageIcon />,
-            label: 'Зображення',
-            value: 'image',
-            onSelect: (editor) => openImagePicker(editor),
-        },
-        {
-            icon: <FilmIcon />,
-            label: 'Відео з YouTube',
-            value: 'video',
-            onSelect: (editor) => getVideoDialog(editor)?.(),
-        },
-    ],
-};
-
-const SLASH_GROUPS = [...ARTICLE_INSERT_GROUPS, MEDIA_GROUP];
 
 export function SlashInputElement(props: PlateElementProps) {
     const { children, editor, element } = props;
     const disabledTypes = useDisabledInsertTypes();
 
     return (
-        <PlateElement as="span" {...props}>
-            <InlineCombobox
-                element={element}
-                trigger="/"
-                restoreOnCancel={!element.fromGutter}
-            >
+        <PlateElement
+            as="span"
+            className="rounded-md bg-muted px-1.5 py-0.5"
+            {...props}
+        >
+            <InlineCombobox element={element} trigger="/">
                 <InlineComboboxInput />
 
                 <InlineComboboxContent className="w-56">
@@ -57,7 +33,7 @@ export function SlashInputElement(props: PlateElementProps) {
                         Нічого не знайдено
                     </InlineComboboxEmpty>
 
-                    {SLASH_GROUPS.map(({ group, items }) => (
+                    {BLOCK_MENU_GROUPS.map(({ group, items }) => (
                         <InlineComboboxGroup key={group}>
                             <InlineComboboxGroupLabel>
                                 {group}

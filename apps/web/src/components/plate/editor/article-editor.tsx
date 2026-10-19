@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 
 import { useHydrated } from '@tanstack/react-router';
 import type { Value } from 'platejs';
-import { Plate, usePlateEditor } from 'platejs/react';
+import { Plate, type PlateEditor, usePlateEditor } from 'platejs/react';
 
 import { Editor, EditorContainer } from '@/components/plate/ui/editor';
 import { FixedArticleToolbarButtons } from '@/components/plate/ui/fixed-article-toolbar-buttons';
@@ -13,6 +13,7 @@ import { VideoDialogProvider } from '@/components/plate/ui/video-dialog';
 import { useKeyboardInset } from '@/services/hooks/use-visual-viewport';
 
 import { ArticleKit } from './article-kit';
+import { ARTICLE_BLOCK_PLACEHOLDER } from './plate-types';
 import { ImageGroupPlugin } from './plugins/image-group-plugin';
 import {
     isTouchDevice,
@@ -22,14 +23,13 @@ import { uploadAttachmentImage } from './upload-image';
 import { useEditorApi } from './use-editor-api';
 
 const TOUCH_PLACEHOLDER = 'Напишіть зміст статті...';
-const POINTER_PLACEHOLDER = 'Пишіть тут або натисніть «/», щоб додати блок';
 
 export type ArticlePlateEditorProps = {
     value?: Value;
     className?: string;
     onValueChange?: (value: Value) => void;
-    /** Receives the normalized starting value once the editor is created. */
-    onReady?: (value: Value) => void;
+    /** Receives the editor once created; its children are the normalized starting value. */
+    onReady?: (editor: PlateEditor) => void;
     editorId?: string;
 };
 
@@ -43,7 +43,8 @@ export function ArticlePlateEditor({
     const editor = usePlateEditor({
         plugins: withoutTriggerPlugins(ArticleKit),
         value,
-        nodeId: false,
+        // Drag and drop tracks blocks by id; saves strip them (`getArticleDocument`).
+        nodeId: true,
         shouldNormalizeEditor: true,
     });
 
@@ -57,7 +58,7 @@ export function ArticlePlateEditor({
     }, [editor]);
 
     useEffect(() => {
-        onReady?.(editor.children);
+        onReady?.(editor);
     }, [editor, onReady]);
 
     useEditorApi(editor, editorId);
@@ -81,7 +82,7 @@ export function ArticlePlateEditor({
                 <Editor
                     variant="inline"
                     placeholder={
-                        touch ? TOUCH_PLACEHOLDER : POINTER_PLACEHOLDER
+                        touch ? TOUCH_PLACEHOLDER : ARTICLE_BLOCK_PLACEHOLDER
                     }
                 />
                 {touch ? (

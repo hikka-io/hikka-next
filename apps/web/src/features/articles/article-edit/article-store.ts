@@ -1,4 +1,5 @@
 import type { Value } from 'platejs';
+import type { PlateEditor } from 'platejs/react';
 import { createStore } from 'zustand';
 
 import { ArticleCategoryEnum, type ArticleDocumentResponse } from '@hikka/api';
@@ -36,6 +37,8 @@ type ArticleSession = {
     save: ArticleSaveState;
     /** Set once the editor reports its normalized starting document. */
     editorReady: boolean;
+    /** The body editor, for moving focus into it from the title. */
+    editor?: PlateEditor;
 };
 
 export type ArticleActions = {
@@ -44,7 +47,7 @@ export type ArticleActions = {
     setDocument: (document: Value) => void;
     setTags: (tags: string[]) => void;
     setContent: (content?: ArticleContent | null) => void;
-    setEditorDocument: (document: Value) => void;
+    setEditorDocument: (document: Value, editor?: PlateEditor) => void;
     setSaved: (
         article: Pick<ArticleDocumentResponse, 'slug' | 'draft'>,
     ) => void;
@@ -82,7 +85,8 @@ export const createArticleStore = (initialState?: Partial<ArticleState>) =>
         setDocument: (document) => set({ document }),
         setTags: (tags) => set({ tags }),
         setContent: (content) => set({ content }),
-        setEditorDocument: (document) => set({ document, editorReady: true }),
+        setEditorDocument: (document, editor) =>
+            set({ document, editorReady: true, editor }),
         // Only identity and status: the editable fields may have moved on while the request was in flight.
         setSaved: ({ slug, draft }) => set({ slug, draft }),
         setSaveState: (save) =>

@@ -1,9 +1,9 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
-import { BLOCK_INSERT_KEY, SLASH_KEY } from './trigger-keys';
+import { DND_KEY, SLASH_KEY } from './trigger-keys';
 import { withoutTriggerPlugins } from './trigger-plugins';
 
-const PLUGINS = [{ key: 'p' }, { key: SLASH_KEY }, { key: BLOCK_INSERT_KEY }];
+const PLUGINS = [{ key: 'p' }, { key: SLASH_KEY }, { key: DND_KEY }];
 
 const pointer = (coarse: boolean) =>
     vi.stubGlobal(

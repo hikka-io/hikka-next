@@ -138,6 +138,16 @@ describe('documentFacts', () => {
         ).toBe(7);
     });
 
+    it('saves without the editor-only block ids', () => {
+        const document: Value = [
+            { type: 'p', id: 'a1', children: [{ text: 'Текст' }] },
+        ];
+
+        expect(documentFacts(document).submitted).toEqual([
+            { type: 'p', children: [{ text: 'Текст' }] },
+        ]);
+    });
+
     it('analyses each document once', () => {
         const document: Value = [PARAGRAPH];
 

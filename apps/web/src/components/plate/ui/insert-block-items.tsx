@@ -2,7 +2,9 @@ import type * as React from 'react';
 
 import {
     EyeOffIcon,
+    FilmIcon,
     Heading3Icon,
+    ImageIcon,
     ListIcon,
     ListOrderedIcon,
     PilcrowIcon,
@@ -13,6 +15,8 @@ import { type PlateEditor, useEditorSelector } from 'platejs/react';
 
 import { ELEMENT_SPOILER } from '../editor/plate-types';
 import { insertBlock, isInsideBlock } from '../editor/transforms';
+import { openImagePicker } from './image-group-add-image';
+import { getVideoDialog } from './video-dialog';
 
 // Cannot be nested inside themselves
 const NO_NEST_TYPES: Set<string> = new Set([ELEMENT_SPOILER, KEYS.blockquote]);
@@ -95,3 +99,24 @@ export function useDisabledInsertTypes() {
         return disabled;
     }, []);
 }
+
+const MEDIA_GROUP: InsertGroup = {
+    group: 'Медіа',
+    items: [
+        {
+            icon: <ImageIcon />,
+            label: 'Зображення',
+            value: 'image',
+            onSelect: (editor) => openImagePicker(editor),
+        },
+        {
+            icon: <FilmIcon />,
+            label: 'Відео з YouTube',
+            value: 'video',
+            onSelect: (editor) => getVideoDialog(editor)?.(),
+        },
+    ],
+};
+
+/** Everything the `/` and "+" menus offer; the touch toolbar has its own media buttons. */
+export const BLOCK_MENU_GROUPS = [...ARTICLE_INSERT_GROUPS, MEDIA_GROUP];

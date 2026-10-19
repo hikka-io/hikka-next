@@ -5,4 +5,6 @@ export const USER_SEARCH_KEY = 'user_search';
 export const USER_SEARCH_INPUT_KEY = 'user_search_input';
 export const SLASH_KEY = 'slash_command';
 export const SLASH_INPUT_KEY = 'slash_input';
-export const BLOCK_INSERT_KEY = 'block_insert';
+export const DND_KEY = 'dnd';
+export const BLOCK_SELECTION_KEY = 'blockSelection';
+export const BLOCK_PLACEHOLDER_KEY = 'blockPlaceholder';
