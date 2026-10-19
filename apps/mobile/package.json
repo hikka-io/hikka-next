@@ -9,6 +9,7 @@
         "@shopify/flash-list": "2.0.2",
         "@tanstack/react-query": "^5.104.0",
         "class-variance-authority": "^0.7.1",
+        "clsx": "^2.1.1",
         "expo": "~57.0.30",
         "expo-constants": "~57.0.22",
         "expo-glass-effect": "~57.0.4",
