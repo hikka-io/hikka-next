@@ -66,6 +66,15 @@ Status legend: **Decided** (follow it), **Open** (the named task decides and rec
 | Pagination widget | Infinite scroll |
 | Sidebar filters | Filter sheet (formSheet) |
 
+### Android chrome (Decided, verified on Android 16 / API 36, see STACK.md "Android findings")
+
+- Tabs: Material 3 bottom navigation from Native Tabs, `md` icons. The active indicator and ripple use the `primary` token and the active icon and label the `primary-foreground` token (same pink as the iOS tint), through Uniwind's `useCSSVariable`, never a hex. Applied in `_layout.tsx` by the auth task or a follow-up.
+- Titles: a small, left-aligned Material top app bar on tab roots and detail screens. `Stack.Title large` is iOS-only and stays; never emulate a large title on Android.
+- Search: `Stack.SearchBar` is the header's expandable search field; the `role="search"` tab is just a tab with a search icon. Keep both (platform convention), no custom field.
+- Dark: the header and bottom navigation keep the Material dark surface; only content uses pure black. Do not force chrome to black.
+- Keyboard: the bottom navigation rides above the keyboard by default. Hide it while the keyboard is open on screens with a text field (search, comment writing); do not switch the app to `pan` resize.
+- Edge-to-edge is on (Android 15+): content scrolls under the system bars only through the native header and tab bar; custom bottom-anchored UI uses the safe-area bottom inset.
+
 ## 9. Component inventory (Open: design-system task fills it)
 
 Names match the web component with the same role, so reviewers can compare side by side. Primitives live in `src/components/ui/`, content groups in `src/components/<group>/` (same groups as the web: `content-card`, `markdown`, `tracking`, `badges`, `list-items`).
@@ -100,3 +109,4 @@ Mirrors the web so reviews read the same way:
 Append one line per decision: date, decision, task.
 
 - 2026-10-20: Initial principles, tokens, typography, icons, motion, states, pattern map and structure. (planning)
+- 2026-10-20: Android chrome decisions: Material 3 bottom navigation tinted from `primary`/`primary-foreground`, small Material title (no fake large title), header search field plus search tab kept, dark chrome stays on the system surface, tab bar hidden while the keyboard is open. (android-tooling)
