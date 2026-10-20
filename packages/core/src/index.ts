@@ -1,4 +1,5 @@
 export * from './api-error-message';
+export * from './content-cache';
 export * from './content-paths';
 export * from './customization-defaults';
 export * from './episodes';
@@ -8,6 +9,8 @@ export * from './get-title';
 export * from './i18n';
 export * from './imgproxy';
 export * from './labels';
+export * from './list-dates';
+export * from './list-entry';
 export * from './markdown';
 export * from './mentions';
 export * from './mutation-meta';

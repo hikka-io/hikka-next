@@ -25,7 +25,8 @@ import {
 import {
     carryOverReadArgs,
     carryOverWatchArgs,
-    omitUndefined,
+    completedReadFill,
+    completedWatchFill,
 } from '@hikka/core';
 
 import MaterialSymbolsSettingsOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsSettingsOutlineRounded';
@@ -135,9 +136,8 @@ const KINDS: Record<'watch' | 'read', KindConfig> = {
         useEntry: useWatchEntry,
         useAdd: useAddWatch,
         carryOver: carryOverWatchArgs,
-        fillCompleted: (content: WatchContent | undefined) => ({
-            episodes: content?.episodes_total || undefined,
-        }),
+        fillCompleted: (content: WatchContent | undefined) =>
+            completedWatchFill(content),
     },
     read: {
         options: READ_STATUS_OPTIONS,
@@ -148,10 +148,7 @@ const KINDS: Record<'watch' | 'read', KindConfig> = {
         fillCompleted: (
             content: ReadContent | undefined,
             entry: ReadEntry | undefined,
-        ) => ({
-            volumes: content?.volumes || entry?.volumes || undefined,
-            chapters: content?.chapters || entry?.chapters || undefined,
-        }),
+        ) => completedReadFill(content, entry),
     },
 };
 
@@ -207,7 +204,7 @@ const ListStatusButton: FC<Props> = ({
                 status: selectedOption,
                 ...KINDS[kind].carryOver(trackedEntry),
                 ...(selectedOption === 'completed'
-                    ? omitUndefined(KINDS[kind].fillCompleted(content, entry))
+                    ? KINDS[kind].fillCompleted(content, entry)
                     : undefined),
             };
 

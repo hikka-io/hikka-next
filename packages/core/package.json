@@ -24,6 +24,7 @@
     "author": "olexh",
     "dependencies": {
         "@hikka/api": "workspace:*",
+        "@tanstack/query-core": "^5.104.0",
         "date-fns": "^4.1.0",
         "marked": "^12.0.1",
         "zod": "^3.25.76"
