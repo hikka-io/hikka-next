@@ -31,25 +31,11 @@ Each running task owns one device and one Metro port so parallel tasks never col
 
 `@hikka/core` (+ pure API helpers), auth (login sheet, secure token, profile tab), markdown viewer, Android verification with dev client, EAS and brand assets, design system (primitives, content cards, dev UI catalog at `hikka://dev/ui`).
 
-## Phase 2: core loop (in progress, parallel)
-
-Route skeleton: tabs `(home)`, `(catalog)`, `(profile)`, `(search)`; screens reachable from every tab live once in `src/app/(tabs)/(home,catalog,profile,search)/`.
-
-| Task | Model | Owns |
-| --- | --- | --- |
-| Content detail: anime, manga, novel with the web's sections | Opus | `(home,catalog,profile,search)/{anime,manga,novel}/`, `features/content/` |
-| Tracking: watch/read status sheet, progress, score, full-snapshot PUT | Opus | `components/tracking/`, its sheet route, `utils/api/invalidate-content-state.ts` |
-| Catalog and search: all three content types, filter sheet, sort, multi-type search, Android tab fixes | Opus | `(catalog)/`, `(search)/`, `(tabs)/_layout.tsx`, `features/{catalog,filters,search}/`, `components/anime-*` |
-| Home: the web's home widgets, Home as the initial tab | Sonnet | `(home)/`, `features/home/` |
-| Characters, people, public user pages | Sonnet | `(home,catalog,profile,search)/{characters,people,u}/`, `features/{entities,users}/` |
-
-Shared touch points: `src/app/_layout.tsx` (a task adds its own `Stack.Screen`), `components/markdown/links.ts` (a task adds the routes it builds to the in-app table), `DESIGN.md`, `package.json`.
-
 ## Phase 2: core loop (done, merged into `mobile/develop`)
 
 Content detail, tracking (wired into the detail header), catalog with filters and multi-type search, home, characters/people/users. A consolidation pass then keeps one implementation of each shared piece the parallel tasks duplicated.
 
-## Phase 3: the rest of the web (in progress)
+## Phase 3: the rest of the web (done, merged into `mobile/develop`)
 
 Placeholder routes exist for every screen below in `src/app/(tabs)/(home,catalog,profile,search)/`. Each task replaces its placeholders, adds its paths to the in-app table in `components/markdown/links.ts`, and switches the matching Home "see all"/link-outs from the browser to the in-app screen.
 
@@ -65,6 +51,18 @@ Placeholder routes exist for every screen below in `src/app/(tabs)/(home,catalog
 
 Web-only for now: the edit/contribution system, the article and collection editors, OAuth app management.
 
-## Phase 4: release
+## Phase 4: completeness and hardening (in progress)
+
+| Task | Model | Owns |
+| --- | --- | --- |
+| Content gaps: favourite buttons, 18+ consent gate, anime media and movie banner sections, review stats on comments | Opus | `features/content/`, favourite button component, `features/comments/` review stats |
+| Profile extras: list filters, random title, activity heatmap, articles and collections blocks | Sonnet | `features/users/` |
+| Hardening: network error copy, root error boundary, offline banner, image viewer | Sonnet | `utils/`, `components/` additions, core `api-error-message` |
+| End-to-end tests: Maestro flows for the core loop | Sonnet | `apps/mobile/e2e/` |
+| Android QA: every screen on the emulator, Android-only fixes | Sonnet | fixes only, after the others merge |
+
+Open for the owner: Turnstile production key in the WebView (error 300031), the Google ID-token endpoint, a comment report endpoint plus blocking users (App Store 1.2), apple-app-site-association and assetlinks.json on hikka.io for email links, push notification device registration.
+
+## Phase 5: release
 
 - Google sign-in (needs a backend ID-token endpoint), push notifications (needs device registration in the backend), offline query persistence, store listings and EAS submit.
