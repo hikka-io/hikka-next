@@ -1,24 +1,20 @@
 import { type FC, useState } from 'react';
 
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { RefreshControl, ScrollView } from 'react-native';
 
-import {
-    ContentTypeEnum,
-    HikkaApiError,
-    type MainContentTypeEnum,
-} from '@hikka/api';
-import { getTitle } from '@hikka/core';
+import { ContentTypeEnum, type MainContentTypeEnum } from '@hikka/api';
+import { contentPath, getTitle } from '@hikka/core';
 
-import { Button } from '@/components/ui/button';
-import EmptyState from '@/components/ui/empty-state';
-import { refetchContentDetail } from '@/utils/api/refetch-content-detail';
+import DetailHeaderChrome from '@/components/detail-header-chrome';
+import ErrorState from '@/components/ui/error-state';
+import { isNotFoundError } from '@/utils/api/is-not-found';
+import { bySlug, usePullToRefresh } from '@/utils/api/use-pull-to-refresh';
 
 import ContentCharacters from './content-characters';
 import ContentDetailSkeleton from './content-detail-skeleton';
 import ContentDetails from './content-details';
 import ContentFranchise from './content-franchise';
-import ContentHeaderChrome from './content-header-chrome';
 import ContentHero from './content-hero';
 import ContentLinks from './content-links';
 import ContentRecommendations from './content-recommendations';
@@ -74,31 +70,7 @@ type Props = {
     slug: string;
 };
 
-const DetailError: FC<{ error: Error; onRetry: () => void }> = ({
-    error,
-    onRetry,
-}) =>
-    error instanceof HikkaApiError && error.status === 404 ? (
-        <EmptyState
-            title="Не знайдено"
-            description="Сторінка не існує або була видалена"
-            className="pt-16"
-        />
-    ) : (
-        <EmptyState
-            title="Не вдалося завантажити"
-            description={error.message}
-            action={
-                <Button variant="outline" onPress={onRetry}>
-                    Повторити
-                </Button>
-            }
-            className="pt-16"
-        />
-    );
-
 const ContentDetailBody: FC<Props> = ({ contentType, slug }) => {
-    const queryClient = useQueryClient();
     const {
         data: content,
         error,
@@ -107,25 +79,14 @@ const ContentDetailBody: FC<Props> = ({ contentType, slug }) => {
     const { onScroll, onLayout } = useDetailScroll();
     const [titleBottom, setTitleBottom] = useState<number | null>(null);
     const titleVisible = useScrolledPast(titleBottom);
-    const [refreshing, setRefreshing] = useState(false);
-
-    const refresh = async () => {
-        setRefreshing(true);
-        try {
-            await refetchContentDetail(queryClient, slug);
-        } finally {
-            setRefreshing(false);
-        }
-    };
+    const { refreshing, onRefresh } = usePullToRefresh(bySlug(slug));
 
     return (
         <>
-            <ContentHeaderChrome
-                contentType={contentType}
-                slug={slug}
+            <DetailHeaderChrome
                 title={content ? getTitle(content) : ''}
                 titleVisible={titleVisible}
-                shareable={!!content}
+                sharePath={content ? contentPath(contentType, slug) : undefined}
             />
             <ScrollView
                 className="flex-1 bg-background"
@@ -137,7 +98,7 @@ const ContentDetailBody: FC<Props> = ({ contentType, slug }) => {
                 refreshControl={
                     <RefreshControl
                         refreshing={refreshing}
-                        onRefresh={refresh}
+                        onRefresh={onRefresh}
                     />
                 }
             >
@@ -154,7 +115,12 @@ const ContentDetailBody: FC<Props> = ({ contentType, slug }) => {
                         })}
                     </>
                 ) : error ? (
-                    <DetailError error={error} onRetry={refetch} />
+                    <ErrorState
+                        error={error}
+                        onRetry={refetch}
+                        notFound={isNotFoundError(error)}
+                        className="pt-16"
+                    />
                 ) : (
                     <ContentDetailSkeleton />
                 )}

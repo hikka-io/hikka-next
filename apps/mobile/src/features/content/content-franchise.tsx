@@ -4,13 +4,12 @@ import { useQuery } from '@tanstack/react-query';
 
 import { getMediaTypeLabel, getTitle } from '@hikka/core';
 
-import { presetImageUrl } from '@/components/content-card/image-presets';
 import PosterCard from '@/components/content-card/poster-card';
+import PosterRow from '@/components/content-card/poster-row';
+import { contentHref } from '@/utils/content-href';
 
-import { contentHref } from './content-href';
 import { useVisibleOnce } from './detail-scroll';
 import { type FranchiseEntry, getFranchiseEntries } from './franchise-entries';
-import PosterRow from './poster-row';
 import { type ContentInfo, contentRelatedFranchiseOptions } from './queries';
 
 const FRANCHISE_SKELETON_COUNT = 4;
@@ -36,8 +35,7 @@ const ContentFranchise: FC<Props> = ({ content }) => {
         <PosterRow<FranchiseEntry>
             title="Франшиза"
             items={entries}
-            skeletonCount={FRANCHISE_SKELETON_COUNT}
-            subtitles
+            skeleton={{ count: FRANCHISE_SKELETON_COUNT, subtitles: true }}
             error={isError}
             onRetry={refetch}
             onLayout={onLayout}
@@ -45,7 +43,7 @@ const ContentFranchise: FC<Props> = ({ content }) => {
             renderItem={(entry) => (
                 <PosterCard
                     title={getTitle(entry)}
-                    image={presetImageUrl(entry.image, 'cardSm')}
+                    image={entry.image ?? undefined}
                     leftSubtitle={getMediaTypeLabel(entry.media_type)}
                     rightSubtitle={entry.year ? String(entry.year) : null}
                     href={contentHref(entry.data_type, entry.slug)}

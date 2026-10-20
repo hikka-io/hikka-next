@@ -1,12 +1,10 @@
 import { type FC, Fragment, type ReactElement } from 'react';
 
-import { useQueryClient } from '@tanstack/react-query';
-import { Stack } from 'expo-router';
-import { Platform } from 'react-native';
-
 import BlockList from '@/components/block-list';
-import ErrorState from '@/components/error-state';
-import { shareSitePath } from '@/utils/share';
+import DetailHeaderChrome from '@/components/detail-header-chrome';
+import ErrorState from '@/components/ui/error-state';
+import { isNotFoundError } from '@/utils/api/is-not-found';
+import { bySlug, usePullToRefresh } from '@/utils/api/use-pull-to-refresh';
 
 import EntitySkeleton from './entity-skeleton';
 
@@ -21,12 +19,6 @@ type Props = {
     sections: ReactElement[];
 };
 
-const hasSlug = (queryKey: readonly unknown[], slug: string) => {
-    const first = queryKey[0] as { path?: { slug?: string } } | undefined;
-
-    return first?.path?.slug === slug;
-};
-
 const EntityScreen: FC<Props> = ({
     slug,
     sharePath,
@@ -37,36 +29,31 @@ const EntityScreen: FC<Props> = ({
     header,
     sections,
 }) => {
-    const queryClient = useQueryClient();
+    const { refreshing, onRefresh } = usePullToRefresh(bySlug(slug));
     const ready = !isPending && !error;
 
     return (
         <>
-            <Stack.Title>{title}</Stack.Title>
-            {Platform.OS === 'ios' && ready && (
-                <Stack.Toolbar placement="right">
-                    <Stack.Toolbar.Button
-                        icon="square.and.arrow.up"
-                        accessibilityLabel="Поділитися"
-                        onPress={() => shareSitePath(sharePath)}
-                    />
-                </Stack.Toolbar>
-            )}
+            <DetailHeaderChrome
+                title={title}
+                sharePath={ready ? sharePath : undefined}
+            />
             {isPending ? (
                 <EntitySkeleton />
             ) : error ? (
-                <ErrorState error={error} onRetry={refetch} />
+                <ErrorState
+                    error={error}
+                    onRetry={refetch}
+                    notFound={isNotFoundError(error)}
+                />
             ) : (
                 <BlockList
                     blocks={[
                         <Fragment key="header">{header}</Fragment>,
                         ...sections,
                     ]}
-                    onRefresh={() =>
-                        queryClient.invalidateQueries({
-                            predicate: (query) => hasSlug(query.queryKey, slug),
-                        })
-                    }
+                    refreshing={refreshing}
+                    onRefresh={onRefresh}
                 />
             )}
         </>

@@ -1,16 +1,10 @@
 import type { FC } from 'react';
 
-import type { Href } from 'expo-router';
 import { Star, User } from 'lucide-react-native';
 import { View } from 'react-native';
 
 import { ContentStatusEnum, ContentTypeEnum } from '@hikka/api';
-import {
-    contentPath,
-    getMediaTypeLabel,
-    getTitle,
-    RELEASE_STATUS,
-} from '@hikka/core';
+import { getMediaTypeLabel, getTitle, RELEASE_STATUS } from '@hikka/core';
 
 import {
     HorizontalCard,
@@ -22,6 +16,7 @@ import {
 import { Badge } from '@/components/ui/badge';
 import { Icon } from '@/components/ui/icon';
 import { Text } from '@/components/ui/text';
+import { contentHref } from '@/utils/content-href';
 
 import type { SearchItem } from './queries';
 
@@ -69,7 +64,7 @@ const SearchResultRow: FC<Props> = ({ item }) => {
 
     return (
         <HorizontalCard
-            href={contentPath(item.data_type, item.slug) as Href}
+            href={contentHref(item.data_type, item.slug)}
             className="px-4 py-2"
         >
             <HorizontalCardImage

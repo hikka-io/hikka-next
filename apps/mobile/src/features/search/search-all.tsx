@@ -1,16 +1,14 @@
 import type { FC, ReactNode } from 'react';
 
 import { type UseQueryOptions, useQueries } from '@tanstack/react-query';
-import { CircleAlert } from 'lucide-react-native';
 import { View } from 'react-native';
 
 import { ContentTypeEnum } from '@hikka/api';
-import { apiErrorMessage } from '@hikka/core';
 
 import { Button } from '@/components/ui/button';
 import EmptyState from '@/components/ui/empty-state';
+import ErrorState from '@/components/ui/error-state';
 import { Header, HeaderTitle } from '@/components/ui/header';
-import { Icon } from '@/components/ui/icon';
 
 import { type SearchPreview, searchPreviewOptions } from './queries';
 import SearchResultRow from './search-result-row';
@@ -22,8 +20,6 @@ import {
     searchQuery,
 } from './search-scope';
 import UserResultRow from './user-result-row';
-
-const ERROR_FALLBACK = 'Перевірте з’єднання та спробуйте ще раз';
 
 type Props = {
     text: string;
@@ -96,19 +92,11 @@ const SearchAll: FC<Props> = ({ text, onShowAll }) => {
 
     if (failed?.error) {
         return (
-            <EmptyState
-                className="mt-8"
-                icon={<Icon as={CircleAlert} />}
+            <ErrorState
+                error={failed.error}
+                onRetry={failed.refetch}
                 title="Не вдалося виконати пошук"
-                description={apiErrorMessage(failed.error, ERROR_FALLBACK)}
-                action={
-                    <Button
-                        variant="secondary"
-                        onPress={() => failed.refetch()}
-                    >
-                        Спробувати ще
-                    </Button>
-                }
+                className="mt-8"
             />
         );
     }

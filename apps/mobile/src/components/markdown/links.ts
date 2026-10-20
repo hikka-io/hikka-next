@@ -1,7 +1,5 @@
 import { SITE_ORIGIN } from '@/utils/site-origin';
 
-export { SITE_ORIGIN };
-
 const AUTH_ONLY_HOSTS = ['toloka.to', 'anitube.in.ua'];
 
 const TRUSTED_HOSTS = [

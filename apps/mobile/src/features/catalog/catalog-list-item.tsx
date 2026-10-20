@@ -1,12 +1,10 @@
 import type { FC } from 'react';
 
-import type { Href } from 'expo-router';
 import { Star } from 'lucide-react-native';
 import { View } from 'react-native';
 
 import { type ContentStatusEnum, ContentTypeEnum } from '@hikka/api';
 import {
-    contentPath,
     formatCompactNumber,
     getMediaTypeLabel,
     getTitle,
@@ -23,6 +21,7 @@ import {
 import { Icon } from '@/components/ui/icon';
 import { Text } from '@/components/ui/text';
 import { DENSE_MAX_FONT_SCALE } from '@/components/ui/typography';
+import { contentHref } from '@/utils/content-href';
 
 import type { CatalogItem } from './queries';
 
@@ -94,7 +93,7 @@ const CatalogListItem: FC<Props> = ({ item }) => {
 
     return (
         <HorizontalCard
-            href={contentPath(item.data_type, item.slug) as Href}
+            href={contentHref(item.data_type, item.slug)}
             className="px-4 py-2"
         >
             <HorizontalCardImage image={item.image} className="w-16" />

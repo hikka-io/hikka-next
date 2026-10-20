@@ -1,5 +1,6 @@
 import { type FC, type ReactNode, useState } from 'react';
 
+import { useRecyclingState } from '@shopify/flash-list';
 import { type Href, Link } from 'expo-router';
 import { Eye, ImageOff } from 'lucide-react-native';
 import { type GestureResponderEvent, Pressable, View } from 'react-native';
@@ -11,6 +12,7 @@ import Image from '@/components/ui/image';
 import { Text } from '@/components/ui/text';
 import { DENSE_MAX_FONT_SCALE } from '@/components/ui/typography';
 import { cn } from '@/utils/cn';
+import { presetForWidth, presetImageUrl } from '@/utils/image-presets';
 
 const BLUR_RADIUS = 24;
 const HIDDEN_LABEL = 'Прихований вміст';
@@ -53,7 +55,14 @@ const PosterCard: FC<Props> = ({
     imageBlur,
     titleBlur,
 }) => {
-    const [revealed, setRevealed] = useState(false);
+    // A recycled list cell shows another title: the reveal resets with it.
+    const [revealed, setRevealed] = useRecyclingState(false, [
+        typeof href === 'string' ? href : JSON.stringify(href ?? null),
+        typeof image === 'string' ? image : null,
+        title,
+    ]);
+    // A string `image` loads at the smallest imgproxy preset that covers the measured box; never the original.
+    const [boxWidth, setBoxWidth] = useState(0);
     const hidden = Boolean(imageBlur || titleBlur) && !revealed;
     const hasSubtitles = Boolean(leftSubtitle || rightSubtitle);
     const pressable = Boolean(href || onPress || hidden);
@@ -61,7 +70,11 @@ const PosterCard: FC<Props> = ({
     const poster =
         typeof image === 'string' ? (
             <Image
-                source={image}
+                source={
+                    boxWidth > 0
+                        ? presetImageUrl(image, presetForWidth(boxWidth))
+                        : undefined
+                }
                 contentFit="cover"
                 transition={150}
                 recyclingKey={image}
@@ -79,6 +92,9 @@ const PosterCard: FC<Props> = ({
         <>
             <View
                 style={{ aspectRatio: containerRatio }}
+                onLayout={(event) =>
+                    setBoxWidth(event.nativeEvent.layout.width)
+                }
                 className={cn(
                     'relative w-full items-center justify-center overflow-hidden rounded-md bg-muted',
                     containerClassName,

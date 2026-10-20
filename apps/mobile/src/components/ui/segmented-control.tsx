@@ -1,35 +1,43 @@
-import type { FC } from 'react';
-
-import { View } from 'react-native';
-
-import { Chip } from './chip';
+import { SegmentedControl as NativeSegmentedControl } from '@expo/ui/community/segmented-control';
+import * as Haptics from 'expo-haptics';
+import { useColorScheme } from 'react-native';
 
 export type SegmentedOption<T extends string> = { label: string; value: T };
 
 type Props<T extends string> = {
-    options: SegmentedOption<T>[];
+    options: readonly SegmentedOption<T>[];
     value: T;
     onValueChange: (value: T) => void;
 };
 
-// Android: Material's segmented button is not wired in yet, so the options render as a chip row.
+/**
+ * The web's `Tabs`: a SwiftUI segmented `Picker` on iOS, Compose `SegmentedButton` on Android.
+ * Full width with no fixed size, so labels grow with Dynamic Type.
+ */
 function SegmentedControl<T extends string>({
     options,
     value,
     onValueChange,
-}: Props<T>): ReturnType<FC> {
+}: Props<T>) {
+    const scheme = useColorScheme();
+
     return (
-        <View className="flex-row gap-2">
-            {options.map((option) => (
-                <Chip
-                    key={option.value}
-                    selected={option.value === value}
-                    onPress={() => onValueChange(option.value)}
-                >
-                    {option.label}
-                </Chip>
-            ))}
-        </View>
+        <NativeSegmentedControl
+            values={options.map((option) => option.label)}
+            selectedIndex={Math.max(
+                0,
+                options.findIndex((option) => option.value === value),
+            )}
+            appearance={scheme === 'dark' ? 'dark' : 'light'}
+            onChange={(event) => {
+                const next = options[event.nativeEvent.selectedSegmentIndex];
+
+                if (next && next.value !== value) {
+                    void Haptics.selectionAsync();
+                    onValueChange(next.value);
+                }
+            }}
+        />
     );
 }
 

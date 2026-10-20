@@ -2,15 +2,12 @@ import type { FC, ReactElement } from 'react';
 
 import { FlashList } from '@shopify/flash-list';
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
-import { CircleAlert } from 'lucide-react-native';
 import { ActivityIndicator } from 'react-native';
 
 import { ContentTypeEnum, type UserResponse } from '@hikka/api';
-import { apiErrorMessage } from '@hikka/core';
 
-import { Button } from '@/components/ui/button';
 import EmptyState from '@/components/ui/empty-state';
-import { Icon } from '@/components/ui/icon';
+import ErrorState from '@/components/ui/error-state';
 
 import {
     type ContentSearchType,
@@ -22,8 +19,6 @@ import SearchResultRow from './search-result-row';
 import SearchRowSkeleton from './search-row-skeleton';
 import type { SearchType } from './search-scope';
 import UserResultRow from './user-result-row';
-
-const ERROR_FALLBACK = 'Перевірте з’єднання та спробуйте ще раз';
 
 const SKELETON_ROWS: null[] = Array.from({ length: 8 }, () => null);
 
@@ -72,16 +67,11 @@ const ResultList: FC<ListProps> = ({
             ListHeaderComponent={header}
             ListEmptyComponent={
                 error ? (
-                    <EmptyState
-                        className="mt-8"
-                        icon={<Icon as={CircleAlert} />}
+                    <ErrorState
+                        error={error}
+                        onRetry={onRetry}
                         title="Не вдалося виконати пошук"
-                        description={apiErrorMessage(error, ERROR_FALLBACK)}
-                        action={
-                            <Button variant="secondary" onPress={onRetry}>
-                                Спробувати ще
-                            </Button>
-                        }
+                        className="mt-8"
                     />
                 ) : (
                     <EmptyState

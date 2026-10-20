@@ -24,6 +24,8 @@ import {
 } from '@hikka/core';
 
 import PosterCard from '@/components/content-card/poster-card';
+import { MDViewer } from '@/components/markdown';
+import TextExpand from '@/components/text-expand';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Icon } from '@/components/ui/icon';
@@ -32,12 +34,15 @@ import { StatItem, StatItemGroup } from '@/components/ui/stat-item';
 import { Text } from '@/components/ui/text';
 import { DENSE_MAX_FONT_SCALE } from '@/components/ui/typography';
 import { cn } from '@/utils/cn';
+import { presetImageUrl } from '@/utils/image-presets';
 
 import { getArticleExcerpt } from '../article-excerpt';
 import { useHomePreferences } from '../use-home-preferences';
 import { useOpenSitePath } from '../use-open-site-path';
-import ClampedMarkdown from './clamped-markdown';
 import type { FeedItemResponse } from './feed-item-types';
+
+const COMMENT_LINES = 6;
+const COMMENT_TEXT_CLASS = 'text-[15px] leading-[22px] text-foreground';
 
 const MAX_PREVIEW = 3;
 const TYPE_STYLES = {
@@ -176,7 +181,13 @@ const CollectionBody: FC<{ data: CollectionResponse }> = ({ data }) => {
                                 <View className="size-full items-center justify-center">
                                     {coverItem.content.image && (
                                         <Image
-                                            source={coverItem.content.image}
+                                            source={presetImageUrl(
+                                                coverItem.content.image,
+                                                'cardXs',
+                                            )}
+                                            recyclingKey={
+                                                coverItem.content.image
+                                            }
                                             blurRadius={24}
                                             contentFit="cover"
                                             className="absolute inset-0 size-full"
@@ -238,9 +249,18 @@ const CommentBody: FC<{ data: CommentResponseFeed }> = ({ data }) => {
     if (!data.text) return null;
 
     return (
-        <ClampedMarkdown onReadMore={() => openSitePath(getFeedItemPath(data))}>
-            {data.text}
-        </ClampedMarkdown>
+        <TextExpand
+            lines={COMMENT_LINES}
+            textClassName={COMMENT_TEXT_CLASS}
+            contentKey={data.reference}
+            expandText="Читати далі"
+            expandLabel="Читати далі"
+            onReadMore={() => openSitePath(getFeedItemPath(data))}
+        >
+            <MDViewer key={data.reference} textClassName={COMMENT_TEXT_CLASS}>
+                {data.text}
+            </MDViewer>
+        </TextExpand>
     );
 };
 
@@ -294,7 +314,7 @@ const FeedItem: FC<Props> = ({ item }) => {
                     className="-m-0.5 size-11 items-center justify-center active:opacity-70"
                 >
                     <Avatar className="size-10 rounded-lg">
-                        <AvatarImage src={item.author.avatar} />
+                        <AvatarImage src={item.author.avatar} size={40} />
                         <AvatarFallback className="rounded-lg">
                             {item.author.username?.[0]}
                         </AvatarFallback>

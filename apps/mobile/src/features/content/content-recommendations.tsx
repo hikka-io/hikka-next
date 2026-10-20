@@ -5,12 +5,11 @@ import { useQuery } from '@tanstack/react-query';
 import { type AnimeResponseWithWatch, ContentTypeEnum } from '@hikka/api';
 import { getMediaTypeLabel, getTitle } from '@hikka/core';
 
-import { presetImageUrl } from '@/components/content-card/image-presets';
 import PosterCard from '@/components/content-card/poster-card';
+import PosterRow from '@/components/content-card/poster-row';
+import { contentHref } from '@/utils/content-href';
 
-import { contentHref } from './content-href';
 import { useVisibleOnce } from './detail-scroll';
-import PosterRow from './poster-row';
 import {
     animeRecommendationsPreviewOptions,
     type ContentInfo,
@@ -36,8 +35,7 @@ const ContentRecommendations: FC<Props> = ({ content }) => {
         <PosterRow<AnimeResponseWithWatch>
             title="Рекомендації"
             items={data?.list}
-            skeletonCount={RECOMMENDATIONS_PREVIEW_SIZE}
-            subtitles
+            skeleton={{ count: RECOMMENDATIONS_PREVIEW_SIZE, subtitles: true }}
             error={isError}
             onRetry={refetch}
             onLayout={onLayout}
@@ -45,7 +43,7 @@ const ContentRecommendations: FC<Props> = ({ content }) => {
             renderItem={(anime) => (
                 <PosterCard
                     title={getTitle(anime)}
-                    image={presetImageUrl(anime.image, 'cardSm')}
+                    image={anime.image ?? undefined}
                     leftSubtitle={getMediaTypeLabel(anime.media_type)}
                     rightSubtitle={anime.year ? String(anime.year) : null}
                     href={contentHref(ContentTypeEnum.ANIME, anime.slug)}

@@ -1,6 +1,5 @@
 import { type FC, useState } from 'react';
 
-import { SegmentedControl } from '@expo/ui/community/segmented-control';
 import { openBrowserAsync } from 'expo-web-browser';
 import { View } from 'react-native';
 import { toast } from 'sonner-native';
@@ -14,18 +13,21 @@ import {
     HorizontalCardImage,
     HorizontalCardTitle,
 } from '@/components/horizontal-card';
+import TextExpand from '@/components/text-expand';
 import Card from '@/components/ui/card';
 import { Header, HeaderTitle } from '@/components/ui/header';
+import SegmentedControl from '@/components/ui/segmented-control';
 import { Text } from '@/components/ui/text';
 import { useSession } from '@/features/auth';
+import { siteUrl } from '@/utils/site-origin';
 
-import { SITE_ORIGIN } from './content-href';
 import type { ContentInfo } from './queries';
-import TextExpand from './text-expand';
 
 const LINKS_MAX_HEIGHT = 160;
 
 type Link = ContentInfo['external'][number];
+
+type LinkTab = 'general' | 'watch';
 
 const WEB_PROTOCOLS = ['http:', 'https:'];
 
@@ -40,7 +42,7 @@ const linkImage = (link: Link) => {
     const icon = getPlatformIcon(link.url);
 
     return icon ? (
-        `${SITE_ORIGIN}${icon}`
+        siteUrl(icon)
     ) : (
         <Text className="font-medium text-muted-foreground">
             {link.text[0]}
@@ -54,7 +56,7 @@ type Props = {
 
 const ContentLinks: FC<Props> = ({ content }) => {
     const { user } = useSession();
-    const [active, setActive] = useState(0);
+    const [active, setActive] = useState<LinkTab>('general');
 
     const { general, watch } = groupExternalLinks(content.external, {
         withWatch: !!user,
@@ -65,8 +67,9 @@ const ContentLinks: FC<Props> = ({ content }) => {
     }
 
     const tabs = [
-        { label: 'Загальні', links: general },
+        { value: 'general' as const, label: 'Загальні', links: general },
         {
+            value: 'watch' as const,
             label:
                 content.data_type === ContentTypeEnum.ANIME
                     ? 'Перегляд'
@@ -74,7 +77,7 @@ const ContentLinks: FC<Props> = ({ content }) => {
             links: watch,
         },
     ].filter((tab) => tab.links.length > 0);
-    const index = active < tabs.length ? active : 0;
+    const tab = tabs.find((option) => option.value === active) ?? tabs[0];
 
     return (
         <Card>
@@ -83,20 +86,19 @@ const ContentLinks: FC<Props> = ({ content }) => {
             </Header>
             {tabs.length > 1 && (
                 <SegmentedControl
-                    values={tabs.map((tab) => tab.label)}
-                    selectedIndex={index}
-                    onChange={(event) =>
-                        setActive(event.nativeEvent.selectedSegmentIndex)
-                    }
+                    options={tabs}
+                    value={tab.value}
+                    onValueChange={setActive}
                 />
             )}
             <TextExpand
-                key={index}
+                key={tab.value}
                 maxHeight={LINKS_MAX_HEIGHT}
                 surfaceClassName="bg-surface"
+                expandLabel="Показати всі посилання"
             >
                 <View className="gap-4">
-                    {tabs[index].links.map((link) => (
+                    {tab.links.map((link) => (
                         <HorizontalCard
                             key={link.url}
                             onPress={() => openLink(link.url)}

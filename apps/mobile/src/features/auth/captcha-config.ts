@@ -1,7 +1,9 @@
+import { SITE_ORIGIN } from '@/utils/site-origin';
+
 export const CAPTCHA_SITE_KEY = '0x4AAAAAAANXs8kaCqjo_FLF';
 
 // Turnstile checks the page hostname against the site key, so the widget page is loaded as if served from hikka.io.
-export const CAPTCHA_ORIGIN = 'https://hikka.io';
+export const CAPTCHA_ORIGIN = SITE_ORIGIN;
 
 export const TURNSTILE_ORIGIN = 'https://challenges.cloudflare.com';
 

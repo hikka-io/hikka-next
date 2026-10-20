@@ -6,6 +6,8 @@ import { Text, View } from 'react-native';
 
 import { userProfileOptions, userReferenceOptions } from '@hikka/api';
 
+import { sizedImageUrl } from '@/utils/image-presets';
+
 import { useOpenLink } from './use-open-link';
 
 type Props = {
@@ -52,7 +54,11 @@ const Mention: FC<Props> = ({ username: storedUsername, reference }) => {
                         }}
                     >
                         <Image
-                            source={user.avatar}
+                            source={sizedImageUrl(
+                                user.avatar,
+                                AVATAR_SIZE,
+                                AVATAR_SIZE,
+                            )}
                             style={{
                                 width: AVATAR_SIZE,
                                 height: AVATAR_SIZE,

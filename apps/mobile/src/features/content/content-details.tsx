@@ -31,12 +31,12 @@ import {
     SEASON,
 } from '@hikka/core';
 
-import { presetImageUrl } from '@/components/content-card/image-presets';
 import { Badge } from '@/components/ui/badge';
 import Card from '@/components/ui/card';
 import Image from '@/components/ui/image';
 import { Separator } from '@/components/ui/separator';
 import { Text } from '@/components/ui/text';
+import { presetImageUrl } from '@/utils/image-presets';
 
 import DetailRow from './detail-row';
 import type { ContentInfo } from './queries';

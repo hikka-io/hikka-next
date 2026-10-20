@@ -14,6 +14,7 @@ import {
 
 import Card from '@/components/ui/card';
 import EmptyState from '@/components/ui/empty-state';
+import ErrorState from '@/components/ui/error-state';
 import { Icon } from '@/components/ui/icon';
 import { Separator } from '@/components/ui/separator';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -25,7 +26,6 @@ import { homeScheduleOptions } from '../queries';
 import ToggleChip from '../toggle-chip';
 import { useHomePreferences } from '../use-home-preferences';
 import { useOpenSitePath } from '../use-open-site-path';
-import WidgetError from '../widget-error';
 import WidgetSection from '../widget-section';
 
 const AIRING_WINDOW_MS = 30 * 60 * 1000;
@@ -70,7 +70,7 @@ const ScheduleWidget: FC<Props> = ({ signedIn }) => {
             }
         >
             {isError ? (
-                <WidgetError onRetry={refetch} />
+                <ErrorState variant="section" onRetry={refetch} />
             ) : (
                 <Card className="gap-0 overflow-hidden p-0">
                     <View className="flex-row items-baseline gap-1.5 px-4 pt-3 pb-2">

@@ -13,8 +13,8 @@ import {
     WATCH_STATUS_ORDER,
 } from '@hikka/core';
 
-import InlineError from '@/components/inline-error';
 import Card from '@/components/ui/card';
+import ErrorState from '@/components/ui/error-state';
 import { Header, HeaderTitle } from '@/components/ui/header';
 import SegmentedControl from '@/components/ui/segmented-control';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -160,7 +160,8 @@ const AnimeStats: FC<{ username: string }> = ({ username }) => {
         userWatchListStatsOptions(username),
     );
 
-    if (error) return <InlineError onRetry={() => void refetch()} />;
+    if (error)
+        return <ErrorState variant="inline" onRetry={() => void refetch()} />;
 
     return data ? <StatsBody anime counts={data} /> : <StatsSkeleton />;
 };

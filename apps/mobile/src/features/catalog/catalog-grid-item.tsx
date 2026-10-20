@@ -1,10 +1,9 @@
 import type { FC } from 'react';
 
-import type { Href } from 'expo-router';
-
-import { contentPath, getMediaTypeLabel, getTitle } from '@hikka/core';
+import { getMediaTypeLabel, getTitle } from '@hikka/core';
 
 import PosterCard from '@/components/content-card/poster-card';
+import { contentHref } from '@/utils/content-href';
 
 import type { CatalogItem } from './queries';
 
@@ -17,7 +16,7 @@ const CatalogGridItem: FC<Props> = ({ item }) => {
         <PosterCard
             title={getTitle(item)}
             image={item.image ?? undefined}
-            href={contentPath(item.data_type, item.slug) as Href}
+            href={contentHref(item.data_type, item.slug)}
             leftSubtitle={item.year ? String(item.year) : null}
             rightSubtitle={getMediaTypeLabel(item.media_type)}
         />

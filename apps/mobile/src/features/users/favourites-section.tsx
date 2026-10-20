@@ -7,12 +7,13 @@ import { ContentTypeEnum } from '@hikka/api';
 import { CONTENT_TYPES, getMediaTypeLabel, getTitle } from '@hikka/core';
 
 import PosterCard from '@/components/content-card/poster-card';
-import InlineError from '@/components/inline-error';
-import PosterRow from '@/components/poster-row';
+import PosterRow from '@/components/content-card/poster-row';
 import { Chip } from '@/components/ui/chip';
+import ErrorState from '@/components/ui/error-state';
 import { Header, HeaderTitle } from '@/components/ui/header';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
+import { contentHref } from '@/utils/content-href';
 
 import { serviceUserStatsOptions, userFavouritesOptions } from './queries';
 
@@ -33,14 +34,6 @@ type FavouriteItem = {
     media_type?: string | null;
 };
 
-const ROUTE = {
-    anime: '/anime',
-    manga: '/manga',
-    novel: '/novel',
-    character: '/characters',
-    person: '/people',
-} as const satisfies Record<Category, string>;
-
 const FavouriteStrip: FC<{ username: string; type: Category }> = ({
     username,
     type,
@@ -55,7 +48,7 @@ const FavouriteStrip: FC<{ username: string; type: Category }> = ({
             keyExtractor={(item) => item.slug}
             renderItem={(item) => (
                 <PosterCard
-                    href={`${ROUTE[type]}/${item.slug}`}
+                    href={contentHref(type, item.slug)}
                     title={getTitle(item)}
                     image={item.image ?? undefined}
                     leftSubtitle={getMediaTypeLabel(item.media_type)}
@@ -90,8 +83,8 @@ const FavouritesSection: FC<Props> = ({ username }) => {
     if (!isPending && !error && !active) return null;
 
     return (
-        <View className="mt-6 gap-3">
-            <Header className="px-4">
+        <View className="mt-6 gap-3 px-4">
+            <Header>
                 <HeaderTitle
                     count={counts ? total : undefined}
                     countPending={isPending}
@@ -104,6 +97,7 @@ const FavouritesSection: FC<Props> = ({ username }) => {
                     <ScrollView
                         horizontal
                         showsHorizontalScrollIndicator={false}
+                        className="-mx-4"
                         contentContainerClassName="gap-2 px-4"
                     >
                         {available.map((type) => (
@@ -123,9 +117,9 @@ const FavouritesSection: FC<Props> = ({ username }) => {
                     />
                 </>
             ) : error ? (
-                <InlineError onRetry={() => void refetch()} className="px-4" />
+                <ErrorState variant="inline" onRetry={() => void refetch()} />
             ) : (
-                <View className="flex-row gap-2 px-4">
+                <View className="flex-row gap-2">
                     <Skeleton className="h-8 w-24" />
                     <Skeleton className="h-8 w-24" />
                 </View>
