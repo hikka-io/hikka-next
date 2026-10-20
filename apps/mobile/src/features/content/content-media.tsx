@@ -37,6 +37,9 @@ const TABS = [
 // The web's media cards: 1.7 for video thumbnails, square for soundtracks.
 const VIDEO_RATIO = 1.7;
 const OST_RATIO = 1;
+// How many cells of each strip fit on a phone: `w-56` videos, `w-28` soundtracks.
+const VISIBLE_VIDEOS = 2;
+const VISIBLE_OST = 4;
 
 const openVideo = (url: string) => {
     const video = readYouTubeVideo(url);
@@ -112,7 +115,7 @@ const AnimeMedia: FC<{ anime: AnimeInfoResponse }> = ({ anime }) => {
                     items={visible ? anime.videos : undefined}
                     itemClassName="w-56"
                     skeleton={{
-                        count: anime.videos.length,
+                        count: Math.min(anime.videos.length, VISIBLE_VIDEOS),
                         description: true,
                         containerRatio: VIDEO_RATIO,
                     }}
@@ -123,7 +126,7 @@ const AnimeMedia: FC<{ anime: AnimeInfoResponse }> = ({ anime }) => {
                 <PosterRow<AnimeOstResponse>
                     items={visible ? anime.ost : undefined}
                     skeleton={{
-                        count: anime.ost.length,
+                        count: Math.min(anime.ost.length, VISIBLE_OST),
                         description: true,
                         containerRatio: OST_RATIO,
                     }}
