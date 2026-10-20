@@ -109,16 +109,21 @@ const CommentsList: FC<Props> = ({ contentType, slug, reference }) => {
                   }),
         );
 
+    // Built apart from the flattening, so an expand or collapse keeps every node and the rows skip re-rendering their comments.
+    const tree = useMemo(
+        () => (items ? buildCommentTree(items) : undefined),
+        [items],
+    );
     const rows = useMemo(
         () =>
-            items
-                ? flattenCommentRows(buildCommentTree(items), {
+            tree
+                ? flattenCommentRows(tree, {
                       isExpanded: (node, depth) =>
                           expanded[node.reference] ?? defaultExpanded(depth),
                       showMissing: !reference,
                   })
                 : undefined,
-        [items, expanded, reference],
+        [tree, expanded, reference],
     );
 
     const reviewsTotal = getReviewTotal(stats?.reviewStats);
