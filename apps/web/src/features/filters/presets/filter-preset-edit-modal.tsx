@@ -3,7 +3,7 @@ import { toast } from 'sonner';
 
 import { ContentTypeEnum } from '@hikka/api';
 import type { SortType } from '@hikka/core';
-import { DATE_RANGE, newId } from '@hikka/core';
+import { DATE_RANGE, newId, SCORE_RANGE, YEARS } from '@hikka/core';
 
 import { useAppForm } from '@/components/form';
 import { Button } from '@/components/ui/button';
@@ -12,7 +12,6 @@ import { cn } from '@/utils/cn';
 
 import { FormAgeRating } from '../age-rating';
 import { FormDateRange } from '../date-range';
-import { SCORE_RANGE, YEARS } from '../filter-ranges';
 import { FormGenre } from '../genre';
 import { FormHideListed } from '../hide-listed';
 import { FormLocalization } from '../localization';

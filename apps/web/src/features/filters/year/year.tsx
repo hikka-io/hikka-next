@@ -4,6 +4,7 @@ import { useStore } from '@tanstack/react-form';
 import { Calendar } from 'lucide-react';
 
 import type { AnimeFilterSearch } from '@hikka/core';
+import { YEAR_RANGE, YEARS } from '@hikka/core';
 
 import {
     SliderField,
@@ -15,7 +16,6 @@ import { Label } from '@/components/ui/label';
 import { Slider } from '@/components/ui/slider';
 import { useRouteSearch } from '@/utils/navigation';
 
-import { YEAR_RANGE, YEARS } from '../filter-ranges';
 import { filterPresetFormOptions } from '../presets/filter-preset-form';
 import { useChangeParam } from '../use-change-param';
 import YearFilterInput from './year-filter-input';

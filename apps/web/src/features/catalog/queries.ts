@@ -19,17 +19,16 @@ import {
     type WatchStatusEnum,
 } from '@hikka/api';
 import type { AnimeSearch, MangaSearch, NovelSearch } from '@hikka/core';
+import {
+    buildAnimeSearchArgs,
+    buildMangaSearchArgs,
+    buildNovelSearchArgs,
+} from '@hikka/core';
 
 import {
     CATALOG_FILTERS_SIDEBAR_KEY,
     type UiPreferences,
 } from '@/utils/cookies';
-
-import {
-    buildAnimeSearchArgs,
-    buildMangaSearchArgs,
-    buildNovelSearchArgs,
-} from './search-args';
 
 export const CATALOG_VIEW_KEY = 'catalog';
 
