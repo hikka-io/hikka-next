@@ -1,7 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import * as Haptics from 'expo-haptics';
 import { useRouter } from 'expo-router';
-import { toast } from 'sonner-native';
 
 import {
     ContentTypeEnum,
@@ -11,13 +10,10 @@ import {
     randomWatchEntry,
     type WatchStatusEnum,
 } from '@hikka/api';
-import {
-    apiErrorMessage,
-    MUTATION_META_SKIP_ERROR_TOAST,
-    randomListStatus,
-} from '@hikka/core';
+import { MUTATION_META_SKIP_ERROR_TOAST, randomListStatus } from '@hikka/core';
 
 import { contentHref } from '@/utils/content-href';
+import { toastApiError } from '@/utils/offline-toast';
 
 import { countsOf, statusOrder } from '../list-status';
 import { type ListContentType, userListStatsOptions } from '../queries';
@@ -80,7 +76,7 @@ export function useRandomListEntry(
             void Haptics.notificationAsync(
                 Haptics.NotificationFeedbackType.Error,
             );
-            toast.error(apiErrorMessage(error, 'Не вдалося обрати тайтл'));
+            toastApiError(error, 'Не вдалося обрати тайтл');
         },
     });
 }
