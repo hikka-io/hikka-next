@@ -45,7 +45,7 @@ function chipTone(filter: ActiveFilter) {
           };
 }
 
-/** Whether any chip would show, so the toolbar and empty state can reflect it. */
+/** Whether a search has any active filter, as the chips would show. */
 export function hasActiveFilters(search: CatalogSearch, signedIn: boolean) {
     return getActiveFilters(search, { signedIn }).length > 0;
 }

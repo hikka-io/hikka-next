@@ -36,7 +36,7 @@ import RangeFilter from './range-filter';
 import StudioFilter from './studio-filter';
 import SwitchFilter from './switch-filter';
 
-export type FilterMode = 'catalog' | 'userList';
+type FilterMode = 'catalog' | 'userList';
 
 type Props = {
     type: CatalogType;
