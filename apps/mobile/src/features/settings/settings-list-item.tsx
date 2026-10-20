@@ -6,6 +6,7 @@ import {
     clickable,
     fillMaxWidth,
     padding,
+    testID as testIDModifier,
     weight,
 } from '@expo/ui/jetpack-compose/modifiers';
 import { useCSSVariable } from 'uniwind';
@@ -20,6 +21,7 @@ const SettingsListItem: FC<ListItemProps> = ({
     leading,
     trailing,
     colors,
+    testID,
     modifiers,
 }) => {
     const muted = useCSSVariable('--color-muted-foreground');
@@ -32,6 +34,7 @@ const SettingsListItem: FC<ListItemProps> = ({
                 fillMaxWidth(),
                 ...(onPress ? [clickable(onPress)] : []),
                 padding(0, ROW_PADDING_DP, 0, ROW_PADDING_DP),
+                ...(testID ? [testIDModifier(testID)] : []),
                 ...(modifiers ?? []),
             ]}
         >

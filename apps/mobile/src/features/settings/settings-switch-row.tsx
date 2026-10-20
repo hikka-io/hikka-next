@@ -2,9 +2,9 @@ import type { FC } from 'react';
 
 import { Row, Switch, Text } from '@expo/ui/jetpack-compose';
 import {
-    clickable,
     fillMaxWidth,
     padding,
+    toggleable,
     weight,
 } from '@expo/ui/jetpack-compose/modifiers';
 import * as Haptics from 'expo-haptics';
@@ -34,7 +34,13 @@ const SettingsSwitchRow: FC<Props> = ({
             horizontalArrangement={{ spacedBy: 16 }}
             modifiers={[
                 fillMaxWidth(),
-                ...(disabled ? [] : [clickable(() => toggle(!value))]),
+                ...(disabled
+                    ? []
+                    : [
+                          toggleable(value, () => toggle(!value), {
+                              role: 'switch',
+                          }),
+                      ]),
                 padding(0, 4, 0, 4),
             ]}
         >
@@ -42,7 +48,7 @@ const SettingsSwitchRow: FC<Props> = ({
             <Switch
                 value={value}
                 enabled={!disabled}
-                onCheckedChange={disabled ? undefined : toggle}
+                onCheckedChange={undefined}
             />
         </Row>
     );
