@@ -8,6 +8,9 @@ describe('in-app routes', () => {
         ['https://hikka.io/anime/slug/', '/anime/slug'],
         ['https://www.hikka.io/anime/slug?x=1#top', '/anime/slug'],
         ['/anime/slug', '/anime/slug'],
+        ['https://hikka.io/characters/emilia-abc', '/characters/emilia-abc'],
+        ['https://hikka.io/people/person-abc/', '/people/person-abc'],
+        ['https://hikka.io/u/olexh?tab=1', '/u/olexh'],
     ])('maps %s', (href, route) => {
         expect(resolveLink(href)).toEqual({ kind: 'route', href: route });
     });
@@ -15,10 +18,8 @@ describe('in-app routes', () => {
     it.each([
         'https://hikka.io/manga/berserk-4f2d1c',
         'https://hikka.io/novel/slug',
-        'https://hikka.io/characters/emilia-abc',
-        'https://hikka.io/people/person-abc',
-        'https://hikka.io/u/olexh',
         'https://hikka.io/anime/slug/characters',
+        'https://hikka.io/characters/emilia-abc/anime',
         'https://hikka.io/collections/abc',
     ])('opens %s in the browser until its route exists', (href) => {
         expect(resolveLink(href)).toEqual({
