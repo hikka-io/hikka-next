@@ -98,7 +98,9 @@ const LoginForm: FC<Props> = ({ onSuccess }) => {
                             submitted={submitted}
                             label="Пароль"
                             placeholder="Введіть ваш пароль"
-                            secureTextEntry
+                            revealable
+                            autoCapitalize="none"
+                            autoCorrect={false}
                             autoComplete="current-password"
                             textContentType="password"
                             editable={!busy}
