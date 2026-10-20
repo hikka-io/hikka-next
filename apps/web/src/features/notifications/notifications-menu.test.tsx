@@ -59,10 +59,6 @@ vi.mock('./utils/convert-notification', () => ({
     convertNotification: (n: { reference: string; seen: boolean }) => n,
 }));
 
-vi.mock('./utils/group-notifications-by-day', () => ({
-    groupNotificationsByDay: () => [],
-}));
-
 vi.mock('@/utils/api/invalidate-content-state', () => ({
     invalidateNotifications: mocks.invalidate,
 }));

@@ -9,6 +9,7 @@ import {
     paginationPageParam,
     unseenNotificationsCountOptions,
 } from '@hikka/api';
+import { groupNotificationsByDay } from '@hikka/core';
 
 import MaterialSymbolsNotificationsRounded from '@/components/icons/material-symbols/MaterialSymbolsNotificationsRounded';
 import { Button } from '@/components/ui/button';
@@ -34,7 +35,6 @@ import NotificationsHeader from './components/notifications-header';
 import NotificationCountBadge from './notification-count-badge';
 import type { Notification } from './types';
 import { convertNotification } from './utils/convert-notification';
-import { groupNotificationsByDay } from './utils/group-notifications-by-day';
 
 type Props = {
     trigger?: (unseenCount: number) => ReactNode;

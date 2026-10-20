@@ -1,8 +1,8 @@
-import { getUnixTime, startOfDay } from 'date-fns';
-import { format } from 'date-fns/format';
-
-import type { AnimeScheduleResponse } from '@hikka/api';
-import type { ScheduleSearch } from '@hikka/core';
+import {
+    formatScheduleDay,
+    groupScheduleByDay,
+    type ScheduleSearch,
+} from '@hikka/core';
 
 import FiltersNotFound from '@/components/filters-not-found';
 import LoadMoreButton from '@/components/load-more-button';
@@ -26,48 +26,34 @@ const ScheduleList = () => {
         ref,
     } = useInfiniteList(scheduleOptions(search));
 
-    const sortedList = list?.reduce(
-        (acc: Record<string, AnimeScheduleResponse[]>, item) => {
-            const day = getUnixTime(startOfDay(item.airing_at * 1000));
-            if (!(day in acc)) {
-                acc[day] = [];
-            }
-
-            acc[day] = [...acc[day], item];
-            return acc;
-        },
-        {},
-    );
+    const days = list && groupScheduleByDay(list);
 
     return (
         <div className="flex flex-col gap-12">
-            {sortedList &&
-                Object.keys(sortedList).map((day) => {
-                    const weekday = format(Number(day) * 1000, 'eeee');
-                    const date = format(Number(day) * 1000, 'd MMMM');
+            {days?.map(({ day, items }) => {
+                const { weekday, date } = formatScheduleDay(day);
 
-                    return (
-                        <Block key={day}>
-                            <Header>
-                                <HeaderTitle>
-                                    {weekday.charAt(0).toUpperCase()}
-                                    {weekday.slice(1)}{' '}
-                                    <span className="rounded-sm border border-primary-border bg-primary p-1 px-2 text-primary-foreground">
-                                        {date}
-                                    </span>
-                                </HeaderTitle>
-                            </Header>
-                            <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
-                                {sortedList[day].map((item, index) => (
-                                    <ScheduleItem
-                                        key={item.anime.slug + index}
-                                        item={item}
-                                    />
-                                ))}
-                            </div>
-                        </Block>
-                    );
-                })}
+                return (
+                    <Block key={day}>
+                        <Header>
+                            <HeaderTitle>
+                                {weekday}{' '}
+                                <span className="rounded-sm border border-primary-border bg-primary p-1 px-2 text-primary-foreground">
+                                    {date}
+                                </span>
+                            </HeaderTitle>
+                        </Header>
+                        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
+                            {items.map((item, index) => (
+                                <ScheduleItem
+                                    key={item.anime.slug + index}
+                                    item={item}
+                                />
+                            ))}
+                        </div>
+                    </Block>
+                );
+            })}
             {hasNextPage && (
                 <LoadMoreButton
                     isFetchingNextPage={isFetchingNextPage}

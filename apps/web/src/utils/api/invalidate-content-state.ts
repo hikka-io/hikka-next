@@ -37,12 +37,13 @@ import {
     WATCH_EMBED_IDS,
 } from '@hikka/core';
 
-// Watch/read cache writers live in @hikka/core, shared with the mobile app.
+// Watch/read and notification cache writers live in @hikka/core, shared with the mobile app.
 export {
     applyReadDeletion,
     applyReadMutation,
     applyWatchDeletion,
     applyWatchMutation,
+    invalidateNotifications,
     invalidateReadState,
     invalidateWatchState,
     writeReadToCaches,
@@ -135,11 +136,6 @@ const VOTE_DETAIL = {
 >;
 
 const SESSION_IDS: readonly QueryId[] = ['profile'];
-
-const NOTIFICATION_IDS: readonly QueryId[] = [
-    'notifications',
-    'unseenNotificationsCount',
-];
 
 const USER_CLIENT_IDS: readonly QueryId[] = ['listUserClients'];
 
@@ -311,14 +307,6 @@ export function invalidateUserProfile(
         }),
         invalidateByIds(queryClient, AVATAR_EMBED_IDS, { refetch: false }),
     ]).then(() => undefined);
-}
-
-/** Invalidate the notification list + unseen-count after marking seen. */
-export function invalidateNotifications(
-    queryClient: QueryClient,
-    options?: InvalidateOptions,
-): Promise<void> {
-    return invalidateByIds(queryClient, NOTIFICATION_IDS, options);
 }
 
 /** Invalidate the user's OAuth client list after create/update/delete. */

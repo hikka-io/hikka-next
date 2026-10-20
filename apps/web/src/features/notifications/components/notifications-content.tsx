@@ -1,35 +1,24 @@
 import { type FC, Fragment, type Ref } from 'react';
 
+import { type GroupedNotifications, NOTIFICATION_SECTIONS } from '@hikka/core';
+
 import LoadMoreButton from '@/components/load-more-button';
 import { SkeletonText } from '@/components/ui/skeleton';
 
 import type { Notification } from '../types';
-import type { GroupedNotifications } from '../utils/group-notifications-by-day';
 import NotFoundNotifications from './not-found-notifications';
 import NotificationItem from './notification-item';
 import NotificationItemSkeleton from './notification-item-skeleton';
 
 type Props = {
     normalized: Notification[] | undefined;
-    grouped: GroupedNotifications;
+    grouped: GroupedNotifications<Notification>;
     hasNextPage: boolean | undefined;
     isFetchingNextPage: boolean;
     fetchNextPage: () => void;
     loadMoreRef: Ref<HTMLButtonElement>;
     onNavigate?: () => void;
 };
-
-const SECTION_LABELS: Record<keyof GroupedNotifications, string> = {
-    today: 'Сьогодні',
-    yesterday: 'Вчора',
-    earlier: 'Раніше',
-};
-
-const SECTION_ORDER: (keyof GroupedNotifications)[] = [
-    'today',
-    'yesterday',
-    'earlier',
-];
 
 const SECTION_LABEL_CLASSNAME =
     'border-border border-b surface-inset px-3 py-1.5 font-medium text-muted-foreground text-xs';
@@ -57,13 +46,13 @@ const NotificationsContent: FC<Props> = ({
             ) : normalized.length === 0 ? (
                 <NotFoundNotifications />
             ) : (
-                SECTION_ORDER.map((sectionKey) => {
-                    const items = grouped[sectionKey];
+                NOTIFICATION_SECTIONS.map(({ key, label }) => {
+                    const items = grouped[key];
                     if (items.length === 0) return null;
                     return (
-                        <Fragment key={sectionKey}>
+                        <Fragment key={key}>
                             <div className={SECTION_LABEL_CLASSNAME}>
-                                {SECTION_LABELS[sectionKey]}
+                                {label}
                             </div>
                             {items.map((item) => (
                                 <NotificationItem
