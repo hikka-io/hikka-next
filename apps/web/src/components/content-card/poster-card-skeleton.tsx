@@ -29,7 +29,7 @@ const PosterCardSkeleton: FC<Props> = ({
                 <Skeleton className="size-full rounded-md" />
             </AspectRatio>
             {hasTitle && (
-                <div className="mt-1">
+                <div>
                     {description && (
                         <SkeletonText
                             className="mb-1 text-xs"

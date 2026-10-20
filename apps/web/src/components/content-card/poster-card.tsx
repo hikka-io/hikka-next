@@ -210,10 +210,9 @@ const PosterCard: FC<PosterCardProps> = ({
                     target={target}
                     linkProps={linkProps}
                     onClick={revealClick}
-                    className={cn(
-                        'mt-1',
-                        (leftSubtitle || rightSubtitle) && 'truncate',
-                    )}
+                    className={
+                        leftSubtitle || rightSubtitle ? 'truncate' : undefined
+                    }
                 >
                     <CardMeta
                         title={title}
