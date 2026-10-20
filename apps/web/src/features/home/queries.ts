@@ -16,16 +16,17 @@ import {
     profileUiQueryKey,
     type SeasonEnum,
     searchAnimeInfiniteOptions,
-    type UiFeedSettingsOutput,
     type UiFeedWidget,
     type UserCustomizationResponse,
     userWatchListInfiniteOptions,
     WatchStatusEnum,
 } from '@hikka/api';
 import {
+    buildFeedArgs,
     DEFAULT_USER_UI,
     getCurrentSeason,
     getOngoingsSort,
+    isFeedDisabled,
 } from '@hikka/core';
 
 import { scheduleOptions } from '@/features/schedule/queries';
@@ -45,8 +46,6 @@ export const HOME_ARTICLES_POPULAR_SORT = ['vote_score:desc'];
 
 const COLLECTIONS_POPULAR_SORT = ['system_ranking:desc', 'created:desc'];
 const COLLECTIONS_NEWEST_SORT = ['created:desc'];
-
-type FeedFilters = Omit<UiFeedSettingsOutput, 'only_followed' | 'widgets'>;
 
 export function homeOngoingsOptions(client?: Client) {
     const season = getCurrentSeason() as SeasonEnum;
@@ -141,34 +140,6 @@ export function homeFeedOptions(feedArgs: FeedArgs, client?: Client) {
         ...feedPageParam(),
     };
 }
-
-export function buildFeedArgs(
-    filters: FeedFilters,
-    onlyFollowed: boolean,
-): FeedArgs {
-    const args: FeedArgs = {};
-
-    if (onlyFollowed) args.only_followed = true;
-
-    if (filters.feed_content_types != null)
-        args.feed_content_types = filters.feed_content_types;
-    if (filters.comment_content_types?.length)
-        args.comment_content_types = filters.comment_content_types;
-    if (filters.article_content_types?.length)
-        args.article_content_types = filters.article_content_types;
-    if (filters.article_categories?.length)
-        args.article_categories = filters.article_categories;
-    if (filters.collection_content_types?.length)
-        args.collection_content_types = filters.collection_content_types;
-    if (filters.review_content_types?.length)
-        args.review_content_types = filters.review_content_types;
-
-    return args;
-}
-
-/** An empty list reads as "no filter" on the backend, so all sections off must skip the request. */
-export const isFeedDisabled = (filters: FeedFilters) =>
-    filters.feed_content_types?.length === 0;
 
 const cachedFeedSettings = (queryClient: QueryClient) =>
     mergePreferences(

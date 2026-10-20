@@ -38,16 +38,17 @@ import {
     type UserCustomizationResponse,
 } from '@hikka/api';
 import {
+    buildFeedArgs,
     DEFAULT_USER_UI,
     getCurrentSeason,
     getOngoingsSort,
+    isFeedDisabled,
 } from '@hikka/core';
 
 import { scheduleOptions } from '@/features/schedule/queries';
 
 import { Route as HomeRoute } from '../../routes/_pages/index';
 import {
-    buildFeedArgs,
     COLLECTIONS_PREVIEW_SIZE,
     HOME_ARTICLES_NEWEST_SORT,
     HOME_ARTICLES_POPULAR_SORT,
@@ -58,7 +59,6 @@ import {
     homeOngoingsOptions,
     homeScheduleOptions,
     homeWatchingOptions,
-    isFeedDisabled,
     loadHomePage,
     ONGOINGS_SIZE,
 } from './queries';

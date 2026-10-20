@@ -4,6 +4,7 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 import { useInView } from 'react-intersection-observer';
 
 import { ContentTypeEnum } from '@hikka/api';
+import { buildFeedArgs, isFeedDisabled } from '@hikka/core';
 
 import MaterialSymbolsDynamicFeedRounded from '@/components/icons/material-symbols/MaterialSymbolsDynamicFeedRounded';
 import LoadMoreButton from '@/components/load-more-button';
@@ -19,7 +20,7 @@ import {
     useUpdateSessionUI,
 } from '@/services/session';
 
-import { buildFeedArgs, homeFeedOptions, isFeedDisabled } from '../../queries';
+import { homeFeedOptions } from '../../queries';
 import type { WidgetProps } from '../../types';
 import FeedItem, { type FeedItemResponse } from './components/feed-item';
 import FeedItemSkeleton from './components/feed-item-skeleton';

@@ -1,6 +1,7 @@
 export * from './api-error-message';
 export * from './content-paths';
 export * from './customization-defaults';
+export * from './feed-args';
 export * from './get-content-title';
 export * from './get-title';
 export * from './history';
