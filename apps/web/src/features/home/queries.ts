@@ -25,12 +25,12 @@ import {
     getCollectionsArgs,
     getOngoingsArgs,
     isFeedDisabled,
+    mergePreferences,
 } from '@hikka/core';
 
 import { scheduleOptions } from '@/features/schedule/queries';
 import type { LoaderContext } from '@/utils/api/loader-prefetch';
 import { getSessionFromPagesCache } from '@/utils/auth';
-import { mergePreferences } from '@/utils/customization';
 
 import type { HomeCollectionsTab } from './types';
 

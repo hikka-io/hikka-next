@@ -95,6 +95,15 @@ const CORE_CANARIES = [
     ],
 ];
 
+// And for apps/mobile/src: [path under apps/mobile/src, source, tags].
+const MOBILE_CANARIES = [
+    [
+        'canary.ts',
+        "import { getTitle } from '@hikka/core';\nexport { getTitle };",
+        ['M1'],
+    ],
+];
+
 class RatchetError extends Error {}
 
 const fail = (message) => {
@@ -153,6 +162,11 @@ const checkCanaries = () => {
                 source,
                 tags,
             ]),
+            ...MOBILE_CANARIES.map(([path, source, tags]) => [
+                `apps/mobile/src/${path}`,
+                source,
+                tags,
+            ]),
         ];
         for (const [path, source] of canaries) {
             const file = join(dir, path);
@@ -167,6 +181,7 @@ const checkCanaries = () => {
                 '--max-diagnostics=none',
                 'apps/web/src',
                 'packages/core/src',
+                'apps/mobile/src',
             ],
             { cwd: dir, encoding: 'utf8', maxBuffer: 1 << 26 },
         );

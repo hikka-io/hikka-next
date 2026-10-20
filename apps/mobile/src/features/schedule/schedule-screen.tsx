@@ -11,7 +11,6 @@ import { Button } from '@/components/ui/button';
 import EmptyState from '@/components/ui/empty-state';
 import ErrorState from '@/components/ui/error-state';
 import { Text } from '@/components/ui/text';
-import { useHomePreferences } from '@/features/home';
 import { usePullToRefresh } from '@/utils/api/use-pull-to-refresh';
 
 import { isScheduleQuery, scheduleOptions } from './queries';
@@ -47,7 +46,6 @@ const rowKey = (row: Row) => row.key;
 
 const ScheduleScreen: FC = () => {
     const [filters, setFilters] = useState(defaultScheduleFilters);
-    const { titleLanguage, nameLanguage } = useHomePreferences();
     const { refreshing, onRefresh } = usePullToRefresh(isScheduleQuery);
     const {
         data,
@@ -136,13 +134,7 @@ const ScheduleScreen: FC = () => {
                         case 'skeleton':
                             return <ScheduleRowSkeleton />;
                         default:
-                            return (
-                                <ScheduleRow
-                                    item={row.item}
-                                    titleLanguage={titleLanguage}
-                                    nameLanguage={nameLanguage}
-                                />
-                            );
+                            return <ScheduleRow item={row.item} />;
                     }
                 }}
                 ListHeaderComponent={

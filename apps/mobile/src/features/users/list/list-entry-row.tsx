@@ -5,11 +5,7 @@ import { View } from 'react-native';
 import { useResolveClassNames } from 'uniwind';
 
 import type { MainContentTypeEnum } from '@hikka/api';
-import {
-    getMediaTypeLabel,
-    getTitle,
-    parseTextFromMarkDown,
-} from '@hikka/core';
+import { getMediaTypeLabel, parseTextFromMarkDown } from '@hikka/core';
 
 import {
     HorizontalCard,
@@ -23,6 +19,7 @@ import { Badge } from '@/components/ui/badge';
 import { Icon } from '@/components/ui/icon';
 import { Text } from '@/components/ui/text';
 import { DENSE_MAX_FONT_SCALE } from '@/components/ui/typography';
+import { useTitle } from '@/services/session';
 import { contentHref } from '@/utils/content-href';
 
 import { statusLabel } from '../list-status';
@@ -55,6 +52,7 @@ type Props = {
  * owner's rows open the edit sheet; everyone else's open the title.
  */
 const ListEntryRow: FC<Props> = ({ entry, contentType, owner, showStatus }) => {
+    const getTitle = useTitle();
     const { color: starColor } = useResolveClassNames('text-yellow-400');
     const content = entryContent(entry);
     const repeats = entryRepeats(entry);

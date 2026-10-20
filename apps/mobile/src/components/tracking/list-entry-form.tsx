@@ -10,7 +10,6 @@ import {
     ContentTypeEnum,
     type MainContentTypeEnum,
 } from '@hikka/api';
-import { getTitle } from '@hikka/core';
 
 import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
@@ -18,6 +17,7 @@ import { Icon } from '@/components/ui/icon';
 import { Separator } from '@/components/ui/separator';
 import { Text } from '@/components/ui/text';
 import { DENSE_MAX_FONT_SCALE } from '@/components/ui/typography';
+import { useTitle } from '@/services/session';
 import { cn } from '@/utils/cn';
 
 import DateField from './date-field';
@@ -62,6 +62,7 @@ const ListEntryForm: FC<Props> = ({
     content,
     onClose,
 }) => {
+    const getTitle = useTitle();
     const kind = kindOf(contentType);
     const [draft, setDraft] = useState<EntryDraft>(() =>
         draftFromEntry(kind, entry),

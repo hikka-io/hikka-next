@@ -11,7 +11,6 @@ export {
     injectStyles,
     removeInjectedStyles,
     STYLE_ELEMENT_ID,
-    SURFACE_OVERRIDE_TOKENS,
     stylesToCSS,
 } from './inject-styles';
 export {
@@ -19,13 +18,6 @@ export {
     type LivePreviewVar,
     setLiveVar,
 } from './live-preview';
-export {
-    diffStyles,
-    mergeEffects,
-    mergePreferences,
-    mergeStyles,
-    type UIEffect,
-} from './merge';
 export {
     syncThemeColorMeta,
     THEME_BOOTSTRAP_SCRIPT,

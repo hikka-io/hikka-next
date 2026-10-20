@@ -3,9 +3,10 @@ import type { FC } from 'react';
 import type { Href } from 'expo-router';
 
 import { ContentTypeEnum, type FavouriteContentTypeEnum } from '@hikka/api';
-import { getMediaTypeLabel, getTitle } from '@hikka/core';
+import { getMediaTypeLabel } from '@hikka/core';
 
 import PosterCard from '@/components/content-card/poster-card';
+import { useTitle } from '@/services/session';
 import { contentHref } from '@/utils/content-href';
 
 export type FavouriteItem = Record<string, unknown> & {
@@ -30,6 +31,7 @@ type Props = {
 
 /** The web's per-category favourite card: media, entity or collection poster. */
 const FavouriteCard: FC<Props> = ({ type, item }) => {
+    const getTitle = useTitle();
     if (type === ContentTypeEnum.COLLECTION) {
         return (
             <PosterCard

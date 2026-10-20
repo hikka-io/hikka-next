@@ -11,7 +11,6 @@ import {
     mangaInfoOptions,
     searchAnimeOptions,
 } from '@hikka/api';
-import { getTitle } from '@hikka/core';
 
 import PosterCard from '@/components/content-card/poster-card';
 import { IconStatusButton, ListStatusButton } from '@/components/tracking';
@@ -19,6 +18,7 @@ import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
 import { Text } from '@/components/ui/text';
 import { useSession } from '@/features/auth';
+import { useTitle } from '@/services/session';
 
 const ANIME = 'sousou-no-frieren-ad4e3e';
 const MANGA = 'sousou-no-frieren-97e05f';
@@ -135,6 +135,7 @@ const EmbeddedSample: FC = () => {
 
 // Dev-only: the tracking controls against real titles, plus the bodies the last writes sent.
 const TrackingDev: FC = () => {
+    const getTitle = useTitle();
     const { user, hasToken } = useSession();
     const anime = useQuery(animeSlugOptions({ path: { slug: ANIME } }));
     const manga = useQuery(mangaInfoOptions({ path: { slug: MANGA } }));

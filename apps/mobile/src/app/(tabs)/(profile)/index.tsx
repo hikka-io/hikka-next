@@ -1,10 +1,12 @@
-import { Stack } from 'expo-router';
+import { Stack, useRouter } from 'expo-router';
 
-import { ProfileSummary, signOut, useSession } from '@/features/auth';
+import { ProfileSummary, useSession } from '@/features/auth';
+import { SETTINGS_ICON } from '@/features/settings';
 import { UserPage } from '@/features/users';
 
 export default function ProfileScreen() {
     const { hasToken, user } = useSession();
+    const router = useRouter();
 
     return (
         <>
@@ -12,9 +14,9 @@ export default function ProfileScreen() {
             {hasToken ? (
                 <Stack.Toolbar placement="right">
                     <Stack.Toolbar.Button
-                        icon="rectangle.portrait.and.arrow.right"
-                        accessibilityLabel="Вийти"
-                        onPress={signOut}
+                        icon={SETTINGS_ICON}
+                        accessibilityLabel="Налаштування"
+                        onPress={() => router.push('/settings')}
                     />
                 </Stack.Toolbar>
             ) : null}

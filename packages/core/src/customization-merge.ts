@@ -6,9 +6,32 @@ import type {
     UiSurfaceOverrides,
     UserCustomizationResponse,
 } from '@hikka/api';
-import { DEFAULT_STYLES, DEFAULT_USER_UI, oklchEqual } from '@hikka/core';
 
-import { SURFACE_OVERRIDE_TOKENS } from './inject-styles';
+import { DEFAULT_STYLES, DEFAULT_USER_UI } from './customization-defaults';
+import { oklchEqual } from './oklch';
+
+/**
+ * Surface tokens a user may override directly (the advanced reveal). Excludes
+ * the brand-derived `primary*` family and the developer-controlled status
+ * colors. Mirrors `UiSurfaceOverrides` from the API.
+ */
+export const SURFACE_OVERRIDE_TOKENS = new Set<keyof UiSurfaceOverrides>([
+    'background',
+    'foreground',
+    'card',
+    'card_foreground',
+    'popover',
+    'popover_foreground',
+    'secondary',
+    'secondary_foreground',
+    'muted',
+    'muted_foreground',
+    'accent',
+    'accent_foreground',
+    'border',
+    'input',
+    'ring',
+]);
 
 export type UIEffect = NonNullable<UiPreferencesOutput['effect']>;
 

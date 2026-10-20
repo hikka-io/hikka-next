@@ -1,10 +1,9 @@
 import type { UiStylesOutput, UserCustomizationResponse } from '@hikka/api';
-import { DEFAULT_USER_UI } from '@hikka/core';
+import { DEFAULT_USER_UI, mergeStyles } from '@hikka/core';
 
 import { type ResolvedBackdrop, resolveBackdrop } from './backdrop';
 import { type EventTheme, getActiveEventTheme } from './event-themes';
 import { stylesToCSS } from './inject-styles';
-import { mergeStyles } from './merge';
 
 export function mergeUserStyles(
     defaults: UiStylesOutput | undefined,

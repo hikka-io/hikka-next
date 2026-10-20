@@ -1166,6 +1166,31 @@
                     }
                 }
             }
+        },
+        {
+            "includes": [
+                "apps/mobile/src/**",
+                "!apps/mobile/src/services/session/use-title.ts",
+                "!**/*.test.ts",
+                "!**/*.test.tsx"
+            ],
+            "linter": {
+                "rules": {
+                    "style": {
+                        "noRestrictedImports": {
+                            "level": "error",
+                            "options": {
+                                "paths": {
+                                    "@hikka/core": {
+                                        "importNames": ["getTitle"],
+                                        "message": "[M1] Show titles and names through useTitle() from @/services/session, which applies the viewer's title and name language."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     ],
     "assist": {

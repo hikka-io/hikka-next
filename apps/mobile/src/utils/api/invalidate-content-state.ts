@@ -1,5 +1,5 @@
 // The cache writers and invalidators: components never call setQueryData/invalidateQueries
-// themselves. The watch/read, follow and notification writers are shared with the web through @hikka/core.
+// themselves. The watch/read, follow, notification and session writers are shared with the web through @hikka/core.
 export {
     applyFollowChange,
     applyNotificationsSeen,
@@ -8,7 +8,12 @@ export {
     applyWatchDeletion,
     applyWatchMutation,
     invalidateReadState,
+    invalidateSession,
+    invalidateSessionUI,
+    invalidateUserProfile,
     invalidateWatchState,
+    writeIgnoredNotifications,
     writeReadToCaches,
+    writeSessionUI,
     writeWatchToCaches,
 } from '@hikka/core';

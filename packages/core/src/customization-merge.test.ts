@@ -1,9 +1,9 @@
 import { describe, expect, it } from 'vitest';
 
 import type { UiStylesOutput } from '@hikka/api';
-import { DEFAULT_STYLES } from '@hikka/core';
 
-import { diffStyles, mergeStyles } from './merge';
+import { DEFAULT_STYLES } from './customization-defaults';
+import { diffStyles, mergeStyles } from './customization-merge';
 
 describe('diffStyles', () => {
     it('diffs only the changed brand', () => {
