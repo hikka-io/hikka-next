@@ -1,12 +1,12 @@
 import { Stack } from 'expo-router';
 
-import EmptyState from '@/components/ui/empty-state';
+import { HomeScreen } from '@/features/home';
 
-export default function HomeScreen() {
+export default function HomeRoute() {
     return (
         <>
             <Stack.Title large>Головна</Stack.Title>
-            <EmptyState title="Незабаром" className="flex-1 justify-center" />
+            <HomeScreen />
         </>
     );
 }
