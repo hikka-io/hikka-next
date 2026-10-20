@@ -30,6 +30,10 @@ export default function RootLayout() {
                             sheetGrabberVisible: true,
                         }}
                     />
+                    <Stack.Screen
+                        name="dev/markdown"
+                        options={{ headerShown: true, title: 'Markdown' }}
+                    />
                 </Stack>
             </ThemeProvider>
         </QueryClientProvider>
