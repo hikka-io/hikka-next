@@ -6,13 +6,8 @@ import { getTitle } from '@hikka/core';
 
 import EntityHeader from './entity-header';
 import EntityScreen from './entity-screen';
+import { entitySections } from './entity-sections';
 import PersonPlaceholder from './person-placeholder';
-import {
-    PersonAnime,
-    PersonCharacters,
-    PersonManga,
-    PersonNovel,
-} from './person-sections';
 import { personInfoOptions } from './queries';
 
 type Props = {
@@ -48,12 +43,7 @@ const PersonPage: FC<Props> = ({ slug }) => {
                     />
                 )
             }
-            sections={[
-                <PersonCharacters key="characters" slug={slug} />,
-                <PersonAnime key="anime" slug={slug} />,
-                <PersonManga key="manga" slug={slug} />,
-                <PersonNovel key="novel" slug={slug} />,
-            ]}
+            sections={entitySections('person', slug)}
         />
     );
 };

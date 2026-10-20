@@ -11,15 +11,19 @@ import EmptyState from '@/components/ui/empty-state';
 type Props = {
     error: unknown;
     onRetry: () => void;
+    notFound?: boolean;
     notFoundTitle?: string;
 };
 
 const ErrorState: FC<Props> = ({
     error,
     onRetry,
+    notFound: forceNotFound,
     notFoundTitle = 'Сторінку не знайдено',
 }) => {
-    const notFound = error instanceof HikkaApiError && error.status === 404;
+    const notFound =
+        forceNotFound ||
+        (error instanceof HikkaApiError && error.status === 404);
 
     return (
         <View className="flex-1 items-center justify-center gap-3 bg-background p-6">

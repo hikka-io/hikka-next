@@ -1,13 +1,12 @@
-import { Share } from 'react-native';
+import { Platform, Share } from 'react-native';
 
 import { SITE_ORIGIN } from './site-origin';
 
 export const siteUrl = (path: string) => `${SITE_ORIGIN}${path}`;
 
-export const shareSitePath = (path: string, title?: string) => {
+// iOS shares a `url` as a link and would repeat a `message`; Android only reads the message.
+export const shareSitePath = (path: string) => {
     const url = siteUrl(path);
 
-    return Share.share(
-        title ? { message: url, url, title } : { message: url, url },
-    );
+    return Share.share(Platform.OS === 'ios' ? { url } : { message: url });
 };

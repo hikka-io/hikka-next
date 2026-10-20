@@ -4,14 +4,9 @@ import { useQuery } from '@tanstack/react-query';
 
 import { getTitle } from '@hikka/core';
 
-import {
-    CharacterAnime,
-    CharacterManga,
-    CharacterNovel,
-    CharacterVoices,
-} from './character-sections';
 import EntityHeader from './entity-header';
 import EntityScreen from './entity-screen';
+import { entitySections } from './entity-sections';
 import { characterInfoOptions } from './queries';
 
 type Props = {
@@ -45,12 +40,7 @@ const CharacterPage: FC<Props> = ({ slug }) => {
                     />
                 )
             }
-            sections={[
-                <CharacterAnime key="anime" slug={slug} />,
-                <CharacterManga key="manga" slug={slug} />,
-                <CharacterNovel key="novel" slug={slug} />,
-                <CharacterVoices key="voices" slug={slug} />,
-            ]}
+            sections={entitySections('character', slug)}
         />
     );
 };

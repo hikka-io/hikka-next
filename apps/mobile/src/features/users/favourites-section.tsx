@@ -7,12 +7,14 @@ import { ContentTypeEnum } from '@hikka/api';
 import { CONTENT_TYPES, getMediaTypeLabel, getTitle } from '@hikka/core';
 
 import PosterCard from '@/components/content-card/poster-card';
+import InlineError from '@/components/inline-error';
 import PosterRow from '@/components/poster-row';
 import { Chip } from '@/components/ui/chip';
 import { Header, HeaderTitle } from '@/components/ui/header';
 import { Skeleton } from '@/components/ui/skeleton';
+import { useInfiniteList } from '@/utils/api/use-infinite-list';
 
-import { serviceUserStatsOptions, useFavouritesList } from './queries';
+import { serviceUserStatsOptions, userFavouritesOptions } from './queries';
 
 // Collections are left out until the collection screens exist.
 const CATEGORIES = [
@@ -43,7 +45,9 @@ const FavouriteStrip: FC<{ username: string; type: Category }> = ({
     username,
     type,
 }) => {
-    const query = useFavouritesList<FavouriteItem>(username, type);
+    const query = useInfiniteList<FavouriteItem>(
+        userFavouritesOptions(username, type),
+    );
 
     return (
         <PosterRow
@@ -66,9 +70,12 @@ type Props = {
 };
 
 const FavouritesSection: FC<Props> = ({ username }) => {
-    const { data: stats, isPending } = useQuery(
-        serviceUserStatsOptions({ path: { username } }),
-    );
+    const {
+        data: stats,
+        isPending,
+        error,
+        refetch,
+    } = useQuery(serviceUserStatsOptions({ path: { username } }));
     const [selected, setSelected] = useState<Category | null>(null);
 
     const counts = stats?.favourites_count;
@@ -80,7 +87,7 @@ const FavouritesSection: FC<Props> = ({ username }) => {
     const active =
         selected && available.includes(selected) ? selected : available[0];
 
-    if (!isPending && !active) return null;
+    if (!isPending && !error && !active) return null;
 
     return (
         <View className="mt-6 gap-3">
@@ -115,6 +122,8 @@ const FavouritesSection: FC<Props> = ({ username }) => {
                         type={active}
                     />
                 </>
+            ) : error ? (
+                <InlineError onRetry={() => void refetch()} className="px-4" />
             ) : (
                 <View className="flex-row gap-2 px-4">
                     <Skeleton className="h-8 w-24" />

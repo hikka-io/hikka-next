@@ -48,7 +48,7 @@ const EntityScreen: FC<Props> = ({
                     <Stack.Toolbar.Button
                         icon="square.and.arrow.up"
                         accessibilityLabel="Поділитися"
-                        onPress={() => shareSitePath(sharePath, title)}
+                        onPress={() => shareSitePath(sharePath)}
                     />
                 </Stack.Toolbar>
             )}

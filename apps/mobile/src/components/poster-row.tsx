@@ -3,8 +3,7 @@ import type { ReactElement } from 'react';
 import { ActivityIndicator, FlatList, View } from 'react-native';
 
 import PosterCardSkeleton from '@/components/content-card/poster-card-skeleton';
-import { Button } from '@/components/ui/button';
-import { Text } from '@/components/ui/text';
+import InlineError from '@/components/inline-error';
 
 const SKELETON_COUNT = 4;
 const CARD_WIDTH = 'w-28';
@@ -52,16 +51,7 @@ function PosterRow<T>({
     }
 
     if (error && !list) {
-        return (
-            <View className="items-start gap-2 px-4">
-                <Text className="text-destructive-foreground text-sm">
-                    Не вдалося завантажити
-                </Text>
-                <Button variant="outline" size="md" onPress={refetch}>
-                    Повторити
-                </Button>
-            </View>
-        );
+        return <InlineError onRetry={refetch} className="px-4" />;
     }
 
     return (

@@ -50,6 +50,7 @@ const AnimeOverlay: FC<AnimeOverlayProps> = ({ anime }) => (
         <Link href={`/anime/${anime.slug}`} asChild>
             <Pressable
                 accessibilityRole="link"
+                accessibilityLabel={getTitle(anime)}
                 style={{ aspectRatio: DEFAULT_CONTAINER_RATIO }}
                 className="w-11 overflow-hidden rounded-md border-2 border-background bg-muted active:opacity-70"
             >

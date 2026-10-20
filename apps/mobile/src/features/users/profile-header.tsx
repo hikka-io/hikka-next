@@ -19,6 +19,7 @@ import RoleBadge from './role-badge';
 
 type Props = {
     user: UserResponseFollowed;
+    username: string;
 };
 
 const FollowCount: FC<{ count?: number; label: string }> = ({
@@ -41,13 +42,12 @@ const FollowCount: FC<{ count?: number; label: string }> = ({
     </View>
 );
 
-const ProfileHeader: FC<Props> = ({ user }) => {
+const ProfileHeader: FC<Props> = ({ user, username }) => {
     const openLink = useOpenLink();
     const { data: follow } = useQuery(
-        followStatsOptions({ path: { username: user.username ?? '' } }),
+        followStatsOptions({ path: { username } }),
     );
     const links = parseUserLinks(user.links);
-    const username = user.username ?? '';
 
     return (
         <View>
@@ -103,6 +103,8 @@ const ProfileHeader: FC<Props> = ({ user }) => {
                 {user.description ? (
                     <ExpandableMarkdown
                         contentKey={user.reference}
+                        lines={3}
+                        lineHeight={20}
                         textClassName="text-sm leading-5 text-muted-foreground"
                     >
                         {user.description}

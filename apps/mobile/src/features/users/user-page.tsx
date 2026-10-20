@@ -17,10 +17,11 @@ import ProfileHeader from './profile-header';
 import { userProfileOptions, userReferenceOptions } from './queries';
 import UserSkeleton from './user-skeleton';
 
-const hasUsername = (queryKey: readonly unknown[], username: string) => {
+const isForUsers = (queryKey: readonly unknown[], usernames: string[]) => {
     const first = queryKey[0] as { path?: { username?: string } } | undefined;
+    const name = first?.path?.username?.toLowerCase();
 
-    return first?.path?.username === username;
+    return name !== undefined && usernames.includes(name);
 };
 
 type Props = {
@@ -58,22 +59,18 @@ const UserProfile: FC<Props> = ({ username }) => {
     const { data, isPending, error, refetch } = useQuery(
         userProfileOptions({ path: { username } }),
     );
-    const ready = Boolean(data);
+    // The route param may differ in case from the stored name; every other query uses the stored one.
+    const name = data?.username;
 
     return (
         <>
-            <Stack.Title>{data?.username ?? username}</Stack.Title>
-            {Platform.OS === 'ios' && ready && (
+            <Stack.Title>{name ?? username}</Stack.Title>
+            {Platform.OS === 'ios' && name && (
                 <Stack.Toolbar placement="right">
                     <Stack.Toolbar.Button
                         icon="square.and.arrow.up"
                         accessibilityLabel="Поділитися"
-                        onPress={() =>
-                            shareSitePath(
-                                `/u/${username}`,
-                                data?.username ?? username,
-                            )
-                        }
+                        onPress={() => shareSitePath(`/u/${name}`)}
                     />
                 </Stack.Toolbar>
             )}
@@ -85,21 +82,32 @@ const UserProfile: FC<Props> = ({ username }) => {
                     onRetry={() => void refetch()}
                     notFoundTitle="Користувача не знайдено"
                 />
+            ) : !name ? (
+                <ErrorState
+                    error={null}
+                    notFound
+                    onRetry={() => void refetch()}
+                    notFoundTitle="Користувача не знайдено"
+                />
             ) : (
                 <BlockList
                     blocks={[
-                        <ProfileHeader key="header" user={data} />,
-                        <ListStats key="stats" username={username} />,
-                        <HistorySection key="history" username={username} />,
-                        <FavouritesSection
-                            key="favourites"
-                            username={username}
+                        <ProfileHeader
+                            key="header"
+                            user={data}
+                            username={name}
                         />,
+                        <ListStats key="stats" username={name} />,
+                        <HistorySection key="history" username={name} />,
+                        <FavouritesSection key="favourites" username={name} />,
                     ]}
                     onRefresh={() =>
                         queryClient.invalidateQueries({
                             predicate: (query) =>
-                                hasUsername(query.queryKey, username),
+                                isForUsers(query.queryKey, [
+                                    username.toLowerCase(),
+                                    name.toLowerCase(),
+                                ]),
                         })
                     }
                 />

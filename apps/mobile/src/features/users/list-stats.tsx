@@ -5,13 +5,15 @@ import { View } from 'react-native';
 
 import { ContentTypeEnum } from '@hikka/api';
 import {
-    DAY_FORMS,
     getDeclensionWord,
+    getWatchTime,
     HOUR_FORMS,
     LIST_STATUS,
-    MONTH_FORMS,
+    READ_STATUS_ORDER,
+    WATCH_STATUS_ORDER,
 } from '@hikka/core';
 
+import InlineError from '@/components/inline-error';
 import Card from '@/components/ui/card';
 import { Header, HeaderTitle } from '@/components/ui/header';
 import SegmentedControl from '@/components/ui/segmented-control';
@@ -30,21 +32,6 @@ const TABS = [
     { label: 'Манґа', value: ContentTypeEnum.MANGA },
     { label: 'Ранобе', value: ContentTypeEnum.NOVEL },
 ];
-
-const WATCH_ORDER = [
-    'completed',
-    'watching',
-    'planned',
-    'dropped',
-    'on_hold',
-] as const;
-const READ_ORDER = [
-    'completed',
-    'reading',
-    'planned',
-    'dropped',
-    'on_hold',
-] as const;
 
 // Uniwind compiles literal class names only, so each status maps to its own string.
 const STATUS_BG = {
@@ -67,28 +54,19 @@ const statusLabel = (anime: boolean, status: Status) => {
     return labels[status].title_ua;
 };
 
-const formatWatchTime = (minutes: number) => {
-    const hours = Math.round(minutes / 60);
-    const totalDays = Math.floor(hours / 24);
-    const months = Math.floor(totalDays / 30);
-    const days = totalDays % 30;
-
-    return [
-        months > 0 && `${months} ${getDeclensionWord(months, MONTH_FORMS)}`,
-        (days > 0 || months === 0) &&
-            `${days} ${getDeclensionWord(days, DAY_FORMS)}`,
-    ]
-        .filter(Boolean)
-        .join(' ');
-};
-
 type Counts = Partial<Record<Status, number>> & { duration?: number };
 
 const StatsBody: FC<{ anime: boolean; counts: Counts }> = ({
     anime,
     counts,
 }) => {
-    const order: readonly Status[] = anime ? WATCH_ORDER : READ_ORDER;
+    const order: readonly Status[] = anime
+        ? WATCH_STATUS_ORDER
+        : READ_STATUS_ORDER;
+    const watchTime =
+        anime && counts.duration !== undefined
+            ? getWatchTime(counts.duration)
+            : null;
     const total = order.reduce((sum, status) => sum + (counts[status] ?? 0), 0);
 
     return (
@@ -119,7 +97,7 @@ const StatsBody: FC<{ anime: boolean; counts: Counts }> = ({
                     />
                 ))}
             </View>
-            {anime && counts.duration !== undefined && (
+            {anime && watchTime && (
                 <View className="flex-row items-center justify-between border-border border-t pt-3">
                     <Text className="text-muted-foreground text-sm">
                         Час перегляду
@@ -127,9 +105,9 @@ const StatsBody: FC<{ anime: boolean; counts: Counts }> = ({
                     <Text
                         className="font-medium text-sm"
                         maxFontSizeMultiplier={DENSE_MAX_FONT_SCALE}
-                        accessibilityHint={`${Math.round(counts.duration / 60)} ${getDeclensionWord(Math.round(counts.duration / 60), HOUR_FORMS)}`}
+                        accessibilityHint={`${watchTime.hours} ${getDeclensionWord(watchTime.hours, HOUR_FORMS)}`}
                     >
-                        {formatWatchTime(counts.duration)}
+                        {watchTime.label}
                     </Text>
                 </View>
             )}
@@ -178,7 +156,11 @@ const StatsSkeleton: FC = () => (
 );
 
 const AnimeStats: FC<{ username: string }> = ({ username }) => {
-    const { data } = useQuery(userWatchListStatsOptions(username));
+    const { data, error, refetch } = useQuery(
+        userWatchListStatsOptions(username),
+    );
+
+    if (error) return <InlineError onRetry={() => void refetch()} />;
 
     return data ? <StatsBody anime counts={data} /> : <StatsSkeleton />;
 };

@@ -13,6 +13,7 @@ import {
     HorizontalCardImage,
     HorizontalCardTitle,
 } from '@/components/horizontal-card';
+import InlineError from '@/components/inline-error';
 import Card from '@/components/ui/card';
 import EmptyState from '@/components/ui/empty-state';
 import { Header, HeaderTitle } from '@/components/ui/header';
@@ -53,7 +54,7 @@ type Props = {
 };
 
 const HistorySection: FC<Props> = ({ username }) => {
-    const { data, isPending } = useInfiniteQuery(
+    const { data, isPending, error, refetch } = useInfiniteQuery(
         userHistoryPreviewOptions(username),
     );
     const items = data?.pages[0]?.list.slice(0, HISTORY_PREVIEW_SIZE);
@@ -66,6 +67,8 @@ const HistorySection: FC<Props> = ({ username }) => {
                 </Header>
                 {isPending ? (
                     <HistorySkeleton />
+                ) : error ? (
+                    <InlineError onRetry={() => void refetch()} />
                 ) : items && items.length > 0 ? (
                     <View className="gap-4">
                         {items.map((item) => {
