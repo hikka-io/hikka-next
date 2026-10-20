@@ -4,7 +4,7 @@ import { FlashList } from '@shopify/flash-list';
 import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'expo-router';
 import { LockOpen, MessageSquarePlus, Star } from 'lucide-react-native';
-import { ActivityIndicator, Pressable, View } from 'react-native';
+import { ActivityIndicator, Pressable, ScrollView, View } from 'react-native';
 
 import {
     type CommentContentTypeEnum,
@@ -24,12 +24,14 @@ import {
     type Verdict,
 } from '@hikka/core';
 
+import NsfwGate from '@/components/nsfw-gate';
 import { Button } from '@/components/ui/button';
 import EmptyState from '@/components/ui/empty-state';
 import ErrorState from '@/components/ui/error-state';
 import { Icon } from '@/components/ui/icon';
 import { Text } from '@/components/ui/text';
 import { useSession } from '@/features/auth';
+import { useNsfwAllowed } from '@/services/session';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { usePullToRefresh } from '@/utils/api/use-pull-to-refresh';
 
@@ -72,16 +74,27 @@ const CommentsList: FC<Props> = ({ contentType, slug, reference }) => {
         LIST_IDS.has(queryId(query.queryKey) ?? ''),
     );
 
+    const mainContent = isMainContent(contentType);
     const showTypes = !reference && supportsReviews(contentType);
-    const { data: stats } = useQuery({
+    const nsfw = useNsfwAllowed();
+    const {
+        data: stats,
+        isPending: statsPending,
+        isError: statsError,
+    } = useQuery({
         ...commentStatsOptions(
             isMainContent(contentType)
                 ? contentType
                 : MainContentTypeEnum.ANIME,
             slug,
         ),
-        enabled: showTypes,
+        enabled: mainContent,
     });
+    // A deep link can open an 18+ title's discussion directly, so it shares the detail page's gate.
+    const gated = !!stats?.nsfw && !nsfw.allowed;
+    const deciding =
+        mainContent &&
+        ((statsPending && !statsError) || (gated && nsfw.isPending));
 
     const { items, error, isFetchingNextPage, onEndReached, onRetry } =
         useInfiniteList<CommentResponse>(
@@ -204,34 +217,50 @@ const CommentsList: FC<Props> = ({ contentType, slug, reference }) => {
         </View>
     );
 
-    const empty = !rows ? (
-        error ? (
-            <ErrorState error={error} onRetry={onRetry} className="pt-8" />
+    const empty =
+        !rows || deciding ? (
+            error ? (
+                <ErrorState error={error} onRetry={onRetry} className="pt-8" />
+            ) : (
+                <View className="gap-6 px-4">
+                    {Array.from(
+                        { length: COMMENT_PREVIEW_SIZE },
+                        (_, index) => (
+                            // biome-ignore lint/suspicious/noArrayIndexKey: static placeholders.
+                            <CommentSkeleton key={index} />
+                        ),
+                    )}
+                </View>
+            )
+        ) : commentType === 'review' ? (
+            <EmptyState
+                bordered
+                icon={<Icon as={Star} />}
+                title="Відгуків не знайдено"
+                description="Тут з'являться відгуки, щойно хтось поділиться враженнями"
+                className="mx-4"
+            />
         ) : (
-            <View className="gap-6 px-4">
-                {Array.from({ length: COMMENT_PREVIEW_SIZE }, (_, index) => (
-                    // biome-ignore lint/suspicious/noArrayIndexKey: static placeholders.
-                    <CommentSkeleton key={index} />
-                ))}
-            </View>
-        )
-    ) : commentType === 'review' ? (
-        <EmptyState
-            bordered
-            icon={<Icon as={Star} />}
-            title="Відгуків не знайдено"
-            description="Тут з'являться відгуки, щойно хтось поділиться враженнями"
-            className="mx-4"
-        />
-    ) : (
-        <EmptyState
-            bordered
-            icon={<Icon as={MessageSquarePlus} />}
-            title="Коментарів не знайдено"
-            description="Ви можете розпочати обговорення першим"
-            className="mx-4"
-        />
-    );
+            <EmptyState
+                bordered
+                icon={<Icon as={MessageSquarePlus} />}
+                title="Коментарів не знайдено"
+                description="Ви можете розпочати обговорення першим"
+                className="mx-4"
+            />
+        );
+
+    if (gated && !nsfw.isPending) {
+        return (
+            <ScrollView
+                className="flex-1 bg-background"
+                contentInsetAdjustmentBehavior="automatic"
+                contentContainerClassName="px-4 pt-4 pb-16"
+            >
+                <NsfwGate />
+            </ScrollView>
+        );
+    }
 
     return (
         <>
@@ -247,7 +276,7 @@ const CommentsList: FC<Props> = ({ contentType, slug, reference }) => {
                 className="bg-background"
                 contentInsetAdjustmentBehavior="automatic"
                 contentContainerClassName="pb-16"
-                data={rows ?? []}
+                data={deciding ? [] : (rows ?? [])}
                 keyExtractor={(row) => row.key}
                 getItemType={(row) => row.type}
                 renderItem={({ item }) => <CommentRow row={item} slug={slug} />}

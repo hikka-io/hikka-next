@@ -1,6 +1,7 @@
 export {
     clearNsfwConsent,
     grantNsfwConsent,
+    useNsfwAllowed,
     useNsfwConsent,
 } from './nsfw-consent-store';
 export { useSessionUI } from './use-session-ui';
