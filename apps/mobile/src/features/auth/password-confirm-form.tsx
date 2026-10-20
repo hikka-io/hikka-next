@@ -73,7 +73,9 @@ const PasswordConfirmForm: FC<Props> = ({ token, onSuccess }) => {
                             submitted={submitted}
                             label="Пароль"
                             placeholder="Введіть пароль"
-                            secureTextEntry
+                            revealable
+                            autoCapitalize="none"
+                            autoCorrect={false}
                             autoComplete="new-password"
                             textContentType="newPassword"
                             editable={!busy}
@@ -88,7 +90,9 @@ const PasswordConfirmForm: FC<Props> = ({ token, onSuccess }) => {
                             submitted={submitted}
                             label="Підтвердження паролю"
                             placeholder="Повторіть пароль"
-                            secureTextEntry
+                            revealable
+                            autoCapitalize="none"
+                            autoCorrect={false}
                             autoComplete={CONFIRM_PASSWORD_AUTO_COMPLETE}
                             editable={!busy}
                         />
