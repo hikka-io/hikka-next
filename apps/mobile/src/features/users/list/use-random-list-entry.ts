@@ -39,9 +39,11 @@ export function useRandomListEntry(
     return useMutation({
         meta: MUTATION_META_SKIP_ERROR_TOAST,
         mutationFn: async () => {
-            const stats = await queryClient.ensureQueryData(
-                userListStatsOptions(username, contentType),
-            );
+            // Stale counts could name a status emptied elsewhere.
+            const stats = await queryClient.ensureQueryData({
+                ...userListStatsOptions(username, contentType),
+                revalidateIfStale: true,
+            });
             const picked = randomListStatus(
                 status,
                 countsOf(stats),
