@@ -5,7 +5,7 @@ import type { NotificationAccent, NotificationActor } from '@hikka/core';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { cn } from '@/utils/cn';
 
-import { ACCENT_BADGE_CLASSES } from '../utils/notification-accents';
+import { ACCENT_BADGE_CLASSES } from '../notification-accents';
 
 type Props = {
     actor?: NotificationActor;

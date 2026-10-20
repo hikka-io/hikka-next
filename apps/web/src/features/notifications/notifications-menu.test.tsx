@@ -55,7 +55,7 @@ vi.mock('./components/notifications-header', () => ({
     ),
 }));
 
-vi.mock('./utils/convert-notification', () => ({
+vi.mock('./convert-notification', () => ({
     convertNotification: (n: { reference: string; seen: boolean }) => n,
 }));
 

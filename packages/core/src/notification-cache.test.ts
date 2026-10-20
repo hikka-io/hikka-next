@@ -10,13 +10,18 @@ import {
 const LIST_KEY = [{ _id: 'notifications' }];
 const COUNT_KEY = [{ _id: 'unseenNotificationsCount' }];
 
-const item = (reference: string, seen: boolean) => ({ reference, seen });
+const item = (reference: string, created: number, seen: boolean) => ({
+    reference,
+    created,
+    seen,
+});
 
+// Newest first, like the API: c (30) and a (20) are unseen, b (10) is seen, d (5) is unseen.
 const seed = (queryClient: QueryClient) => {
     queryClient.setQueryData(LIST_KEY, {
         pages: [
-            { list: [item('a', false), item('b', true)] },
-            { list: [item('c', false)] },
+            { list: [item('c', 30, false), item('a', 20, false)] },
+            { list: [item('b', 10, true), item('d', 5, false)] },
         ],
         pageParams: [1, 2],
     });
@@ -31,49 +36,47 @@ const seenOf = (queryClient: QueryClient) =>
     ).pages.flatMap((page) => page.list.map((entry) => entry.seen));
 
 describe('patchNotificationsSeen', () => {
-    it('flips only the named unseen entries and leaves other data alone', () => {
+    it('flips the unseen entries at or before the mark and leaves other data alone', () => {
         const data = {
-            pages: [{ list: [item('a', false), item('c', false)] }],
+            pages: [{ list: [item('a', 20, false), item('d', 5, false)] }],
         };
 
-        expect(patchNotificationsSeen(data, new Set(['a']))).toEqual({
-            pages: [{ list: [item('a', true), item('c', false)] }],
+        expect(patchNotificationsSeen(data, 5)).toEqual({
+            pages: [{ list: [item('a', 20, false), item('d', 5, true)] }],
         });
-        expect(patchNotificationsSeen(data, new Set(['x']))).toBe(data);
-        expect(patchNotificationsSeen(undefined, new Set(['a']))).toBe(
-            undefined,
-        );
+        expect(patchNotificationsSeen(data, 1)).toBe(data);
+        expect(patchNotificationsSeen(undefined, 5)).toBe(undefined);
     });
 });
 
 describe('applyNotificationsSeen', () => {
-    it('flips the cached entries and lowers the cached count', async () => {
+    it('marks the entry and every older one, like the backend', async () => {
         const queryClient = new QueryClient();
         seed(queryClient);
 
-        await applyNotificationsSeen(queryClient, ['a']);
+        await applyNotificationsSeen(queryClient, 20);
 
-        expect(seenOf(queryClient)).toEqual([true, true, false]);
-        expect(queryClient.getQueryData(COUNT_KEY)).toEqual({ unseen: 4 });
+        expect(seenOf(queryClient)).toEqual([false, true, true, true]);
+        expect(queryClient.getQueryData(COUNT_KEY)).toEqual({ unseen: 3 });
     });
 
-    it('does not lower the count for an entry that was already seen', async () => {
+    it('leaves the count alone when no cached entry flips', async () => {
         const queryClient = new QueryClient();
         seed(queryClient);
 
-        await applyNotificationsSeen(queryClient, ['b']);
+        await applyNotificationsSeen(queryClient, 4);
 
         expect(queryClient.getQueryData(COUNT_KEY)).toEqual({ unseen: 5 });
     });
 
-    it('marks many entries at once and never goes below zero', async () => {
+    it('never goes below zero', async () => {
         const queryClient = new QueryClient();
         seed(queryClient);
         queryClient.setQueryData(COUNT_KEY, { unseen: 1 });
 
-        await applyNotificationsSeen(queryClient, ['a', 'c']);
+        await applyNotificationsSeen(queryClient, 30);
 
-        expect(seenOf(queryClient)).toEqual([true, true, true]);
+        expect(seenOf(queryClient)).toEqual([true, true, true, true]);
         expect(queryClient.getQueryData(COUNT_KEY)).toEqual({ unseen: 0 });
     });
 
@@ -81,7 +84,7 @@ describe('applyNotificationsSeen', () => {
         const queryClient = new QueryClient();
         seed(queryClient);
 
-        await applyNotificationsSeen(queryClient, ['a']);
+        await applyNotificationsSeen(queryClient, 20);
 
         expect(queryClient.getQueryState(COUNT_KEY)?.isInvalidated).toBe(true);
         expect(queryClient.getQueryState(LIST_KEY)?.isInvalidated).toBe(false);

@@ -34,7 +34,7 @@ import NotificationsContent from './components/notifications-content';
 import NotificationsHeader from './components/notifications-header';
 import NotificationCountBadge from './notification-count-badge';
 import type { Notification } from './types';
-import { convertNotification } from './utils/convert-notification';
+import { convertNotification } from './convert-notification';
 
 type Props = {
     trigger?: (unseenCount: number) => ReactNode;

@@ -19,7 +19,7 @@ import MaterialSymbolsLiveTvRounded from '@/components/icons/material-symbols/Ma
 import MaterialSymbolsLockOpenRightOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsLockOpenRightOutlineRounded';
 import MaterialSymbolsPersonAddRounded from '@/components/icons/material-symbols/MaterialSymbolsPersonAddRounded';
 
-import type { Notification } from '../types';
+import type { Notification } from './types';
 
 const NOTIFICATION_ICONS: Record<NotificationTypeEnum, ReactNode> = {
     [NotificationTypeEnum.EDIT_ACCEPTED]: <MaterialSymbolsCheckCircleRounded />,

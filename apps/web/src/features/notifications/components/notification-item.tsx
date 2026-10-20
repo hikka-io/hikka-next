@@ -11,7 +11,7 @@ import { cn } from '@/utils/cn';
 import { Link } from '@/utils/navigation';
 
 import type { Notification } from '../types';
-import { ACCENT_BADGE_CLASSES } from '../utils/notification-accents';
+import { ACCENT_BADGE_CLASSES } from '../notification-accents';
 import NotificationLeadingVisual from './notification-leading-visual';
 
 type Props = {
