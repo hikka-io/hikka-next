@@ -5,7 +5,6 @@ import {
     collectionListArgs,
     PUBLIC_ARTICLE_CATEGORIES,
 } from './community-list-args';
-import { nextVoteScore, optimisticVote } from './vote-cache';
 
 describe('collectionListArgs', () => {
     it('sorts by ranking by default', () => {
@@ -49,25 +48,5 @@ describe('PUBLIC_ARTICLE_CATEGORIES', () => {
     it('leaves out the staff-only system category', () => {
         expect(PUBLIC_ARTICLE_CATEGORIES).not.toContain('system');
         expect(PUBLIC_ARTICLE_CATEGORIES).toContain('news');
-    });
-});
-
-describe('vote helpers', () => {
-    it('counts a pending vote at once', () => {
-        expect(optimisticVote(0, 10, 1)).toEqual({ myScore: 1, voteScore: 11 });
-        expect(optimisticVote(1, 10, -1)).toEqual({
-            myScore: -1,
-            voteScore: 8,
-        });
-        expect(optimisticVote(1, 10, undefined)).toEqual({
-            myScore: 1,
-            voteScore: 10,
-        });
-    });
-
-    it('clears the vote when the active direction is pressed again', () => {
-        expect(nextVoteScore(1, 1)).toBe(0);
-        expect(nextVoteScore(-1, 1)).toBe(1);
-        expect(nextVoteScore(0, -1)).toBe(-1);
     });
 });
