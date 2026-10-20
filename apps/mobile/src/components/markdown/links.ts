@@ -23,6 +23,10 @@ const IN_APP_ROUTES = new Set([
     'u',
 ]);
 
+// In-app routes deeper than `/<segment>/<slug>`: the comment pages and single threads.
+const NESTED_ROUTE =
+    /^\/comments\/(latest|my|[a-z]+\/[^/?#]+(?:\/[^/?#]+)?)\/?$/;
+
 export type LinkTarget =
     | { kind: 'route'; href: string }
     | { kind: 'external'; url: string; trusted: boolean; authOnly: boolean }
@@ -53,6 +57,12 @@ export const resolveLink = (href: string): LinkTarget => {
 
         if (match && IN_APP_ROUTES.has(match[1])) {
             return { kind: 'route', href: `/${match[1]}/${match[2]}` };
+        }
+
+        const nested = NESTED_ROUTE.exec(url.pathname);
+
+        if (nested) {
+            return { kind: 'route', href: `/comments/${nested[1]}` };
         }
 
         return {

@@ -12,6 +12,7 @@ import { isNotFoundError } from '@/utils/api/is-not-found';
 import { bySlug, usePullToRefresh } from '@/utils/api/use-pull-to-refresh';
 
 import ContentCharacters from './content-characters';
+import ContentComments from './content-comments';
 import ContentDetailSkeleton from './content-detail-skeleton';
 import ContentDetails from './content-details';
 import ContentFranchise from './content-franchise';
@@ -38,6 +39,7 @@ const SECTIONS = {
     staff: ContentStaff,
     recommendations: ContentRecommendations,
     links: ContentLinks,
+    comments: ContentComments,
 } satisfies Record<string, FC<SectionProps>>;
 
 type DetailSection = keyof typeof SECTIONS;
@@ -49,6 +51,7 @@ const READ_SECTIONS = [
     'characters',
     'staff',
     'links',
+    'comments',
 ] as const satisfies readonly DetailSection[];
 
 const DETAIL_SECTIONS = {
@@ -60,6 +63,7 @@ const DETAIL_SECTIONS = {
         'staff',
         'recommendations',
         'links',
+        'comments',
     ],
     [ContentTypeEnum.MANGA]: READ_SECTIONS,
     [ContentTypeEnum.NOVEL]: READ_SECTIONS,

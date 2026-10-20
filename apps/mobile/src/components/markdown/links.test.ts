@@ -13,6 +13,14 @@ describe('in-app routes', () => {
         ['https://hikka.io/characters/emilia-abc', '/characters/emilia-abc'],
         ['https://hikka.io/people/person-abc/', '/people/person-abc'],
         ['https://hikka.io/u/olexh?tab=1', '/u/olexh'],
+        ['https://hikka.io/comments/latest', '/comments/latest'],
+        ['https://hikka.io/comments/my/', '/comments/my'],
+        ['https://hikka.io/comments/anime/slug', '/comments/anime/slug'],
+        ['https://hikka.io/comments/user/olexh', '/comments/user/olexh'],
+        [
+            'https://hikka.io/comments/anime/slug/0b8b2c1e-1d1e-4a52-9d2a-1f7a6c2b9e10',
+            '/comments/anime/slug/0b8b2c1e-1d1e-4a52-9d2a-1f7a6c2b9e10',
+        ],
     ])('maps %s', (href, route) => {
         expect(resolveLink(href)).toEqual({ kind: 'route', href: route });
     });
@@ -21,6 +29,8 @@ describe('in-app routes', () => {
         'https://hikka.io/anime/slug/characters',
         'https://hikka.io/characters/emilia-abc/anime',
         'https://hikka.io/collections/abc',
+        'https://hikka.io/comments/anime/slug/ref/extra',
+        'https://hikka.io/comments',
     ])('opens %s in the browser until its route exists', (href) => {
         expect(resolveLink(href)).toEqual({
             kind: 'external',
