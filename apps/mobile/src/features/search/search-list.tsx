@@ -8,6 +8,7 @@ import { ContentTypeEnum, type UserResponse } from '@hikka/api';
 
 import EmptyState from '@/components/ui/empty-state';
 import ErrorState from '@/components/ui/error-state';
+import { Spinner } from '@/components/ui/spinner';
 
 import {
     type ContentSearchType,
@@ -115,11 +116,7 @@ const ContentResults: FC<Props & { type: ContentSearchType }> = ({
             onEndReached={() => {
                 if (hasNextPage && !isFetchingNextPage) fetchNextPage();
             }}
-            footer={
-                isFetchingNextPage ? (
-                    <ActivityIndicator className="py-4" />
-                ) : null
-            }
+            footer={isFetchingNextPage ? <Spinner className="py-4" /> : null}
         />
     );
 };

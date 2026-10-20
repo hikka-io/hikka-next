@@ -2,12 +2,13 @@ import type { FC } from 'react';
 
 import { FlashList } from '@shopify/flash-list';
 import { useInfiniteQuery } from '@tanstack/react-query';
-import { ActivityIndicator, View } from 'react-native';
+import { View } from 'react-native';
 
 import PosterCardSkeleton from '@/components/content-card/poster-card-skeleton';
 import { Button } from '@/components/ui/button';
 import EmptyState from '@/components/ui/empty-state';
 import ErrorState from '@/components/ui/error-state';
+import { Spinner } from '@/components/ui/spinner';
 import { useSession } from '@/features/auth';
 import {
     ActiveFilters,
@@ -125,9 +126,7 @@ const CatalogList: FC = () => {
             }
             ListEmptyComponent={empty}
             ListFooterComponent={
-                isFetchingNextPage ? (
-                    <ActivityIndicator className="py-4" />
-                ) : null
+                isFetchingNextPage ? <Spinner className="py-4" /> : null
             }
             onEndReached={() => {
                 if (hasNextPage && !isFetchingNextPage) fetchNextPage();

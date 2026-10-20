@@ -3,7 +3,7 @@ import { type FC, type ReactElement, useState } from 'react';
 import { FlashList } from '@shopify/flash-list';
 import { Stack, useIsFocused } from 'expo-router';
 import { Heart } from 'lucide-react-native';
-import { ActivityIndicator, ScrollView, View } from 'react-native';
+import { ScrollView, View } from 'react-native';
 
 import { ContentTypeEnum, type FavouriteContentTypeEnum } from '@hikka/api';
 
@@ -12,6 +12,7 @@ import EmptyState from '@/components/ui/empty-state';
 import ErrorState from '@/components/ui/error-state';
 import { Icon } from '@/components/ui/icon';
 import { Skeleton } from '@/components/ui/skeleton';
+import { Spinner } from '@/components/ui/spinner';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { byUsername, usePullToRefresh } from '@/utils/api/use-pull-to-refresh';
 
@@ -90,9 +91,7 @@ const FavouriteGrid: FC<GridProps> = ({ username, type, header }) => {
                 )
             }
             ListFooterComponent={
-                isFetchingNextPage ? (
-                    <ActivityIndicator className="py-4" />
-                ) : null
+                isFetchingNextPage ? <Spinner className="py-4" /> : null
             }
             onEndReached={onEndReached}
             onEndReachedThreshold={0.5}

@@ -3,7 +3,7 @@ import { type FC, useCallback, useMemo, useState } from 'react';
 import { FlashList } from '@shopify/flash-list';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { Rss } from 'lucide-react-native';
-import { ActivityIndicator, View } from 'react-native';
+import { View } from 'react-native';
 
 import type { FeedContentTypeEnum } from '@hikka/api';
 import { buildFeedArgs, type FeedFilters, isFeedDisabled } from '@hikka/core';
@@ -11,6 +11,7 @@ import { buildFeedArgs, type FeedFilters, isFeedDisabled } from '@hikka/core';
 import EmptyState from '@/components/ui/empty-state';
 import ErrorState from '@/components/ui/error-state';
 import { Icon } from '@/components/ui/icon';
+import { Spinner } from '@/components/ui/spinner';
 import { useSession } from '@/features/auth';
 import { usePullToRefresh } from '@/utils/api/use-pull-to-refresh';
 import { cn } from '@/utils/cn';
@@ -280,7 +281,7 @@ const HomeScreen: FC = () => {
             onRefresh={onRefresh}
             ListFooterComponent={
                 feedQuery.isFetchingNextPage ? (
-                    <ActivityIndicator className="py-4" />
+                    <Spinner className="py-4" />
                 ) : null
             }
         />

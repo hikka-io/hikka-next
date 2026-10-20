@@ -3,12 +3,13 @@ import { type FC, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import * as Haptics from 'expo-haptics';
 import { Plus, X } from 'lucide-react-native';
-import { ActivityIndicator, TextInput, View } from 'react-native';
+import { TextInput, View } from 'react-native';
 
 import { CompanyTypeEnum, searchCompaniesOptions } from '@hikka/api';
 
 import { Chip } from '@/components/ui/chip';
 import { Icon } from '@/components/ui/icon';
+import { Spinner } from '@/components/ui/spinner';
 import { Text } from '@/components/ui/text';
 import { DEBOUNCE_MS, useDebouncedValue } from '@/services/use-debounced-value';
 
@@ -101,7 +102,7 @@ const StudioFilter: FC<Props> = ({ selected = [], onToggle }) => {
                             {studio.name}
                         </Chip>
                     ))}
-                    {isFetching ? <ActivityIndicator /> : null}
+                    {isFetching ? <Spinner /> : null}
                 </View>
             )}
         </FilterSection>

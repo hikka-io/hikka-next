@@ -2,12 +2,13 @@ import { type FC, type ReactElement, type ReactNode, useState } from 'react';
 
 import { useRouter } from 'expo-router';
 import { ChevronDown, RotateCw, Settings } from 'lucide-react-native';
-import { ActivityIndicator, View } from 'react-native';
+import { View } from 'react-native';
 
 import type { MainContentTypeEnum } from '@hikka/api';
 
 import { Button, buttonVariants } from '@/components/ui/button';
 import { Icon, IconClassContext } from '@/components/ui/icon';
+import { Spinner } from '@/components/ui/spinner';
 import { Text, TextClassContext } from '@/components/ui/text';
 import { DENSE_MAX_FONT_SCALE } from '@/components/ui/typography';
 import { cn } from '@/utils/cn';
@@ -239,7 +240,7 @@ const ListStatusButton: FC<Props> = ({
                                 textClassName={style.text}
                             >
                                 {pending ? (
-                                    <ActivityIndicator size="small" />
+                                    <Spinner size="small" />
                                 ) : (
                                     <View
                                         className={cn(
@@ -309,7 +310,7 @@ const ListStatusButton: FC<Props> = ({
                 onPress={() => changeStatus(PLANNED_STATUS[kind])}
             >
                 {blocked ? (
-                    <ActivityIndicator size="small" />
+                    <Spinner size="small" />
                 ) : (
                     <View className="rounded-sm border border-secondary-foreground/20 p-1">
                         <StatusIcon

@@ -1,8 +1,9 @@
 import type { FC } from 'react';
 
-import { ActivityIndicator, View } from 'react-native';
+import { View } from 'react-native';
 
 import ErrorState from '@/components/ui/error-state';
+import { Spinner } from '@/components/ui/spinner';
 
 type Props = {
     isPending: boolean;
@@ -23,7 +24,7 @@ const SettingsLoading: FC<Props> = ({ isPending, error, onRetry }) => {
     if (isPending) {
         return (
             <View className="flex-1 items-center justify-center bg-background">
-                <ActivityIndicator />
+                <Spinner />
             </View>
         );
     }

@@ -2,7 +2,7 @@ import { type FC, useRef, useState } from 'react';
 
 import * as Haptics from 'expo-haptics';
 import { ChevronsUpDown, Trash2 } from 'lucide-react-native';
-import { ActivityIndicator, Alert, TextInput, View } from 'react-native';
+import { Alert, TextInput, View } from 'react-native';
 import { toast } from 'sonner-native';
 
 import {
@@ -15,6 +15,7 @@ import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
 import { Icon } from '@/components/ui/icon';
 import { Separator } from '@/components/ui/separator';
+import { Spinner } from '@/components/ui/spinner';
 import { Text } from '@/components/ui/text';
 import { DENSE_MAX_FONT_SCALE } from '@/components/ui/typography';
 import { useTitle } from '@/services/session';
@@ -302,7 +303,7 @@ const ListEntryForm: FC<Props> = ({
                         onPress={handleDelete}
                     >
                         {remove.isPending ? (
-                            <ActivityIndicator size="small" />
+                            <Spinner size="small" />
                         ) : (
                             <Icon as={Trash2} />
                         )}
@@ -316,7 +317,7 @@ const ListEntryForm: FC<Props> = ({
                     className="w-full"
                     onPress={handleSave}
                 >
-                    {save.isPending && <ActivityIndicator size="small" />}
+                    {save.isPending && <Spinner size="small" />}
                     Зберегти
                 </Button>
             </View>

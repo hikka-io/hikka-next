@@ -3,7 +3,7 @@ import { type FC, useMemo } from 'react';
 import { FlashList } from '@shopify/flash-list';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { Bell } from 'lucide-react-native';
-import { ActivityIndicator, View } from 'react-native';
+import { View } from 'react-native';
 
 import {
     convertNotification,
@@ -17,6 +17,7 @@ import { Button } from '@/components/ui/button';
 import EmptyState from '@/components/ui/empty-state';
 import ErrorState from '@/components/ui/error-state';
 import { Icon } from '@/components/ui/icon';
+import { Spinner } from '@/components/ui/spinner';
 import { Text } from '@/components/ui/text';
 import { usePullToRefresh } from '@/utils/api/use-pull-to-refresh';
 
@@ -149,9 +150,7 @@ const NotificationsList: FC = () => {
             }
             ListEmptyComponent={empty}
             ListFooterComponent={
-                isFetchingNextPage ? (
-                    <ActivityIndicator className="py-4" />
-                ) : null
+                isFetchingNextPage ? <Spinner className="py-4" /> : null
             }
             onEndReached={() => {
                 if (hasNextPage && !isFetchingNextPage) fetchNextPage();

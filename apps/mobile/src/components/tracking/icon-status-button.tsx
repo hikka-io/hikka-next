@@ -8,6 +8,7 @@ import type { MainContentTypeEnum } from '@hikka/api';
 
 import { Button } from '@/components/ui/button';
 import { Icon } from '@/components/ui/icon';
+import { Spinner } from '@/components/ui/spinner';
 import { cn } from '@/utils/cn';
 
 import { LOGIN_HREF, listEntryHref } from './list-entry-href';
@@ -80,7 +81,7 @@ const IconStatusButton: FC<Props> = ({
                 onPress={() => router.push(listEntryHref(contentType, slug))}
             >
                 {pending ? (
-                    <ActivityIndicator size="small" />
+                    <Spinner size="small" />
                 ) : (
                     <StatusIcon glyph={status?.glyph ?? plannedGlyph} />
                 )}
@@ -111,7 +112,7 @@ const IconStatusButton: FC<Props> = ({
             }}
         >
             {pending ? (
-                <ActivityIndicator size="small" />
+                <Spinner size="small" />
             ) : (
                 <StatusIcon glyph={plannedGlyph} />
             )}

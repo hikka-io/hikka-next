@@ -1,14 +1,10 @@
 import type { ReactElement } from 'react';
 
-import {
-    ActivityIndicator,
-    FlatList,
-    type LayoutChangeEvent,
-    View,
-} from 'react-native';
+import { FlatList, type LayoutChangeEvent, View } from 'react-native';
 
 import ErrorState from '@/components/ui/error-state';
 import { Header, HeaderTitle } from '@/components/ui/header';
+import { Spinner } from '@/components/ui/spinner';
 import { cn } from '@/utils/cn';
 
 import PosterRowSkeleton, {
@@ -78,7 +74,7 @@ function PosterRow<T>({
                     ListFooterComponent={
                         isFetchingNextPage ? (
                             <View className="h-40 justify-center">
-                                <ActivityIndicator />
+                                <Spinner />
                             </View>
                         ) : null
                     }

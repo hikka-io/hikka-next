@@ -5,7 +5,7 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 import * as Haptics from 'expo-haptics';
 import { Stack } from 'expo-router';
 import { Newspaper } from 'lucide-react-native';
-import { ActivityIndicator, Platform, View } from 'react-native';
+import { Platform, View } from 'react-native';
 
 import type { ArticlePreviewResponse } from '@hikka/api';
 import {
@@ -18,6 +18,7 @@ import {
 import EmptyState from '@/components/ui/empty-state';
 import ErrorState from '@/components/ui/error-state';
 import { Icon } from '@/components/ui/icon';
+import { Spinner } from '@/components/ui/spinner';
 import { useSession } from '@/features/auth';
 
 import ArticleCard from './article-card';
@@ -167,7 +168,7 @@ const ArticleList: FC<Props> = ({ initialSearch }) => {
                 }
                 ListFooterComponent={
                     isFetchingNextPage ? (
-                        <ActivityIndicator className="py-4" />
+                        <Spinner className="py-4" />
                     ) : isFetchNextPageError ? (
                         <ErrorState
                             variant="inline"

@@ -3,7 +3,7 @@ import { type FC, useRef, useState } from 'react';
 import * as Haptics from 'expo-haptics';
 import { useRouter } from 'expo-router';
 import { AtSign, EyeOff, Star } from 'lucide-react-native';
-import { ActivityIndicator, TextInput, View } from 'react-native';
+import { TextInput, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import {
@@ -27,6 +27,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { Chip } from '@/components/ui/chip';
 import { Icon } from '@/components/ui/icon';
+import { Spinner } from '@/components/ui/spinner';
 import { Text } from '@/components/ui/text';
 import { DENSE_MAX_FONT_SCALE } from '@/components/ui/typography';
 import { useSession } from '@/features/auth';
@@ -238,7 +239,7 @@ const ComposerForm: FC<FormProps> = ({
                 </Text>
                 <Button size="md" disabled={!canSend} onPress={submit}>
                     {pending ? (
-                        <ActivityIndicator size="small" />
+                        <Spinner size="small" />
                     ) : isEdit ? (
                         'Зберегти'
                     ) : (

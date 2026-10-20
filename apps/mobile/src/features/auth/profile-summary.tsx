@@ -1,12 +1,13 @@
 import type { FC } from 'react';
 
 import { Link } from 'expo-router';
-import { ActivityIndicator, View } from 'react-native';
+import { View } from 'react-native';
 
 import { UserRoleEnum } from '@hikka/api';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
+import { Spinner } from '@/components/ui/spinner';
 import { Text } from '@/components/ui/text';
 
 import ActivationAlert from './activation-alert';
@@ -19,7 +20,7 @@ const ProfileSummary: FC = () => {
     if (isLoading) {
         return (
             <View className="flex-1 items-center justify-center bg-background">
-                <ActivityIndicator />
+                <Spinner />
             </View>
         );
     }

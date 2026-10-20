@@ -3,7 +3,7 @@ import { type FC, useEffect, useState } from 'react';
 import { FlashList } from '@shopify/flash-list';
 import { Stack, useIsFocused, useRoute, useRouter } from 'expo-router';
 import { Bookmark } from 'lucide-react-native';
-import { ActivityIndicator, View } from 'react-native';
+import { View } from 'react-native';
 
 import { ContentTypeEnum } from '@hikka/api';
 import {
@@ -19,6 +19,7 @@ import EmptyState from '@/components/ui/empty-state';
 import ErrorState from '@/components/ui/error-state';
 import { Icon } from '@/components/ui/icon';
 import SegmentedControl from '@/components/ui/segmented-control';
+import { Spinner } from '@/components/ui/spinner';
 import { useSession } from '@/features/auth';
 import { clearFilters, hasActiveFilters } from '@/features/filters';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
@@ -260,9 +261,7 @@ const UserListPage: FC<Props> = ({ username, contentType, initialStatus }) => {
                     )
                 }
                 ListFooterComponent={
-                    isFetchingNextPage ? (
-                        <ActivityIndicator className="py-4" />
-                    ) : null
+                    isFetchingNextPage ? <Spinner className="py-4" /> : null
                 }
                 onEndReached={onEndReached}
                 onEndReachedThreshold={0.5}
