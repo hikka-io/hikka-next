@@ -1,5 +1,6 @@
 import { type FC, useState } from 'react';
 
+import { useIsFocused } from 'expo-router';
 import { Heart } from 'lucide-react-native';
 import { View } from 'react-native';
 
@@ -30,9 +31,10 @@ type StripProps = {
 };
 
 const FavouriteStrip: FC<StripProps> = ({ username, type, count }) => {
-    const query = useInfiniteList<FavouriteItem>(
-        userFavouritesOptions(username, type),
-    );
+    const query = useInfiniteList<FavouriteItem>({
+        ...userFavouritesOptions(username, type),
+        subscribed: useIsFocused(),
+    });
 
     if (count === 0) {
         const copy = favouriteEmptyCopy(type);

@@ -1,7 +1,7 @@
 import { type FC, useState } from 'react';
 
 import { FlashList } from '@shopify/flash-list';
-import { Stack, useRouter } from 'expo-router';
+import { Stack, useIsFocused, useRouter } from 'expo-router';
 import type { SFSymbol } from 'expo-symbols';
 import { Bookmark } from 'lucide-react-native';
 import { ActivityIndicator, View } from 'react-native';
@@ -25,7 +25,6 @@ import { renderViewSortMenu } from '@/components/view-sort-menu';
 import { useSession } from '@/features/auth';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { byUsername, usePullToRefresh } from '@/utils/api/use-pull-to-refresh';
-import { useRefetchStaleOnFocus } from '@/utils/api/use-refetch-stale-on-focus';
 
 import { statusLabel, statusOrder } from '../list-status';
 import {
@@ -106,11 +105,11 @@ const UserListPage: FC<Props> = ({ username, contentType, initialStatus }) => {
     const grid = view === 'grid';
 
     const { items, error, isFetchingNextPage, onEndReached, onRetry } =
-        useInfiniteList<UserListEntry>(
-            userListOptions(username, contentType, { status, sort, order }),
-        );
+        useInfiniteList<UserListEntry>({
+            ...userListOptions(username, contentType, { status, sort, order }),
+            subscribed: useIsFocused(),
+        });
     const { refreshing, onRefresh } = usePullToRefresh(byUsername([username]));
-    useRefetchStaleOnFocus(username, byUsername([username]));
     const data: (UserListEntry | null)[] =
         items ?? (error ? [] : SKELETON_ITEMS);
     const kind = contentType === ContentTypeEnum.ANIME ? 'watch' : 'read';

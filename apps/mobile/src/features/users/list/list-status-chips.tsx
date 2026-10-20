@@ -2,6 +2,7 @@ import type { FC } from 'react';
 
 import { useQuery } from '@tanstack/react-query';
 import * as Haptics from 'expo-haptics';
+import { useIsFocused } from 'expo-router';
 import { ScrollView, View } from 'react-native';
 
 import { USER_LIST_ALL_STATUS } from '@hikka/core';
@@ -67,7 +68,10 @@ const ListStatusChips: FC<Props> = ({
     status,
     onStatusChange,
 }) => {
-    const { data } = useQuery(userListStatsOptions(username, contentType));
+    const { data } = useQuery({
+        ...userListStatsOptions(username, contentType),
+        subscribed: useIsFocused(),
+    });
     const counts = data ? countsOf(data) : undefined;
     const select = (next: string) => {
         if (next === status) return;

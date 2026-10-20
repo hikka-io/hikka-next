@@ -1,4 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
+import { useIsFocused } from 'expo-router';
 
 import { ContentTypeEnum, type FavouriteContentTypeEnum } from '@hikka/api';
 
@@ -20,7 +21,10 @@ export const FAVOURITE_CATEGORIES = [
  * the owner keeps every category, like the web.
  */
 export function useFavouriteCategories(username: string) {
-    const query = useQuery(serviceUserStatsOptions({ path: { username } }));
+    const query = useQuery({
+        ...serviceUserStatsOptions({ path: { username } }),
+        subscribed: useIsFocused(),
+    });
     const { user: viewer } = useSession();
     const owner = viewer?.username?.toLowerCase() === username.toLowerCase();
     const counts = query.data?.favourites_count;

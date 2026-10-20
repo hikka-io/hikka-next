@@ -1,12 +1,13 @@
 import { type FC, type ReactElement, useState } from 'react';
 
 import { FlashList } from '@shopify/flash-list';
-import { Stack } from 'expo-router';
+import type { Query } from '@tanstack/react-query';
+import { Stack, useIsFocused } from 'expo-router';
 import { History } from 'lucide-react-native';
 import { ActivityIndicator, View } from 'react-native';
 
 import type { HistoryResponse } from '@hikka/api';
-import { groupHistoryByDay } from '@hikka/core';
+import { groupHistoryByDay, type QueryId, queryId } from '@hikka/core';
 
 import HistoryRow from '@/components/list-items/history-row';
 import HistoryRowSkeleton from '@/components/list-items/history-row-skeleton';
@@ -18,7 +19,6 @@ import { Text } from '@/components/ui/text';
 import { useSession } from '@/features/auth';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { byUsername, usePullToRefresh } from '@/utils/api/use-pull-to-refresh';
-import { useRefetchStaleOnFocus } from '@/utils/api/use-refetch-stale-on-focus';
 
 import {
     DEFAULT_PAGE_SIZE,
@@ -30,6 +30,12 @@ const SOURCES: { label: string; value: HistorySource }[] = [
     { label: 'Власна', value: 'user' },
     { label: 'Відстежується', value: 'following' },
 ];
+
+const FOLLOWING_HISTORY_ID: QueryId = 'followingHistory';
+
+// The following feed is the viewer's, so its key carries no username to refresh by.
+const FOLLOWING_HISTORY = (query: Query) =>
+    queryId(query.queryKey) === FOLLOWING_HISTORY_ID;
 
 type Row =
     | { kind: 'day'; key: string; label: string; detail: string }
@@ -58,9 +64,13 @@ type FeedProps = {
 const HistoryFeed: FC<FeedProps> = ({ username, source, header }) => {
     const following = source === 'following';
     const { items, error, isFetchingNextPage, onEndReached, onRetry } =
-        useInfiniteList<HistoryResponse>(userHistoryOptions(username, source));
-    const { refreshing, onRefresh } = usePullToRefresh(byUsername([username]));
-    useRefetchStaleOnFocus(username, byUsername([username]));
+        useInfiniteList<HistoryResponse>({
+            ...userHistoryOptions(username, source),
+            subscribed: useIsFocused(),
+        });
+    const { refreshing, onRefresh } = usePullToRefresh(
+        following ? FOLLOWING_HISTORY : byUsername([username]),
+    );
     const rows = items ? toRows(items) : error ? [] : SKELETON_ROWS;
 
     return (

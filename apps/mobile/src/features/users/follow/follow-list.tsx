@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 
 import { FlashList } from '@shopify/flash-list';
-import { Stack } from 'expo-router';
+import { Stack, useIsFocused } from 'expo-router';
 import { Users } from 'lucide-react-native';
 import { ActivityIndicator } from 'react-native';
 
@@ -49,7 +49,10 @@ type Props = {
 const FollowList: FC<Props> = ({ kind, username }) => {
     const copy = COPY[kind];
     const { items, error, isFetchingNextPage, onEndReached, onRetry } =
-        useInfiniteList<FollowUserResponse>(followListOptions(kind, username));
+        useInfiniteList<FollowUserResponse>({
+            ...followListOptions(kind, username),
+            subscribed: useIsFocused(),
+        });
     const { refreshing, onRefresh } = usePullToRefresh(byUsername([username]));
     const data: (FollowUserResponse | null)[] =
         items ?? (error ? [] : SKELETON_ITEMS);

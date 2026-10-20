@@ -1,7 +1,7 @@
 import { type FC, type ReactElement, useState } from 'react';
 
 import { FlashList } from '@shopify/flash-list';
-import { Stack } from 'expo-router';
+import { Stack, useIsFocused } from 'expo-router';
 import { Heart } from 'lucide-react-native';
 import { ActivityIndicator, View } from 'react-native';
 
@@ -40,7 +40,10 @@ type GridProps = {
 
 const FavouriteGrid: FC<GridProps> = ({ username, type, header }) => {
     const { items, error, isFetchingNextPage, onEndReached, onRetry } =
-        useInfiniteList<FavouriteItem>(userFavouritesOptions(username, type));
+        useInfiniteList<FavouriteItem>({
+            ...userFavouritesOptions(username, type),
+            subscribed: useIsFocused(),
+        });
     const { refreshing, onRefresh } = usePullToRefresh(byUsername([username]));
     const data: (FavouriteItem | null)[] =
         items ?? (error ? [] : SKELETON_ITEMS);

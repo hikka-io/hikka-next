@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 
 import { useQuery } from '@tanstack/react-query';
-import { type Href, Link } from 'expo-router';
+import { type Href, Link, useIsFocused } from 'expo-router';
 import { Pressable, View } from 'react-native';
 
 import { parseUserLinks, type UserResponseFollowed } from '@hikka/api';
@@ -60,9 +60,10 @@ const FollowCount: FC<{ count?: number; label: string; href: Href }> = ({
 
 const ProfileHeader: FC<Props> = ({ user, username }) => {
     const openLink = useOpenLink();
-    const { data: follow } = useQuery(
-        followStatsOptions({ path: { username } }),
-    );
+    const { data: follow } = useQuery({
+        ...followStatsOptions({ path: { username } }),
+        subscribed: useIsFocused(),
+    });
     const links = parseUserLinks(user.links);
 
     return (

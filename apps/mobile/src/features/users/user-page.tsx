@@ -1,7 +1,7 @@
 import { type FC, useEffect } from 'react';
 
 import { useQuery } from '@tanstack/react-query';
-import { useRouter } from 'expo-router';
+import { useIsFocused, useRouter } from 'expo-router';
 import { View } from 'react-native';
 
 import { UserRoleEnum } from '@hikka/api';
@@ -13,7 +13,6 @@ import ErrorState from '@/components/ui/error-state';
 import { ActivationAlert, useSession } from '@/features/auth';
 import { isNotFoundError } from '@/utils/api/is-not-found';
 import { byUsername, usePullToRefresh } from '@/utils/api/use-pull-to-refresh';
-import { useRefetchStaleOnFocus } from '@/utils/api/use-refetch-stale-on-focus';
 
 import FavouritesSection from './favourites/favourites-section';
 import HistorySection from './history-section';
@@ -56,9 +55,10 @@ const ReferenceRedirect: FC<{ reference: string }> = ({ reference }) => {
 };
 
 const UserProfile: FC<Props> = ({ username, headerChrome = true }) => {
-    const { data, isPending, error, refetch } = useQuery(
-        userProfileOptions({ path: { username } }),
-    );
+    const { data, isPending, error, refetch } = useQuery({
+        ...userProfileOptions({ path: { username } }),
+        subscribed: useIsFocused(),
+    });
     // The route param may differ in case from the stored name; every other query uses the stored one.
     const name = data?.username;
     const { user: viewer } = useSession();
@@ -68,7 +68,6 @@ const UserProfile: FC<Props> = ({ username, headerChrome = true }) => {
         viewer.role === UserRoleEnum.NOT_ACTIVATED;
     const names = name ? [username, name] : [username];
     const { refreshing, onRefresh } = usePullToRefresh(byUsername(names));
-    useRefetchStaleOnFocus(names.join('/'), byUsername(names));
 
     return (
         <>

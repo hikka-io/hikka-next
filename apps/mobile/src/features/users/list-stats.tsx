@@ -1,7 +1,7 @@
 import { type FC, useState } from 'react';
 
 import { useQuery } from '@tanstack/react-query';
-import { Link } from 'expo-router';
+import { Link, useIsFocused } from 'expo-router';
 import { Pressable, View } from 'react-native';
 
 import { ContentTypeEnum } from '@hikka/api';
@@ -158,9 +158,10 @@ type TabProps = {
 };
 
 const StatsTab: FC<TabProps> = ({ username, contentType }) => {
-    const { data, error, refetch } = useQuery(
-        userListStatsOptions(username, contentType),
-    );
+    const { data, error, refetch } = useQuery({
+        ...userListStatsOptions(username, contentType),
+        subscribed: useIsFocused(),
+    });
 
     if (error)
         return <ErrorState variant="inline" onRetry={() => void refetch()} />;

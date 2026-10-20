@@ -1,6 +1,7 @@
 import type { FC } from 'react';
 
 import { useInfiniteQuery } from '@tanstack/react-query';
+import { useIsFocused } from 'expo-router';
 import { History } from 'lucide-react-native';
 import { View } from 'react-native';
 
@@ -29,9 +30,10 @@ type Props = {
 };
 
 const HistorySection: FC<Props> = ({ username }) => {
-    const { data, isPending, error, refetch } = useInfiniteQuery(
-        userHistoryPreviewOptions(username),
-    );
+    const { data, isPending, error, refetch } = useInfiniteQuery({
+        ...userHistoryPreviewOptions(username),
+        subscribed: useIsFocused(),
+    });
     const items = data?.pages[0]?.list.slice(0, HISTORY_PREVIEW_SIZE);
 
     return (
