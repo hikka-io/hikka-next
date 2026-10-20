@@ -130,6 +130,7 @@ const CollectionList: FC<Props> = ({
                 ListFooterComponent={
                     <ListFooter
                         fetching={isFetchingNextPage}
+                        refreshing={isRefetching && !isFetchingNextPage}
                         error={isFetchNextPageError}
                         onRetry={() => void fetchNextPage()}
                     />

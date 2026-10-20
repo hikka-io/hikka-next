@@ -153,6 +153,7 @@ const NotificationsList: FC = () => {
             ListFooterComponent={
                 <ListFooter
                     fetching={isFetchingNextPage}
+                    refreshing={refreshing}
                     error={isFetchNextPageError}
                     onRetry={() => void fetchNextPage()}
                 />

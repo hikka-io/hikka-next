@@ -7,13 +7,14 @@ type Props = {
     fetching: boolean;
     error: boolean;
     onRetry: () => void;
+    refreshing?: boolean;
 };
 
-/** The footer of an infinite list: a spinner while the next page loads, a retry when it failed. */
-const ListFooter: FC<Props> = ({ fetching, error, onRetry }) => {
+/** The footer of an infinite list: a spinner while the next page loads, a retry when it failed (not during a pull to refresh). */
+const ListFooter: FC<Props> = ({ fetching, error, onRetry, refreshing }) => {
     if (fetching) return <Spinner className="py-4" />;
 
-    if (error) {
+    if (error && !refreshing) {
         return (
             <ErrorState
                 variant="inline"

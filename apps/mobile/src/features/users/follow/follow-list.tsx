@@ -101,6 +101,7 @@ const FollowList: FC<Props> = ({ kind, username }) => {
                 ListFooterComponent={
                     <ListFooter
                         fetching={isFetchingNextPage}
+                        refreshing={refreshing}
                         error={isFetchNextPageError}
                         onRetry={onRetryNextPage}
                     />

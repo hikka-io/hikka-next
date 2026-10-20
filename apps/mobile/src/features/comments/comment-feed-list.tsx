@@ -80,6 +80,7 @@ const CommentFeedList: FC<Props> = ({
             ListFooterComponent={
                 <ListFooter
                     fetching={isFetchingNextPage}
+                    refreshing={refreshing}
                     error={isFetchNextPageError}
                     onRetry={onRetryNextPage}
                 />

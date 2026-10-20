@@ -271,6 +271,7 @@ const UserListPage: FC<Props> = ({ username, contentType, initialStatus }) => {
                 ListFooterComponent={
                     <ListFooter
                         fetching={isFetchingNextPage}
+                        refreshing={refreshing}
                         error={isFetchNextPageError}
                         onRetry={onRetryNextPage}
                     />

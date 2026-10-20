@@ -100,6 +100,7 @@ const FavouriteGrid: FC<GridProps> = ({ username, type, header }) => {
             ListFooterComponent={
                 <ListFooter
                     fetching={isFetchingNextPage}
+                    refreshing={refreshing}
                     error={isFetchNextPageError}
                     onRetry={onRetryNextPage}
                 />

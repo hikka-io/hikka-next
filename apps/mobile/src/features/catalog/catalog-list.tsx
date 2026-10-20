@@ -132,6 +132,7 @@ const CatalogList: FC = () => {
             ListFooterComponent={
                 <ListFooter
                     fetching={isFetchingNextPage}
+                    refreshing={isRefetching && !isFetchingNextPage}
                     error={isFetchNextPageError}
                     onRetry={() => void fetchNextPage()}
                 />

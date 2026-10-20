@@ -136,6 +136,7 @@ const HistoryFeed: FC<FeedProps> = ({ username, source, header }) => {
             ListFooterComponent={
                 <ListFooter
                     fetching={isFetchingNextPage}
+                    refreshing={refreshing}
                     error={isFetchNextPageError}
                     onRetry={onRetryNextPage}
                 />

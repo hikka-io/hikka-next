@@ -286,6 +286,7 @@ const CommentsList: FC<Props> = ({ contentType, slug, reference }) => {
                 ListFooterComponent={
                     <ListFooter
                         fetching={isFetchingNextPage}
+                        refreshing={refreshing}
                         error={isFetchNextPageError}
                         onRetry={onRetryNextPage}
                     />

@@ -97,6 +97,7 @@ const ContentFollowingList: FC<Props> = ({ contentType, slug }) => {
                 ListFooterComponent={
                     <ListFooter
                         fetching={isFetchingNextPage}
+                        refreshing={refreshing}
                         error={isFetchNextPageError}
                         onRetry={onRetryNextPage}
                     />
