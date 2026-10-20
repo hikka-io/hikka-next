@@ -51,18 +51,30 @@ Placeholder routes exist for every screen below in `src/app/(tabs)/(home,catalog
 
 Web-only for now: the edit/contribution system, the article and collection editors, OAuth app management.
 
-## Phase 4: completeness and hardening (in progress)
+## Phase 4: completeness and hardening (done, merged into `mobile/develop`)
 
-| Task | Model | Owns |
-| --- | --- | --- |
-| Content gaps: favourite buttons, 18+ consent gate, anime media and movie banner sections, review stats on comments | Opus | `features/content/`, favourite button component, `features/comments/` review stats |
-| Profile extras: list filters, random title, activity heatmap, articles and collections blocks (done) | Sonnet | `features/users/` |
-| Hardening: network error copy, root error boundary, offline banner, image viewer | Sonnet | `utils/`, `components/` additions, core `api-error-message` |
-| End-to-end tests: Maestro flows for the core loop | Sonnet | `apps/mobile/e2e/` |
-| Parity sweep: detail statistics, followings, collections, articles; entity collections and comments; profile activity links; reset password reveal; unconfirmed-email toast (done) | Opus | `features/content/`, minimal touches elsewhere |
-| Android QA: every screen on the emulator, Android-only fixes | Sonnet | fixes only, after the others merge |
+Content gaps (favourites, 18+ gate, anime media and movie banner, review stats), profile extras (list filters, random title, activity heatmap, collections and articles blocks), hardening (network error copy, error boundaries, offline notice, image viewer), parity sweep (detail statistics, followings, collections and articles; entity collections and comments; confirm-email hint), Android QA fixes, a polish/consistency/performance audit (DESIGN §22), and Maestro end-to-end flows (`apps/mobile/e2e/`: 11 public and 7 signed-in flows, passing on iOS 26; the public suite also on iOS 18.2).
 
-Open for the owner: Turnstile production key in the WebView (error 300031), the Google ID-token endpoint, a comment report endpoint plus blocking users (App Store 1.2), apple-app-site-association and assetlinks.json on hikka.io for email links, push notification device registration.
+## MVP status (2026-10-20)
+
+The app is at MVP and work is paused here by the owner's decision. Nothing on `mobile/develop` is merged into `main` or pushed.
+
+Open for the owner (blocks release):
+- Turnstile production key fails in the login WebView (error 300031); STACK.md "Auth" has the investigation.
+- Backend endpoints: Google ID-token sign-in, comment reports plus user blocking (App Store guideline 1.2), push notification device registration.
+- `apple-app-site-association` and `assetlinks.json` on hikka.io so activation and reset email links open the app.
+- `@hikka/core` (web utils moved into `packages/core`) exists only on `mobile/develop`; it is to be merged into `main` later.
+
+Known issues:
+- iOS 18: on the first visit to the Search tab after a cold launch the search field stays collapsed until the page is pulled down (`Stack.SearchBar` in `features/search/search-screen.tsx`).
+- Opening a long discussion stalls the JS thread for about 2 s in the dev build while the first rows mount (DESIGN §22).
+- Each @mention in comments fetches its own profile.
+- Android: TalkBack may stop twice on settings switch rows (an `@expo/ui` limit, STACK.md); pinch zoom and TalkBack are not verified on a real device.
+
+Not built (web parity left for later):
+- The inline progress, score and note editor under the list button (the web's `UserContentStats`).
+- The franchise graph and relation labels; full characters, staff and media subpages.
+- Web-only by design: the edit/contribution system, the article and collection editors, OAuth app management, list import/export.
 
 ## Phase 5: release
 
