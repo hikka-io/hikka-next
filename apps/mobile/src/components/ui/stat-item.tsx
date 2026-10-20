@@ -1,23 +1,19 @@
 import type { FC, ReactNode, Ref } from 'react';
 
 import { cva, type VariantProps } from 'class-variance-authority';
-import {
-    Pressable,
-    type PressableProps,
-    View,
-    type ViewProps,
-} from 'react-native';
+import { type PressableProps, View, type ViewProps } from 'react-native';
 
 import { cn } from '@/utils/cn';
 
 import { IconClassContext } from './icon';
 import { TextClassContext, wrapText } from './text';
+import TouchTarget from './touch-target';
 import { DENSE_MAX_FONT_SCALE } from './typography';
 
 const statItemVariants = cva('flex-row items-center', {
     variants: {
         size: {
-            default: 'h-8 gap-1 rounded-lg px-2 active:bg-accent',
+            default: 'h-8 gap-1 rounded-lg px-2',
             sm: 'gap-1',
         },
     },
@@ -36,18 +32,18 @@ const STAT_ICON_SIZE = {
     sm: 'size-3',
 } as const;
 
-const STAT_HIT_SLOP = 6;
-
-type StatItemProps = Omit<PressableProps, 'children'> &
+type StatItemProps = Omit<PressableProps, 'children' | 'className'> &
     VariantProps<typeof statItemVariants> & {
         ref?: Ref<View>;
         className?: string;
+        containerClassName?: string;
         children?: ReactNode;
     };
 
 const StatItem: FC<StatItemProps> = ({
     ref,
     className,
+    containerClassName,
     size,
     children,
     onPress,
@@ -62,16 +58,21 @@ const StatItem: FC<StatItemProps> = ({
         <TextClassContext.Provider value={STAT_TEXT_SIZE[resolvedSize]}>
             <IconClassContext.Provider value={STAT_ICON_SIZE[resolvedSize]}>
                 {onPress ? (
-                    <Pressable
+                    <TouchTarget
                         ref={ref}
                         accessibilityRole="button"
-                        hitSlop={STAT_HIT_SLOP}
                         onPress={onPress}
+                        containerClassName={containerClassName}
                         className={cn(statItemVariants({ size }), className)}
+                        pressedClassName={
+                            resolvedSize === 'default'
+                                ? 'bg-accent'
+                                : 'opacity-70'
+                        }
                         {...props}
                     >
                         {content}
-                    </Pressable>
+                    </TouchTarget>
                 ) : (
                     <View
                         ref={ref}
