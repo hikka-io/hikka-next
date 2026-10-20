@@ -11,7 +11,7 @@ type Props<T extends string> = {
 };
 
 /**
- * The web's `Tabs`: UISegmentedControl on iOS, Material segmented buttons on Android.
+ * The web's `Tabs`: a SwiftUI segmented `Picker` on iOS, Compose `SegmentedButton` on Android.
  * Full width with no fixed size, so labels grow with Dynamic Type.
  */
 function SegmentedControl<T extends string>({
