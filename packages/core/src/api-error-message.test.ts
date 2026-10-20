@@ -20,6 +20,13 @@ describe('apiErrorMessage', () => {
         );
     });
 
+    it('falls back for a response that failed validation', () => {
+        const error = new Error('[{"code":"invalid_type"}]');
+        error.name = 'ZodError';
+
+        expect(apiErrorMessage(error, 'fallback')).toBe('fallback');
+    });
+
     it('falls back for an empty message', () => {
         expect(apiErrorMessage(new Error(''), 'fallback')).toBe('fallback');
     });
