@@ -8,6 +8,8 @@ import {
     matchFields,
     passwordSchema,
     USERNAME_HINT,
+    userLinkTextSchema,
+    userLinkUrlSchema,
     usernameSchema,
 } from './auth-schemas';
 
@@ -90,5 +92,32 @@ describe('matchFields', () => {
         expect(check({ password: 'a', confirm: 'a' })).toBe(true);
         expect(check({ password: 'a', confirm: 'b' })).toBe(false);
         expect(issue).toEqual({ message: 'no match', path: ['confirm'] });
+    });
+});
+
+describe('userLinkUrlSchema', () => {
+    it.each([
+        ['', 'Вкажіть посилання'],
+        ['github.com/hikka', 'Посилання має починатися з https://'],
+        ['javascript:alert(1)', 'Посилання має починатися з https://'],
+    ])('rejects %j', (value, message) => {
+        expect(messages(userLinkUrlSchema, value)).toEqual([message]);
+    });
+
+    it('accepts an http(s) link and trims it', () => {
+        expect(messages(userLinkUrlSchema, '  https://t.me/hikka ')).toEqual(
+            [],
+        );
+    });
+});
+
+describe('userLinkTextSchema', () => {
+    it('follows the API bound', () => {
+        const { max } = API_LIMITS.userLinkText;
+
+        expect(messages(userLinkTextSchema, 'x'.repeat(max))).toEqual([]);
+        expect(messages(userLinkTextSchema, 'x'.repeat(max + 1))).toEqual([
+            `Не більше ${max} символів`,
+        ]);
     });
 });

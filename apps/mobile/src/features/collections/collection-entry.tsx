@@ -4,10 +4,10 @@ import { Info } from 'lucide-react-native';
 import { Alert, Pressable, View } from 'react-native';
 
 import type { CollectionContentResponse, ContentTypeEnum } from '@hikka/api';
-import { getTitle } from '@hikka/core';
 
 import PosterCard from '@/components/content-card/poster-card';
 import { Icon } from '@/components/ui/icon';
+import { useTitle } from '@/services/session';
 import { contentHref } from '@/utils/content-href';
 
 type Props = {
@@ -16,6 +16,7 @@ type Props = {
 
 /** One collection entry; the author's note opens from an info button over the poster, like the web's popover. */
 const CollectionEntry: FC<Props> = ({ item }) => {
+    const getTitle = useTitle();
     const title = getTitle(item.content);
     const { comment } = item;
 

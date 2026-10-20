@@ -5,23 +5,12 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import {
     changeUiMutation,
     profileUiQueryKey,
-    type UiFeedSettingsOutput,
     type UserCustomizationArgs,
     type UserCustomizationResponse,
 } from '@hikka/api';
-import { DEFAULT_USER_UI } from '@hikka/core';
+import { applySessionUIPatch, type SessionUIPatch } from '@hikka/core';
 
 import { writeSessionUI } from '@/utils/api/invalidate-content-state';
-import { diffStyles } from '@/utils/customization';
-
-type SessionUIPatch = {
-    styles?: UserCustomizationResponse['styles'];
-    preferences?: Partial<
-        Omit<UserCustomizationResponse['preferences'], 'feed'> & {
-            feed?: Partial<UiFeedSettingsOutput>;
-        }
-    >;
-};
 
 export function useUpdateSessionUI() {
     const queryClient = useQueryClient();
@@ -62,41 +51,18 @@ export function useUpdateSessionUI() {
     const update = (patch: SessionUIPatch) => {
         const previous =
             queryClient.getQueryData<UserCustomizationResponse>(queryKey);
-        const currentUI = previous ?? DEFAULT_USER_UI;
-
-        const mergedPreferences = patch.preferences
-            ? {
-                  ...currentUI.preferences,
-                  ...patch.preferences,
-                  feed: patch.preferences.feed
-                      ? {
-                            ...currentUI.preferences.feed,
-                            ...patch.preferences.feed,
-                        }
-                      : currentUI.preferences.feed,
-              }
-            : currentUI.preferences;
-
-        const resolvedNext: UserCustomizationResponse = {
-            styles: patch.styles ?? currentUI.styles,
-            preferences: mergedPreferences,
-        };
-
-        const apiPayload: UserCustomizationResponse = {
-            styles: diffStyles(resolvedNext.styles) || {},
-            preferences: resolvedNext.preferences,
-        };
+        const { next, payload } = applySessionUIPatch(previous, patch);
 
         writeSessionUI(queryClient, (old) => ({
             ...old,
-            ...resolvedNext,
+            ...next,
         }));
 
         if (inFlightRef.current) {
-            queuedRef.current = apiPayload;
+            queuedRef.current = payload;
         } else {
             snapshotRef.current = previous;
-            send(apiPayload);
+            send(payload);
         }
     };
 

@@ -1,12 +1,12 @@
 import { Stack } from 'expo-router';
 
-import EmptyState from '@/components/ui/empty-state';
+import { ScheduleScreen } from '@/features/schedule';
 
-export default function ScheduleScreen() {
+export default function ScheduleRoute() {
     return (
         <>
             <Stack.Title>Календар</Stack.Title>
-            <EmptyState title="Незабаром" className="flex-1 justify-center" />
+            <ScheduleScreen />
         </>
     );
 }

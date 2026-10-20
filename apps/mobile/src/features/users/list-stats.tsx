@@ -1,17 +1,11 @@
 import { type FC, useState } from 'react';
 
 import { useQuery } from '@tanstack/react-query';
-import { View } from 'react-native';
+import { Link, useIsFocused } from 'expo-router';
+import { Pressable, View } from 'react-native';
 
 import { ContentTypeEnum } from '@hikka/api';
-import {
-    getDeclensionWord,
-    getWatchTime,
-    HOUR_FORMS,
-    LIST_STATUS,
-    READ_STATUS_ORDER,
-    WATCH_STATUS_ORDER,
-} from '@hikka/core';
+import { getDeclensionWord, getWatchTime, HOUR_FORMS } from '@hikka/core';
 
 import Card from '@/components/ui/card';
 import ErrorState from '@/components/ui/error-state';
@@ -20,12 +14,18 @@ import SegmentedControl from '@/components/ui/segmented-control';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Text } from '@/components/ui/text';
 import { DENSE_MAX_FONT_SCALE } from '@/components/ui/typography';
+import { cn } from '@/utils/cn';
 
 import {
-    type ListContentType,
-    userReadListStatsOptions,
-    userWatchListStatsOptions,
-} from './queries';
+    countsOf,
+    STATUS_DOT,
+    type StatusCounts,
+    statusLabel,
+    statusOrder,
+    totalCount,
+} from './list-status';
+import { type ListContentType, userListStatsOptions } from './queries';
+import { userListHref } from './user-hrefs';
 
 const TABS = [
     { label: 'Аніме', value: ContentTypeEnum.ANIME },
@@ -33,41 +33,20 @@ const TABS = [
     { label: 'Ранобе', value: ContentTypeEnum.NOVEL },
 ];
 
-// Uniwind compiles literal class names only, so each status maps to its own string.
-const STATUS_BG = {
-    completed: 'bg-completed-foreground',
-    watching: 'bg-watching-foreground',
-    reading: 'bg-reading-foreground',
-    planned: 'bg-planned-foreground',
-    dropped: 'bg-dropped-foreground',
-    on_hold: 'bg-on_hold-foreground',
-} as const;
-
-type Status = keyof typeof STATUS_BG;
-
-const statusLabel = (anime: boolean, status: Status) => {
-    const labels = (anime ? LIST_STATUS.watch : LIST_STATUS.read) as Record<
-        string,
-        { title_ua: string }
-    >;
-
-    return labels[status].title_ua;
+type BodyProps = {
+    username: string;
+    contentType: ListContentType;
+    counts: StatusCounts;
 };
 
-type Counts = Partial<Record<Status, number>> & { duration?: number };
-
-const StatsBody: FC<{ anime: boolean; counts: Counts }> = ({
-    anime,
-    counts,
-}) => {
-    const order: readonly Status[] = anime
-        ? WATCH_STATUS_ORDER
-        : READ_STATUS_ORDER;
+const StatsBody: FC<BodyProps> = ({ username, contentType, counts }) => {
+    const anime = contentType === ContentTypeEnum.ANIME;
+    const order = statusOrder(contentType);
     const watchTime =
         anime && counts.duration !== undefined
             ? getWatchTime(counts.duration)
             : null;
-    const total = order.reduce((sum, status) => sum + (counts[status] ?? 0), 0);
+    const total = totalCount(contentType, counts);
 
     return (
         <View className="gap-3">
@@ -81,23 +60,29 @@ const StatsBody: FC<{ anime: boolean; counts: Counts }> = ({
                         <View
                             key={status}
                             style={{ flex: counts[status] }}
-                            className={STATUS_BG[status]}
+                            className={STATUS_DOT[status]}
                         />
                     ) : null,
                 )}
             </View>
-            <View className="flex-row flex-wrap">
-                <StatRow label="Всього" count={total} dot="bg-foreground" />
+            <View className="-mx-2 flex-row flex-wrap">
+                <StatRow
+                    label="Всього"
+                    count={total}
+                    dot="bg-foreground"
+                    href={userListHref(username, contentType, 'all')}
+                />
                 {order.map((status) => (
                     <StatRow
                         key={status}
-                        label={statusLabel(anime, status)}
+                        label={statusLabel(contentType, status) ?? status}
                         count={counts[status] ?? 0}
-                        dot={STATUS_BG[status]}
+                        dot={STATUS_DOT[status]}
+                        href={userListHref(username, contentType, status)}
                     />
                 ))}
             </View>
-            {anime && watchTime && (
+            {watchTime && (
                 <View className="flex-row items-center justify-between border-border border-t pt-3">
                     <Text className="text-muted-foreground text-sm">
                         Час перегляду
@@ -115,39 +100,51 @@ const StatsBody: FC<{ anime: boolean; counts: Counts }> = ({
     );
 };
 
-const StatRow: FC<{ label: string; count: number; dot: string }> = ({
-    label,
-    count,
-    dot,
-}) => (
-    <View
-        className={`min-h-9 w-1/2 flex-row items-center justify-between gap-2 py-2 pr-3 ${count === 0 ? 'opacity-50' : ''}`}
-    >
-        <View className="min-w-0 flex-1 flex-row items-center gap-2">
-            <View className={`size-2 rounded-full ${dot}`} />
-            <Text
-                numberOfLines={1}
-                maxFontSizeMultiplier={DENSE_MAX_FONT_SCALE}
-                className="shrink text-muted-foreground text-sm"
-            >
-                {label}
-            </Text>
-        </View>
-        <Text
-            maxFontSizeMultiplier={DENSE_MAX_FONT_SCALE}
-            className="font-medium text-sm tabular-nums"
+type StatRowProps = {
+    label: string;
+    count: number;
+    dot: string;
+    href: ReturnType<typeof userListHref>;
+};
+
+const StatRow: FC<StatRowProps> = ({ label, count, dot, href }) => (
+    <Link href={href} asChild>
+        <Pressable
+            accessibilityRole="link"
+            className={cn(
+                'min-h-11 w-1/2 flex-row items-center justify-between gap-2 rounded-sm px-2 active:bg-accent',
+                count === 0 && 'opacity-50',
+            )}
         >
-            {count}
-        </Text>
-    </View>
+            <View className="min-w-0 flex-1 flex-row items-center gap-2">
+                <View className={cn('size-2 rounded-full', dot)} />
+                <Text
+                    numberOfLines={1}
+                    maxFontSizeMultiplier={DENSE_MAX_FONT_SCALE}
+                    className="shrink text-muted-foreground text-sm"
+                >
+                    {label}
+                </Text>
+            </View>
+            <Text
+                maxFontSizeMultiplier={DENSE_MAX_FONT_SCALE}
+                className="font-medium text-sm tabular-nums"
+            >
+                {count}
+            </Text>
+        </Pressable>
+    </Link>
 );
 
 const StatsSkeleton: FC = () => (
     <View className="gap-3">
         <Skeleton className="h-2 w-full rounded-sm" />
-        <View className="flex-row flex-wrap">
+        <View className="-mx-2 flex-row flex-wrap">
             {Array.from({ length: 6 }, (_, index) => (
-                <View key={index} className="min-h-9 w-1/2 justify-center pr-3">
+                <View
+                    key={index}
+                    className="min-h-11 w-1/2 justify-center px-2"
+                >
                     <Skeleton className="h-4 w-full rounded-sm" />
                 </View>
             ))}
@@ -155,24 +152,29 @@ const StatsSkeleton: FC = () => (
     </View>
 );
 
-const AnimeStats: FC<{ username: string }> = ({ username }) => {
-    const { data, error, refetch } = useQuery(
-        userWatchListStatsOptions(username),
-    );
+type TabProps = {
+    username: string;
+    contentType: ListContentType;
+};
+
+const StatsTab: FC<TabProps> = ({ username, contentType }) => {
+    const { data, error, refetch } = useQuery({
+        ...userListStatsOptions(username, contentType),
+        subscribed: useIsFocused(),
+    });
 
     if (error)
         return <ErrorState variant="inline" onRetry={() => void refetch()} />;
 
-    return data ? <StatsBody anime counts={data} /> : <StatsSkeleton />;
-};
-
-const ReadStats: FC<{
-    username: string;
-    contentType: Exclude<ListContentType, 'anime'>;
-}> = ({ username, contentType }) => {
-    const { data } = useQuery(userReadListStatsOptions(username, contentType));
-
-    return data ? <StatsBody anime={false} counts={data} /> : <StatsSkeleton />;
+    return data ? (
+        <StatsBody
+            username={username}
+            contentType={contentType}
+            counts={countsOf(data)}
+        />
+    ) : (
+        <StatsSkeleton />
+    );
 };
 
 type Props = {
@@ -186,22 +188,16 @@ const ListStats: FC<Props> = ({ username }) => {
         <View className="px-4 pt-6">
             <Card className="gap-3">
                 <Header>
-                    <HeaderTitle>Список</HeaderTitle>
+                    <HeaderTitle href={userListHref(username, tab)}>
+                        Список
+                    </HeaderTitle>
                 </Header>
                 <SegmentedControl
                     options={TABS}
                     value={tab}
                     onValueChange={setTab}
                 />
-                {tab === ContentTypeEnum.ANIME ? (
-                    <AnimeStats username={username} />
-                ) : (
-                    <ReadStats
-                        key={tab}
-                        username={username}
-                        contentType={tab}
-                    />
-                )}
+                <StatsTab key={tab} username={username} contentType={tab} />
             </Card>
         </View>
     );

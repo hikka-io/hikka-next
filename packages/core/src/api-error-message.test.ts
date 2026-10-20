@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import { z } from 'zod';
 
 import { HikkaApiError } from '@hikka/api';
 
@@ -18,6 +19,13 @@ describe('apiErrorMessage', () => {
         expect(apiErrorMessage(new Error('Failed to fetch'), 'fallback')).toBe(
             'Failed to fetch',
         );
+    });
+
+    it('falls back for a response that failed validation', () => {
+        const { error } = z.object({ id: z.string() }).safeParse({ id: 1 });
+
+        expect(error?.message).toContain('invalid_type');
+        expect(apiErrorMessage(error, 'fallback')).toBe('fallback');
     });
 
     it('falls back for an empty message', () => {

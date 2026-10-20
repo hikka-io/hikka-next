@@ -2,7 +2,6 @@ import type {
     InfiniteData,
     QueryClient,
     QueryKey,
-    Updater,
 } from '@tanstack/react-query';
 
 import {
@@ -10,39 +9,43 @@ import {
     type FavouriteResponse,
     getEditQueryKey,
     getFavouriteQueryKey,
-    getIgnoredNotificationsQueryKey,
-    type IgnoredNotificationsResponse,
-    profileUiQueryKey,
     type UserCollectionResponse,
     type UserCollectionsListResponse,
-    type UserCustomizationResponse,
 } from '@hikka/api';
 import {
+    ARTICLE_IDS,
+    COLLECTION_IDS,
     COMMENT_LIST_IDS,
-    type FollowChange,
+    FOLLOW_EMBED_IDS,
     type InvalidateOptions,
     invalidateByIds,
     matchesPath,
-    patchEmbeddedFollow,
     patchQueries,
     type QueryId,
     queryId,
     READ_EMBED_IDS,
     refetchTypeFor,
     setQueryDataAfterCancel,
+    USER_COLLECTIONS_ID,
     WATCH_EMBED_IDS,
 } from '@hikka/core';
 
-// Watch/read and vote cache writers live in @hikka/core, shared with the mobile app.
+// Watch/read, follow, notification and vote cache writers live in @hikka/core, shared with the mobile app.
 export {
+    applyFollowChange,
     applyReadDeletion,
     applyReadMutation,
     applyVoteMutation,
     applyWatchDeletion,
     applyWatchMutation,
+    invalidateNotifications,
     invalidateReadState,
+    invalidateSession,
+    invalidateUserProfile,
     invalidateWatchState,
+    writeIgnoredNotifications,
     writeReadToCaches,
+    writeSessionUI,
     writeWatchToCaches,
 } from '@hikka/core';
 
@@ -71,33 +74,6 @@ const EDIT_LIST_IDS: readonly QueryId[] = [
     'getTodoPersonList',
 ];
 
-/** Collection list + detail queries. */
-const USER_COLLECTIONS_ID: QueryId = 'getUserCollections';
-
-const COLLECTION_IDS: readonly QueryId[] = [
-    'getCollections',
-    'getCollection',
-    USER_COLLECTIONS_ID,
-];
-
-/** Article list + detail queries. */
-const ARTICLE_IDS: readonly QueryId[] = [
-    'getArticles',
-    'getArticleTop',
-    'getArticle',
-];
-
-/** Follow lists/stats + the personalised "following" feed. */
-const FOLLOW_IDS: readonly QueryId[] = [
-    'followingList',
-    'followersList',
-    'followStats',
-    'followingHistory',
-    'getFeed', // the home feed widget
-    'getWatchFollowing',
-    'getReadFollowing',
-];
-
 /** Content-detail queries keyed by slug (used when an accepted edit mutates content). */
 const CONTENT_DETAIL_IDS: readonly QueryId[] = [
     'animeSlug',
@@ -115,30 +91,11 @@ const CONTENT_DETAIL_IDS: readonly QueryId[] = [
     'personVoices',
 ];
 
-const SESSION_IDS: readonly QueryId[] = ['profile'];
-
-const NOTIFICATION_IDS: readonly QueryId[] = [
-    'notifications',
-    'unseenNotificationsCount',
-];
-
 const USER_CLIENT_IDS: readonly QueryId[] = ['listUserClients'];
 
 const AUTH_TOKEN_IDS: readonly QueryId[] = ['thirdPartyAuthTokens'];
 
 const FAVOURITE_IDS: readonly QueryId[] = ['favouriteList'];
-
-const USER_PROFILE_ID: QueryId = 'userProfile';
-
-// Every query embedding a user object whose `is_followed` a follow flips.
-const FOLLOW_EMBED_SET = new Set<QueryId>([
-    ...ARTICLE_IDS,
-    ...COLLECTION_IDS,
-    'followingList',
-    'followersList',
-    ...FAVOURITE_IDS,
-    USER_PROFILE_ID,
-]);
 
 /** Invalidate comment lists/threads after a comment write/edit/delete. */
 export function invalidateComments(
@@ -232,14 +189,6 @@ export function invalidateArticles(
     return invalidateByIds(queryClient, ARTICLE_IDS, options);
 }
 
-/** Invalidate the current-user session/profile query (`profileOptions`). */
-export function invalidateSession(
-    queryClient: QueryClient,
-    options?: InvalidateOptions,
-): Promise<void> {
-    return invalidateByIds(queryClient, SESSION_IDS, options);
-}
-
 // Queries whose response depends on the viewer; the anonymous content info also lacks the restricted links.
 const SESSION_DEPENDENT_IDS: readonly QueryId[] = [
     'animeSlug',
@@ -252,7 +201,7 @@ const SESSION_DEPENDENT_IDS: readonly QueryId[] = [
     ...WATCH_EMBED_IDS,
     ...READ_EMBED_IDS,
     ...COMMENT_LIST_IDS,
-    ...FOLLOW_EMBED_SET,
+    ...FOLLOW_EMBED_IDS,
 ];
 
 /** After a login: refetch the on-screen per-viewer queries and stale-mark the rest. */
@@ -260,44 +209,6 @@ export function invalidateSessionDependentQueries(
     queryClient: QueryClient,
 ): Promise<void> {
     return invalidateByIds(queryClient, SESSION_DEPENDENT_IDS);
-}
-
-// Queries that embed a user's avatar; stale-marked so a changed avatar shows on the next mount.
-const AVATAR_EMBED_IDS: readonly QueryId[] = [
-    ...COMMENT_LIST_IDS,
-    ...ARTICLE_IDS,
-    ...COLLECTION_IDS,
-    'followingList',
-    'followersList',
-];
-
-/** Refetch one user's public profile (avatar, cover) after they change it and stale-mark the lists that embed the avatar. */
-export function invalidateUserProfile(
-    queryClient: QueryClient,
-    username: string,
-    options?: InvalidateOptions,
-): Promise<void> {
-    return Promise.all([
-        queryClient.invalidateQueries({
-            predicate: (query) =>
-                matchesPath(
-                    query.queryKey,
-                    USER_PROFILE_ID,
-                    'username',
-                    username,
-                ),
-            refetchType: refetchTypeFor(options),
-        }),
-        invalidateByIds(queryClient, AVATAR_EMBED_IDS, { refetch: false }),
-    ]).then(() => undefined);
-}
-
-/** Invalidate the notification list + unseen-count after marking seen. */
-export function invalidateNotifications(
-    queryClient: QueryClient,
-    options?: InvalidateOptions,
-): Promise<void> {
-    return invalidateByIds(queryClient, NOTIFICATION_IDS, options);
 }
 
 /** Invalidate the user's OAuth client list after create/update/delete. */
@@ -314,25 +225,6 @@ export function invalidateAuthTokens(
     options?: InvalidateOptions,
 ): Promise<void> {
     return invalidateByIds(queryClient, AUTH_TOKEN_IDS, options);
-}
-
-/** Replace the cached ignored-notification types with the saved response. */
-export function writeIgnoredNotifications(
-    queryClient: QueryClient,
-    saved: IgnoredNotificationsResponse,
-): void {
-    queryClient.setQueryData(getIgnoredNotificationsQueryKey(), saved);
-}
-
-/** Write the viewer's UI customization: an optimistic patch or a rollback snapshot. */
-export function writeSessionUI(
-    queryClient: QueryClient,
-    updater: Updater<
-        UserCustomizationResponse | undefined,
-        UserCustomizationResponse | undefined
-    >,
-): void {
-    queryClient.setQueryData(profileUiQueryKey(), updater);
 }
 
 /** Drop an infinite list with several loaded pages before a page jump restarts it. */
@@ -379,35 +271,6 @@ export async function applyFavouriteDeletion(
         null,
     );
     return invalidateFavourites(queryClient, options);
-}
-
-/**
- * Reflect a follow/unfollow: patch `is_followed` into the embedded authors and
- * the target's profile, refetch the follow lists/stats, the personalised feed
- * and the target's profile, and only stale-mark the article/collection lists
- * (they order by followed authors) so one click never reloads a large list.
- */
-export function applyFollowChange(
-    queryClient: QueryClient,
-    change: FollowChange,
-    options?: InvalidateOptions,
-): Promise<void> {
-    patchQueries(queryClient, FOLLOW_EMBED_SET, (data) =>
-        patchEmbeddedFollow(data, change),
-    );
-    return Promise.all([
-        invalidateByIds(queryClient, FOLLOW_IDS, options, (query) =>
-            matchesPath(
-                query.queryKey,
-                USER_PROFILE_ID,
-                'username',
-                change.username,
-            ),
-        ),
-        invalidateByIds(queryClient, [...ARTICLE_IDS, ...COLLECTION_IDS], {
-            refetch: false,
-        }),
-    ]).then(() => undefined);
 }
 
 /**

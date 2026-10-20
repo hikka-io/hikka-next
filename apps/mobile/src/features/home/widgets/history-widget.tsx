@@ -16,10 +16,10 @@ import { Icon } from '@/components/ui/icon';
 import { Separator } from '@/components/ui/separator';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Text } from '@/components/ui/text';
+import { userHistoryHref } from '@/features/users';
 
 import { flattenPages } from '../flatten-pages';
 import { HISTORY_PREVIEW_SIZE, homeFollowingHistoryOptions } from '../queries';
-import { useHomePreferences } from '../use-home-preferences';
 import { useOpenSitePath } from '../use-open-site-path';
 import WidgetSection from '../widget-section';
 
@@ -57,7 +57,6 @@ type Props = {
 const HistoryWidget: FC<Props> = ({ username }) => {
     const focused = useIsFocused();
     const openSitePath = useOpenSitePath();
-    const { titleLanguage, nameLanguage } = useHomePreferences();
     const { data, isPending, isError, refetch } = useInfiniteQuery({
         ...homeFollowingHistoryOptions(),
         refetchInterval: focused ? HISTORY_REFETCH_INTERVAL_MS : false,
@@ -68,9 +67,7 @@ const HistoryWidget: FC<Props> = ({ username }) => {
     return (
         <WidgetSection
             title="Активність"
-            onPress={() =>
-                openSitePath(`/u/${username}/history?type=following`)
-            }
+            href={userHistoryHref(username, 'following')}
         >
             {isError && <ErrorState variant="section" onRetry={refetch} />}
             {isPending && <HistoryCardSkeleton />}
@@ -91,8 +88,6 @@ const HistoryWidget: FC<Props> = ({ username }) => {
                                 <HistoryRow
                                     key={item.reference}
                                     item={item}
-                                    titleLanguage={titleLanguage}
-                                    nameLanguage={nameLanguage}
                                     showUser
                                     className="px-4 py-3"
                                 />

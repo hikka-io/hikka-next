@@ -35,7 +35,13 @@
                 }
             ],
             "expo-secure-store",
-            "expo-web-browser"
+            "expo-web-browser",
+            [
+                "expo-image-picker",
+                {
+                    "photosPermission": "Hikka використовує ваші фото, щоб змінити аватар і обкладинку профілю."
+                }
+            ]
         ],
         "experiments": {
             "typedRoutes": true,

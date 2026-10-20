@@ -26,6 +26,22 @@ describe('in-app routes', () => {
             'https://hikka.io/articles?categories=news',
             '/articles?categories=news',
         ],
+        ['https://hikka.io/schedule', '/schedule'],
+        ['https://hikka.io/schedule/?season=winter', '/schedule'],
+        ['https://hikka.io/u/olexh/history', '/u/olexh/history'],
+        [
+            'https://hikka.io/u/olexh/history?type=following',
+            '/u/olexh/history?type=following',
+        ],
+        [
+            'https://hikka.io/u/olexh/favorites?type=person&x=1',
+            '/u/olexh/favorites?type=person',
+        ],
+        ['https://hikka.io/u/olexh/list/anime', '/u/olexh/list/anime'],
+        [
+            'https://hikka.io/u/olexh/list/manga?status=planned&sort=read_score',
+            '/u/olexh/list/manga?status=planned',
+        ],
     ])('maps %s', (href, route) => {
         expect(resolveLink(href)).toEqual({ kind: 'route', href: route });
     });
@@ -36,7 +52,9 @@ describe('in-app routes', () => {
         'https://hikka.io/anime',
         'https://hikka.io/collections/abc/update',
         'https://hikka.io/articles/new',
-        'https://hikka.io/schedule',
+        'https://hikka.io/settings',
+        'https://hikka.io/u/olexh/list/character',
+        'https://hikka.io/u/olexh/articles',
     ])('opens %s in the browser until its route exists', (href) => {
         expect(resolveLink(href)).toEqual({
             kind: 'external',

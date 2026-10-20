@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import { API_LIMITS } from '@hikka/api';
+import { API_LIMITS, isWebUrl } from '@hikka/api';
 
 import { getDeclensionWord, SYMBOL_FORMS } from './i18n';
 
@@ -98,3 +98,29 @@ export const matchFields = <Field extends string>(
     (data) => data[field] === data[confirmation],
     { message, path: [confirmation] },
 ];
+
+export const userLinkTextSchema = z
+    .string()
+    .trim()
+    .max(
+        API_LIMITS.userLinkText.max,
+        atMostSymbols(API_LIMITS.userLinkText.max),
+    );
+
+export const userLinkUrlSchema = z.string().superRefine((raw, ctx) => {
+    const issue = (message: string) =>
+        ctx.addIssue({ code: z.ZodIssueCode.custom, message });
+    const value = raw.trim();
+
+    if (value.length === 0) {
+        return issue('Вкажіть посилання');
+    }
+
+    if (value.length > API_LIMITS.userLinkUrl.max) {
+        return issue(atMostSymbols(API_LIMITS.userLinkUrl.max));
+    }
+
+    if (!isWebUrl(value)) {
+        return issue('Посилання має починатися з https://');
+    }
+});

@@ -1,6 +1,7 @@
 import type { FC } from 'react';
 
 import { useInfiniteQuery } from '@tanstack/react-query';
+import { useIsFocused } from 'expo-router';
 import { History } from 'lucide-react-native';
 import { View } from 'react-native';
 
@@ -13,6 +14,7 @@ import { Header, HeaderTitle } from '@/components/ui/header';
 import { Icon } from '@/components/ui/icon';
 
 import { HISTORY_PREVIEW_SIZE, userHistoryPreviewOptions } from './queries';
+import { userHistoryHref } from './user-hrefs';
 
 const HistorySkeleton: FC = () => (
     <View className="gap-4">
@@ -28,16 +30,19 @@ type Props = {
 };
 
 const HistorySection: FC<Props> = ({ username }) => {
-    const { data, isPending, error, refetch } = useInfiniteQuery(
-        userHistoryPreviewOptions(username),
-    );
+    const { data, isPending, error, refetch } = useInfiniteQuery({
+        ...userHistoryPreviewOptions(username),
+        subscribed: useIsFocused(),
+    });
     const items = data?.pages[0]?.list.slice(0, HISTORY_PREVIEW_SIZE);
 
     return (
         <View className="px-4 pt-6">
             <Card className="gap-3">
                 <Header>
-                    <HeaderTitle>Історія</HeaderTitle>
+                    <HeaderTitle href={userHistoryHref(username)}>
+                        Історія
+                    </HeaderTitle>
                 </Header>
                 {isPending ? (
                     <HistorySkeleton />

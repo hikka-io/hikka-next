@@ -1,8 +1,9 @@
 import type { FC } from 'react';
 
-import { getMediaTypeLabel, getTitle } from '@hikka/core';
+import { getMediaTypeLabel } from '@hikka/core';
 
 import PosterCard from '@/components/content-card/poster-card';
+import { useTitle } from '@/services/session';
 import { contentHref } from '@/utils/content-href';
 
 import type { CatalogItem } from './queries';
@@ -12,6 +13,7 @@ type Props = {
 };
 
 const CatalogGridItem: FC<Props> = ({ item }) => {
+    const getTitle = useTitle();
     return (
         <PosterCard
             title={getTitle(item)}

@@ -14,6 +14,17 @@ const TRUSTED_HOSTS = [
 ];
 
 const ROUTE = /^\/([a-z]+)(?:\/([^/?#]+))?\/?$/;
+const BARE_ROUTE = /^\/([^/?#]+)\/?$/;
+
+// Profile subpages that exist in the app, with the one search param each of them reads.
+const USER_SUBROUTE =
+    /^\/u\/([^/?#]+)\/(history|favorites|list\/(?:anime|manga|novel))\/?$/;
+
+const USER_SUBROUTE_PARAMS: Record<string, string> = {
+    history: 'type',
+    favorites: 'type',
+    list: 'status',
+};
 
 // Routes that exist in the app; every other hikka.io link opens in the browser. Add a segment when its route lands.
 const IN_APP_ROUTES = new Set([
@@ -34,6 +45,8 @@ const IN_APP_INDEXES = new Set(['collections', 'articles']);
 const isEditor = (segment: string, slug: string) =>
     IN_APP_INDEXES.has(segment) && slug === 'new';
 
+const BARE_ROUTES = new Set(['schedule']);
+
 export type LinkTarget =
     | { kind: 'route'; href: string }
     | { kind: 'external'; url: string; trusted: boolean; authOnly: boolean }
@@ -51,6 +64,18 @@ export const resolveLink = (href: string): LinkTarget => {
 
     if (hostname === 'hikka.io' || hostname.endsWith('.hikka.io')) {
         const match = ROUTE.exec(url.pathname);
+        const subroute = USER_SUBROUTE.exec(url.pathname);
+
+        if (subroute) {
+            const param = USER_SUBROUTE_PARAMS[subroute[2].split('/')[0]];
+            const value = url.searchParams.get(param);
+            const query = value ? `?${param}=${encodeURIComponent(value)}` : '';
+
+            return {
+                kind: 'route',
+                href: `/u/${subroute[1]}/${subroute[2]}${query}`,
+            };
+        }
 
         if (match && IN_APP_ROUTES.has(match[1])) {
             if (match[2] && !isEditor(match[1], match[2])) {
@@ -59,6 +84,12 @@ export const resolveLink = (href: string): LinkTarget => {
             if (!match[2] && IN_APP_INDEXES.has(match[1])) {
                 return { kind: 'route', href: `/${match[1]}${url.search}` };
             }
+        }
+
+        const bare = BARE_ROUTE.exec(url.pathname)?.[1];
+
+        if (bare && BARE_ROUTES.has(bare)) {
+            return { kind: 'route', href: `/${bare}` };
         }
 
         return {

@@ -1,4 +1,5 @@
 export { default as Link } from './link';
+export { markdownPreview } from './markdown-preview';
 export { default as MDViewer } from './md-viewer';
 export { default as Spoiler } from './spoiler';
 export { default as SpoilerInline } from './spoiler-inline';

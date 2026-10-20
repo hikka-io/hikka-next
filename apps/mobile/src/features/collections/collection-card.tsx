@@ -5,7 +5,7 @@ import { ArrowBigUp, MessageCircle } from 'lucide-react-native';
 import { Pressable, View } from 'react-native';
 
 import type { CollectionResponse, ContentTypeEnum } from '@hikka/api';
-import { formatTimeAgo, getTitle } from '@hikka/core';
+import { formatTimeAgo } from '@hikka/core';
 
 import AuthorRow from '@/components/author-row';
 import PosterCard from '@/components/content-card/poster-card';
@@ -14,6 +14,7 @@ import { Icon } from '@/components/ui/icon';
 import Image from '@/components/ui/image';
 import { StatItem, StatItemGroup } from '@/components/ui/stat-item';
 import { Text } from '@/components/ui/text';
+import { useTitle } from '@/services/session';
 import { contentHref } from '@/utils/content-href';
 import { presetImageUrl } from '@/utils/image-presets';
 
@@ -27,6 +28,7 @@ type Props = {
 /** The web's `CollectionCard`: author, title, badges, the first entries (hidden like the web for spoilers and NSFW) and stats. */
 const CollectionCard: FC<Props> = ({ collection }) => {
     const router = useRouter();
+    const getTitle = useTitle();
     const href = `/collections/${collection.reference}` as const;
     const preview = collection.collection.slice(0, COLLECTION_PREVIEW_SIZE);
     const remaining = collection.entries - COLLECTION_PREVIEW_SIZE;

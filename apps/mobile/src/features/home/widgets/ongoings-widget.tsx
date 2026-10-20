@@ -3,7 +3,7 @@ import type { FC } from 'react';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { Tv } from 'lucide-react-native';
 
-import { EPISODE_FORMS, getDeclensionWord, getTitle } from '@hikka/core';
+import { EPISODE_FORMS, getDeclensionWord } from '@hikka/core';
 
 import PosterCard from '@/components/content-card/poster-card';
 import PosterRow from '@/components/content-card/poster-row';
@@ -11,16 +11,16 @@ import PosterRowSkeleton from '@/components/content-card/poster-row-skeleton';
 import EmptyState from '@/components/ui/empty-state';
 import ErrorState from '@/components/ui/error-state';
 import { Icon } from '@/components/ui/icon';
+import { useTitle } from '@/services/session';
 
 import { flattenPages } from '../flatten-pages';
 import { homeOngoingsOptions, ONGOINGS_SIZE } from '../queries';
-import { useHomePreferences } from '../use-home-preferences';
 import WidgetSection from '../widget-section';
 
 const POSTER_CLASS = 'w-32';
 
 const OngoingsWidget: FC = () => {
-    const { titleLanguage, nameLanguage } = useHomePreferences();
+    const getTitle = useTitle();
     const { data, isPending, isError, refetch } = useInfiniteQuery(
         homeOngoingsOptions(),
     );
@@ -45,7 +45,7 @@ const OngoingsWidget: FC = () => {
                         <PosterCard
                             href={`/anime/${anime.slug}`}
                             image={anime.image}
-                            title={getTitle(anime, titleLanguage, nameLanguage)}
+                            title={getTitle(anime)}
                             leftSubtitle={`${anime.episodes_released ?? 0} / ${anime.episodes_total ?? '?'} ${getDeclensionWord(anime.episodes_total ?? 0, EPISODE_FORMS)}`}
                         />
                     )}

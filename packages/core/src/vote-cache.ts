@@ -14,15 +14,8 @@ import {
     refetchTypeFor,
 } from './content-cache';
 import { patchEmbeddedVote } from './patch-embedded';
+import { COMMENT_LIST_IDS } from './query-groups';
 import { matchesPath, type QueryId } from './query-id';
-
-export const COMMENT_LIST_IDS: readonly QueryId[] = [
-    'commentsList',
-    'getCommentsList',
-    'getCommentsUser',
-    'thread',
-    'latestComments',
-];
 
 const COMMENT_LIST_SET: ReadonlySet<string> = new Set(COMMENT_LIST_IDS);
 

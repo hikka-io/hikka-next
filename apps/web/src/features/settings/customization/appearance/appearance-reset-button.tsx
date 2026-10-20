@@ -1,11 +1,11 @@
 import { RotateCcw } from 'lucide-react';
 
-import { DEFAULT_STYLES } from '@hikka/core';
+import { DEFAULT_STYLES, diffStyles } from '@hikka/core';
 
 import { Button } from '@/components/ui/button';
 import { useSessionUI, useUpdateSessionUI } from '@/services/session';
 import { cn } from '@/utils/cn';
-import { clearLivePreview, diffStyles } from '@/utils/customization';
+import { clearLivePreview } from '@/utils/customization';
 
 /**
  * Resets appearance styles (brand, radius, backdrop, overrides) to defaults.

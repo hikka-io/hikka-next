@@ -8,10 +8,11 @@ import type {
     ArticleMangaNovelContentResponse,
     ContentTypeEnum,
 } from '@hikka/api';
-import { CONTENT_TYPES, getTitle } from '@hikka/core';
+import { CONTENT_TYPES } from '@hikka/core';
 
 import { Chip } from '@/components/ui/chip';
 import { Text } from '@/components/ui/text';
+import { useTitle } from '@/services/session';
 import { contentHref } from '@/utils/content-href';
 
 type Props = {
@@ -21,6 +22,7 @@ type Props = {
 /** The web's `ContentRefChip`: the title the article is about and its type, linking to it. */
 const ArticleContentChip: FC<Props> = ({ content }) => {
     const router = useRouter();
+    const getTitle = useTitle();
     const type = content.data_type as ContentTypeEnum;
 
     return (
