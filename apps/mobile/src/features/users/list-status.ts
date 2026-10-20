@@ -5,11 +5,9 @@ import {
     WATCH_STATUS_ORDER,
 } from '@hikka/core';
 
-import { STATUS_DOT } from '@/components/tracking';
+import type { STATUS_DOT } from '@/components/tracking';
 
 import type { ListContentType, UserListStats } from './queries';
-
-export { STATUS_DOT };
 
 export type ListStatus = keyof typeof STATUS_DOT;
 

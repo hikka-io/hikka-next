@@ -7,18 +7,13 @@ import { type LayoutRectangle, ScrollView, View } from 'react-native';
 
 import { USER_LIST_ALL_STATUS } from '@hikka/core';
 
+import { STATUS_DOT } from '@/components/tracking';
 import { Chip } from '@/components/ui/chip';
 import { Text } from '@/components/ui/text';
 import { DENSE_MAX_FONT_SCALE } from '@/components/ui/typography';
 import { cn } from '@/utils/cn';
 
-import {
-    countsOf,
-    STATUS_DOT,
-    statusLabel,
-    statusOrder,
-    totalCount,
-} from '../list-status';
+import { countsOf, statusLabel, statusOrder, totalCount } from '../list-status';
 import { type ListContentType, userListStatsOptions } from '../queries';
 
 type ChipProps = {
