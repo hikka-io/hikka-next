@@ -1,11 +1,9 @@
 import { formOptions } from '@tanstack/react-form';
 
 import { ContentTypeEnum } from '@hikka/api';
-import { DATE_RANGE } from '@hikka/core';
+import { DATE_RANGE, SCORE_RANGE, YEARS } from '@hikka/core';
 
 import { z } from '@/utils/i18n-zod';
-
-import { SCORE_RANGE, YEARS } from '../filter-ranges';
 
 const filterPresetFormSchema = z.object({
     name: z.string().min(1).max(255),

@@ -1,11 +1,9 @@
 import { type FC, useEffect, useState } from 'react';
 
-import { POSITIVE_INTEGER_PATTERN } from '@hikka/core';
+import { POSITIVE_INTEGER_PATTERN, YEAR_RANGE, YEARS } from '@hikka/core';
 
 import { Input } from '@/components/ui/input';
 import { cn } from '@/utils/cn';
-
-import { YEAR_RANGE, YEARS } from '../filter-ranges';
 
 const DEFAULT_YEAR_START = YEARS[0].toString();
 const DEFAULT_YEAR_END = YEARS[1].toString();

@@ -153,6 +153,9 @@ importers:
       zod:
         specifier: ^3.25.76
         version: 3.25.76
+      zustand:
+        specifier: ^5.0.15
+        version: 5.0.15(@types/react@19.3.0)(immer@11.1.8)(react@19.2.3)(use-sync-external-store@1.7.0(react@19.2.3))
     devDependencies:
       '@resvg/resvg-js':
         specifier: ^2.6.2
@@ -14942,6 +14945,13 @@ snapshots:
       - react-dom
       - react-native
       - scheduler
+
+  zustand@5.0.15(@types/react@19.3.0)(immer@11.1.8)(react@19.2.3)(use-sync-external-store@1.7.0(react@19.2.3)):
+    optionalDependencies:
+      '@types/react': 19.3.0
+      immer: 11.1.8
+      react: 19.2.3
+      use-sync-external-store: 1.7.0(react@19.2.3)
 
   zustand@5.0.15(@types/react@19.3.0)(immer@11.1.8)(react@19.3.0)(use-sync-external-store@1.7.0(react@19.3.0)):
     optionalDependencies:

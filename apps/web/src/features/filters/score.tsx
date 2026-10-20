@@ -3,6 +3,7 @@ import { type FC, useEffect, useState } from 'react';
 import { Star } from 'lucide-react';
 
 import type { ContentFilterSearch } from '@hikka/core';
+import { SCORE_RANGE } from '@hikka/core';
 
 import {
     SliderField,
@@ -14,7 +15,6 @@ import { Label } from '@/components/ui/label';
 import { Slider } from '@/components/ui/slider';
 import { useRouteSearch } from '@/utils/navigation';
 
-import { SCORE_RANGE } from './filter-ranges';
 import { filterPresetFormOptions } from './presets/filter-preset-form';
 import { useChangeParam } from './use-change-param';
 

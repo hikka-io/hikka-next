@@ -10,17 +10,15 @@ import {
 } from '@hikka/api';
 import {
     animeSearchSchema,
+    buildAnimeSearchArgs,
+    buildMangaSearchArgs,
+    buildNovelSearchArgs,
     mangaSearchSchema,
     novelSearchSchema,
 } from '@hikka/core';
 
 import CatalogList from './catalog-list';
 import CatalogListSummary from './catalog-list-summary';
-import {
-    buildAnimeSearchArgs,
-    buildMangaSearchArgs,
-    buildNovelSearchArgs,
-} from './search-args';
 import { useCatalogSearchQuery } from './use-catalog-search-query';
 
 const mocks = vi.hoisted(() => ({

@@ -17,6 +17,9 @@ import {
 } from '@hikka/api';
 import {
     animeSearchSchema,
+    buildAnimeSearchArgs,
+    buildMangaSearchArgs,
+    buildNovelSearchArgs,
     mangaSearchSchema,
     novelSearchSchema,
 } from '@hikka/core';
@@ -39,11 +42,6 @@ import {
     catalogSearchOptions,
     catalogSearchQuery,
 } from './queries';
-import {
-    buildAnimeSearchArgs,
-    buildMangaSearchArgs,
-    buildNovelSearchArgs,
-} from './search-args';
 import { useCatalogView } from './use-catalog-view';
 
 const BASE_URL = 'https://api.example.test';

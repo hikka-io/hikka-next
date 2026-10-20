@@ -47,6 +47,7 @@ export const CONTENT_TYPES = {
     },
     [ContentTypeEnum.USER]: {
         title_ua: 'Користувач',
+        plural: 'Користувачі',
     },
     [ContentTypeEnum.ARTICLE]: {
         title_ua: 'Стаття',
