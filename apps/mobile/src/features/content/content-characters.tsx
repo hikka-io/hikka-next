@@ -7,10 +7,10 @@ import { getTitle } from '@hikka/core';
 
 import { presetImageUrl } from '@/components/content-card/image-presets';
 import PosterCard from '@/components/content-card/poster-card';
+import PosterRow from '@/components/content-card/poster-row';
 import { contentHref } from '@/utils/content-href';
 
 import { useVisibleOnce } from './detail-scroll';
-import PosterRow from './poster-row';
 import {
     CHARACTERS_PREVIEW_SIZE,
     type ContentInfo,
@@ -38,7 +38,7 @@ const ContentCharacters: FC<Props> = ({ content }) => {
         <PosterRow<ContentCharacterResponse>
             title="Головні персонажі"
             items={main}
-            skeletonCount={CHARACTERS_PREVIEW_SIZE}
+            skeleton={{ count: CHARACTERS_PREVIEW_SIZE }}
             error={isError}
             onRetry={refetch}
             onLayout={onLayout}

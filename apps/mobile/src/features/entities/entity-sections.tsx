@@ -139,7 +139,7 @@ const EntitySection: FC<Props> = ({ type, config, slug }) => {
         <AppearanceSection
             title={config.title}
             {...query}
-            skeletonDescription={config.skeletonDescription}
+            skeleton={{ description: config.skeletonDescription }}
             keyExtractor={config.keyOf}
             renderItem={config.render}
         />

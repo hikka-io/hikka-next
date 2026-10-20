@@ -19,12 +19,14 @@ export function useInfiniteList<T>(options: ListOptions) {
     );
 
     return {
-        list: query.data?.pages.flatMap((page) => page.list),
-        isPending: query.isPending,
+        items: query.data?.pages.flatMap((page) => page.list),
         error: query.error as unknown,
-        hasNextPage: query.hasNextPage,
         isFetchingNextPage: query.isFetchingNextPage,
-        fetchNextPage: () => void query.fetchNextPage(),
-        refetch: () => void query.refetch(),
+        onEndReached: () => {
+            if (query.hasNextPage && !query.isFetchingNextPage) {
+                void query.fetchNextPage();
+            }
+        },
+        onRetry: () => void query.refetch(),
     };
 }

@@ -14,7 +14,8 @@ import {
 } from '@hikka/core';
 
 import PosterCard from '@/components/content-card/poster-card';
-import PosterCardSkeleton from '@/components/content-card/poster-card-skeleton';
+import PosterRow from '@/components/content-card/poster-row';
+import PosterRowSkeleton from '@/components/content-card/poster-row-skeleton';
 import { Button } from '@/components/ui/button';
 import EmptyState from '@/components/ui/empty-state';
 import ErrorState from '@/components/ui/error-state';
@@ -22,11 +23,12 @@ import { Icon } from '@/components/ui/icon';
 
 import ChipTabs from '../chip-tabs';
 import { flattenPages } from '../flatten-pages';
-import { PosterRow, PosterRowItem } from '../poster-row';
 import { homeReadingOptions, homeWatchingOptions } from '../queries';
 import type { TrackerTab } from '../types';
 import { useHomePreferences } from '../use-home-preferences';
 import WidgetSection from '../widget-section';
+
+const POSTER_CLASS = 'w-32';
 
 const TABS: { value: TrackerTab; label: string }[] = [
     { value: 'anime', label: 'Аніме' },
@@ -111,17 +113,13 @@ const ProgressBar: FC<{ current: number; total: number | null }> = ({
     );
 };
 
-const TrackerPosterSkeleton: FC = () => {
-    return (
-        <PosterRow>
-            {Array.from({ length: SKELETON_SIZE }, (_, index) => (
-                <PosterRowItem key={index}>
-                    <PosterCardSkeleton />
-                </PosterRowItem>
-            ))}
-        </PosterRow>
-    );
-};
+const TrackerPosterSkeleton: FC = () => (
+    <PosterRowSkeleton
+        count={SKELETON_SIZE}
+        subtitles
+        itemClassName={POSTER_CLASS}
+    />
+);
 
 export const TrackerWidgetSkeleton: FC = () => {
     return (
@@ -148,23 +146,24 @@ const TrackerWidget: FC<Props> = ({ username }) => {
             {isError && <ErrorState variant="section" onRetry={refetch} />}
             {isPending && <TrackerPosterSkeleton />}
             {items && items.length > 0 && (
-                <PosterRow>
-                    {items.map((item) => (
-                        <PosterRowItem key={item.slug}>
-                            <PosterCard
-                                href={`/${tab}/${item.slug}`}
-                                image={item.image ?? undefined}
-                                title={item.title}
-                                leftSubtitle={`${item.current} / ${item.total ?? '?'} ${getDeclensionWord(item.total ?? 0, item.unit)}`}
-                            >
-                                <ProgressBar
-                                    current={item.current}
-                                    total={item.total}
-                                />
-                            </PosterCard>
-                        </PosterRowItem>
-                    ))}
-                </PosterRow>
+                <PosterRow
+                    items={items}
+                    keyExtractor={(item) => item.slug}
+                    itemClassName={POSTER_CLASS}
+                    renderItem={(item) => (
+                        <PosterCard
+                            href={`/${tab}/${item.slug}`}
+                            image={item.image ?? undefined}
+                            title={item.title}
+                            leftSubtitle={`${item.current} / ${item.total ?? '?'} ${getDeclensionWord(item.total ?? 0, item.unit)}`}
+                        >
+                            <ProgressBar
+                                current={item.current}
+                                total={item.total}
+                            />
+                        </PosterCard>
+                    )}
+                />
             )}
             {items?.length === 0 && (
                 <EmptyState

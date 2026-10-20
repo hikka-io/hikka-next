@@ -1,30 +1,17 @@
 import type { ComponentProps, ReactElement } from 'react';
 
-import { View } from 'react-native';
-
-import PosterRow from '@/components/poster-row';
-import { Header, HeaderTitle } from '@/components/ui/header';
+import PosterRow from '@/components/content-card/poster-row';
 
 type Props<T> = ComponentProps<typeof PosterRow<T>> & {
     title: string;
 };
 
-function AppearanceSection<T>({
-    title,
-    ...row
-}: Props<T>): ReactElement | null {
-    if (!row.isPending && !row.error && !row.list?.length) {
+function AppearanceSection<T>(props: Props<T>): ReactElement | null {
+    if (props.items?.length === 0 && !props.error) {
         return null;
     }
 
-    return (
-        <View className="mt-6 gap-3">
-            <Header className="px-4">
-                <HeaderTitle>{title}</HeaderTitle>
-            </Header>
-            <PosterRow {...row} />
-        </View>
-    );
+    return <PosterRow {...props} className="mt-6 px-4" />;
 }
 
 export default AppearanceSection;

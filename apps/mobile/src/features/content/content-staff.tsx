@@ -7,10 +7,10 @@ import { getTitle } from '@hikka/core';
 
 import { presetImageUrl } from '@/components/content-card/image-presets';
 import PosterCard from '@/components/content-card/poster-card';
+import PosterRow from '@/components/content-card/poster-row';
 import { contentHref } from '@/utils/content-href';
 
 import { useVisibleOnce } from './detail-scroll';
-import PosterRow from './poster-row';
 import {
     animeStaffPreviewOptions,
     type ContentInfo,
@@ -33,8 +33,7 @@ const StaffRow: FC<RowProps> = ({ list, isError, onRetry, onLayout }) => {
         <PosterRow<ContentAuthorResponse>
             title="Автори"
             items={list}
-            skeletonCount={STAFF_PREVIEW_SIZE}
-            description
+            skeleton={{ count: STAFF_PREVIEW_SIZE, description: true }}
             error={isError}
             onRetry={onRetry}
             onLayout={onLayout}

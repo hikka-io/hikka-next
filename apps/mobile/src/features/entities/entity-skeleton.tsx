@@ -3,6 +3,7 @@ import type { FC } from 'react';
 import { View } from 'react-native';
 
 import PosterCardSkeleton from '@/components/content-card/poster-card-skeleton';
+import PosterRowSkeleton from '@/components/content-card/poster-row-skeleton';
 import { Skeleton, SkeletonText } from '@/components/ui/skeleton';
 
 const EntitySkeleton: FC = () => (
@@ -23,13 +24,7 @@ const EntitySkeleton: FC = () => (
         </View>
         <View className="gap-3">
             <Skeleton className="h-6 w-24" />
-            <View className="flex-row gap-3">
-                {Array.from({ length: 3 }, (_, index) => (
-                    <View key={index} className="w-28">
-                        <PosterCardSkeleton subtitles={false} titleLines={2} />
-                    </View>
-                ))}
-            </View>
+            <PosterRowSkeleton />
         </View>
     </View>
 );
