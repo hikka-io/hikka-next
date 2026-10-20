@@ -16,7 +16,6 @@ import {
 } from '@hikka/core';
 
 import PosterCardSkeleton from '@/components/content-card/poster-card-skeleton';
-import HistoryRowSkeleton from '@/components/list-items/history-row-skeleton';
 import EmptyState from '@/components/ui/empty-state';
 import ErrorState from '@/components/ui/error-state';
 import { Icon } from '@/components/ui/icon';
@@ -35,6 +34,7 @@ import {
 } from '../queries';
 import ListEntryPoster from './list-entry-poster';
 import ListEntryRow from './list-entry-row';
+import ListEntryRowSkeleton from './list-entry-row-skeleton';
 import ListStatusChips from './list-status-chips';
 import { type UserListView, useUserListPrefs } from './user-list-prefs-store';
 
@@ -168,7 +168,9 @@ const UserListPage: FC<Props> = ({ username, contentType, initialStatus }) => {
                             showStatus={status === USER_LIST_ALL_STATUS}
                         />
                     ) : (
-                        <HistoryRowSkeleton className="px-4 py-2" />
+                        <ListEntryRowSkeleton
+                            badge={status === USER_LIST_ALL_STATUS}
+                        />
                     );
                 }}
                 ListHeaderComponent={

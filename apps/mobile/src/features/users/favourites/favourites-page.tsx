@@ -3,9 +3,9 @@ import { type FC, type ReactElement, useState } from 'react';
 import { FlashList } from '@shopify/flash-list';
 import { Stack, useIsFocused } from 'expo-router';
 import { Heart } from 'lucide-react-native';
-import { ActivityIndicator, View } from 'react-native';
+import { ActivityIndicator, ScrollView, View } from 'react-native';
 
-import type { FavouriteContentTypeEnum } from '@hikka/api';
+import { ContentTypeEnum, type FavouriteContentTypeEnum } from '@hikka/api';
 
 import PosterCardSkeleton from '@/components/content-card/poster-card-skeleton';
 import EmptyState from '@/components/ui/empty-state';
@@ -102,6 +102,33 @@ const FavouriteGrid: FC<GridProps> = ({ username, type, header }) => {
     );
 };
 
+// The grid's shell while the category counts load: chip row and one page of cells.
+const FavouritesSkeleton: FC<{ subtitles: boolean }> = ({ subtitles }) => (
+    <ScrollView
+        className="flex-1 bg-background"
+        contentInsetAdjustmentBehavior="automatic"
+        contentContainerStyle={GRID_CONTAINER}
+        scrollEnabled={false}
+    >
+        <View className="flex-row gap-2 px-1.5 pt-2 pb-4">
+            <Skeleton className="h-8 w-24" />
+            <Skeleton className="h-8 w-24" />
+            <Skeleton className="h-8 w-24" />
+        </View>
+        <View className="flex-row flex-wrap">
+            {SKELETON_ITEMS.map((_, index) => (
+                // biome-ignore lint/suspicious/noArrayIndexKey: static placeholders
+                <View key={index} className="w-1/3 px-1.5 pb-4">
+                    <PosterCardSkeleton
+                        subtitles={subtitles}
+                        titleLines={subtitles ? 1 : 2}
+                    />
+                </View>
+            ))}
+        </View>
+    </ScrollView>
+);
+
 type Props = {
     username: string;
     initialType?: FavouriteContentTypeEnum;
@@ -137,12 +164,11 @@ const FavouritesPage: FC<Props> = ({ username, initialType }) => {
             ) : error ? (
                 <ErrorState error={error} onRetry={() => void refetch()} />
             ) : isPending ? (
-                <View className="flex-1 bg-background px-4 pt-4">
-                    <View className="flex-row gap-2">
-                        <Skeleton className="h-8 w-24" />
-                        <Skeleton className="h-8 w-24" />
-                    </View>
-                </View>
+                <FavouritesSkeleton
+                    subtitles={favouriteHasSubtitles(
+                        initialType ?? ContentTypeEnum.ANIME,
+                    )}
+                />
             ) : (
                 <EmptyState
                     className="flex-1 bg-background"
