@@ -4,16 +4,16 @@ import {
     type WatchStatusEnum as WatchStatus,
     WatchStatusEnum,
 } from '@hikka/api';
+
 import {
     CHAPTER_FORMS,
     EPISODE_FORMS,
     getDeclensionWord,
-    LIST_STATUS,
     TIMES_FORMS,
     VOLUME_FORMS,
     type WordForms,
-} from '@hikka/core';
-
+} from '../i18n';
+import { LIST_STATUS } from '../labels';
 import { fact, into, joinFacts, outOf, status, value } from './fact-builder';
 import { formatHistoryDate, isSameHistoryDay } from './history-dates';
 import type { HistoryFact, HistoryIcon, HistoryMedium } from './types';

@@ -1,4 +1,4 @@
-import { APP_LOCALE_TAG } from '@hikka/core';
+import { APP_LOCALE_TAG } from '../i18n';
 
 type Created = { created: number };
 
