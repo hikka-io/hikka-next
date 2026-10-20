@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 
 import {
     articleListArgs,
+    articlesSearchFromParams,
     collectionListArgs,
     PUBLIC_ARTICLE_CATEGORIES,
 } from './community-list-args';
@@ -41,6 +42,42 @@ describe('articleListArgs', () => {
             tags: ['anime'],
             sort: ['vote_score:asc'],
         });
+    });
+});
+
+describe('articlesSearchFromParams', () => {
+    it('reads plain, repeated and JSON-encoded params like the web router writes them', () => {
+        expect(
+            articlesSearchFromParams({
+                categories: 'news',
+                author: 'olexh',
+                tags: '["аніме","огляд"]',
+                sort: 'vote_score',
+                order: 'asc',
+            }),
+        ).toMatchObject({
+            categories: ['news'],
+            author: 'olexh',
+            tags: ['аніме', 'огляд'],
+            sort: 'vote_score',
+            order: 'asc',
+        });
+        expect(
+            articlesSearchFromParams({ categories: ['news', 'reviews'] })
+                .categories,
+        ).toEqual(['news', 'reviews']);
+        expect(articlesSearchFromParams({ author: '"123"' }).author).toBe(
+            '123',
+        );
+    });
+
+    it('drops values the schema rejects', () => {
+        expect(articlesSearchFromParams({ order: 'sideways' }).order).toBe(
+            undefined,
+        );
+        expect(articlesSearchFromParams({ tags: '[oops' }).tags).toEqual([
+            '[oops',
+        ]);
     });
 });
 

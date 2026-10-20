@@ -5,24 +5,25 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 import * as Haptics from 'expo-haptics';
 import { Stack } from 'expo-router';
 import { Newspaper } from 'lucide-react-native';
-import { ActivityIndicator, Platform, ScrollView, View } from 'react-native';
+import { ActivityIndicator, Platform, View } from 'react-native';
 
-import type { ArticleCategoryEnum, ArticlePreviewResponse } from '@hikka/api';
+import type { ArticlePreviewResponse } from '@hikka/api';
 import {
     ARTICLE_CATEGORY,
+    type ArticlesSearch,
     getSort,
-    PUBLIC_ARTICLE_CATEGORIES,
     type SortOrder,
 } from '@hikka/core';
 
-import { Chip } from '@/components/ui/chip';
 import EmptyState from '@/components/ui/empty-state';
 import ErrorState from '@/components/ui/error-state';
 import { Icon } from '@/components/ui/icon';
+import { useSession } from '@/features/auth';
 
 import ArticleCard from './article-card';
 import ArticleCardSkeleton from './article-card-skeleton';
-import { articleListOptions } from './queries';
+import ArticleFilters from './article-filters';
+import { articleListOptions, singleCategory } from './queries';
 
 // Compose toolbar items take image sources only; SF Symbols are iOS-only.
 const SORT_ICON =
@@ -37,58 +38,18 @@ const ORDERS: { value: SortOrder; label: string }[] = [
 const SKELETON_COUNT = 3;
 const SKELETONS: null[] = Array.from({ length: SKELETON_COUNT }, () => null);
 
-type CategoryChipsProps = {
-    category?: ArticleCategoryEnum;
-    onChange: (category?: ArticleCategoryEnum) => void;
-};
-
-/** The web's category filter as a chip row (`ChipTabs`), one category at a time. */
-const CategoryChips: FC<CategoryChipsProps> = ({ category, onChange }) => {
-    const options: { value?: ArticleCategoryEnum; label: string }[] = [
-        { label: 'Усі' },
-        ...PUBLIC_ARTICLE_CATEGORIES.map((value) => ({
-            value,
-            label: ARTICLE_CATEGORY[value].title_ua,
-        })),
-    ];
-
-    return (
-        <ScrollView
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            className="-mx-4"
-            contentContainerClassName="gap-2 px-4 pb-2"
-        >
-            {options.map((option) => {
-                const selected = option.value === category;
-                return (
-                    <Chip
-                        key={option.value ?? 'all'}
-                        selected={selected}
-                        className={selected ? undefined : 'bg-secondary'}
-                        onPress={() => {
-                            if (selected) return;
-                            Haptics.selectionAsync();
-                            onChange(option.value);
-                        }}
-                    >
-                        {option.label}
-                    </Chip>
-                );
-            })}
-        </ScrollView>
-    );
-};
-
 type Props = {
-    initialCategory?: ArticleCategoryEnum;
+    // The filters a hikka.io link carried (`/articles?categories=…&author=…&tags=…`).
+    initialSearch: ArticlesSearch;
 };
 
-/** The web's articles page: category chips, sort and order in a header menu, an infinite list of previews. */
-const ArticleList: FC<Props> = ({ initialCategory }) => {
-    const [category, setCategory] = useState(initialCategory);
-    const [sort, setSort] = useState(SORT_OPTIONS[0].value);
-    const [order, setOrder] = useState<SortOrder>('desc');
+/** The web's articles page: category chips and link filters, sort and order in a header menu, an infinite list of previews. */
+const ArticleList: FC<Props> = ({ initialSearch }) => {
+    const { hasToken } = useSession();
+    const [search, setSearch] = useState(initialSearch);
+    const sort = search.sort ?? SORT_OPTIONS[0].value;
+    const order = search.order ?? 'desc';
+    const category = singleCategory(search);
     const {
         data,
         error,
@@ -99,7 +60,12 @@ const ArticleList: FC<Props> = ({ initialCategory }) => {
         isPending,
         isRefetching,
         refetch,
-    } = useInfiniteQuery(articleListOptions({ category, sort, order }));
+    } = useInfiniteQuery(
+        articleListOptions({
+            ...search,
+            draft: hasToken ? search.draft : undefined,
+        }),
+    );
 
     const list: (ArticlePreviewResponse | null)[] = isPending
         ? SKELETONS
@@ -126,7 +92,12 @@ const ArticleList: FC<Props> = ({ initialCategory }) => {
                                 key={option.value}
                                 isOn={sort === option.value}
                                 onPress={() =>
-                                    select(() => setSort(option.value))
+                                    select(() =>
+                                        setSearch((prev) => ({
+                                            ...prev,
+                                            sort: option.value,
+                                        })),
+                                    )
                                 }
                             >
                                 {option.label}
@@ -139,7 +110,12 @@ const ArticleList: FC<Props> = ({ initialCategory }) => {
                                 key={option.value}
                                 isOn={order === option.value}
                                 onPress={() =>
-                                    select(() => setOrder(option.value))
+                                    select(() =>
+                                        setSearch((prev) => ({
+                                            ...prev,
+                                            order: option.value,
+                                        })),
+                                    )
                                 }
                             >
                                 {option.label}
@@ -167,7 +143,11 @@ const ArticleList: FC<Props> = ({ initialCategory }) => {
                     </View>
                 )}
                 ListHeaderComponent={
-                    <CategoryChips category={category} onChange={setCategory} />
+                    <ArticleFilters
+                        search={search}
+                        showDraft={hasToken}
+                        onChange={setSearch}
+                    />
                 }
                 ListEmptyComponent={
                     error ? (

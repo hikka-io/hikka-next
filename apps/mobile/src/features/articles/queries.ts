@@ -4,28 +4,14 @@ import {
     getArticlesInfiniteOptions,
     paginatedInfiniteOptions,
 } from '@hikka/api';
-import { articleListArgs, type SortOrder } from '@hikka/core';
+import { type ArticlesSearch, articleListArgs } from '@hikka/core';
 
 export const ARTICLES_PAGE_SIZE = 10;
 
-export type ArticleListFilter = {
-    category?: ArticleCategoryEnum;
-    sort?: string;
-    order?: SortOrder;
-};
-
-export function articleListOptions({
-    category,
-    sort,
-    order,
-}: ArticleListFilter) {
+export function articleListOptions(search: ArticlesSearch) {
     return paginatedInfiniteOptions(
         getArticlesInfiniteOptions({
-            body: articleListArgs({
-                categories: category ? [category] : undefined,
-                sort,
-                order,
-            }),
+            body: articleListArgs(search),
             query: { size: ARTICLES_PAGE_SIZE },
         }),
     );
@@ -33,3 +19,9 @@ export function articleListOptions({
 
 export const articleOptions = (slug: string) =>
     getArticleOptions({ path: { slug } });
+
+/** The selected category when exactly one is set; the web titles the page with it. */
+export const singleCategory = (search: ArticlesSearch) =>
+    search.categories?.length === 1
+        ? (search.categories[0] as ArticleCategoryEnum)
+        : undefined;

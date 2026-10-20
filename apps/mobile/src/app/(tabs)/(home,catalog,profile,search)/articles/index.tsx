@@ -1,17 +1,12 @@
 import { useLocalSearchParams } from 'expo-router';
 
-import { ArticleCategoryEnum } from '@hikka/api';
+import { articlesSearchFromParams } from '@hikka/core';
 
 import { ArticleList } from '@/features/articles';
 
-const CATEGORIES = new Set<string>(Object.values(ArticleCategoryEnum));
-
 export default function ArticlesScreen() {
-    const { categories } = useLocalSearchParams<{ categories?: string }>();
-    const category =
-        categories && CATEGORIES.has(categories)
-            ? (categories as ArticleCategoryEnum)
-            : undefined;
+    const params = useLocalSearchParams<Record<string, string | string[]>>();
+    const search = articlesSearchFromParams(params);
 
-    return <ArticleList key={category ?? 'all'} initialCategory={category} />;
+    return <ArticleList key={JSON.stringify(search)} initialSearch={search} />;
 }

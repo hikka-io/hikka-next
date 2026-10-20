@@ -5,7 +5,11 @@ import type {
 } from '@hikka/api';
 
 import { ARTICLE_CATEGORY } from './labels';
-import type { ArticlesSearch, CollectionsSearch } from './search-schemas';
+import {
+    type ArticlesSearch,
+    articlesSearchSchema,
+    type CollectionsSearch,
+} from './search-schemas';
 import { expandSort } from './sort';
 
 export type CollectionSort = NonNullable<CollectionsSearch['sort']>;
@@ -36,6 +40,32 @@ export function articleListArgs(search: ArticlesSearch): ArticlesListArgs {
         tags: search.tags?.length ? search.tags : undefined,
         draft: Boolean(search.draft),
     };
+}
+
+type RouteParams = Record<string, string | string[] | undefined>;
+
+// TanStack Router writes non-string search values as JSON (`tags=["a","b"]`); a repeated key arrives as an array.
+const decodeSearchValue = (value: string | string[] | undefined) => {
+    if (Array.isArray(value) || value === undefined) return value;
+    if (!value.startsWith('[') && !value.startsWith('"')) return value;
+
+    try {
+        return JSON.parse(value) as unknown;
+    } catch {
+        return value;
+    }
+};
+
+/** The articles page search from a hikka.io URL's query, decoded the way the web router writes it. */
+export function articlesSearchFromParams(params: RouteParams): ArticlesSearch {
+    return articlesSearchSchema.parse(
+        Object.fromEntries(
+            Object.entries(params).map(([key, value]) => [
+                key,
+                decodeSearchValue(value),
+            ]),
+        ),
+    );
 }
 
 /** Categories anyone can filter by; the system category is for staff. */
