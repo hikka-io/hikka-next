@@ -39,6 +39,7 @@ const Guides: FC<GuidesProps> = ({ row, center }) => {
                     <View
                         // biome-ignore lint/suspicious/noArrayIndexKey: one line per indentation level.
                         key={level}
+                        pointerEvents="none"
                         className="absolute top-0 bottom-0 w-0.5 bg-border"
                         style={{ left: GUTTER + level * INDENT }}
                     />
@@ -47,6 +48,7 @@ const Guides: FC<GuidesProps> = ({ row, center }) => {
             {depth > 0 && (
                 <>
                     <View
+                        pointerEvents="none"
                         className="absolute top-0 w-0.5 bg-border"
                         style={
                             hasNext
@@ -58,6 +60,7 @@ const Guides: FC<GuidesProps> = ({ row, center }) => {
                         }
                     />
                     <View
+                        pointerEvents="none"
                         className="absolute rounded-bl-xl border-border border-b-2 border-l-2"
                         style={{
                             left: elbowLeft,
@@ -108,23 +111,24 @@ const CommentRow: FC<Props> = ({ row, slug }) => {
         setExpanded(node.reference, !row.expanded);
     };
 
+    const replyLabel = `${replyCount} ${getDeclensionWord(replyCount, REPLY_FORMS)}`;
     const replies =
         row.loadedReplies > 0 ? (
             <StatItem
                 onPress={toggle}
-                accessibilityLabel={
+                accessibilityLabel={replyLabel}
+                accessibilityHint={
                     row.expanded ? 'Згорнути відповіді' : 'Показати відповіді'
                 }
+                accessibilityState={{ expanded: row.expanded }}
             >
                 <Icon as={row.expanded ? ChevronUp : CirclePlus} />
-                {row.expanded
-                    ? 'Згорнути'
-                    : `${replyCount} ${getDeclensionWord(replyCount, REPLY_FORMS)}`}
+                {row.expanded ? 'Згорнути' : replyLabel}
             </StatItem>
         ) : row.missingReplies > 0 ? (
             <StatItem onPress={openThread}>
                 <Icon as={CirclePlus} />
-                {`${replyCount} ${getDeclensionWord(replyCount, REPLY_FORMS)}`}
+                {replyLabel}
             </StatItem>
         ) : undefined;
 
@@ -133,6 +137,7 @@ const CommentRow: FC<Props> = ({ row, slug }) => {
             <Guides row={row} center={AVATAR_CENTER} />
             {row.threadLine && (
                 <View
+                    pointerEvents="none"
                     className="absolute bottom-0 w-0.5 bg-border"
                     style={{
                         left: GUTTER + row.depth * INDENT,
