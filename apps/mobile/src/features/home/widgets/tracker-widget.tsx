@@ -172,7 +172,11 @@ const TrackerWidget: FC<Props> = ({ username }) => {
                     action={
                         <Link href="/(tabs)/(catalog)" asChild>
                             <Button variant="secondary" size="md">
-                                Знайти аніме
+                                {tab === 'anime'
+                                    ? 'Знайти аніме'
+                                    : tab === 'manga'
+                                      ? 'Знайти манґу'
+                                      : 'Знайти ранобе'}
                             </Button>
                         </Link>
                     }
