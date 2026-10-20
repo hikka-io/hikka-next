@@ -116,7 +116,7 @@ function UserLayout() {
                 <UserLinks className="md:hidden" />
                 <FollowStats className="shrink-0" />
             </div>
-            <div className="flex flex-col gap-8">
+            <div className="flex flex-col gap-8 md:mt-4">
                 <Outlet />
             </div>
         </div>
