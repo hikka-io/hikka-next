@@ -337,6 +337,7 @@ const UICatalog: FC = () => {
                         <PosterCard
                             image={POSTER}
                             title="Приховано"
+                            href="/dev/markdown"
                             imageBlur
                             titleBlur
                         />
