@@ -1,4 +1,4 @@
-import { type FC, useEffect, useState } from 'react';
+import { type FC, type ReactNode, useEffect, useState } from 'react';
 
 import { Stack } from 'expo-router';
 import { unstable_getMaterialSymbolSourceAsync } from 'expo-symbols';
@@ -35,12 +35,15 @@ type Props = {
     titleVisible?: boolean;
     // The hikka.io path to share; the share action shows only once it is known.
     sharePath?: string;
+    // Page actions placed before share: a screen holds one right toolbar, so a second one would replace it.
+    actions?: ReactNode;
 };
 
 const DetailHeaderChrome: FC<Props> = ({
     title,
     titleVisible = true,
     sharePath,
+    actions,
 }) => {
     const androidIcon = useAndroidShareIcon();
     const icon =
@@ -49,13 +52,16 @@ const DetailHeaderChrome: FC<Props> = ({
     return (
         <>
             <Stack.Title>{titleVisible ? title : ''}</Stack.Title>
-            {icon && sharePath && (
+            {((icon && sharePath) || actions) && (
                 <Stack.Toolbar placement="right">
-                    <Stack.Toolbar.Button
-                        icon={icon}
-                        accessibilityLabel="Поділитися"
-                        onPress={() => shareSitePath(sharePath, title)}
-                    />
+                    {actions}
+                    {icon && sharePath ? (
+                        <Stack.Toolbar.Button
+                            icon={icon}
+                            accessibilityLabel="Поділитися"
+                            onPress={() => shareSitePath(sharePath, title)}
+                        />
+                    ) : null}
                 </Stack.Toolbar>
             )}
         </>
