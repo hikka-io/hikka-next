@@ -60,6 +60,47 @@ Against the local backend (`./dev.sh start` in the backend repo, API on :8888), 
 EXPO_PUBLIC_API_URL=http://localhost:8888 EXPO_PUBLIC_CAPTCHA_BYPASS=fake_captcha pnpm --filter @hikka/mobile ios --port 8082
 ```
 
+## End-to-end tests (Maestro)
+
+[Maestro](https://maestro.mobile.dev) flows in `e2e/` drive the app through Expo Go on an iOS simulator. They are a review and regression tool for the core loop, run by hand; they are not in CI because they need a simulator, Metro and (for the signed-in suite) the local backend.
+
+Install (needs Java 17+; no admin rights). The official `curl -Ls "https://get.maestro.mobile.dev" | bash` also appends a PATH line to `~/.bash_profile` and `~/.zshrc`; to skip that, download and run the script with its "Installing" section removed. It unpacks Maestro 2.x into `~/.maestro`. `scripts/e2e.sh` adds `~/.maestro/bin` to `PATH` itself; for ad-hoc `maestro` commands add it yourself.
+
+Layout:
+
+- `e2e/public/`: read-only flows against production: Home, Catalog (open a title and back), Latin search, a character, a public user and their list, a collection, an article, the schedule. They assume a signed-out app.
+- `e2e/local/`: signed-in flows against the local backend: login, add to planned and edit progress and score and delete, post and edit and delete a comment, follow and unfollow, notifications, logout. Each flow signs in on its own when needed; `config.yaml` fixes the order.
+- `e2e/subflows/`: `launch` (stop Expo Go, open the Metro URL, wait for Home), `tab`, `back`, `login`, `logout`, `ensure-login`, `open-anime`, `open-first-card`, `remove-from-list`.
+
+Flows target visible Ukrainian copy and accessibility labels. Tabs are tapped by their icon label (`home`, `Grid view`, `account`, `Search`) because the tab titles repeat as screen headers; Back is the navigation `BackButton` id. Lists whose first item changes over time use regexes or relative selectors (`below`, `rightOf`).
+
+Run (Metro for the app under test must already be running; Expo Go 57 installed on the simulator, which `pnpm --filter @hikka/mobile ios` does once):
+
+```bash
+# Production API, signed out
+pnpm --filter @hikka/mobile dev --port 8086
+METRO_URL=exp://localhost:8086 E2E_DEVICE=<simulator UDID> pnpm --filter @hikka/mobile e2e
+
+# Local backend: serve the bundle with the local API and the captcha bypass
+EXPO_PUBLIC_API_URL=http://localhost:8888 EXPO_PUBLIC_CAPTCHA_BYPASS=fake_captcha pnpm --filter @hikka/mobile dev --port 8086
+E2E_USERNAME=<user> E2E_PASSWORD=<password> E2E_FOLLOW_USER=<other user> METRO_URL=exp://localhost:8086 E2E_DEVICE=<simulator UDID> pnpm --filter @hikka/mobile e2e:local
+```
+
+`EXPO_PUBLIC_*` values are baked into the bundle, so the production and the local suite need different Metro instances (restart with `--clear` when switching). Run one flow with `pnpm --filter @hikka/mobile e2e -- e2e/public/05-user-list.yaml` (extra arguments replace the suite directory).
+
+| Variable | Used by | Meaning |
+| --- | --- | --- |
+| `METRO_URL` | both | Metro URL as Expo Go opens it, default `exp://localhost:8081` |
+| `E2E_DEVICE` | both | Simulator UDID or name; default is the booted device |
+| `E2E_PUBLIC_USER` | `e2e` | Public username for the profile flow, default `olexh` |
+| `E2E_USERNAME`, `E2E_PASSWORD` | `e2e:local` | Throwaway local account (required) |
+| `E2E_FOLLOW_USER` | `e2e:local` | A second local account to follow and unfollow (required) |
+| `E2E_ANIME_QUERY` | `e2e:local` | Search query that finds an anime, default `frieren` |
+
+Local accounts: sign up two throwaway users in the app or with `POST /auth/signup` (header `captcha: fake_captcha`). Commenting needs an activated account: read the activation token from `service_email_messages` in the local Postgres and `POST /auth/activation`. Never commit credentials; pass them through the environment.
+
+Notes for writing flows: the iOS "Save Password?" system prompt appears after login (the `login` subflow dismisses it); a text match is a full-string, case-insensitive regex, so list rows with composite labels (`Title, subtitle, status`) need `.*`; Maestro's `text` also matches the search field's own contents. The tracking and follow flows first undo leftovers of an aborted run, and every mutating flow cleans up after itself; the comment flow deletes its own comment.
+
 ## Layout
 
 - `src/app/` — Expo Router routes. The root is a stack holding `(tabs)` and the `login` form sheet. `(tabs)/(home)`, `(catalog)`, `(profile)` and `(search)` are the native tabs, each with its own stack. Screens reachable from every tab (content, characters, people, user pages) live once in `(tabs)/(home,catalog,profile,search)/` and push onto whichever tab's stack is active.
