@@ -65,7 +65,7 @@ const Block = ({
         if (header) {
             return (
                 <section
-                    className={cn('flex min-w-0 flex-col gap-5', className)}
+                    className={cn('flex min-w-0 flex-col gap-3', className)}
                     {...props}
                 >
                     {header}
