@@ -73,7 +73,7 @@ const NotificationsForm: FC<Props> = ({ saved }) => {
             )}
             <FieldGroup.Section>
                 <SettingsActionRow
-                    title={isPending ? 'Збереження…' : 'Зберегти'}
+                    title={isPending ? 'Збереження...' : 'Зберегти'}
                     disabled={!changed || isPending}
                     onPress={() =>
                         mutate({

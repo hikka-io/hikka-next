@@ -217,7 +217,7 @@ const ComposerForm: FC<FormProps> = ({
     const placeholder = replyTo
         ? `Відповідь для ${replyTo.author.username ?? 'користувача'}...`
         : isReview
-          ? 'Поділіться враженнями від тайтлу…'
+          ? 'Поділіться враженнями від тайтлу...'
           : 'Напишіть повідомлення...';
 
     return (

@@ -106,7 +106,7 @@ const PasswordForm: FC = () => {
             </FieldGroup.Section>
             <FieldGroup.Section>
                 <SettingsActionRow
-                    title={change.isPending ? 'Збереження…' : 'Зберегти'}
+                    title={change.isPending ? 'Збереження...' : 'Зберегти'}
                     disabled={change.isPending}
                     onPress={() => form.handleSubmit()}
                 />

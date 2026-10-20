@@ -58,12 +58,12 @@ const ProfileForm: FC<Props> = ({ user }) => {
         <SettingsForm>
             <FieldGroup.Section title="Зображення профілю">
                 <SettingsActionRow
-                    title={avatar.busy ? 'Завантаження…' : 'Змінити аватар'}
+                    title={avatar.busy ? 'Завантаження...' : 'Змінити аватар'}
                     disabled={imageBusy}
                     onPress={avatar.pick}
                 />
                 <SettingsActionRow
-                    title={cover.busy ? 'Завантаження…' : 'Змінити обкладинку'}
+                    title={cover.busy ? 'Завантаження...' : 'Змінити обкладинку'}
                     disabled={imageBusy}
                     onPress={cover.pick}
                 />
@@ -102,7 +102,7 @@ const ProfileForm: FC<Props> = ({ user }) => {
             </FieldGroup.Section>
             <FieldGroup.Section>
                 <SettingsActionRow
-                    title={save.isPending ? 'Збереження…' : 'Зберегти опис'}
+                    title={save.isPending ? 'Збереження...' : 'Зберегти опис'}
                     disabled={!changed || tooLong || save.isPending}
                     onPress={() =>
                         save.mutate({ body: { description: trimmed || null } })

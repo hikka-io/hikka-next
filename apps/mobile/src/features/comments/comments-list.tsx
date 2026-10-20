@@ -204,7 +204,7 @@ const CommentsList: FC<Props> = ({ contentType, slug, reference }) => {
                             />
                             <Text className="text-muted-foreground text-sm">
                                 {commentType === 'review'
-                                    ? 'Поділіться враженнями від тайтлу…'
+                                    ? 'Поділіться враженнями від тайтлу...'
                                     : 'Напишіть повідомлення...'}
                             </Text>
                         </Pressable>

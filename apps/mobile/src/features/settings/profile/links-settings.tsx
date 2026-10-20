@@ -198,7 +198,7 @@ const LinksForm: FC<Props> = ({ user }) => {
             </FieldGroup.Section>
             <FieldGroup.Section>
                 <SettingsActionRow
-                    title={save.isPending ? 'Збереження…' : 'Зберегти'}
+                    title={save.isPending ? 'Збереження...' : 'Зберегти'}
                     disabled={save.isPending}
                     onPress={submit}
                 />
