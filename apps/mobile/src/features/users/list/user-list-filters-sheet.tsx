@@ -7,29 +7,27 @@ import {
 } from '@/features/filters';
 
 import {
-    userListFiltersKey,
     useUpdateUserListFilters,
     useUserListFilters,
 } from './user-list-filters-store';
 
 type Props = {
-    username: string;
+    filtersKey: string;
     type?: string;
     onDone: () => void;
 };
 
 /** The web's list filter sidebar as a sheet over the open list's filters. */
-const UserListFiltersSheet: FC<Props> = ({ username, type, onDone }) => {
+const UserListFiltersSheet: FC<Props> = ({ filtersKey, type, onDone }) => {
     const contentType = (CATALOG_TYPES.find((item) => item === type) ??
         CATALOG_TYPES[0]) as CatalogType;
-    const key = userListFiltersKey(username, contentType);
 
     return (
         <FiltersPanel
             type={contentType}
             mode="userList"
-            search={useUserListFilters(key)}
-            onUpdate={useUpdateUserListFilters(key)}
+            search={useUserListFilters(filtersKey)}
+            onUpdate={useUpdateUserListFilters(filtersKey)}
             onDone={onDone}
         />
     );

@@ -29,6 +29,8 @@ type Props = {
     contentType: ListContentType;
     status: string;
     filtered: boolean;
+    filtersKey: string;
+    onOpenFilters: () => void;
     view: UserListView;
     onViewChange: (view: UserListView) => void;
     sort: string;
@@ -46,6 +48,8 @@ const UserListToolbar: FC<Props> = ({
     contentType,
     status,
     filtered,
+    filtersKey,
+    onOpenFilters,
     view,
     onViewChange,
     sort,
@@ -72,12 +76,13 @@ const UserListToolbar: FC<Props> = ({
                           : 'line.3.horizontal.decrease.circle'
                 }
                 accessibilityLabel="Фільтри"
-                onPress={() =>
+                onPress={() => {
+                    onOpenFilters();
                     router.push({
                         pathname: '/catalog-filters',
-                        params: { type: contentType, username },
-                    })
-                }
+                        params: { type: contentType, filters: filtersKey },
+                    });
+                }}
             >
                 {ANDROID && filtered ? (
                     <Stack.Toolbar.Badge

@@ -7,16 +7,16 @@ import {
 } from '@/features/filters';
 import { UserListFiltersSheet } from '@/features/users';
 
-/** The catalog's filter sheet, or, with `username`, the filters of that user's list. */
+/** The catalog's filter sheet, or, with `filters`, the filters of the open user list that key names. */
 export default function CatalogFiltersScreen() {
     const router = useRouter();
-    const params = useLocalSearchParams<{ type?: string; username?: string }>();
+    const params = useLocalSearchParams<{ type?: string; filters?: string }>();
     const type = CATALOG_TYPES.find((item) => item === params.type);
 
-    if (params.username) {
+    if (params.filters) {
         return (
             <UserListFiltersSheet
-                username={params.username}
+                filtersKey={params.filters}
                 type={type}
                 onDone={() => router.back()}
             />

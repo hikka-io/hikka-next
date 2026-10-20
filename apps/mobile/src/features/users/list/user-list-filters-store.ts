@@ -13,7 +13,7 @@ type State = {
 
 const EMPTY_SEARCH: CatalogSearch = {};
 
-/** Filters of the open list screens in memory, one per user and type: the web keeps them in the page URL. */
+/** Filters of the open list screens in memory, one entry per screen instance and type: the web keeps them in the page URL, so the same list open twice has separate filters. */
 const useStore = create<State>()((set) => ({
     searches: {},
     update: (key, updater) =>
@@ -31,8 +31,9 @@ const useStore = create<State>()((set) => ({
         }),
 }));
 
-export const userListFiltersKey = (username: string, contentType: string) =>
-    `${username.toLowerCase()}/${contentType}`;
+/** The navigation route key tells two screens of the same list apart; the type resets the entry when the screen switches it. */
+export const userListFiltersKey = (routeKey: string, contentType: string) =>
+    `${routeKey}/${contentType}`;
 
 export const useUserListFilters = (key: string) =>
     useStore((state) => state.searches[key] ?? EMPTY_SEARCH);

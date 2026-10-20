@@ -1,7 +1,7 @@
 import { type FC, useEffect, useState } from 'react';
 
 import { FlashList } from '@shopify/flash-list';
-import { Stack, useIsFocused, useRouter } from 'expo-router';
+import { Stack, useIsFocused, useRoute, useRouter } from 'expo-router';
 import { Bookmark } from 'lucide-react-native';
 import { ActivityIndicator, View } from 'react-native';
 
@@ -104,11 +104,20 @@ const UserListPage: FC<Props> = ({ username, contentType, initialStatus }) => {
     const [sort, setSort] = useState(() => defaultSort(contentType));
     const [order, setOrder] = useState<SortOrder>('desc');
     const grid = view === 'grid';
-    const filtersKey = userListFiltersKey(username, contentType);
+    const { key: routeKey } = useRoute();
+    const filtersKey = userListFiltersKey(routeKey, contentType);
     const filters = useUserListFilters(filtersKey);
     const updateFilters = useUpdateUserListFilters(filtersKey);
     const resetFilters = useResetUserListFilters();
     const filtered = hasActiveFilters(filters, false);
+
+    // Filters apply live behind their sheet, which unfocuses this screen, so it stays subscribed while the sheet is open.
+    const focused = useIsFocused();
+    const [sheetOpen, setSheetOpen] = useState(false);
+
+    useEffect(() => {
+        if (focused) setSheetOpen(false);
+    }, [focused]);
 
     // The web drops filters with the page URL; leaving the list does the same here.
     useEffect(() => () => resetFilters(filtersKey), [filtersKey, resetFilters]);
@@ -121,7 +130,7 @@ const UserListPage: FC<Props> = ({ username, contentType, initialStatus }) => {
                 sort,
                 order,
             }),
-            subscribed: useIsFocused(),
+            subscribed: focused || sheetOpen,
         });
     const { refreshing, onRefresh } = usePullToRefresh(byUsername([username]));
     const data: (UserListEntry | null)[] =
@@ -139,6 +148,8 @@ const UserListPage: FC<Props> = ({ username, contentType, initialStatus }) => {
                 contentType={contentType}
                 status={status}
                 filtered={filtered}
+                filtersKey={filtersKey}
+                onOpenFilters={() => setSheetOpen(true)}
                 view={view}
                 onViewChange={setView}
                 sort={sort}
