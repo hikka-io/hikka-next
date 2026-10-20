@@ -13,6 +13,16 @@ const TRUSTED_HOSTS = [
 
 const ROUTE = /^\/(anime|manga|novel|characters|people|u)\/([^/?#]+)\/?$/;
 
+// Profile subpages that exist in the app, with the one search param each of them reads.
+const USER_SUBROUTE =
+    /^\/u\/([^/?#]+)\/(history|favorites|list\/(?:anime|manga|novel))\/?$/;
+
+const USER_SUBROUTE_PARAMS: Record<string, string> = {
+    history: 'type',
+    favorites: 'type',
+    list: 'status',
+};
+
 // Routes that exist in the app; every other hikka.io link opens in the browser. Add a segment when its route lands.
 const IN_APP_ROUTES = new Set([
     'anime',
@@ -50,6 +60,18 @@ export const resolveLink = (href: string): LinkTarget => {
 
     if (hostname === 'hikka.io' || hostname.endsWith('.hikka.io')) {
         const match = ROUTE.exec(url.pathname);
+        const subroute = USER_SUBROUTE.exec(url.pathname);
+
+        if (subroute) {
+            const param = USER_SUBROUTE_PARAMS[subroute[2].split('/')[0]];
+            const value = url.searchParams.get(param);
+            const query = value ? `?${param}=${encodeURIComponent(value)}` : '';
+
+            return {
+                kind: 'route',
+                href: `/u/${subroute[1]}/${subroute[2]}${query}`,
+            };
+        }
 
         if (match && IN_APP_ROUTES.has(match[1])) {
             return { kind: 'route', href: `/${match[1]}/${match[2]}` };
