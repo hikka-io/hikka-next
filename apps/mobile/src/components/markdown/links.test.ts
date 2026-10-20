@@ -8,13 +8,13 @@ describe('in-app routes', () => {
         ['https://hikka.io/anime/slug/', '/anime/slug'],
         ['https://www.hikka.io/anime/slug?x=1#top', '/anime/slug'],
         ['/anime/slug', '/anime/slug'],
+        ['https://hikka.io/manga/berserk-4f2d1c', '/manga/berserk-4f2d1c'],
+        ['https://hikka.io/novel/slug', '/novel/slug'],
     ])('maps %s', (href, route) => {
         expect(resolveLink(href)).toEqual({ kind: 'route', href: route });
     });
 
     it.each([
-        'https://hikka.io/manga/berserk-4f2d1c',
-        'https://hikka.io/novel/slug',
         'https://hikka.io/characters/emilia-abc',
         'https://hikka.io/people/person-abc',
         'https://hikka.io/u/olexh',

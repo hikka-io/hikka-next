@@ -3,6 +3,7 @@ import { type FC, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 
 import { ExternalTypeEnum, type MainContentTypeEnum } from '@hikka/api';
+import { getPlatformIcon, groupExternalLinks } from '@hikka/core';
 
 import {
     HorizontalCard,
@@ -19,8 +20,6 @@ import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useSession } from '@/services/session';
 import { contentInfoOptions } from '@/utils/api/content-queries';
 import { useParams } from '@/utils/navigation';
-
-import { getPlatformIcon } from './platform-icons';
 
 type Props = {
     content_type: MainContentTypeEnum;
@@ -45,21 +44,8 @@ const ContentLinks: FC<Props> = ({ content_type }) => {
         return null;
     }
 
-    const dedupeByUrl = (links: typeof content.external) =>
-        Array.from(new Map(links.map((l) => [l.url, l])).values());
-
-    const watchLinksData = user
-        ? dedupeByUrl(
-              content.external.filter(
-                  (l) =>
-                      l.type === ExternalTypeEnum.WATCH ||
-                      l.type === ExternalTypeEnum.READ,
-              ),
-          )
-        : [];
-    const generalLinksData = dedupeByUrl(
-        content.external.filter((l) => l.type === ExternalTypeEnum.GENERAL),
-    );
+    const { general: generalLinksData, watch: watchLinksData } =
+        groupExternalLinks(content.external, { withWatch: !!user });
 
     const hasWatchLinks = watchLinksData.length > 0;
     const linksData =

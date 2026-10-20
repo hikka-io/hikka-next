@@ -14,7 +14,7 @@ const TRUSTED_HOSTS = [
 const ROUTE = /^\/(anime|manga|novel|characters|people|u)\/([^/?#]+)\/?$/;
 
 // Routes that exist in the app; every other hikka.io link opens in the browser. Add a segment when its route lands.
-const IN_APP_ROUTES = new Set(['anime']);
+const IN_APP_ROUTES = new Set(['anime', 'manga', 'novel']);
 
 export type LinkTarget =
     | { kind: 'route'; href: string }

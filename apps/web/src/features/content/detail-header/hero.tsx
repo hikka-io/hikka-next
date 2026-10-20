@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 
 import type { MainContentTypeEnum } from '@hikka/api';
+import { getOriginalTitle } from '@hikka/core';
 
 import ContentGenres from '@/components/content-genres';
 import { usePageTitleAnchor } from '@/features/app-shell';
@@ -8,8 +9,6 @@ import { useTitle } from '@/services/session';
 import { contentInfoOptions } from '@/utils/api/content-queries';
 import { cn } from '@/utils/cn';
 import { useParams } from '@/utils/navigation';
-
-import { getOriginalTitle } from './get-original-title';
 
 type Props = {
     className?: string;
