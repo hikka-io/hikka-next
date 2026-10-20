@@ -2,12 +2,13 @@ import type { FC } from 'react';
 
 import { SquareLibrary } from 'lucide-react';
 
+import type { ArticlesSearch } from '@hikka/core';
+import { ARTICLE_CATEGORY } from '@hikka/core';
+
 import { ARTICLE_CATEGORY_ICONS } from '@/components/icons/article-category-icons';
 import { BadgeFilter } from '@/components/ui/badge-filter';
 import { Label } from '@/components/ui/label';
-import { ARTICLE_CATEGORY } from '@/utils/labels/enum-labels';
 import { useRouteSearch } from '@/utils/navigation';
-import type { ArticlesSearch } from '@/utils/search-schemas';
 
 import { useChangeParam } from './use-change-param';
 

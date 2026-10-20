@@ -2,13 +2,14 @@ import type { FC } from 'react';
 
 import { useRouter } from '@tanstack/react-router';
 
+import type { HistorySearch } from '@hikka/core';
+
 import Block from '@/components/ui/block';
 import { Header, HeaderTitle } from '@/components/ui/header';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useSession } from '@/services/session';
 import { cn } from '@/utils/cn';
 import { useParams, useRouteSearch } from '@/utils/navigation';
-import type { HistorySearch } from '@/utils/search-schemas';
 
 import HistoryFeed from './history-feed';
 

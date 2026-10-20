@@ -5,6 +5,7 @@ import type {
     ArticlePreviewResponse,
     FollowUserResponse,
 } from '@hikka/api';
+import { ARTICLE_CATEGORY } from '@hikka/core';
 
 import { FollowButton } from '@/components/action-buttons';
 import {
@@ -18,7 +19,6 @@ import RelativeTime from '@/components/relative-time';
 import TextLink from '@/components/ui/text-link';
 import { useIsDesktop } from '@/services/hooks/use-media-query';
 import { cn } from '@/utils/cn';
-import { ARTICLE_CATEGORY } from '@/utils/labels/enum-labels';
 
 type Author =
     | FollowUserResponse

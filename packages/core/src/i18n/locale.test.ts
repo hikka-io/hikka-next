@@ -19,12 +19,6 @@ describe('applyDefaultLocale', () => {
         expect(format(JULY_6, 'd MMMM')).toBe('6 липня');
         expect(format(JULY_6, 'd MMM yyyy')).toBe('6 лип. 2024');
     });
-
-    it('is applied when the app providers module is imported', async () => {
-        await import('@/features/app-shell/providers');
-
-        expect(getDefaultOptions().locale).toBe(APP_LOCALE);
-    });
 });
 
 describe('APP_LOCALE', () => {

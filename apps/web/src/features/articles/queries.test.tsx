@@ -26,9 +26,8 @@ import {
     getArticlesInfiniteOptions,
     getBrowserClient,
 } from '@hikka/api';
-
-import type { ArticlesSearch } from '@/utils/search-schemas';
-import { expandSort } from '@/utils/sort';
+import type { ArticlesSearch } from '@hikka/core';
+import { expandSort } from '@hikka/core';
 
 import { Route as ArticlesRoute } from '../../routes/_pages/articles/index';
 import ArticleList from './article-list/article-list';

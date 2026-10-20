@@ -5,6 +5,7 @@
     "dependencies": {
         "@expo/ui": "~57.0.25",
         "@hikka/api": "workspace:*",
+        "@hikka/core": "workspace:*",
         "@react-native-community/netinfo": "12.0.1",
         "@shopify/flash-list": "2.0.2",
         "@tanstack/react-query": "^5.104.0",

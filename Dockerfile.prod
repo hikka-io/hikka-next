@@ -14,6 +14,7 @@ COPY package.json pnpm-lock.yaml pnpm-workspace.yaml .npmrc ./
 COPY turbo.json ./
 COPY tsconfig.base.json ./
 COPY packages/api/package.json ./packages/api/
+COPY packages/core/package.json ./packages/core/
 COPY apps/web/package.json ./apps/web/
 RUN corepack enable pnpm && pnpm install --frozen-lockfile
 

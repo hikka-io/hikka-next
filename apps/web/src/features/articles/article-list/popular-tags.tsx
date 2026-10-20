@@ -3,13 +3,13 @@ import type { FC } from 'react';
 import { useQuery } from '@tanstack/react-query';
 
 import { API_LIMITS, getArticleTopOptions } from '@hikka/api';
+import type { ArticlesSearch } from '@hikka/core';
 
 import { BadgeFilter } from '@/components/ui/badge-filter';
 import Block from '@/components/ui/block';
 import { Header, HeaderTitle } from '@/components/ui/header';
 import { useChangeParam } from '@/features/filters';
 import { useRouteSearch } from '@/utils/navigation';
-import type { ArticlesSearch } from '@/utils/search-schemas';
 
 type Props = {};
 

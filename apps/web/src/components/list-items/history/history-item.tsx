@@ -1,6 +1,7 @@
 import type { FC } from 'react';
 
 import { type HistoryResponse, HistoryTypeEnum } from '@hikka/api';
+import { contentPath, formatTimeAgo } from '@hikka/core';
 
 import { labelVariants } from '@/components/ui/label';
 import TextLink from '@/components/ui/text-link';
@@ -11,8 +12,6 @@ import {
 } from '@/components/ui/tooltip';
 import { useTitle } from '@/services/session';
 import { cn } from '@/utils/cn';
-import { contentPath } from '@/utils/content-paths';
-import { formatTimeAgo } from '@/utils/i18n/relative-time';
 
 import { convertHistory } from './convert-history';
 import { formatHistoryTime } from './history-dates';

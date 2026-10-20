@@ -1,4 +1,5 @@
 import { ContentTypeEnum } from '@hikka/api';
+import { CONTENT_TYPES } from '@hikka/core';
 
 import { SelectField, useTypedAppFormContext } from '@/components/form';
 import {
@@ -7,7 +8,6 @@ import {
     SelectItem,
     SelectList,
 } from '@/components/ui/select';
-import { CONTENT_TYPES } from '@/utils/labels/content-types';
 
 import { filterPresetFormOptions } from './filter-preset-form';
 

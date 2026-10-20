@@ -1,11 +1,11 @@
 import { type FC, memo } from 'react';
 
 import type { AnimeScheduleResponse } from '@hikka/api';
+import { getScheduleDuration } from '@hikka/core';
 
 import { WatchListButton } from '@/components/tracking';
 import { useTitle } from '@/services/session';
 import { cn } from '@/utils/cn';
-import { getScheduleDuration } from '@/utils/i18n';
 
 import ScheduleCard, { type ScheduleCardProps } from './schedule-card';
 

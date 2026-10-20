@@ -2,6 +2,8 @@ import { type FC, useMemo, useState } from 'react';
 
 import { range } from '@antfu/utils';
 
+import { CONTENT_TYPE_LINKS } from '@hikka/core';
+
 import MaterialSymbolsAddRounded from '@/components/icons/material-symbols/MaterialSymbolsAddRounded';
 import MaterialSymbolsDynamicFeedRounded from '@/components/icons/material-symbols/MaterialSymbolsDynamicFeedRounded';
 import {
@@ -21,7 +23,6 @@ import {
 } from '@/components/ui/tooltip';
 import { useSession } from '@/services/session';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
-import { CONTENT_TYPE_LINKS } from '@/utils/content-paths';
 import { Link } from '@/utils/navigation';
 
 import {

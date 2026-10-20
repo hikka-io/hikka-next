@@ -2,6 +2,8 @@ import type { FC } from 'react';
 
 import { TriangleAlert } from 'lucide-react';
 
+import type { FilterProperty } from '@hikka/core';
+
 import { Label } from '@/components/ui/label';
 import {
     Select,
@@ -12,7 +14,6 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
-import type { FilterProperty } from '@/utils/labels/enum-labels';
 
 type Props = {
     properties: FilterProperty<string>;

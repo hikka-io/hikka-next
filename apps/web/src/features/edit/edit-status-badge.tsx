@@ -3,9 +3,9 @@ import type { FC } from 'react';
 import { useQuery } from '@tanstack/react-query';
 
 import { getEditOptions } from '@hikka/api';
+import { EDIT_STATUS } from '@hikka/core';
 
 import { Badge } from '@/components/ui/badge';
-import { EDIT_STATUS } from '@/utils/labels/enum-labels';
 
 import { EDIT_STATUS_STYLE } from './edit-status-style';
 

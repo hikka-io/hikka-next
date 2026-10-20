@@ -2,10 +2,10 @@ import { createFileRoute } from '@tanstack/react-router';
 import { zodValidator } from '@tanstack/zod-adapter';
 
 import { ContentTypeEnum } from '@hikka/api';
+import { mangaSearchSchema } from '@hikka/core';
 
 import { CatalogPage } from '@/features/catalog';
 import { generateHeadMeta } from '@/utils/metadata';
-import { mangaSearchSchema } from '@/utils/search-schemas';
 import { SITE_ORIGIN } from '@/utils/url';
 
 export const Route = createFileRoute('/_pages/manga/')({

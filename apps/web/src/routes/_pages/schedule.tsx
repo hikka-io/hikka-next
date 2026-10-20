@@ -1,6 +1,8 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { zodValidator } from '@tanstack/zod-adapter';
 
+import { scheduleSearchSchema } from '@hikka/core';
+
 import AntDesignFilterFilled from '@/components/icons/ant-design/AntDesignFilterFilled';
 import Block from '@/components/ui/block';
 import { Button } from '@/components/ui/button';
@@ -15,7 +17,6 @@ import {
 } from '@/features/schedule';
 import { scheduleOptions } from '@/features/schedule/queries';
 import { generateHeadMeta } from '@/utils/metadata';
-import { scheduleSearchSchema } from '@/utils/search-schemas';
 import { SITE_ORIGIN } from '@/utils/url';
 
 export const Route = createFileRoute('/_pages/schedule')({

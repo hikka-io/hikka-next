@@ -8,12 +8,11 @@ import {
     configureBrowserClient,
     type MainContentTypeEnum,
 } from '@hikka/api';
-
 import {
     animeSearchSchema,
     mangaSearchSchema,
     novelSearchSchema,
-} from '@/utils/search-schemas';
+} from '@hikka/core';
 
 import CatalogList from './catalog-list';
 import CatalogListSummary from './catalog-list-summary';

@@ -1,10 +1,10 @@
 import type { FC } from 'react';
 
 import { ContentTypeEnum } from '@hikka/api';
+import { CONTENT_TYPES } from '@hikka/core';
 
 import { CONTENT_TYPE_ICONS } from '@/components/icons/content-type-icons';
 import { type ChipTabOption, ChipTabs } from '@/components/ui/chip-tabs';
-import { CONTENT_TYPES } from '@/utils/labels';
 
 import type { TodoContentType } from './use-todo-content-list';
 

@@ -11,11 +11,11 @@ import { useQuery } from '@tanstack/react-query';
 import { useRouterState } from '@tanstack/react-router';
 
 import { ContentTypeEnum, getArticleOptions } from '@hikka/api';
+import { CONTENT_TYPE_LINKS, contentPath } from '@hikka/core';
 
 import { usePageHeader } from '@/features/app-shell';
 import { usePreventUnsavedClose } from '@/services/hooks/use-prevent-unsaved-close';
 import { useSession } from '@/services/session';
-import { CONTENT_TYPE_LINKS, contentPath } from '@/utils/content-paths';
 import { useRouter } from '@/utils/navigation';
 
 import ArticleContentPicker from './article-edit/article-content-picker';

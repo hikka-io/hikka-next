@@ -2,12 +2,16 @@ import { type FC, useId } from 'react';
 
 import { TextCursorInput } from 'lucide-react';
 
+import {
+    formatNumber,
+    getDeclensionWord,
+    SYMBOL_FORMS,
+    WORD_FORMS,
+} from '@hikka/core';
+
 import { Label } from '@/components/ui/label';
 import { Progress } from '@/components/ui/progress';
 import { cn } from '@/utils/cn';
-import { getDeclensionWord } from '@/utils/i18n/declension';
-import { formatNumber } from '@/utils/i18n/number';
-import { SYMBOL_FORMS, WORD_FORMS } from '@/utils/i18n/word-forms';
 
 import { ARTICLE_TEXT_MAX, documentFacts } from '../article-body';
 import { useArticleContext } from '../article-provider';

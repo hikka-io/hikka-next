@@ -13,8 +13,8 @@ import {
 import type { PlateEditor } from 'platejs/react';
 
 import type { ContentTypeEnum, UserResponse } from '@hikka/api';
+import { contentPath } from '@hikka/core';
 
-import { contentPath } from '@/utils/content-paths';
 import { userMentionUrl } from '@/utils/mentions';
 import { getSiteUrl } from '@/utils/url';
 

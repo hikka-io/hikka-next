@@ -33,6 +33,9 @@ importers:
       '@hikka/api':
         specifier: workspace:*
         version: link:../../packages/api
+      '@hikka/core':
+        specifier: workspace:*
+        version: link:../../packages/core
       '@react-native-community/netinfo':
         specifier: 12.0.1
         version: 12.0.1(react-native@0.86.3(@babel/core@7.29.7)(@react-native/metro-config@0.86.3(@babel/core@7.29.7))(@types/react@19.3.0)(react@19.2.3))(react@19.2.3)
@@ -154,6 +157,9 @@ importers:
       '@hikka/api':
         specifier: workspace:*
         version: link:../../packages/api
+      '@hikka/core':
+        specifier: workspace:*
+        version: link:../../packages/core
       '@marsidev/react-turnstile':
         specifier: 1.6.1
         version: 1.6.1(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
@@ -238,9 +244,6 @@ importers:
       lucide-react:
         specifier: ^1.49.0
         version: 1.49.0(@types/react@19.3.0)(react@19.3.0)
-      marked:
-        specifier: ^12.0.1
-        version: 12.0.2
       mdast-util-directive:
         specifier: ^3.1.0
         version: 3.1.0
@@ -417,6 +420,40 @@ importers:
       vitest:
         specifier: ^4.1.9
         version: 4.1.9(@types/node@22.20.4)(jsdom@29.1.1)(vite@8.3.1(@types/node@22.20.4)(esbuild@0.27.7)(jiti@2.7.0)(terser@5.51.2)(tsx@4.22.4)(yaml@2.9.1))
+
+  packages/core:
+    dependencies:
+      '@hikka/api':
+        specifier: workspace:*
+        version: link:../api
+      date-fns:
+        specifier: ^4.1.0
+        version: 4.4.0
+      marked:
+        specifier: ^12.0.1
+        version: 12.0.2
+      zod:
+        specifier: ^3.25.76
+        version: 3.25.76
+    devDependencies:
+      '@tanstack/router-core':
+        specifier: ^1.171.38
+        version: 1.171.38
+      '@types/node':
+        specifier: ^22.12.0
+        version: 22.20.4
+      rimraf:
+        specifier: ^5.0.1
+        version: 5.0.10
+      tsup:
+        specifier: ^8.4.0
+        version: 8.5.1(@swc/core@1.15.43(@swc/helpers@0.5.23))(jiti@2.7.0)(postcss@8.5.28)(tsx@4.22.4)(typescript@6.0.3)(yaml@2.9.1)
+      typescript:
+        specifier: 6.0.3
+        version: 6.0.3
+      vitest:
+        specifier: ^4.1.9
+        version: 4.1.9(@types/node@22.20.4)(jsdom@29.1.1)(vite@8.3.1(@types/node@22.20.4)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.51.2)(tsx@4.22.4)(yaml@2.9.1))
 
 packages:
 

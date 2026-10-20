@@ -5,8 +5,7 @@ import { Link } from 'expo-router';
 import { Pressable, Text, View } from 'react-native';
 
 import type { AnimeResponse } from '@hikka/api';
-
-import { getTitle } from '@/utils/title';
+import { getTitle } from '@hikka/core';
 
 type Props = {
     anime: AnimeResponse;

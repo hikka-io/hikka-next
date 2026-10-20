@@ -1,9 +1,9 @@
 import type { FC } from 'react';
 
 import type { MainContentTypeEnum } from '@hikka/api';
+import type { FranchiseOrder } from '@hikka/core';
 
 import { historyRowsVariants } from '@/components/list-items';
-import type { FranchiseOrder } from '@/utils/search-schemas';
 
 import ChronologyRow from './components/chronology-row';
 import FranchiseListButton from './components/franchise-list-button';

@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 
 import { API_LIMITS } from '@hikka/api';
 
-import { z } from '@/utils/i18n/zod';
+import { z } from '@/utils/i18n-zod';
 
 import {
     clientDescriptionSchema,

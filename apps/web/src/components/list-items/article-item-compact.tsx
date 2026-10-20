@@ -3,6 +3,7 @@ import type { FC } from 'react';
 import { ArrowBigUp, Eye, MessageCircle } from 'lucide-react';
 
 import type { ArticlePreviewResponse } from '@hikka/api';
+import { CONTENT_TYPE_LINKS } from '@hikka/core';
 
 import {
     HorizontalCard,
@@ -12,7 +13,6 @@ import {
 import RelativeTime from '@/components/relative-time';
 import Card from '@/components/ui/card';
 import { StatItem, StatItemGroup } from '@/components/ui/stat-item';
-import { CONTENT_TYPE_LINKS } from '@/utils/content-paths';
 
 type Props = {
     article: ArticlePreviewResponse;

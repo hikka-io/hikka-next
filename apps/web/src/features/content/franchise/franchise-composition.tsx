@@ -1,10 +1,11 @@
 import type { FC } from 'react';
 
+import { CONTENT_TYPES } from '@hikka/core';
+
 import Card from '@/components/ui/card';
 import SegmentedBar from '@/components/ui/segmented-bar';
 import { Skeleton, SkeletonText } from '@/components/ui/skeleton';
 import { cn } from '@/utils/cn';
-import { CONTENT_TYPES } from '@/utils/labels';
 
 import { compositionCounts, type FranchiseModel } from './franchise-model';
 import { RELATION_GROUP_STYLES } from './relation-groups';

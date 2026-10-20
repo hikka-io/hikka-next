@@ -1,4 +1,4 @@
-import { defaultParseSearch } from '@tanstack/react-router';
+import { defaultParseSearch } from '@tanstack/router-core';
 import { describe, expect, it } from 'vitest';
 
 import {

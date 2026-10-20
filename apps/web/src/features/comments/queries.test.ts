@@ -16,18 +16,18 @@ import {
     HikkaApiError,
     paginationPageParam,
 } from '@hikka/api';
+import {
+    type CommentOrder,
+    commentsSearchSchema,
+    DEFAULT_COMMENT_ORDER,
+    DEFAULT_COMMENT_SORT,
+    getCommentSort,
+} from '@hikka/core';
 
 import {
     type ContentInfoType,
     contentInfoOptions,
 } from '@/utils/api/content-queries';
-import { commentsSearchSchema } from '@/utils/search-schemas';
-import {
-    type CommentOrder,
-    DEFAULT_COMMENT_ORDER,
-    DEFAULT_COMMENT_SORT,
-    getCommentSort,
-} from '@/utils/sort';
 
 import { Route as CommentsRoute } from '../../routes/_pages/comments/$content_type/$slug/index';
 import { Route as EditViewRoute } from '../../routes/_pages/edit/$editId/index';

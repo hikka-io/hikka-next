@@ -3,11 +3,11 @@ import { type FC, useEffect, useRef } from 'react';
 import { Check, ChevronRight, Layers } from 'lucide-react';
 
 import type { UserCollectionResponse } from '@hikka/api';
+import { COLLECTION_VISIBILITY } from '@hikka/core';
 
 import { HorizontalCardImage } from '@/components/horizontal-card';
 import { COLLECTION_VISIBILITY_ICONS } from '@/components/icons/collection-visibility-icons';
 import { cn } from '@/utils/cn';
-import { COLLECTION_VISIBILITY } from '@/utils/labels';
 
 import { COLLECTION_MAX_ENTRIES } from './constants';
 

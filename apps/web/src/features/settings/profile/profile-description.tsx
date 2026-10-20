@@ -6,7 +6,7 @@ import { API_LIMITS, changeDescriptionMutation } from '@hikka/api';
 import { SubmitButton, useAppForm } from '@/components/form';
 import { useSession } from '@/services/session';
 import { invalidateSession } from '@/utils/api/invalidate-content-state';
-import { z } from '@/utils/i18n/zod';
+import { z } from '@/utils/i18n-zod';
 
 const formSchema = z.object({
     description: z.string().max(API_LIMITS.profileDescription.max).nullable(),

@@ -4,8 +4,7 @@ import { Stack, useLocalSearchParams } from 'expo-router';
 import { ActivityIndicator, ScrollView, Text, View } from 'react-native';
 
 import { animeSlugOptions } from '@hikka/api';
-
-import { getTitle } from '@/utils/title';
+import { getTitle } from '@hikka/core';
 
 export default function AnimeDetailScreen() {
     const { slug } = useLocalSearchParams<{ slug: string }>();

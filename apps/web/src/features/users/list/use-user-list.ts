@@ -1,8 +1,8 @@
 import type { MainContentTypeEnum } from '@hikka/api';
+import type { UserlistSearch } from '@hikka/core';
 
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { useParams, useRouteSearch } from '@/utils/navigation';
-import type { UserlistSearch } from '@/utils/search-schemas';
 
 import { userListOptions } from '../queries';
 import { keepPreviousList } from './keep-previous-list';

@@ -9,13 +9,13 @@ import {
     type ReadResponseBase,
     type WatchResponseBase,
 } from '@hikka/api';
+import { getTitle } from '@hikka/core';
 
 import {
     ResponsiveModal,
     ResponsiveModalContent,
 } from '@/components/ui/responsive-modal';
 import { useTitle } from '@/services/session';
-import { getTitle } from '@/utils/title/get-title';
 
 import ListEntryEditDialog from './list-entry-edit-dialog';
 import ReadEditForm from './read-edit-form';

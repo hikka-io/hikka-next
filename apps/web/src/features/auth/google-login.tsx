@@ -1,11 +1,11 @@
 import { useQuery } from '@tanstack/react-query';
 
 import { providerUrlOptions } from '@hikka/api';
+import type { LoginSearch } from '@hikka/core';
 
 import BxBxlGoogle from '@/components/icons/bx/BxBxlGoogle';
 import { Button } from '@/components/ui/button';
 import { useRouteSearch } from '@/utils/navigation';
-import type { LoginSearch } from '@/utils/search-schemas';
 import { getSiteUrl } from '@/utils/url';
 
 type Props = {

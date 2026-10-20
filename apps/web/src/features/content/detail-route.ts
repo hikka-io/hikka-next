@@ -8,6 +8,12 @@ import {
     type NovelInfoResponse,
     type PersonInfoResponse,
 } from '@hikka/api';
+import {
+    contentPath,
+    getTitle,
+    parseTextFromMarkDown,
+    truncateText,
+} from '@hikka/core';
 
 import {
     type ContentInfo,
@@ -20,12 +26,8 @@ import { ensureOr404 } from '@/utils/api/ensure-or-404';
 import type { LoaderContext } from '@/utils/api/loader-prefetch';
 import { cacheWithoutRestrictedExternal } from '@/utils/api/strip-restricted-external';
 import { getSessionFromPagesCache } from '@/utils/auth';
-import { contentPath } from '@/utils/content-paths';
 import { readNsfwConsent } from '@/utils/cookies';
-import { parseTextFromMarkDown } from '@/utils/markdown';
 import { generateHeadMeta } from '@/utils/metadata';
-import { truncateText } from '@/utils/text';
-import { getTitle } from '@/utils/title/get-title';
 import { getPublicSiteUrl, SITE_ORIGIN } from '@/utils/url';
 
 import {

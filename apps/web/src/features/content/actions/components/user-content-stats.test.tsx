@@ -10,9 +10,9 @@ import {
     type ReadResponse,
     type WatchResponse,
 } from '@hikka/api';
+import { CHAPTER_FORMS, EPISODE_FORMS } from '@hikka/core';
 
 import { DEBOUNCE_MS } from '@/services/hooks/use-debounce';
-import { CHAPTER_FORMS, EPISODE_FORMS } from '@/utils/i18n/word-forms';
 
 import UserContentStats from './user-content-stats';
 

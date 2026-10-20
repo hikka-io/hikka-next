@@ -1,9 +1,9 @@
 import type { FC } from 'react';
 
 import { ContentTypeEnum, type MainContentTypeEnum } from '@hikka/api';
+import { CHARACTER_ISSUES, PERSON_ISSUES } from '@hikka/core';
 
 import { ContentSlug, ContentTypeFilter, Issues } from '@/features/filters';
-import { CHARACTER_ISSUES, PERSON_ISSUES } from '@/utils/labels/enum-labels';
 
 import type { TodoFiltersValue } from './todo-filters-value';
 

@@ -5,9 +5,8 @@ import {
     getEditsInfiniteOptions,
     paginatedInfiniteOptions,
 } from '@hikka/api';
-
-import type { EditSearch } from '@/utils/search-schemas';
-import { expandSort } from '@/utils/sort';
+import type { EditSearch } from '@hikka/core';
+import { expandSort } from '@hikka/core';
 
 export const EDIT_LIST_PAGE_SIZE = 15;
 

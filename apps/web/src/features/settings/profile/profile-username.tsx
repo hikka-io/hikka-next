@@ -6,7 +6,7 @@ import { changeUsernameMutation } from '@hikka/api';
 import { SubmitButton, useAppForm } from '@/components/form';
 import { invalidateSession } from '@/utils/api/invalidate-content-state';
 import { USERNAME_HINT, usernameSchema } from '@/utils/form-schemas';
-import { z } from '@/utils/i18n/zod';
+import { z } from '@/utils/i18n-zod';
 import { useRouter } from '@/utils/navigation';
 
 const formSchema = z.object({

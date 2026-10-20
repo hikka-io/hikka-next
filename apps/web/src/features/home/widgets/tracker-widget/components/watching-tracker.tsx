@@ -9,6 +9,12 @@ import {
     WatchStatusEnum,
     watchAddMutation,
 } from '@hikka/api';
+import {
+    EPISODE_FORMS,
+    getDeclensionWord,
+    getMediaTypeLabel,
+    getTitle,
+} from '@hikka/core';
 
 import StatusWatching from '@/components/icons/list-status/StatusWatching';
 import { ListEntryEditDialog } from '@/components/tracking';
@@ -22,11 +28,7 @@ import {
 } from '@/utils/api/invalidate-content-state';
 import { carryOverWatchArgs } from '@/utils/api/tracking-args';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
-import { getDeclensionWord } from '@/utils/i18n/declension';
-import { EPISODE_FORMS } from '@/utils/i18n/word-forms';
-import { getMediaTypeLabel } from '@/utils/labels';
 import { Link, useRouter } from '@/utils/navigation';
-import { getTitle } from '@/utils/title/get-title';
 
 import { homeWatchingOptions } from '../../../queries';
 import ProgressTrackerSkeleton from './progress-tracker-skeleton';

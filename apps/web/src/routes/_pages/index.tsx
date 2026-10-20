@@ -1,12 +1,13 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { zodValidator } from '@tanstack/zod-adapter';
 
+import { feedSearchSchema } from '@hikka/core';
+
 import { CoverImage, usePageHeader } from '@/features/app-shell';
 import { FeedLayout, HomeHeaderActions } from '@/features/home';
 import { loadHomePage } from '@/features/home/queries';
 import { useSession } from '@/services/session';
 import { generateHeadMeta } from '@/utils/metadata';
-import { feedSearchSchema } from '@/utils/search-schemas';
 import { SITE_ORIGIN } from '@/utils/url';
 
 const HeaderWordmark = () => (

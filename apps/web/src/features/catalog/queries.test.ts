@@ -15,6 +15,11 @@ import {
     searchMangaInfiniteOptions,
     searchNovelInfiniteOptions,
 } from '@hikka/api';
+import {
+    animeSearchSchema,
+    mangaSearchSchema,
+    novelSearchSchema,
+} from '@hikka/core';
 
 import { useFiltersSidebar } from '@/features/filters';
 import {
@@ -26,11 +31,6 @@ import {
     type UiPreferences,
     type View,
 } from '@/utils/cookies';
-import {
-    animeSearchSchema,
-    mangaSearchSchema,
-    novelSearchSchema,
-} from '@/utils/search-schemas';
 
 import {
     CATALOG_VIEW_KEY,

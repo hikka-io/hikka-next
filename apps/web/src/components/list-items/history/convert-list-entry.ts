@@ -4,15 +4,15 @@ import {
     type WatchStatusEnum as WatchStatus,
     WatchStatusEnum,
 } from '@hikka/api';
-
-import { getDeclensionWord, type WordForms } from '@/utils/i18n/declension';
 import {
     CHAPTER_FORMS,
     EPISODE_FORMS,
+    getDeclensionWord,
+    LIST_STATUS,
     TIMES_FORMS,
     VOLUME_FORMS,
-} from '@/utils/i18n/word-forms';
-import { LIST_STATUS } from '@/utils/labels/enum-labels';
+    type WordForms,
+} from '@hikka/core';
 
 import { fact, into, joinFacts, outOf, status, value } from './fact-builder';
 import { formatHistoryDate, isSameHistoryDay } from './history-dates';

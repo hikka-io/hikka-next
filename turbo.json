@@ -16,8 +16,13 @@
             "cache": false,
             "persistent": true
         },
-        "@hikka/web#dev": {
+        "@hikka/core#dev": {
             "dependsOn": ["@hikka/api#build"],
+            "cache": false,
+            "persistent": true
+        },
+        "@hikka/web#dev": {
+            "dependsOn": ["@hikka/api#build", "@hikka/core#build"],
             "cache": false,
             "persistent": true
         },

@@ -15,6 +15,7 @@ import {
     parseUserLinks,
     type UserLinkResponse,
 } from '@hikka/api';
+import { newId } from '@hikka/core';
 
 import { SubmitButton, useAppForm } from '@/components/form';
 import MaterialSymbolsAddRounded from '@/components/icons/material-symbols/MaterialSymbolsAddRounded';
@@ -32,7 +33,6 @@ import {
     invalidateUserProfile,
 } from '@/utils/api/invalidate-content-state';
 import { createDragDropManager } from '@/utils/drag-drop-manager';
-import { newId } from '@/utils/new-id';
 
 import ProfileLinkForm from './profile-link-form';
 import ProfileLinkRow from './profile-link-row';

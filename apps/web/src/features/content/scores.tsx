@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 
 import type { MainContentTypeEnum } from '@hikka/api';
+import { formatCompactNumber } from '@hikka/core';
 
 import HikkaLogoGradient from '@/components/icons/custom/HikkaLogoGradient';
 import MAL from '@/components/icons/custom/MAL';
@@ -8,7 +9,6 @@ import MaterialSymbolsStarRounded from '@/components/icons/material-symbols/Mate
 import { Separator } from '@/components/ui/separator';
 import { contentInfoOptions } from '@/utils/api/content-queries';
 import { cn } from '@/utils/cn';
-import { formatCompactNumber } from '@/utils/i18n/number';
 import { useParams } from '@/utils/navigation';
 
 type ScoresProps = {

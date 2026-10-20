@@ -1,8 +1,9 @@
 import type { FC, ReactNode } from 'react';
 
+import { contentPath } from '@hikka/core';
+
 import { useTitle } from '@/services/session';
 import { cn } from '@/utils/cn';
-import { contentPath } from '@/utils/content-paths';
 import { Link } from '@/utils/navigation';
 
 import {
