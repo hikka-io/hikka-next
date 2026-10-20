@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { hexToOklch, isValidOklch, oklchToCss, oklchToHex } from './color';
+import { hexToOklch, isValidOklch, oklchToCss, oklchToHex } from './oklch';
 
 describe('oklch helpers', () => {
     it('formats oklch css without trailing zeros', () => {

@@ -1,6 +1,5 @@
 import type { UiStylesOutput, UiSurfaceOverrides } from '@hikka/api';
-
-import { isValidOklch, oklchToCss } from './color';
+import { isValidOklch, oklchToCss } from '@hikka/core';
 
 export const STYLE_ELEMENT_ID = 'user-styles';
 

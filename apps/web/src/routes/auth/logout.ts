@@ -1,7 +1,9 @@
 import { createFileRoute } from '@tanstack/react-router';
 
+import { resolveSameOriginUrl } from '@hikka/core';
+
 import { COOKIE, clearCookieHeader, getCookieDomain } from '@/utils/cookies';
-import { getSiteUrl, resolveSameOriginUrl } from '@/utils/url';
+import { getSiteUrl } from '@/utils/url';
 
 export const Route = createFileRoute('/auth/logout')({
     server: {

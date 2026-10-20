@@ -3,6 +3,7 @@ import type { FC } from 'react';
 import { useSortable } from '@dnd-kit/react/sortable';
 
 import type { UserLinkResponse } from '@hikka/api';
+import { getUserLinkLabel } from '@hikka/core';
 
 import MaterialSymbolsDeleteForever from '@/components/icons/material-symbols/MaterialSymbolsDeleteForever';
 import MaterialSymbolsDragIndicator from '@/components/icons/material-symbols/MaterialSymbolsDragIndicator';
@@ -10,7 +11,6 @@ import MaterialSymbolsEditRounded from '@/components/icons/material-symbols/Mate
 import MaterialSymbolsKeyboardArrowDownRounded from '@/components/icons/material-symbols/MaterialSymbolsKeyboardArrowDownRounded';
 import { Button } from '@/components/ui/button';
 import UserLinkSummary from '@/components/user-link-summary';
-import { getUserLinkLabel } from '@/utils/user-links';
 
 type Props = {
     id: string;

@@ -14,6 +14,7 @@ import {
 import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools';
 
 import { profileUiQueryKey, type UserCustomizationResponse } from '@hikka/api';
+import { DEFAULT_USER_UI } from '@hikka/core';
 
 import JsonLd from '@/components/json-ld';
 import {
@@ -29,7 +30,6 @@ import {
 } from '@/utils/cookies';
 import {
     backdropVars,
-    DEFAULT_USER_UI,
     getUserStyles,
     STYLE_ELEMENT_ID,
     THEME_BOOTSTRAP_SCRIPT,

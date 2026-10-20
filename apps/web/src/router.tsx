@@ -10,12 +10,12 @@ import {
     profileOptions,
     profileUiOptions,
 } from '@hikka/api';
+import { shouldSkipGlobalErrorToast } from '@hikka/core';
 
 import { ErrorPage } from '@/features/app-shell';
 import { getInternalApiUrl, PUBLIC_API_URL } from '@/utils/api/base-url';
 import { getClientIpFn } from '@/utils/api/client-ip';
 import type { LoaderContext } from '@/utils/api/loader-prefetch';
-import { shouldSkipGlobalErrorToast } from '@/utils/api/mutation-meta';
 import {
     applyQueryDefaults,
     QUERY_CLIENT_DEFAULTS,

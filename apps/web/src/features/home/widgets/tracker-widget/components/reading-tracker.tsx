@@ -13,6 +13,7 @@ import {
 } from '@hikka/api';
 import {
     CHAPTER_FORMS,
+    carryOverReadArgs,
     getDeclensionWord,
     getMediaTypeLabel,
     getTitle,
@@ -28,7 +29,6 @@ import {
     invalidateReadState,
     writeReadToCaches,
 } from '@/utils/api/invalidate-content-state';
-import { carryOverReadArgs } from '@/utils/api/tracking-args';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { Link, useRouter } from '@/utils/navigation';
 

@@ -6,9 +6,8 @@ import type {
     UiSurfaceOverrides,
     UserCustomizationResponse,
 } from '@hikka/api';
+import { DEFAULT_STYLES, DEFAULT_USER_UI, oklchEqual } from '@hikka/core';
 
-import { oklchEqual } from './color';
-import { DEFAULT_STYLES, DEFAULT_USER_UI } from './defaults';
 import { SURFACE_OVERRIDE_TOKENS } from './inject-styles';
 
 export type UIEffect = NonNullable<UiPreferencesOutput['effect']>;

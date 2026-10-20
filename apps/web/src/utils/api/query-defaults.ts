@@ -4,7 +4,7 @@ import type {
     QueryObserverOptions,
 } from '@tanstack/react-query';
 
-import type { QueryId } from './query-id';
+import type { QueryId } from '@hikka/core';
 
 type TierOptions = Pick<
     QueryObserverOptions,

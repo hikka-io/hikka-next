@@ -9,6 +9,7 @@ import {
     type CommentResponse,
     hideCommentMutation,
 } from '@hikka/api';
+import { MUTATION_META_SKIP_ERROR_TOAST } from '@hikka/core';
 
 import MaterialSymbolsDeleteForeverRounded from '@/components/icons/material-symbols/MaterialSymbolsDeleteForeverRounded';
 import MaterialSymbolsEditRounded from '@/components/icons/material-symbols/MaterialSymbolsEditRounded';
@@ -32,7 +33,6 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { useSession } from '@/services/session';
 import { invalidateComments } from '@/utils/api/invalidate-content-state';
-import { MUTATION_META_SKIP_ERROR_TOAST } from '@/utils/api/mutation-meta';
 
 import { useCommentsContext } from './comments-provider';
 import ConvertReviewDialog from './review/convert-review-dialog';
