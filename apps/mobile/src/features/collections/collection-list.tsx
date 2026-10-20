@@ -20,7 +20,7 @@ import { Icon } from '@/components/ui/icon';
 
 import CollectionCard from './collection-card';
 import CollectionCardSkeleton from './collection-card-skeleton';
-import { collectionListOptions } from './queries';
+import { authorCollectionsOptions, collectionListOptions } from './queries';
 
 // Compose toolbar items take image sources only; SF Symbols are iOS-only.
 const SORT_ICON =
@@ -30,8 +30,13 @@ const SORT_ICON =
 const SKELETON_COUNT = 3;
 const SKELETONS: null[] = Array.from({ length: SKELETON_COUNT }, () => null);
 
+type Props = {
+    /** One user's collections, newest first, as the web's profile list; the sort menu is hidden. */
+    author?: string;
+};
+
 /** The web's collections page: one infinite list, the Популярні / Нові toggle in a header menu. */
-const CollectionList: FC = () => {
+const CollectionList: FC<Props> = ({ author }) => {
     const [sort, setSort] = useState<CollectionSort>(DEFAULT_COLLECTION_SORT);
     const {
         data,
@@ -43,7 +48,9 @@ const CollectionList: FC = () => {
         isPending,
         isRefetching,
         refetch,
-    } = useInfiniteQuery(collectionListOptions(sort));
+    } = useInfiniteQuery(
+        author ? authorCollectionsOptions(author) : collectionListOptions(sort),
+    );
 
     const list: (CollectionResponse | null)[] = isPending
         ? SKELETONS
@@ -51,25 +58,27 @@ const CollectionList: FC = () => {
 
     return (
         <>
-            <Stack.Toolbar placement="right">
-                <Stack.Toolbar.Menu
-                    icon={SORT_ICON}
-                    accessibilityLabel="Сортування"
-                >
-                    {COLLECTION_SORT_OPTIONS.map((option) => (
-                        <Stack.Toolbar.MenuAction
-                            key={option.value}
-                            isOn={sort === option.value}
-                            onPress={() => {
-                                Haptics.selectionAsync();
-                                setSort(option.value);
-                            }}
-                        >
-                            {option.label}
-                        </Stack.Toolbar.MenuAction>
-                    ))}
-                </Stack.Toolbar.Menu>
-            </Stack.Toolbar>
+            {author ? null : (
+                <Stack.Toolbar placement="right">
+                    <Stack.Toolbar.Menu
+                        icon={SORT_ICON}
+                        accessibilityLabel="Сортування"
+                    >
+                        {COLLECTION_SORT_OPTIONS.map((option) => (
+                            <Stack.Toolbar.MenuAction
+                                key={option.value}
+                                isOn={sort === option.value}
+                                onPress={() => {
+                                    Haptics.selectionAsync();
+                                    setSort(option.value);
+                                }}
+                            >
+                                {option.label}
+                            </Stack.Toolbar.MenuAction>
+                        ))}
+                    </Stack.Toolbar.Menu>
+                </Stack.Toolbar>
+            )}
             <FlashList
                 className="bg-background"
                 contentInsetAdjustmentBehavior="automatic"

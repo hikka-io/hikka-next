@@ -1,4 +1,13 @@
+import { format } from 'date-fns';
+
 import type { ActivityResponse } from '@hikka/api';
+
+import {
+    APP_LOCALE,
+    formatNumber,
+    getDeclensionWord,
+    type WordForms,
+} from './i18n';
 
 const DAY_MS = 86_400_000;
 const DAYS_IN_YEAR = 365;
@@ -98,3 +107,13 @@ export function buildActivityGrid(
         activeDays: actionsByDay.size,
     };
 }
+
+const ACTION_FORMS = ['дія', 'дії', 'дій'] as const satisfies WordForms;
+
+/** "12 дій", the heatmap's unit. */
+export const formatActionCount = (count: number) =>
+    `${formatNumber(count)} ${getDeclensionWord(count, ACTION_FORMS)}`;
+
+/** The heatmap's day caption, e.g. `пт, 3 жовтня 2026`. */
+export const formatActivityDate = (date: Date) =>
+    format(date, 'EEEEEE, d MMMM yyyy', { locale: APP_LOCALE });

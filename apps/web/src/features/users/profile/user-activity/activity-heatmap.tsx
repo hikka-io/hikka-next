@@ -1,12 +1,15 @@
 import { type FC, type PointerEvent, useMemo, useRef, useState } from 'react';
 
 import { useQuery } from '@tanstack/react-query';
-import { format } from 'date-fns';
 
 import { serviceUserActivityOptions } from '@hikka/api';
 import {
+    type ActivityDay,
     APP_LOCALE_TAG,
+    buildActivityGrid,
     DAY_FORMS,
+    formatActionCount,
+    formatActivityDate,
     getDeclensionWord,
     type WordForms,
 } from '@hikka/core';
@@ -14,10 +17,6 @@ import {
 import { Tooltip, TooltipContent } from '@/components/ui/tooltip';
 import { cn } from '@/utils/cn';
 import { useParams } from '@/utils/navigation';
-
-import { type ActivityDay, buildActivityGrid } from './activity-grid';
-
-const ACTION_FORMS = ['дія', 'дії', 'дій'] as const satisfies WordForms;
 
 const LEVEL_CLASSES = [
     'bg-secondary',
@@ -62,7 +61,7 @@ const ActivityHeatmap: FC = () => {
 
     const label =
         total > 0
-            ? `Активність: ${formatCount(total, ACTION_FORMS)} за рік, ${formatCount(activeDays, DAY_FORMS)} з активністю`
+            ? `Активність: ${formatActionCount(total)} за рік, ${formatCount(activeDays, DAY_FORMS)} з активністю`
             : 'Немає активності за рік';
 
     const showCell = (target: EventTarget) => {
@@ -156,18 +155,12 @@ const ActivityHeatmap: FC = () => {
                         <>
                             <span className="font-medium">
                                 {activeCell.day.actions > 0
-                                    ? formatCount(
-                                          activeCell.day.actions,
-                                          ACTION_FORMS,
-                                      )
+                                    ? formatActionCount(activeCell.day.actions)
                                     : 'Немає активності'}
                             </span>
                             <span className="text-tooltip-foreground/70">
                                 {' · '}
-                                {format(
-                                    activeCell.day.date,
-                                    'EEEEEE, d MMMM yyyy',
-                                )}
+                                {formatActivityDate(activeCell.day.date)}
                             </span>
                         </>
                     )}

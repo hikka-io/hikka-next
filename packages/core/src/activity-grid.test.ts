@@ -1,7 +1,12 @@
 import { format } from 'date-fns';
 import { describe, expect, it } from 'vitest';
 
-import { type ActivityDay, buildActivityGrid } from './activity-grid';
+import {
+    type ActivityDay,
+    buildActivityGrid,
+    formatActionCount,
+    formatActivityDate,
+} from './activity-grid';
 
 const NOW = Date.parse('2026-10-02T12:00:00Z');
 
@@ -88,5 +93,25 @@ describe('buildActivityGrid', () => {
         );
 
         expect(dayAt(grid, '2026-09-02')?.level).toBe(2);
+    });
+});
+
+describe('formatActionCount', () => {
+    it('declines the unit', () => {
+        expect(formatActionCount(1)).toBe('1 дія');
+        expect(formatActionCount(3)).toBe('3 дії');
+        expect(formatActionCount(12)).toBe('12 дій');
+    });
+
+    it('groups digits', () => {
+        expect(formatActionCount(1234)).toContain('234 дії');
+    });
+});
+
+describe('formatActivityDate', () => {
+    it('names the weekday, month and year in Ukrainian', () => {
+        expect(formatActivityDate(new Date(2026, 9, 2))).toBe(
+            'пт, 2 жовтня 2026',
+        );
     });
 });

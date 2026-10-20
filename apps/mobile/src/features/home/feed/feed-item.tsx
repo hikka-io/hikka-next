@@ -33,11 +33,11 @@ import Image from '@/components/ui/image';
 import { StatItem, StatItemGroup } from '@/components/ui/stat-item';
 import { Text } from '@/components/ui/text';
 import { DENSE_MAX_FONT_SCALE } from '@/components/ui/typography';
+import { getArticleExcerpt } from '@/features/articles';
 import { useTitle } from '@/services/session';
 import { cn } from '@/utils/cn';
 import { presetImageUrl } from '@/utils/image-presets';
 
-import { getArticleExcerpt } from '../article-excerpt';
 import { useOpenSitePath } from '../use-open-site-path';
 import type { FeedItemResponse } from './feed-item-types';
 

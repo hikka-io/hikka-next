@@ -1,8 +1,7 @@
-import { type FC, useState } from 'react';
+import { type FC, useEffect, useState } from 'react';
 
 import { FlashList } from '@shopify/flash-list';
-import { Stack, useIsFocused, useRouter } from 'expo-router';
-import type { SFSymbol } from 'expo-symbols';
+import { Stack, useIsFocused, useRoute, useRouter } from 'expo-router';
 import { Bookmark } from 'lucide-react-native';
 import { ActivityIndicator, View } from 'react-native';
 
@@ -10,18 +9,18 @@ import { ContentTypeEnum } from '@hikka/api';
 import {
     CONTENT_TYPES,
     DEFAULT_USER_LIST_STATUS,
-    getSort,
     type SortOrder,
     USER_LIST_ALL_STATUS,
 } from '@hikka/core';
 
 import PosterCardSkeleton from '@/components/content-card/poster-card-skeleton';
+import { Button } from '@/components/ui/button';
 import EmptyState from '@/components/ui/empty-state';
 import ErrorState from '@/components/ui/error-state';
 import { Icon } from '@/components/ui/icon';
 import SegmentedControl from '@/components/ui/segmented-control';
-import { renderViewSortMenu } from '@/components/view-sort-menu';
 import { useSession } from '@/features/auth';
+import { clearFilters, hasActiveFilters } from '@/features/filters';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { byUsername, usePullToRefresh } from '@/utils/api/use-pull-to-refresh';
 
@@ -36,17 +35,19 @@ import ListEntryPoster from './list-entry-poster';
 import ListEntryRow from './list-entry-row';
 import ListEntryRowSkeleton from './list-entry-row-skeleton';
 import ListStatusChips from './list-status-chips';
-import { type UserListView, useUserListPrefs } from './user-list-prefs-store';
+import {
+    useResetUserListFilters,
+    userListFiltersKey,
+    useUpdateUserListFilters,
+    useUserListFilters,
+} from './user-list-filters-store';
+import { useUserListPrefs } from './user-list-prefs-store';
+import UserListToolbar from './user-list-toolbar';
 
 const TYPES = [
     { label: 'Аніме', value: ContentTypeEnum.ANIME },
     { label: 'Манґа', value: ContentTypeEnum.MANGA },
     { label: 'Ранобе', value: ContentTypeEnum.NOVEL },
-];
-
-const VIEWS: { value: UserListView; label: string; icon: SFSymbol }[] = [
-    { value: 'list', label: 'Список', icon: 'list.bullet' },
-    { value: 'grid', label: 'Сітка', icon: 'square.grid.2x2' },
 ];
 
 const GRID_COLUMNS = 3;
@@ -103,16 +104,37 @@ const UserListPage: FC<Props> = ({ username, contentType, initialStatus }) => {
     const [sort, setSort] = useState(() => defaultSort(contentType));
     const [order, setOrder] = useState<SortOrder>('desc');
     const grid = view === 'grid';
+    const { key: routeKey } = useRoute();
+    const filtersKey = userListFiltersKey(routeKey, contentType);
+    const filters = useUserListFilters(filtersKey);
+    const updateFilters = useUpdateUserListFilters(filtersKey);
+    const resetFilters = useResetUserListFilters();
+    const filtered = hasActiveFilters(filters, false);
+
+    // Filters apply live behind their sheet, which unfocuses this screen, so it stays subscribed while the sheet is open.
+    const focused = useIsFocused();
+    const [sheetOpen, setSheetOpen] = useState(false);
+
+    useEffect(() => {
+        if (focused) setSheetOpen(false);
+    }, [focused]);
+
+    // The web drops filters with the page URL; leaving the list does the same here.
+    useEffect(() => () => resetFilters(filtersKey), [filtersKey, resetFilters]);
 
     const { items, error, isFetchingNextPage, onEndReached, onRetry } =
         useInfiniteList<UserListEntry>({
-            ...userListOptions(username, contentType, { status, sort, order }),
-            subscribed: useIsFocused(),
+            ...userListOptions(username, contentType, {
+                ...filters,
+                status,
+                sort,
+                order,
+            }),
+            subscribed: focused || sheetOpen,
         });
     const { refreshing, onRefresh } = usePullToRefresh(byUsername([username]));
     const data: (UserListEntry | null)[] =
         items ?? (error ? [] : SKELETON_ITEMS);
-    const kind = contentType === ContentTypeEnum.ANIME ? 'watch' : 'read';
     const label =
         status === USER_LIST_ALL_STATUS
             ? undefined
@@ -121,18 +143,20 @@ const UserListPage: FC<Props> = ({ username, contentType, initialStatus }) => {
     return (
         <>
             <Stack.Title>{`Список ${CONTENT_TYPES[contentType].genitive}`}</Stack.Title>
-            <Stack.Toolbar placement="right">
-                {renderViewSortMenu({
-                    views: VIEWS,
-                    view,
-                    onViewChange: setView,
-                    sortOptions: getSort(kind),
-                    sort,
-                    onSortChange: setSort,
-                    order,
-                    onOrderChange: setOrder,
-                })}
-            </Stack.Toolbar>
+            <UserListToolbar
+                username={username}
+                contentType={contentType}
+                status={status}
+                filtered={filtered}
+                filtersKey={filtersKey}
+                onOpenFilters={() => setSheetOpen(true)}
+                view={view}
+                onViewChange={setView}
+                sort={sort}
+                onSortChange={setSort}
+                order={order}
+                onOrderChange={setOrder}
+            />
             <FlashList
                 key={view}
                 className="bg-background"
@@ -204,6 +228,22 @@ const UserListPage: FC<Props> = ({ username, contentType, initialStatus }) => {
                             onRetry={onRetry}
                             title="Не вдалося завантажити список"
                             className="mt-8"
+                        />
+                    ) : filtered ? (
+                        <EmptyState
+                            className={grid ? 'mx-1.5 mt-4' : 'mx-4 mt-4'}
+                            bordered
+                            icon={<Icon as={Bookmark} />}
+                            title="Не знайдено результатів за Вашим запитом"
+                            description="Очистіть або змініть фільтри, щоб отримати інший результат"
+                            action={
+                                <Button
+                                    variant="secondary"
+                                    onPress={() => updateFilters(clearFilters)}
+                                >
+                                    Очистити
+                                </Button>
+                            }
                         />
                     ) : (
                         <EmptyState

@@ -56,7 +56,7 @@ Web-only for now: the edit/contribution system, the article and collection edito
 | Task | Model | Owns |
 | --- | --- | --- |
 | Content gaps: favourite buttons, 18+ consent gate, anime media and movie banner sections, review stats on comments | Opus | `features/content/`, favourite button component, `features/comments/` review stats |
-| Profile extras: list filters, random title, activity heatmap, articles and collections blocks | Sonnet | `features/users/` |
+| Profile extras: list filters, random title, activity heatmap, articles and collections blocks (done) | Sonnet | `features/users/` |
 | Hardening: network error copy, root error boundary, offline banner, image viewer | Sonnet | `utils/`, `components/` additions, core `api-error-message` |
 | End-to-end tests: Maestro flows for the core loop | Sonnet | `apps/mobile/e2e/` |
 | Android QA: every screen on the emulator, Android-only fixes | Sonnet | fixes only, after the others merge |

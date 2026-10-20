@@ -1,5 +1,6 @@
 export {
     default as ActiveFilters,
+    hasActiveFilters,
     useHasActiveFilters,
 } from './active-filters';
 export {
@@ -13,4 +14,5 @@ export {
     clearFilters,
     setParam,
 } from './filter-params';
+export { default as FiltersPanel } from './filters-panel';
 export { default as FiltersSheet } from './filters-sheet';

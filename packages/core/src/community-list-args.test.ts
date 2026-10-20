@@ -5,6 +5,8 @@ import {
     articlesSearchFromParams,
     collectionListArgs,
     PUBLIC_ARTICLE_CATEGORIES,
+    userArticlesListArgs,
+    userCollectionsListArgs,
 } from './community-list-args';
 
 describe('collectionListArgs', () => {
@@ -85,5 +87,19 @@ describe('PUBLIC_ARTICLE_CATEGORIES', () => {
     it('leaves out the staff-only system category', () => {
         expect(PUBLIC_ARTICLE_CATEGORIES).not.toContain('system');
         expect(PUBLIC_ARTICLE_CATEGORIES).toContain('news');
+    });
+});
+
+describe('user profile list args', () => {
+    it("lists a user's collections newest first, private ones included", () => {
+        expect(userCollectionsListArgs('olexh')).toEqual({
+            author: 'olexh',
+            sort: ['created:desc'],
+            only_public: false,
+        });
+    });
+
+    it("lists a user's articles by author alone", () => {
+        expect(userArticlesListArgs('olexh')).toEqual({ author: 'olexh' });
     });
 });
