@@ -24,8 +24,8 @@ import { Header, HeaderTitle } from '@/components/ui/header';
 import { Icon } from '@/components/ui/icon';
 import { StatItem } from '@/components/ui/stat-item';
 import { Text } from '@/components/ui/text';
-import { useTitleOnScroll } from '@/components/use-title-on-scroll';
 import VoteButton from '@/components/vote-button';
+import { useTitleOnScroll } from '@/services/use-title-on-scroll';
 import { isNotFoundError } from '@/utils/api/is-not-found';
 
 import CollectionBadges from './collection-badges';

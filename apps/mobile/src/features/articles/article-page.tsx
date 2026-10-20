@@ -20,9 +20,9 @@ import ErrorState from '@/components/ui/error-state';
 import { Icon } from '@/components/ui/icon';
 import { StatItem } from '@/components/ui/stat-item';
 import { Text } from '@/components/ui/text';
-import { useTitleOnScroll } from '@/components/use-title-on-scroll';
 import VoteButton from '@/components/vote-button';
 import { useSession } from '@/features/auth';
+import { useTitleOnScroll } from '@/services/use-title-on-scroll';
 import { isNotFoundError } from '@/utils/api/is-not-found';
 import { bySlug, usePullToRefresh } from '@/utils/api/use-pull-to-refresh';
 
