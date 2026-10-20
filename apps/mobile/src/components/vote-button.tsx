@@ -5,7 +5,6 @@ import * as Haptics from 'expo-haptics';
 import { useRouter } from 'expo-router';
 import { ArrowBigDown, ArrowBigUp } from 'lucide-react-native';
 import { View } from 'react-native';
-import { toast } from 'sonner-native';
 import { useResolveClassNames } from 'uniwind';
 
 import {
@@ -14,7 +13,6 @@ import {
     type VoteContentTypeEnum,
 } from '@hikka/api';
 import {
-    apiErrorMessage,
     MUTATION_META_SKIP_ERROR_TOAST,
     nextVoteScore,
     optimisticVote,
@@ -27,6 +25,7 @@ import { DENSE_MAX_FONT_SCALE } from '@/components/ui/typography';
 import { useSession } from '@/features/auth';
 import { applyVoteMutation } from '@/utils/api/invalidate-content-state';
 import { cn } from '@/utils/cn';
+import { toastApiError } from '@/utils/offline-toast';
 
 const VOTE_ERROR = 'Не вдалося зберегти голос';
 
@@ -59,12 +58,7 @@ const VoteButton: FC<Props> = ({ contentType, slug, myScore, voteScore }) => {
             void Haptics.notificationAsync(
                 Haptics.NotificationFeedbackType.Error,
             );
-            // A dropped connection arrives as status 0 with the native fetch message; only a backend reply is shown as is.
-            toast.error(
-                error instanceof HikkaApiError && error.status > 0
-                    ? apiErrorMessage(error, VOTE_ERROR)
-                    : VOTE_ERROR,
-            );
+            toastApiError(error, VOTE_ERROR);
         },
     });
 

@@ -1,11 +1,11 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import * as Haptics from 'expo-haptics';
-import { toast } from 'sonner-native';
 
 import { notificationSeen, notifications } from '@hikka/api';
-import { apiErrorMessage, type SeenTarget } from '@hikka/core';
+import type { SeenTarget } from '@hikka/core';
 
 import { applyNotificationsSeen } from '@/utils/api/invalidate-content-state';
+import { toastApiError } from '@/utils/offline-toast';
 
 const MARK_ERROR = 'Не вдалося позначити сповіщення прочитаними';
 
@@ -54,7 +54,7 @@ export function useMarkAllNotificationsSeen() {
             void Haptics.notificationAsync(
                 Haptics.NotificationFeedbackType.Error,
             );
-            toast.error(apiErrorMessage(error, MARK_ERROR));
+            toastApiError(error, MARK_ERROR);
         },
     });
 }

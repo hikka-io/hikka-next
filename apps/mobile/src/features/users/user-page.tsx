@@ -12,12 +12,16 @@ import DetailHeaderChrome from '@/components/detail-header-chrome';
 import ErrorState from '@/components/ui/error-state';
 import { ActivationAlert, useSession } from '@/features/auth';
 import { isNotFoundError } from '@/utils/api/is-not-found';
-import { byUsername, usePullToRefresh } from '@/utils/api/use-pull-to-refresh';
+import { usePullToRefresh } from '@/utils/api/use-pull-to-refresh';
 
+import ActivitySection from './activity/activity-section';
+import ArticlesSection from './articles-section';
+import CollectionsSection from './collections-section';
 import FavouritesSection from './favourites/favourites-section';
 import HistorySection from './history-section';
 import ListStats from './list-stats';
 import ProfileHeader from './profile-header';
+import { byProfile } from './profile-refresh';
 import { userProfileOptions, userReferenceOptions } from './queries';
 import UserSkeleton from './user-skeleton';
 
@@ -66,7 +70,7 @@ const UserProfile: FC<Props> = ({ username, headerChrome = true }) => {
         viewer?.username === name &&
         viewer.role === UserRoleEnum.NOT_ACTIVATED;
     const names = name ? [username, name] : [username];
-    const { refreshing, onRefresh } = usePullToRefresh(byUsername(names));
+    const { refreshing, onRefresh } = usePullToRefresh(byProfile(names));
 
     return (
         <>
@@ -108,8 +112,14 @@ const UserProfile: FC<Props> = ({ username, headerChrome = true }) => {
                             username={name}
                         />,
                         <ListStats key="stats" username={name} />,
+                        <ActivitySection key="activity" username={name} />,
                         <HistorySection key="history" username={name} />,
+                        <CollectionsSection
+                            key="collections"
+                            username={name}
+                        />,
                         <FavouritesSection key="favourites" username={name} />,
+                        <ArticlesSection key="articles" username={name} />,
                     ]}
                     refreshing={refreshing}
                     onRefresh={onRefresh}

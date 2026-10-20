@@ -15,6 +15,7 @@ import {
     type MainContentTypeEnum,
     paginationPageParam,
     type ReadResponse,
+    serviceUserActivityOptions,
     serviceUserStatsOptions,
     type UserReadStatsResponse,
     type UserWatchStatsResponse,
@@ -46,6 +47,7 @@ export type UserListStats = UserWatchStatsResponse | UserReadStatsResponse;
 
 export {
     followStatsOptions,
+    serviceUserActivityOptions,
     serviceUserStatsOptions,
     userProfileOptions,
     userReferenceOptions,

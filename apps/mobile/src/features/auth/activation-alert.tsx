@@ -9,8 +9,9 @@ import { activationResendMutation, HikkaApiError } from '@hikka/api';
 import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
 import { Text } from '@/components/ui/text';
+import { toastApiError } from '@/utils/offline-toast';
 
-import { errorMessage } from './error-message';
+import { FALLBACK_ERROR } from './constants';
 
 const ACTIVATION_VALID = 'auth:activation_valid';
 
@@ -26,12 +27,11 @@ const ActivationAlert: FC<Props> = ({ username }) => {
                 `${username}, ми успішно надіслали Вам лист для підтвердження поштової адреси.`,
             ),
         onError: (error) =>
-            toast.error(
-                error instanceof HikkaApiError &&
-                    error.code === ACTIVATION_VALID
-                    ? `${username}, Ваше посилання досі активне. Перегляньте, будь ласка, вашу поштову скриньку для активації акаунту.`
-                    : errorMessage(error),
-            ),
+            error instanceof HikkaApiError && error.code === ACTIVATION_VALID
+                ? toast.error(
+                      `${username}, Ваше посилання досі активне. Перегляньте, будь ласка, вашу поштову скриньку для активації акаунту.`,
+                  )
+                : toastApiError(error, FALLBACK_ERROR),
     });
 
     return (

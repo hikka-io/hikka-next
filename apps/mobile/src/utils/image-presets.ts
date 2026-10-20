@@ -39,11 +39,12 @@ export function presetImageUrl(
         : undefined;
 }
 
-/** The image resized for a box of `width` x `height` points (avatars, covers); square boxes are cropped to fill. */
+/** The image resized for a box of `width` x `height` points (avatars, covers); square boxes are cropped to fill unless `resize` says `fit`, which also never enlarges. */
 export function sizedImageUrl(
     src: string | null | undefined,
     width: number,
     height?: number,
+    resize: 'fit' | 'fill' = height === width ? 'fill' : 'fit',
 ) {
     return src
         ? buildImgproxyUrl(
@@ -53,7 +54,7 @@ export function sizedImageUrl(
                   width: pixels(width),
                   height: height === undefined ? undefined : pixels(height),
               },
-              height === width ? 'fill' : 'fit',
+              resize,
           )
         : undefined;
 }

@@ -20,7 +20,11 @@ import {
     useFilterNames,
     useUpdateCatalogSearch,
 } from './catalog-search-store';
-import { type CatalogType, clearFilters } from './filter-params';
+import {
+    type CatalogSearch,
+    type CatalogType,
+    clearFilters,
+} from './filter-params';
 import { useGenres } from './use-genres';
 
 type Props = {
@@ -41,12 +45,16 @@ function chipTone(filter: ActiveFilter) {
           };
 }
 
-/** Whether any chip would show, so the toolbar and empty state can reflect it. */
+/** Whether a search has any active filter, as the chips would show. */
+export function hasActiveFilters(search: CatalogSearch, signedIn: boolean) {
+    return getActiveFilters(search, { signedIn }).length > 0;
+}
+
 export function useHasActiveFilters(type: CatalogType) {
     const search = useCatalogSearch(type);
     const { hasToken } = useSession();
 
-    return getActiveFilters(search, { signedIn: hasToken }).length > 0;
+    return hasActiveFilters(search, hasToken);
 }
 
 /** The web's active-filter chips: tap one to remove it, "Очистити все" when there are several. */
