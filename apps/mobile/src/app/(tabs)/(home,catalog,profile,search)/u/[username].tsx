@@ -1,12 +1,9 @@
-import { Stack } from 'expo-router';
+import { useLocalSearchParams } from 'expo-router';
 
-import EmptyState from '@/components/ui/empty-state';
+import { UserPage } from '@/features/users';
 
 export default function UserScreen() {
-    return (
-        <>
-            <Stack.Title>Профіль</Stack.Title>
-            <EmptyState title="Незабаром" className="flex-1 justify-center" />
-        </>
-    );
+    const { username } = useLocalSearchParams<{ username: string }>();
+
+    return <UserPage key={username} username={username} />;
 }
