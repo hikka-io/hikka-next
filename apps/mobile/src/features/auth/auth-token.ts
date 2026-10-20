@@ -15,8 +15,12 @@ const subscribe = (listener: () => void) => {
     };
 };
 
-export function restoreAuthToken() {
-    setAuthToken(SecureStore.getItem(AUTH_TOKEN_KEY) ?? undefined);
+export function readStoredAuthToken(): string | undefined {
+    try {
+        return SecureStore.getItem(AUTH_TOKEN_KEY) ?? undefined;
+    } catch {
+        return undefined;
+    }
 }
 
 export async function storeAuthToken(token: string | undefined) {

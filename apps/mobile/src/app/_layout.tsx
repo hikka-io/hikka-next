@@ -4,10 +4,15 @@ import { QueryClientProvider } from '@tanstack/react-query';
 import { DarkTheme, DefaultTheme, Stack, ThemeProvider } from 'expo-router';
 import { useColorScheme } from 'react-native';
 
-import { restoreAuthToken } from '@/features/auth';
-import { queryClient } from '@/utils/query-client';
+import { configureBrowserClient } from '@hikka/api';
 
-restoreAuthToken();
+import { readStoredAuthToken } from '@/features/auth';
+import { API_BASE_URL, queryClient } from '@/utils/query-client';
+
+configureBrowserClient({
+    baseUrl: API_BASE_URL,
+    authToken: readStoredAuthToken(),
+});
 
 export default function RootLayout() {
     const scheme = useColorScheme();

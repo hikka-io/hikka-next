@@ -4,10 +4,13 @@ import { Image } from 'expo-image';
 import { Link } from 'expo-router';
 import { ActivityIndicator, Pressable, Text, View } from 'react-native';
 
+import { HikkaApiError } from '@hikka/api';
+
+import { FALLBACK_ERROR } from './constants';
 import { useSession } from './use-session';
 
 const ProfileSummary: FC = () => {
-    const { user, isLoading, error } = useSession();
+    const { user, hasToken, isLoading, error } = useSession();
 
     if (isLoading) {
         return (
@@ -37,18 +40,22 @@ const ProfileSummary: FC = () => {
         );
     }
 
+    if (hasToken && error) {
+        return (
+            <View className="flex-1 items-center justify-center bg-background p-6">
+                <Text className="text-center text-destructive-foreground">
+                    {error instanceof HikkaApiError
+                        ? error.message
+                        : FALLBACK_ERROR}
+                </Text>
+            </View>
+        );
+    }
+
     return (
         <View className="flex-1 items-center justify-center gap-4 bg-background p-6">
-            <Text
-                className={
-                    error
-                        ? 'text-center text-destructive-foreground'
-                        : 'text-center text-muted-foreground'
-                }
-            >
-                {error
-                    ? error.message
-                    : 'Увійдіть, щоб відстежувати аніме та бачити свої списки'}
+            <Text className="text-center text-muted-foreground">
+                Увійдіть, щоб відстежувати аніме та бачити свої списки
             </Text>
             <Link href="/login" asChild>
                 <Pressable className="h-12 items-center justify-center rounded-lg border border-primary-border bg-primary px-6 active:opacity-80">
