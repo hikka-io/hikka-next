@@ -19,11 +19,7 @@ import { Header, HeaderActions, HeaderTitle } from '@/components/ui/header';
 import { Separator } from '@/components/ui/separator';
 import { useSession } from '@/features/auth';
 
-import { useHasActiveFilters } from './active-filters';
-import {
-    useCatalogSearch,
-    useUpdateCatalogSearch,
-} from './catalog-search-store';
+import { hasActiveFilters } from './active-filters';
 import ChipFilter from './chip-filter';
 import {
     type CatalogSearch,
@@ -40,8 +36,14 @@ import RangeFilter from './range-filter';
 import StudioFilter from './studio-filter';
 import SwitchFilter from './switch-filter';
 
+export type FilterMode = 'catalog' | 'userList';
+
 type Props = {
     type: CatalogType;
+    /** `userList` is the web's list sidebar: no hide-listed switch, no date range, and read lists have no score. */
+    mode?: FilterMode;
+    search: CatalogSearch;
+    onUpdate: (updater: (search: CatalogSearch) => CatalogSearch) => void;
     onDone: () => void;
 };
 
@@ -55,13 +57,18 @@ function formatSeasonOffset(offset: number) {
  * The web's filter panel for one content type, in the web's order. Changes apply live,
  * like the web; "Очистити" keeps the sort.
  */
-const FiltersSheet: FC<Props> = ({ type, onDone }) => {
-    const search = useCatalogSearch(type);
-    const update = useUpdateCatalogSearch(type);
+const FiltersPanel: FC<Props> = ({
+    type,
+    mode = 'catalog',
+    search,
+    onUpdate: update,
+    onDone,
+}) => {
     const { hasToken } = useSession();
     const anime = type === ContentTypeEnum.ANIME;
-    const dateRange = anime && Boolean(search.date_range_enabled);
-    const filtered = useHasActiveFilters(type);
+    const catalog = mode === 'catalog';
+    const dateRange = catalog && anime && Boolean(search.date_range_enabled);
+    const filtered = hasActiveFilters(search, hasToken);
 
     const change = <K extends CatalogSearchKey>(
         key: K,
@@ -86,14 +93,15 @@ const FiltersSheet: FC<Props> = ({ type, onDone }) => {
             }
         />
     );
-    const hideListed = hasToken ? (
-        <SwitchFilter
-            key="hide_listed"
-            label="Приховати тайтли з мого списку"
-            value={search.hide_listed}
-            onChange={(value) => change('hide_listed', value)}
-        />
-    ) : null;
+    const hideListed =
+        catalog && hasToken ? (
+            <SwitchFilter
+                key="hide_listed"
+                label="Приховати тайтли з мого списку"
+                value={search.hide_listed}
+                onChange={(value) => change('hide_listed', value)}
+            />
+        ) : null;
     const statuses = (
         <ChipFilter
             key="statuses"
@@ -168,29 +176,41 @@ const FiltersSheet: FC<Props> = ({ type, onDone }) => {
               />,
               score,
               years,
-              <View key="date_range" className="gap-6">
-                  <SwitchFilter
-                      label="Часовий проміжок"
-                      value={search.date_range_enabled}
-                      onChange={(enabled) =>
-                          update((prev) => setDateRangeEnabled(prev, enabled))
-                      }
-                  />
-                  {dateRange ? (
-                      <RangeFilter
-                          title="Сезони"
-                          bounds={DATE_RANGE}
-                          value={search.date_range}
-                          format={formatSeasonOffset}
-                          onChange={(range) =>
-                              change('date_range', range ?? DATE_RANGE)
+              catalog ? (
+                  <View key="date_range" className="gap-6">
+                      <SwitchFilter
+                          label="Часовий проміжок"
+                          value={search.date_range_enabled}
+                          onChange={(enabled) =>
+                              update((prev) =>
+                                  setDateRangeEnabled(prev, enabled),
+                              )
                           }
                       />
-                  ) : null}
-              </View>,
+                      {dateRange ? (
+                          <RangeFilter
+                              title="Сезони"
+                              bounds={DATE_RANGE}
+                              value={search.date_range}
+                              format={formatSeasonOffset}
+                              onChange={(range) =>
+                                  change('date_range', range ?? DATE_RANGE)
+                              }
+                          />
+                      ) : null}
+                  </View>
+              ) : null,
               translated,
           ]
-        : [statuses, genres, hideListed, mediaTypes, translated, score, years];
+        : [
+              statuses,
+              genres,
+              hideListed,
+              mediaTypes,
+              translated,
+              catalog ? score : null,
+              years,
+          ];
 
     return (
         <ScrollView
@@ -227,4 +247,4 @@ const FiltersSheet: FC<Props> = ({ type, onDone }) => {
     );
 };
 
-export default FiltersSheet;
+export default FiltersPanel;
