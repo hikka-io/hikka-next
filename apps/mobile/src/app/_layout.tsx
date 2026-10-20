@@ -32,6 +32,14 @@ export default function RootLayout() {
                         }}
                     />
                     <Stack.Screen
+                        name="list-entry/[content_type]/[slug]"
+                        options={{
+                            presentation: 'formSheet',
+                            sheetAllowedDetents: [0.75, 1],
+                            sheetGrabberVisible: true,
+                        }}
+                    />
+                    <Stack.Screen
                         name="dev/markdown"
                         options={{ headerShown: true, title: 'Markdown' }}
                     />
