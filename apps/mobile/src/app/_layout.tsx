@@ -44,6 +44,10 @@ export default function RootLayout() {
                         options={{ headerShown: true, title: 'Markdown' }}
                     />
                     <Stack.Screen
+                        name="dev/tracking"
+                        options={{ headerShown: true, title: 'Tracking' }}
+                    />
+                    <Stack.Screen
                         name="dev/ui"
                         options={{ headerShown: true, title: 'UI' }}
                     />
