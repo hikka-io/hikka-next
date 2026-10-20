@@ -25,4 +25,13 @@ describe('byProfile', () => {
             false,
         );
     });
+
+    it("refreshes the session only on the viewer's own profile", () => {
+        const own = byProfile(['olexh'], true);
+
+        expect(own(query({ _id: 'profile' }))).toBe(true);
+        expect(own(query({ _id: 'profileUi' }))).toBe(true);
+        expect(matches(query({ _id: 'profile' }))).toBe(false);
+        expect(own(query({ _id: 'animeSlug' }))).toBe(false);
+    });
 });

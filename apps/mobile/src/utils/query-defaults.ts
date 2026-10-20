@@ -21,8 +21,16 @@ const QUERY_DEFAULT_TIERS = [
         options: { staleTime: Number.POSITIVE_INFINITY },
     },
     // Each list cell observes the session (`useTitle`), so a short stale time turns scrolling into refetches.
+    // The profile still refetches on every return to the app, so a confirmed email or a revoked token shows up.
     {
-        ids: ['profile', 'profileUi'],
+        ids: ['profile'],
+        options: {
+            staleTime: SESSION_STALE_MS,
+            refetchOnWindowFocus: 'always',
+        },
+    },
+    {
+        ids: ['profileUi'],
         options: { staleTime: SESSION_STALE_MS },
     },
     {
