@@ -9,11 +9,13 @@ import {
     ContentTypeEnum,
     type MainContentTypeEnum,
     mangaInfoOptions,
+    searchAnimeOptions,
 } from '@hikka/api';
 import { getTitle } from '@hikka/core';
 
 import PosterCard from '@/components/content-card/poster-card';
 import { IconStatusButton, ListStatusButton } from '@/components/tracking';
+import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
 import { Text } from '@/components/ui/text';
 import { useSession } from '@/features/auth';
@@ -72,6 +74,65 @@ const Sample: FC<SampleProps> = ({
     </Card>
 );
 
+// The controls fed by a list response, as catalog cards are: `entry` comes from `item.watch`,
+// so a stale per-title cache can disagree with it (DESIGN.md section 12, entry states).
+const EmbeddedSample: FC = () => {
+    const list = useQuery(
+        searchAnimeOptions({ body: { query: 'frieren' }, query: { size: 5 } }),
+    );
+    const item = list.data?.list.find((anime) => anime.slug === ANIME);
+    const entry = item ? (item.watch?.[0] ?? null) : undefined;
+
+    return (
+        <Card className="flex-row gap-4">
+            <View className="w-24">
+                <PosterCard
+                    image={item?.image ?? undefined}
+                    overlay={
+                        entry !== undefined && (
+                            <View className="absolute right-0 bottom-0">
+                                <IconStatusButton
+                                    contentType={ContentTypeEnum.ANIME}
+                                    slug={ANIME}
+                                    entry={entry}
+                                />
+                            </View>
+                        )
+                    }
+                />
+            </View>
+            <View className="flex-1 gap-2">
+                <Text className="font-semibold text-base">
+                    Embedded entry (search list)
+                </Text>
+                <Text className="text-muted-foreground text-xs">
+                    list says:{' '}
+                    {entry === undefined
+                        ? '…'
+                        : entry
+                          ? entry.status
+                          : 'untracked'}
+                </Text>
+                {entry !== undefined && (
+                    <ListStatusButton
+                        contentType={ContentTypeEnum.ANIME}
+                        slug={ANIME}
+                        entry={entry}
+                        content={item}
+                    />
+                )}
+                <Button
+                    variant="outline"
+                    size="sm"
+                    onPress={() => void list.refetch()}
+                >
+                    Refetch list
+                </Button>
+            </View>
+        </Card>
+    );
+};
+
 // Dev-only: the tracking controls against real titles, plus the bodies the last writes sent.
 const TrackingDev: FC = () => {
     const { user, hasToken } = useSession();
@@ -126,6 +187,7 @@ const TrackingDev: FC = () => {
                 image={mangaWithTotals.data?.image}
                 totals={mangaWithTotals.data}
             />
+            <EmbeddedSample />
             <Sample
                 // An invalid read content type answers 422: the entry is unreadable, never "untracked".
                 contentType={'characters' as MainContentTypeEnum}
