@@ -8,7 +8,6 @@ import {
 import * as Haptics from 'expo-haptics';
 import { Link } from 'expo-router';
 import { UserMinus, UserPlus } from 'lucide-react-native';
-import { ActivityIndicator } from 'react-native';
 
 import { followMutation, unfollowMutation } from '@hikka/api';
 import { MUTATION_META_SKIP_ERROR_TOAST } from '@hikka/core';

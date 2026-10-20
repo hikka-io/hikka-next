@@ -3,7 +3,6 @@ import type { FC } from 'react';
 import { FlashList } from '@shopify/flash-list';
 import { Stack, useIsFocused } from 'expo-router';
 import { Users } from 'lucide-react-native';
-import { ActivityIndicator } from 'react-native';
 
 import type { FollowUserResponse } from '@hikka/api';
 

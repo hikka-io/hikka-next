@@ -2,7 +2,6 @@ import type { FC } from 'react';
 
 import { useRouter } from 'expo-router';
 import { RotateCw } from 'lucide-react-native';
-import { ActivityIndicator } from 'react-native';
 
 import type { MainContentTypeEnum } from '@hikka/api';
 

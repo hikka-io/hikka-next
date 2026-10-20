@@ -2,7 +2,6 @@ import type { FC, ReactElement } from 'react';
 
 import { FlashList } from '@shopify/flash-list';
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
-import { ActivityIndicator } from 'react-native';
 
 import { ContentTypeEnum, type UserResponse } from '@hikka/api';
 
