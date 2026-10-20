@@ -1,12 +1,9 @@
-import { Stack } from 'expo-router';
+import { useLocalSearchParams } from 'expo-router';
 
-import EmptyState from '@/components/ui/empty-state';
+import { PersonPage } from '@/features/entities';
 
 export default function PersonScreen() {
-    return (
-        <>
-            <Stack.Title>Автор</Stack.Title>
-            <EmptyState title="Незабаром" className="flex-1 justify-center" />
-        </>
-    );
+    const { slug } = useLocalSearchParams<{ slug: string }>();
+
+    return <PersonPage key={slug} slug={slug} />;
 }
