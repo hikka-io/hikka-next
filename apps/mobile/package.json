@@ -16,6 +16,7 @@
         "expo-constants": "~57.0.22",
         "expo-dev-client": "~57.0.20",
         "expo-glass-effect": "~57.0.4",
+        "expo-haptics": "~57.0.3",
         "expo-image": "~57.0.5",
         "expo-linking": "~57.0.13",
         "expo-router": "~57.0.28",
@@ -42,7 +43,8 @@
         "tailwind-merge": "^3.7.0",
         "tailwindcss": "^4.3.3",
         "uniwind": "^1.13.0",
-        "zod": "^3.25.76"
+        "zod": "^3.25.76",
+        "zustand": "^5.0.15"
     },
     "devDependencies": {
         "@resvg/resvg-js": "^2.6.2",
