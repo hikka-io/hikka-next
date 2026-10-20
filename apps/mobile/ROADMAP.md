@@ -4,7 +4,7 @@ Goal: a native-feeling iOS and Android app that keeps the web app's structure an
 
 ## How work runs
 
-- **Integration branch: `mobile/develop`** (worktree `.claude/worktrees/mobile-develop`). Every task branch is cut from it and merges back into it after review. Mobile work never merges into `main`.
+- **Integration branch: `mobile/develop`** (worktree `.claude/worktrees/mobile-develop`). Every task branch is cut from it and merges back into it after review; the owner decides when `mobile/develop` merges into `main`.
 - One task = one session = one git worktree and branch.
 - Nothing is pushed until the owner says so.
 - Each branch is review-sized: focused commits (conventional, no AI mentions), gates green, screenshots listed in the session's final report.
@@ -57,13 +57,12 @@ Content gaps (favourites, 18+ gate, anime media and movie banner, review stats),
 
 ## MVP status (2026-10-20)
 
-The app is at MVP and work is paused here by the owner's decision. Nothing on `mobile/develop` is merged into `main` or pushed.
+The app is at MVP and work is paused here by the owner's decision. `mobile/develop`, with `@hikka/core`, was merged into `main` on 2026-10-20.
 
 Open for the owner (blocks release):
 - Turnstile production key fails in the login WebView (error 300031); STACK.md "Auth" has the investigation.
 - Backend endpoints: Google ID-token sign-in, comment reports plus user blocking (App Store guideline 1.2), push notification device registration.
 - `apple-app-site-association` and `assetlinks.json` on hikka.io so activation and reset email links open the app.
-- `@hikka/core` (web utils moved into `packages/core`) exists only on `mobile/develop`; it is to be merged into `main` later.
 
 Known issues:
 - iOS 18: on the first visit to the Search tab after a cold launch the search field stays collapsed until the page is pulled down (`Stack.SearchBar` in `features/search/search-screen.tsx`).
