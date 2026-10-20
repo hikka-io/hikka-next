@@ -8,8 +8,17 @@ import { View } from 'react-native';
 import { toast } from 'sonner-native';
 import { useResolveClassNames } from 'uniwind';
 
-import { setVoteMutation, type VoteContentTypeEnum } from '@hikka/api';
-import { apiErrorMessage, nextVoteScore, optimisticVote } from '@hikka/core';
+import {
+    HikkaApiError,
+    setVoteMutation,
+    type VoteContentTypeEnum,
+} from '@hikka/api';
+import {
+    apiErrorMessage,
+    MUTATION_META_SKIP_ERROR_TOAST,
+    nextVoteScore,
+    optimisticVote,
+} from '@hikka/core';
 
 import { Button } from '@/components/ui/button';
 import { Icon } from '@/components/ui/icon';
@@ -40,6 +49,9 @@ const VoteButton: FC<Props> = ({ contentType, slug, myScore, voteScore }) => {
 
     const mutation = useMutation({
         ...setVoteMutation(),
+        // Votes on one target run one after another, so the last tap is the vote that stays.
+        scope: { id: `vote-${contentType}-${slug}` },
+        meta: MUTATION_META_SKIP_ERROR_TOAST,
         onSuccess: (data, { path }) => {
             void applyVoteMutation(queryClient, path, data);
         },
@@ -47,7 +59,12 @@ const VoteButton: FC<Props> = ({ contentType, slug, myScore, voteScore }) => {
             void Haptics.notificationAsync(
                 Haptics.NotificationFeedbackType.Error,
             );
-            toast.error(apiErrorMessage(error, VOTE_ERROR));
+            // A dropped connection arrives as status 0 with the native fetch message; only a backend reply is shown as is.
+            toast.error(
+                error instanceof HikkaApiError && error.status > 0
+                    ? apiErrorMessage(error, VOTE_ERROR)
+                    : VOTE_ERROR,
+            );
         },
     });
 
