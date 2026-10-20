@@ -91,7 +91,7 @@ Names match the web component with the same role, so reviewers can compare side 
 | `ui/stat-item` | `ui/stat-item` | Open |
 | `content-card/poster-card` | `content-card/poster-card` | Open |
 | `horizontal-card` | `horizontal-card` | Open |
-| `markdown` (`MDViewer`) | `markdown` | Open (markdown task) |
+| `markdown` (`MDViewer`) | `markdown` (`MDViewer`, `Link`, `Mention`, `Spoiler`, `SpoilerInline`) | Decided: see section 11 |
 
 ## 10. Code structure (Decided)
 
@@ -104,6 +104,19 @@ Mirrors the web so reviews read the same way:
 - Pure logic shared with the web lives in `@hikka/core` (`packages/core`), never copied.
 - `src/app/dev/ui.tsx` (dev builds only) shows every primitive in light and dark for visual review.
 
+## 11. Markdown (Decided)
+
+`MDViewer` (`src/components/markdown`) renders the web's markdown dialect read-only. Renderer choice and rejected alternatives: STACK.md "Markdown renderer choice".
+
+- Text: `text-base leading-6 text-foreground` by default (`textClassName` overrides it for dense uses, for example a comment row); blocks are spaced `gap-4`, like the web's `mb-4`. `selectable` is opt-in (off in lists).
+- Links and mentions: `text-primary-foreground`, no underline. Links to hosts that need a signed-in user (`toloka.to`, `anitube.in.ua`) are `text-muted-foreground` plain text unless `authenticated` is passed. Mentions show the user's current username and a 20 px avatar from `userReferenceOptions`/`userProfileOptions`, like the web.
+- Link routing (`links.ts`, one `IN_APP_ROUTES` table): a hikka.io link to `/<segment>/<slug>` pushes the matching Expo Router route only when that segment is in the table (today `anime`); every other hikka.io link, listed hosts (`myanimelist.net`, `anilist.co`, `mikai.me`, `watari-anime.com`, `aniage.net`) and mention taps open in `expo-web-browser`, and any other host asks first through a native `Alert` (the web's `AlertDialog` copy). Adding a route later is one line in the table. Only `http(s)` links are followed (`data:`, `intent:`, `file:`, custom schemes are inert); `//host` counts as an unknown external host.
+- Inline spoiler (`:spoiler[...]`): hidden as a `bg-muted-foreground/30` block with transparent text, tap reveals in place (`bg-muted-foreground/10`); no re-hide, like the web.
+- Block spoiler (`:::spoiler`): `bg-muted` card with `border-border`, content clamped to 88 px and hidden (opacity 0, hidden from accessibility) behind a centered "Спойлер" pill; tap reveals everything and shows "Приховати спойлер". Hiding is an opaque overlay, not a blur, so it looks the same on iOS and Android.
+- Images: `https` only (relative URLs resolve against `https://hikka.io`; `http:`, `data:`, `file:` are dropped), full width, `rounded-lg`, aspect ratio taken from the loaded image (16:9 placeholder), a linked image opens its link.
+- Literal text, as on the web: code spans and fences, tables, task-list markers (`- [x]`), bare-url autolinks and raw HTML (tags are shown as typed). Headings render as paragraphs. The lexer runs `marked` with `gfm: false` and its own `~~` extension.
+- State: spoiler reveal and image size live in the component, so a caller that can reuse the instance for different content (FlashList cell reuse, a screen reused across slugs) must key `MDViewer` by the content id, for example `key={anime.slug}`.
+
 ## Decision log
 
 Append one line per decision: date, decision, task.
@@ -113,3 +126,4 @@ Append one line per decision: date, decision, task.
 - 2026-10-20: Login is a root-stack route presented as a native `formSheet` (`fitToContents`, grabber) over the tabs; tabs live in `src/app/(tabs)/`. Form fields are a minimal `features/auth/text-field.tsx` (label, `TextInput`, error line) and the submit is a plain primary-token `Pressable`; both move onto `ui/` primitives after the design-system branch merges. Field errors show after blur or the first submit; backend errors show inline under the form as returned. (auth)
 - 2026-10-20: The Profile tab is the third native tab (between catalog and search). Signed out: muted copy plus a login button that opens the sheet; signed in: avatar, username, email. Logout is a header `Stack.Toolbar` button (SF `rectangle.portrait.and.arrow.right`), not a content button. The summary lives in `features/auth` until the `users` feature exists. (auth)
 - 2026-10-20: Session state is in `features/auth` (`useSession`, `signIn`/`signOut`, token storage), as the parent plan asked, not in `src/services/` as section 10 suggests; move it if `services/` becomes the home for session hooks. (auth)
+- 2026-10-20: Markdown viewer is a `marked` lexer with directive/mention/strikethrough extensions and an own React Native renderer, not `react-native-marked` or a native text view; web dialect kept (no code/tables/autolinks); block spoiler hides behind an opaque pill, not a blur. (markdown task)

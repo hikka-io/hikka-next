@@ -6,6 +6,8 @@ import { ActivityIndicator, ScrollView, Text, View } from 'react-native';
 import { animeSlugOptions } from '@hikka/api';
 import { getTitle } from '@hikka/core';
 
+import { MDViewer } from '@/components/markdown';
+
 export default function AnimeDetailScreen() {
     const { slug } = useLocalSearchParams<{ slug: string }>();
     const { data: anime, error } = useQuery(
@@ -108,12 +110,9 @@ export default function AnimeDetailScreen() {
                 ) : null}
 
                 {synopsis ? (
-                    <Text
-                        className="text-base text-foreground leading-6"
-                        selectable
-                    >
+                    <MDViewer key={anime.slug} selectable>
                         {synopsis}
-                    </Text>
+                    </MDViewer>
                 ) : null}
             </ScrollView>
         </>

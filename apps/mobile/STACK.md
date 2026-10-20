@@ -39,7 +39,7 @@ Conclusion: the data layer is the expensive part and it is already portable. The
 | Styling | Uniwind (free tier) for our own content components; no styling layer on native controls | See next section. |
 | Animation / gestures | Reanimated 4, Gesture Handler, `expo-haptics` | |
 | Forms | TanStack Form + the shared Zod schemas | Same as web, minus the DOM field components. |
-| Markdown (comments) | A native markdown renderer, read-only in v1; plain `TextInput` for writing comments | Plate is DOM-only. The mention wire format `[@user](<site>/u/<ref>)` must be preserved on write. |
+| Markdown (comments, synopses) | `marked` lexer (same library and 12.x line as the web) with custom extensions for `:::spoiler`, `:spoiler[...]`, `~~` and `@mentions`, rendered by our own small React Native renderer (`components/markdown`); read-only in v1, plain `TextInput` for writing comments | Plate is DOM-only. The mention wire format `[@user](<site>/u/<ref>)` must be preserved on write. See "Markdown renderer choice". |
 | Compiler | React Compiler (Expo supports it) | Same as web. |
 
 ## Styling: NativeWind or not
@@ -79,7 +79,7 @@ What it took:
 - **Metro pins the singletons.** `@hikka/api` resolves `@tanstack/react-query` through its own link, which is bound to React 19.3. `metro.config.js` resolves `react`, `react-dom` and `@tanstack/react-query` from the app, so the bundle carries exactly one React 19.2.3 and one react-query (checked in the full iOS bundle).
 - **Optional `react-native` peers.** Once React Native is in the workspace, pnpm links it as an optional peer of `react-tracked` and `use-context-selector` (Plate → zustand-x) in the web graph. Two `"…>react-native": "-"` overrides cut that edge, so the web install and Docker builder do not fetch React Native.
 - **Tokens.** `pnpm --filter @hikka/mobile tokens` regenerates `src/theme.css` from `apps/web/src/globals.css`: it follows the CSS cascade (`@theme static`, `:root`, `.dark`, the relative-oklch `@supports` block), resolves `var()` chains and `oklch(from var(--brand) …)`, and writes hex under Uniwind's `@variant light/dark`. Re-run it when web tokens change.
-- **Not solved yet:** synopses are Markdown (with `hikka.io` links) and render as raw text, so a native Markdown renderer is needed early; the app icon and splash were Expo placeholders (replaced, see `scripts/generate-icons.mjs`); Android now runs (see Android findings).
+- **Since solved:** the markdown viewer (see "Markdown renderer choice"), the brand icon and splash, and the Android run (see "Android findings").
 
 ## Android findings
 
@@ -133,6 +133,20 @@ Not implemented. The current flow (`GET /auth/oauth/google` for a redirect URL, 
 - Verify the JWT against Google's keys (`google.oauth2.id_token.verify_oauth2_token`): `iss` is `accounts.google.com`, `aud` is one of the configured iOS / Android / web client IDs (new setting, for example `oauth.google.audiences`), `exp`, and `email_verified`.
 - Then reuse the code flow unchanged: the JWT `sub` is the same Google user id that `userinfo/v2/me` returns as `id`, so `get_oauth_by_id(sub, "google")` finds already linked accounts; keep the `email-exists` check, `create_oauth_user`, `update_oauth_timestamp`, the `LOG_LOGIN_OAUTH` log and `create_auth_token`.
 - No captcha, like the existing OAuth flow. It needs an iOS and an Android OAuth client in the Google Cloud project.
+
+## Markdown renderer choice
+
+Decided 2026-10-20 (markdown task). The viewer must render the web's dialect: `:::spoiler` containers and `:spoiler[text]` inline directives, `[@name](<site>/u/<ref>)` mentions with live avatars, `~~` strikethrough, hikka.io links that open in-app, and no code, tables or bare-url autolinks (the web disables them too).
+
+| Option | Verdict |
+| --- | --- |
+| `react-native-marked` 8.3 (marked 18, actively released, New Architecture, selectable text) | Rejected. Its `Parser` is a fixed `switch` over marked token types: a custom token type (directive, spoiler) falls to `default: return null`, so directives can only be smuggled through the `html` token. Inline children are flattened to `renderer.text(token.raw)`, which loses a nested stateful spoiler or mention inside a paragraph. It also needs `react-native-svg` and seven runtime dependencies, and the default `Markdown` component is a `FlatList` (nested virtualized list in a `ScrollView` or `FlashList` row; only `useMarkdown` avoids that). |
+| `react-native-enriched-markdown` 1.1 (Software Mansion, native cmark text view, active) | Rejected for now. Best selection and performance, New Architecture only, but it needs native code and does not run in Expo Go (our current loop), has no extension point for custom directives, and cannot embed a React view (avatar) in running text. Revisit if long comment threads are slow. |
+| `react-native-markdown-display` / `@ronradtke/react-native-markdown-display` (markdown-it) | Rejected. The original is unmaintained since 2023; the fork is maintained but markdown-it plugins for container directives would still be a second parser with different edge cases than the web's `marked`/micromark behaviour, plus `react-native-fit-image` and an icon font dependency. |
+| `react-native-remark` (unified) | Rejected. Last release 2025-06, pulls the whole unified stack and a syntax highlighter; Hermes parse cost per comment row is the worst of the set. |
+| **`marked` lexer + own renderer (chosen)** | `marked.lexer` with four small extensions gives a plain token tree; a ~200 line recursive renderer maps it to `Text`/`View`. Pure JS (New Architecture irrelevant, works in Expo Go), the same library the web already depends on, no native module, no `react-native-svg`. Nested `Text` keeps selection and lets spoilers, links and mentions live inside a paragraph. Lexing is memoised per source string, cheap enough for FlashList rows. |
+
+Web-dialect decisions that follow from the web's remark pipeline (`remark-disable-tokenizer`, no `remark-gfm`): the lexer runs with `gfm: false`, so tables, task-list markers and bare-url autolinks stay literal text, as do code and fenced blocks; headings render as plain paragraphs; raw HTML stays literal text (react-markdown shows it as text); soft line breaks collapse to a space (HTML does the same), hard breaks (two trailing spaces or backslash) are real breaks.
 
 ## First milestones
 
