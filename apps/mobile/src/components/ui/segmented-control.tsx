@@ -2,7 +2,7 @@ import { SegmentedControl as NativeSegmentedControl } from '@expo/ui/community/s
 import * as Haptics from 'expo-haptics';
 import { useColorScheme } from 'react-native';
 
-export type SegmentedOption<T extends string> = { label: string; value: T };
+type SegmentedOption<T extends string> = { label: string; value: T };
 
 type Props<T extends string> = {
     options: readonly SegmentedOption<T>[];

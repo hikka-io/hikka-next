@@ -35,7 +35,7 @@ export const useThemeStore = create<State & Actions>((set) => ({
 }));
 
 /** Applies the saved scheme at startup; the system scheme needs no call. */
-export function applyStoredTheme() {
+function applyStoredTheme() {
     const { theme } = useThemeStore.getState();
 
     if (theme !== 'system') Uniwind.setTheme(theme);

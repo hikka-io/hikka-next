@@ -37,7 +37,7 @@ const forgetStoredConsent = () => {
 };
 
 /** The 18+ consent given on this device: for this launch, or remembered by a guest for 7 days. */
-export function useNsfwConsent() {
+function useNsfwConsent() {
     const session = useNsfwConsentStore((state) => state.session);
     const until = useNsfwConsentStore((state) => state.until);
     const expired = until !== null && until <= Date.now();

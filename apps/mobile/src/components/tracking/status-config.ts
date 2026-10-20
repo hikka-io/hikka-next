@@ -20,7 +20,7 @@ type StatusStyle = {
     text: string;
 };
 
-export type StatusConfig = {
+type StatusConfig = {
     value: string;
     title: string;
     glyph: string;

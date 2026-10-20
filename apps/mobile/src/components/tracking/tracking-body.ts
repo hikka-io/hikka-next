@@ -135,7 +135,7 @@ export const clampInt = (value: number, min: number, max: number) =>
         Math.max(min, Math.trunc(Number.isFinite(value) ? value : 0)),
     );
 
-export type EntryResolution =
+type EntryResolution =
     | { state: 'resolved'; entry: ListEntry | null }
     | { state: 'loading' }
     | { state: 'error' }

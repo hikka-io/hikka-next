@@ -33,7 +33,7 @@ export const SEARCH_SECTION_TITLES = Object.fromEntries(
 ) as Record<SearchType, string>;
 
 /** User search needs a longer query than content search (`userSearchQuery`). */
-export function minQueryLength(type: SearchType) {
+function minQueryLength(type: SearchType) {
     return type === ContentTypeEnum.USER
         ? API_LIMITS.userSearchQuery.min
         : API_LIMITS.searchQuery.min;

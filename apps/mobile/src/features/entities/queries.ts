@@ -14,7 +14,7 @@ import {
 
 export { characterInfoOptions, personInfoOptions };
 
-export const APPEARANCE_PAGE_SIZE = 12;
+const APPEARANCE_PAGE_SIZE = 12;
 
 const ENTITY_APPEARANCES = {
     character: {

@@ -9,7 +9,7 @@ import type { STATUS_DOT } from '@/components/tracking';
 
 import type { ListContentType, UserListStats } from './queries';
 
-export type ListStatus = keyof typeof STATUS_DOT;
+type ListStatus = keyof typeof STATUS_DOT;
 
 export type StatusCounts = Partial<Record<ListStatus, number>> & {
     duration?: number;

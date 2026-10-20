@@ -10,7 +10,7 @@ import {
     userArticlesListArgs,
 } from '@hikka/core';
 
-export const ARTICLES_PAGE_SIZE = 10;
+const ARTICLES_PAGE_SIZE = 10;
 export const AUTHOR_ARTICLES_PREVIEW_SIZE = 3;
 
 export function articleListOptions(search: ArticlesSearch) {

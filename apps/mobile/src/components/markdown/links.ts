@@ -51,7 +51,7 @@ const BARE_ROUTES = new Set(['schedule']);
 const NESTED_ROUTE =
     /^\/comments\/(latest|my|[a-z]+\/[^/?#]+(?:\/[^/?#]+)?)\/?$/;
 
-export type LinkTarget =
+type LinkTarget =
     | { kind: 'route'; href: string }
     | { kind: 'external'; url: string; trusted: boolean; authOnly: boolean }
     | { kind: 'none' };

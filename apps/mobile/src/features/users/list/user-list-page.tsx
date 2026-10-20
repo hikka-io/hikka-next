@@ -67,7 +67,7 @@ const IN_PROGRESS: Partial<Record<string, string>> = {
 };
 
 /** A status the type has, or `all`; anything else opens the web's default. */
-export function resolveListStatus(
+function resolveListStatus(
     contentType: ListContentType,
     status?: string,
 ): string {

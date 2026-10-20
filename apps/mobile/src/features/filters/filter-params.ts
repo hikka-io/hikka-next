@@ -57,7 +57,7 @@ export function toggleValue(list: string[] | undefined, value: string) {
         : [...current, value];
 }
 
-export type GenreState = 'include' | 'exclude' | undefined;
+type GenreState = 'include' | 'exclude' | undefined;
 
 export function genreState(
     genres: string[] | undefined,

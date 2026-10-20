@@ -4,7 +4,7 @@ import { View } from 'react-native';
 
 import { cn } from '@/utils/cn';
 
-export type BarSegment = {
+type BarSegment = {
     key: string;
     count: number;
     className: string;

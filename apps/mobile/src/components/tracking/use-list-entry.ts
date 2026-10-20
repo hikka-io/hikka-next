@@ -9,7 +9,7 @@ import { isDeadTokenError, signOut, useAuthToken } from '@/features/auth';
 
 import { type ListEntry, resolveListEntry } from './tracking-body';
 
-export type ListEntryState =
+type ListEntryState =
     | { state: 'signed-out' }
     | { state: 'loading' }
     | { state: 'error'; retry: () => void }

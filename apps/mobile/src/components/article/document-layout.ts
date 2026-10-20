@@ -20,10 +20,10 @@ export function markClassName({
 export const listMarker = (ordered: boolean, index: number) =>
     ordered ? `${index + 1}.` : '•';
 
-export type ImageColumn = { flex: number; urls: string[] };
+type ImageColumn = { flex: number; urls: string[] };
 
 /** A single image keeps its own ratio (`aspectRatio` null); groups use the web's fixed grids. */
-export type ImageGridLayout = {
+type ImageGridLayout = {
     aspectRatio: number | null;
     columns: ImageColumn[];
 };

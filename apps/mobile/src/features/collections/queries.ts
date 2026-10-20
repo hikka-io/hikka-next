@@ -9,7 +9,7 @@ import {
     userCollectionsListArgs,
 } from '@hikka/core';
 
-export const COLLECTIONS_PAGE_SIZE = 15;
+const COLLECTIONS_PAGE_SIZE = 15;
 export const COLLECTION_PREVIEW_SIZE = 3;
 export const AUTHOR_COLLECTIONS_PREVIEW_SIZE = 3;
 
