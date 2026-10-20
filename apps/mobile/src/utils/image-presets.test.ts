@@ -57,4 +57,10 @@ describe('sizedImageUrl', () => {
             `https://img.hikka.io/insecure/rs:fit:1320:0:0:0/plain/${CDN}`,
         );
     });
+
+    it('fits a bounded box even when it is square', () => {
+        expect(sizedImageUrl(CDN, 100, 100, 'fit')).toBe(
+            `https://img.hikka.io/insecure/rs:fit:300:300:0:0/plain/${CDN}`,
+        );
+    });
 });

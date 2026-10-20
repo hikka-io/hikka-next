@@ -1,11 +1,12 @@
 import { type FC, useEffect, useState } from 'react';
 
-import { View } from 'react-native';
+import { Pressable, View } from 'react-native';
 
 import { ContentTypeEnum, type MainContentTypeEnum } from '@hikka/api';
 import { getOriginalTitle } from '@hikka/core';
 
 import PosterCard from '@/components/content-card/poster-card';
+import { openImageViewer } from '@/components/image-viewer';
 import { Badge } from '@/components/ui/badge';
 import { Text } from '@/components/ui/text';
 import { useTitle } from '@/services/session';
@@ -39,6 +40,7 @@ const ContentHero: FC<Props> = ({ contentType, content, onTitleBottom }) => {
     const [titleBottom, setTitleBottom] = useState<number | null>(null);
     const title = getTitle(content);
     const originalTitle = getOriginalTitle(content);
+    const poster = content.image;
 
     useEffect(() => {
         if (heroTop !== null && titleBottom !== null) {
@@ -51,10 +53,15 @@ const ContentHero: FC<Props> = ({ contentType, content, onTitleBottom }) => {
             className="gap-4"
             onLayout={(event) => setHeroTop(event.nativeEvent.layout.y)}
         >
-            <PosterCard
-                image={content.image ?? undefined}
-                className="w-48 self-center"
-            />
+            <Pressable
+                disabled={!poster}
+                accessibilityRole="imagebutton"
+                accessibilityLabel="Відкрити постер"
+                onPress={() => poster && openImageViewer(poster, 0, title)}
+                className="w-48 self-center active:opacity-70"
+            >
+                <PosterCard image={poster ?? undefined} />
+            </Pressable>
             <View
                 onLayout={(event) => {
                     const { y, height } = event.nativeEvent.layout;
