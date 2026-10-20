@@ -3,6 +3,12 @@ import type { FC } from 'react';
 import { range } from '@antfu/utils';
 
 import { ContentTypeEnum, type SeasonEnum } from '@hikka/api';
+import {
+    EPISODE_FORMS,
+    getCurrentSeason,
+    getDeclensionWord,
+    getTitle,
+} from '@hikka/core';
 
 import { MediaTooltip } from '@/components/content-card';
 import AnimeCard from '@/components/content-card/anime-card';
@@ -22,11 +28,7 @@ import Stack from '@/components/ui/stack';
 import { useSessionUI } from '@/services/session';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { cn } from '@/utils/cn';
-import { getDeclensionWord } from '@/utils/i18n/declension';
-import { EPISODE_FORMS } from '@/utils/i18n/word-forms';
 import { Link } from '@/utils/navigation';
-import { getCurrentSeason } from '@/utils/season';
-import { getTitle } from '@/utils/title/get-title';
 
 import { homeOngoingsOptions, ONGOINGS_SIZE } from '../queries';
 import type { WidgetProps } from '../types';

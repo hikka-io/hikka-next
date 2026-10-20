@@ -39,7 +39,7 @@ Conclusion: the data layer is the expensive part and it is already portable. The
 | Styling | Uniwind (free tier) for our own content components; no styling layer on native controls | See next section. |
 | Animation / gestures | Reanimated 4, Gesture Handler, `expo-haptics` | |
 | Forms | TanStack Form + the shared Zod schemas | Same as web, minus the DOM field components. |
-| Markdown (comments) | A native markdown renderer, read-only in v1; plain `TextInput` for writing comments | Plate is DOM-only. The mention wire format `[@user](<site>/u/<ref>)` must be preserved on write. |
+| Markdown (comments, synopses) | `marked` lexer (same library and 12.x line as the web) with custom extensions for `:::spoiler`, `:spoiler[...]`, `~~` and `@mentions`, rendered by our own small React Native renderer (`components/markdown`); read-only in v1, plain `TextInput` for writing comments | Plate is DOM-only. The mention wire format `[@user](<site>/u/<ref>)` must be preserved on write. See "Markdown renderer choice". |
 | Compiler | React Compiler (Expo supports it) | Same as web. |
 
 ## Styling: NativeWind or not
@@ -67,7 +67,7 @@ Neither extreme. Do not do a full Figma pass up front, and do not port screens o
 
 ## Repository layout
 
-Decided: `apps/mobile` (`@hikka/mobile`) inside `hikka-next`. `@hikka/api` is consumed as `workspace:*`; pure utils move into a shared `packages/core` as features need them (the spike keeps a local `getTitle` copy). Expo configures Metro for pnpm monorepos itself; no `watchFolders`.
+Decided: `apps/mobile` (`@hikka/mobile`) inside `hikka-next`. `@hikka/api` and `@hikka/core` (runtime-agnostic labels, i18n, title, sort and markdown helpers shared with the web app) are consumed as `workspace:*`; further pure utils move into `packages/core` as features need them. Expo configures Metro for pnpm monorepos itself; no `watchFolders`.
 
 ## Spike results
 
@@ -79,12 +79,79 @@ What it took:
 - **Metro pins the singletons.** `@hikka/api` resolves `@tanstack/react-query` through its own link, which is bound to React 19.3. `metro.config.js` resolves `react`, `react-dom` and `@tanstack/react-query` from the app, so the bundle carries exactly one React 19.2.3 and one react-query (checked in the full iOS bundle).
 - **Optional `react-native` peers.** Once React Native is in the workspace, pnpm links it as an optional peer of `react-tracked` and `use-context-selector` (Plate → zustand-x) in the web graph. Two `"…>react-native": "-"` overrides cut that edge, so the web install and Docker builder do not fetch React Native.
 - **Tokens.** `pnpm --filter @hikka/mobile tokens` regenerates `src/theme.css` from `apps/web/src/globals.css`: it follows the CSS cascade (`@theme static`, `:root`, `.dark`, the relative-oklch `@supports` block), resolves `var()` chains and `oklch(from var(--brand) …)`, and writes hex under Uniwind's `@variant light/dark`. Re-run it when web tokens change.
-- **Not solved yet:** synopses are Markdown (with `hikka.io` links) and render as raw text, so a native Markdown renderer is needed early; the app icon and splash are Expo placeholders (web icons top out at 180 px, 1024 px is needed); Android has not been run.
+- **Since solved:** the markdown viewer (see "Markdown renderer choice"), the brand icon and splash, and the Android run (see "Android findings").
+
+## Android findings
+
+Run 2026-10-20 on the `Medium_Phone_API_36` emulator (1080x2400, 420 dpi, gesture navigation), Expo Go 57.0.0 installed by `CI=1 pnpm --filter @hikka/mobile android --port 8085`, light and dark via `adb shell cmd uimode night yes|no`. Screenshots (adb `screencap`) are kept outside the repo in the session notes folder `android-shots/` (`01`-`11`, light and dark).
+
+What works as is, with no code change:
+
+- **Native Tabs render as Material 3 bottom navigation** with the pill active indicator; `md` icons (`grid_view`, `search`) and the Ukrainian labels show correctly. Edge-to-edge is right: the status bar draws over the opaque header, the list scrolls to the tab bar, and the tab bar sits above the gesture bar with the system inset.
+- **Catalog and detail**: the FlashList renders posters, scores and type/year; tapping a row pushes the detail with the native back arrow; the system Back gesture and `adb input keyevent BACK` pop it. The detail opens the same from the search tab.
+- **Dark mode** follows the system (content is pure black like the web; header and tab bar take the Material dark surface, see below). The `bg-card`/`bg-secondary` surfaces and the pink score chip read well in both schemes.
+- **Search**: `Stack.SearchBar` becomes a search action in the header; tapping it expands a native search field (placeholder "Назва аніме", clear button) and the results list fills the screen. Typing `frieren` returns the right anime and the debounce via `useDeferredValue` behaves.
+
+Differences from iOS, to accept or fix:
+
+1. **`role="search"` is a plain tab on Android.** The search tab is a normal bottom-navigation item with a `search` icon, and it also has the header search action, so there are two entry points to the same screen. This is acceptable (Material apps do this) and needs no fix; the header action is the real field.
+2. **No large title.** `<Stack.Title large>` is ignored on Android: both tab roots show a small left-aligned title in the header. That is the Material top app bar and is the intended native look (DESIGN.md section 8). Keep `large` for iOS; do not fake a large title on Android.
+3. **Tab bar rides above the keyboard.** When the search field is focused the bottom navigation moves up with the keyboard (`adjustResize`), so with the keyboard open the results area is only about a third of the screen. This is the platform default for Native Tabs; the fix is in `src/app/_layout.tsx`: set `NativeTabs` `hidden` while the keyboard is visible on Android (a `Keyboard` show/hide listener in the layout), or set `android.softwareKeyboardLayoutMode` to `pan` in `app.json` (not recommended: it moves the header out of view).
+4. **Tab indicator and ripple use the default Material tint**, not the brand pink. `NativeTabs` accepts `indicatorColor`, `rippleColor`, `iconColor` and `labelStyle` (Android props). Route fix in `src/app/_layout.tsx`: pass `indicatorColor` and `rippleColor` from the `primary` token (light `#ffe6f5`, dark `#0f0b0d`) and `iconColor`/`labelStyle.selected.color` from `primary-foreground` (light `#a3287e`, dark `#ef71c3`), read through `useCSSVariable` from Uniwind so no hex is hard-coded.
+5. **Header and tab bar are not pure black in dark.** Material draws them as the dark surface (about `#1c1b1f`), so there is a visible step against the black content area. Decision in DESIGN.md section 8: leave native chrome on the system surface; do not force the header or tab bar to black. If the owner prefers a flush look, pass `backgroundColor` to `NativeTabs` and `headerStyle` to the stacks from the `background` token on Android only.
+6. **Duplicate title on detail.** The header shows the title (ellipsized for long names, for example "Проводжальниця Фрірен - 2 се…") and the content shows it again at the top. Route fix in `src/app/(catalog,search)/anime/[slug].tsx`: drop the header title (`<Stack.Title>{''}</Stack.Title>`) until the detail grows a collapsing hero, or keep it and accept the repetition.
+7. **Synopsis shows raw Markdown** (`[text](https://hikka.io/…)`, `**bold**`), as on iOS; the markdown viewer task owns the fix. Also visible: the synopsis links `https://hikka.io/character/…` (singular) in one title, a data issue, not an app bug.
+Expo Go on Android specifics:
+
+- Expo Go's floating **Tools button** (gear, top right) sits exactly on the header search action, so the first tap opens the dev menu instead of search. Turn it off once in the dev menu (Tools button toggle); it does not exist in a dev client build. It also appears over the header in screenshots.
+- The first launch shows the Expo Go developer-menu sheet; dismiss it with the close button.
+- `adb shell input text` types Latin only; Cyrillic queries need the on-screen keyboard, so search was verified with a Latin query.
+
+Dev client and brand assets (verified the same day): `npx expo run:android --port 8085` built a debug dev client in about 5 minutes (JDK 21 from Android Studio, JDK 24 on the PATH was not used), installed it and connected to Metro; the pink adaptive icon shows correctly in the launcher (circle mask), the dev launcher and dev menu show the logo, the Expo Go Tools button is absent, and the app behaves as in Expo Go. The light splash (brand-pink X on white, centered) was captured on cold start; the dark splash was verified through the generated `values-night/colors.xml` (`#000000`) and `drawable-night-*` images because the cold-start window is too short to screenshot reliably. With `expo-dev-client` installed a bare `expo start` targets the dev client, so the `dev`, `ios` and `android` scripts pass `--go` and `dev-client` was added.
+
+Not covered: tablets and foldables, 3-button navigation, font scale above 1.0, predictive back (disabled in `app.json`), screen readers.
+
+## Auth (milestone 2)
+
+Built and run on the iOS 26 simulator against the local backend:
+
+- **Feature.** Everything lives in `src/features/auth/` (barrel `index.ts`); `src/app/login.tsx` and `src/app/(tabs)/(profile)/index.tsx` only compose it.
+- **Login sheet.** `src/app/login.tsx` is a root-stack route presented as a native `formSheet` (`fitToContents`, grabber) over the tabs, so the tabs moved into `src/app/(tabs)/`. Username or email + password through TanStack Form, like the web login: an identifier containing `@` is sent as `email`, anything else as `username`. Zod schemas are copied from the web `form-schemas.ts` (bounds from `API_LIMITS`). `HikkaApiError` messages are shown as returned (already Ukrainian); anything else gets a Ukrainian fallback. After login the sheet goes back, or replaces to `/` when it was deep-linked.
+- **Token.** `auth-token.ts` keeps it in `expo-secure-store`. The root layout reads it synchronously (`readStoredAuthToken`, `SecureStore.getItem` in a try/catch) and passes it as `authToken` to `configureBrowserClient`, so the token is set before the first query with no splash gating. `signIn`/`signOut` (`session.ts`) write or delete it, call `setAuthToken` and reset every query, since cached responses can carry viewer state. The web logout only clears cookies; there is no revoke endpoint to call.
+- **Session.** `useSession()` (`use-session.ts`) wraps `profileOptions()`, enabled by a reactive token (`useSyncExternalStore`). The Profile tab (`ProfileSummary`) shows the avatar, username and email, with logout as a header toolbar button whenever a token is stored. A dead token signs out: the backend answers a revoked or expired token with HTTP 400 and `auth:invalid_token` / `auth:token_expired` (not 401), so `isDeadTokenError` checks those codes plus 401.
+- **Captcha.** `captcha.tsx` renders Turnstile in `react-native-webview` from an inline page whose `baseUrl` is `https://hikka.io`. In development, `EXPO_PUBLIC_CAPTCHA_BYPASS` (the backend `captcha.test` value) skips the widget, mirroring the web `VITE_CAPTCHA_BYPASS`; it is gated on `__DEV__`.
+
+Verified: sign in with a username and with an email, wrong password, an expired token signing out on launch, validation messages, token restored after a cold start, logout persisted after a cold start. The WebView bridge was checked with Cloudflare's always-pass test key (`1x00000000000000000000AA`): the token reaches the form.
+
+**Open: the production site key in the WebView.** The WebView only loads hikka.io in the top frame and challenges.cloudflare.com in subframes; other https links open externally, and messages are accepted only from the hikka.io origin. With that configuration the real key renders the interactive "Підтвердьте, що ви людина" checkbox; whether a person's tap passes has not been tested (an agent must not solve captchas). Before it, the challenge ended in error `300031` (widget crashed) and stayed on "Перевірка…". Safari on the same simulator passes on hikka.io/login. Loading a real hikka.io document instead of an inline page did not help, and neither did a Safari user-agent suffix or shared/third-party cookies. Next: try a physical device (the simulator WKWebView may be what Cloudflare rejects); check the widget's mode and pre-clearance settings in the Cloudflare dashboard; if WebViews stay unreliable, ask Cloudflare about their mobile guidance or let the backend accept another proof for first-party mobile clients (App Attest / Play Integrity).
+
+### Google sign-in: backend endpoint needed
+
+Not implemented. The current flow (`GET /auth/oauth/google` for a redirect URL, then `POST /auth/oauth/google` with `{ code }`) exchanges a web authorization code bound to the web redirect URI, so a native app cannot use it. Native Google Sign-In (iOS SDK / Android Credential Manager) returns an ID token instead. Proposed endpoint:
+
+- `POST /auth/oauth/google/id-token` with body `{ "id_token": "<JWT>" }`, returning `TokenResponse` (same as the code flow).
+- Verify the JWT against Google's keys (`google.oauth2.id_token.verify_oauth2_token`): `iss` is `accounts.google.com`, `aud` is one of the configured iOS / Android / web client IDs (new setting, for example `oauth.google.audiences`), `exp`, and `email_verified`.
+- Then reuse the code flow unchanged: the JWT `sub` is the same Google user id that `userinfo/v2/me` returns as `id`, so `get_oauth_by_id(sub, "google")` finds already linked accounts; keep the `email-exists` check, `create_oauth_user`, `update_oauth_timestamp`, the `LOG_LOGIN_OAUTH` log and `create_auth_token`.
+- No captcha, like the existing OAuth flow. It needs an iOS and an Android OAuth client in the Google Cloud project.
+
+## Markdown renderer choice
+
+Decided 2026-10-20 (markdown task). The viewer must render the web's dialect: `:::spoiler` containers and `:spoiler[text]` inline directives, `[@name](<site>/u/<ref>)` mentions with live avatars, `~~` strikethrough, hikka.io links that open in-app, and no code, tables or bare-url autolinks (the web disables them too).
+
+| Option | Verdict |
+| --- | --- |
+| `react-native-marked` 8.3 (marked 18, actively released, New Architecture, selectable text) | Rejected. Its `Parser` is a fixed `switch` over marked token types: a custom token type (directive, spoiler) falls to `default: return null`, so directives can only be smuggled through the `html` token. Inline children are flattened to `renderer.text(token.raw)`, which loses a nested stateful spoiler or mention inside a paragraph. It also needs `react-native-svg` and seven runtime dependencies, and the default `Markdown` component is a `FlatList` (nested virtualized list in a `ScrollView` or `FlashList` row; only `useMarkdown` avoids that). |
+| `react-native-enriched-markdown` 1.1 (Software Mansion, native cmark text view, active) | Rejected for now. Best selection and performance, New Architecture only, but it needs native code and does not run in Expo Go (our current loop), has no extension point for custom directives, and cannot embed a React view (avatar) in running text. Revisit if long comment threads are slow. |
+| `react-native-markdown-display` / `@ronradtke/react-native-markdown-display` (markdown-it) | Rejected. The original is unmaintained since 2023; the fork is maintained but markdown-it plugins for container directives would still be a second parser with different edge cases than the web's `marked`/micromark behaviour, plus `react-native-fit-image` and an icon font dependency. |
+| `react-native-remark` (unified) | Rejected. Last release 2025-06, pulls the whole unified stack and a syntax highlighter; Hermes parse cost per comment row is the worst of the set. |
+| **`marked` lexer + own renderer (chosen)** | `marked.lexer` with four small extensions gives a plain token tree; a ~200 line recursive renderer maps it to `Text`/`View`. Pure JS (New Architecture irrelevant, works in Expo Go), the same library the web already depends on, no native module, no `react-native-svg`. Nested `Text` keeps selection and lets spoilers, links and mentions live inside a paragraph. Lexing is memoised per source string, cheap enough for FlashList rows. |
+
+Web-dialect decisions that follow from the web's remark pipeline (`remark-disable-tokenizer`, no `remark-gfm`): the lexer runs with `gfm: false`, so tables, task-list markers and bare-url autolinks stay literal text, as do code and fenced blocks; headings render as plain paragraphs; raw HTML stays literal text (react-markdown shows it as text); soft line breaks collapse to a space (HTML does the same), hard breaks (two trailing spaces or backslash) are real breaks.
 
 ## First milestones
 
 1. ~~Spike~~: done.
-2. Auth: Turnstile WebView login, token in SecureStore, `setAuthToken` on boot. Agree on the Google sign-in backend endpoint.
+2. Auth: done, except Turnstile with the production key (see "Auth") and Google sign-in (needs the backend endpoint above).
 3. Detail + tracking (watch/read status sheet, full-snapshot PUT via `tracking-args`).
 4. Catalog + search + filters.
 5. Profile, lists, history, notifications.

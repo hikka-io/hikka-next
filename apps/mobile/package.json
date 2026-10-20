@@ -5,23 +5,30 @@
     "dependencies": {
         "@expo/ui": "~57.0.25",
         "@hikka/api": "workspace:*",
+        "@hikka/core": "workspace:*",
         "@react-native-community/netinfo": "12.0.1",
         "@shopify/flash-list": "2.0.2",
+        "@tanstack/react-form": "^1.33.5",
         "@tanstack/react-query": "^5.104.0",
         "class-variance-authority": "^0.7.1",
         "clsx": "^2.1.1",
         "expo": "~57.0.30",
         "expo-constants": "~57.0.22",
+        "expo-dev-client": "~57.0.20",
         "expo-glass-effect": "~57.0.4",
         "expo-haptics": "~57.0.3",
         "expo-image": "~57.0.5",
         "expo-linking": "~57.0.13",
         "expo-router": "~57.0.28",
+        "expo-secure-store": "~57.0.4",
         "expo-splash-screen": "~57.0.10",
         "expo-status-bar": "~57.0.1",
         "expo-symbols": "~57.0.3",
         "expo-system-ui": "~57.0.4",
+        "expo-web-browser": "~57.0.3",
+        "html-entities": "^2.6.0",
         "lucide-react-native": "^1.59.0",
+        "marked": "^12.0.2",
         "react": "19.2.3",
         "react-dom": "19.2.3",
         "react-native": "0.86.3",
@@ -30,6 +37,7 @@
         "react-native-safe-area-context": "~5.7.0",
         "react-native-screens": "~4.26.0",
         "react-native-svg": "15.15.4",
+        "react-native-webview": "13.16.1",
         "react-native-worklets": "0.10.1",
         "sonner-native": "^0.27.0",
         "tailwind-merge": "^3.7.0",
@@ -38,17 +46,23 @@
         "zod": "^3.25.76"
     },
     "devDependencies": {
+        "@resvg/resvg-js": "^2.6.2",
         "@types/culori": "^4.0.1",
         "@types/react": "~19.2.2",
         "culori": "^4.0.2",
-        "typescript": "~6.0.3"
+        "typescript": "~6.0.3",
+        "vitest": "^4.1.9"
     },
     "scripts": {
-        "dev": "expo start",
-        "ios": "expo start --ios",
-        "android": "expo start --android",
+        "dev": "expo start --go",
+        "dev-client": "expo start --dev-client",
+        "ios": "expo start --ios --go",
+        "android": "expo start --android --go",
         "typecheck": "tsc --noEmit",
-        "tokens": "node scripts/generate-tokens.mjs"
+        "tokens": "node scripts/generate-tokens.mjs",
+        "icons": "node scripts/generate-icons.mjs",
+        "test": "vitest run",
+        "test:watch": "vitest"
     },
     "private": true
 }

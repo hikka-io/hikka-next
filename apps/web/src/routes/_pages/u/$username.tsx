@@ -11,6 +11,7 @@ import {
     userProfileOptions,
     userReferenceOptions,
 } from '@hikka/api';
+import { isUserReference } from '@hikka/core';
 
 import { CoverImage, usePageHeader } from '@/features/app-shell';
 import {
@@ -23,7 +24,6 @@ import {
     UserTitle,
 } from '@/features/users';
 import { ensureOr404 } from '@/utils/api/ensure-or-404';
-import { isUserReference } from '@/utils/mentions';
 import { generateHeadMeta } from '@/utils/metadata';
 import { usePathname } from '@/utils/navigation';
 import { SITE_ORIGIN } from '@/utils/url';

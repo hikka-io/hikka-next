@@ -1,7 +1,7 @@
 import { MarkdownPlugin } from '@platejs/markdown';
 import type { Descendant, SlateEditor, TElement, Value } from 'platejs';
 
-import { normalizeYouTubeVideoUrl } from '@/utils/youtube';
+import { normalizeYouTubeVideoUrl } from '@hikka/core';
 
 import { ELEMENT_VIDEO } from '../plate-types';
 import { trimEmptyBlocks } from './trim-empty-blocks';

@@ -4,6 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { MessageCircle } from 'lucide-react';
 
 import { ContentTypeEnum, type MainContentTypeEnum } from '@hikka/api';
+import { COMMENT_FORMS, getDeclensionWord } from '@hikka/core';
 
 import { FavoriteButton } from '@/components/action-buttons';
 import { Button } from '@/components/ui/button';
@@ -14,8 +15,6 @@ import { ContentEditsButton } from '@/features/edit';
 import { useSession } from '@/services/session';
 import { contentInfoOptions } from '@/utils/api/content-queries';
 import { cn } from '@/utils/cn';
-import { getDeclensionWord } from '@/utils/i18n/declension';
-import { COMMENT_FORMS } from '@/utils/i18n/word-forms';
 import { Link, useParams } from '@/utils/navigation';
 
 import ListEntryButton from './list-entry-button';

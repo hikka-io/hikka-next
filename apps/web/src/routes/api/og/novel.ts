@@ -1,8 +1,8 @@
 import { createFileRoute } from '@tanstack/react-router';
 
 import { novelInfo } from '@hikka/api';
+import { getMediaTypeLabel } from '@hikka/core';
 
-import { getMediaTypeLabel } from '@/utils/labels';
 import { createOgImageHandler } from '@/utils/og/create-og-handler';
 import { resolveGenres, resolveTitle } from '@/utils/og/og-utils';
 

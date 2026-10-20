@@ -220,9 +220,62 @@ export function addDiscriminators<
     return spec;
 }
 
+const PYTHON_FLAG_GROUP = /(?<!\\)\(\?[aiLmsux-]+[):]/;
+
+function caseInsensitive(pattern: string): string {
+    let out = '';
+    let inClass = false;
+    for (let i = 0; i < pattern.length; i++) {
+        const char = pattern[i];
+        if (char === '\\') {
+            out += char + (pattern[i + 1] ?? '');
+            i++;
+        } else if (char === '[' || char === ']') {
+            inClass = char === '[';
+            out += char;
+        } else if (!inClass && /[a-z]/i.test(char)) {
+            out += `[${char.toLowerCase()}${char.toUpperCase()}]`;
+        } else {
+            out += char;
+        }
+    }
+    return out;
+}
+
+/**
+ * Python's leading `(?i)` flag is a syntax error in a JS RegExp, so a
+ * case-insensitive pattern is spelled out letter by letter. Throws on any other
+ * inline flag, which needs a deliberate rewrite. Mutates and returns `spec`.
+ */
+export function toJsPatterns<T extends OpenApiSpec>(spec: T): T {
+    const visit = (node: unknown): void => {
+        if (!node || typeof node !== 'object') return;
+
+        const schema = node as SchemaObject;
+        if (typeof schema.pattern === 'string') {
+            const flagged = schema.pattern.startsWith('(?i)');
+            const body = flagged ? schema.pattern.slice(4) : schema.pattern;
+            if (PYTHON_FLAG_GROUP.test(body)) {
+                throw new Error(
+                    `Unsupported inline regex flag in pattern ${schema.pattern}`,
+                );
+            }
+            if (flagged) schema.pattern = caseInsensitive(body);
+        }
+
+        for (const child of Object.values(schema)) visit(child);
+    };
+
+    visit(spec.paths);
+    visit(spec.components?.schemas);
+
+    return spec;
+}
+
 /**
  * Rewrites every operationId to its clean route name, names the repeated
- * inline enums and discriminates the `data_type` unions. Mutates and returns `spec`.
+ * inline enums, makes regex patterns JS-safe and discriminates the `data_type`
+ * unions. Mutates and returns `spec`.
  */
 export function transformSpec<T extends OpenApiSpec>(spec: T): T {
     for (const [path, methods] of Object.entries(spec.paths)) {
@@ -238,6 +291,7 @@ export function transformSpec<T extends OpenApiSpec>(spec: T): T {
     }
 
     hoistInlineEnums(spec, INLINE_ENUM_NAMES);
+    toJsPatterns(spec);
 
     return addDiscriminators(spec, DISCRIMINATOR_PROPERTY);
 }

@@ -2,25 +2,23 @@ import { type FC, useEffect, useRef } from 'react';
 
 import { Check, ChevronRight, Layers } from 'lucide-react';
 
-import type { CollectionResponse } from '@hikka/api';
+import type { UserCollectionResponse } from '@hikka/api';
+import { COLLECTION_VISIBILITY } from '@hikka/core';
 
 import { HorizontalCardImage } from '@/components/horizontal-card';
 import { COLLECTION_VISIBILITY_ICONS } from '@/components/icons/collection-visibility-icons';
 import { cn } from '@/utils/cn';
-import { COLLECTION_VISIBILITY } from '@/utils/labels';
 
 import { COLLECTION_MAX_ENTRIES } from './constants';
 
 type Props = {
-    collection: CollectionResponse;
-    member: boolean;
+    collection: UserCollectionResponse;
     focusOnMount?: boolean;
     onSelect: () => void;
 };
 
 const CollectionPickerItem: FC<Props> = ({
     collection,
-    member,
     focusOnMount,
     onSelect,
 }) => {
@@ -30,6 +28,7 @@ const CollectionPickerItem: FC<Props> = ({
         if (focusOnMount) ref.current?.focus();
     }, [focusOnMount]);
 
+    const member = collection.has_content;
     const full = !member && collection.entries >= COLLECTION_MAX_ENTRIES;
     const VisibilityIcon = COLLECTION_VISIBILITY_ICONS[collection.visibility];
 
@@ -46,7 +45,7 @@ const CollectionPickerItem: FC<Props> = ({
             )}
         >
             <HorizontalCardImage
-                image={collection.collection[0]?.content.image}
+                image={collection.image}
                 imageBlur={collection.nsfw || collection.spoiler}
                 className="pointer-events-none w-9"
             />

@@ -9,6 +9,7 @@ import {
     type MainContentTypeEnum,
     type ReadContentTypeEnum,
 } from '@hikka/api';
+import { CONTENT_TYPE_LINKS } from '@hikka/core';
 
 import PersonCard from '@/components/content-card/person-card';
 import MaterialSymbolsPerson from '@/components/icons/material-symbols/MaterialSymbolsPerson';
@@ -23,7 +24,6 @@ import {
     contentInfoOptions,
 } from '@/utils/api/content-queries';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
-import { CONTENT_TYPE_LINKS } from '@/utils/content-paths';
 import { useParams } from '@/utils/navigation';
 
 import { animeStaffOptions } from './queries';

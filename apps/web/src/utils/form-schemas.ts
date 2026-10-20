@@ -1,8 +1,7 @@
 import { API_LIMITS, isWebUrl } from '@hikka/api';
+import { getDeclensionWord, SYMBOL_FORMS } from '@hikka/core';
 
-import { getDeclensionWord } from '@/utils/i18n/declension';
-import { SYMBOL_FORMS } from '@/utils/i18n/word-forms';
-import { z } from '@/utils/i18n/zod';
+import { z } from '@/utils/i18n-zod';
 import { parseUrl } from '@/utils/url';
 
 // Each schema mirrors the backend validator for its field (hikka-io/hikka `app/schemas.py`, `app/client/schemas.py`).

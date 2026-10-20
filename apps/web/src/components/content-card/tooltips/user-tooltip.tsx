@@ -11,6 +11,7 @@ import {
     userReferenceOptions,
     userWatchStatsOptions,
 } from '@hikka/api';
+import { isUserReference } from '@hikka/core';
 
 import { FollowButton } from '@/components/action-buttons';
 import { RoleBadge } from '@/components/badges';
@@ -18,7 +19,6 @@ import ContentTypeIcon from '@/components/content-type-icon';
 import { MDViewer } from '@/components/markdown';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Separator } from '@/components/ui/separator';
-import { isUserReference } from '@/utils/mentions';
 
 import HoverCardWrapper from './hover-card-wrapper';
 import { UserTooltipSkeleton } from './tooltip-skeleton';

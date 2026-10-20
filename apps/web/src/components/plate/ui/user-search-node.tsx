@@ -5,11 +5,10 @@ import type { PlateElementProps } from 'platejs/react';
 import { PlateElement } from 'platejs/react';
 
 import { API_LIMITS, searchUsersOptions } from '@hikka/api';
+import { getDeclensionWord, SYMBOL_FORMS } from '@hikka/core';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { DEBOUNCE_MS, useDebounce } from '@/services/hooks/use-debounce';
-import { getDeclensionWord } from '@/utils/i18n/declension';
-import { SYMBOL_FORMS } from '@/utils/i18n/word-forms';
 
 import { insertMentionLink } from '../editor/transforms';
 import {

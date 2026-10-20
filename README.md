@@ -36,6 +36,7 @@
 ```
 apps/web/             → TanStack Start frontend (@hikka/web)
 packages/api/         → Generated API client + TanStack Query options (@hikka/api)
+packages/core/        → Runtime-agnostic logic shared by web and mobile (@hikka/core)
 ```
 
 **Package manager**: pnpm 10.33.4  
@@ -121,6 +122,7 @@ pnpm check:structure  # Folder structure rules
 pnpm test                       # All packages
 pnpm --filter @hikka/web test   # Web app (Vitest)
 pnpm --filter @hikka/api test   # API client (Vitest)
+pnpm --filter @hikka/core test  # Shared logic (Vitest)
 ```
 
 Lint, format and check scripts run from the root only; the packages have no lint or format scripts of their own.

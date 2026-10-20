@@ -6,7 +6,7 @@ import { resetPasswordMutation } from '@hikka/api';
 import { SubmitButton, useAppForm } from '@/components/form';
 import { Button } from '@/components/ui/button';
 import { emailSchema } from '@/utils/form-schemas';
-import { z } from '@/utils/i18n/zod';
+import { z } from '@/utils/i18n-zod';
 import { Link } from '@/utils/navigation';
 
 const formSchema = z.object({

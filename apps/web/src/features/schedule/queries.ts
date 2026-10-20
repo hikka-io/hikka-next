@@ -5,9 +5,8 @@ import {
     paginationPageParam,
     type SeasonEnum,
 } from '@hikka/api';
-
-import type { ScheduleSearch } from '@/utils/search-schemas';
-import { getCurrentSeason } from '@/utils/season';
+import type { ScheduleSearch } from '@hikka/core';
+import { getCurrentSeason } from '@hikka/core';
 
 const DEFAULT_SCHEDULE_STATUS = [
     AnimeStatusEnum.ONGOING,

@@ -3,6 +3,7 @@ import { createFileRoute, Outlet } from '@tanstack/react-router';
 import { zodValidator } from '@tanstack/zod-adapter';
 
 import { ContentTypeEnum } from '@hikka/api';
+import { contentDetailSearchSchema } from '@hikka/core';
 
 import { ContentDetailLayout } from '@/features/content';
 import {
@@ -11,7 +12,6 @@ import {
     loadContentDetail,
 } from '@/features/content/detail-route';
 import { contentInfoOptions } from '@/utils/api/content-queries';
-import { contentDetailSearchSchema } from '@/utils/search-schemas';
 
 export const Route = createFileRoute('/_pages/novel/$slug')({
     validateSearch: zodValidator(contentDetailSearchSchema),

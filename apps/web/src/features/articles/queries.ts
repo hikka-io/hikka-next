@@ -4,9 +4,8 @@ import {
     getArticlesInfiniteOptions,
     paginationPageParam,
 } from '@hikka/api';
-
-import type { ArticlesSearch } from '@/utils/search-schemas';
-import { expandSort } from '@/utils/sort';
+import type { ArticlesSearch } from '@hikka/core';
+import { expandSort } from '@hikka/core';
 
 export function articleListOptions(search: ArticlesSearch, client?: Client) {
     return {

@@ -1,0 +1,39 @@
+{
+    "name": "@hikka/core",
+    "version": "0.1.0",
+    "private": true,
+    "description": "Runtime-agnostic Hikka logic shared by the web and mobile apps",
+    "type": "module",
+    "sideEffects": false,
+    "types": "./dist/index.d.ts",
+    "scripts": {
+        "build": "tsup --tsconfig tsconfig.build.json",
+        "clean": "rimraf dist",
+        "dev": "tsup --watch",
+        "test": "vitest run",
+        "typecheck": "tsc --noEmit && tsc --noEmit -p tsconfig.build.json"
+    },
+    "exports": {
+        ".": {
+            "types": "./dist/index.d.ts",
+            "import": "./dist/index.js",
+            "default": "./dist/index.js"
+        }
+    },
+    "license": "AGPL-3.0-only",
+    "author": "olexh",
+    "dependencies": {
+        "@hikka/api": "workspace:*",
+        "date-fns": "^4.1.0",
+        "marked": "^12.0.1",
+        "zod": "^3.25.76"
+    },
+    "devDependencies": {
+        "@tanstack/router-core": "^1.171.38",
+        "@types/node": "^22.12.0",
+        "rimraf": "^5.0.1",
+        "tsup": "^8.4.0",
+        "typescript": "6.0.3",
+        "vitest": "^4.1.9"
+    }
+}

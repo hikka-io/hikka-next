@@ -15,6 +15,7 @@ import {
 } from 'lucide-react';
 
 import type { MainContentTypeEnum } from '@hikka/api';
+import { CONTENT_TYPES } from '@hikka/core';
 
 import AntDesignClearOutlined from '@/components/icons/ant-design/AntDesignClearOutlined';
 import { CONTENT_TYPE_ICONS } from '@/components/icons/content-type-icons';
@@ -36,7 +37,6 @@ import {
 import { Separator } from '@/components/ui/separator';
 import { Switch } from '@/components/ui/switch';
 import { cn } from '@/utils/cn';
-import { CONTENT_TYPES } from '@/utils/labels';
 
 import { type GraphEdgeType, RELATION_TYPE_GROUPS } from '../franchise-model';
 import { EDGE_TYPES, RELATION_GROUP_STYLES } from '../relation-groups';

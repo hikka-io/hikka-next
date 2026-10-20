@@ -3,6 +3,8 @@ import { type FC, useEffect, useState } from 'react';
 import { useStore } from '@tanstack/react-form';
 import { Calendar } from 'lucide-react';
 
+import type { AnimeFilterSearch } from '@hikka/core';
+
 import {
     SliderField,
     type SliderFieldProps,
@@ -12,7 +14,6 @@ import { Badge } from '@/components/ui/badge';
 import { Label } from '@/components/ui/label';
 import { Slider } from '@/components/ui/slider';
 import { useRouteSearch } from '@/utils/navigation';
-import type { AnimeFilterSearch } from '@/utils/search-schemas';
 
 import { YEAR_RANGE, YEARS } from '../filter-ranges';
 import { filterPresetFormOptions } from '../presets/filter-preset-form';

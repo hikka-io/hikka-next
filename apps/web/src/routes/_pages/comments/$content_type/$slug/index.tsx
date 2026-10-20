@@ -9,6 +9,14 @@ import {
     ContentTypeEnum,
     serviceUserStatsOptions,
 } from '@hikka/api';
+import {
+    type CommentOrder,
+    commentsSearchSchema,
+    contentPath,
+    DEFAULT_COMMENT_ORDER,
+    DEFAULT_COMMENT_SORT,
+    getContentTitle,
+} from '@hikka/core';
 
 import { usePageHeader } from '@/features/app-shell';
 import {
@@ -34,15 +42,7 @@ import {
     contentInfoOptions,
     isContentInfoType,
 } from '@/utils/api/content-queries';
-import { contentPath } from '@/utils/content-paths';
 import { generateHeadMeta } from '@/utils/metadata';
-import { commentsSearchSchema } from '@/utils/search-schemas';
-import {
-    type CommentOrder,
-    DEFAULT_COMMENT_ORDER,
-    DEFAULT_COMMENT_SORT,
-} from '@/utils/sort';
-import { getContentTitle } from '@/utils/title/get-content-title';
 
 export const Route = createFileRoute('/_pages/comments/$content_type/$slug/')({
     validateSearch: zodValidator(commentsSearchSchema),

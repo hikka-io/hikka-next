@@ -1,9 +1,8 @@
 import { type FC, useEffect, useRef, useState } from 'react';
 
-import type { QueryKey } from '@tanstack/react-query';
 import { Check, ChevronLeft } from 'lucide-react';
 
-import type { CollectionResponse } from '@hikka/api';
+import type { UserCollectionResponse } from '@hikka/api';
 
 import BlockBleed from '@/components/ui/block-bleed';
 import { Button } from '@/components/ui/button';
@@ -14,10 +13,8 @@ import { COLLECTION_MIN_ENTRIES } from './constants';
 import { useUpdateCollectionEntry } from './use-update-collection-entry';
 
 type Props = {
-    collection: CollectionResponse;
+    collection: UserCollectionResponse;
     slug: string;
-    member: boolean;
-    membershipKey: QueryKey;
     onBack: () => void;
 };
 
@@ -26,21 +23,15 @@ function panelTitle(member: boolean, grouped: boolean) {
     return grouped ? 'Оберіть групу' : 'Додати до колекції';
 }
 
-const CollectionEntryPanel: FC<Props> = ({
-    collection,
-    slug,
-    member,
-    membershipKey,
-    onBack,
-}) => {
+const CollectionEntryPanel: FC<Props> = ({ collection, slug, onBack }) => {
     const [group, setGroup] = useState<string>();
     const backRef = useRef<HTMLButtonElement>(null);
-    const { mutate, isPending } = useUpdateCollectionEntry(
+    const { add, remove, isPending } = useUpdateCollectionEntry(
         collection.reference,
         slug,
-        membershipKey,
     );
 
+    const member = collection.has_content;
     const grouped = collection.labels_order.length > 0;
     const last = member && collection.entries <= COLLECTION_MIN_ENTRIES;
 
@@ -48,8 +39,7 @@ const CollectionEntryPanel: FC<Props> = ({
         backRef.current?.focus();
     }, []);
 
-    const submit = () =>
-        mutate({ add: !member, label: group }, { onSuccess: onBack });
+    const submit = () => (member ? remove(onBack) : add(group, onBack));
 
     return (
         <div className="flex flex-col gap-3">
@@ -115,7 +105,9 @@ const CollectionEntryPanel: FC<Props> = ({
 
             {member && (
                 <p className="text-muted-foreground text-sm">
-                    Запис уже є в цій колекції.
+                    {collection.content_label
+                        ? `Запис у групі «${collection.content_label}».`
+                        : 'Запис уже є в цій колекції.'}
                 </p>
             )}
 

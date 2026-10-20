@@ -2,7 +2,7 @@ import { z } from 'zod';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
-import { newId } from '@/utils/new-id';
+import { newId } from '@hikka/core';
 
 import type { FilterPreset } from './types';
 

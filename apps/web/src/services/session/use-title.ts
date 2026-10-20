@@ -1,4 +1,4 @@
-import { getTitle } from '@/utils/title/get-title';
+import { getTitle } from '@hikka/core';
 
 import { useSessionUI } from './use-session-ui';
 

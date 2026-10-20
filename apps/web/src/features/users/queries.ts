@@ -39,9 +39,8 @@ import {
     userWatchStatsOptions,
     type WatchStatusEnum,
 } from '@hikka/api';
-
-import type { UserlistSearch } from '@/utils/search-schemas';
-import { expandSort } from '@/utils/sort';
+import type { UserlistSearch } from '@hikka/core';
+import { expandSort } from '@hikka/core';
 
 const HISTORY_PREVIEW_SIZE = 3;
 const ARTICLES_PREVIEW_SIZE = 3;

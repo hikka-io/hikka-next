@@ -11,6 +11,12 @@ import {
     readAddMutation,
     userReadListInfiniteOptions,
 } from '@hikka/api';
+import {
+    CHAPTER_FORMS,
+    getDeclensionWord,
+    getMediaTypeLabel,
+    getTitle,
+} from '@hikka/core';
 
 import MaterialSymbolsBookmarkOutline from '@/components/icons/material-symbols/MaterialSymbolsBookmarkOutline';
 import { ListEntryEditDialog } from '@/components/tracking';
@@ -24,11 +30,7 @@ import {
 } from '@/utils/api/invalidate-content-state';
 import { carryOverReadArgs } from '@/utils/api/tracking-args';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
-import { getDeclensionWord } from '@/utils/i18n/declension';
-import { CHAPTER_FORMS } from '@/utils/i18n/word-forms';
-import { getMediaTypeLabel } from '@/utils/labels';
 import { Link, useRouter } from '@/utils/navigation';
-import { getTitle } from '@/utils/title/get-title';
 
 import ProgressTrackerSkeleton from './progress-tracker-skeleton';
 import ProgressTrackerView from './progress-tracker-view';

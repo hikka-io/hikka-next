@@ -3,13 +3,13 @@ import { Fragment } from 'react';
 import { Building2, Calendar, CircleDashed, Hash, Play } from 'lucide-react';
 
 import type { MangaInfoResponse, NovelInfoResponse } from '@hikka/api';
+import { getMediaTypeLabel } from '@hikka/core';
 
 import { ReleaseStatusBadge } from '@/components/badges';
 import Card from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { useTitle } from '@/services/session';
 import { cn } from '@/utils/cn';
-import { getMediaTypeLabel } from '@/utils/labels';
 import { Link } from '@/utils/navigation';
 
 import DetailItem from './detail-item';

@@ -4,6 +4,9 @@ import { useStore } from '@tanstack/react-form';
 import { useRouter } from '@tanstack/react-router';
 import { CalendarRange } from 'lucide-react';
 
+import type { AnimeFilterSearch } from '@hikka/core';
+import { DATE_RANGE } from '@hikka/core';
+
 import {
     SliderField,
     type SliderFieldProps,
@@ -16,8 +19,6 @@ import { Label } from '@/components/ui/label';
 import { Slider } from '@/components/ui/slider';
 import { Switch } from '@/components/ui/switch';
 import { useRouteSearch } from '@/utils/navigation';
-import type { AnimeFilterSearch } from '@/utils/search-schemas';
-import { DATE_RANGE } from '@/utils/season';
 
 import { filterPresetFormOptions } from './presets/filter-preset-form';
 import { useChangeParam } from './use-change-param';

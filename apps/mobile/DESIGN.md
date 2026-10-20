@@ -71,6 +71,15 @@ Status legend: **Decided** (follow it), **Open** (the named task decides and rec
 | Pagination widget | Infinite scroll |
 | Sidebar filters | Filter sheet (formSheet) |
 
+### Android chrome (Decided, verified on Android 16 / API 36, see STACK.md "Android findings")
+
+- Tabs: Material 3 bottom navigation from Native Tabs, `md` icons. The active indicator and ripple use the `primary` token and the active icon and label the `primary-foreground` token (same pink as the iOS tint), through Uniwind's `useCSSVariable`, never a hex. Applied in `_layout.tsx` by the auth task or a follow-up.
+- Titles: a small, left-aligned Material top app bar on tab roots and detail screens. `Stack.Title large` is iOS-only and stays; never emulate a large title on Android.
+- Search: `Stack.SearchBar` is the header's expandable search field; the `role="search"` tab is just a tab with a search icon. Keep both (platform convention), no custom field.
+- Dark: the header and bottom navigation keep the Material dark surface; only content uses pure black. Do not force chrome to black.
+- Keyboard: the bottom navigation rides above the keyboard by default. Hide it while the keyboard is open on screens with a text field (search, comment writing); do not switch the app to `pan` resize.
+- Edge-to-edge is on (Android 15+): content scrolls under the system bars only through the native header and tab bar; custom bottom-anchored UI uses the safe-area bottom inset.
+
 ## 9. Component inventory (Decided)
 
 Names match the web component with the same role, so reviewers can compare side by side. Primitives live in `src/components/ui/`, content groups in `src/components/<group>/` (same groups as the web: `content-card`, `markdown`, `tracking`, `badges`, `list-items`).
@@ -92,7 +101,7 @@ Names match the web component with the same role, so reviewers can compare side 
 | — | `ui/text` (`Text`, `TextClassContext`, `wrapText`), `ui/icon` (`Icon`, `IconClassContext`), `ui/typography.ts` | Done (mobile-only: React Native has no style inheritance) |
 | `content-card/poster-card` (+ `poster-card-skeleton`) | `content-card/poster-card` (+ `poster-card-skeleton`) | Done; `status` overlay, image presets and tooltips left for the tracking/content tasks |
 | `horizontal-card` | `horizontal-card` (same five exports; the row itself takes `href`/`onPress`) | Done |
-| `markdown` (`MDViewer`) | `markdown` | Open (markdown task) |
+| `markdown` (`MDViewer`) | `markdown` (`MDViewer`, `Link`, `Mention`, `Spoiler`, `SpoilerInline`) | Decided: see section 11 |
 
 Deliberate differences from the web, all for touch:
 
@@ -109,7 +118,20 @@ Mirrors the web so reviews read the same way:
 - `src/components/ui/` stateless primitives; `src/components/<group>/` shared groups; `src/services/` session and storage hooks; `src/utils/` pure helpers.
 - Web rules apply: flat until three files, no `hooks/`/`types/`/`constants/` folders, `type Props`, `FC`, default exports for components, named for hooks/utils, kebab-case files, very few comments.
 - Pure logic shared with the web lives in `@hikka/core` (`packages/core`), never copied.
-- `src/app/dev/ui.tsx` (dev builds only, redirects home otherwise) shows every primitive and variant for visual review at `hikka://dev/ui`. It needs the root to be a Stack: under the current root `NativeTabs` a non-tab route is not reachable, so it opens once the auth branch's root Stack lands.
+- `src/app/dev/ui.tsx` (dev builds only, redirects home otherwise) shows every primitive and variant for visual review at `hikka://dev/ui`. It is a root Stack route next to `dev/markdown`.
+
+## 11. Markdown (Decided)
+
+`MDViewer` (`src/components/markdown`) renders the web's markdown dialect read-only. Renderer choice and rejected alternatives: STACK.md "Markdown renderer choice".
+
+- Text: `text-base leading-6 text-foreground` by default (`textClassName` overrides it for dense uses, for example a comment row); blocks are spaced `gap-4`, like the web's `mb-4`. `selectable` is opt-in (off in lists).
+- Links and mentions: `text-primary-foreground`, no underline. Links to hosts that need a signed-in user (`toloka.to`, `anitube.in.ua`) are `text-muted-foreground` plain text unless `authenticated` is passed. Mentions show the user's current username and a 20 px avatar from `userReferenceOptions`/`userProfileOptions`, like the web.
+- Link routing (`links.ts`, one `IN_APP_ROUTES` table): a hikka.io link to `/<segment>/<slug>` pushes the matching Expo Router route only when that segment is in the table (today `anime`); every other hikka.io link, listed hosts (`myanimelist.net`, `anilist.co`, `mikai.me`, `watari-anime.com`, `aniage.net`) and mention taps open in `expo-web-browser`, and any other host asks first through a native `Alert` (the web's `AlertDialog` copy). Adding a route later is one line in the table. Only `http(s)` links are followed (`data:`, `intent:`, `file:`, custom schemes are inert); `//host` counts as an unknown external host.
+- Inline spoiler (`:spoiler[...]`): hidden as a `bg-muted-foreground/30` block with transparent text, tap reveals in place (`bg-muted-foreground/10`); no re-hide, like the web.
+- Block spoiler (`:::spoiler`): `bg-muted` card with `border-border`, content clamped to 88 px and hidden (opacity 0, hidden from accessibility) behind a centered "Спойлер" pill; tap reveals everything and shows "Приховати спойлер". Hiding is an opaque overlay, not a blur, so it looks the same on iOS and Android.
+- Images: `https` only (relative URLs resolve against `https://hikka.io`; `http:`, `data:`, `file:` are dropped), full width, `rounded-lg`, aspect ratio taken from the loaded image (16:9 placeholder), a linked image opens its link.
+- Literal text, as on the web: code spans and fences, tables, task-list markers (`- [x]`), bare-url autolinks and raw HTML (tags are shown as typed). Headings render as paragraphs. The lexer runs `marked` with `gfm: false` and its own `~~` extension.
+- State: spoiler reveal and image size live in the component, so a caller that can reuse the instance for different content (FlashList cell reuse, a screen reused across slugs) must key `MDViewer` by the content id, for example `key={anime.slug}`.
 
 ## Decision log
 
@@ -122,3 +144,8 @@ Append one line per decision: date, decision, task.
 - 2026-10-20: Toasts use `sonner-native` (0.27, active, pure JS on Reanimated/Gesture Handler/Screens/SVG we already ship, runs in Expo Go, same API as the web's `sonner`, swipe to dismiss, renders above sheets via `FullWindowOverlay`). Rejected `burnt`: native system toasts, but last released March 2025, needs a dev build, and on Android falls back to the bare system Toast (no description, no action). The root layout mounts `<Toaster />` once; until then only the dev catalog mounts it, and that local mount goes when the root one lands. (design-system)
 - 2026-10-20: Text and icon styling flows through `TextClassContext`/`IconClassContext` with our `Text` and `Icon` primitives; string children are auto-wrapped. (design-system)
 - 2026-10-20: Touch adaptations: 44 pt minimum via `hitSlop`, `hover:` becomes `active:`, Button drops `xs`/`icon-xs`/`badge`, cards and rows are a single pressable. (design-system)
+- 2026-10-20: Android chrome decisions: Material 3 bottom navigation tinted from `primary`/`primary-foreground`, small Material title (no fake large title), header search field plus search tab kept, dark chrome stays on the system surface, tab bar hidden while the keyboard is open. (android-tooling)
+- 2026-10-20: Login is a root-stack route presented as a native `formSheet` (`fitToContents`, grabber) over the tabs; tabs live in `src/app/(tabs)/`. Form fields are a minimal `features/auth/text-field.tsx` (label, `TextInput`, error line) and the submit is a plain primary-token `Pressable`; both move onto `ui/` primitives after the design-system branch merges. Field errors show after blur or the first submit; backend errors show inline under the form as returned. (auth)
+- 2026-10-20: The Profile tab is the third native tab (between catalog and search). Signed out: muted copy plus a login button that opens the sheet; signed in: avatar, username, email. Logout is a header `Stack.Toolbar` button (SF `rectangle.portrait.and.arrow.right`), not a content button. The summary lives in `features/auth` until the `users` feature exists. (auth)
+- 2026-10-20: Session state is in `features/auth` (`useSession`, `signIn`/`signOut`, token storage), as the parent plan asked, not in `src/services/` as section 10 suggests; move it if `services/` becomes the home for session hooks. (auth)
+- 2026-10-20: Markdown viewer is a `marked` lexer with directive/mention/strikethrough extensions and an own React Native renderer, not `react-native-marked` or a native text view; web dialect kept (no code/tables/autolinks); block spoiler hides behind an opaque pill, not a blur. (markdown task)

@@ -18,16 +18,12 @@ import {
     searchNovelInfiniteOptions,
     type WatchStatusEnum,
 } from '@hikka/api';
+import type { AnimeSearch, MangaSearch, NovelSearch } from '@hikka/core';
 
 import {
     CATALOG_FILTERS_SIDEBAR_KEY,
     type UiPreferences,
 } from '@/utils/cookies';
-import type {
-    AnimeSearch,
-    MangaSearch,
-    NovelSearch,
-} from '@/utils/search-schemas';
 
 import {
     buildAnimeSearchArgs,

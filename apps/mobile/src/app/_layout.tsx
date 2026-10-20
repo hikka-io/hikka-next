@@ -1,11 +1,18 @@
 import '@/global.css';
 
 import { QueryClientProvider } from '@tanstack/react-query';
-import { DarkTheme, DefaultTheme, ThemeProvider } from 'expo-router';
-import { NativeTabs } from 'expo-router/unstable-native-tabs';
+import { DarkTheme, DefaultTheme, Stack, ThemeProvider } from 'expo-router';
 import { useColorScheme } from 'react-native';
 
-import { queryClient } from '@/utils/query-client';
+import { configureBrowserClient } from '@hikka/api';
+
+import { readStoredAuthToken } from '@/features/auth';
+import { API_BASE_URL, queryClient } from '@/utils/query-client';
+
+configureBrowserClient({
+    baseUrl: API_BASE_URL,
+    authToken: readStoredAuthToken(),
+});
 
 export default function RootLayout() {
     const scheme = useColorScheme();
@@ -13,29 +20,21 @@ export default function RootLayout() {
     return (
         <QueryClientProvider client={queryClient}>
             <ThemeProvider value={scheme === 'dark' ? DarkTheme : DefaultTheme}>
-                <NativeTabs>
-                    <NativeTabs.Trigger name="(catalog)">
-                        <NativeTabs.Trigger.Label>
-                            Аніме
-                        </NativeTabs.Trigger.Label>
-                        <NativeTabs.Trigger.Icon
-                            sf={{
-                                default: 'square.grid.2x2',
-                                selected: 'square.grid.2x2.fill',
-                            }}
-                            md="grid_view"
-                        />
-                    </NativeTabs.Trigger>
-                    <NativeTabs.Trigger name="(search)" role="search">
-                        <NativeTabs.Trigger.Label>
-                            Пошук
-                        </NativeTabs.Trigger.Label>
-                        <NativeTabs.Trigger.Icon
-                            sf="magnifyingglass"
-                            md="search"
-                        />
-                    </NativeTabs.Trigger>
-                </NativeTabs>
+                <Stack screenOptions={{ headerShown: false }}>
+                    <Stack.Screen name="(tabs)" />
+                    <Stack.Screen
+                        name="login"
+                        options={{
+                            presentation: 'formSheet',
+                            sheetAllowedDetents: 'fitToContents',
+                            sheetGrabberVisible: true,
+                        }}
+                    />
+                    <Stack.Screen
+                        name="dev/markdown"
+                        options={{ headerShown: true, title: 'Markdown' }}
+                    />
+                </Stack>
             </ThemeProvider>
         </QueryClientProvider>
     );

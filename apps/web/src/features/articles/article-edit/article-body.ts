@@ -5,11 +5,11 @@ import {
     type ArticleArgs,
     type ArticleContentEnum,
 } from '@hikka/api';
+import { isValidTitleLength } from '@hikka/core';
 
 import { ELEMENT_IMAGE } from '@/components/plate/editor/plate-types';
 import { getArticleDocument } from '@/components/plate/editor/value/submit-value';
 import { hasPendingUploads } from '@/components/plate/editor/value/upload-placeholders';
-import { isValidTitleLength } from '@/utils/title-length';
 
 import type { ArticleState } from './article-store';
 

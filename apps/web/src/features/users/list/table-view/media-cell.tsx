@@ -1,9 +1,9 @@
 import type { FC } from 'react';
 
 import type { AnimeMediaEnum } from '@hikka/api';
+import { ANIME_MEDIA_TYPE } from '@hikka/core';
 
 import { TableCell } from '@/components/ui/table';
-import { ANIME_MEDIA_TYPE } from '@/utils/labels/enum-labels';
 
 type Props = {
     media_type?: AnimeMediaEnum | null;

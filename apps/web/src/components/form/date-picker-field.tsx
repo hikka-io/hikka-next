@@ -4,6 +4,8 @@ import { useStore } from '@tanstack/react-form';
 import { format } from 'date-fns';
 import { CalendarIcon } from 'lucide-react';
 
+import { APP_LOCALE } from '@hikka/core';
+
 import { Calendar } from '@/components/ui/calendar';
 import {
     Field,
@@ -18,7 +20,6 @@ import {
     PopoverTrigger,
 } from '@/components/ui/popover';
 import { cn } from '@/utils/cn';
-import { APP_LOCALE } from '@/utils/i18n/locale';
 
 import { useFieldContext } from './form-context';
 

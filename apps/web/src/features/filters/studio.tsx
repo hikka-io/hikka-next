@@ -3,6 +3,7 @@ import { type FC, useMemo, useState } from 'react';
 import { Building2 } from 'lucide-react';
 
 import { CompanyTypeEnum, searchCompaniesInfiniteOptions } from '@hikka/api';
+import type { AnimeFilterSearch } from '@hikka/core';
 
 import {
     SelectField,
@@ -25,7 +26,6 @@ import { DEBOUNCE_MS, useDebounce } from '@/services/hooks/use-debounce';
 import { useVisibleOnce } from '@/services/hooks/use-visible-once';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { useRouteSearch } from '@/utils/navigation';
-import type { AnimeFilterSearch } from '@/utils/search-schemas';
 
 import { filterPresetFormOptions } from './presets/filter-preset-form';
 import { useChangeParam } from './use-change-param';

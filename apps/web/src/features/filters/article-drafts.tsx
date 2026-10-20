@@ -2,10 +2,11 @@ import type { FC } from 'react';
 
 import { Eye } from 'lucide-react';
 
+import type { ArticlesSearch } from '@hikka/core';
+
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { useRouteSearch } from '@/utils/navigation';
-import type { ArticlesSearch } from '@/utils/search-schemas';
 
 import { useChangeParam } from './use-change-param';
 

@@ -7,7 +7,7 @@ import { USER_LINK_ICONS } from '@/components/icons/user-link-icons';
 import { Button } from '@/components/ui/button';
 import { ResponsiveModalFooter } from '@/components/ui/responsive-modal';
 import { userLinkTextSchema, userLinkUrlSchema } from '@/utils/form-schemas';
-import { z } from '@/utils/i18n/zod';
+import { z } from '@/utils/i18n-zod';
 import { parseUrl } from '@/utils/url';
 
 import { detectLinkIcon } from './detect-link-icon';

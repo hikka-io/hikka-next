@@ -1,11 +1,12 @@
 import { useState } from 'react';
 
+import { BLANK_CHARS } from '@hikka/core';
+
 import { MDViewer } from '@/components/markdown';
 import TextExpand from '@/components/text-expand';
 import Block from '@/components/ui/block';
 import { Header, HeaderTitle } from '@/components/ui/header';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { BLANK_CHARS } from '@/utils/text';
 
 export interface DescriptionOption {
     text?: string | null;

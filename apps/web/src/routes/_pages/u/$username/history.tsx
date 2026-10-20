@@ -1,9 +1,10 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { zodValidator } from '@tanstack/zod-adapter';
 
+import { historySearchSchema } from '@hikka/core';
+
 import { UserHistoryPage } from '@/features/users';
 import { generateHeadMeta } from '@/utils/metadata';
-import { historySearchSchema } from '@/utils/search-schemas';
 
 export const Route = createFileRoute('/_pages/u/$username/history')({
     validateSearch: zodValidator(historySearchSchema),

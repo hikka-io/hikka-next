@@ -1,6 +1,8 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { zodValidator } from '@tanstack/zod-adapter';
 
+import { editContentSearchSchema } from '@hikka/core';
+
 import Block from '@/components/ui/block';
 import { Header, HeaderTitle } from '@/components/ui/header';
 import { usePageHeader, usePageTitleAnchor } from '@/features/app-shell';
@@ -21,7 +23,6 @@ import {
     type RenderFiltersModal,
 } from '@/features/filters';
 import { generateHeadMeta } from '@/utils/metadata';
-import { editContentSearchSchema } from '@/utils/search-schemas';
 import { SITE_ORIGIN } from '@/utils/url';
 
 export const Route = createFileRoute('/_pages/edit/content')({

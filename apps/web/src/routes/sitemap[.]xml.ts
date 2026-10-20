@@ -2,9 +2,9 @@ import { createFileRoute } from '@tanstack/react-router';
 
 import { MainContentTypeEnum } from '@hikka/api';
 
-import { createServerHikkaClient } from '@/utils/api/server-client';
 import {
     buildSitemapIndexXml,
+    createSitemapClient,
     fetchSitemapEntries,
     getSitemapPageCount,
     getSlicedLastmod,
@@ -24,7 +24,7 @@ export const Route = createFileRoute('/sitemap.xml')({
     server: {
         handlers: {
             GET: async () => {
-                const client = createServerHikkaClient();
+                const client = createSitemapClient();
                 const siteUrl = getSiteUrl();
 
                 const typeEntries = await Promise.all(

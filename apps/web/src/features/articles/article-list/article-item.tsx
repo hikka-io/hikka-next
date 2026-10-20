@@ -4,13 +4,13 @@ import { ArrowBigUp, Eye, MessageCircle } from 'lucide-react';
 import type { Value } from 'platejs';
 
 import type { ArticlePreviewResponse } from '@hikka/api';
+import { CONTENT_TYPE_LINKS } from '@hikka/core';
 
 import { StaticViewer } from '@/components/plate/editor/static-viewer';
 import { Badge } from '@/components/ui/badge';
 import Card from '@/components/ui/card';
 import { StatItem, StatItemGroup } from '@/components/ui/stat-item';
 import { cn } from '@/utils/cn';
-import { CONTENT_TYPE_LINKS } from '@/utils/content-paths';
 import { Link } from '@/utils/navigation';
 
 import ArticleAuthorCard from '../article-author-card';

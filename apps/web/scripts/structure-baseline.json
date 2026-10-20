@@ -11,6 +11,5 @@
     "features/filters/year",
     "features/home/widgets/collections-widget/components",
     "features/users/follow-list-modal/components",
-    "features/users/history",
-    "utils/title"
+    "features/users/history"
 ]

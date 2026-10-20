@@ -3,11 +3,11 @@ import type { FC } from 'react';
 import { Tag as TagIcon } from 'lucide-react';
 
 import { API_LIMITS } from '@hikka/api';
+import type { ArticlesSearch } from '@hikka/core';
 
 import { InputTags } from '@/components/ui/input-tags';
 import { Label } from '@/components/ui/label';
 import { useRouteSearch } from '@/utils/navigation';
-import type { ArticlesSearch } from '@/utils/search-schemas';
 
 import { useChangeParam } from './use-change-param';
 

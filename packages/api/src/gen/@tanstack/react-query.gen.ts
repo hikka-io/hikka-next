@@ -13,6 +13,7 @@ import {
     acceptEdit,
     activation,
     activationResend,
+    addCollectionContent,
     adminUpdateUser,
     animeCharacters,
     animeEpisodes,
@@ -47,6 +48,7 @@ import {
     createUserClient,
     deleteArticle,
     deleteCollection,
+    deleteCollectionContent,
     deleteRead,
     deleteUserClient,
     deleteUserImage,
@@ -91,6 +93,7 @@ import {
     getTodoNovelList,
     getTodoPersonList,
     getUserClient,
+    getUserCollections,
     getUserDigestPrivacy,
     getVote,
     getWatchFollowing,
@@ -173,6 +176,9 @@ import type {
     ActivationResendError,
     ActivationResendResponse,
     ActivationResponse,
+    AddCollectionContentData,
+    AddCollectionContentError,
+    AddCollectionContentResponse,
     AdminUpdateUserData,
     AdminUpdateUserError,
     AdminUpdateUserResponse,
@@ -272,6 +278,9 @@ import type {
     DeleteArticleData,
     DeleteArticleError,
     DeleteArticleResponse,
+    DeleteCollectionContentData,
+    DeleteCollectionContentError,
+    DeleteCollectionContentResponse,
     DeleteCollectionData,
     DeleteCollectionError,
     DeleteCollectionResponse,
@@ -404,6 +413,9 @@ import type {
     GetUserClientData,
     GetUserClientError,
     GetUserClientResponse,
+    GetUserCollectionsData,
+    GetUserCollectionsError,
+    GetUserCollectionsResponse,
     GetUserDigestPrivacyData,
     GetUserDigestPrivacyError,
     GetUserDigestPrivacyResponse,
@@ -1000,6 +1012,86 @@ export const getCollectionsMutation = (
     return mutationOptions;
 };
 
+export const getUserCollectionsQueryKey = (
+    options: Options<GetUserCollectionsData>,
+) => createQueryKey('getUserCollections', options);
+
+/**
+ * Get User Collections
+ */
+export const getUserCollectionsOptions = (
+    options: Options<GetUserCollectionsData>,
+) =>
+    queryOptions<
+        GetUserCollectionsResponse,
+        GetUserCollectionsError,
+        GetUserCollectionsResponse,
+        ReturnType<typeof getUserCollectionsQueryKey>
+    >({
+        queryFn: async ({ queryKey, signal }) => {
+            const { data } = await getUserCollections({
+                ...options,
+                ...queryKey[0],
+                signal,
+                throwOnError: true,
+            });
+            return data;
+        },
+        queryKey: getUserCollectionsQueryKey(options),
+    });
+
+export const getUserCollectionsInfiniteQueryKey = (
+    options: Options<GetUserCollectionsData>,
+): QueryKey<Options<GetUserCollectionsData>> =>
+    createQueryKey('getUserCollections', options, true);
+
+/**
+ * Get User Collections
+ */
+export const getUserCollectionsInfiniteOptions = (
+    options: Options<GetUserCollectionsData>,
+) => {
+    const opts = infiniteQueryOptions<
+        GetUserCollectionsResponse,
+        GetUserCollectionsError,
+        InfiniteData<GetUserCollectionsResponse>,
+        QueryKey<Options<GetUserCollectionsData>>,
+        | number
+        | Pick<
+              QueryKey<Options<GetUserCollectionsData>>[0],
+              'body' | 'headers' | 'path' | 'query'
+          >
+    >(
+        // @ts-ignore
+        {
+            queryFn: async ({ pageParam, queryKey, signal }) => {
+                // @ts-ignore
+                const page: Pick<
+                    QueryKey<Options<GetUserCollectionsData>>[0],
+                    'body' | 'headers' | 'path' | 'query'
+                > =
+                    typeof pageParam === 'object'
+                        ? pageParam
+                        : {
+                              query: {
+                                  page: pageParam,
+                              },
+                          };
+                const params = createInfiniteParams(queryKey, page);
+                const { data } = await getUserCollections({
+                    ...options,
+                    ...params,
+                    signal,
+                    throwOnError: true,
+                });
+                return data;
+            },
+            queryKey: getUserCollectionsInfiniteQueryKey(options),
+        },
+    );
+    return opts as Omit<typeof opts, 'initialData'>;
+};
+
 /**
  * Create Collection
  */
@@ -1096,6 +1188,60 @@ export const updateCollectionMutation = (
     > = {
         mutationFn: async (fnOptions) => {
             const { data } = await updateCollection({
+                ...options,
+                ...fnOptions,
+                throwOnError: true,
+            });
+            return data;
+        },
+    };
+    return mutationOptions;
+};
+
+/**
+ * Delete Collection Content
+ */
+export const deleteCollectionContentMutation = (
+    options?: Partial<Options<DeleteCollectionContentData>>,
+): UseMutationOptions<
+    DeleteCollectionContentResponse,
+    DeleteCollectionContentError,
+    Options<DeleteCollectionContentData>
+> => {
+    const mutationOptions: UseMutationOptions<
+        DeleteCollectionContentResponse,
+        DeleteCollectionContentError,
+        Options<DeleteCollectionContentData>
+    > = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await deleteCollectionContent({
+                ...options,
+                ...fnOptions,
+                throwOnError: true,
+            });
+            return data;
+        },
+    };
+    return mutationOptions;
+};
+
+/**
+ * Add Collection Content
+ */
+export const addCollectionContentMutation = (
+    options?: Partial<Options<AddCollectionContentData>>,
+): UseMutationOptions<
+    AddCollectionContentResponse,
+    AddCollectionContentError,
+    Options<AddCollectionContentData>
+> => {
+    const mutationOptions: UseMutationOptions<
+        AddCollectionContentResponse,
+        AddCollectionContentError,
+        Options<AddCollectionContentData>
+    > = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await addCollectionContent({
                 ...options,
                 ...fnOptions,
                 throwOnError: true,
@@ -2398,7 +2544,7 @@ export const deleteUserWatchMutation = (
 };
 
 /**
- * Delete user watch list
+ * Delete user read list
  */
 export const deleteUserReadMutation = (
     options?: Partial<Options<DeleteUserReadData>>,

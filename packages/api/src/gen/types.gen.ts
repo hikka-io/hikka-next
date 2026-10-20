@@ -1717,6 +1717,20 @@ export type CollectionArgs = {
 };
 
 /**
+ * CollectionContentAddArgs
+ */
+export type CollectionContentAddArgs = {
+    /**
+     * Comment
+     */
+    comment?: string | null;
+    /**
+     * Label
+     */
+    label?: string | null;
+};
+
+/**
  * CollectionContentArgs
  */
 export type CollectionContentArgs = {
@@ -3560,24 +3574,6 @@ export type GenreResponse = {
      * Type
      */
     type: string;
-};
-
-/**
- * HSLColor
- */
-export type HslColor = {
-    /**
-     * H
-     */
-    h: number;
-    /**
-     * S
-     */
-    s: number;
-    /**
-     * L
-     */
-    l: number;
 };
 
 /**
@@ -5862,34 +5858,6 @@ export type UiBackdrop = {
 };
 
 /**
- * UIColorTokens
- */
-export type UiColorTokens = {
-    background?: HslColor | null;
-    foreground?: HslColor | null;
-    primary?: HslColor | null;
-    primary_foreground?: HslColor | null;
-    primary_border?: HslColor | null;
-    secondary?: HslColor | null;
-    secondary_foreground?: HslColor | null;
-    muted?: HslColor | null;
-    muted_foreground?: HslColor | null;
-    accent_foreground?: HslColor | null;
-    border?: HslColor | null;
-    ring?: HslColor | null;
-    popover?: HslColor | null;
-    popover_foreground?: HslColor | null;
-    sidebar_background?: HslColor | null;
-    sidebar_foreground?: HslColor | null;
-    sidebar_primary?: HslColor | null;
-    sidebar_primary_foreground?: HslColor | null;
-    sidebar_accent?: HslColor | null;
-    sidebar_accent_foreground?: HslColor | null;
-    sidebar_border?: HslColor | null;
-    sidebar_ring?: HslColor | null;
-};
-
-/**
  * UIFeedSettings
  */
 export type UiFeedSettingsInput = {
@@ -6078,9 +6046,6 @@ export type UiPreferencesOutput = {
  * UIStyles
  */
 export type UiStylesInput = {
-    light?: UiThemeStylesInput | null;
-    dark?: UiThemeStylesInput | null;
-    typography?: UiStylesTypography | null;
     overrides?: UiOverridesInput | null;
     backdrop?: UiBackdrop | null;
     brand?: OklchColor | null;
@@ -6094,9 +6059,6 @@ export type UiStylesInput = {
  * UIStyles
  */
 export type UiStylesOutput = {
-    light?: UiThemeStylesOutput | null;
-    dark?: UiThemeStylesOutput | null;
-    typography?: UiStylesTypography | null;
     overrides?: UiOverridesOutput | null;
     backdrop?: UiBackdrop | null;
     brand?: OklchColor | null;
@@ -6104,36 +6066,6 @@ export type UiStylesOutput = {
      * Radius
      */
     radius?: string | null;
-};
-
-/**
- * UIStylesTypography
- */
-export type UiStylesTypography = {
-    /**
-     * H1
-     */
-    h1?: string | null;
-    /**
-     * H2
-     */
-    h2?: string | null;
-    /**
-     * H3
-     */
-    h3?: string | null;
-    /**
-     * H4
-     */
-    h4?: string | null;
-    /**
-     * H5
-     */
-    h5?: string | null;
-    /**
-     * P
-     */
-    p?: string | null;
 };
 
 /**
@@ -6155,32 +6087,6 @@ export type UiSurfaceOverrides = {
     border?: OklchColor | null;
     input?: OklchColor | null;
     ring?: OklchColor | null;
-};
-
-/**
- * UIThemeStyles
- */
-export type UiThemeStylesInput = {
-    colors?: UiColorTokens | null;
-    body?: UiThemeStylesBody | null;
-};
-
-/**
- * UIThemeStyles
- */
-export type UiThemeStylesOutput = {
-    colors?: UiColorTokens | null;
-    body?: UiThemeStylesBody | null;
-};
-
-/**
- * UIThemeStylesBody
- */
-export type UiThemeStylesBody = {
-    /**
-     * Background Image
-     */
-    background_image?: string | null;
 };
 
 /**
@@ -6286,6 +6192,61 @@ export type UserArticleStatsResponse = {
      * Total Likes
      */
     total_likes: number;
+};
+
+/**
+ * UserCollectionResponse
+ */
+export type UserCollectionResponse = {
+    content_type: CollectionContentTypeEnum;
+    visibility: CollectionVisibilityEnum;
+    /**
+     * Content Label
+     */
+    content_label: string | null;
+    /**
+     * Labels Order
+     */
+    labels_order: Array<string>;
+    /**
+     * Has Content
+     */
+    has_content: boolean;
+    /**
+     * Image
+     */
+    image: string | null;
+    /**
+     * Reference
+     */
+    reference: string;
+    /**
+     * Spoiler
+     */
+    spoiler: boolean;
+    /**
+     * Entries
+     */
+    entries: number;
+    /**
+     * Title
+     */
+    title: string;
+    /**
+     * Nsfw
+     */
+    nsfw: boolean;
+};
+
+/**
+ * UserCollectionsListResponse
+ */
+export type UserCollectionsListResponse = {
+    pagination: PaginationResponse;
+    /**
+     * List
+     */
+    list: Array<UserCollectionResponse>;
 };
 
 /**
@@ -7437,6 +7398,57 @@ export type GetCollectionsResponses = {
 export type GetCollectionsResponse =
     GetCollectionsResponses[keyof GetCollectionsResponses];
 
+export type GetUserCollectionsData = {
+    body?: never;
+    headers?: {
+        /**
+         * Auth
+         */
+        auth?: string | null;
+    };
+    path?: never;
+    query: {
+        content_type: CollectionContentTypeEnum;
+        /**
+         * Content
+         */
+        content?: string | null;
+        /**
+         * Query
+         */
+        query?: string | null;
+        /**
+         * Page
+         */
+        page?: number;
+        /**
+         * Size
+         */
+        size?: number;
+    };
+    url: '/collections/me';
+};
+
+export type GetUserCollectionsErrors = {
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type GetUserCollectionsError =
+    GetUserCollectionsErrors[keyof GetUserCollectionsErrors];
+
+export type GetUserCollectionsResponses = {
+    /**
+     * Successful Response
+     */
+    200: UserCollectionsListResponse;
+};
+
+export type GetUserCollectionsResponse =
+    GetUserCollectionsResponses[keyof GetUserCollectionsResponses];
+
 export type CreateCollectionData = {
     body: CollectionArgs;
     headers?: {
@@ -7582,6 +7594,90 @@ export type UpdateCollectionResponses = {
 
 export type UpdateCollectionResponse =
     UpdateCollectionResponses[keyof UpdateCollectionResponses];
+
+export type DeleteCollectionContentData = {
+    body?: never;
+    headers?: {
+        /**
+         * Auth
+         */
+        auth?: string | null;
+    };
+    path: {
+        /**
+         * Slug
+         */
+        slug: string;
+        /**
+         * Reference
+         */
+        reference: string;
+    };
+    query?: never;
+    url: '/collections/{reference}/content/{slug}';
+};
+
+export type DeleteCollectionContentErrors = {
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type DeleteCollectionContentError =
+    DeleteCollectionContentErrors[keyof DeleteCollectionContentErrors];
+
+export type DeleteCollectionContentResponses = {
+    /**
+     * Successful Response
+     */
+    200: UserCollectionResponse;
+};
+
+export type DeleteCollectionContentResponse =
+    DeleteCollectionContentResponses[keyof DeleteCollectionContentResponses];
+
+export type AddCollectionContentData = {
+    body: CollectionContentAddArgs;
+    headers?: {
+        /**
+         * Auth
+         */
+        auth?: string | null;
+    };
+    path: {
+        /**
+         * Slug
+         */
+        slug: string;
+        /**
+         * Reference
+         */
+        reference: string;
+    };
+    query?: never;
+    url: '/collections/{reference}/content/{slug}';
+};
+
+export type AddCollectionContentErrors = {
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type AddCollectionContentError =
+    AddCollectionContentErrors[keyof AddCollectionContentErrors];
+
+export type AddCollectionContentResponses = {
+    /**
+     * Successful Response
+     */
+    200: UserCollectionResponse;
+};
+
+export type AddCollectionContentResponse =
+    AddCollectionContentResponses[keyof AddCollectionContentResponses];
 
 export type CharacterInfoData = {
     body?: never;

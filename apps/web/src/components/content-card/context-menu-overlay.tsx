@@ -3,6 +3,7 @@ import type { FC, ReactNode } from 'react';
 import { Copy, Zap } from 'lucide-react';
 
 import type { ContentTypeEnum } from '@hikka/api';
+import { CONTENT_TYPE_LINKS } from '@hikka/core';
 
 import { MaterialSymbolsEditRounded } from '@/components/icons/material-symbols/MaterialSymbolsEditRounded';
 import MaterialSymbolsImageOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsImageOutlineRounded';
@@ -16,7 +17,6 @@ import {
 } from '@/components/ui/context-menu';
 import { useQuickEdit } from '@/features/edit/quick-edit';
 import { useSession } from '@/services/session';
-import { CONTENT_TYPE_LINKS } from '@/utils/content-paths';
 import { Link } from '@/utils/navigation';
 
 type Props = {

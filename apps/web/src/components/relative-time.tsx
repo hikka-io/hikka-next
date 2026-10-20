@@ -1,7 +1,8 @@
 import type { FC } from 'react';
 
+import { formatTimestamp } from '@hikka/core';
+
 import { cn } from '@/utils/cn';
-import { formatTimestamp } from '@/utils/i18n';
 
 type Props = {
     /** Unix timestamp in seconds (not milliseconds). */

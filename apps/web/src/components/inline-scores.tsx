@@ -1,11 +1,12 @@
 import type { FC, ReactNode } from 'react';
 
+import { formatCompactNumber } from '@hikka/core';
+
 import HikkaLogoGradient from '@/components/icons/custom/HikkaLogoGradient';
 import MAL from '@/components/icons/custom/MAL';
 import MaterialSymbolsStarRounded from '@/components/icons/material-symbols/MaterialSymbolsStarRounded';
 import { Separator } from '@/components/ui/separator';
 import { cn } from '@/utils/cn';
-import { formatCompactNumber } from '@/utils/i18n/number';
 
 type ScoreSourceProps = {
     icon: ReactNode;

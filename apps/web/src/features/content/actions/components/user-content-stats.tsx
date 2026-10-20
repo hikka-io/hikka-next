@@ -6,13 +6,13 @@ import {
     type ReadResponse,
     type WatchResponse,
 } from '@hikka/api';
+import { CHAPTER_FORMS, EPISODE_FORMS } from '@hikka/core';
 
 import { MaterialSymbolsAddRounded } from '@/components/icons/material-symbols/MaterialSymbolsAddRounded';
 import MaterialSymbolsRemoveRounded from '@/components/icons/material-symbols/MaterialSymbolsRemoveRounded';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import Rating from '@/components/ui/rating';
-import { CHAPTER_FORMS, EPISODE_FORMS } from '@/utils/i18n/word-forms';
 
 import { useListEntryEditor } from '../use-list-entry-editor';
 import UserNote from './user-note';

@@ -6,12 +6,12 @@ import {
     type CollectionContentTypeEnum,
     getCollectionOptions,
 } from '@hikka/api';
+import { newId } from '@hikka/core';
 
 import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
 import { usePageHeader } from '@/features/app-shell';
 import { contentInfoOptions } from '@/utils/api/content-queries';
-import { newId } from '@/utils/new-id';
 
 import CollectionEditGroups from './collection-edit/collection-groups';
 import CollectionProvider from './collection-edit/collection-provider';

@@ -19,6 +19,9 @@ import type {
     ActivationResendErrors,
     ActivationResendResponses,
     ActivationResponses,
+    AddCollectionContentData,
+    AddCollectionContentErrors,
+    AddCollectionContentResponses,
     AdminUpdateUserData,
     AdminUpdateUserErrors,
     AdminUpdateUserResponses,
@@ -118,6 +121,9 @@ import type {
     DeleteArticleData,
     DeleteArticleErrors,
     DeleteArticleResponses,
+    DeleteCollectionContentData,
+    DeleteCollectionContentErrors,
+    DeleteCollectionContentResponses,
     DeleteCollectionData,
     DeleteCollectionErrors,
     DeleteCollectionResponses,
@@ -251,6 +257,9 @@ import type {
     GetUserClientData,
     GetUserClientErrors,
     GetUserClientResponses,
+    GetUserCollectionsData,
+    GetUserCollectionsErrors,
+    GetUserCollectionsResponses,
     GetUserDigestPrivacyData,
     GetUserDigestPrivacyErrors,
     GetUserDigestPrivacyResponses,
@@ -464,6 +473,7 @@ import {
     zAcceptEditResponse,
     zActivationResendResponse,
     zActivationResponse,
+    zAddCollectionContentResponse,
     zAdminUpdateUserResponse,
     zAnimeCharactersResponse,
     zAnimeEpisodesResponse,
@@ -497,6 +507,7 @@ import {
     zCreateEditResponse,
     zCreateUserClientResponse,
     zDeleteArticleResponse,
+    zDeleteCollectionContentResponse,
     zDeleteCollectionResponse,
     zDeleteReadResponse,
     zDeleteUserClientResponse,
@@ -541,6 +552,7 @@ import {
     zGetTodoNovelListResponse,
     zGetTodoPersonListResponse,
     zGetUserClientResponse,
+    zGetUserCollectionsResponse,
     zGetUserDigestPrivacyResponse,
     zGetVoteResponse,
     zGetWatchFollowingResponse,
@@ -763,6 +775,27 @@ export const getCollections = <ThrowOnError extends boolean = false>(
     });
 
 /**
+ * Get User Collections
+ */
+export const getUserCollections = <ThrowOnError extends boolean = false>(
+    options: Options<GetUserCollectionsData, ThrowOnError>,
+): RequestResult<
+    GetUserCollectionsResponses,
+    GetUserCollectionsErrors,
+    ThrowOnError
+> =>
+    (options.client ?? client).get<
+        GetUserCollectionsResponses,
+        GetUserCollectionsErrors,
+        ThrowOnError
+    >({
+        responseValidator: async (data) =>
+            zGetUserCollectionsResponse.parse(data),
+        url: '/collections/me',
+        ...options,
+    });
+
+/**
  * Create Collection
  */
 export const createCollection = <ThrowOnError extends boolean = false>(
@@ -842,6 +875,52 @@ export const updateCollection = <ThrowOnError extends boolean = false>(
         responseValidator: async (data) =>
             zUpdateCollectionResponse.parse(data),
         url: '/collections/{reference}',
+        ...options,
+        headers: {
+            'Content-Type': 'application/json',
+            ...options.headers,
+        },
+    });
+
+/**
+ * Delete Collection Content
+ */
+export const deleteCollectionContent = <ThrowOnError extends boolean = false>(
+    options: Options<DeleteCollectionContentData, ThrowOnError>,
+): RequestResult<
+    DeleteCollectionContentResponses,
+    DeleteCollectionContentErrors,
+    ThrowOnError
+> =>
+    (options.client ?? client).delete<
+        DeleteCollectionContentResponses,
+        DeleteCollectionContentErrors,
+        ThrowOnError
+    >({
+        responseValidator: async (data) =>
+            zDeleteCollectionContentResponse.parse(data),
+        url: '/collections/{reference}/content/{slug}',
+        ...options,
+    });
+
+/**
+ * Add Collection Content
+ */
+export const addCollectionContent = <ThrowOnError extends boolean = false>(
+    options: Options<AddCollectionContentData, ThrowOnError>,
+): RequestResult<
+    AddCollectionContentResponses,
+    AddCollectionContentErrors,
+    ThrowOnError
+> =>
+    (options.client ?? client).put<
+        AddCollectionContentResponses,
+        AddCollectionContentErrors,
+        ThrowOnError
+    >({
+        responseValidator: async (data) =>
+            zAddCollectionContentResponse.parse(data),
+        url: '/collections/{reference}/content/{slug}',
         ...options,
         headers: {
             'Content-Type': 'application/json',
@@ -1435,7 +1514,7 @@ export const deleteUserWatch = <ThrowOnError extends boolean = false>(
     });
 
 /**
- * Delete user watch list
+ * Delete user read list
  */
 export const deleteUserRead = <ThrowOnError extends boolean = false>(
     options: Options<DeleteUserReadData, ThrowOnError>,

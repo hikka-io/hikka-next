@@ -1,8 +1,7 @@
 import type { FC } from 'react';
 
 import { ContentTypeEnum, type ReadResponseBase } from '@hikka/api';
-
-import { getMediaTypeLabel } from '@/utils/labels';
+import { getMediaTypeLabel } from '@hikka/core';
 
 import EntityCard, { type EntityCardProps } from './entity-card';
 import type { MediaTooltipItemOf } from './tooltips';
