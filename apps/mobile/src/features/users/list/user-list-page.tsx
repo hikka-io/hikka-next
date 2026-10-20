@@ -239,8 +239,7 @@ const UserListPage: FC<Props> = ({ username, contentType, initialStatus }) => {
                         />
                     ) : filtered ? (
                         <EmptyState
-                            className={grid ? 'mx-1.5 mt-4' : 'mx-4 mt-4'}
-                            bordered
+                            className="mt-8"
                             icon={<Icon as={Bookmark} />}
                             title="Не знайдено результатів за Вашим запитом"
                             description="Очистіть або змініть фільтри, щоб отримати інший результат"
@@ -255,8 +254,7 @@ const UserListPage: FC<Props> = ({ username, contentType, initialStatus }) => {
                         />
                     ) : (
                         <EmptyState
-                            className={grid ? 'mx-1.5 mt-4' : 'mx-4 mt-4'}
-                            bordered
+                            className="mt-8"
                             icon={<Icon as={Bookmark} />}
                             title={
                                 label

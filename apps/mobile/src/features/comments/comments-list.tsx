@@ -223,7 +223,7 @@ const CommentsList: FC<Props> = ({ contentType, slug, reference }) => {
     const empty =
         !rows || deciding ? (
             error ? (
-                <ErrorState error={error} onRetry={onRetry} className="pt-8" />
+                <ErrorState error={error} onRetry={onRetry} className="mt-8" />
             ) : (
                 <View className="gap-6 px-4">
                     {Array.from(
@@ -237,19 +237,17 @@ const CommentsList: FC<Props> = ({ contentType, slug, reference }) => {
             )
         ) : commentType === 'review' ? (
             <EmptyState
-                bordered
                 icon={<Icon as={Star} />}
                 title="Відгуків не знайдено"
                 description="Тут зʼявляться відгуки, щойно хтось поділиться враженнями"
-                className="mx-4"
+                className="mt-8"
             />
         ) : (
             <EmptyState
-                bordered
                 icon={<Icon as={MessageSquarePlus} />}
                 title="Коментарів не знайдено"
                 description="Ви можете розпочати обговорення першим"
-                className="mx-4"
+                className="mt-8"
             />
         );
 

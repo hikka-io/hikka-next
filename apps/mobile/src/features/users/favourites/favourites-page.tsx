@@ -89,8 +89,7 @@ const FavouriteGrid: FC<GridProps> = ({ username, type, header }) => {
                     />
                 ) : (
                     <EmptyState
-                        className="mx-1.5 mt-2"
-                        bordered
+                        className="mt-8"
                         icon={<Icon as={Heart} />}
                         title={copy.title}
                         description={copy.description}

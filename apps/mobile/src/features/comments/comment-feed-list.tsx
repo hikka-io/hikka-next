@@ -49,7 +49,7 @@ const CommentFeedList: FC<Props> = ({
 
     const empty = !items ? (
         error ? (
-            <ErrorState error={error} onRetry={onRetry} className="pt-8" />
+            <ErrorState error={error} onRetry={onRetry} className="mt-8" />
         ) : (
             <View className="gap-6 px-4">
                 {Array.from({ length: COMMENT_PREVIEW_SIZE }, (_, index) => (
@@ -60,11 +60,10 @@ const CommentFeedList: FC<Props> = ({
         )
     ) : (
         <EmptyState
-            bordered
             icon={<Icon as={MessageSquarePlus} />}
             title={emptyTitle}
             description={emptyDescription}
-            className="mx-4"
+            className="mt-8"
         />
     );
 
