@@ -27,6 +27,10 @@ describe('buildUserWatchListArgs', () => {
         );
     });
 
+    it('leaves the status out when there is none', () => {
+        expect(buildUserWatchListArgs({}).watch_status).toBe(undefined);
+    });
+
     it('expands secondary sort fields', () => {
         expect(
             buildUserWatchListArgs({ sort: 'score', order: 'asc' }).sort,
@@ -51,5 +55,9 @@ describe('buildUserReadListArgs', () => {
         expect(buildUserReadListArgs({ status: 'all' }).read_status).toBe(
             undefined,
         );
+    });
+
+    it('leaves the status out when there is none', () => {
+        expect(buildUserReadListArgs({}).read_status).toBe(undefined);
     });
 });

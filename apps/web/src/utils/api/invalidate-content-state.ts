@@ -22,6 +22,8 @@ import {
     type VoteResponse,
 } from '@hikka/api';
 import {
+    ARTICLE_IDS,
+    COLLECTION_IDS,
     FOLLOW_EMBED_IDS,
     type InvalidateOptions,
     invalidateByIds,
@@ -33,6 +35,7 @@ import {
     READ_EMBED_IDS,
     refetchTypeFor,
     setQueryDataAfterCancel,
+    USER_COLLECTIONS_ID,
     WATCH_EMBED_IDS,
 } from '@hikka/core';
 
@@ -80,22 +83,6 @@ const EDIT_LIST_IDS: readonly QueryId[] = [
     'getTodoNovelList',
     'getTodoCharacterList',
     'getTodoPersonList',
-];
-
-/** Collection list + detail queries. */
-const USER_COLLECTIONS_ID: QueryId = 'getUserCollections';
-
-const COLLECTION_IDS: readonly QueryId[] = [
-    'getCollections',
-    'getCollection',
-    USER_COLLECTIONS_ID,
-];
-
-/** Article list + detail queries. */
-const ARTICLE_IDS: readonly QueryId[] = [
-    'getArticles',
-    'getArticleTop',
-    'getArticle',
 ];
 
 /** Content-detail queries keyed by slug (used when an accepted edit mutates content). */

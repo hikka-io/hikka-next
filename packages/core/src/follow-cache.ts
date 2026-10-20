@@ -8,16 +8,20 @@ import {
 import { type FollowChange, patchEmbeddedFollow } from './patch-embedded';
 import { matchesPath, type QueryId } from './query-id';
 
-const ARTICLE_IDS: readonly QueryId[] = [
+/** Article list + detail queries. */
+export const ARTICLE_IDS: readonly QueryId[] = [
     'getArticles',
     'getArticleTop',
     'getArticle',
 ];
 
-const COLLECTION_IDS: readonly QueryId[] = [
+export const USER_COLLECTIONS_ID: QueryId = 'getUserCollections';
+
+/** Collection list + detail queries. */
+export const COLLECTION_IDS: readonly QueryId[] = [
     'getCollections',
     'getCollection',
-    'getUserCollections',
+    USER_COLLECTIONS_ID,
 ];
 
 const USER_PROFILE_ID: QueryId = 'userProfile';
