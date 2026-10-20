@@ -16,7 +16,6 @@
         "expo-constants": "~57.0.22",
         "expo-dev-client": "~57.0.20",
         "expo-glass-effect": "~57.0.4",
-        "expo-haptics": "~57.0.3",
         "expo-image": "~57.0.5",
         "expo-linking": "~57.0.13",
         "expo-router": "~57.0.28",
