@@ -23,7 +23,7 @@ export function useHomePreferences(): HomePreferences {
     const { user, hasToken, isPending: sessionPending } = useSession();
     const { data, isPending: uiPending } = useQuery({
         ...profileUiOptions(),
-        enabled: !!user,
+        enabled: hasToken,
     });
     const saved = user ? data?.preferences : undefined;
     const loading = hasToken && (sessionPending || (!!user && uiPending));
