@@ -1,5 +1,10 @@
+export { default as Activation } from './activation';
 export { readStoredAuthToken, useAuthToken } from './auth-token';
+export { default as ForgotPasswordForm } from './forgot-password-form';
 export { default as LoginForm } from './login-form';
+export { default as PasswordConfirmForm } from './password-confirm-form';
 export { default as ProfileSummary } from './profile-summary';
 export { isDeadTokenError, signOut } from './session';
+export { default as SignupForm } from './signup-form';
+export { useCloseAuthFlow } from './use-close-auth-flow';
 export { useSession } from './use-session';

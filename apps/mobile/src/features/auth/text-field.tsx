@@ -6,10 +6,11 @@ import { Text } from '@/components/ui/text';
 
 type Props = ComponentProps<typeof TextInput> & {
     label: string;
+    description?: string;
     error?: string;
 };
 
-const TextField: FC<Props> = ({ label, error, ...props }) => (
+const TextField: FC<Props> = ({ label, description, error, ...props }) => (
     <View className="gap-1.5">
         <Text className="font-medium text-sm">{label}</Text>
         <TextInput
@@ -17,6 +18,9 @@ const TextField: FC<Props> = ({ label, error, ...props }) => (
             placeholderTextColorClassName="accent-muted-foreground"
             {...props}
         />
+        {description && !error ? (
+            <Text className="text-muted-foreground text-xs">{description}</Text>
+        ) : null}
         {error ? (
             <Text className="text-destructive-foreground text-sm">{error}</Text>
         ) : null}

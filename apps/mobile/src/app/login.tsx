@@ -1,15 +1,7 @@
-import { useRouter } from 'expo-router';
-
-import { LoginForm } from '@/features/auth';
+import { LoginForm, useCloseAuthFlow } from '@/features/auth';
 
 export default function LoginScreen() {
-    const router = useRouter();
+    const close = useCloseAuthFlow();
 
-    return (
-        <LoginForm
-            onSuccess={() =>
-                router.canGoBack() ? router.back() : router.replace('/')
-            }
-        />
-    );
+    return <LoginForm onSuccess={close} />;
 }

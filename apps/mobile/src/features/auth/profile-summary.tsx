@@ -9,6 +9,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Text } from '@/components/ui/text';
 
+import ActivationAlert from './activation-alert';
 import { FALLBACK_ERROR } from './constants';
 import { useSession } from './use-session';
 
@@ -41,6 +42,9 @@ const ProfileSummary: FC = () => {
                         {user.email}
                     </Text>
                 </View>
+                {user.role === 'not_activated' && user.username ? (
+                    <ActivationAlert username={user.username} />
+                ) : null}
             </View>
         );
     }
