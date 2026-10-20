@@ -1,0 +1,51 @@
+appId: host.exp.Exponent
+# Add to planned, edit progress and score, delete
+---
+- runFlow: ../subflows/ensure-login.yaml
+- runFlow: ../subflows/open-anime.yaml
+- runFlow: ../subflows/remove-from-list.yaml
+- assertVisible: "Додати у список"
+- tapOn: "Додати у список"
+- extendedWaitUntil:
+    visible: "Список: Заплановано"
+    timeout: 20000
+- tapOn: "Налаштування"
+- extendedWaitUntil:
+    visible: "Зберегти"
+    timeout: 10000
+- tapOn:
+    text: "Епізоди: більше"
+    repeat: 2
+- tapOn:
+    text: "Оцінка: більше"
+    repeat: 8
+- assertVisible:
+    text: "2"
+    rightOf: "Епізоди"
+- assertVisible:
+    text: "8"
+    rightOf: "Оцінка"
+- tapOn: "Зберегти"
+- extendedWaitUntil:
+    notVisible: "Зберегти"
+    timeout: 20000
+- tapOn: "Налаштування"
+- extendedWaitUntil:
+    visible: "Зберегти"
+    timeout: 10000
+- assertVisible:
+    text: "2"
+    rightOf: "Епізоди"
+- assertVisible:
+    text: "8"
+    rightOf: "Оцінка"
+- tapOn: "Видалити"
+- extendedWaitUntil:
+    visible: "Видалити зі списку?"
+    timeout: 10000
+- tapOn:
+    text: "Видалити"
+    rightOf: "Скасувати"
+- extendedWaitUntil:
+    visible: "Додати у список"
+    timeout: 20000

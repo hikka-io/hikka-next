@@ -1,0 +1,14 @@
+appId: host.exp.Exponent
+# Open notifications
+---
+- runFlow: ../subflows/ensure-login.yaml
+- tapOn: "Сповіщення"
+- extendedWaitUntil:
+    visible:
+      id: BackButton
+    timeout: 30000
+- assertVisible: "Сповіщення"
+- runFlow: ../subflows/back.yaml
+- extendedWaitUntil:
+    visible: "Приєднуйся до hikka|Дивлюсь"
+    timeout: 15000

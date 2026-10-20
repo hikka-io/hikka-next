@@ -1,0 +1,28 @@
+appId: host.exp.Exponent
+# Login and logout
+---
+- runFlow: ../subflows/launch.yaml
+- runFlow:
+    when:
+      visible: "Сповіщення"
+    file: ../subflows/logout.yaml
+- runFlow:
+    file: ../subflows/tab.yaml
+    env:
+      TAB: home
+- extendedWaitUntil:
+    visible: "Приєднуйся до hikka"
+    timeout: 20000
+- runFlow: ../subflows/login.yaml
+- extendedWaitUntil:
+    visible: "Сповіщення"
+    timeout: 30000
+- runFlow:
+    file: ../subflows/tab.yaml
+    env:
+      TAB: account
+- extendedWaitUntil:
+    visible: ${E2E_USERNAME}
+    timeout: 30000
+- assertVisible: "Список"
+- assertVisible: "Налаштування"

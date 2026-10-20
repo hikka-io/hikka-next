@@ -67,7 +67,9 @@
         "tokens": "node scripts/generate-tokens.mjs",
         "icons": "node scripts/generate-icons.mjs",
         "test": "vitest run",
-        "test:watch": "vitest"
+        "test:watch": "vitest",
+        "e2e": "bash scripts/e2e.sh public",
+        "e2e:local": "bash scripts/e2e.sh local"
     },
     "private": true
 }

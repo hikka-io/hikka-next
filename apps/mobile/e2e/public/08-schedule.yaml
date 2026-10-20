@@ -1,0 +1,15 @@
+appId: host.exp.Exponent
+# Schedule
+---
+- runFlow: ../subflows/launch.yaml
+- tapOn: "Календар"
+- extendedWaitUntil:
+    visible: "Фільтри"
+    timeout: 30000
+- assertVisible: "(Зима|Весна|Літо|Осінь) [0-9]{4}.*"
+- assertVisible: "(Понеділок|Вівторок|Середа|Четвер|Пʼятниця|П’ятниця|Субота|Неділя)"
+- assertVisible: "Додати в заплановане"
+- runFlow: ../subflows/back.yaml
+- extendedWaitUntil:
+    visible: "Приєднуйся до hikka"
+    timeout: 15000

@@ -1,0 +1,7 @@
+appId: host.exp.Exponent
+---
+- stopApp
+- openLink: ${METRO_URL}
+- extendedWaitUntil:
+    visible: "Головна"
+    timeout: 180000

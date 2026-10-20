@@ -1,0 +1,4 @@
+appId: host.exp.Exponent
+---
+- tapOn:
+    id: BackButton

@@ -1,0 +1,6 @@
+appId: host.exp.Exponent
+# Logout (leaves the app signed out)
+---
+- runFlow: ../subflows/ensure-login.yaml
+- runFlow: ../subflows/logout.yaml
+- assertVisible: "Увійти"
