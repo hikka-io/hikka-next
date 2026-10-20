@@ -40,3 +40,25 @@ export const omitUndefined = <T extends object>(args: T): Partial<T> =>
     Object.fromEntries(
         Object.entries(args).filter(([, value]) => value !== undefined),
     ) as Partial<T>;
+
+type WatchTotals = { episodes_total?: number | null };
+type ReadTotals = { chapters?: number | null; volumes?: number | null };
+
+/**
+ * Progress filled in when a status changes to COMPLETED: the content's totals, never
+ * `undefined` keys, so an unknown total cannot override the carried-over progress.
+ */
+export const completedWatchFill = (
+    content: WatchTotals | undefined,
+): Partial<WatchArgs> =>
+    omitUndefined({ episodes: content?.episodes_total || undefined });
+
+/** Read mirror of `completedWatchFill`; falls back to the entry's own progress. */
+export const completedReadFill = (
+    content: ReadTotals | undefined,
+    entry: Pick<ReadResponseBase, 'chapters' | 'volumes'> | undefined,
+): Partial<ReadArgs> =>
+    omitUndefined({
+        volumes: content?.volumes || entry?.volumes || undefined,
+        chapters: content?.chapters || entry?.chapters || undefined,
+    });

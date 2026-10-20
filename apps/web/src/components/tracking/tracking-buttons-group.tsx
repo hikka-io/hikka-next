@@ -25,7 +25,8 @@ import {
 import {
     carryOverReadArgs,
     carryOverWatchArgs,
-    omitUndefined,
+    completedReadFill,
+    completedWatchFill,
     resolveTrackingEntry,
 } from '@hikka/core';
 
@@ -95,7 +96,7 @@ const buildWatchArgs = (
         return {
             status: WatchStatusEnum.COMPLETED,
             ...current,
-            ...omitUndefined({ episodes: item.episodes_total || undefined }),
+            ...completedWatchFill(item),
         };
     }
 
@@ -117,10 +118,7 @@ const buildReadArgs = (
         return {
             status: ReadStatusEnum.COMPLETED,
             ...current,
-            ...omitUndefined({
-                volumes: item.volumes || undefined,
-                chapters: item.chapters || undefined,
-            }),
+            ...completedReadFill(item, read),
         };
     }
 

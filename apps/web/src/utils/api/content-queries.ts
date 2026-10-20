@@ -1,9 +1,4 @@
-import {
-    type QueryFunction,
-    type QueryKey,
-    queryOptions,
-    type UseQueryOptions,
-} from '@tanstack/react-query';
+import type { UseQueryOptions } from '@tanstack/react-query';
 
 import {
     animeSlugOptions,
@@ -19,8 +14,6 @@ import {
     getCollectionOptions,
     getEditOptions,
     getFavouriteOptions,
-    HikkaApiError,
-    MainContentTypeEnum,
     mangaInfoOptions,
     novelInfoOptions,
     paginationPageParam,
@@ -29,79 +22,11 @@ import {
     personMangaInfiniteOptions,
     personNovelInfiniteOptions,
     personVoicesInfiniteOptions,
-    type ReadContentTypeEnum,
-    type ReadGetError,
-    type ReadGetResponse,
-    readGetOptions,
     userProfileOptions,
-    type WatchGetError,
-    type WatchGetResponse,
-    watchGetOptions,
 } from '@hikka/api';
+import { listEntryOptions, nullOn404 } from '@hikka/core';
 
-function nullOn404<TData, TError, TKey extends QueryKey>(
-    generated: UseQueryOptions<TData, TError, TData, TKey>,
-) {
-    const queryFn = generated.queryFn as QueryFunction<TData, TKey>;
-
-    return queryOptions<TData | null, TError, TData | null, TKey>({
-        queryFn: async (context) => {
-            try {
-                return await queryFn(context);
-            } catch (error) {
-                if (error instanceof HikkaApiError && error.status === 404) {
-                    return null;
-                }
-                throw error;
-            }
-        },
-        queryKey: generated.queryKey,
-    });
-}
-
-const watchEntryOptions = (slug: string, client?: Client) =>
-    nullOn404(watchGetOptions({ path: { slug }, client }));
-
-const readEntryOptions = (
-    content_type: ReadContentTypeEnum,
-    slug: string,
-    client?: Client,
-) => nullOn404(readGetOptions({ path: { slug, content_type }, client }));
-
-type WatchEntryOptions = ReturnType<typeof watchEntryOptions>;
-type ReadEntryOptions = ReturnType<typeof readEntryOptions>;
-type ListEntryOptions = UseQueryOptions<
-    WatchGetResponse | ReadGetResponse | null,
-    WatchGetError | ReadGetError
->;
-
-/** The viewer's list entry for a title; a 404 (not tracked) resolves to `null` instead of an error. */
-export function listEntryOptions(
-    contentType: typeof MainContentTypeEnum.ANIME,
-    slug: string,
-    client?: Client,
-): WatchEntryOptions;
-export function listEntryOptions(
-    contentType: ReadContentTypeEnum,
-    slug: string,
-    client?: Client,
-): ReadEntryOptions;
-export function listEntryOptions(
-    contentType: MainContentTypeEnum,
-    slug: string,
-    client?: Client,
-): ListEntryOptions;
-export function listEntryOptions(
-    contentType: MainContentTypeEnum,
-    slug: string,
-    client?: Client,
-): WatchEntryOptions | ReadEntryOptions | ListEntryOptions {
-    if (contentType === MainContentTypeEnum.ANIME) {
-        return watchEntryOptions(slug, client);
-    }
-
-    return readEntryOptions(contentType, slug, client);
-}
+export { listEntryOptions };
 
 /** The viewer's favourite for an item; a 404 (not a favourite) resolves to `null` instead of an error. */
 export function favouriteEntryOptions(

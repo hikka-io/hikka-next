@@ -4,7 +4,7 @@ import { useStore } from '@tanstack/react-form';
 import { format } from 'date-fns';
 import { CalendarIcon } from 'lucide-react';
 
-import { APP_LOCALE } from '@hikka/core';
+import { APP_LOCALE, localDateToUnix, unixToLocalDate } from '@hikka/core';
 
 import { Calendar } from '@/components/ui/calendar';
 import {
@@ -22,15 +22,6 @@ import {
 import { cn } from '@/utils/cn';
 
 import { useFieldContext } from './form-context';
-
-const utcToLocalDate = (unixTime: number): Date => {
-    const d = new Date(unixTime * 1000);
-    return new Date(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate());
-};
-
-const localDateToUtcUnix = (date: Date): number => {
-    return Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()) / 1000;
-};
 
 export type Props = {
     label?: string;
@@ -52,7 +43,7 @@ export const DatePickerField: FC<Props> = ({
     const isInvalid = errors.length > 0;
 
     const dateValue = field.state.value
-        ? utcToLocalDate(field.state.value)
+        ? unixToLocalDate(field.state.value)
         : undefined;
 
     return (
@@ -91,13 +82,13 @@ export const DatePickerField: FC<Props> = ({
                         captionLayout="dropdown"
                         onSelect={(date) => {
                             field.handleChange(
-                                date ? localDateToUtcUnix(date) : null,
+                                date ? localDateToUnix(date) : null,
                             );
                         }}
                         disabled={(date) =>
                             date > new Date() ||
                             date < new Date('1900-01-01') ||
-                            (minDate ? date < utcToLocalDate(minDate) : false)
+                            (minDate ? date < unixToLocalDate(minDate) : false)
                         }
                         initialFocus
                     />

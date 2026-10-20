@@ -14,62 +14,40 @@ import {
     getVoteQueryKey,
     type IgnoredNotificationsResponse,
     profileUiQueryKey,
-    type ReadResponse,
-    readGetQueryKey,
     type SetVoteData,
     type UserCollectionResponse,
     type UserCollectionsListResponse,
     type UserCustomizationResponse,
     VoteContentTypeEnum,
     type VoteResponse,
-    type WatchResponse,
-    watchGetQueryKey,
 } from '@hikka/api';
 import {
     type FollowChange,
+    type InvalidateOptions,
+    invalidateByIds,
     matchesPath,
     patchEmbeddedFollow,
-    patchEmbeddedStatus,
     patchEmbeddedVote,
+    patchQueries,
     type QueryId,
     queryId,
-    type StatusField,
+    READ_EMBED_IDS,
+    refetchTypeFor,
+    setQueryDataAfterCancel,
+    WATCH_EMBED_IDS,
 } from '@hikka/core';
 
-// The user's own watch list — refetched on every change so the entry reorders
-// (sorted by updated-at). Its status is top-level, so the patcher below skips it.
-const WATCH_LIST_IDS: readonly QueryId[] = ['userWatchList'];
-
-// Every other query that embeds the user's `.watch` per content item (catalog,
-// collections, character/person, franchise, favourites). Patched in place by
-// `writeWatchToCaches` and only stale-marked — never refetched, so one toggle
-// never reloads a large grid.
-const WATCH_EMBED_IDS: readonly QueryId[] = [
-    'searchAnime',
-    'animeRecommendations',
-    'characterAnime',
-    'personAnime',
-    'contentFranchise',
-    'favouriteList',
-    'getCollection',
-    'getCollections',
-];
-
-// Same split for `.read` status.
-const READ_LIST_IDS: readonly QueryId[] = ['userReadList'];
-
-const READ_EMBED_IDS: readonly QueryId[] = [
-    'searchManga',
-    'searchNovel',
-    'characterManga',
-    'characterNovel',
-    'personManga',
-    'personNovel',
-    'contentFranchise',
-    'favouriteList',
-    'getCollection',
-    'getCollections',
-];
+// Watch/read cache writers live in @hikka/core, shared with the mobile app.
+export {
+    applyReadDeletion,
+    applyReadMutation,
+    applyWatchDeletion,
+    applyWatchMutation,
+    invalidateReadState,
+    invalidateWatchState,
+    writeReadToCaches,
+    writeWatchToCaches,
+} from '@hikka/core';
 
 const COMMENT_LIST_IDS: readonly QueryId[] = [
     'commentsList',
@@ -181,219 +159,7 @@ const FOLLOW_EMBED_SET = new Set<QueryId>([
     USER_PROFILE_ID,
 ]);
 
-const WATCH_EMBED_SET = new Set(WATCH_EMBED_IDS);
-const READ_EMBED_SET = new Set(READ_EMBED_IDS);
 const COMMENT_LIST_SET = new Set(COMMENT_LIST_IDS);
-
-type InvalidateOptions = {
-    /**
-     * When `false`, matching queries are marked stale but not refetched
-     * immediately (`refetchType: 'none'`) — used by the debounced trackers to
-     * avoid flicker during rapid optimistic updates. Defaults to `true`.
-     */
-    refetch?: boolean;
-};
-
-function refetchTypeFor(options?: InvalidateOptions): 'none' | undefined {
-    return options?.refetch === false ? 'none' : undefined;
-}
-
-/**
- * Invalidate every cached query whose generated `_id` is in `ids`, plus any
- * query the optional `extraMatch` predicate accepts (OR-combined).
- */
-function invalidateByIds(
-    queryClient: QueryClient,
-    ids: readonly string[],
-    options?: InvalidateOptions,
-    extraMatch?: (query: { queryKey: readonly unknown[] }) => boolean,
-): Promise<void> {
-    const idSet = new Set(ids);
-    return queryClient.invalidateQueries({
-        predicate: (query) => {
-            const id = queryId(query.queryKey);
-            if (id !== undefined && idSet.has(id)) return true;
-            return extraMatch ? extraMatch(query) : false;
-        },
-        refetchType: refetchTypeFor(options),
-    });
-}
-
-/**
- * Reconcile every cache reflecting the user's anime watch status: refetch the
- * user's own list (it reorders/filters by status) and mark the status-embedding
- * lists stale so they refetch on their next mount. The on-screen update is handled
- * optimistically by `writeWatchToCaches`; pass `{ refetch: false }` to also skip
- * the own-list refetch (debounced trackers, to avoid mid-interaction reorder).
- */
-export function invalidateWatchState(
-    queryClient: QueryClient,
-    options?: InvalidateOptions,
-): Promise<void> {
-    return Promise.all([
-        invalidateByIds(queryClient, WATCH_LIST_IDS, options),
-        invalidateByIds(queryClient, WATCH_EMBED_IDS, { refetch: false }),
-    ]).then(() => undefined);
-}
-
-/** Invalidate every cache reflecting the user's manga/novel read status. */
-export function invalidateReadState(
-    queryClient: QueryClient,
-    options?: InvalidateOptions,
-): Promise<void> {
-    return Promise.all([
-        invalidateByIds(queryClient, READ_LIST_IDS, options),
-        invalidateByIds(queryClient, READ_EMBED_IDS, { refetch: false }),
-    ]).then(() => undefined);
-}
-
-/**
- * Patch every query whose `_id` is in `ids`, leaving the ones the patch does
- * not change untouched: `setQueryData` would otherwise mark them fresh.
- */
-function patchQueries(
-    queryClient: QueryClient,
-    ids: ReadonlySet<string>,
-    patch: (data: unknown) => unknown,
-): void {
-    queryClient.setQueriesData<unknown>(
-        { predicate: (query) => ids.has(queryId(query.queryKey) ?? '') },
-        (data: unknown) => {
-            const next = patch(data);
-            return next === data ? undefined : next;
-        },
-    );
-}
-
-/** Patch the embedded status of `slug` across every query whose `_id` is in `ids`. */
-function patchEmbeddedStatusInQueries(
-    queryClient: QueryClient,
-    ids: ReadonlySet<string>,
-    slug: string,
-    field: StatusField,
-    next: object | undefined,
-): void {
-    patchQueries(queryClient, ids, (data) =>
-        patchEmbeddedStatus(data, slug, field, next),
-    );
-}
-
-/**
- * Reflect a watch add/update in the per-content (`watchGet`) cache and in every
- * status-embedding list. Use this from a watch mutation `onSuccess`; pair with
- * `invalidateWatchState` (or call `applyWatchMutation`, which does both).
- */
-export function writeWatchToCaches(
-    queryClient: QueryClient,
-    data: WatchResponse,
-): void {
-    const { anime, ...base } = data;
-    queryClient.setQueryData(
-        watchGetQueryKey({ path: { slug: anime.slug } }),
-        data,
-    );
-    patchEmbeddedStatusInQueries(
-        queryClient,
-        WATCH_EMBED_SET,
-        anime.slug,
-        'watch',
-        base,
-    );
-}
-
-/** `writeWatchToCaches` + `invalidateWatchState`. The standard watch onSuccess. */
-export function applyWatchMutation(
-    queryClient: QueryClient,
-    data: WatchResponse,
-    options?: InvalidateOptions,
-): Promise<void> {
-    writeWatchToCaches(queryClient, data);
-    return invalidateWatchState(queryClient, options);
-}
-
-// An in-flight fetch of the entry would land after this write and restore the deleted entry.
-async function setQueryDataAfterCancel(
-    queryClient: QueryClient,
-    queryKey: readonly unknown[],
-    data: unknown,
-): Promise<void> {
-    await queryClient.cancelQueries({ queryKey, exact: true });
-    queryClient.setQueryData(queryKey, data);
-}
-
-/** Clear a deleted watch entry from the per-content + embedding caches, then invalidate. */
-export async function applyWatchDeletion(
-    queryClient: QueryClient,
-    slug: string,
-    options?: InvalidateOptions,
-): Promise<void> {
-    await setQueryDataAfterCancel(
-        queryClient,
-        watchGetQueryKey({ path: { slug } }),
-        null,
-    );
-    patchEmbeddedStatusInQueries(
-        queryClient,
-        WATCH_EMBED_SET,
-        slug,
-        'watch',
-        undefined,
-    );
-    return invalidateWatchState(queryClient, options);
-}
-
-/** Read mirror of `writeWatchToCaches`. */
-export function writeReadToCaches(
-    queryClient: QueryClient,
-    data: ReadResponse,
-): void {
-    const { content, ...base } = data;
-    queryClient.setQueryData(
-        readGetQueryKey({
-            path: { content_type: content.data_type, slug: content.slug },
-        }),
-        data,
-    );
-    patchEmbeddedStatusInQueries(
-        queryClient,
-        READ_EMBED_SET,
-        content.slug,
-        'read',
-        base,
-    );
-}
-
-/** Read mirror of `applyWatchMutation`. */
-export function applyReadMutation(
-    queryClient: QueryClient,
-    data: ReadResponse,
-    options?: InvalidateOptions,
-): Promise<void> {
-    writeReadToCaches(queryClient, data);
-    return invalidateReadState(queryClient, options);
-}
-
-/** Read mirror of `applyWatchDeletion`. */
-export async function applyReadDeletion(
-    queryClient: QueryClient,
-    content_type: ReadResponse['content']['data_type'],
-    slug: string,
-    options?: InvalidateOptions,
-): Promise<void> {
-    await setQueryDataAfterCancel(
-        queryClient,
-        readGetQueryKey({ path: { content_type, slug } }),
-        null,
-    );
-    patchEmbeddedStatusInQueries(
-        queryClient,
-        READ_EMBED_SET,
-        slug,
-        'read',
-        undefined,
-    );
-    return invalidateReadState(queryClient, options);
-}
 
 /** Invalidate comment lists/threads after a comment write/edit/delete. */
 export function invalidateComments(
