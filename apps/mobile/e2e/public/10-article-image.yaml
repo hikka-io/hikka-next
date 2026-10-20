@@ -1,0 +1,34 @@
+appId: host.exp.Exponent
+# Article image opens the full-screen viewer and closes again
+env:
+  E2E_IMAGE_ARTICLE: kastomizatsiya-ta-pidsumky-roku-891dcf
+---
+- runFlow: ../subflows/launch.yaml
+- openLink: ${METRO_URL}/--/articles/${E2E_IMAGE_ARTICLE}
+- extendedWaitUntil:
+    visible: "Поділитися"
+    timeout: 60000
+- scrollUntilVisible:
+    element: "Переглянути зображення"
+    timeout: 60000
+- tapOn: "Переглянути зображення"
+- extendedWaitUntil:
+    visible: "Закрити"
+    timeout: 15000
+# Expo Go's floating tools button (shown on the iOS 18 simulator) covers the close button, so there the viewer is dismissed by dragging it down.
+- runFlow:
+    when:
+      visible: "gearshape.fill"
+    commands:
+      - swipe:
+          start: 50%,40%
+          end: 50%,85%
+- runFlow:
+    when:
+      notVisible: "gearshape.fill"
+    commands:
+      - tapOn: "Закрити"
+- extendedWaitUntil:
+    notVisible: "Закрити"
+    timeout: 15000
+- assertVisible: "Переглянути зображення"

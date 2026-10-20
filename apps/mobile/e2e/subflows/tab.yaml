@@ -1,5 +1,23 @@
-# Switches tab by the tab icon's accessibility label (the tab titles also appear as screen headers).
+# Switches tab. iOS 26 labels the tab icons (`home`, `Grid view`, `account`, `Search`; the tab titles also appear as screen headers); iOS 18 only labels the tab titles, so the title is the fallback.
 # TAB: home | Grid view | account | Search
 appId: host.exp.Exponent
 ---
-- tapOn: ${TAB}
+- evalScript: "${output.tabTitle = ({home: 'Головна', 'Grid view': 'Каталог', account: 'Профіль', Search: 'Пошук'})[TAB]}"
+- runFlow:
+    when:
+      visible: ${TAB}
+    commands:
+      - tapOn: ${TAB}
+- runFlow:
+    when:
+      notVisible: ${TAB}
+    commands:
+      - tapOn: ${output.tabTitle}
+# iOS 18 collapses the Search tab's header field on the first visit until the page is pulled down (an app finding, see the e2e regression report).
+- runFlow:
+    when:
+      true: ${TAB == 'Search'}
+      notVisible: "Пошук\\.\\.\\."
+    commands:
+      - swipe:
+          direction: DOWN

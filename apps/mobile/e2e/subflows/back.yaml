@@ -1,4 +1,17 @@
+# iOS 26 exposes the back button as `BackButton`; iOS 18 labels it with the previous screen's title and no id, so it is tapped by position.
 appId: host.exp.Exponent
 ---
-- tapOn:
-    id: BackButton
+- runFlow:
+    when:
+      visible:
+        id: BackButton
+    commands:
+      - tapOn:
+          id: BackButton
+- runFlow:
+    when:
+      notVisible:
+        id: BackButton
+    commands:
+      - tapOn:
+          point: 12%,9%

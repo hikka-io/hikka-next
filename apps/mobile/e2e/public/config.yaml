@@ -9,3 +9,6 @@ executionOrder:
     - 06-collection
     - 07-article
     - 08-schedule
+    - 09-nsfw-gate
+    - 10-article-image
+    - 11-content-stats

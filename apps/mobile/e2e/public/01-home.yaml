@@ -2,7 +2,9 @@ appId: host.exp.Exponent
 # Home tab loads
 ---
 - runFlow: ../subflows/launch.yaml
-- assertVisible: "Приєднуйся до hikka"
+- extendedWaitUntil:
+    visible: "Приєднуйся до hikka"
+    timeout: 30000
 - assertVisible: "Увійти"
 - extendedWaitUntil:
     visible: "Онґоїнґи"
