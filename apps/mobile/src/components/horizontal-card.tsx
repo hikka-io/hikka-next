@@ -102,6 +102,7 @@ const HorizontalCardImage: FC<PropsWithChildren<HorizontalCardImageProps>> = ({
 type Props = ViewProps & {
     href?: Href;
     onPress?: () => void;
+    action?: ReactNode;
 };
 
 const HorizontalCard: FC<Props> = ({
@@ -109,6 +110,7 @@ const HorizontalCard: FC<Props> = ({
     children,
     href,
     onPress,
+    action,
     ...props
 }) => {
     if (!href && !onPress) {
@@ -118,6 +120,7 @@ const HorizontalCard: FC<Props> = ({
                 {...props}
             >
                 {children}
+                {action}
             </View>
         );
     }
@@ -126,22 +129,26 @@ const HorizontalCard: FC<Props> = ({
         <Pressable
             accessibilityRole="link"
             onPress={onPress}
-            className={cn(
-                'min-h-11 flex-row items-center gap-4 active:opacity-70',
-                className,
-            )}
-            {...props}
+            className="min-h-11 min-w-0 flex-1 flex-row items-center gap-4 active:opacity-70"
         >
             {children}
         </Pressable>
     );
 
-    return href ? (
-        <Link href={href} asChild>
-            {row}
-        </Link>
-    ) : (
-        row
+    return (
+        <View
+            className={cn('flex-row items-center gap-4', className)}
+            {...props}
+        >
+            {href ? (
+                <Link href={href} asChild>
+                    {row}
+                </Link>
+            ) : (
+                row
+            )}
+            {action}
+        </View>
     );
 };
 

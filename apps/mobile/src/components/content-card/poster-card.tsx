@@ -2,7 +2,7 @@ import { type FC, type ReactNode, useState } from 'react';
 
 import { type Href, Link } from 'expo-router';
 import { Eye, ImageOff } from 'lucide-react-native';
-import { Pressable, View } from 'react-native';
+import { type GestureResponderEvent, Pressable, View } from 'react-native';
 
 import { DEFAULT_CONTAINER_RATIO } from '@hikka/core';
 
@@ -13,6 +13,8 @@ import { DENSE_MAX_FONT_SCALE } from '@/components/ui/typography';
 import { cn } from '@/utils/cn';
 
 const BLUR_RADIUS = 24;
+const HIDDEN_LABEL = 'Прихований вміст';
+const REVEAL_HINT = 'Торкніться, щоб показати';
 
 type Props = {
     title?: string | null;
@@ -91,7 +93,6 @@ const PosterCard: FC<Props> = ({
                     </View>
                 )}
                 {children}
-                {overlay}
             </View>
             {(title || description) && (
                 <View className="mt-1">
@@ -147,34 +148,53 @@ const PosterCard: FC<Props> = ({
         </>
     );
 
-    if (!pressable) {
-        return (
-            <View className={cn('w-full flex-col gap-2', className)}>
-                {content}
-            </View>
-        );
-    }
+    const handlePress = (
+        event: Pick<GestureResponderEvent, 'preventDefault'>,
+    ) => {
+        if (hidden) {
+            event.preventDefault();
+            setRevealed(true);
+            return;
+        }
+        onPress?.();
+    };
 
-    const card = (
+    const card = pressable ? (
         <Pressable
             accessibilityRole="link"
-            accessibilityLabel={title ?? undefined}
-            onPress={hidden ? () => setRevealed(true) : onPress}
-            className={cn('w-full flex-col gap-2 active:opacity-70', className)}
+            accessibilityLabel={
+                titleBlur && hidden ? HIDDEN_LABEL : (title ?? undefined)
+            }
+            accessibilityHint={hidden ? REVEAL_HINT : undefined}
+            onPress={href ? undefined : handlePress}
+            className="w-full flex-col gap-2 active:opacity-70"
         >
             {content}
         </Pressable>
+    ) : (
+        <View className="w-full flex-col gap-2">{content}</View>
     );
 
-    if (href && !hidden) {
-        return (
-            <Link href={href} asChild>
-                {card}
-            </Link>
-        );
-    }
-
-    return card;
+    return (
+        <View className={cn('relative w-full', className)}>
+            {href ? (
+                <Link href={href} onPress={handlePress} asChild>
+                    {card}
+                </Link>
+            ) : (
+                card
+            )}
+            {overlay && (
+                <View
+                    pointerEvents="box-none"
+                    style={{ aspectRatio: containerRatio }}
+                    className="absolute inset-x-0 top-0"
+                >
+                    {overlay}
+                </View>
+            )}
+        </View>
+    );
 };
 
 export default PosterCard;
