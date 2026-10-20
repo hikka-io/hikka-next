@@ -63,7 +63,9 @@ const ProfileForm: FC<Props> = ({ user }) => {
                     onPress={avatar.pick}
                 />
                 <SettingsActionRow
-                    title={cover.busy ? 'Завантаження...' : 'Змінити обкладинку'}
+                    title={
+                        cover.busy ? 'Завантаження...' : 'Змінити обкладинку'
+                    }
                     disabled={imageBusy}
                     onPress={cover.pick}
                 />
