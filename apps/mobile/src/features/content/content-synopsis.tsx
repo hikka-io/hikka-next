@@ -1,6 +1,5 @@
 import { type FC, useState } from 'react';
 
-import { SegmentedControl } from '@expo/ui/community/segmented-control';
 import { View } from 'react-native';
 
 import { isBlankDescription } from '@hikka/core';
@@ -8,6 +7,7 @@ import { isBlankDescription } from '@hikka/core';
 import { MDViewer } from '@/components/markdown';
 import TextExpand from '@/components/text-expand';
 import { Header, HeaderTitle } from '@/components/ui/header';
+import SegmentedControl from '@/components/ui/segmented-control';
 import { useSession } from '@/features/auth';
 
 import type { ContentInfo } from './queries';
@@ -20,7 +20,7 @@ type Props = {
 
 const ContentSynopsis: FC<Props> = ({ content }) => {
     const { user } = useSession();
-    const [active, setActive] = useState(0);
+    const [active, setActive] = useState('UA');
     const options = [
         { label: 'UA', text: content.synopsis_ua },
         { label: 'EN', text: content.synopsis_en },
@@ -30,8 +30,8 @@ const ContentSynopsis: FC<Props> = ({ content }) => {
         return null;
     }
 
-    const index = active < options.length ? active : 0;
-    const synopsis = options[index];
+    const synopsis =
+        options.find((option) => option.label === active) ?? options[0];
 
     return (
         <View className="gap-3">
@@ -40,11 +40,12 @@ const ContentSynopsis: FC<Props> = ({ content }) => {
             </Header>
             {options.length > 1 && (
                 <SegmentedControl
-                    values={options.map((option) => option.label)}
-                    selectedIndex={index}
-                    onChange={(event) =>
-                        setActive(event.nativeEvent.selectedSegmentIndex)
-                    }
+                    options={options.map(({ label }) => ({
+                        label,
+                        value: label,
+                    }))}
+                    value={synopsis.label}
+                    onValueChange={setActive}
                 />
             )}
             <TextExpand

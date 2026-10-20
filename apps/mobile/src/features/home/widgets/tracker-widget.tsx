@@ -20,8 +20,8 @@ import { Button } from '@/components/ui/button';
 import EmptyState from '@/components/ui/empty-state';
 import ErrorState from '@/components/ui/error-state';
 import { Icon } from '@/components/ui/icon';
+import SegmentedControl from '@/components/ui/segmented-control';
 
-import ChipTabs from '../chip-tabs';
 import { flattenPages } from '../flatten-pages';
 import { homeReadingOptions, homeWatchingOptions } from '../queries';
 import type { TrackerTab } from '../types';
@@ -124,7 +124,11 @@ const TrackerPosterSkeleton: FC = () => (
 export const TrackerWidgetSkeleton: FC = () => {
     return (
         <WidgetSection title="Дивлюсь">
-            <ChipTabs options={TABS} value="anime" onChange={() => {}} />
+            <SegmentedControl
+                options={TABS}
+                value="anime"
+                onValueChange={() => {}}
+            />
             <TrackerPosterSkeleton />
         </WidgetSection>
     );
@@ -142,7 +146,11 @@ const TrackerWidget: FC<Props> = ({ username }) => {
             title={tab === 'anime' ? 'Дивлюсь' : 'Читаю'}
             href={`/u/${username}`}
         >
-            <ChipTabs options={TABS} value={tab} onChange={setTab} />
+            <SegmentedControl
+                options={TABS}
+                value={tab}
+                onValueChange={setTab}
+            />
             {isError && <ErrorState variant="section" onRetry={refetch} />}
             {isPending && <TrackerPosterSkeleton />}
             {items && items.length > 0 && (
