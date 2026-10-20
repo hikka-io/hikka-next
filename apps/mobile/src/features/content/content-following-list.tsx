@@ -3,7 +3,6 @@ import type { FC } from 'react';
 import { FlashList } from '@shopify/flash-list';
 import { Stack, useRouter } from 'expo-router';
 import { UserRound } from 'lucide-react-native';
-import { ActivityIndicator } from 'react-native';
 
 import type { MainContentTypeEnum } from '@hikka/api';
 import type { FollowingUser } from '@hikka/core';
@@ -12,6 +11,7 @@ import { Button } from '@/components/ui/button';
 import EmptyState from '@/components/ui/empty-state';
 import ErrorState from '@/components/ui/error-state';
 import { Icon } from '@/components/ui/icon';
+import { Spinner } from '@/components/ui/spinner';
 import { useSession } from '@/features/auth';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { bySlug, usePullToRefresh } from '@/utils/api/use-pull-to-refresh';
@@ -97,9 +97,7 @@ const ContentFollowingList: FC<Props> = ({ contentType, slug }) => {
                     )
                 }
                 ListFooterComponent={
-                    isFetchingNextPage ? (
-                        <ActivityIndicator className="py-4" />
-                    ) : null
+                    isFetchingNextPage ? <Spinner className="py-4" /> : null
                 }
                 onEndReached={onEndReached}
                 onEndReachedThreshold={0.5}
