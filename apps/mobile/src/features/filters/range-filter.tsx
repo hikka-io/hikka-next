@@ -70,29 +70,43 @@ const RangeFilter: FC<Props> = ({
     const [range, setRange] = useState<[number, number]>(
         value?.length === 2 ? [value[0], value[1]] : bounds,
     );
-    const committed = useRef(range);
+    const pending = useRef<[number, number] | null>(null);
+    const timer = useRef<ReturnType<typeof setTimeout>>(undefined);
+    const onChangeRef = useRef(onChange);
+
+    useEffect(() => {
+        onChangeRef.current = onChange;
+    });
 
     const valueKey = value?.join() ?? '';
 
     // biome-ignore lint/correctness/useExhaustiveDependencies: re-sync only when the stored range changes, not on a new array identity
     useEffect(() => {
-        const next: [number, number] =
-            value?.length === 2 ? [value[0], value[1]] : bounds;
-        committed.current = next;
-        setRange(next);
+        clearTimeout(timer.current);
+        pending.current = null;
+        setRange(value?.length === 2 ? [value[0], value[1]] : bounds);
     }, [valueKey]);
 
-    useEffect(() => {
-        if (range.join() === committed.current.join()) return;
+    const flush = () => {
+        clearTimeout(timer.current);
+        const next = pending.current;
+        if (!next) return;
 
-        const timer = setTimeout(() => {
-            committed.current = range;
-            const full = range[0] === bounds[0] && range[1] === bounds[1];
-            onChange(full ? null : range);
-        }, COMMIT_DELAY_MS);
+        pending.current = null;
+        const full = next[0] === bounds[0] && next[1] === bounds[1];
+        onChangeRef.current(full ? null : next);
+    };
 
-        return () => clearTimeout(timer);
-    }, [range, bounds, onChange]);
+    // A change still waiting for the drag to settle is applied when the sheet closes.
+    // biome-ignore lint/correctness/useExhaustiveDependencies: flush reads refs only
+    useEffect(() => () => flush(), []);
+
+    const update = (next: [number, number]) => {
+        setRange(next);
+        pending.current = next;
+        clearTimeout(timer.current);
+        timer.current = setTimeout(flush, COMMIT_DELAY_MS);
+    };
 
     return (
         <FilterSection
@@ -104,18 +118,14 @@ const RangeFilter: FC<Props> = ({
                 value={range[0]}
                 bounds={bounds}
                 format={format}
-                onChange={(min) =>
-                    setRange(([, max]) => [min, Math.max(min, max)])
-                }
+                onChange={(min) => update([min, Math.max(min, range[1])])}
             />
             <Thumb
                 label="До"
                 value={range[1]}
                 bounds={bounds}
                 format={format}
-                onChange={(max) =>
-                    setRange(([min]) => [Math.min(min, max), max])
-                }
+                onChange={(max) => update([Math.min(range[0], max), max])}
             />
         </FilterSection>
     );

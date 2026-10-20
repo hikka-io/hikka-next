@@ -89,7 +89,7 @@ const CatalogListItem: FC<Props> = ({ item }) => {
     const genres = joinMeta(
         item.genres
             .slice(0, GENRE_LIMIT)
-            .map((genre) => genre.name_ua ?? genre.name_en),
+            .map((genre) => genre.name_ua || genre.name_en),
     );
 
     return (
