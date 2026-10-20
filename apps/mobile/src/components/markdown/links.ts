@@ -12,6 +12,7 @@ const TRUSTED_HOSTS = [
 ];
 
 const ROUTE = /^\/(anime|manga|novel|characters|people|u)\/([^/?#]+)\/?$/;
+const BARE_ROUTE = /^\/([^/?#]+)\/?$/;
 
 // Routes that exist in the app; every other hikka.io link opens in the browser. Add a segment when its route lands.
 const IN_APP_ROUTES = new Set([
@@ -22,6 +23,9 @@ const IN_APP_ROUTES = new Set([
     'people',
     'u',
 ]);
+
+// Screens without a slug segment, like the schedule.
+const BARE_ROUTES = new Set(['schedule']);
 
 export type LinkTarget =
     | { kind: 'route'; href: string }
@@ -53,6 +57,12 @@ export const resolveLink = (href: string): LinkTarget => {
 
         if (match && IN_APP_ROUTES.has(match[1])) {
             return { kind: 'route', href: `/${match[1]}/${match[2]}` };
+        }
+
+        const bare = BARE_ROUTE.exec(url.pathname)?.[1];
+
+        if (bare && BARE_ROUTES.has(bare)) {
+            return { kind: 'route', href: `/${bare}` };
         }
 
         return {
