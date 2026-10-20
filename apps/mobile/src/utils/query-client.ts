@@ -6,11 +6,9 @@ import {
 } from '@tanstack/react-query';
 import { AppState, Platform } from 'react-native';
 
-import { configureBrowserClient, DEFAULT_BASE_URL } from '@hikka/api';
+import { DEFAULT_BASE_URL } from '@hikka/api';
 
-configureBrowserClient({
-    baseUrl: process.env.EXPO_PUBLIC_API_URL ?? DEFAULT_BASE_URL,
-});
+export const API_BASE_URL = process.env.EXPO_PUBLIC_API_URL ?? DEFAULT_BASE_URL;
 
 onlineManager.setEventListener((setOnline) =>
     NetInfo.addEventListener((state) => setOnline(!!state.isConnected)),

@@ -111,10 +111,33 @@ Dev client and brand assets (verified the same day): `npx expo run:android --por
 
 Not covered: tablets and foldables, 3-button navigation, font scale above 1.0, predictive back (disabled in `app.json`), screen readers.
 
+## Auth (milestone 2)
+
+Built and run on the iOS 26 simulator against the local backend:
+
+- **Feature.** Everything lives in `src/features/auth/` (barrel `index.ts`); `src/app/login.tsx` and `src/app/(tabs)/(profile)/index.tsx` only compose it.
+- **Login sheet.** `src/app/login.tsx` is a root-stack route presented as a native `formSheet` (`fitToContents`, grabber) over the tabs, so the tabs moved into `src/app/(tabs)/`. Username or email + password through TanStack Form, like the web login: an identifier containing `@` is sent as `email`, anything else as `username`. Zod schemas are copied from the web `form-schemas.ts` (bounds from `API_LIMITS`). `HikkaApiError` messages are shown as returned (already Ukrainian); anything else gets a Ukrainian fallback. After login the sheet goes back, or replaces to `/` when it was deep-linked.
+- **Token.** `auth-token.ts` keeps it in `expo-secure-store`. The root layout reads it synchronously (`readStoredAuthToken`, `SecureStore.getItem` in a try/catch) and passes it as `authToken` to `configureBrowserClient`, so the token is set before the first query with no splash gating. `signIn`/`signOut` (`session.ts`) write or delete it, call `setAuthToken` and reset every query, since cached responses can carry viewer state. The web logout only clears cookies; there is no revoke endpoint to call.
+- **Session.** `useSession()` (`use-session.ts`) wraps `profileOptions()`, enabled by a reactive token (`useSyncExternalStore`). The Profile tab (`ProfileSummary`) shows the avatar, username and email, with logout as a header toolbar button whenever a token is stored. A dead token signs out: the backend answers a revoked or expired token with HTTP 400 and `auth:invalid_token` / `auth:token_expired` (not 401), so `isDeadTokenError` checks those codes plus 401.
+- **Captcha.** `captcha.tsx` renders Turnstile in `react-native-webview` from an inline page whose `baseUrl` is `https://hikka.io`. In development, `EXPO_PUBLIC_CAPTCHA_BYPASS` (the backend `captcha.test` value) skips the widget, mirroring the web `VITE_CAPTCHA_BYPASS`; it is gated on `__DEV__`.
+
+Verified: sign in with a username and with an email, wrong password, an expired token signing out on launch, validation messages, token restored after a cold start, logout persisted after a cold start. The WebView bridge was checked with Cloudflare's always-pass test key (`1x00000000000000000000AA`): the token reaches the form.
+
+**Open: the production site key in the WebView.** The WebView only loads hikka.io in the top frame and challenges.cloudflare.com in subframes; other https links open externally, and messages are accepted only from the hikka.io origin. With that configuration the real key renders the interactive "Підтвердьте, що ви людина" checkbox; whether a person's tap passes has not been tested (an agent must not solve captchas). Before it, the challenge ended in error `300031` (widget crashed) and stayed on "Перевірка…". Safari on the same simulator passes on hikka.io/login. Loading a real hikka.io document instead of an inline page did not help, and neither did a Safari user-agent suffix or shared/third-party cookies. Next: try a physical device (the simulator WKWebView may be what Cloudflare rejects); check the widget's mode and pre-clearance settings in the Cloudflare dashboard; if WebViews stay unreliable, ask Cloudflare about their mobile guidance or let the backend accept another proof for first-party mobile clients (App Attest / Play Integrity).
+
+### Google sign-in: backend endpoint needed
+
+Not implemented. The current flow (`GET /auth/oauth/google` for a redirect URL, then `POST /auth/oauth/google` with `{ code }`) exchanges a web authorization code bound to the web redirect URI, so a native app cannot use it. Native Google Sign-In (iOS SDK / Android Credential Manager) returns an ID token instead. Proposed endpoint:
+
+- `POST /auth/oauth/google/id-token` with body `{ "id_token": "<JWT>" }`, returning `TokenResponse` (same as the code flow).
+- Verify the JWT against Google's keys (`google.oauth2.id_token.verify_oauth2_token`): `iss` is `accounts.google.com`, `aud` is one of the configured iOS / Android / web client IDs (new setting, for example `oauth.google.audiences`), `exp`, and `email_verified`.
+- Then reuse the code flow unchanged: the JWT `sub` is the same Google user id that `userinfo/v2/me` returns as `id`, so `get_oauth_by_id(sub, "google")` finds already linked accounts; keep the `email-exists` check, `create_oauth_user`, `update_oauth_timestamp`, the `LOG_LOGIN_OAUTH` log and `create_auth_token`.
+- No captcha, like the existing OAuth flow. It needs an iOS and an Android OAuth client in the Google Cloud project.
+
 ## First milestones
 
 1. ~~Spike~~: done.
-2. Auth: Turnstile WebView login, token in SecureStore, `setAuthToken` on boot. Agree on the Google sign-in backend endpoint.
+2. Auth: done, except Turnstile with the production key (see "Auth") and Google sign-in (needs the backend endpoint above).
 3. Detail + tracking (watch/read status sheet, full-snapshot PUT via `tracking-args`).
 4. Catalog + search + filters.
 5. Profile, lists, history, notifications.
