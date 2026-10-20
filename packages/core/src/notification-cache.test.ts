@@ -41,11 +41,17 @@ describe('patchNotificationsSeen', () => {
             pages: [{ list: [item('a', 20, false), item('d', 5, false)] }],
         };
 
-        expect(patchNotificationsSeen(data, 5)).toEqual({
+        expect(
+            patchNotificationsSeen(data, { reference: 'd', created: 5 }),
+        ).toEqual({
             pages: [{ list: [item('a', 20, false), item('d', 5, true)] }],
         });
-        expect(patchNotificationsSeen(data, 1)).toBe(data);
-        expect(patchNotificationsSeen(undefined, 5)).toBe(undefined);
+        expect(
+            patchNotificationsSeen(data, { reference: 'x', created: 1 }),
+        ).toBe(data);
+        expect(
+            patchNotificationsSeen(undefined, { reference: 'd', created: 5 }),
+        ).toBe(undefined);
     });
 });
 
@@ -54,7 +60,10 @@ describe('applyNotificationsSeen', () => {
         const queryClient = new QueryClient();
         seed(queryClient);
 
-        await applyNotificationsSeen(queryClient, 20);
+        await applyNotificationsSeen(queryClient, {
+            reference: 'a',
+            created: 20,
+        });
 
         expect(seenOf(queryClient)).toEqual([false, true, true, true]);
         expect(queryClient.getQueryData(COUNT_KEY)).toEqual({ unseen: 3 });
@@ -64,7 +73,10 @@ describe('applyNotificationsSeen', () => {
         const queryClient = new QueryClient();
         seed(queryClient);
 
-        await applyNotificationsSeen(queryClient, 4);
+        await applyNotificationsSeen(queryClient, {
+            reference: 'zz',
+            created: 4,
+        });
 
         expect(queryClient.getQueryData(COUNT_KEY)).toEqual({ unseen: 5 });
     });
@@ -74,20 +86,51 @@ describe('applyNotificationsSeen', () => {
         seed(queryClient);
         queryClient.setQueryData(COUNT_KEY, { unseen: 1 });
 
-        await applyNotificationsSeen(queryClient, 30);
+        await applyNotificationsSeen(queryClient, {
+            reference: 'c',
+            created: 30,
+        });
 
         expect(seenOf(queryClient)).toEqual([true, true, true, true]);
         expect(queryClient.getQueryData(COUNT_KEY)).toEqual({ unseen: 0 });
     });
 
-    it('stale-marks the count so it is read again', async () => {
+    it('flips only the marked entry among same-second ones', async () => {
+        const queryClient = new QueryClient();
+        queryClient.setQueryData(LIST_KEY, {
+            pages: [
+                {
+                    list: [
+                        item('x', 20, false),
+                        item('y', 20, false),
+                        item('z', 20, false),
+                    ],
+                },
+            ],
+            pageParams: [1],
+        });
+        queryClient.setQueryData(COUNT_KEY, { unseen: 3 });
+
+        await applyNotificationsSeen(queryClient, {
+            reference: 'z',
+            created: 20,
+        });
+
+        expect(seenOf(queryClient)).toEqual([false, false, true]);
+        expect(queryClient.getQueryData(COUNT_KEY)).toEqual({ unseen: 2 });
+    });
+
+    it('stale-marks the list and the count without refetching', async () => {
         const queryClient = new QueryClient();
         seed(queryClient);
 
-        await applyNotificationsSeen(queryClient, 20);
+        await applyNotificationsSeen(queryClient, {
+            reference: 'a',
+            created: 20,
+        });
 
         expect(queryClient.getQueryState(COUNT_KEY)?.isInvalidated).toBe(true);
-        expect(queryClient.getQueryState(LIST_KEY)?.isInvalidated).toBe(false);
+        expect(queryClient.getQueryState(LIST_KEY)?.isInvalidated).toBe(true);
     });
 });
 

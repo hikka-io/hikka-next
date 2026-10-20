@@ -35,7 +35,6 @@ const TYPE_ICONS: Record<NotificationTypeEnum, LucideIcon> = {
     [NotificationTypeEnum.ARTICLE_COMMENT]: MessageSquarePlus,
 };
 
-/** A vote shows the heart with its sign, like the web. */
 export const notificationIcon = ({
     type,
     scoreSign,

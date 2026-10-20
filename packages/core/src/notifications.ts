@@ -30,7 +30,7 @@ export type NotificationItem = {
     seen: boolean;
     title: string;
     description: string;
-    /** A site path (an absolute link for a Hikka update); `NO_NOTIFICATION_HREF` when there is nowhere to go. */
+    // A site path (absolute for a Hikka update), or `NO_NOTIFICATION_HREF`.
     href: string;
     accent: NotificationAccent;
     actor?: NotificationActor;
@@ -382,7 +382,6 @@ const createThirdpartyLoginNotification = (
     };
 };
 
-/** Copy, link, actor and accent of one notification; `null` for a type this client does not know. */
 export const convertNotification = (
     response: NotificationResponse,
 ): NotificationItem | null => {

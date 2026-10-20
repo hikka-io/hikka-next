@@ -4,7 +4,6 @@ import { siteUrl } from '@/utils/site-origin';
 
 const MAX_BADGE_COUNT = 99;
 
-/** The link a notification opens, or `null` when it has none. Site paths become hikka.io URLs for the shared link table. */
 export const notificationUrl = (href: string): string | null => {
     if (href === NO_NOTIFICATION_HREF) return null;
 

@@ -37,6 +37,5 @@ function textOf(token: Nested): string {
     }
 }
 
-/** One line of text for a collapsed row: markup dropped, spoilers and images hidden. */
 export const markdownPreview = (source: string): string =>
     join(lexMarkdown(source), ' ').replace(/\s+/g, ' ').trim();

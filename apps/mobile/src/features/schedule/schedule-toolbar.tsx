@@ -26,7 +26,6 @@ type Props = {
     onChange: (filters: ScheduleFilters) => void;
 };
 
-/** The web's year, season and status selects and the "Аніме у списку" switch, as one native menu of checked sections. */
 const ScheduleToolbar: FC<Props> = ({ filters, onChange }) => {
     const token = useAuthToken();
     const badge = useCSSVariable('--color-primary-foreground');

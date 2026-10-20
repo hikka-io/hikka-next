@@ -4,9 +4,13 @@ import {
     notificationsInfiniteOptions,
     paginatedInfiniteOptions,
 } from '@hikka/api';
-import { queryId } from '@hikka/core';
+import {
+    NOTIFICATION_COUNT_ID,
+    NOTIFICATION_LIST_ID,
+    queryId,
+} from '@hikka/core';
 
-export const NOTIFICATIONS_PAGE_SIZE = 20;
+const NOTIFICATIONS_PAGE_SIZE = 20;
 
 export function notificationsOptions() {
     return paginatedInfiniteOptions(
@@ -17,8 +21,8 @@ export function notificationsOptions() {
 }
 
 const NOTIFICATION_QUERY_IDS = new Set([
-    'notifications',
-    'unseenNotificationsCount',
+    NOTIFICATION_LIST_ID,
+    NOTIFICATION_COUNT_ID,
 ]);
 
 export const isNotificationQuery = (query: Query) =>

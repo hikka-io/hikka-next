@@ -8,7 +8,6 @@ import {
     SEASON,
 } from '@hikka/core';
 
-/** The schedule filters with every value resolved, so the menu shows what is applied. */
 export type ScheduleFilters = {
     season: SeasonEnum;
     year: number;
@@ -44,7 +43,7 @@ export const hasActiveScheduleFilters = (filters: ScheduleFilters) => {
     );
 };
 
-/** A status can be toggled off only while another stays on; the last one falls back to the defaults, like the web. */
+// The last status cannot be switched off: it falls back to the defaults, like the web.
 export const toggleScheduleStatus = (
     filters: ScheduleFilters,
     status: AnimeStatusEnum,

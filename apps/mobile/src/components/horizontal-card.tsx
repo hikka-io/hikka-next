@@ -103,6 +103,9 @@ type Props = ViewProps & {
     href?: Href;
     onPress?: () => void;
     action?: ReactNode;
+    // The label and hint of the row's one pressable, so a screen reader announces more than the visible text.
+    accessibilityLabel?: string;
+    accessibilityHint?: string;
 };
 
 const HorizontalCard: FC<Props> = ({
@@ -111,12 +114,16 @@ const HorizontalCard: FC<Props> = ({
     href,
     onPress,
     action,
+    accessibilityLabel,
+    accessibilityHint,
     ...props
 }) => {
     if (!href && !onPress) {
         return (
             <View
                 className={cn('flex-row items-center gap-4', className)}
+                accessibilityLabel={accessibilityLabel}
+                accessibilityHint={accessibilityHint}
                 {...props}
             >
                 {children}
@@ -128,6 +135,8 @@ const HorizontalCard: FC<Props> = ({
     const row = (
         <Pressable
             accessibilityRole="link"
+            accessibilityLabel={accessibilityLabel}
+            accessibilityHint={accessibilityHint}
             onPress={onPress}
             className="min-h-11 min-w-0 flex-1 flex-row items-center gap-4 active:opacity-70"
         >

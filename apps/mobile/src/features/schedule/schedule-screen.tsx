@@ -7,16 +7,15 @@ import { ActivityIndicator, View } from 'react-native';
 import type { AnimeScheduleResponse } from '@hikka/api';
 import { formatScheduleDay, groupScheduleByDay } from '@hikka/core';
 
-import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import EmptyState from '@/components/ui/empty-state';
 import ErrorState from '@/components/ui/error-state';
-import { Header, HeaderTitle } from '@/components/ui/header';
 import { Text } from '@/components/ui/text';
 import { useHomePreferences } from '@/features/home';
 import { usePullToRefresh } from '@/utils/api/use-pull-to-refresh';
 
 import { isScheduleQuery, scheduleOptions } from './queries';
+import ScheduleDayHeader from './schedule-day-header';
 import {
     defaultScheduleFilters,
     hasActiveScheduleFilters,
@@ -28,17 +27,21 @@ import ScheduleRow from './schedule-row';
 import ScheduleRowSkeleton from './schedule-row-skeleton';
 import ScheduleToolbar from './schedule-toolbar';
 
-const SKELETON_ROWS = 8;
+const SKELETON_ROWS = 6;
 
 type Row =
     | { type: 'day'; key: string; weekday: string; date: string }
     | { type: 'item'; key: string; item: AnimeScheduleResponse }
+    | { type: 'day-skeleton'; key: string }
     | { type: 'skeleton'; key: string };
 
-const SKELETON_LIST: Row[] = Array.from({ length: SKELETON_ROWS }, (_, i) => ({
-    type: 'skeleton',
-    key: `skeleton-${i}`,
-}));
+const SKELETON_LIST: Row[] = [
+    { type: 'day-skeleton', key: 'day-skeleton' },
+    ...Array.from(
+        { length: SKELETON_ROWS },
+        (_, i): Row => ({ type: 'skeleton', key: `skeleton-${i}` }),
+    ),
+];
 
 const rowKey = (row: Row) => row.key;
 
@@ -123,13 +126,13 @@ const ScheduleScreen: FC = () => {
                     switch (row.type) {
                         case 'day':
                             return (
-                                <Header className="bg-background px-4 pt-4 pb-2">
-                                    <HeaderTitle size="section">
-                                        {row.weekday}
-                                    </HeaderTitle>
-                                    <Badge>{row.date}</Badge>
-                                </Header>
+                                <ScheduleDayHeader
+                                    weekday={row.weekday}
+                                    date={row.date}
+                                />
                             );
+                        case 'day-skeleton':
+                            return <ScheduleDayHeader />;
                         case 'skeleton':
                             return <ScheduleRowSkeleton />;
                         default:

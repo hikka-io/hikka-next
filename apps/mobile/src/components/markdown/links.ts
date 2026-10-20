@@ -24,7 +24,6 @@ const IN_APP_ROUTES = new Set([
     'u',
 ]);
 
-// Screens without a slug segment, like the schedule.
 const BARE_ROUTES = new Set(['schedule']);
 
 export type LinkTarget =

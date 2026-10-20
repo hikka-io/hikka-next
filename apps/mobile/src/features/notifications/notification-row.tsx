@@ -22,7 +22,7 @@ import {
     notificationIcon,
 } from './notification-icons';
 import { notificationUrl } from './notification-url';
-import { useMarkNotificationsSeen } from './use-notification-mutations';
+import { useMarkNotificationSeen } from './use-notification-mutations';
 
 const DESCRIPTION_CLASS = 'text-sm leading-5 text-muted-foreground';
 
@@ -101,11 +101,20 @@ const ScoreSign: FC<{ sign: 1 | -1 }> = ({ sign }) => (
     </View>
 );
 
-/** The web's `NotificationItem`: actor or content visual, title, copy, quoted text and the time since. */
 const NotificationRow: FC<Props> = ({ item }) => {
     const openLink = useOpenLink();
-    const { mutate: markSeen } = useMarkNotificationsSeen();
+    const { mutate: markSeen } = useMarkNotificationSeen();
     const preview = item.preview ? markdownPreview(item.preview) : '';
+    const time = formatTimeAgo(item.created, Date.now());
+    const label = [
+        item.seen ? null : 'Непрочитане',
+        item.title,
+        item.description.replaceAll('**', ''),
+        preview,
+        time,
+    ]
+        .filter(Boolean)
+        .join('. ');
 
     const open = () => {
         if (!item.seen) {
@@ -119,6 +128,7 @@ const NotificationRow: FC<Props> = ({ item }) => {
     return (
         <HorizontalCard
             onPress={open}
+            accessibilityLabel={label}
             className={cn(
                 'items-start border-l-4 px-4 py-3',
                 item.seen
@@ -154,7 +164,7 @@ const NotificationRow: FC<Props> = ({ item }) => {
                     maxFontSizeMultiplier={DENSE_MAX_FONT_SCALE}
                     className="text-muted-foreground/70 text-xs"
                 >
-                    {formatTimeAgo(item.created, Date.now())}
+                    {time}
                 </Text>
             </HorizontalCardContainer>
         </HorizontalCard>

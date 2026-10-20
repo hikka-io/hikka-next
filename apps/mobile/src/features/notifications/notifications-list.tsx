@@ -4,10 +4,8 @@ import { FlashList } from '@shopify/flash-list';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { Bell } from 'lucide-react-native';
 import { ActivityIndicator, View } from 'react-native';
-import { toast } from 'sonner-native';
 
 import {
-    apiErrorMessage,
     convertNotification,
     groupNotificationsByDay,
     NOTIFICATION_SECTIONS,
@@ -24,28 +22,32 @@ import { usePullToRefresh } from '@/utils/api/use-pull-to-refresh';
 
 import NotificationRow from './notification-row';
 import NotificationRowSkeleton from './notification-row-skeleton';
+import NotificationSectionHeader from './notification-section-header';
 import { isNotificationQuery, notificationsOptions } from './queries';
-import { useMarkNotificationsSeen } from './use-notification-mutations';
+import { useMarkAllNotificationsSeen } from './use-notification-mutations';
 import { useUnseenNotifications } from './use-unseen-notifications';
 
-const MARK_ALL_ERROR = 'Не вдалося завантажити сповіщення';
-const SKELETON_ROWS = 6;
+const SKELETON_ROWS = 3;
 
 type Row =
     | { type: 'header'; key: string; label: string }
     | { type: 'item'; key: string; item: NotificationItem }
+    | { type: 'header-skeleton'; key: string }
     | { type: 'skeleton'; key: string };
 
-const SKELETON_LIST: Row[] = Array.from({ length: SKELETON_ROWS }, (_, i) => ({
-    type: 'skeleton',
-    key: `skeleton-${i}`,
-}));
+const SKELETON_LIST: Row[] = [
+    { type: 'header-skeleton', key: 'header-skeleton' },
+    ...Array.from(
+        { length: SKELETON_ROWS },
+        (_, i): Row => ({ type: 'skeleton', key: `skeleton-${i}` }),
+    ),
+];
 
 const rowKey = (row: Row) => row.key;
 
 const NotificationsList: FC = () => {
     const unseen = useUnseenNotifications();
-    const markAll = useMarkNotificationsSeen({ notify: true });
+    const markAll = useMarkAllNotificationsSeen();
     const { refreshing, onRefresh } = usePullToRefresh(isNotificationQuery);
     const {
         data,
@@ -57,7 +59,7 @@ const NotificationsList: FC = () => {
         refetch,
     } = useInfiniteQuery(notificationsOptions());
 
-    const rows = useMemo<Row[]>(() => {
+    const { rows, headerIndices } = useMemo(() => {
         const seen = new Set<string>();
         const items: NotificationItem[] = [];
 
@@ -72,40 +74,22 @@ const NotificationsList: FC = () => {
         }
 
         const groups = groupNotificationsByDay(items);
+        const result: Row[] = [];
+        const indices: number[] = [];
 
-        return NOTIFICATION_SECTIONS.flatMap(({ key, label }): Row[] =>
-            groups[key].length === 0
-                ? []
-                : [
-                      { type: 'header', key: `header-${key}`, label },
-                      ...groups[key].map(
-                          (item): Row => ({
-                              type: 'item',
-                              key: item.reference,
-                              item,
-                          }),
-                      ),
-                  ],
-        );
+        for (const { key, label } of NOTIFICATION_SECTIONS) {
+            if (groups[key].length === 0) continue;
+
+            indices.push(result.length);
+            result.push({ type: 'header', key: `header-${key}`, label });
+
+            for (const item of groups[key]) {
+                result.push({ type: 'item', key: item.reference, item });
+            }
+        }
+
+        return { rows: result, headerIndices: indices };
     }, [data]);
-
-    // One request: the backend marks the newest notification and every older one. The newest is read fresh, since newer ones may have arrived since the list loaded.
-    const markAllSeen = async () => {
-        const result = await refetch();
-        const newest = result.data?.pages[0]?.list[0];
-
-        if (result.isError) {
-            toast.error(apiErrorMessage(result.error, MARK_ALL_ERROR));
-            return;
-        }
-
-        if (newest) {
-            markAll.mutate({
-                reference: newest.reference,
-                created: newest.created,
-            });
-        }
-    };
 
     const empty = error ? (
         <ErrorState
@@ -130,16 +114,13 @@ const NotificationsList: FC = () => {
             data={isPending ? SKELETON_LIST : rows}
             keyExtractor={rowKey}
             getItemType={(row) => row.type}
+            stickyHeaderIndices={isPending ? undefined : headerIndices}
             renderItem={({ item: row }) => {
                 switch (row.type) {
                     case 'header':
-                        return (
-                            <View className="border-border border-b bg-surface-inset px-4 py-1.5">
-                                <Text className="font-medium text-muted-foreground text-xs">
-                                    {row.label}
-                                </Text>
-                            </View>
-                        );
+                        return <NotificationSectionHeader label={row.label} />;
+                    case 'header-skeleton':
+                        return <NotificationSectionHeader />;
                     case 'skeleton':
                         return <NotificationRowSkeleton />;
                     default:
@@ -159,7 +140,7 @@ const NotificationsList: FC = () => {
                             variant="outline"
                             size="md"
                             disabled={markAll.isPending}
-                            onPress={markAllSeen}
+                            onPress={() => markAll.mutate()}
                         >
                             Прочитати всі
                         </Button>

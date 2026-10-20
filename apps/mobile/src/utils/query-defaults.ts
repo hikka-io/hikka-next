@@ -11,14 +11,10 @@ type Tier = {
 };
 
 const NOTIFICATION_COUNT_STALE_MS = 30_000;
-export const NOTIFICATION_COUNT_POLL_MS = 60_000;
+const NOTIFICATION_COUNT_POLL_MS = 60_000;
 
-/**
- * Per-key policy, like the web's `QUERY_DEFAULT_TIERS`. Lookups change with a release, not a
- * session. The unseen count refetches on return to the app and polls every minute while the app
- * is active: `focusManager` follows `AppState`, and an interval does not run while unfocused.
- */
-export const QUERY_DEFAULT_TIERS = [
+// The unseen count polls while the app is active: `focusManager` follows `AppState` and an interval pauses while unfocused.
+const QUERY_DEFAULT_TIERS = [
     {
         ids: ['genres', 'searchCompanies'],
         options: { staleTime: Number.POSITIVE_INFINITY },

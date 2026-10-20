@@ -10,7 +10,6 @@ import { useUnseenNotifications } from './use-unseen-notifications';
 
 const BELL_ICON = require('../../../assets/icons/notifications.xml');
 
-/** The web's bell in a header: opens the notifications screen with the unread count; nothing while signed out. */
 const NotificationsBell: FC = () => {
     const router = useRouter();
     const token = useAuthToken();
@@ -23,7 +22,7 @@ const NotificationsBell: FC = () => {
             <Stack.Toolbar.Button
                 icon={Platform.OS === 'android' ? BELL_ICON : 'bell'}
                 accessibilityLabel={
-                    unseen > 0
+                    unseen > 0 && Platform.OS === 'ios'
                         ? `Сповіщення, непрочитаних: ${unseen}`
                         : 'Сповіщення'
                 }

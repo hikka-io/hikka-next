@@ -30,7 +30,6 @@ type Props = {
     nameLanguage?: NameLanguage;
 };
 
-/** The web's `ScheduleItem`: poster, title, episode of total, when it airs, and the viewer's list status. */
 const ScheduleRow: FC<Props> = ({ item, titleLanguage, nameLanguage }) => {
     const { anime } = item;
     const aired = item.time_left <= 0;

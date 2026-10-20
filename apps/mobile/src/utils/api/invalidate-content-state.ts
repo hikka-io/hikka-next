@@ -6,7 +6,6 @@ export {
     applyReadMutation,
     applyWatchDeletion,
     applyWatchMutation,
-    invalidateNotifications,
     invalidateReadState,
     invalidateWatchState,
     writeReadToCaches,
