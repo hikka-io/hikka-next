@@ -1,17 +1,20 @@
 import { type FC, useEffect } from 'react';
 
 import { useQuery } from '@tanstack/react-query';
-import { useRouter } from 'expo-router';
+import { useIsFocused, useRouter } from 'expo-router';
+import { View } from 'react-native';
 
+import { UserRoleEnum } from '@hikka/api';
 import { isUserReference } from '@hikka/core';
 
 import BlockList from '@/components/block-list';
 import DetailHeaderChrome from '@/components/detail-header-chrome';
 import ErrorState from '@/components/ui/error-state';
+import { ActivationAlert, useSession } from '@/features/auth';
 import { isNotFoundError } from '@/utils/api/is-not-found';
 import { byUsername, usePullToRefresh } from '@/utils/api/use-pull-to-refresh';
 
-import FavouritesSection from './favourites-section';
+import FavouritesSection from './favourites/favourites-section';
 import HistorySection from './history-section';
 import ListStats from './list-stats';
 import ProfileHeader from './profile-header';
@@ -20,6 +23,7 @@ import UserSkeleton from './user-skeleton';
 
 type Props = {
     username: string;
+    headerChrome?: boolean;
 };
 
 // A mention links to `/u/<uuid>`; resolve it to the username and replace the route.
@@ -49,22 +53,29 @@ const ReferenceRedirect: FC<{ reference: string }> = ({ reference }) => {
     return <UserSkeleton />;
 };
 
-const UserProfile: FC<Props> = ({ username }) => {
-    const { data, isPending, error, refetch } = useQuery(
-        userProfileOptions({ path: { username } }),
-    );
+const UserProfile: FC<Props> = ({ username, headerChrome = true }) => {
+    const { data, isPending, error, refetch } = useQuery({
+        ...userProfileOptions({ path: { username } }),
+        subscribed: useIsFocused(),
+    });
     // The route param may differ in case from the stored name; every other query uses the stored one.
     const name = data?.username;
-    const { refreshing, onRefresh } = usePullToRefresh(
-        byUsername(name ? [username, name] : [username]),
-    );
+    const { user: viewer } = useSession();
+    const activationPending =
+        !!name &&
+        viewer?.username === name &&
+        viewer.role === UserRoleEnum.NOT_ACTIVATED;
+    const names = name ? [username, name] : [username];
+    const { refreshing, onRefresh } = usePullToRefresh(byUsername(names));
 
     return (
         <>
-            <DetailHeaderChrome
-                title={name ?? username}
-                sharePath={name ? `/u/${name}` : undefined}
-            />
+            {headerChrome && (
+                <DetailHeaderChrome
+                    title={name ?? username}
+                    sharePath={name ? `/u/${name}` : undefined}
+                />
+            )}
             {isPending ? (
                 <UserSkeleton />
             ) : error || !data ? (
@@ -84,6 +95,13 @@ const UserProfile: FC<Props> = ({ username }) => {
             ) : (
                 <BlockList
                     blocks={[
+                        ...(activationPending
+                            ? [
+                                  <View key="activation" className="px-4 pt-4">
+                                      <ActivationAlert username={name} />
+                                  </View>,
+                              ]
+                            : []),
                         <ProfileHeader
                             key="header"
                             user={data}
@@ -101,11 +119,11 @@ const UserProfile: FC<Props> = ({ username }) => {
     );
 };
 
-const UserPage: FC<Props> = ({ username }) =>
+const UserPage: FC<Props> = ({ username, headerChrome }) =>
     isUserReference(username) ? (
         <ReferenceRedirect reference={username} />
     ) : (
-        <UserProfile username={username} />
+        <UserProfile username={username} headerChrome={headerChrome} />
     );
 
 export default UserPage;

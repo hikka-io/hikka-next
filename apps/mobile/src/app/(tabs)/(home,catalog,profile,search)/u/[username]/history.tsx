@@ -1,12 +1,18 @@
-import { Stack } from 'expo-router';
+import { useLocalSearchParams } from 'expo-router';
 
-import EmptyState from '@/components/ui/empty-state';
+import { HistoryPage } from '@/features/users';
 
 export default function UserHistoryScreen() {
+    const { username, type } = useLocalSearchParams<{
+        username: string;
+        type?: string;
+    }>();
+
     return (
-        <>
-            <Stack.Title>Історія</Stack.Title>
-            <EmptyState title="Незабаром" className="flex-1 justify-center" />
-        </>
+        <HistoryPage
+            key={username}
+            username={username}
+            initialSource={type === 'following' ? 'following' : 'user'}
+        />
     );
 }
