@@ -15,15 +15,10 @@ import EmptyState from '@/components/ui/empty-state';
 import { Field, FieldLabel, FieldTitle } from '@/components/ui/field';
 import { Header, HeaderActions, HeaderTitle } from '@/components/ui/header';
 import {
-    STICKY_BAR_CLASS_NAME,
-    SURFACE_VARIANTS,
-} from '@/components/ui/surface';
-import {
     useSession,
     useSessionUI,
     useUpdateSessionUI,
 } from '@/services/session';
-import { cn } from '@/utils/cn';
 
 import { homeFeedOptions } from '../../queries';
 import type { WidgetProps } from '../../types';
@@ -154,13 +149,7 @@ const FeedWidget: FC<WidgetProps> = ({ isLast }) => {
                 </HeaderActions>
             </Header>
 
-            <div
-                className={cn(
-                    '-mx-4 -mt-4 border-b',
-                    SURFACE_VARIANTS.surface,
-                    STICKY_BAR_CLASS_NAME,
-                )}
-            >
+            <div className="-mx-4 -mt-4 border-b px-4 py-3">
                 <FeedQuickFilters
                     value={filters}
                     onChange={handleFiltersChange}
