@@ -8,7 +8,7 @@ import { contentPath } from '@hikka/core';
 
 import DetailHeaderChrome from '@/components/detail-header-chrome';
 import ErrorState from '@/components/ui/error-state';
-import { useTitle } from '@/services/session';
+import { useNsfwConsent, useSessionUI, useTitle } from '@/services/session';
 import { isNotFoundError } from '@/utils/api/is-not-found';
 import { bySlug, usePullToRefresh } from '@/utils/api/use-pull-to-refresh';
 
@@ -28,6 +28,7 @@ import DetailScrollProvider, {
     useDetailScroll,
     useScrolledPast,
 } from './detail-scroll';
+import NsfwGate from './nsfw-gate';
 import { type ContentInfo, contentInfoOptions } from './queries';
 
 type SectionProps = {
@@ -92,6 +93,11 @@ const ContentDetailBody: FC<Props> = ({ contentType, slug }) => {
     const [titleBottom, setTitleBottom] = useState<number | null>(null);
     const titleVisible = useScrolledPast(titleBottom);
     const { refreshing, onRefresh } = usePullToRefresh(bySlug(slug));
+    const ui = useSessionUI();
+    const consented = useNsfwConsent();
+    // The web's rule: an 18+ title opens behind the gate unless the saved preference or a consent allows it.
+    const nsfwAllowed = consented || ui.showNsfw;
+    const gated = !!content?.nsfw && !nsfwAllowed;
 
     return (
         <>
@@ -114,7 +120,11 @@ const ContentDetailBody: FC<Props> = ({ contentType, slug }) => {
                     />
                 }
             >
-                {content ? (
+                {content && gated && ui.isPending ? (
+                    <ContentDetailSkeleton />
+                ) : content && gated ? (
+                    <NsfwGate />
+                ) : content ? (
                     <>
                         <ContentHero
                             contentType={contentType}

@@ -17,6 +17,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { Header, HeaderActions, HeaderTitle } from '@/components/ui/header';
 import { Separator } from '@/components/ui/separator';
+import SwitchRow from '@/components/ui/switch-row';
 import { useSession } from '@/features/auth';
 
 import { useHasActiveFilters } from './active-filters';
@@ -38,7 +39,6 @@ import {
 import GenreFilter from './genre-filter';
 import RangeFilter from './range-filter';
 import StudioFilter from './studio-filter';
-import SwitchFilter from './switch-filter';
 
 type Props = {
     type: CatalogType;
@@ -87,7 +87,7 @@ const FiltersSheet: FC<Props> = ({ type, onDone }) => {
         />
     );
     const hideListed = hasToken ? (
-        <SwitchFilter
+        <SwitchRow
             key="hide_listed"
             label="Приховати тайтли з мого списку"
             value={search.hide_listed}
@@ -131,7 +131,7 @@ const FiltersSheet: FC<Props> = ({ type, onDone }) => {
         />
     );
     const translated = (
-        <SwitchFilter
+        <SwitchRow
             key="only_translated"
             label="Перекладено українською"
             value={search.only_translated}
@@ -169,7 +169,7 @@ const FiltersSheet: FC<Props> = ({ type, onDone }) => {
               score,
               years,
               <View key="date_range" className="gap-6">
-                  <SwitchFilter
+                  <SwitchRow
                       label="Часовий проміжок"
                       value={search.date_range_enabled}
                       onChange={(enabled) =>
