@@ -5,7 +5,7 @@ import { View, type ViewProps } from 'react-native';
 import { cn } from '@/utils/cn';
 
 const SURFACE_VARIANTS = {
-    surface: 'border-border bg-surface shadow-card',
+    surface: 'border-border bg-surface shadow-card dark:shadow-none',
     inset: 'border-surface-inset-border bg-surface-inset',
     plain: 'border-border',
 } as const;
