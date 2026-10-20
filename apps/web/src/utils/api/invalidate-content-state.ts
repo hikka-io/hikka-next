@@ -11,23 +11,19 @@ import {
     getEditQueryKey,
     getFavouriteQueryKey,
     getIgnoredNotificationsQueryKey,
-    getVoteQueryKey,
     type IgnoredNotificationsResponse,
     profileUiQueryKey,
-    type SetVoteData,
     type UserCollectionResponse,
     type UserCollectionsListResponse,
     type UserCustomizationResponse,
-    VoteContentTypeEnum,
-    type VoteResponse,
 } from '@hikka/api';
 import {
+    COMMENT_LIST_IDS,
     type FollowChange,
     type InvalidateOptions,
     invalidateByIds,
     matchesPath,
     patchEmbeddedFollow,
-    patchEmbeddedVote,
     patchQueries,
     type QueryId,
     queryId,
@@ -37,10 +33,11 @@ import {
     WATCH_EMBED_IDS,
 } from '@hikka/core';
 
-// Watch/read cache writers live in @hikka/core, shared with the mobile app.
+// Watch/read and vote cache writers live in @hikka/core, shared with the mobile app.
 export {
     applyReadDeletion,
     applyReadMutation,
+    applyVoteMutation,
     applyWatchDeletion,
     applyWatchMutation,
     invalidateReadState,
@@ -48,14 +45,6 @@ export {
     writeReadToCaches,
     writeWatchToCaches,
 } from '@hikka/core';
-
-const COMMENT_LIST_IDS: readonly QueryId[] = [
-    'commentsList',
-    'getCommentsList',
-    'getCommentsUser',
-    'thread',
-    'latestComments',
-];
 
 /** Comment lists + content-list queries that embed a comments count/preview. */
 const COMMENT_IDS: readonly QueryId[] = [
@@ -126,14 +115,6 @@ const CONTENT_DETAIL_IDS: readonly QueryId[] = [
     'personVoices',
 ];
 
-const VOTE_DETAIL = {
-    [VoteContentTypeEnum.ARTICLE]: ['getArticle', 'slug'],
-    [VoteContentTypeEnum.COLLECTION]: ['getCollection', 'reference'],
-} as const satisfies Record<
-    Exclude<VoteContentTypeEnum, typeof VoteContentTypeEnum.COMMENT>,
-    readonly [QueryId, string]
->;
-
 const SESSION_IDS: readonly QueryId[] = ['profile'];
 
 const NOTIFICATION_IDS: readonly QueryId[] = [
@@ -158,8 +139,6 @@ const FOLLOW_EMBED_SET = new Set<QueryId>([
     ...FAVOURITE_IDS,
     USER_PROFILE_ID,
 ]);
-
-const COMMENT_LIST_SET = new Set(COMMENT_LIST_IDS);
 
 /** Invalidate comment lists/threads after a comment write/edit/delete. */
 export function invalidateComments(
@@ -429,43 +408,6 @@ export function applyFollowChange(
             refetch: false,
         }),
     ]).then(() => undefined);
-}
-
-/**
- * Store a vote and refresh what embeds it. The vote button is optimistic, so a
- * comment vote patches the comment lists and only stale-marks them; an
- * article/collection vote refetches that one detail.
- */
-export function applyVoteMutation(
-    queryClient: QueryClient,
-    target: SetVoteData['path'],
-    data: VoteResponse,
-    options?: InvalidateOptions,
-): Promise<void> {
-    queryClient.setQueryData(getVoteQueryKey({ path: target }), data);
-    if (target.content_type === VoteContentTypeEnum.COMMENT) {
-        patchQueries(queryClient, COMMENT_LIST_SET, (cached) =>
-            patchEmbeddedVote(cached, target.slug, data.score),
-        );
-    }
-    return invalidateVote(queryClient, target, options);
-}
-
-function invalidateVote(
-    queryClient: QueryClient,
-    { content_type, slug }: SetVoteData['path'],
-    options?: InvalidateOptions,
-): Promise<void> {
-    if (content_type === VoteContentTypeEnum.COMMENT) {
-        return invalidateByIds(queryClient, COMMENT_LIST_IDS, {
-            refetch: false,
-        });
-    }
-    const [id, field] = VOTE_DETAIL[content_type];
-    return queryClient.invalidateQueries({
-        predicate: (query) => matchesPath(query.queryKey, id, field, slug),
-        refetchType: refetchTypeFor(options),
-    });
 }
 
 /**

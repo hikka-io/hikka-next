@@ -4,6 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import type { Value } from 'platejs';
 
 import { getArticleOptions } from '@hikka/api';
+import { unwrapArticlePreview } from '@hikka/core';
 
 import { StaticViewer } from '@/components/plate/editor/static-viewer';
 import { useParams } from '@/utils/navigation';
@@ -21,16 +22,9 @@ const ArticleViewDocument: FC<Props> = () => {
         return null;
     }
 
-    const firstNode = article.document[0] as {
-        type?: string;
-        children?: unknown[];
-    };
-    const document =
-        firstNode.type === 'preview'
-            ? [...(firstNode.children ?? []), ...article.document.slice(1)]
-            : article.document;
-
-    return <StaticViewer value={document as Value} />;
+    return (
+        <StaticViewer value={unwrapArticlePreview(article.document) as Value} />
+    );
 };
 
 export default ArticleViewDocument;

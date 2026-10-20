@@ -1,7 +1,9 @@
 export * from './active-filters';
 export * from './api-error-message';
+export * from './article-document';
 export * from './auth-schemas';
 export * from './catalog-search-args';
+export * from './community-list-args';
 export * from './content-cache';
 export * from './content-paths';
 export * from './customization-defaults';
@@ -38,4 +40,5 @@ export * from './tracking-entry';
 export * from './url';
 export * from './user-links';
 export * from './user-list-stats';
+export * from './vote-cache';
 export * from './youtube';
