@@ -2,6 +2,7 @@ import type { FC } from 'react';
 
 import * as Haptics from 'expo-haptics';
 import { Stack, useRouter } from 'expo-router';
+import { Platform } from 'react-native';
 
 import { getSort, type SortOrder } from '@hikka/core';
 
@@ -23,6 +24,11 @@ const VIEWS: {
     { value: 'grid', label: 'Сітка', icon: 'square.grid.2x2' },
     { value: 'list', label: 'Список', icon: 'list.bullet' },
 ];
+
+/** Compose toolbar items take image sources only; SF Symbols are iOS-only. */
+const ANDROID = Platform.OS === 'android';
+const FILTER_ICON = require('../../../assets/icons/filter-list.xml');
+const SORT_ICON = require('../../../assets/icons/swap-vert.xml');
 
 const ORDERS: { value: SortOrder; label: string }[] = [
     { value: 'desc', label: 'За спаданням' },
@@ -52,9 +58,11 @@ const CatalogToolbar: FC = () => {
         <Stack.Toolbar placement="right">
             <Stack.Toolbar.Button
                 icon={
-                    filtered
-                        ? 'line.3.horizontal.decrease.circle.fill'
-                        : 'line.3.horizontal.decrease.circle'
+                    ANDROID
+                        ? FILTER_ICON
+                        : filtered
+                          ? 'line.3.horizontal.decrease.circle.fill'
+                          : 'line.3.horizontal.decrease.circle'
                 }
                 accessibilityLabel="Фільтри"
                 onPress={() =>
@@ -65,7 +73,7 @@ const CatalogToolbar: FC = () => {
                 }
             />
             <Stack.Toolbar.Menu
-                icon="arrow.up.arrow.down"
+                icon={ANDROID ? SORT_ICON : 'arrow.up.arrow.down'}
                 accessibilityLabel="Вигляд і сортування"
             >
                 <Stack.Toolbar.Menu inline title="Вигляд">

@@ -46,6 +46,7 @@ export default function TabsLayout() {
             labelStyle={{ selected: { color: color(tint) } }}
             indicatorColor={color(indicator)}
             rippleColor={color(indicator)}
+            labelVisibilityMode="labeled"
         >
             <NativeTabs.Trigger name="(home)">
                 <NativeTabs.Trigger.Label>Головна</NativeTabs.Trigger.Label>

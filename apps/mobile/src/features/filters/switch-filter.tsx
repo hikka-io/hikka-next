@@ -1,9 +1,10 @@
 import type { FC } from 'react';
 
-import { Host, Switch } from '@expo/ui';
 import * as Haptics from 'expo-haptics';
+import { Platform, Switch, View } from 'react-native';
+import { useCSSVariable } from 'uniwind';
 
-import { useNativeTint } from './use-native-tint';
+import { Text } from '@/components/ui/text';
 
 type Props = {
     label: string;
@@ -11,21 +12,31 @@ type Props = {
     onChange: (value: boolean) => void;
 };
 
+/**
+ * React Native's own `Switch` (UISwitch / Material switch) beside our label: an `@expo/ui`
+ * host does not center in a row, and its labeled `Switch` crashes Expo Go 57.0.0 on Android.
+ */
 const SwitchFilter: FC<Props> = ({ label, value = false, onChange }) => {
-    const modifiers = useNativeTint();
+    const [tint, track] = useCSSVariable([
+        '--color-primary-foreground',
+        '--color-primary-border',
+    ]).map((color) => (typeof color === 'string' ? color : undefined));
+    const android = Platform.OS === 'android';
 
     return (
-        <Host matchContents={{ vertical: true }} style={{ width: '100%' }}>
+        <View className="min-h-11 flex-row items-center justify-between gap-4">
+            <Text className="flex-1 text-base">{label}</Text>
             <Switch
-                label={label}
+                accessibilityLabel={label}
                 value={value}
-                modifiers={modifiers}
+                trackColor={{ true: android ? track : tint }}
+                thumbColor={android && value ? tint : undefined}
                 onValueChange={(next) => {
                     Haptics.selectionAsync();
                     onChange(next);
                 }}
             />
-        </Host>
+        </View>
     );
 };
 

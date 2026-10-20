@@ -1,7 +1,7 @@
 import { type FC, useEffect, useRef, useState } from 'react';
 
 import { Host, Slider } from '@expo/ui';
-import { View } from 'react-native';
+import { useColorScheme, View } from 'react-native';
 
 import { Text } from '@/components/ui/text';
 
@@ -9,6 +9,8 @@ import FilterSection from './filter-section';
 import { useNativeTint } from './use-native-tint';
 
 const COMMIT_DELAY_MS = 400;
+/** Above this many steps Material draws a dense row of tick marks; the value is rounded anyway. */
+const MAX_TICKS = 20;
 
 type Props = {
     title: string;
@@ -28,6 +30,7 @@ type ThumbProps = {
 
 const Thumb: FC<ThumbProps> = ({ label, value, bounds, format, onChange }) => {
     const modifiers = useNativeTint();
+    const scheme = useColorScheme();
 
     return (
         <View className="gap-3">
@@ -35,12 +38,16 @@ const Thumb: FC<ThumbProps> = ({ label, value, bounds, format, onChange }) => {
                 <Text className="text-muted-foreground text-sm">{label}</Text>
                 <Text className="font-medium text-sm">{format(value)}</Text>
             </View>
-            <Host matchContents={{ vertical: true }} style={{ width: '100%' }}>
+            <Host
+                matchContents={{ vertical: true }}
+                colorScheme={scheme === 'dark' ? 'dark' : 'light'}
+                style={{ width: '100%' }}
+            >
                 <Slider
                     value={value}
                     min={bounds[0]}
                     max={bounds[1]}
-                    step={1}
+                    step={bounds[1] - bounds[0] <= MAX_TICKS ? 1 : undefined}
                     modifiers={modifiers}
                     onValueChange={(next) => onChange(Math.round(next))}
                 />

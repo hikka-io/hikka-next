@@ -2,7 +2,7 @@ import type { FC } from 'react';
 
 import { SegmentedControl } from '@expo/ui/community/segmented-control';
 import * as Haptics from 'expo-haptics';
-import { View } from 'react-native';
+import { useColorScheme, View } from 'react-native';
 
 import { CONTENT_TYPES } from '@hikka/core';
 
@@ -16,11 +16,13 @@ const LABELS = CATALOG_TYPES.map((type) => CONTENT_TYPES[type].title_ua);
 const CatalogTypeControl: FC = () => {
     const type = useCatalogPrefs((state) => state.type);
     const setType = useCatalogPrefs((state) => state.setType);
+    const scheme = useColorScheme();
 
     return (
         <View className="px-4 pb-3">
             <SegmentedControl
                 values={LABELS}
+                appearance={scheme === 'dark' ? 'dark' : 'light'}
                 selectedIndex={CATALOG_TYPES.indexOf(type)}
                 onChange={(event) => {
                     const next =
