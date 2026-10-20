@@ -14,6 +14,7 @@ import {
     HorizontalCardImage,
     HorizontalCardTitle,
 } from '@/components/horizontal-card';
+import TextExpand from '@/components/text-expand';
 import Card from '@/components/ui/card';
 import { Header, HeaderTitle } from '@/components/ui/header';
 import { Text } from '@/components/ui/text';
@@ -21,7 +22,6 @@ import { useSession } from '@/features/auth';
 import { siteUrl } from '@/utils/site-origin';
 
 import type { ContentInfo } from './queries';
-import TextExpand from './text-expand';
 
 const LINKS_MAX_HEIGHT = 160;
 
@@ -94,6 +94,7 @@ const ContentLinks: FC<Props> = ({ content }) => {
                 key={index}
                 maxHeight={LINKS_MAX_HEIGHT}
                 surfaceClassName="bg-surface"
+                expandLabel="Показати всі посилання"
             >
                 <View className="gap-4">
                     {tabs[index].links.map((link) => (

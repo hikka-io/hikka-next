@@ -24,6 +24,8 @@ import {
 } from '@hikka/core';
 
 import PosterCard from '@/components/content-card/poster-card';
+import { MDViewer } from '@/components/markdown';
+import TextExpand from '@/components/text-expand';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Icon } from '@/components/ui/icon';
@@ -36,8 +38,10 @@ import { cn } from '@/utils/cn';
 import { getArticleExcerpt } from '../article-excerpt';
 import { useHomePreferences } from '../use-home-preferences';
 import { useOpenSitePath } from '../use-open-site-path';
-import ClampedMarkdown from './clamped-markdown';
 import type { FeedItemResponse } from './feed-item-types';
+
+const COMMENT_LINES = 6;
+const COMMENT_TEXT_CLASS = 'text-[15px] leading-[22px] text-foreground';
 
 const MAX_PREVIEW = 3;
 const TYPE_STYLES = {
@@ -238,9 +242,18 @@ const CommentBody: FC<{ data: CommentResponseFeed }> = ({ data }) => {
     if (!data.text) return null;
 
     return (
-        <ClampedMarkdown onReadMore={() => openSitePath(getFeedItemPath(data))}>
-            {data.text}
-        </ClampedMarkdown>
+        <TextExpand
+            lines={COMMENT_LINES}
+            textClassName={COMMENT_TEXT_CLASS}
+            contentKey={data.reference}
+            expandText="Читати далі"
+            expandLabel="Читати далі"
+            onReadMore={() => openSitePath(getFeedItemPath(data))}
+        >
+            <MDViewer key={data.reference} textClassName={COMMENT_TEXT_CLASS}>
+                {data.text}
+            </MDViewer>
+        </TextExpand>
     );
 };
 

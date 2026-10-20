@@ -6,8 +6,9 @@ import { View } from 'react-native';
 import { parseUserLinks, type UserResponseFollowed } from '@hikka/api';
 import { getUserLinkLabel } from '@hikka/core';
 
-import ExpandableMarkdown from '@/components/expandable-markdown';
+import { MDViewer } from '@/components/markdown';
 import { useOpenLink } from '@/components/markdown/use-open-link';
+import TextExpand from '@/components/text-expand';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Chip } from '@/components/ui/chip';
 import Image from '@/components/ui/image';
@@ -16,6 +17,8 @@ import { DENSE_MAX_FONT_SCALE } from '@/components/ui/typography';
 
 import { followStatsOptions } from './queries';
 import RoleBadge from './role-badge';
+
+const DESCRIPTION_CLASS = 'text-sm leading-5 text-muted-foreground';
 
 type Props = {
     user: UserResponseFollowed;
@@ -101,14 +104,19 @@ const ProfileHeader: FC<Props> = ({ user, username }) => {
                     <RoleBadge role={user.role} />
                 </View>
                 {user.description ? (
-                    <ExpandableMarkdown
+                    <TextExpand
                         contentKey={user.reference}
                         lines={3}
-                        lineHeight={20}
-                        textClassName="text-sm leading-5 text-muted-foreground"
+                        textClassName={DESCRIPTION_CLASS}
+                        expandLabel="Показати повний опис"
                     >
-                        {user.description}
-                    </ExpandableMarkdown>
+                        <MDViewer
+                            key={user.reference}
+                            textClassName={DESCRIPTION_CLASS}
+                        >
+                            {user.description}
+                        </MDViewer>
+                    </TextExpand>
                 ) : null}
                 {links.length > 0 && (
                     <View className="-mx-4">

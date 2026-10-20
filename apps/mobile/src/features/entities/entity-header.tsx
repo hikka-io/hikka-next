@@ -3,7 +3,8 @@ import type { FC, ReactNode } from 'react';
 import { View } from 'react-native';
 
 import PosterCard from '@/components/content-card/poster-card';
-import ExpandableMarkdown from '@/components/expandable-markdown';
+import { MDViewer } from '@/components/markdown';
+import TextExpand from '@/components/text-expand';
 import Card from '@/components/ui/card';
 import { Header, HeaderTitle } from '@/components/ui/header';
 import { Separator } from '@/components/ui/separator';
@@ -87,9 +88,14 @@ const EntityHeader: FC<Props> = ({
                     <Header>
                         <HeaderTitle>Опис</HeaderTitle>
                     </Header>
-                    <ExpandableMarkdown contentKey={slug} selectable>
-                        {text}
-                    </ExpandableMarkdown>
+                    <TextExpand
+                        contentKey={slug}
+                        expandLabel="Показати повний опис"
+                    >
+                        <MDViewer key={slug} selectable>
+                            {text}
+                        </MDViewer>
+                    </TextExpand>
                 </View>
             ) : null}
         </View>

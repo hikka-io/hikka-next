@@ -6,11 +6,13 @@ import { View } from 'react-native';
 import { isBlankDescription } from '@hikka/core';
 
 import { MDViewer } from '@/components/markdown';
+import TextExpand from '@/components/text-expand';
 import { Header, HeaderTitle } from '@/components/ui/header';
 import { useSession } from '@/features/auth';
 
 import type { ContentInfo } from './queries';
-import TextExpand from './text-expand';
+
+const SYNOPSIS_LINES = 8;
 
 type Props = {
     content: ContentInfo;
@@ -45,7 +47,11 @@ const ContentSynopsis: FC<Props> = ({ content }) => {
                     }
                 />
             )}
-            <TextExpand>
+            <TextExpand
+                lines={SYNOPSIS_LINES}
+                contentKey={`${content.slug}-${synopsis.label}`}
+                expandLabel="Показати повний опис"
+            >
                 <MDViewer
                     key={`${content.slug}-${synopsis.label}`}
                     authenticated={!!user}
