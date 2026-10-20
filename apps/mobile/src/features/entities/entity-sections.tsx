@@ -1,5 +1,7 @@
 import type { FC, ReactElement } from 'react';
 
+import { View } from 'react-native';
+
 import type {
     CharacterAnimeResponse,
     CharacterMangaResponse,
@@ -11,6 +13,8 @@ import type {
     PersonNovelResponse,
 } from '@hikka/api';
 
+import { CommentsPreview } from '@/features/comments';
+import { ContentCollections } from '@/features/content';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 
 import { EntityPoster, MediaPoster } from './appearance-cards';
@@ -146,12 +150,32 @@ const EntitySection: FC<Props> = ({ type, config, slug }) => {
     );
 };
 
-export const entitySections = (type: EntityType, slug: string) =>
-    ENTITY_SECTIONS[type].map((config) => (
+/** The appearance strips, then the web's collections block and the comments last (its `order-last` on a phone). */
+export const entitySections = (
+    type: EntityType,
+    slug: string,
+    commentsCount: number,
+) => [
+    ...ENTITY_SECTIONS[type].map((config) => (
         <EntitySection
             key={config.list}
             type={type}
             config={config}
             slug={slug}
         />
-    ));
+    )),
+    <ContentCollections
+        key="collections"
+        contentType={type}
+        slug={slug}
+        className="px-4 pt-6"
+    />,
+    <View key="comments" className="px-4 pt-6">
+        <CommentsPreview
+            contentType={type}
+            slug={slug}
+            commentsCount={commentsCount}
+            enabled
+        />
+    </View>,
+];
