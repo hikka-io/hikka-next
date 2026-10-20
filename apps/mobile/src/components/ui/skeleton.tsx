@@ -2,6 +2,7 @@ import { type FC, useEffect } from 'react';
 
 import { View, type ViewProps } from 'react-native';
 import Animated, {
+    cancelAnimation,
     Easing,
     useAnimatedStyle,
     useSharedValue,
@@ -26,6 +27,8 @@ const Skeleton: FC<SkeletonProps> = ({ className, style, ...props }) => {
             -1,
             true,
         );
+
+        return () => cancelAnimation(opacity);
     }, [opacity]);
 
     const pulse = useAnimatedStyle(() => ({ opacity: opacity.value }));

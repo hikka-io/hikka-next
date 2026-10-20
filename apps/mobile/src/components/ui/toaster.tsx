@@ -3,11 +3,10 @@ import type { ComponentProps, FC, PropsWithChildren } from 'react';
 import {
     CircleCheck,
     Info,
-    LoaderCircle,
     OctagonX,
     TriangleAlert,
 } from 'lucide-react-native';
-import { Platform, StyleSheet } from 'react-native';
+import { ActivityIndicator, Platform, StyleSheet } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { FullWindowOverlay } from 'react-native-screens';
 import { Toaster as Sonner } from 'sonner-native';
@@ -62,7 +61,9 @@ const Toaster: FC<Props> = (props) => {
                 info: <Icon as={Info} />,
                 warning: <Icon as={TriangleAlert} />,
                 error: <Icon as={OctagonX} />,
-                loading: <Icon as={LoaderCircle} />,
+                loading: (
+                    <ActivityIndicator colorClassName="accent-muted-foreground" />
+                ),
             }}
             toastOptions={{
                 style: toast,
