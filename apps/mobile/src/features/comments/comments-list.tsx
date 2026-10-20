@@ -256,7 +256,7 @@ const CommentsList: FC<Props> = ({ contentType, slug, reference }) => {
             <ScrollView
                 className="flex-1 bg-background"
                 contentInsetAdjustmentBehavior="automatic"
-                contentContainerClassName="px-4 pt-4 pb-16"
+                contentContainerClassName="px-4 pt-4 pb-8"
             >
                 <NsfwGate />
             </ScrollView>
@@ -276,7 +276,7 @@ const CommentsList: FC<Props> = ({ contentType, slug, reference }) => {
             <FlashList
                 className="bg-background"
                 contentInsetAdjustmentBehavior="automatic"
-                contentContainerClassName="pb-16"
+                contentContainerClassName="pb-8"
                 data={deciding ? [] : (rows ?? [])}
                 keyExtractor={(row) => row.key}
                 getItemType={(row) => row.type}

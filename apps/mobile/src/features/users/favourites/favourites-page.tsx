@@ -8,6 +8,10 @@ import { ScrollView, View } from 'react-native';
 import { ContentTypeEnum, type FavouriteContentTypeEnum } from '@hikka/api';
 
 import PosterCardSkeleton from '@/components/content-card/poster-card-skeleton';
+import {
+    POSTER_GRID_COLUMNS,
+    POSTER_GRID_CONTAINER,
+} from '@/components/content-card/poster-grid';
 import ListFooter from '@/components/list-footer';
 import EmptyState from '@/components/ui/empty-state';
 import ErrorState from '@/components/ui/error-state';
@@ -25,9 +29,6 @@ import FavouriteChips from './favourite-chips';
 import { favouriteEmptyCopy, favouriteHasSubtitles } from './favourite-empty';
 import { useFavouriteCategories } from './use-favourite-categories';
 
-const GRID_COLUMNS = 3;
-/** With the cells' `px-1.5`, the grid keeps the screen's 16 pt gutter. */
-const GRID_CONTAINER = { paddingHorizontal: 10, paddingBottom: 16 };
 const SKELETON_ITEMS: null[] = Array.from(
     { length: FAVOURITES_PAGE_SIZE },
     () => null,
@@ -61,9 +62,9 @@ const FavouriteGrid: FC<GridProps> = ({ username, type, header }) => {
         <FlashList
             className="bg-background"
             contentInsetAdjustmentBehavior="automatic"
-            contentContainerStyle={GRID_CONTAINER}
+            contentContainerStyle={POSTER_GRID_CONTAINER}
             data={data}
-            numColumns={GRID_COLUMNS}
+            numColumns={POSTER_GRID_COLUMNS}
             keyExtractor={(item, index) =>
                 item ? favouriteKey(item) : `skeleton-${index}`
             }
@@ -116,7 +117,7 @@ const FavouritesSkeleton: FC<{ subtitles: boolean }> = ({ subtitles }) => (
     <ScrollView
         className="flex-1 bg-background"
         contentInsetAdjustmentBehavior="automatic"
-        contentContainerStyle={GRID_CONTAINER}
+        contentContainerStyle={POSTER_GRID_CONTAINER}
         scrollEnabled={false}
     >
         <View className="flex-row gap-2 px-1.5 pt-2 pb-4">

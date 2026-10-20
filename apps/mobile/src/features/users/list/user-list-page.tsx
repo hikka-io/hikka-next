@@ -14,6 +14,11 @@ import {
 } from '@hikka/core';
 
 import PosterCardSkeleton from '@/components/content-card/poster-card-skeleton';
+import {
+    LIST_CONTAINER,
+    POSTER_GRID_COLUMNS,
+    POSTER_GRID_CONTAINER,
+} from '@/components/content-card/poster-grid';
 import ListFooter from '@/components/list-footer';
 import { Button } from '@/components/ui/button';
 import EmptyState from '@/components/ui/empty-state';
@@ -51,10 +56,6 @@ const TYPES = [
     { label: 'Ранобе', value: ContentTypeEnum.NOVEL },
 ];
 
-const GRID_COLUMNS = 3;
-/** With the cells' `px-1.5`, the grid keeps the screen's 16 pt gutter. */
-const GRID_CONTAINER = { paddingHorizontal: 10, paddingBottom: 16 };
-const LIST_CONTAINER = { paddingBottom: 16 };
 const SKELETON_ITEMS: null[] = Array.from(
     { length: DEFAULT_PAGE_SIZE },
     () => null,
@@ -169,9 +170,11 @@ const UserListPage: FC<Props> = ({ username, contentType, initialStatus }) => {
                 key={view}
                 className="bg-background"
                 contentInsetAdjustmentBehavior="automatic"
-                contentContainerStyle={grid ? GRID_CONTAINER : LIST_CONTAINER}
+                contentContainerStyle={
+                    grid ? POSTER_GRID_CONTAINER : LIST_CONTAINER
+                }
                 data={data}
-                numColumns={grid ? GRID_COLUMNS : 1}
+                numColumns={grid ? POSTER_GRID_COLUMNS : 1}
                 keyExtractor={(item, index) =>
                     item ? item.reference : `skeleton-${index}`
                 }

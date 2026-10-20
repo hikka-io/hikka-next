@@ -197,7 +197,7 @@ const ArticlePage: FC<Props> = ({ slug }) => {
                 <FlashList
                     className="bg-background"
                     contentInsetAdjustmentBehavior="automatic"
-                    contentContainerClassName="px-4 pt-4 pb-16"
+                    contentContainerClassName="px-4 pt-4 pb-8"
                     data={items}
                     keyExtractor={(item) =>
                         item.kind === 'block'

@@ -66,7 +66,7 @@ const ContentFollowingList: FC<Props> = ({ contentType, slug }) => {
             <FlashList
                 className="bg-background"
                 contentInsetAdjustmentBehavior="automatic"
-                contentContainerClassName="py-2"
+                contentContainerClassName="pt-2 pb-8"
                 data={data}
                 keyExtractor={(item, index) =>
                     item ? item.reference : `skeleton-${index}`

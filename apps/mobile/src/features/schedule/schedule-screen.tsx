@@ -116,7 +116,7 @@ const ScheduleScreen: FC = () => {
             <FlashList
                 className="bg-background"
                 contentInsetAdjustmentBehavior="automatic"
-                contentContainerStyle={{ paddingBottom: 16 }}
+                contentContainerClassName="pb-8"
                 data={isPending ? SKELETON_LIST : rows}
                 keyExtractor={rowKey}
                 getItemType={(row) => row.type}

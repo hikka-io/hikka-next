@@ -85,7 +85,7 @@ const HistoryFeed: FC<FeedProps> = ({ username, source, header }) => {
         <FlashList
             className="bg-background"
             contentInsetAdjustmentBehavior="automatic"
-            contentContainerClassName="pb-4"
+            contentContainerClassName="pb-8"
             data={rows}
             keyExtractor={(row) => row.key}
             getItemType={(row) => row.kind}

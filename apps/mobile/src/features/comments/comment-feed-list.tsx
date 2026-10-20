@@ -71,7 +71,7 @@ const CommentFeedList: FC<Props> = ({
         <FlashList
             className="bg-background"
             contentInsetAdjustmentBehavior="automatic"
-            contentContainerClassName="pt-4 pb-16"
+            contentContainerClassName="pt-4 pb-8"
             data={items ?? []}
             keyExtractor={(comment) => comment.reference}
             renderItem={({ item }) => <UserCommentRow comment={item} />}
