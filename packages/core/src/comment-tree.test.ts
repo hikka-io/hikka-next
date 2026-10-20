@@ -7,7 +7,7 @@ import {
     type CommentNode,
     countCommentNodes,
     flattenCommentNodes,
-} from './build-comment-tree';
+} from './comment-tree';
 
 function comment(
     reference: string,

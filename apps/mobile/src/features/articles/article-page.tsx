@@ -181,7 +181,12 @@ const ArticlePage: FC<Props> = ({ slug }) => {
                     </View>
                 );
             case 'comments':
-                return <ArticleCommentsSlot slug={slug} />;
+                return (
+                    <ArticleCommentsSlot
+                        slug={slug}
+                        commentsCount={article.comments_count}
+                    />
+                );
         }
     };
 

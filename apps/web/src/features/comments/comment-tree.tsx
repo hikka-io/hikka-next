@@ -1,11 +1,11 @@
 import type { FC } from 'react';
 
 import type { CommentContentTypeEnum } from '@hikka/api';
+import type { CommentNode } from '@hikka/core';
 
 import { cn } from '@/utils/cn';
 
 import Comment from './comment';
-import type { CommentNode } from './utils/build-comment-tree';
 
 type Props = {
     comments: CommentNode[];

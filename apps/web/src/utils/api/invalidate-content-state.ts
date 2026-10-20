@@ -20,7 +20,6 @@ import {
     type InvalidateOptions,
     invalidateByIds,
     matchesPath,
-    patchQueries,
     type QueryId,
     queryId,
     READ_EMBED_IDS,
@@ -30,14 +29,16 @@ import {
     WATCH_EMBED_IDS,
 } from '@hikka/core';
 
-// Watch/read, follow, notification and vote cache writers live in @hikka/core, shared with the mobile app.
+// Watch/read, follow, notification, comment and vote cache writers live in @hikka/core, shared with the mobile app.
 export {
+    applyCommentVote,
     applyFollowChange,
     applyReadDeletion,
     applyReadMutation,
     applyVoteMutation,
     applyWatchDeletion,
     applyWatchMutation,
+    invalidateComments,
     invalidateNotifications,
     invalidateReadState,
     invalidateSession,
@@ -48,19 +49,6 @@ export {
     writeSessionUI,
     writeWatchToCaches,
 } from '@hikka/core';
-
-/** Comment lists + content-list queries that embed a comments count/preview. */
-const COMMENT_IDS: readonly QueryId[] = [
-    ...COMMENT_LIST_IDS,
-    'animeSlug',
-    'mangaInfo',
-    'novelInfo',
-    'characterInfo',
-    'personInfo',
-    'getCollection',
-    'getEdit',
-    'getArticle',
-];
 
 /** Community-edit list queries (the `/edit` index, top stats, content todo). */
 const EDIT_LIST_IDS: readonly QueryId[] = [
@@ -96,14 +84,6 @@ const USER_CLIENT_IDS: readonly QueryId[] = ['listUserClients'];
 const AUTH_TOKEN_IDS: readonly QueryId[] = ['thirdPartyAuthTokens'];
 
 const FAVOURITE_IDS: readonly QueryId[] = ['favouriteList'];
-
-/** Invalidate comment lists/threads after a comment write/edit/delete. */
-export function invalidateComments(
-    queryClient: QueryClient,
-    options?: InvalidateOptions,
-): Promise<void> {
-    return invalidateByIds(queryClient, COMMENT_IDS, options);
-}
 
 /** Invalidate the community-edit list queries after an edit mutation. */
 export function invalidateEdits(

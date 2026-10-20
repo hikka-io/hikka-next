@@ -7,17 +7,9 @@ import {
     type VoteResponse,
 } from '@hikka/api';
 
-import {
-    type InvalidateOptions,
-    invalidateByIds,
-    patchQueries,
-    refetchTypeFor,
-} from './content-cache';
-import { patchEmbeddedVote } from './patch-embedded';
-import { COMMENT_LIST_IDS } from './query-groups';
+import { applyCommentVote } from './comment-cache';
+import { type InvalidateOptions, refetchTypeFor } from './content-cache';
 import { matchesPath, type QueryId } from './query-id';
-
-const COMMENT_LIST_SET: ReadonlySet<string> = new Set(COMMENT_LIST_IDS);
 
 const VOTE_DETAIL = {
     [VoteContentTypeEnum.ARTICLE]: ['getArticle', 'slug'],
@@ -26,25 +18,6 @@ const VOTE_DETAIL = {
     Exclude<VoteContentTypeEnum, typeof VoteContentTypeEnum.COMMENT>,
     readonly [QueryId, string]
 >;
-
-function invalidateVote(
-    queryClient: QueryClient,
-    { content_type, slug }: SetVoteData['path'],
-    options?: InvalidateOptions,
-): Promise<void> {
-    if (content_type === VoteContentTypeEnum.COMMENT) {
-        return invalidateByIds(queryClient, COMMENT_LIST_IDS, {
-            refetch: false,
-        });
-    }
-    const [id, field] =
-        VOTE_DETAIL[content_type as keyof typeof VOTE_DETAIL] ?? [];
-    if (!id) return Promise.resolve();
-    return queryClient.invalidateQueries({
-        predicate: (query) => matchesPath(query.queryKey, id, field, slug),
-        refetchType: refetchTypeFor(options),
-    });
-}
 
 /**
  * Store a vote and refresh what embeds it. The vote button is optimistic, so a
@@ -58,12 +31,17 @@ export function applyVoteMutation(
     options?: InvalidateOptions,
 ): Promise<void> {
     queryClient.setQueryData(getVoteQueryKey({ path: target }), data);
-    if (target.content_type === VoteContentTypeEnum.COMMENT) {
-        patchQueries(queryClient, COMMENT_LIST_SET, (cached) =>
-            patchEmbeddedVote(cached, target.slug, data.score),
-        );
+    const { content_type, slug } = target;
+    if (content_type === VoteContentTypeEnum.COMMENT) {
+        return applyCommentVote(queryClient, slug, data.score);
     }
-    return invalidateVote(queryClient, target, options);
+    const [id, field] =
+        VOTE_DETAIL[content_type as keyof typeof VOTE_DETAIL] ?? [];
+    if (!id) return Promise.resolve();
+    return queryClient.invalidateQueries({
+        predicate: (query) => matchesPath(query.queryKey, id, field, slug),
+        refetchType: refetchTypeFor(options),
+    });
 }
 
 /** The scores a vote button shows while the viewer's vote (`pendingScore`) is on its way. */

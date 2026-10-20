@@ -16,15 +16,12 @@ import {
     DEFAULT_COMMENT_ORDER,
     DEFAULT_COMMENT_SORT,
     getContentTitle,
+    supportsReviews,
+    type Verdict,
 } from '@hikka/core';
 
 import { usePageHeader } from '@/features/app-shell';
-import {
-    CommentList,
-    supportsReviews,
-    UserCommentList,
-    type Verdict,
-} from '@/features/comments';
+import { CommentList, UserCommentList } from '@/features/comments';
 import {
     commentListOptions,
     loadCommentsContent,

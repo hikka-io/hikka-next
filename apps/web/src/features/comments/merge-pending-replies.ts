@@ -1,5 +1,6 @@
-import type { PendingReply } from '../comments-provider';
-import { type CommentNode, toCommentNode } from './build-comment-tree';
+import { type CommentNode, toCommentNode } from '@hikka/core';
+
+import type { PendingReply } from './comments-provider';
 
 /**
  * Pins replies posted this session to the top of `serverReplies` — or after

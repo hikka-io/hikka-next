@@ -1,6 +1,7 @@
 import { type FC, useState } from 'react';
 
 import type { ReviewStatsResponse } from '@hikka/api';
+import { getReviewTotal, getReviewVerdict, type Verdict } from '@hikka/core';
 
 import Card from '@/components/ui/card';
 import { Chip } from '@/components/ui/chip';
@@ -13,7 +14,6 @@ import {
 } from '@/components/ui/tooltip';
 import { cn } from '@/utils/cn';
 
-import { getReviewTotal, getReviewVerdict, type Verdict } from './review';
 import { REVIEW_VERDICTS } from './review-verdicts';
 
 const BAR_CLASS: Record<Verdict, string> = {

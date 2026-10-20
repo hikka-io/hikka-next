@@ -3,6 +3,7 @@ import { type FC, useEffect, useState } from 'react';
 import { Plate } from 'platejs/react';
 
 import type { CommentContentTypeEnum, CommentResponse } from '@hikka/api';
+import { canToggleReview, type Verdict } from '@hikka/core';
 
 import { EditorPreview } from '@/components/plate/editor/markdown-editor';
 import { usePlateMarkdownSetup } from '@/components/plate/editor/use-plate-markdown-setup';
@@ -18,8 +19,7 @@ import { cn } from '@/utils/cn';
 
 import CommentInputBottomBar from './comment-input-bottom-bar';
 import { useCommentsContext } from './comments-provider';
-import type { Verdict } from './review/review';
-import { canToggleReview, getPlainTextLength } from './review/review';
+import { getPlainTextLength } from './review/review';
 import VerdictPicker from './review/verdict-picker';
 
 type Props = {

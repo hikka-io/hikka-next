@@ -9,7 +9,11 @@ import {
     type CommentResponse,
     hideCommentMutation,
 } from '@hikka/api';
-import { MUTATION_META_SKIP_ERROR_TOAST } from '@hikka/core';
+import {
+    canConvertReview,
+    canDemoteReview,
+    MUTATION_META_SKIP_ERROR_TOAST,
+} from '@hikka/core';
 
 import MaterialSymbolsDeleteForeverRounded from '@/components/icons/material-symbols/MaterialSymbolsDeleteForeverRounded';
 import MaterialSymbolsEditRounded from '@/components/icons/material-symbols/MaterialSymbolsEditRounded';
@@ -37,7 +41,6 @@ import { invalidateComments } from '@/utils/api/invalidate-content-state';
 import { useCommentsContext } from './comments-provider';
 import ConvertReviewDialog from './review/convert-review-dialog';
 import DemoteReviewDialog from './review/demote-review-dialog';
-import { canConvertReview, canDemoteReview } from './review/review';
 
 type Props = {
     comment: CommentResponse;

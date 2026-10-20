@@ -246,6 +246,7 @@ const CollectionPage: FC<Props> = ({ reference }) => {
                                 return (
                                     <CollectionCommentsSlot
                                         reference={reference}
+                                        commentsCount={data.comments_count}
                                     />
                                 );
                         }
