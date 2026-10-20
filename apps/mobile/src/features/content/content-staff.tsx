@@ -3,10 +3,10 @@ import type { FC } from 'react';
 import { useQuery } from '@tanstack/react-query';
 
 import { type ContentAuthorResponse, ContentTypeEnum } from '@hikka/api';
-import { getTitle } from '@hikka/core';
 
 import PosterCard from '@/components/content-card/poster-card';
 import PosterRow from '@/components/content-card/poster-row';
+import { useTitle } from '@/services/session';
 import { contentHref } from '@/utils/content-href';
 
 import { useVisibleOnce } from './detail-scroll';
@@ -24,6 +24,7 @@ type RowProps = {
 };
 
 const StaffRow: FC<RowProps> = ({ list, isError, onRetry, onLayout }) => {
+    const getTitle = useTitle();
     if (list?.length === 0) {
         return null;
     }

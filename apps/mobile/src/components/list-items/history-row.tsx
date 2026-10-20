@@ -7,10 +7,7 @@ import {
     convertHistory,
     formatHistoryTime,
     formatTimeAgo,
-    getTitle,
     type HistoryFact,
-    type NameLanguage,
-    type TitleLanguage,
 } from '@hikka/core';
 
 import {
@@ -22,6 +19,7 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Text, TextClassContext } from '@/components/ui/text';
 import { DENSE_MAX_FONT_SCALE } from '@/components/ui/typography';
+import { useTitle } from '@/services/session';
 import { contentHref } from '@/utils/content-href';
 
 const IMPORT_TITLES: Partial<Record<HistoryTypeEnum, string>> = {
@@ -49,8 +47,6 @@ const Fact: FC<{ fact: HistoryFact }> = ({ fact }) => (
 
 type Props = {
     item: HistoryResponse;
-    titleLanguage?: TitleLanguage;
-    nameLanguage?: NameLanguage;
     // The following feed names who made the change; a profile's own history does not.
     showUser?: boolean;
     // Day-grouped lists show the clock time, a flat preview the time since.
@@ -60,16 +56,15 @@ type Props = {
 
 const HistoryRow: FC<Props> = ({
     item,
-    titleLanguage,
-    nameLanguage,
     showUser = false,
     relativeTime = false,
     className,
 }) => {
+    const getTitle = useTitle();
     const entry = convertHistory(item);
     const content = item.content;
     const title =
-        (content && getTitle(content, titleLanguage, nameLanguage)) ||
+        (content && getTitle(content)) ||
         IMPORT_TITLES[item.history_type] ||
         'Загальне';
 

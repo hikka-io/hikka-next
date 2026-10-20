@@ -4,10 +4,11 @@ import { useQuery } from '@tanstack/react-query';
 import { RefreshControl, ScrollView } from 'react-native';
 
 import { ContentTypeEnum, type MainContentTypeEnum } from '@hikka/api';
-import { contentPath, getTitle } from '@hikka/core';
+import { contentPath } from '@hikka/core';
 
 import DetailHeaderChrome from '@/components/detail-header-chrome';
 import ErrorState from '@/components/ui/error-state';
+import { useTitle } from '@/services/session';
 import { isNotFoundError } from '@/utils/api/is-not-found';
 import { bySlug, usePullToRefresh } from '@/utils/api/use-pull-to-refresh';
 
@@ -71,6 +72,7 @@ type Props = {
 };
 
 const ContentDetailBody: FC<Props> = ({ contentType, slug }) => {
+    const getTitle = useTitle();
     const {
         data: content,
         error,

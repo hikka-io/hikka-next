@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { ScrollView, View } from 'react-native';
 
 import { ContentTypeEnum } from '@hikka/api';
-import { CONTENT_TYPES, getMediaTypeLabel, getTitle } from '@hikka/core';
+import { CONTENT_TYPES, getMediaTypeLabel } from '@hikka/core';
 
 import PosterCard from '@/components/content-card/poster-card';
 import PosterRow from '@/components/content-card/poster-row';
@@ -12,6 +12,7 @@ import { Chip } from '@/components/ui/chip';
 import ErrorState from '@/components/ui/error-state';
 import { Header, HeaderTitle } from '@/components/ui/header';
 import { Skeleton } from '@/components/ui/skeleton';
+import { useTitle } from '@/services/session';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { contentHref } from '@/utils/content-href';
 
@@ -38,6 +39,7 @@ const FavouriteStrip: FC<{ username: string; type: Category }> = ({
     username,
     type,
 }) => {
+    const getTitle = useTitle();
     const query = useInfiniteList<FavouriteItem>(
         userFavouritesOptions(username, type),
     );

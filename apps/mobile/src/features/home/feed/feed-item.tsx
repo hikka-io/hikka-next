@@ -20,7 +20,6 @@ import {
     formatTimeAgo,
     getFeedItemCommentsPath,
     getFeedItemPath,
-    getTitle,
 } from '@hikka/core';
 
 import PosterCard from '@/components/content-card/poster-card';
@@ -33,11 +32,11 @@ import Image from '@/components/ui/image';
 import { StatItem, StatItemGroup } from '@/components/ui/stat-item';
 import { Text } from '@/components/ui/text';
 import { DENSE_MAX_FONT_SCALE } from '@/components/ui/typography';
+import { useTitle } from '@/services/session';
 import { cn } from '@/utils/cn';
 import { presetImageUrl } from '@/utils/image-presets';
 
 import { getArticleExcerpt } from '../article-excerpt';
-import { useHomePreferences } from '../use-home-preferences';
 import { useOpenSitePath } from '../use-open-site-path';
 import type { FeedItemResponse } from './feed-item-types';
 
@@ -270,7 +269,7 @@ type Props = {
 
 const FeedItem: FC<Props> = ({ item }) => {
     const openSitePath = useOpenSitePath();
-    const { titleLanguage, nameLanguage } = useHomePreferences();
+    const getTitle = useTitle();
 
     let reference: Reference | undefined;
     let review: ReviewResponse | undefined;
@@ -296,7 +295,7 @@ const FeedItem: FC<Props> = ({ item }) => {
             ? {
                   contentType: content.data_type,
                   slug: content.slug,
-                  title: getTitle(item.content, titleLanguage, nameLanguage),
+                  title: getTitle(item.content),
               }
             : undefined;
         commentsCount = item.comments_count;

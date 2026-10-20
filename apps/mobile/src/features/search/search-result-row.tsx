@@ -4,7 +4,7 @@ import { Star, User } from 'lucide-react-native';
 import { View } from 'react-native';
 
 import { ContentStatusEnum, ContentTypeEnum } from '@hikka/api';
-import { getMediaTypeLabel, getTitle, RELEASE_STATUS } from '@hikka/core';
+import { getMediaTypeLabel, RELEASE_STATUS } from '@hikka/core';
 
 import {
     HorizontalCard,
@@ -16,6 +16,7 @@ import {
 import { Badge } from '@/components/ui/badge';
 import { Icon } from '@/components/ui/icon';
 import { Text } from '@/components/ui/text';
+import { useTitle } from '@/services/session';
 import { contentHref } from '@/utils/content-href';
 
 import type { SearchItem } from './queries';
@@ -42,6 +43,7 @@ type Props = {
 
 /** The web's `SearchCard`: poster, title / original title, and year · type · status · score for content. */
 const SearchResultRow: FC<Props> = ({ item }) => {
+    const getTitle = useTitle();
     const original = subtitle(item);
     const content =
         item.data_type === ContentTypeEnum.ANIME ||
