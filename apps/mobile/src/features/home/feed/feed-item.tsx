@@ -25,6 +25,7 @@ import {
 
 import PosterCard from '@/components/content-card/poster-card';
 import { MDViewer } from '@/components/markdown';
+import ReviewBadge from '@/components/review-badge';
 import TextExpand from '@/components/text-expand';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
@@ -54,29 +55,10 @@ const TYPE_STYLES = {
     },
 } as const;
 
-const VERDICTS = {
-    yes: { label: 'Рекомендує', variant: 'success' },
-    no: { label: 'Не рекомендує', variant: 'destructive' },
-    maybe: { label: 'Вагається', variant: 'warning' },
-} as const;
-
 type Reference = {
     contentType?: string;
     slug?: string;
     title?: string;
-};
-
-const ReviewBadge: FC<{ review: ReviewResponse }> = ({ review }) => {
-    const verdict = VERDICTS[review.recommended];
-
-    return (
-        <View className="flex-row items-center gap-1">
-            <Badge variant={verdict.variant}>{verdict.label}</Badge>
-            {!!review.score && (
-                <Badge variant={verdict.variant}>{review.score}</Badge>
-            )}
-        </View>
-    );
 };
 
 const TypeBadge: FC<{
