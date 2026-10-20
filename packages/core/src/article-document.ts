@@ -1,3 +1,4 @@
+import { resolveHttpsUrl, resolveWebUrl } from './url';
 import { readYouTubeVideo } from './youtube';
 
 /** Node types of the article document (Plate JSON), as the backend `app/common/schemas/document.py` accepts them. */
@@ -87,31 +88,15 @@ const childrenOf = (node: RawNode): RawNode[] =>
 const isInline = (node: RawNode) =>
     typeof node.text === 'string' || INLINE_TYPES.has(node.type);
 
-/** An http(s) link target; anything else (`javascript:`, `data:`) is not a link. */
-const linkUrl = (value: unknown): string | null => {
-    if (typeof value !== 'string' || !value.trim()) return null;
+const linkUrl = (value: unknown): string | null =>
+    typeof value === 'string' && resolveWebUrl(value, SITE_ORIGIN)
+        ? value.trim()
+        : null;
 
-    try {
-        const url = new URL(value.trim(), SITE_ORIGIN);
-        return url.protocol === 'https:' || url.protocol === 'http:'
-            ? value.trim()
-            : null;
-    } catch {
-        return null;
-    }
-};
-
-/** Images load only over https, relative paths against the site. */
-const imageUrl = (value: unknown): string | null => {
-    if (typeof value !== 'string' || !value.trim()) return null;
-
-    try {
-        const url = new URL(value.trim(), SITE_ORIGIN);
-        return url.protocol === 'https:' ? url.toString() : null;
-    } catch {
-        return null;
-    }
-};
+const imageUrl = (value: unknown): string | null =>
+    typeof value === 'string'
+        ? (resolveHttpsUrl(value, SITE_ORIGIN)?.toString() ?? null)
+        : null;
 
 function inlines(nodes: RawNode[], depth: number): ArticleInlineNode[] {
     if (depth > MAX_DEPTH) return [];
