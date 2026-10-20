@@ -5,17 +5,18 @@ import { useMutation } from '@tanstack/react-query';
 import { ActivityIndicator, Pressable, Text, View } from 'react-native';
 import { z } from 'zod';
 
-import { loginMutation } from '@hikka/api';
+import { HikkaApiError, loginMutation } from '@hikka/api';
 
-import { emailSchema, passwordSchema } from '@/utils/form-schemas';
+import { identifierSchema, passwordSchema } from '@/utils/form-schemas';
 
 import Captcha from './captcha';
 import { CAPTCHA_BYPASS } from './captcha-config';
+import { FALLBACK_ERROR } from './constants';
 import { signIn } from './session';
 import TextField from './text-field';
 
 const formSchema = z.object({
-    email: emailSchema,
+    identifier: identifierSchema,
     password: passwordSchema,
 });
 
@@ -26,6 +27,7 @@ type Props = {
 const LoginForm: FC<Props> = ({ onSuccess }) => {
     const [captchaToken, setCaptchaToken] = useState(CAPTCHA_BYPASS);
     const [captchaKey, setCaptchaKey] = useState(0);
+    const [captchaWaiting, setCaptchaWaiting] = useState(false);
 
     const login = useMutation({
         ...loginMutation(),
@@ -41,11 +43,19 @@ const LoginForm: FC<Props> = ({ onSuccess }) => {
     });
 
     const form = useForm({
-        defaultValues: { email: '', password: '' },
+        defaultValues: { identifier: '', password: '' },
         validators: { onChange: formSchema },
-        onSubmit: ({ value }) => {
-            if (!captchaToken) return;
-            login.mutate({ body: value, headers: { captcha: captchaToken } });
+        onSubmit: ({ value: { identifier, password } }) => {
+            if (!captchaToken) {
+                setCaptchaWaiting(true);
+                return;
+            }
+
+            const body = identifier.includes('@')
+                ? { email: identifier, password }
+                : { username: identifier, password };
+
+            login.mutate({ body, headers: { captcha: captchaToken } });
         },
     });
 
@@ -54,6 +64,10 @@ const LoginForm: FC<Props> = ({ onSuccess }) => {
         (state) => state.submissionAttempts > 0,
     );
     const busy = login.isPending || login.isSuccess;
+    const errorMessage =
+        login.error instanceof HikkaApiError
+            ? login.error.message
+            : login.error && FALLBACK_ERROR;
 
     return (
         <View className="gap-4 bg-background p-6">
@@ -64,11 +78,11 @@ const LoginForm: FC<Props> = ({ onSuccess }) => {
                 </Text>
             </View>
 
-            <form.Field name="email">
+            <form.Field name="identifier">
                 {(field) => (
                     <TextField
-                        label="Пошта"
-                        placeholder="Введіть вашу пошту"
+                        label="Юзернейм або пошта"
+                        placeholder="Введіть ваш юзернейм або пошту"
                         value={field.state.value}
                         onChangeText={field.handleChange}
                         onBlur={field.handleBlur}
@@ -78,7 +92,7 @@ const LoginForm: FC<Props> = ({ onSuccess }) => {
                                 : undefined
                         }
                         autoCapitalize="none"
-                        autoComplete="email"
+                        autoComplete="username"
                         autoCorrect={false}
                         keyboardType="email-address"
                         clearButtonMode="while-editing"
@@ -114,13 +128,25 @@ const LoginForm: FC<Props> = ({ onSuccess }) => {
 
             {CAPTCHA_BYPASS ? null : (
                 <View className="items-center">
-                    <Captcha key={captchaKey} onToken={setCaptchaToken} />
+                    <Captcha
+                        key={captchaKey}
+                        onToken={(token) => {
+                            setCaptchaToken(token);
+                            if (token) setCaptchaWaiting(false);
+                        }}
+                    />
                 </View>
             )}
 
-            {login.error ? (
+            {captchaWaiting && !captchaToken ? (
+                <Text className="text-muted-foreground text-sm">
+                    Зачекайте, поки завершиться перевірка
+                </Text>
+            ) : null}
+
+            {errorMessage ? (
                 <Text className="text-destructive-foreground text-sm">
-                    {login.error.message}
+                    {errorMessage}
                 </Text>
             ) : null}
 
