@@ -1,12 +1,12 @@
 import { Stack } from 'expo-router';
 
-import EmptyState from '@/components/ui/empty-state';
+import { NotificationsScreen } from '@/features/notifications';
 
-export default function NotificationsScreen() {
+export default function NotificationsRoute() {
     return (
         <>
             <Stack.Title>Сповіщення</Stack.Title>
-            <EmptyState title="Незабаром" className="flex-1 justify-center" />
+            <NotificationsScreen />
         </>
     );
 }
