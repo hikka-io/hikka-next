@@ -1,6 +1,5 @@
 import { type FC, Fragment, type ReactNode, useState } from 'react';
 
-import { format, formatDuration, intervalToDuration } from 'date-fns';
 import {
     BookType,
     Building2,
@@ -16,20 +15,23 @@ import { Pressable, View } from 'react-native';
 
 import {
     type AnimeInfoResponse,
-    AnimeStatusEnum,
     ContentTypeEnum,
     type MangaInfoResponse,
     type NovelInfoResponse,
 } from '@hikka/api';
 import {
     AGE_RATING,
-    APP_LOCALE,
+    findNextEpisode,
+    formatEpisodeCount,
+    formatEpisodeDuration,
+    formatNextEpisodeDate,
     getMediaTypeLabel,
     getScheduleDuration,
     RELEASE_STATUS,
     SEASON,
 } from '@hikka/core';
 
+import { presetImageUrl } from '@/components/content-card/image-presets';
 import { Badge } from '@/components/ui/badge';
 import Card from '@/components/ui/card';
 import Image from '@/components/ui/image';
@@ -40,21 +42,6 @@ import DetailRow from './detail-row';
 import type { ContentInfo } from './queries';
 
 type BadgeStatus = keyof typeof RELEASE_STATUS;
-
-const formatEpisodeDuration = (duration: number) =>
-    formatDuration(
-        intervalToDuration({ start: 0, end: duration * 60 * 1000 }),
-        { locale: APP_LOCALE },
-    );
-
-const formatEpisodeCount = (
-    status: string | null,
-    released: number | null,
-    total: number | null,
-) =>
-    status === AnimeStatusEnum.FINISHED
-        ? (total?.toString() ?? '?')
-        : `${released ?? '?'} / ${total ?? '?'}`;
 
 const DetailGroups: FC<{ groups: ReactNode[] }> = ({ groups }) => (
     <Card className="px-0">
@@ -77,22 +64,37 @@ const StatusRow: FC<{ status: string | null }> = ({ status }) =>
         </DetailRow>
     ) : null;
 
+const SYNONYMS_PREVIEW = 3;
+
 const SynonymsRow: FC<{ synonyms: string[] }> = ({ synonyms }) => {
     const [expanded, setExpanded] = useState(false);
+    const hidden = synonyms.length - SYNONYMS_PREVIEW;
+    const preview = synonyms.slice(0, SYNONYMS_PREVIEW).join(', ');
+
+    if (hidden <= 0) {
+        return <DetailRow icon={BookType} title="Синоніми" value={preview} />;
+    }
 
     return (
         <DetailRow icon={BookType} title="Синоніми">
             <Pressable
                 accessibilityRole="button"
                 accessibilityState={{ expanded }}
+                accessibilityHint={
+                    expanded
+                        ? undefined
+                        : `Ще ${hidden}, торкніться, щоб показати`
+                }
                 onPress={() => setExpanded(!expanded)}
-                className="active:opacity-60"
+                className="min-h-11 justify-center active:opacity-60"
             >
-                <Text
-                    numberOfLines={expanded ? undefined : 2}
-                    className="text-right font-medium text-sm leading-tight"
-                >
-                    {(expanded ? synonyms : synonyms.slice(0, 3)).join(', ')}
+                <Text className="text-right font-medium text-sm leading-tight">
+                    {expanded ? synonyms.join(', ') : preview}
+                    {!expanded && (
+                        <Text className="font-medium text-muted-foreground text-sm">
+                            {` +${hidden}`}
+                        </Text>
+                    )}
                 </Text>
             </Pressable>
         </DetailRow>
@@ -100,12 +102,7 @@ const SynonymsRow: FC<{ synonyms: string[] }> = ({ synonyms }) => {
 };
 
 const WatchDetails: FC<{ content: AnimeInfoResponse }> = ({ content }) => {
-    const schedule = content.schedule as Array<{ airing_at?: unknown }>;
-    const nextEpisode = schedule.find(
-        (item): item is { airing_at: number } =>
-            typeof item.airing_at === 'number' &&
-            item.airing_at * 1000 > Date.now(),
-    );
+    const nextEpisode = findNextEpisode(content.schedule);
     const studio = content.companies.find(
         (company) => company.type === 'studio',
     );
@@ -158,12 +155,8 @@ const WatchDetails: FC<{ content: AnimeInfoResponse }> = ({ content }) => {
                             >
                                 <View className="items-end">
                                     <Text className="text-right font-medium text-sm leading-tight">
-                                        {format(
-                                            new Date(
-                                                nextEpisode.airing_at * 1000,
-                                            ),
-                                            'd MMMM HH:mm',
-                                            { locale: APP_LOCALE },
+                                        {formatNextEpisodeDate(
+                                            nextEpisode.airing_at,
                                         )}
                                     </Text>
                                     <Text className="text-right text-muted-foreground text-xs">
@@ -203,7 +196,10 @@ const WatchDetails: FC<{ content: AnimeInfoResponse }> = ({ content }) => {
                                     </Text>
                                     {studio.company.image && (
                                         <Image
-                                            source={studio.company.image}
+                                            source={presetImageUrl(
+                                                studio.company.image,
+                                                'cardXs',
+                                            )}
                                             contentFit="cover"
                                             accessibilityIgnoresInvertColors
                                             className="aspect-2/1 w-8 rounded-xs"

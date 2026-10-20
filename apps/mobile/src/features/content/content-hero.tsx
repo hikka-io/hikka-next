@@ -2,18 +2,18 @@ import { type FC, useEffect, useState } from 'react';
 
 import { View } from 'react-native';
 
-import type { MainContentTypeEnum } from '@hikka/api';
-import { getTitle } from '@hikka/core';
+import { ContentTypeEnum, type MainContentTypeEnum } from '@hikka/api';
+import { getOriginalTitle, getTitle } from '@hikka/core';
 
+import { presetImageUrl } from '@/components/content-card/image-presets';
 import PosterCard from '@/components/content-card/poster-card';
 import { Badge } from '@/components/ui/badge';
 import { Text } from '@/components/ui/text';
 import { cn } from '@/utils/cn';
 
 import ContentScores from './content-scores';
-import { getOriginalTitle } from './get-original-title';
 import type { ContentInfo } from './queries';
-import TrackingSlot from './tracking-slot';
+import TrackingSlot, { type ProgressTotals } from './tracking-slot';
 
 const titleSizeClass = (title: string) =>
     title.length > 80
@@ -21,6 +21,11 @@ const titleSizeClass = (title: string) =>
         : title.length > 40
           ? 'text-xl leading-snug'
           : 'text-2xl leading-8';
+
+const progressTotals = (content: ContentInfo): ProgressTotals =>
+    content.data_type === ContentTypeEnum.ANIME
+        ? { episodes_total: content.episodes_total }
+        : { chapters: content.chapters, volumes: content.volumes };
 
 type Props = {
     contentType: MainContentTypeEnum;
@@ -46,7 +51,7 @@ const ContentHero: FC<Props> = ({ contentType, content, onTitleBottom }) => {
             onLayout={(event) => setHeroTop(event.nativeEvent.layout.y)}
         >
             <PosterCard
-                image={content.image ?? undefined}
+                image={presetImageUrl(content.image, 'cardLg')}
                 className="w-48 self-center"
             />
             <View
@@ -78,7 +83,11 @@ const ContentHero: FC<Props> = ({ contentType, content, onTitleBottom }) => {
                 </View>
             )}
             <ContentScores content={content} />
-            <TrackingSlot contentType={contentType} slug={content.slug} />
+            <TrackingSlot
+                contentType={contentType}
+                slug={content.slug}
+                totals={progressTotals(content)}
+            />
         </View>
     );
 };

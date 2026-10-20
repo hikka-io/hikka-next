@@ -3,9 +3,10 @@ import { type FC, useState } from 'react';
 import { SegmentedControl } from '@expo/ui/community/segmented-control';
 import { openBrowserAsync } from 'expo-web-browser';
 import { View } from 'react-native';
+import { toast } from 'sonner-native';
 
-import { ContentTypeEnum, ExternalTypeEnum } from '@hikka/api';
-import { getPlatformIcon } from '@hikka/core';
+import { ContentTypeEnum } from '@hikka/api';
+import { getPlatformIcon, groupExternalLinks, parseUrl } from '@hikka/core';
 
 import {
     HorizontalCard,
@@ -14,7 +15,7 @@ import {
     HorizontalCardTitle,
 } from '@/components/horizontal-card';
 import Card from '@/components/ui/card';
-import { Header, HeaderActions, HeaderTitle } from '@/components/ui/header';
+import { Header, HeaderTitle } from '@/components/ui/header';
 import { Text } from '@/components/ui/text';
 import { useSession } from '@/features/auth';
 
@@ -26,8 +27,14 @@ const LINKS_MAX_HEIGHT = 160;
 
 type Link = ContentInfo['external'][number];
 
-const dedupeByUrl = (links: Link[]) =>
-    Array.from(new Map(links.map((link) => [link.url, link])).values());
+const WEB_PROTOCOLS = ['http:', 'https:'];
+
+const openLink = (url: string) => {
+    if (!WEB_PROTOCOLS.includes(parseUrl(url)?.protocol ?? '')) return;
+    openBrowserAsync(url).catch(() =>
+        toast.error('Не вдалося відкрити посилання'),
+    );
+};
 
 const linkImage = (link: Link) => {
     const icon = getPlatformIcon(link.url);
@@ -49,20 +56,9 @@ const ContentLinks: FC<Props> = ({ content }) => {
     const { user } = useSession();
     const [active, setActive] = useState(0);
 
-    const general = dedupeByUrl(
-        content.external.filter(
-            (link) => link.type === ExternalTypeEnum.GENERAL,
-        ),
-    );
-    const watch = user
-        ? dedupeByUrl(
-              content.external.filter(
-                  (link) =>
-                      link.type === ExternalTypeEnum.WATCH ||
-                      link.type === ExternalTypeEnum.READ,
-              ),
-          )
-        : [];
+    const { general, watch } = groupExternalLinks(content.external, {
+        withWatch: !!user,
+    });
 
     if (general.length === 0 && watch.length === 0) {
         return null;
@@ -84,21 +80,16 @@ const ContentLinks: FC<Props> = ({ content }) => {
         <Card>
             <Header>
                 <HeaderTitle>Посилання</HeaderTitle>
-                {tabs.length > 1 && (
-                    <HeaderActions>
-                        <SegmentedControl
-                            values={tabs.map((tab) => tab.label)}
-                            selectedIndex={index}
-                            onChange={(event) =>
-                                setActive(
-                                    event.nativeEvent.selectedSegmentIndex,
-                                )
-                            }
-                            style={{ width: 180 }}
-                        />
-                    </HeaderActions>
-                )}
             </Header>
+            {tabs.length > 1 && (
+                <SegmentedControl
+                    values={tabs.map((tab) => tab.label)}
+                    selectedIndex={index}
+                    onChange={(event) =>
+                        setActive(event.nativeEvent.selectedSegmentIndex)
+                    }
+                />
+            )}
             <TextExpand
                 key={index}
                 maxHeight={LINKS_MAX_HEIGHT}
@@ -108,7 +99,7 @@ const ContentLinks: FC<Props> = ({ content }) => {
                     {tabs[index].links.map((link) => (
                         <HorizontalCard
                             key={link.url}
-                            onPress={() => openBrowserAsync(link.url)}
+                            onPress={() => openLink(link.url)}
                         >
                             <HorizontalCardImage
                                 imageRatio={1}

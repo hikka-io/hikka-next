@@ -71,6 +71,7 @@ function PosterRow<T>({
                                 key={index}
                                 description={description}
                                 subtitles={subtitles}
+                                titleLines={subtitles ? 1 : 2}
                                 className={ITEM_CLASS}
                             />
                         ),

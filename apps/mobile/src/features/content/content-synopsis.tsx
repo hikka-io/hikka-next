@@ -3,21 +3,14 @@ import { type FC, useState } from 'react';
 import { SegmentedControl } from '@expo/ui/community/segmented-control';
 import { View } from 'react-native';
 
-import { BLANK_CHARS } from '@hikka/core';
+import { isBlankDescription } from '@hikka/core';
 
 import { MDViewer } from '@/components/markdown';
-import { Header, HeaderActions, HeaderTitle } from '@/components/ui/header';
+import { Header, HeaderTitle } from '@/components/ui/header';
 import { useSession } from '@/features/auth';
 
 import type { ContentInfo } from './queries';
 import TextExpand from './text-expand';
-
-const isBlank = (text?: string | null) =>
-    !text ||
-    text
-        .replace(/\\[rn]/g, '')
-        .replace(BLANK_CHARS, '')
-        .trim() === '';
 
 type Props = {
     content: ContentInfo;
@@ -29,7 +22,7 @@ const ContentSynopsis: FC<Props> = ({ content }) => {
     const options = [
         { label: 'UA', text: content.synopsis_ua },
         { label: 'EN', text: content.synopsis_en },
-    ].filter((option) => !isBlank(option.text));
+    ].filter((option) => !isBlankDescription(option.text));
 
     if (options.length === 0) {
         return null;
@@ -42,21 +35,16 @@ const ContentSynopsis: FC<Props> = ({ content }) => {
         <View className="gap-3">
             <Header>
                 <HeaderTitle>Опис</HeaderTitle>
-                {options.length > 1 && (
-                    <HeaderActions>
-                        <SegmentedControl
-                            values={options.map((option) => option.label)}
-                            selectedIndex={index}
-                            onChange={(event) =>
-                                setActive(
-                                    event.nativeEvent.selectedSegmentIndex,
-                                )
-                            }
-                            style={{ width: 96 }}
-                        />
-                    </HeaderActions>
-                )}
             </Header>
+            {options.length > 1 && (
+                <SegmentedControl
+                    values={options.map((option) => option.label)}
+                    selectedIndex={index}
+                    onChange={(event) =>
+                        setActive(event.nativeEvent.selectedSegmentIndex)
+                    }
+                />
+            )}
             <TextExpand>
                 <MDViewer
                     key={`${content.slug}-${synopsis.label}`}

@@ -9,6 +9,8 @@ import type { MainContentTypeEnum } from '@hikka/api';
 import { contentWebUrl } from './content-href';
 
 const ANDROID_ICON_SIZE = 24;
+// Bundled Material `share` glyph, used when the symbol cannot be rendered.
+const shareIcon: ImageSourcePropType = require('../../../assets/images/share.png');
 
 const useAndroidShareIcon = () => {
     const [icon, setIcon] = useState<ImageSourcePropType | null>(null);
@@ -20,7 +22,9 @@ const useAndroidShareIcon = () => {
             'share',
             ANDROID_ICON_SIZE,
             'black',
-        ).then(setIcon);
+        )
+            .then((source) => setIcon(source ?? shareIcon))
+            .catch(() => setIcon(shareIcon));
     }, []);
 
     return icon;

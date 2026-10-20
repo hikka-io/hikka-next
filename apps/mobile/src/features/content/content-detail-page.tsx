@@ -125,7 +125,7 @@ const ContentDetailBody: FC<Props> = ({ contentType, slug }) => {
                 slug={slug}
                 title={content ? getTitle(content) : ''}
                 titleVisible={titleVisible}
-                shareable={!error}
+                shareable={!!content}
             />
             <ScrollView
                 className="flex-1 bg-background"
