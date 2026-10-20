@@ -3,8 +3,15 @@ import { NativeTabs } from 'expo-router/unstable-native-tabs';
 export default function TabsLayout() {
     return (
         <NativeTabs>
+            <NativeTabs.Trigger name="(home)">
+                <NativeTabs.Trigger.Label>Головна</NativeTabs.Trigger.Label>
+                <NativeTabs.Trigger.Icon
+                    sf={{ default: 'house', selected: 'house.fill' }}
+                    md="home"
+                />
+            </NativeTabs.Trigger>
             <NativeTabs.Trigger name="(catalog)">
-                <NativeTabs.Trigger.Label>Аніме</NativeTabs.Trigger.Label>
+                <NativeTabs.Trigger.Label>Каталог</NativeTabs.Trigger.Label>
                 <NativeTabs.Trigger.Icon
                     sf={{
                         default: 'square.grid.2x2',
