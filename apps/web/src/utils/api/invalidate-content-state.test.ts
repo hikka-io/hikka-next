@@ -43,6 +43,7 @@ const USERNAME = 'target-user';
 
 const WATCH_EMBED_IDS = [
     'searchAnime',
+    'animeSchedule',
     'animeRecommendations',
     'characterAnime',
     'personAnime',
@@ -217,7 +218,7 @@ describe('invalidation registry ids', () => {
             (id) => builders[`${id}QueryKey`]?.()[0]._id !== id,
         );
 
-        expect(registered.size).toBe(62);
+        expect(registered.size).toBe(63);
         expect(drifted).toEqual([]);
     });
 });

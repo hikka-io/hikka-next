@@ -1,4 +1,4 @@
-import type { NotificationAccent } from '../types';
+import type { NotificationAccent } from '@hikka/core';
 
 export const ACCENT_BADGE_CLASSES: Record<NotificationAccent, string> = {
     primary: 'bg-primary text-primary-foreground border-primary-border',
