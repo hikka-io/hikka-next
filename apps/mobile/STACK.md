@@ -79,7 +79,37 @@ What it took:
 - **Metro pins the singletons.** `@hikka/api` resolves `@tanstack/react-query` through its own link, which is bound to React 19.3. `metro.config.js` resolves `react`, `react-dom` and `@tanstack/react-query` from the app, so the bundle carries exactly one React 19.2.3 and one react-query (checked in the full iOS bundle).
 - **Optional `react-native` peers.** Once React Native is in the workspace, pnpm links it as an optional peer of `react-tracked` and `use-context-selector` (Plate → zustand-x) in the web graph. Two `"…>react-native": "-"` overrides cut that edge, so the web install and Docker builder do not fetch React Native.
 - **Tokens.** `pnpm --filter @hikka/mobile tokens` regenerates `src/theme.css` from `apps/web/src/globals.css`: it follows the CSS cascade (`@theme static`, `:root`, `.dark`, the relative-oklch `@supports` block), resolves `var()` chains and `oklch(from var(--brand) …)`, and writes hex under Uniwind's `@variant light/dark`. Re-run it when web tokens change.
-- **Not solved yet:** synopses are Markdown (with `hikka.io` links) and render as raw text, so a native Markdown renderer is needed early; the app icon and splash are Expo placeholders (web icons top out at 180 px, 1024 px is needed); Android has not been run.
+- **Not solved yet:** synopses are Markdown (with `hikka.io` links) and render as raw text, so a native Markdown renderer is needed early; the app icon and splash were Expo placeholders (replaced, see `scripts/generate-icons.mjs`); Android now runs (see Android findings).
+
+## Android findings
+
+Run 2026-10-20 on the `Medium_Phone_API_36` emulator (1080x2400, 420 dpi, gesture navigation), Expo Go 57.0.0 installed by `CI=1 pnpm --filter @hikka/mobile android --port 8085`, light and dark via `adb shell cmd uimode night yes|no`. Screenshots (adb `screencap`) are kept outside the repo in the session notes folder `android-shots/` (`01`-`11`, light and dark).
+
+What works as is, with no code change:
+
+- **Native Tabs render as Material 3 bottom navigation** with the pill active indicator; `md` icons (`grid_view`, `search`) and the Ukrainian labels show correctly. Edge-to-edge is right: the status bar draws over the opaque header, the list scrolls to the tab bar, and the tab bar sits above the gesture bar with the system inset.
+- **Catalog and detail**: the FlashList renders posters, scores and type/year; tapping a row pushes the detail with the native back arrow; the system Back gesture and `adb input keyevent BACK` pop it. The detail opens the same from the search tab.
+- **Dark mode** follows the system (content is pure black like the web; header and tab bar take the Material dark surface, see below). The `bg-card`/`bg-secondary` surfaces and the pink score chip read well in both schemes.
+- **Search**: `Stack.SearchBar` becomes a search action in the header; tapping it expands a native search field (placeholder "Назва аніме", clear button) and the results list fills the screen. Typing `frieren` returns the right anime and the debounce via `useDeferredValue` behaves.
+
+Differences from iOS, to accept or fix:
+
+1. **`role="search"` is a plain tab on Android.** The search tab is a normal bottom-navigation item with a `search` icon, and it also has the header search action, so there are two entry points to the same screen. This is acceptable (Material apps do this) and needs no fix; the header action is the real field.
+2. **No large title.** `<Stack.Title large>` is ignored on Android: both tab roots show a small left-aligned title in the header. That is the Material top app bar and is the intended native look (DESIGN.md section 8). Keep `large` for iOS; do not fake a large title on Android.
+3. **Tab bar rides above the keyboard.** When the search field is focused the bottom navigation moves up with the keyboard (`adjustResize`), so with the keyboard open the results area is only about a third of the screen. This is the platform default for Native Tabs; the fix is in `src/app/_layout.tsx`: set `NativeTabs` `hidden` while the keyboard is visible on Android (a `Keyboard` show/hide listener in the layout), or set `android.softwareKeyboardLayoutMode` to `pan` in `app.json` (not recommended: it moves the header out of view).
+4. **Tab indicator and ripple use the default Material tint**, not the brand pink. `NativeTabs` accepts `indicatorColor`, `rippleColor`, `iconColor` and `labelStyle` (Android props). Route fix in `src/app/_layout.tsx`: pass `indicatorColor` and `rippleColor` from the `primary` token (light `#ffe6f5`, dark `#0f0b0d`) and `iconColor`/`labelStyle.selected.color` from `primary-foreground` (light `#a3287e`, dark `#ef71c3`), read through `useCSSVariable` from Uniwind so no hex is hard-coded.
+5. **Header and tab bar are not pure black in dark.** Material draws them as the dark surface (about `#1c1b1f`), so there is a visible step against the black content area. Decision in DESIGN.md section 8: leave native chrome on the system surface; do not force the header or tab bar to black. If the owner prefers a flush look, pass `backgroundColor` to `NativeTabs` and `headerStyle` to the stacks from the `background` token on Android only.
+6. **Duplicate title on detail.** The header shows the title (ellipsized for long names, for example "Проводжальниця Фрірен - 2 се…") and the content shows it again at the top. Route fix in `src/app/(catalog,search)/anime/[slug].tsx`: drop the header title (`<Stack.Title>{''}</Stack.Title>`) until the detail grows a collapsing hero, or keep it and accept the repetition.
+7. **Synopsis shows raw Markdown** (`[text](https://hikka.io/…)`, `**bold**`), as on iOS; the markdown viewer task owns the fix. Also visible: the synopsis links `https://hikka.io/character/…` (singular) in one title, a data issue, not an app bug.
+Expo Go on Android specifics:
+
+- Expo Go's floating **Tools button** (gear, top right) sits exactly on the header search action, so the first tap opens the dev menu instead of search. Turn it off once in the dev menu (Tools button toggle); it does not exist in a dev client build. It also appears over the header in screenshots.
+- The first launch shows the Expo Go developer-menu sheet; dismiss it with the close button.
+- `adb shell input text` types Latin only; Cyrillic queries need the on-screen keyboard, so search was verified with a Latin query.
+
+Dev client and brand assets (verified the same day): `npx expo run:android --port 8085` built a debug dev client in about 5 minutes (JDK 21 from Android Studio, JDK 24 on the PATH was not used), installed it and connected to Metro; the pink adaptive icon shows correctly in the launcher (circle mask), the dev launcher and dev menu show the logo, the Expo Go Tools button is absent, and the app behaves as in Expo Go. The light splash (brand-pink X on white, centered) was captured on cold start; the dark splash was verified through the generated `values-night/colors.xml` (`#000000`) and `drawable-night-*` images because the cold-start window is too short to screenshot reliably. With `expo-dev-client` installed a bare `expo start` targets the dev client, so the `dev`, `ios` and `android` scripts pass `--go` and `dev-client` was added.
+
+Not covered: tablets and foldables, 3-button navigation, font scale above 1.0, predictive back (disabled in `app.json`), screen readers.
 
 ## First milestones
 

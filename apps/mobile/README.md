@@ -10,7 +10,49 @@ pnpm build:api
 pnpm --filter @hikka/mobile ios
 ```
 
-`ios` starts Metro and opens the app in Expo Go on a booted simulator (Expo Go 57 is installed if needed). When port 8081 is taken, add `--port <n>`: `pnpm --filter @hikka/mobile ios --port 8082`. Point at another API with `EXPO_PUBLIC_API_URL`.
+`ios` and `android` pass `--go` (Expo Go) on purpose: once `expo-dev-client` is installed, a bare `expo start` targets the dev client instead. `ios` starts Metro and opens the app in Expo Go on a booted simulator (Expo Go 57 is installed if needed). When port 8081 is taken, add `--port <n>`: `pnpm --filter @hikka/mobile ios --port 8082`. Point at another API with `EXPO_PUBLIC_API_URL`.
+
+## Android
+
+Start an emulator (`~/Library/Android/sdk/emulator/emulator -avd Medium_Phone_API_36`), then:
+
+```bash
+pnpm --filter @hikka/mobile android --port 8085
+```
+
+Expo Go 57 is installed on the emulator if needed. Expo Go's floating Tools button covers the header's search action; switch it off once in the dev menu.
+
+## Dev client and EAS builds
+
+Expo Go is enough while the app uses only the native modules bundled in Expo Go. It stops being enough as soon as a dependency needs custom native code or config that Expo Go does not ship: `react-native-mmkv` (planned for prefs and the query cache), a native Google Sign-In module, push notifications with a project of our own, universal links on our domain, or any config plugin. Then build a dev client, which is the same app plus the dev menu and Metro connection, with our own native modules.
+
+Local build (needs Xcode for iOS, Android Studio JDK 21 and the Android SDK for Android; `ios/` and `android/` are generated and gitignored):
+
+```bash
+pnpm --filter @hikka/mobile exec expo run:ios --port 8085
+JAVA_HOME="/Applications/Android Studio.app/Contents/jbr/Contents/Home" ANDROID_HOME=~/Library/Android/sdk pnpm --filter @hikka/mobile exec expo run:android --port 8085
+```
+
+The first build takes several minutes; it installs the app on the booted simulator or emulator and starts Metro. After that, start Metro alone with `pnpm --filter @hikka/mobile dev-client --port 8085` and open the installed "Hikka" app. Rebuild only when native dependencies, `app.json` or the icon assets change. Do not run two Gradle builds at once.
+
+EAS (`eas.json`, needs an Expo account and `eas login`, not set up in this repository yet):
+
+| Profile | Use | Output |
+| --- | --- | --- |
+| `development` | dev client | iOS simulator build, Android APK |
+| `preview` | internal testing | Android APK, iOS ad hoc (internal distribution) |
+| `production` | store release | Android AAB, iOS App Store build, auto-incremented version |
+
+```bash
+eas build --profile development --platform android
+eas build --profile development --platform ios   # simulator .app
+```
+
+Install the Android APK by opening the build's link on the device, or `adb install <file>.apk`; drag the iOS simulator `.app` onto the simulator. Device builds for iOS need an Apple Developer account and registered devices (`eas device:create`).
+
+## App icon and splash
+
+`pnpm --filter @hikka/mobile icons` renders `apps/web/public/logo-icon.svg` into `assets/images/` (app icon, Android adaptive foreground/background/monochrome, splash icon) with colors from `src/theme.css`, and syncs the adaptive icon and splash background colors into `app.json`. Re-run it when the logo or brand token changes and commit the PNGs. Icons and splash only show in a native build (dev client or store), not in Expo Go.
 
 ## Layout
 
