@@ -1,18 +1,17 @@
 import type { FC } from 'react';
 
 import { FlashList } from '@shopify/flash-list';
-import { Stack, useRouter } from 'expo-router';
+import { Stack } from 'expo-router';
 import { UserRound } from 'lucide-react-native';
 
 import type { MainContentTypeEnum } from '@hikka/api';
 import type { FollowingUser } from '@hikka/core';
 
 import ListFooter from '@/components/list-footer';
-import { Button } from '@/components/ui/button';
 import EmptyState from '@/components/ui/empty-state';
 import ErrorState from '@/components/ui/error-state';
 import { Icon } from '@/components/ui/icon';
-import { useSession } from '@/features/auth';
+import { SignInPrompt, useSession } from '@/features/auth';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { bySlug, usePullToRefresh } from '@/utils/api/use-pull-to-refresh';
 
@@ -31,7 +30,6 @@ type Props = {
 
 /** The web's followings sheet as a pushed screen: every followed user who tracks the title. */
 const ContentFollowingList: FC<Props> = ({ contentType, slug }) => {
-    const router = useRouter();
     const { hasToken } = useSession();
     const options = {
         ...contentFollowingOptions(contentType, slug),
@@ -54,16 +52,9 @@ const ContentFollowingList: FC<Props> = ({ contentType, slug }) => {
         return (
             <>
                 <Stack.Title>Відстежується</Stack.Title>
-                <EmptyState
-                    className="flex-1 justify-center bg-background"
-                    icon={<Icon as={UserRound} />}
-                    title="Відстежується"
+                <SignInPrompt
+                    icon={UserRound}
                     description="Увійдіть, щоб бачити, хто з користувачів, за якими ви стежите, додав цей тайтл до списку"
-                    action={
-                        <Button onPress={() => router.push('/login')}>
-                            Увійти
-                        </Button>
-                    }
                 />
             </>
         );

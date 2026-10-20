@@ -31,7 +31,7 @@ import EmptyState from '@/components/ui/empty-state';
 import ErrorState from '@/components/ui/error-state';
 import { Icon } from '@/components/ui/icon';
 import { Text } from '@/components/ui/text';
-import { useSession } from '@/features/auth';
+import { SignInPrompt, useSession } from '@/features/auth';
 import { useNsfwAllowed } from '@/services/session';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { usePullToRefresh } from '@/utils/api/use-pull-to-refresh';
@@ -209,20 +209,10 @@ const CommentsList: FC<Props> = ({ contentType, slug, reference }) => {
                             </Text>
                         </Pressable>
                     ) : (
-                        <EmptyState
-                            bordered
-                            size="sm"
-                            icon={<Icon as={LockOpen} />}
-                            title="Ви не авторизовані"
+                        <SignInPrompt
+                            variant="section"
+                            icon={LockOpen}
                             description="Увійдіть у свій акаунт, щоб залишити коментар"
-                            action={
-                                <Button
-                                    size="md"
-                                    onPress={() => router.push('/login')}
-                                >
-                                    Увійти
-                                </Button>
-                            }
                         />
                     )}
                 </>
