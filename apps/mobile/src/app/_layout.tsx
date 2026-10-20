@@ -6,6 +6,7 @@ import { useColorScheme } from 'react-native';
 
 import { configureBrowserClient } from '@hikka/api';
 
+import { Toaster } from '@/components/ui/toaster';
 import { readStoredAuthToken } from '@/features/auth';
 import { API_BASE_URL, queryClient } from '@/utils/query-client';
 
@@ -34,7 +35,12 @@ export default function RootLayout() {
                         name="dev/markdown"
                         options={{ headerShown: true, title: 'Markdown' }}
                     />
+                    <Stack.Screen
+                        name="dev/ui"
+                        options={{ headerShown: true, title: 'UI' }}
+                    />
                 </Stack>
+                <Toaster />
             </ThemeProvider>
         </QueryClientProvider>
     );
