@@ -19,7 +19,6 @@ import ScheduleDayHeader from './schedule-day-header';
 import {
     defaultScheduleFilters,
     hasActiveScheduleFilters,
-    type ScheduleFilters,
     scheduleSummary,
     toScheduleSearch,
 } from './schedule-filters';

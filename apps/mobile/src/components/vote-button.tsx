@@ -7,11 +7,7 @@ import { ArrowBigDown, ArrowBigUp } from 'lucide-react-native';
 import { View } from 'react-native';
 import { useResolveClassNames } from 'uniwind';
 
-import {
-    HikkaApiError,
-    setVoteMutation,
-    type VoteContentTypeEnum,
-} from '@hikka/api';
+import { setVoteMutation, type VoteContentTypeEnum } from '@hikka/api';
 import {
     MUTATION_META_SKIP_ERROR_TOAST,
     nextVoteScore,

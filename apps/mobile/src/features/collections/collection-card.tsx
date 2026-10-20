@@ -77,6 +77,7 @@ const CollectionCard: FC<Props> = ({ collection }) => {
                         ),
                     },
                     (_, index) => (
+                        // biome-ignore lint/suspicious/noArrayIndexKey: static placeholders
                         <View key={`empty-${index}`} className="flex-1" />
                     ),
                 )}

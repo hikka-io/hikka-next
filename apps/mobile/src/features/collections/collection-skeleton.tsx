@@ -33,8 +33,10 @@ const CollectionSkeleton: FC = () => {
                 <Skeleton className="h-11 w-32 rounded-md" />
             </View>
             {Array.from({ length: SKELETON_ROWS }, (_, row) => (
+                // biome-ignore lint/suspicious/noArrayIndexKey: static placeholders
                 <View key={row} className="-mx-1.5 flex-row">
                     {Array.from({ length: COLLECTION_COLUMNS }, (_, index) => (
+                        // biome-ignore lint/suspicious/noArrayIndexKey: static placeholders
                         <View key={index} className="flex-1 px-1.5">
                             <PosterCardSkeleton
                                 subtitles={false}

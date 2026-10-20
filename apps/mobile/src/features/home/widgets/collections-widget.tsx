@@ -50,6 +50,7 @@ const CollectionsWidget: FC<Props> = ({ username }) => {
                         Array.from(
                             { length: COLLECTIONS_PREVIEW_SIZE },
                             (_, index) => (
+                                // biome-ignore lint/suspicious/noArrayIndexKey: static placeholders
                                 <View key={index}>
                                     {index > 0 && <Separator />}
                                     <CollectionRowSkeleton />

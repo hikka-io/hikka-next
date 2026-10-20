@@ -32,6 +32,7 @@ const CollectionCardSkeleton: FC = () => {
                 {Array.from(
                     { length: COLLECTION_PREVIEW_SIZE + 1 },
                     (_, index) => (
+                        // biome-ignore lint/suspicious/noArrayIndexKey: static placeholders
                         <View key={index} className="flex-1">
                             <PosterCardSkeleton
                                 subtitles={false}
