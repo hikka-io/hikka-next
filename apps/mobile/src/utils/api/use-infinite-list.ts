@@ -2,7 +2,7 @@ import { type InfiniteData, useInfiniteQuery } from '@tanstack/react-query';
 
 type Page<T> = { list: T[] };
 
-type ListOptions = { queryKey: readonly unknown[] };
+type ListOptions = { queryKey: readonly unknown[]; subscribed?: boolean };
 
 // Generated infinite options differ per endpoint; list views only need the shared `{ list, pagination }` page shape.
 export function useInfiniteList<T>(options: ListOptions) {

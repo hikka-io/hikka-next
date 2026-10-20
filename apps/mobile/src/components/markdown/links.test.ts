@@ -21,6 +21,22 @@ describe('in-app routes', () => {
             'https://hikka.io/comments/anime/slug/0b8b2c1e-1d1e-4a52-9d2a-1f7a6c2b9e10',
             '/comments/anime/slug/0b8b2c1e-1d1e-4a52-9d2a-1f7a6c2b9e10',
         ],
+        ['https://hikka.io/schedule', '/schedule'],
+        ['https://hikka.io/schedule/?season=winter', '/schedule'],
+        ['https://hikka.io/u/olexh/history', '/u/olexh/history'],
+        [
+            'https://hikka.io/u/olexh/history?type=following',
+            '/u/olexh/history?type=following',
+        ],
+        [
+            'https://hikka.io/u/olexh/favorites?type=person&x=1',
+            '/u/olexh/favorites?type=person',
+        ],
+        ['https://hikka.io/u/olexh/list/anime', '/u/olexh/list/anime'],
+        [
+            'https://hikka.io/u/olexh/list/manga?status=planned&sort=read_score',
+            '/u/olexh/list/manga?status=planned',
+        ],
     ])('maps %s', (href, route) => {
         expect(resolveLink(href)).toEqual({ kind: 'route', href: route });
     });
@@ -31,6 +47,9 @@ describe('in-app routes', () => {
         'https://hikka.io/collections/abc',
         'https://hikka.io/comments/anime/slug/ref/extra',
         'https://hikka.io/comments',
+        'https://hikka.io/settings',
+        'https://hikka.io/u/olexh/list/character',
+        'https://hikka.io/u/olexh/articles',
     ])('opens %s in the browser until its route exists', (href) => {
         expect(resolveLink(href)).toEqual({
             kind: 'external',

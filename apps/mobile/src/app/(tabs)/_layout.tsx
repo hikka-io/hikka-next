@@ -4,6 +4,8 @@ import { NativeTabs } from 'expo-router/unstable-native-tabs';
 import { Keyboard, Platform } from 'react-native';
 import { useCSSVariable } from 'uniwind';
 
+import { badgeText, useUnseenNotifications } from '@/features/notifications';
+
 function color(value: string | number | undefined) {
     return typeof value === 'string' ? value : undefined;
 }
@@ -37,6 +39,7 @@ export default function TabsLayout() {
         '--color-primary-border',
     ]);
     const keyboardVisible = useAndroidKeyboardVisible();
+    const unseen = useUnseenNotifications();
 
     return (
         <NativeTabs
@@ -74,6 +77,11 @@ export default function TabsLayout() {
                     }}
                     md="account_circle"
                 />
+                {unseen > 0 ? (
+                    <NativeTabs.Trigger.Badge>
+                        {badgeText(unseen)}
+                    </NativeTabs.Trigger.Badge>
+                ) : null}
             </NativeTabs.Trigger>
             <NativeTabs.Trigger name="(search)" role="search">
                 <NativeTabs.Trigger.Label>Пошук</NativeTabs.Trigger.Label>

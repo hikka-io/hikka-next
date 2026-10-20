@@ -1,9 +1,10 @@
 import { Stack } from 'expo-router';
 
 import { ProfileSummary, signOut, useSession } from '@/features/auth';
+import { UserPage } from '@/features/users';
 
 export default function ProfileScreen() {
-    const { hasToken } = useSession();
+    const { hasToken, user } = useSession();
 
     return (
         <>
@@ -17,7 +18,15 @@ export default function ProfileScreen() {
                     />
                 </Stack.Toolbar>
             ) : null}
-            <ProfileSummary />
+            {user?.username ? (
+                <UserPage
+                    key={user.username}
+                    username={user.username}
+                    headerChrome={false}
+                />
+            ) : (
+                <ProfileSummary />
+            )}
         </>
     );
 }

@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import { isToday, isYesterday } from 'date-fns';
 
 import {
     type ContentStatusEnum,
@@ -6,51 +6,61 @@ import {
     type NotificationResponse,
     NotificationTypeEnum,
 } from '@hikka/api';
-import { getTitle } from '@hikka/core';
 
-import FeMention from '@/components/icons/fe/FeMention';
-import MaterialSymbolsAddCommentRounded from '@/components/icons/material-symbols/MaterialSymbolsAddCommentRounded';
-import MaterialSymbolsChangeCircleRounded from '@/components/icons/material-symbols/MaterialSymbolsChangeCircleRounded';
-import MaterialSymbolsCheckCircleRounded from '@/components/icons/material-symbols/MaterialSymbolsCheckCircleRounded';
-import MaterialSymbolsFavoriteRounded from '@/components/icons/material-symbols/MaterialSymbolsFavoriteRounded';
-import MaterialSymbolsFlagCircleRounded from '@/components/icons/material-symbols/MaterialSymbolsFlagCircleRounded';
-import MaterialSymbolsHeartMinusRounded from '@/components/icons/material-symbols/MaterialSymbolsHeartMinusRounded';
-import MaterialSymbolsHeartPlusRounded from '@/components/icons/material-symbols/MaterialSymbolsHeartPlusRounded';
-import MaterialSymbolsInfoRounded from '@/components/icons/material-symbols/MaterialSymbolsInfoRounded';
-import MaterialSymbolsLiveTvRounded from '@/components/icons/material-symbols/MaterialSymbolsLiveTvRounded';
-import MaterialSymbolsLockOpenRightOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsLockOpenRightOutlineRounded';
-import MaterialSymbolsPersonAddRounded from '@/components/icons/material-symbols/MaterialSymbolsPersonAddRounded';
+import { getTitle } from './get-title';
 
-import type {
-    Notification,
-    NotificationAccent,
-    NotificationActor,
-} from '../types';
+export type NotificationActor = {
+    username?: string;
+    avatar?: string;
+    href?: string;
+};
 
-// @hikka/api types `NotificationResponse.data` as a loose `{ [key]: unknown }`.
-// `NotificationOf<T>` re-attaches a concrete per-type `data` shape so the
-// helpers below can keep their narrow signatures; the dispatcher narrows
-// `notification.data` by `notification_type` before handing off. The data
-// shapes match the API notification data payloads.
+export type NotificationAccent =
+    | 'primary'
+    | 'success'
+    | 'warning'
+    | 'destructive'
+    | 'info'
+    | 'neutral';
+
+export type NotificationItem = {
+    reference: string;
+    type: NotificationTypeEnum;
+    created: number;
+    seen: boolean;
+    title: string;
+    description: string;
+    // A site path (absolute for a Hikka update), or `NO_NOTIFICATION_HREF`.
+    href: string;
+    accent: NotificationAccent;
+    actor?: NotificationActor;
+    preview?: string;
+    scoreSign?: 1 | -1;
+    contentImage?: string;
+};
+
+export const NO_NOTIFICATION_HREF = '#';
+
+// `NotificationResponse.data` is a loose `{ [key]: unknown }`; the shapes below match the API payloads per type.
 type NotificationOf<TData> = Omit<NotificationResponse, 'data'> & {
     data: TData;
 };
 
-interface NotificationFollowData {
+type NotificationFollowData = {
     username: string;
     avatar: string;
-}
+};
 
-interface NotificationThirdpartyLoginData {
+type NotificationThirdpartyLoginData = {
     scope: string[];
     client: {
         name: string;
         reference: string;
         description: string;
     };
-}
+};
 
-interface NotificationCommentData {
+type NotificationCommentData = {
     slug: string;
     comment_text: string;
     content_type: ContentTypeEnum;
@@ -59,37 +69,37 @@ interface NotificationCommentData {
     base_comment_reference: string;
     username: string;
     avatar: string;
-}
+};
 
-interface NotificationVoteData {
+type NotificationVoteData = {
     slug: string;
     user_score: number;
     old_score: number;
     new_score: number;
     username: string;
     avatar: string;
-}
+};
 
-interface NotificationCommentVoteData extends NotificationVoteData {
+type NotificationCommentVoteData = NotificationVoteData & {
     content_type: ContentTypeEnum;
     comment_reference: string;
     comment_depth: number;
     comment_text: string;
     base_comment_reference: string;
-}
+};
 
-interface NotificationEditData {
+type NotificationEditData = {
     description: string;
     edit_id: number;
-}
+};
 
-interface NotificationHikkaData {
+type NotificationHikkaData = {
     description: string;
     title: string;
     link: string;
-}
+};
 
-interface NotificationScheduleAnimeData {
+type NotificationScheduleAnimeData = {
     slug: string;
     after: {
         status: ContentStatusEnum;
@@ -103,7 +113,7 @@ interface NotificationScheduleAnimeData {
     title_en: string;
     title_ja: string;
     title_ua: string;
-}
+};
 
 type NotificationData =
     | NotificationCommentVoteData
@@ -115,7 +125,7 @@ type NotificationData =
     | NotificationVoteData
     | NotificationThirdpartyLoginData;
 
-const NOTIFICATION_TITLES: Record<NotificationTypeEnum, string> = {
+export const NOTIFICATION_TITLES: Record<NotificationTypeEnum, string> = {
     [NotificationTypeEnum.EDIT_ACCEPTED]: 'Правка прийнята',
     [NotificationTypeEnum.EDIT_DENIED]: 'Правка відхилена',
     [NotificationTypeEnum.EDIT_UPDATED]: 'Правка оновлена',
@@ -133,32 +143,11 @@ const NOTIFICATION_TITLES: Record<NotificationTypeEnum, string> = {
     [NotificationTypeEnum.ARTICLE_COMMENT]: 'Новий коментар у статті',
 };
 
-const NOTIFICATION_ICONS: Record<NotificationTypeEnum, ReactNode> = {
-    [NotificationTypeEnum.EDIT_ACCEPTED]: <MaterialSymbolsCheckCircleRounded />,
-    [NotificationTypeEnum.EDIT_DENIED]: <MaterialSymbolsFlagCircleRounded />,
-    [NotificationTypeEnum.EDIT_UPDATED]: <MaterialSymbolsChangeCircleRounded />,
-    [NotificationTypeEnum.COMMENT_REPLY]: <MaterialSymbolsAddCommentRounded />,
-    [NotificationTypeEnum.COMMENT_VOTE]: <MaterialSymbolsFavoriteRounded />,
-    [NotificationTypeEnum.COMMENT_TAG]: <FeMention />,
-    [NotificationTypeEnum.EDIT_COMMENT]: <MaterialSymbolsAddCommentRounded />,
-    [NotificationTypeEnum.COLLECTION_COMMENT]: (
-        <MaterialSymbolsAddCommentRounded />
-    ),
-    [NotificationTypeEnum.HIKKA_UPDATE]: <MaterialSymbolsInfoRounded />,
-    [NotificationTypeEnum.SCHEDULE_ANIME]: <MaterialSymbolsLiveTvRounded />,
-    [NotificationTypeEnum.FOLLOW]: <MaterialSymbolsPersonAddRounded />,
-    [NotificationTypeEnum.COLLECTION_VOTE]: <MaterialSymbolsFavoriteRounded />,
-    [NotificationTypeEnum.THIRDPARTY_LOGIN]: (
-        <MaterialSymbolsLockOpenRightOutlineRounded />
-    ),
-    [NotificationTypeEnum.ARTICLE_COMMENT]: (
-        <MaterialSymbolsAddCommentRounded />
-    ),
-    [NotificationTypeEnum.ARTICLE_VOTE]: <MaterialSymbolsFavoriteRounded />,
-};
-
-// Vote types are `neutral` here and overridden by vote handlers based on score sign.
-const NOTIFICATION_ACCENTS: Record<NotificationTypeEnum, NotificationAccent> = {
+// Vote types are `neutral` here and overridden by the vote builder from the score sign.
+export const NOTIFICATION_ACCENTS: Record<
+    NotificationTypeEnum,
+    NotificationAccent
+> = {
     [NotificationTypeEnum.EDIT_ACCEPTED]: 'success',
     [NotificationTypeEnum.EDIT_DENIED]: 'destructive',
     [NotificationTypeEnum.EDIT_UPDATED]: 'info',
@@ -182,9 +171,7 @@ const getCommentLink = (
     commentReference: string,
 ): string => `/comments/${contentType}/${slug}/${commentReference}`;
 
-// Falls back to `initiator_user` on the envelope when per-type data omits
-// username/avatar — this happens for downvotes, where the API hides the
-// downvoter's identity.
+// Downvotes hide the downvoter in the per-type data, so fall back to `initiator_user` on the envelope.
 const resolveActor = (
     notification: NotificationOf<NotificationData>,
 ): NotificationActor | undefined => {
@@ -203,18 +190,9 @@ const resolveActor = (
     return { username, avatar, href: `/u/${username}` };
 };
 
-const getVoteIcon = (score: number): ReactNode =>
-    score > 0 ? (
-        <MaterialSymbolsHeartPlusRounded />
-    ) : (
-        <MaterialSymbolsHeartMinusRounded />
-    );
-
 const getBaseNotification = (
     notification: NotificationOf<NotificationData>,
-): Omit<Notification, 'description' | 'href'> => {
-    // @hikka/api types `notification_type` as a loose `string`; narrow to the
-    // enum so the keyed lookup tables below index correctly.
+): Omit<NotificationItem, 'description' | 'href'> => {
     const type = notification.notification_type as NotificationTypeEnum;
 
     return {
@@ -223,29 +201,29 @@ const getBaseNotification = (
         created: notification.created,
         seen: notification.seen,
         title: NOTIFICATION_TITLES[type],
-        typeIcon: NOTIFICATION_ICONS[type],
         accent: NOTIFICATION_ACCENTS[type],
     };
 };
 
-interface ActorCopy {
+type ActorCopy = {
     withActor: (username: string) => string;
     withoutActor: string;
-}
+};
+
+const copyFor = (copy: ActorCopy, actor: NotificationActor | undefined) =>
+    actor?.username ? copy.withActor(actor.username) : copy.withoutActor;
 
 const createCommentNotification = (
     notification: NotificationOf<NotificationCommentData>,
     copy: ActorCopy,
-): Notification => {
+): NotificationItem => {
     const { slug, content_type, base_comment_reference, comment_text } =
         notification.data;
     const actor = resolveActor(notification);
 
     return {
         ...getBaseNotification(notification),
-        description: actor
-            ? copy.withActor(actor.username!)
-            : copy.withoutActor,
+        description: copyFor(copy, actor),
         href: getCommentLink(content_type, slug, base_comment_reference),
         actor,
         preview: comment_text || undefined,
@@ -256,7 +234,7 @@ const createVoteNotification = (
     notification: NotificationOf<NotificationVoteData>,
     copy: ActorCopy,
     href: string,
-): Notification => {
+): NotificationItem => {
     const { user_score } = notification.data;
     const actor = resolveActor(notification);
     const scoreSign: 1 | -1 = user_score > 0 ? 1 : -1;
@@ -264,10 +242,7 @@ const createVoteNotification = (
     return {
         ...getBaseNotification(notification),
         accent: scoreSign > 0 ? 'success' : 'destructive',
-        typeIcon: getVoteIcon(user_score),
-        description: actor
-            ? copy.withActor(actor.username!)
-            : copy.withoutActor,
+        description: copyFor(copy, actor),
         href,
         actor,
         scoreSign,
@@ -325,9 +300,10 @@ const EDIT_ACTION_COPY: Record<EditActionType, ActorCopy> = {
 
 const createCommentVoteNotification = (
     notification: NotificationOf<NotificationCommentVoteData>,
-): Notification => {
+): NotificationItem => {
     const { slug, content_type, base_comment_reference, comment_text } =
         notification.data;
+
     return {
         ...createVoteNotification(
             notification,
@@ -341,16 +317,13 @@ const createCommentVoteNotification = (
 const createEditActionNotification = (
     notification: NotificationOf<NotificationEditData>,
     type: EditActionType,
-): Notification => {
+): NotificationItem => {
     const { edit_id, description } = notification.data;
     const actor = resolveActor(notification);
-    const copy = EDIT_ACTION_COPY[type];
 
     return {
         ...getBaseNotification(notification),
-        description: actor
-            ? copy.withActor(actor.username!)
-            : copy.withoutActor,
+        description: copyFor(EDIT_ACTION_COPY[type], actor),
         href: `/edit/${edit_id}`,
         actor,
         preview: description || undefined,
@@ -359,7 +332,7 @@ const createEditActionNotification = (
 
 const createHikkaUpdateNotification = (
     notification: NotificationOf<NotificationHikkaData>,
-): Notification => {
+): NotificationItem => {
     const { title, description, link } = notification.data;
 
     return {
@@ -372,7 +345,7 @@ const createHikkaUpdateNotification = (
 
 const createScheduleAnimeNotification = (
     notification: NotificationOf<NotificationScheduleAnimeData>,
-): Notification => {
+): NotificationItem => {
     const { slug, image, after } = notification.data;
 
     return {
@@ -386,36 +359,33 @@ const createScheduleAnimeNotification = (
 
 const createFollowNotification = (
     notification: NotificationOf<NotificationFollowData>,
-): Notification => {
+): NotificationItem => {
     const actor = resolveActor(notification);
 
     return {
         ...getBaseNotification(notification),
-        description: actor
-            ? FOLLOW_COPY.withActor(actor.username!)
-            : FOLLOW_COPY.withoutActor,
-        href: actor ? `/u/${actor.username}` : '#',
+        description: copyFor(FOLLOW_COPY, actor),
+        href: actor ? `/u/${actor.username}` : NO_NOTIFICATION_HREF,
         actor,
     };
 };
 
 const createThirdpartyLoginNotification = (
     notification: NotificationOf<NotificationThirdpartyLoginData>,
-): Notification => {
+): NotificationItem => {
     const { client } = notification.data;
 
     return {
         ...getBaseNotification(notification),
         description: `Ви авторизувались через сторонній застосунок **${client.name}**`,
-        href: '#',
+        href: NO_NOTIFICATION_HREF,
     };
 };
 
 export const convertNotification = (
     response: NotificationResponse,
-): Notification | null => {
-    // The generated `data` is a broad untyped shape; refine it once to the
-    // discriminated union so each branch can narrow by notification_type.
+): NotificationItem | null => {
+    // The generated `data` is untyped; each branch narrows it by `notification_type`.
     const notification =
         response as unknown as NotificationOf<NotificationData>;
     const type = notification.notification_type;
@@ -491,4 +461,38 @@ export const convertNotification = (
         default:
             return null;
     }
+};
+
+export type GroupedNotifications<T extends { created: number }> = {
+    today: T[];
+    yesterday: T[];
+    earlier: T[];
+};
+
+export const NOTIFICATION_SECTIONS = [
+    { key: 'today', label: 'Сьогодні' },
+    { key: 'yesterday', label: 'Вчора' },
+    { key: 'earlier', label: 'Раніше' },
+] as const satisfies readonly {
+    key: keyof GroupedNotifications<{ created: number }>;
+    label: string;
+}[];
+
+export const groupNotificationsByDay = <T extends { created: number }>(
+    items: T[],
+): GroupedNotifications<T> => {
+    const result: GroupedNotifications<T> = {
+        today: [],
+        yesterday: [],
+        earlier: [],
+    };
+
+    for (const item of items) {
+        const ms = item.created * 1000;
+        if (isToday(ms)) result.today.push(item);
+        else if (isYesterday(ms)) result.yesterday.push(item);
+        else result.earlier.push(item);
+    }
+
+    return result;
 };
