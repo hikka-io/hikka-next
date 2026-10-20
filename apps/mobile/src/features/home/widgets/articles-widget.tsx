@@ -15,6 +15,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import Card from '@/components/ui/card';
 import EmptyState from '@/components/ui/empty-state';
+import ErrorState from '@/components/ui/error-state';
 import { Icon } from '@/components/ui/icon';
 import { Separator } from '@/components/ui/separator';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -27,7 +28,6 @@ import ChipTabs from '../chip-tabs';
 import { flattenPages } from '../flatten-pages';
 import { ARTICLES_PREVIEW_SIZE, homeArticlesTabOptions } from '../queries';
 import { useOpenSitePath } from '../use-open-site-path';
-import WidgetError from '../widget-error';
 import WidgetSection from '../widget-section';
 
 const ArticleRow: FC<{ article: ArticlePreviewResponse }> = ({ article }) => {
@@ -137,7 +137,7 @@ const ArticlesWidget: FC<Props> = ({ username }) => {
     return (
         <WidgetSection title="Статті" onPress={() => openSitePath('/articles')}>
             <ChipTabs options={tabs} value={tab} onChange={setTab} />
-            {isError && <WidgetError onRetry={refetch} />}
+            {isError && <ErrorState variant="section" onRetry={refetch} />}
             {(isPending || (list && list.length > 0)) && (
                 <Card className="gap-0 overflow-hidden p-0">
                     {isPending &&

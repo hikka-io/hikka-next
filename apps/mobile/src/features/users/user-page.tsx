@@ -7,7 +7,7 @@ import { Platform } from 'react-native';
 import { isUserReference } from '@hikka/core';
 
 import BlockList from '@/components/block-list';
-import ErrorState from '@/components/error-state';
+import ErrorState from '@/components/ui/error-state';
 import { byUsername, usePullToRefresh } from '@/utils/api/use-pull-to-refresh';
 import { shareSitePath } from '@/utils/share';
 

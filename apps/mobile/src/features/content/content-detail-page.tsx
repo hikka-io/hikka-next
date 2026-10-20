@@ -3,15 +3,10 @@ import { type FC, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { RefreshControl, ScrollView } from 'react-native';
 
-import {
-    ContentTypeEnum,
-    HikkaApiError,
-    type MainContentTypeEnum,
-} from '@hikka/api';
+import { ContentTypeEnum, type MainContentTypeEnum } from '@hikka/api';
 import { getTitle } from '@hikka/core';
 
-import { Button } from '@/components/ui/button';
-import EmptyState from '@/components/ui/empty-state';
+import ErrorState from '@/components/ui/error-state';
 import { bySlug, usePullToRefresh } from '@/utils/api/use-pull-to-refresh';
 
 import ContentCharacters from './content-characters';
@@ -74,29 +69,6 @@ type Props = {
     slug: string;
 };
 
-const DetailError: FC<{ error: Error; onRetry: () => void }> = ({
-    error,
-    onRetry,
-}) =>
-    error instanceof HikkaApiError && error.status === 404 ? (
-        <EmptyState
-            title="Не знайдено"
-            description="Сторінка не існує або була видалена"
-            className="pt-16"
-        />
-    ) : (
-        <EmptyState
-            title="Не вдалося завантажити"
-            description={error.message}
-            action={
-                <Button variant="outline" onPress={onRetry}>
-                    Повторити
-                </Button>
-            }
-            className="pt-16"
-        />
-    );
-
 const ContentDetailBody: FC<Props> = ({ contentType, slug }) => {
     const {
         data: content,
@@ -144,7 +116,11 @@ const ContentDetailBody: FC<Props> = ({ contentType, slug }) => {
                         })}
                     </>
                 ) : error ? (
-                    <DetailError error={error} onRetry={refetch} />
+                    <ErrorState
+                        error={error}
+                        onRetry={refetch}
+                        className="pt-16"
+                    />
                 ) : (
                     <ContentDetailSkeleton />
                 )}

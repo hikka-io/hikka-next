@@ -4,11 +4,11 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 import { History } from 'lucide-react-native';
 import { View } from 'react-native';
 
-import InlineError from '@/components/inline-error';
 import HistoryRow from '@/components/list-items/history-row';
 import HistoryRowSkeleton from '@/components/list-items/history-row-skeleton';
 import Card from '@/components/ui/card';
 import EmptyState from '@/components/ui/empty-state';
+import ErrorState from '@/components/ui/error-state';
 import { Header, HeaderTitle } from '@/components/ui/header';
 import { Icon } from '@/components/ui/icon';
 
@@ -42,7 +42,10 @@ const HistorySection: FC<Props> = ({ username }) => {
                 {isPending ? (
                     <HistorySkeleton />
                 ) : error ? (
-                    <InlineError onRetry={() => void refetch()} />
+                    <ErrorState
+                        variant="inline"
+                        onRetry={() => void refetch()}
+                    />
                 ) : items && items.length > 0 ? (
                     <View className="gap-4">
                         {items.map((item) => (

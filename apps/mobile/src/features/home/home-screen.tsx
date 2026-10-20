@@ -9,6 +9,7 @@ import type { FeedContentTypeEnum } from '@hikka/api';
 import { buildFeedArgs, type FeedFilters, isFeedDisabled } from '@hikka/core';
 
 import EmptyState from '@/components/ui/empty-state';
+import ErrorState from '@/components/ui/error-state';
 import { Icon } from '@/components/ui/icon';
 import { useSession } from '@/features/auth';
 import { usePullToRefresh } from '@/utils/api/use-pull-to-refresh';
@@ -20,7 +21,6 @@ import FeedItemSkeleton from './feed/feed-item-skeleton';
 import { type FeedItemResponse, getFeedItemKey } from './feed/feed-item-types';
 import { FEED_SKELETON_SIZE, homeFeedOptions, isHomeQuery } from './queries';
 import { useHomePreferences } from './use-home-preferences';
-import WidgetError from './widget-error';
 import ArticlesWidget from './widgets/articles-widget';
 import CollectionsWidget from './widgets/collections-widget';
 import HistoryWidget, { HistoryWidgetSkeleton } from './widgets/history-widget';
@@ -253,7 +253,10 @@ const HomeScreen: FC = () => {
             case 'feed-error':
                 return (
                     <View className="p-4">
-                        <WidgetError onRetry={feedQuery.refetch} />
+                        <ErrorState
+                            variant="section"
+                            onRetry={feedQuery.refetch}
+                        />
                     </View>
                 );
             case 'feed-item':

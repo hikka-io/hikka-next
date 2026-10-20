@@ -17,6 +17,7 @@ import PosterCard from '@/components/content-card/poster-card';
 import PosterCardSkeleton from '@/components/content-card/poster-card-skeleton';
 import { Button } from '@/components/ui/button';
 import EmptyState from '@/components/ui/empty-state';
+import ErrorState from '@/components/ui/error-state';
 import { Icon } from '@/components/ui/icon';
 
 import ChipTabs from '../chip-tabs';
@@ -25,7 +26,6 @@ import { PosterRow, PosterRowItem } from '../poster-row';
 import { homeReadingOptions, homeWatchingOptions } from '../queries';
 import type { TrackerTab } from '../types';
 import { useHomePreferences } from '../use-home-preferences';
-import WidgetError from '../widget-error';
 import WidgetSection from '../widget-section';
 
 const TABS: { value: TrackerTab; label: string }[] = [
@@ -145,7 +145,7 @@ const TrackerWidget: FC<Props> = ({ username }) => {
             href={`/u/${username}`}
         >
             <ChipTabs options={TABS} value={tab} onChange={setTab} />
-            {isError && <WidgetError onRetry={refetch} />}
+            {isError && <ErrorState variant="section" onRetry={refetch} />}
             {isPending && <TrackerPosterSkeleton />}
             {items && items.length > 0 && (
                 <PosterRow>

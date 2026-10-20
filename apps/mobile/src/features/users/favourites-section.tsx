@@ -7,9 +7,9 @@ import { ContentTypeEnum } from '@hikka/api';
 import { CONTENT_TYPES, getMediaTypeLabel, getTitle } from '@hikka/core';
 
 import PosterCard from '@/components/content-card/poster-card';
-import InlineError from '@/components/inline-error';
 import PosterRow from '@/components/poster-row';
 import { Chip } from '@/components/ui/chip';
+import ErrorState from '@/components/ui/error-state';
 import { Header, HeaderTitle } from '@/components/ui/header';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
@@ -116,7 +116,11 @@ const FavouritesSection: FC<Props> = ({ username }) => {
                     />
                 </>
             ) : error ? (
-                <InlineError onRetry={() => void refetch()} className="px-4" />
+                <ErrorState
+                    variant="inline"
+                    onRetry={() => void refetch()}
+                    className="px-4"
+                />
             ) : (
                 <View className="flex-row gap-2 px-4">
                     <Skeleton className="h-8 w-24" />

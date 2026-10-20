@@ -2,15 +2,12 @@ import type { FC } from 'react';
 
 import { FlashList } from '@shopify/flash-list';
 import { useInfiniteQuery } from '@tanstack/react-query';
-import { CircleAlert } from 'lucide-react-native';
 import { ActivityIndicator, View } from 'react-native';
-
-import { apiErrorMessage } from '@hikka/core';
 
 import PosterCardSkeleton from '@/components/content-card/poster-card-skeleton';
 import { Button } from '@/components/ui/button';
 import EmptyState from '@/components/ui/empty-state';
-import { Icon } from '@/components/ui/icon';
+import ErrorState from '@/components/ui/error-state';
 import { useSession } from '@/features/auth';
 import {
     ActiveFilters,
@@ -30,8 +27,6 @@ import {
     type CatalogItem,
     catalogSearchOptions,
 } from './queries';
-
-const ERROR_FALLBACK = 'Перевірте з’єднання та спробуйте ще раз';
 
 const GRID_COLUMNS = 3;
 /** With the cells' `px-1.5`, the grid keeps the screen's 16 pt gutter. */
@@ -67,16 +62,11 @@ const CatalogList: FC = () => {
     const filtered = useHasActiveFilters(type);
 
     const empty = error ? (
-        <EmptyState
-            className="mt-8"
-            icon={<Icon as={CircleAlert} />}
+        <ErrorState
+            error={error}
+            onRetry={refetch}
             title="Не вдалося завантажити каталог"
-            description={apiErrorMessage(error, ERROR_FALLBACK)}
-            action={
-                <Button variant="secondary" onPress={() => refetch()}>
-                    Спробувати ще
-                </Button>
-            }
+            className="mt-8"
         />
     ) : (
         <EmptyState

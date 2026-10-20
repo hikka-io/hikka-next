@@ -11,6 +11,7 @@ import HistoryRow from '@/components/list-items/history-row';
 import HistoryRowSkeleton from '@/components/list-items/history-row-skeleton';
 import Card from '@/components/ui/card';
 import EmptyState from '@/components/ui/empty-state';
+import ErrorState from '@/components/ui/error-state';
 import { Icon } from '@/components/ui/icon';
 import { Separator } from '@/components/ui/separator';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -20,7 +21,6 @@ import { flattenPages } from '../flatten-pages';
 import { HISTORY_PREVIEW_SIZE, homeFollowingHistoryOptions } from '../queries';
 import { useHomePreferences } from '../use-home-preferences';
 import { useOpenSitePath } from '../use-open-site-path';
-import WidgetError from '../widget-error';
 import WidgetSection from '../widget-section';
 
 const HISTORY_REFETCH_INTERVAL_MS = 60_000;
@@ -72,7 +72,7 @@ const HistoryWidget: FC<Props> = ({ username }) => {
                 openSitePath(`/u/${username}/history?type=following`)
             }
         >
-            {isError && <WidgetError onRetry={refetch} />}
+            {isError && <ErrorState variant="section" onRetry={refetch} />}
             {isPending && <HistoryCardSkeleton />}
             {days && days.length > 0 && (
                 <Card className="gap-0 overflow-hidden p-0">

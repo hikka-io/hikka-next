@@ -8,13 +8,13 @@ import { EPISODE_FORMS, getDeclensionWord, getTitle } from '@hikka/core';
 import PosterCard from '@/components/content-card/poster-card';
 import PosterCardSkeleton from '@/components/content-card/poster-card-skeleton';
 import EmptyState from '@/components/ui/empty-state';
+import ErrorState from '@/components/ui/error-state';
 import { Icon } from '@/components/ui/icon';
 
 import { flattenPages } from '../flatten-pages';
 import { PosterRow, PosterRowItem } from '../poster-row';
 import { homeOngoingsOptions, ONGOINGS_SIZE } from '../queries';
 import { useHomePreferences } from '../use-home-preferences';
-import WidgetError from '../widget-error';
 import WidgetSection from '../widget-section';
 
 const OngoingsWidget: FC = () => {
@@ -26,7 +26,7 @@ const OngoingsWidget: FC = () => {
 
     return (
         <WidgetSection title="Онґоїнґи" href="/(tabs)/(catalog)">
-            {isError && <WidgetError onRetry={refetch} />}
+            {isError && <ErrorState variant="section" onRetry={refetch} />}
             {isPending && (
                 <PosterRow>
                     {Array.from({ length: ONGOINGS_SIZE }, (_, index) => (

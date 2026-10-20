@@ -3,7 +3,7 @@ import type { ReactElement } from 'react';
 import { ActivityIndicator, FlatList, View } from 'react-native';
 
 import PosterCardSkeleton from '@/components/content-card/poster-card-skeleton';
-import InlineError from '@/components/inline-error';
+import ErrorState from '@/components/ui/error-state';
 
 const SKELETON_COUNT = 4;
 const CARD_WIDTH = 'w-28';
@@ -51,7 +51,9 @@ function PosterRow<T>({
     }
 
     if (error && !list) {
-        return <InlineError onRetry={refetch} className="px-4" />;
+        return (
+            <ErrorState variant="inline" onRetry={refetch} className="px-4" />
+        );
     }
 
     return (
