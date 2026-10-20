@@ -61,7 +61,3 @@ export function imageGridLayout(urls: string[]): ImageGridLayout {
             };
     }
 }
-
-/** The YouTube page a video thumbnail opens, starting where the author set it. */
-export const youTubeWatchUrl = (id: string, start?: number) =>
-    `https://www.youtube.com/watch?v=${id}${start ? `&t=${start}s` : ''}`;

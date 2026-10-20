@@ -30,6 +30,7 @@ export * from './list-dates';
 export * from './list-entry';
 export * from './markdown';
 export * from './mentions';
+export * from './movie-banners';
 export * from './mutation-meta';
 export * from './new-id';
 export * from './notification-cache';

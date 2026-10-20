@@ -1,4 +1,4 @@
-type MovieBanner = {
+export type MovieBanner = {
     slug: string;
     title: string;
     description: string;
