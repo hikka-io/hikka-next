@@ -47,7 +47,9 @@ const PersonPage: FC<Props> = ({ slug }) => {
                     />
                 )
             }
-            sections={entitySections('person', slug)}
+            sections={
+                data ? entitySections('person', slug, data.comments_count) : []
+            }
         />
     );
 };

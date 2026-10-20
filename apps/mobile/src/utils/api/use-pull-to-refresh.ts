@@ -19,11 +19,37 @@ const keyPath = (query: Query) => {
         : undefined;
 };
 
+export const keyBody = (query: Query) => {
+    const [key] = query.queryKey;
+    if (typeof key !== 'object' || key === null || !('body' in key)) {
+        return undefined;
+    }
+    const { body } = key as { body?: unknown };
+    return typeof body === 'object' && body !== null
+        ? (body as Record<string, unknown>)
+        : undefined;
+};
+
 /** Every query of a detail page: its key carries the page's slug. */
 export const bySlug =
     (slug: string): QueryPredicate =>
     (query) =>
         keyPath(query)?.slug === slug;
+
+/** A detail page's queries plus the collection and article lists filtered by it (`body.content`, `body.content_slug`). */
+export const byContent = (slug: string): QueryPredicate => {
+    const byPath = bySlug(slug);
+
+    return (query) => {
+        const body = keyBody(query);
+
+        return (
+            byPath(query) ||
+            body?.content_slug === slug ||
+            (Array.isArray(body?.content) && body.content.includes(slug))
+        );
+    };
+};
 
 /** Every query of a profile; the route name may differ in case from the stored one. */
 export const byUsername = (usernames: string[]): QueryPredicate => {

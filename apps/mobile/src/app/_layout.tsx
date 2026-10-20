@@ -7,6 +7,7 @@ import { useColorScheme } from 'react-native';
 import { configureBrowserClient } from '@hikka/api';
 
 import { ImageViewerHost } from '@/components/image-viewer';
+import NavigationBridge from '@/components/navigation-bridge';
 import OfflineNotice from '@/components/offline-notice';
 import RouteErrorBoundary from '@/components/route-error-boundary';
 import { Toaster } from '@/components/ui/toaster';
@@ -121,6 +122,7 @@ export default function RootLayout() {
                 <ImageViewerHost />
                 <Toaster />
                 <OfflineNotice />
+                <NavigationBridge />
             </ThemeProvider>
         </QueryClientProvider>
     );

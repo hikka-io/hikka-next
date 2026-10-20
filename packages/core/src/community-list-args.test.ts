@@ -4,6 +4,8 @@ import {
     articleListArgs,
     articlesSearchFromParams,
     collectionListArgs,
+    contentArticlesListArgs,
+    contentCollectionsListArgs,
     PUBLIC_ARTICLE_CATEGORIES,
     userArticlesListArgs,
     userCollectionsListArgs,
@@ -101,5 +103,21 @@ describe('user profile list args', () => {
 
     it("lists a user's articles by author alone", () => {
         expect(userArticlesListArgs('olexh')).toEqual({ author: 'olexh' });
+    });
+});
+
+describe('content list args', () => {
+    it('filters collections by one entry', () => {
+        expect(contentCollectionsListArgs('character', 'c1')).toEqual({
+            content_type: 'character',
+            content: ['c1'],
+        });
+    });
+
+    it('filters articles by one title', () => {
+        expect(contentArticlesListArgs('anime', 'a1')).toEqual({
+            content_type: 'anime',
+            content_slug: 'a1',
+        });
     });
 });

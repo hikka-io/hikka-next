@@ -10,7 +10,7 @@ import {
 } from '@/components/favourite';
 import ErrorState from '@/components/ui/error-state';
 import { isNotFoundError } from '@/utils/api/is-not-found';
-import { bySlug, usePullToRefresh } from '@/utils/api/use-pull-to-refresh';
+import { byContent, usePullToRefresh } from '@/utils/api/use-pull-to-refresh';
 
 import EntitySkeleton from './entity-skeleton';
 
@@ -37,7 +37,7 @@ const EntityScreen: FC<Props> = ({
     header,
     sections,
 }) => {
-    const { refreshing, onRefresh } = usePullToRefresh(bySlug(slug));
+    const { refreshing, onRefresh } = usePullToRefresh(byContent(slug));
     const ready = !isPending && !error;
     const favourite = useFavourite(favouriteType, slug);
 

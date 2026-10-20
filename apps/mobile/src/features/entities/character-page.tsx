@@ -44,7 +44,11 @@ const CharacterPage: FC<Props> = ({ slug }) => {
                     />
                 )
             }
-            sections={entitySections('character', slug)}
+            sections={
+                data
+                    ? entitySections('character', slug, data.comments_count)
+                    : []
+            }
         />
     );
 };

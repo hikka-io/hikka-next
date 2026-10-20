@@ -33,10 +33,19 @@ const SKELETONS: null[] = Array.from({ length: SKELETON_COUNT }, () => null);
 type Props = {
     /** One user's collections, newest first, as the web's profile list; the sort menu is hidden. */
     author?: string;
+    /** A fixed list (a title's collections, the web's `CollectionListModal`); the sort menu is hidden. */
+    options?: ReturnType<typeof collectionListOptions>;
+    emptyTitle?: string;
+    emptyDescription?: string;
 };
 
 /** The web's collections page: one infinite list, the Популярні / Нові toggle in a header menu. */
-const CollectionList: FC<Props> = ({ author }) => {
+const CollectionList: FC<Props> = ({
+    author,
+    options,
+    emptyTitle = 'Немає колекцій',
+    emptyDescription,
+}) => {
     const [sort, setSort] = useState<CollectionSort>(DEFAULT_COLLECTION_SORT);
     const {
         data,
@@ -49,7 +58,10 @@ const CollectionList: FC<Props> = ({ author }) => {
         isRefetching,
         refetch,
     } = useInfiniteQuery(
-        author ? authorCollectionsOptions(author) : collectionListOptions(sort),
+        options ??
+            (author
+                ? authorCollectionsOptions(author)
+                : collectionListOptions(sort)),
     );
 
     const list: (CollectionResponse | null)[] = isPending
@@ -58,7 +70,7 @@ const CollectionList: FC<Props> = ({ author }) => {
 
     return (
         <>
-            {author ? null : (
+            {author || options ? null : (
                 <Stack.Toolbar placement="right">
                     <Stack.Toolbar.Menu
                         icon={SORT_ICON}
@@ -109,7 +121,8 @@ const CollectionList: FC<Props> = ({ author }) => {
                         <EmptyState
                             className="mt-8"
                             icon={<Icon as={Layers} />}
-                            title="Немає колекцій"
+                            title={emptyTitle}
+                            description={emptyDescription}
                         />
                     )
                 }

@@ -17,13 +17,16 @@ import { userCommentListOptions } from './queries';
 
 type Props = {
     username: string;
+    /** The type a link asked for (`?comment_type=review` from the profile's counts). */
+    initialType?: CommentTypeEnum;
 };
 
 /** The web's `UserCommentList`: a user's comments by type, sort and "Без відповідей". */
-const UserComments: FC<Props> = ({ username }) => {
+const UserComments: FC<Props> = ({ username, initialType = 'all' }) => {
     const [sort, setSort] = useState<string>(DEFAULT_COMMENT_SORT);
     const [order, setOrder] = useState<CommentOrder>(DEFAULT_COMMENT_ORDER);
-    const [commentType, setCommentType] = useState<CommentTypeEnum>('all');
+    const [commentType, setCommentType] =
+        useState<CommentTypeEnum>(initialType);
     const [firstLevelOnly, setFirstLevelOnly] = useState(false);
     const { data: stats } = useQuery(
         serviceUserStatsOptions({ path: { username } }),

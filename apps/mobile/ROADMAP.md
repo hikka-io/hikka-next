@@ -59,6 +59,7 @@ Web-only for now: the edit/contribution system, the article and collection edito
 | Profile extras: list filters, random title, activity heatmap, articles and collections blocks (done) | Sonnet | `features/users/` |
 | Hardening: network error copy, root error boundary, offline banner, image viewer | Sonnet | `utils/`, `components/` additions, core `api-error-message` |
 | End-to-end tests: Maestro flows for the core loop | Sonnet | `apps/mobile/e2e/` |
+| Parity sweep: detail statistics, followings, collections, articles; entity collections and comments; profile activity links; reset password reveal; unconfirmed-email toast (done) | Opus | `features/content/`, minimal touches elsewhere |
 | Android QA: every screen on the emulator, Android-only fixes | Sonnet | fixes only, after the others merge |
 
 Open for the owner: Turnstile production key in the WebView (error 300031), the Google ID-token endpoint, a comment report endpoint plus blocking users (App Store 1.2), apple-app-site-association and assetlinks.json on hikka.io for email links, push notification device registration.

@@ -7,6 +7,7 @@ import { Pressable, View } from 'react-native';
 import { ContentTypeEnum } from '@hikka/api';
 import { getDeclensionWord, getWatchTime, HOUR_FORMS } from '@hikka/core';
 
+import { STATUS_DOT } from '@/components/tracking';
 import Card from '@/components/ui/card';
 import ErrorState from '@/components/ui/error-state';
 import { Header, HeaderTitle } from '@/components/ui/header';
@@ -18,7 +19,6 @@ import { cn } from '@/utils/cn';
 
 import {
     countsOf,
-    STATUS_DOT,
     type StatusCounts,
     statusLabel,
     statusOrder,

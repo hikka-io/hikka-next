@@ -11,12 +11,15 @@ import NsfwGate from '@/components/nsfw-gate';
 import ErrorState from '@/components/ui/error-state';
 import { useNsfwAllowed, useTitle } from '@/services/session';
 import { isNotFoundError } from '@/utils/api/is-not-found';
-import { bySlug, usePullToRefresh } from '@/utils/api/use-pull-to-refresh';
+import { byContent, usePullToRefresh } from '@/utils/api/use-pull-to-refresh';
 
+import ContentArticles from './content-articles';
 import ContentCharacters from './content-characters';
+import { ContentCollectionsSection } from './content-collections';
 import ContentComments from './content-comments';
 import ContentDetailSkeleton from './content-detail-skeleton';
 import ContentDetails from './content-details';
+import ContentFollowings from './content-followings';
 import ContentFranchise from './content-franchise';
 import ContentHero from './content-hero';
 import ContentLinks from './content-links';
@@ -24,6 +27,7 @@ import ContentMedia from './content-media';
 import ContentMovieBanner from './content-movie-banner';
 import ContentRecommendations from './content-recommendations';
 import ContentStaff from './content-staff';
+import ContentStats from './content-stats';
 import ContentSynopsis from './content-synopsis';
 import DetailScrollProvider, {
     useDetailScroll,
@@ -44,6 +48,10 @@ const SECTIONS = {
     staff: ContentStaff,
     media: ContentMedia,
     recommendations: ContentRecommendations,
+    stats: ContentStats,
+    followings: ContentFollowings,
+    collections: ContentCollectionsSection,
+    articles: ContentArticles,
     links: ContentLinks,
     comments: ContentComments,
 } satisfies Record<string, FC<SectionProps>>;
@@ -56,6 +64,10 @@ const READ_SECTIONS = [
     'franchise',
     'characters',
     'staff',
+    'stats',
+    'followings',
+    'collections',
+    'articles',
     'links',
     'comments',
 ] as const satisfies readonly DetailSection[];
@@ -70,6 +82,10 @@ const DETAIL_SECTIONS = {
         'staff',
         'media',
         'recommendations',
+        'stats',
+        'followings',
+        'collections',
+        'articles',
         'links',
         'comments',
     ],
@@ -92,7 +108,7 @@ const ContentDetailBody: FC<Props> = ({ contentType, slug }) => {
     const { onScroll, onLayout } = useDetailScroll();
     const [titleBottom, setTitleBottom] = useState<number | null>(null);
     const titleVisible = useScrolledPast(titleBottom);
-    const { refreshing, onRefresh } = usePullToRefresh(bySlug(slug));
+    const { refreshing, onRefresh } = usePullToRefresh(byContent(slug));
     const nsfw = useNsfwAllowed();
     const gated = !!content?.nsfw && !nsfw.allowed;
 
