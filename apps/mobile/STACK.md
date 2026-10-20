@@ -8,8 +8,8 @@ Status: accepted, 2026-10-20; spike done (see "Spike results"). Based on a revie
 | --- | --- |
 | `@hikka/api` (hey-api client, Zod-validated SDK, TanStack Query options, `paginatedInfiniteOptions`, `HikkaApiError`, `API_LIMITS`) | Yes, as is. It is plain fetch + Zod + react-query, no DOM. This is about 22k lines we never write again. |
 | `transport.ts` browser singleton (`configureBrowserClient`, `setAuthToken`, `auth` header) | Yes. Mobile is one long-lived client, same as the browser. The SSR per-request client is irrelevant. |
-| `utils/labels`, `utils/i18n` (Ukrainian declension, word forms, number/relative time), `utils/title`, `utils/season`, `utils/text`, `utils/sort`, `utils/form-schemas`, `utils/customization/color.ts` | Yes, if moved out of `apps/web` into a shared package. Pure TS. |
-| `utils/api/invalidate-content-state.ts`, `patch-embedded.ts`, `tracking-args.ts`, query defaults | Logic yes; needs a small split from web-only bits. |
+| `utils/labels`, `utils/i18n` (Ukrainian declension, word forms, number/relative time), `utils/title`, `utils/season`, `utils/text`, `utils/sort`, `utils/customization/{color,defaults}` | Moved into `@hikka/core`. `utils/form-schemas` stays in web (i18next). |
+| `utils/api/patch-embedded.ts`, `tracking-args.ts`, `tracking-entry.ts`, `api-error-message.ts`, `query-id.ts`, `mutation-meta.ts` | Moved into `@hikka/core`. `invalidate-content-state.ts` and query defaults stay per app (they touch the QueryClient). |
 | TanStack Form + Zod schemas, Zustand stores | Yes. Both libraries work unchanged in React Native. |
 | `components/ui` (Base UI + shadcn + cva), Plate editor, react-markdown, dnd-kit, Turnstile widget, react-photo-view | No. All DOM. Rebuild the UI layer. |
 | Design tokens in `globals.css` (oklch, `oklch(from var(--brand) …)` for user brand colors) | Token names and values yes. React Native does not parse oklch or relative color syntax, so the tokens must be compiled to hex/rgb at build time, and the user brand color must be derived in JS at runtime. |
