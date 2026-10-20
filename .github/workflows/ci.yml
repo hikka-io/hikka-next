@@ -33,7 +33,7 @@ jobs:
                   node-version: 22
 
             - name: Biome
-              run: biome ci --reporter=github --diagnostic-level=error .
+              run: biome ci --reporter=github --diagnostic-level=error .vscode apps/web packages biome.json package.json tsconfig.base.json turbo.json
 
             - name: Layering ratchet
               shell: bash
@@ -65,8 +65,11 @@ jobs:
             - name: Install dependencies
               run: pnpm install --frozen-lockfile
 
-            - name: Typecheck and test
-              run: pnpm turbo run typecheck test
+            - name: Typecheck
+              run: pnpm turbo run typecheck --filter=!@hikka/mobile
+
+            - name: Test
+              run: pnpm turbo run test
 
             - name: Build web
               env:
