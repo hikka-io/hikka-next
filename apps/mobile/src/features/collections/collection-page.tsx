@@ -11,11 +11,16 @@ import {
     View,
 } from 'react-native';
 
-import { type CollectionResponse, VoteContentTypeEnum } from '@hikka/api';
+import {
+    type CollectionResponse,
+    FavouriteContentTypeEnum,
+    VoteContentTypeEnum,
+} from '@hikka/api';
 import { formatTimeAgo } from '@hikka/core';
 
 import AuthorRow from '@/components/author-row';
 import DetailHeaderChrome from '@/components/detail-header-chrome';
+import { FavouriteButton } from '@/components/favourite';
 import { MDViewer } from '@/components/markdown';
 import TextExpand from '@/components/text-expand';
 import Card from '@/components/ui/card';
@@ -95,6 +100,10 @@ const CollectionHeader: FC<HeaderProps> = ({ collection, onTitleBottom }) => {
                     slug={collection.reference}
                     myScore={collection.my_score}
                     voteScore={collection.vote_score}
+                />
+                <FavouriteButton
+                    contentType={FavouriteContentTypeEnum.COLLECTION}
+                    slug={collection.reference}
                 />
                 <StatItem
                     accessibilityLabel={`Коментарі: ${collection.comments_count}`}

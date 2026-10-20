@@ -2,6 +2,8 @@ import type { FC } from 'react';
 
 import { useQuery } from '@tanstack/react-query';
 
+import { FavouriteContentTypeEnum } from '@hikka/api';
+
 import { useTitle } from '@/services/session';
 
 import EntityHeader from './entity-header';
@@ -23,6 +25,7 @@ const CharacterPage: FC<Props> = ({ slug }) => {
     return (
         <EntityScreen
             slug={slug}
+            favouriteType={FavouriteContentTypeEnum.CHARACTER}
             sharePath={`/characters/${slug}`}
             title={title}
             isPending={isPending}
