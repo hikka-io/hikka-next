@@ -5,32 +5,16 @@ import { useIsFocused } from 'expo-router';
 import { History } from 'lucide-react-native';
 import { View } from 'react-native';
 
-import { type HistoryResponse, HistoryTypeEnum } from '@hikka/api';
-import {
-    convertHistory,
-    formatHistoryTime,
-    getTitle,
-    groupHistoryByDay,
-    type HistoryFact,
-    type NameLanguage,
-    type TitleLanguage,
-} from '@hikka/core';
+import { groupHistoryByDay } from '@hikka/core';
 
-import {
-    HorizontalCard,
-    HorizontalCardContainer,
-    HorizontalCardImage,
-    HorizontalCardTitle,
-} from '@/components/horizontal-card';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import HistoryRow from '@/components/list-items/history-row';
+import HistoryRowSkeleton from '@/components/list-items/history-row-skeleton';
 import Card from '@/components/ui/card';
 import EmptyState from '@/components/ui/empty-state';
 import { Icon } from '@/components/ui/icon';
 import { Separator } from '@/components/ui/separator';
 import { Skeleton } from '@/components/ui/skeleton';
-import { Text, TextClassContext } from '@/components/ui/text';
-import { DENSE_MAX_FONT_SCALE } from '@/components/ui/typography';
-import { contentHref } from '@/utils/content-href';
+import { Text } from '@/components/ui/text';
 
 import { flattenPages } from '../flatten-pages';
 import { HISTORY_PREVIEW_SIZE, homeFollowingHistoryOptions } from '../queries';
@@ -39,115 +23,7 @@ import { useOpenSitePath } from '../use-open-site-path';
 import WidgetError from '../widget-error';
 import WidgetSection from '../widget-section';
 
-const IMPORT_TITLES: Partial<Record<HistoryTypeEnum, string>> = {
-    [HistoryTypeEnum.WATCH_IMPORT]: 'Імпорт аніме',
-    [HistoryTypeEnum.READ_IMPORT]: 'Імпорт манґи та ранобе',
-};
-
 const HISTORY_REFETCH_INTERVAL_MS = 60_000;
-
-const Fact: FC<{ fact: HistoryFact }> = ({ fact }) => {
-    return (
-        <>
-            {fact.map((part, index) => (
-                <Text
-                    key={index}
-                    className={
-                        part.type === 'text'
-                            ? undefined
-                            : 'font-medium text-foreground'
-                    }
-                >
-                    {part.text}
-                </Text>
-            ))}
-        </>
-    );
-};
-
-type RowProps = {
-    item: HistoryResponse;
-    titleLanguage: TitleLanguage;
-    nameLanguage: NameLanguage;
-};
-
-const HistoryRow: FC<RowProps> = ({ item, titleLanguage, nameLanguage }) => {
-    const entry = convertHistory(item);
-    const content = item.content;
-    const title =
-        getTitle(content, titleLanguage, nameLanguage) ||
-        IMPORT_TITLES[item.history_type] ||
-        'Загальне';
-
-    return (
-        <HorizontalCard
-            className="px-4 py-3"
-            href={
-                content
-                    ? contentHref(content.data_type, content.slug)
-                    : undefined
-            }
-        >
-            <HorizontalCardImage
-                className="w-12"
-                image={content?.image ?? undefined}
-            />
-            <HorizontalCardContainer className="gap-1">
-                <HorizontalCardTitle
-                    titleMeta={
-                        <Text
-                            maxFontSizeMultiplier={DENSE_MAX_FONT_SCALE}
-                            className="text-muted-foreground text-xs tabular-nums"
-                        >
-                            {formatHistoryTime(item.created)}
-                        </Text>
-                    }
-                >
-                    {title}
-                </HorizontalCardTitle>
-                <TextClassContext.Provider value="text-xs text-muted-foreground">
-                    <Text
-                        numberOfLines={2}
-                        maxFontSizeMultiplier={DENSE_MAX_FONT_SCALE}
-                    >
-                        {entry.facts.map((fact, index) => (
-                            <Text key={index}>
-                                {index > 0 && ' · '}
-                                <Fact fact={fact} />
-                            </Text>
-                        ))}
-                    </Text>
-                </TextClassContext.Provider>
-                <View className="flex-row items-center gap-1.5">
-                    <Avatar className="size-4 rounded-sm">
-                        <AvatarImage src={item.user.avatar} />
-                        <AvatarFallback className="rounded-sm" />
-                    </Avatar>
-                    <Text
-                        numberOfLines={1}
-                        maxFontSizeMultiplier={DENSE_MAX_FONT_SCALE}
-                        className="shrink text-muted-foreground text-xs"
-                    >
-                        {item.user.username}
-                    </Text>
-                </View>
-            </HorizontalCardContainer>
-        </HorizontalCard>
-    );
-};
-
-const HistoryRowSkeleton: FC = () => {
-    return (
-        <View className="flex-row items-center gap-4 px-4 py-3">
-            <Skeleton className="aspect-[0.7] w-12 rounded-lg" />
-            <View className="flex-1 gap-2">
-                <Skeleton className="h-4 w-3/4" />
-                <Skeleton className="h-3 w-1/2" />
-                <Skeleton className="h-3 w-1/3" />
-            </View>
-        </View>
-    );
-};
 
 const HistoryCardSkeleton: FC = () => {
     return (
@@ -159,7 +35,7 @@ const HistoryCardSkeleton: FC = () => {
             {Array.from({ length: HISTORY_PREVIEW_SIZE }, (_, index) => (
                 <View key={index}>
                     {index > 0 && <Separator />}
-                    <HistoryRowSkeleton />
+                    <HistoryRowSkeleton showUser className="px-4 py-3" />
                 </View>
             ))}
         </Card>
@@ -217,6 +93,8 @@ const HistoryWidget: FC<Props> = ({ username }) => {
                                     item={item}
                                     titleLanguage={titleLanguage}
                                     nameLanguage={nameLanguage}
+                                    showUser
+                                    className="px-4 py-3"
                                 />
                             ))}
                         </View>
