@@ -1,12 +1,9 @@
-import { Stack } from 'expo-router';
+import { useLocalSearchParams } from 'expo-router';
 
-import EmptyState from '@/components/ui/empty-state';
+import { ArticlePage } from '@/features/articles';
 
 export default function ArticleScreen() {
-    return (
-        <>
-            <Stack.Title>Стаття</Stack.Title>
-            <EmptyState title="Незабаром" className="flex-1 justify-center" />
-        </>
-    );
+    const { slug } = useLocalSearchParams<{ slug: string }>();
+
+    return <ArticlePage key={slug} slug={slug} />;
 }

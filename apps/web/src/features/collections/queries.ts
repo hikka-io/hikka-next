@@ -6,20 +6,22 @@ import {
     paginatedInfiniteOptions,
     paginationPageParam,
 } from '@hikka/api';
-import type { CollectionNewSearch, CollectionsSearch } from '@hikka/core';
+import {
+    type CollectionNewSearch,
+    type CollectionsSearch,
+    collectionListArgs,
+} from '@hikka/core';
 
 import { contentInfoOptions } from '@/utils/api/content-queries';
 import type { LoaderContext } from '@/utils/api/loader-prefetch';
 
-export const DEFAULT_COLLECTION_SORT = 'system_ranking';
-
 export function collectionListOptions(
-    { page, sort = DEFAULT_COLLECTION_SORT }: CollectionsSearch,
+    { page, sort }: CollectionsSearch,
     client?: Client,
 ) {
     return paginatedInfiniteOptions(
         getCollectionsInfiniteOptions({
-            body: { sort: [`${sort}:desc`] },
+            body: collectionListArgs(sort),
             client,
         }),
         Number(page),

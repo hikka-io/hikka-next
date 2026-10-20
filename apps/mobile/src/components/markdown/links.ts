@@ -1,3 +1,5 @@
+import { resolveHttpsUrl, resolveWebUrl } from '@hikka/core';
+
 import { SITE_ORIGIN } from '@/utils/site-origin';
 
 const AUTH_ONLY_HOSTS = ['toloka.to', 'anitube.in.ua'];
@@ -11,7 +13,7 @@ const TRUSTED_HOSTS = [
     'mikai.me',
 ];
 
-const ROUTE = /^\/(anime|manga|novel|characters|people|u)\/([^/?#]+)\/?$/;
+const ROUTE = /^\/([a-z]+)(?:\/([^/?#]+))?\/?$/;
 const BARE_ROUTE = /^\/([^/?#]+)\/?$/;
 
 // Profile subpages that exist in the app, with the one search param each of them reads.
@@ -32,7 +34,16 @@ const IN_APP_ROUTES = new Set([
     'characters',
     'people',
     'u',
+    'collections',
+    'articles',
 ]);
+
+// Segments whose list page (`/articles`, with its query) also exists in the app.
+const IN_APP_INDEXES = new Set(['collections', 'articles']);
+
+// `/articles/new` and `/collections/new` are the web editors.
+const isEditor = (segment: string, slug: string) =>
+    IN_APP_INDEXES.has(segment) && slug === 'new';
 
 const BARE_ROUTES = new Set(['schedule']);
 
@@ -48,20 +59,10 @@ export type LinkTarget =
 const hostMatches = (hostname: string, hosts: string[]) =>
     hosts.some((host) => hostname === host || hostname.endsWith(`.${host}`));
 
-const parseUrl = (href: string): URL | null => {
-    try {
-        return new URL(href, SITE_ORIGIN);
-    } catch {
-        return null;
-    }
-};
-
 export const resolveLink = (href: string): LinkTarget => {
-    const url = href.trim() ? parseUrl(href.trim()) : null;
+    const url = resolveWebUrl(href, SITE_ORIGIN);
 
-    if (!url || (url.protocol !== 'https:' && url.protocol !== 'http:')) {
-        return { kind: 'none' };
-    }
+    if (!url) return { kind: 'none' };
 
     const hostname = url.hostname.toLowerCase();
 
@@ -81,7 +82,12 @@ export const resolveLink = (href: string): LinkTarget => {
         }
 
         if (match && IN_APP_ROUTES.has(match[1])) {
-            return { kind: 'route', href: `/${match[1]}/${match[2]}` };
+            if (match[2] && !isEditor(match[1], match[2])) {
+                return { kind: 'route', href: `/${match[1]}/${match[2]}` };
+            }
+            if (!match[2] && IN_APP_INDEXES.has(match[1])) {
+                return { kind: 'route', href: `/${match[1]}${url.search}` };
+            }
         }
 
         const bare = BARE_ROUTE.exec(url.pathname)?.[1];
@@ -112,8 +118,5 @@ export const resolveLink = (href: string): LinkTarget => {
     };
 };
 
-export const resolveImageUrl = (href: string): string | null => {
-    const url = href.trim() ? parseUrl(href.trim()) : null;
-
-    return url?.protocol === 'https:' ? url.toString() : null;
-};
+export const resolveImageUrl = (href: string): string | null =>
+    resolveHttpsUrl(href, SITE_ORIGIN)?.toString() ?? null;

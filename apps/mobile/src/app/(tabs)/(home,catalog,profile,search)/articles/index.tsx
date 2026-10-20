@@ -1,12 +1,12 @@
-import { Stack } from 'expo-router';
+import { useLocalSearchParams } from 'expo-router';
 
-import EmptyState from '@/components/ui/empty-state';
+import { articlesSearchFromParams } from '@hikka/core';
+
+import { ArticleList } from '@/features/articles';
 
 export default function ArticlesScreen() {
-    return (
-        <>
-            <Stack.Title>Статті</Stack.Title>
-            <EmptyState title="Незабаром" className="flex-1 justify-center" />
-        </>
-    );
+    const params = useLocalSearchParams<Record<string, string | string[]>>();
+    const search = articlesSearchFromParams(params);
+
+    return <ArticleList key={JSON.stringify(search)} initialSearch={search} />;
 }

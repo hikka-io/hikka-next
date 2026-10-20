@@ -1,8 +1,38 @@
 import { describe, expect, it } from 'vitest';
 
-import { resolveSameOriginUrl } from './url';
+import { resolveHttpsUrl, resolveSameOriginUrl, resolveWebUrl } from './url';
 
 const SITE_URL = 'https://hikka.io';
+
+describe('resolveWebUrl', () => {
+    it('accepts http(s) and relative links', () => {
+        expect(resolveWebUrl('https://x.io/a', SITE_URL)?.href).toBe(
+            'https://x.io/a',
+        );
+        expect(resolveWebUrl(' http://x.io ', SITE_URL)?.protocol).toBe(
+            'http:',
+        );
+        expect(resolveWebUrl('/anime/a', SITE_URL)?.href).toBe(
+            'https://hikka.io/anime/a',
+        );
+    });
+
+    it('rejects other schemes and empty values', () => {
+        expect(resolveWebUrl('javascript:alert(1)', SITE_URL)).toBeNull();
+        expect(resolveWebUrl('data:text/html,x', SITE_URL)).toBeNull();
+        expect(resolveWebUrl('intent://x', SITE_URL)).toBeNull();
+        expect(resolveWebUrl('  ', SITE_URL)).toBeNull();
+    });
+});
+
+describe('resolveHttpsUrl', () => {
+    it('keeps https only', () => {
+        expect(resolveHttpsUrl('http://x.io/a.jpg', SITE_URL)).toBeNull();
+        expect(resolveHttpsUrl('/a.jpg', SITE_URL)?.href).toBe(
+            'https://hikka.io/a.jpg',
+        );
+    });
+});
 
 describe('resolveSameOriginUrl', () => {
     it('resolves a relative path against the base', () => {

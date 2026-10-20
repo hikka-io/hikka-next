@@ -1,12 +1,9 @@
-import { Stack } from 'expo-router';
+import { useLocalSearchParams } from 'expo-router';
 
-import EmptyState from '@/components/ui/empty-state';
+import { CollectionPage } from '@/features/collections';
 
 export default function CollectionScreen() {
-    return (
-        <>
-            <Stack.Title>Колекція</Stack.Title>
-            <EmptyState title="Незабаром" className="flex-1 justify-center" />
-        </>
-    );
+    const { reference } = useLocalSearchParams<{ reference: string }>();
+
+    return <CollectionPage key={reference} reference={reference} />;
 }

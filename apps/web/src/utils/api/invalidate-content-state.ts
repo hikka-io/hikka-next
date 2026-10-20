@@ -9,23 +9,17 @@ import {
     type FavouriteResponse,
     getEditQueryKey,
     getFavouriteQueryKey,
-    getVoteQueryKey,
-    type SetVoteData,
     type UserCollectionResponse,
     type UserCollectionsListResponse,
-    VoteContentTypeEnum,
-    type VoteResponse,
 } from '@hikka/api';
 import {
     ARTICLE_IDS,
-    applyCommentVote,
     COLLECTION_IDS,
     COMMENT_LIST_IDS,
     FOLLOW_EMBED_IDS,
     type InvalidateOptions,
     invalidateByIds,
     matchesPath,
-    patchQueries,
     type QueryId,
     queryId,
     READ_EMBED_IDS,
@@ -35,12 +29,13 @@ import {
     WATCH_EMBED_IDS,
 } from '@hikka/core';
 
-// Watch/read, follow, notification and comment cache writers live in @hikka/core, shared with the mobile app.
+// Watch/read, follow, notification, comment and vote cache writers live in @hikka/core, shared with the mobile app.
 export {
     applyCommentVote,
     applyFollowChange,
     applyReadDeletion,
     applyReadMutation,
+    applyVoteMutation,
     applyWatchDeletion,
     applyWatchMutation,
     invalidateComments,
@@ -83,14 +78,6 @@ const CONTENT_DETAIL_IDS: readonly QueryId[] = [
     'characterVoices',
     'personVoices',
 ];
-
-const VOTE_DETAIL = {
-    [VoteContentTypeEnum.ARTICLE]: ['getArticle', 'slug'],
-    [VoteContentTypeEnum.COLLECTION]: ['getCollection', 'reference'],
-} as const satisfies Record<
-    Exclude<VoteContentTypeEnum, typeof VoteContentTypeEnum.COMMENT>,
-    readonly [QueryId, string]
->;
 
 const USER_CLIENT_IDS: readonly QueryId[] = ['listUserClients'];
 
@@ -264,29 +251,6 @@ export async function applyFavouriteDeletion(
         null,
     );
     return invalidateFavourites(queryClient, options);
-}
-
-/**
- * Store a vote and refresh what embeds it. The vote button is optimistic, so a
- * comment vote patches the comment lists and only stale-marks them; an
- * article/collection vote refetches that one detail.
- */
-export function applyVoteMutation(
-    queryClient: QueryClient,
-    target: SetVoteData['path'],
-    data: VoteResponse,
-    options?: InvalidateOptions,
-): Promise<void> {
-    queryClient.setQueryData(getVoteQueryKey({ path: target }), data);
-    const { content_type, slug } = target;
-    if (content_type === VoteContentTypeEnum.COMMENT) {
-        return applyCommentVote(queryClient, slug, data.score);
-    }
-    const [id, field] = VOTE_DETAIL[content_type];
-    return queryClient.invalidateQueries({
-        predicate: (query) => matchesPath(query.queryKey, id, field, slug),
-        refetchType: refetchTypeFor(options),
-    });
 }
 
 /**

@@ -28,18 +28,15 @@ import { DENSE_MAX_FONT_SCALE } from '@/components/ui/typography';
 
 import { flattenPages } from '../flatten-pages';
 import { COLLECTIONS_PREVIEW_SIZE, homeCollectionsOptions } from '../queries';
-import { useOpenSitePath } from '../use-open-site-path';
 import WidgetSection from '../widget-section';
 
 const CollectionRow: FC<{ collection: CollectionResponse }> = ({
     collection,
 }) => {
-    const openSitePath = useOpenSitePath();
-
     return (
         <HorizontalCard
             className="px-4 py-3"
-            onPress={() => openSitePath(`/collections/${collection.reference}`)}
+            href={`/collections/${collection.reference}`}
         >
             <HorizontalCardImage
                 className="w-14"
@@ -112,7 +109,6 @@ type Props = {
 };
 
 const CollectionsWidget: FC<Props> = ({ username }) => {
-    const openSitePath = useOpenSitePath();
     const [tab, setTab] = useState<CommunityTab>('newest');
     const own = !!username && tab === 'own';
     const { data, isPending, isError, refetch } = useInfiniteQuery(
@@ -127,10 +123,7 @@ const CollectionsWidget: FC<Props> = ({ username }) => {
     ];
 
     return (
-        <WidgetSection
-            title="Колекції"
-            onPress={() => openSitePath('/collections')}
-        >
+        <WidgetSection title="Колекції" href="/collections">
             <SegmentedControl
                 options={tabs}
                 value={tab}
