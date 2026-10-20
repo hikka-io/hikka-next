@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 
-import { ListItem } from '@expo/ui';
+import SettingsListItem from './settings-list-item';
 
 type Props = {
     title: string;
@@ -8,7 +8,7 @@ type Props = {
 };
 
 const SettingsValueRow: FC<Props> = ({ title, value }) => (
-    <ListItem supportingText={value}>{title}</ListItem>
+    <SettingsListItem supportingText={value}>{title}</SettingsListItem>
 );
 
 export default SettingsValueRow;

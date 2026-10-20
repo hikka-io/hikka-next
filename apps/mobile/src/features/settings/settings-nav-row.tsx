@@ -1,10 +1,11 @@
 import type { FC } from 'react';
 
-import { Icon, ListItem } from '@expo/ui';
+import { Icon } from '@expo/ui';
 import { type Href, useRouter } from 'expo-router';
 import { useCSSVariable } from 'uniwind';
 
 import { CHEVRON_ICON } from './icons';
+import SettingsListItem from './settings-list-item';
 
 type Props = {
     title: string;
@@ -17,7 +18,7 @@ const SettingsNavRow: FC<Props> = ({ title, href, value }) => {
     const muted = useCSSVariable('--color-muted-foreground');
 
     return (
-        <ListItem
+        <SettingsListItem
             onPress={() => router.push(href)}
             supportingText={value}
             trailing={
@@ -29,7 +30,7 @@ const SettingsNavRow: FC<Props> = ({ title, href, value }) => {
             }
         >
             {title}
-        </ListItem>
+        </SettingsListItem>
     );
 };
 
