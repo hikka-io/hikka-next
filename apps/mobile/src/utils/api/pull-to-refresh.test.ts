@@ -1,7 +1,12 @@
 import { QueryClient, QueryObserver } from '@tanstack/react-query';
 import { describe, expect, it, vi } from 'vitest';
 
-import { bySlug, byUsername, refreshQueries } from './use-pull-to-refresh';
+import {
+    byContent,
+    bySlug,
+    byUsername,
+    refreshQueries,
+} from './use-pull-to-refresh';
 
 const observe = (client: QueryClient, key: unknown[]) => {
     const queryFn = vi.fn(async () => 'data');
@@ -80,5 +85,18 @@ describe('refreshQueries', () => {
         stats.unsubscribe();
         other.unsubscribe();
         client.clear();
+    });
+
+    it('matches a title page plus the lists filtered by it in the body', () => {
+        const matches = byContent('a');
+        const query = (key: Record<string, unknown>) =>
+            ({ queryKey: [key] }) as unknown as Parameters<typeof matches>[0];
+
+        expect(matches(query({ path: { slug: 'a' } }))).toBe(true);
+        expect(matches(query({ body: { content: ['a'] } }))).toBe(true);
+        expect(matches(query({ body: { content_slug: 'a' } }))).toBe(true);
+        expect(matches(query({ body: { content: ['b'] } }))).toBe(false);
+        expect(matches(query({ body: { content_slug: 'b' } }))).toBe(false);
+        expect(matches(query({ path: { slug: 'b' } }))).toBe(false);
     });
 });

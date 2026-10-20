@@ -5,17 +5,11 @@ import {
     WATCH_STATUS_ORDER,
 } from '@hikka/core';
 
+import { STATUS_DOT } from '@/components/tracking';
+
 import type { ListContentType, UserListStats } from './queries';
 
-// Uniwind compiles literal class names only, so each status maps to its own string.
-export const STATUS_DOT = {
-    completed: 'bg-completed-foreground',
-    watching: 'bg-watching-foreground',
-    reading: 'bg-reading-foreground',
-    planned: 'bg-planned-foreground',
-    dropped: 'bg-dropped-foreground',
-    on_hold: 'bg-on_hold-foreground',
-} as const;
+export { STATUS_DOT };
 
 export type ListStatus = keyof typeof STATUS_DOT;
 

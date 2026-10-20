@@ -55,6 +55,16 @@ const STATUS_STYLES: Record<string, StatusStyle> = {
     },
 };
 
+/** Solid status fills for dots and distribution bars. */
+export const STATUS_DOT = {
+    completed: 'bg-completed-foreground',
+    watching: 'bg-watching-foreground',
+    reading: 'bg-reading-foreground',
+    planned: 'bg-planned-foreground',
+    dropped: 'bg-dropped-foreground',
+    on_hold: 'bg-on_hold-foreground',
+} as const;
+
 const NEUTRAL_STYLE: StatusStyle = {
     surface: 'border-secondary-foreground/20 bg-secondary',
     text: 'text-secondary-foreground',

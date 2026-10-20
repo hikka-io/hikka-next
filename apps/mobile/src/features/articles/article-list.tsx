@@ -41,10 +41,19 @@ const SKELETONS: null[] = Array.from({ length: SKELETON_COUNT }, () => null);
 type Props = {
     // The filters a hikka.io link carried (`/articles?categories=…&author=…&tags=…`).
     initialSearch: ArticlesSearch;
+    /** A fixed list (a title's articles, the web's `ContentArticlesModal`): no filters and no sort menu. */
+    options?: ReturnType<typeof articleListOptions>;
+    emptyTitle?: string;
+    emptyDescription?: string;
 };
 
 /** The web's articles page: category chips and link filters, sort and order in a header menu, an infinite list of previews. */
-const ArticleList: FC<Props> = ({ initialSearch }) => {
+const ArticleList: FC<Props> = ({
+    initialSearch,
+    options,
+    emptyTitle = 'Не знайдено результатів за Вашим запитом',
+    emptyDescription,
+}) => {
     const { hasToken } = useSession();
     const [search, setSearch] = useState(initialSearch);
     const sort = search.sort ?? SORT_OPTIONS[0].value;
@@ -61,10 +70,11 @@ const ArticleList: FC<Props> = ({ initialSearch }) => {
         isRefetching,
         refetch,
     } = useInfiniteQuery(
-        articleListOptions({
-            ...search,
-            draft: hasToken ? search.draft : undefined,
-        }),
+        options ??
+            articleListOptions({
+                ...search,
+                draft: hasToken ? search.draft : undefined,
+            }),
     );
 
     const list: (ArticlePreviewResponse | null)[] = isPending
@@ -79,51 +89,55 @@ const ArticleList: FC<Props> = ({ initialSearch }) => {
     return (
         <>
             <Stack.Title>
-                {category ? ARTICLE_CATEGORY[category].title_ua : 'Статті'}
+                {category && !options
+                    ? ARTICLE_CATEGORY[category].title_ua
+                    : 'Статті'}
             </Stack.Title>
-            <Stack.Toolbar placement="right">
-                <Stack.Toolbar.Menu
-                    icon={SORT_ICON}
-                    accessibilityLabel="Сортування"
-                >
-                    <Stack.Toolbar.Menu inline title="Сортування">
-                        {SORT_OPTIONS.map((option) => (
-                            <Stack.Toolbar.MenuAction
-                                key={option.value}
-                                isOn={sort === option.value}
-                                onPress={() =>
-                                    select(() =>
-                                        setSearch((prev) => ({
-                                            ...prev,
-                                            sort: option.value,
-                                        })),
-                                    )
-                                }
-                            >
-                                {option.label}
-                            </Stack.Toolbar.MenuAction>
-                        ))}
+            {options ? null : (
+                <Stack.Toolbar placement="right">
+                    <Stack.Toolbar.Menu
+                        icon={SORT_ICON}
+                        accessibilityLabel="Сортування"
+                    >
+                        <Stack.Toolbar.Menu inline title="Сортування">
+                            {SORT_OPTIONS.map((option) => (
+                                <Stack.Toolbar.MenuAction
+                                    key={option.value}
+                                    isOn={sort === option.value}
+                                    onPress={() =>
+                                        select(() =>
+                                            setSearch((prev) => ({
+                                                ...prev,
+                                                sort: option.value,
+                                            })),
+                                        )
+                                    }
+                                >
+                                    {option.label}
+                                </Stack.Toolbar.MenuAction>
+                            ))}
+                        </Stack.Toolbar.Menu>
+                        <Stack.Toolbar.Menu inline title="Порядок">
+                            {ORDERS.map((option) => (
+                                <Stack.Toolbar.MenuAction
+                                    key={option.value}
+                                    isOn={order === option.value}
+                                    onPress={() =>
+                                        select(() =>
+                                            setSearch((prev) => ({
+                                                ...prev,
+                                                order: option.value,
+                                            })),
+                                        )
+                                    }
+                                >
+                                    {option.label}
+                                </Stack.Toolbar.MenuAction>
+                            ))}
+                        </Stack.Toolbar.Menu>
                     </Stack.Toolbar.Menu>
-                    <Stack.Toolbar.Menu inline title="Порядок">
-                        {ORDERS.map((option) => (
-                            <Stack.Toolbar.MenuAction
-                                key={option.value}
-                                isOn={order === option.value}
-                                onPress={() =>
-                                    select(() =>
-                                        setSearch((prev) => ({
-                                            ...prev,
-                                            order: option.value,
-                                        })),
-                                    )
-                                }
-                            >
-                                {option.label}
-                            </Stack.Toolbar.MenuAction>
-                        ))}
-                    </Stack.Toolbar.Menu>
-                </Stack.Toolbar.Menu>
-            </Stack.Toolbar>
+                </Stack.Toolbar>
+            )}
             <FlashList
                 className="bg-background"
                 contentInsetAdjustmentBehavior="automatic"
@@ -143,11 +157,13 @@ const ArticleList: FC<Props> = ({ initialSearch }) => {
                     </View>
                 )}
                 ListHeaderComponent={
-                    <ArticleFilters
-                        search={search}
-                        showDraft={hasToken}
-                        onChange={setSearch}
-                    />
+                    options ? null : (
+                        <ArticleFilters
+                            search={search}
+                            showDraft={hasToken}
+                            onChange={setSearch}
+                        />
+                    )
                 }
                 ListEmptyComponent={
                     error ? (
@@ -161,7 +177,8 @@ const ArticleList: FC<Props> = ({ initialSearch }) => {
                         <EmptyState
                             className="mt-8"
                             icon={<Icon as={Newspaper} />}
-                            title="Не знайдено результатів за Вашим запитом"
+                            title={emptyTitle}
+                            description={emptyDescription}
                         />
                     )
                 }
