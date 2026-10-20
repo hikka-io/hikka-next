@@ -1,12 +1,13 @@
-import { Stack } from 'expo-router';
+import { useLocalSearchParams } from 'expo-router';
 
-import EmptyState from '@/components/ui/empty-state';
+import { ContentTypeEnum } from '@hikka/api';
+
+import { ContentDetailPage } from '@/features/content';
 
 export default function MangaDetailScreen() {
+    const { slug } = useLocalSearchParams<{ slug: string }>();
+
     return (
-        <>
-            <Stack.Title>Манґа</Stack.Title>
-            <EmptyState title="Незабаром" className="flex-1 justify-center" />
-        </>
+        <ContentDetailPage contentType={ContentTypeEnum.MANGA} slug={slug} />
     );
 }
