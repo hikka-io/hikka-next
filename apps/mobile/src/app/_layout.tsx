@@ -6,6 +6,7 @@ import { useColorScheme } from 'react-native';
 
 import { configureBrowserClient } from '@hikka/api';
 
+import RouteErrorBoundary from '@/components/route-error-boundary';
 import { Toaster } from '@/components/ui/toaster';
 import { readStoredAuthToken } from '@/features/auth';
 import { applyStoredAppearance, UserStylesEffect } from '@/features/settings';
@@ -17,6 +18,8 @@ configureBrowserClient({
 });
 applyStoredAppearance();
 
+export { RootErrorBoundary as ErrorBoundary } from '@/components/route-error-boundary';
+
 // Deep links to a sheet route (email links) keep the tabs underneath instead of opening the sheet as the only screen.
 export const unstable_settings = { anchor: '(tabs)' };
 
@@ -27,7 +30,10 @@ export default function RootLayout() {
         <QueryClientProvider client={queryClient}>
             <UserStylesEffect />
             <ThemeProvider value={scheme === 'dark' ? DarkTheme : DefaultTheme}>
-                <Stack screenOptions={{ headerShown: false }}>
+                <Stack
+                    screenOptions={{ headerShown: false }}
+                    unstable_screenErrorBoundary={RouteErrorBoundary}
+                >
                     <Stack.Screen name="(tabs)" />
                     <Stack.Screen
                         name="login"

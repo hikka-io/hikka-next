@@ -27,6 +27,10 @@ type Props = {
     // Detail pages pass it for a 404 (`isNotFoundError`) or a profile without a username; lists never do.
     notFound?: boolean;
     notFoundTitle?: string;
+    // `page` only: replaces the message derived from `error`, e.g. for a render error whose text is not for people.
+    description?: string;
+    // `page` only: a second, quieter action beside the retry.
+    secondaryAction?: { label: string; onPress: () => void };
     className?: string;
 };
 
@@ -37,6 +41,8 @@ const ErrorState: FC<Props> = ({
     title = ERROR_TITLE,
     notFound,
     notFoundTitle = 'Сторінку не знайдено',
+    description,
+    secondaryAction,
     className,
 }) => {
     const retry = () => onRetry();
@@ -85,11 +91,21 @@ const ErrorState: FC<Props> = ({
         <EmptyState
             icon={<Icon as={CircleAlert} />}
             title={title}
-            description={apiErrorMessage(error, ERROR_FALLBACK)}
+            description={description ?? apiErrorMessage(error, ERROR_FALLBACK)}
             action={
-                <Button variant="secondary" onPress={retry}>
-                    {RETRY_TEXT}
-                </Button>
+                <View className="items-center gap-2">
+                    <Button variant="secondary" onPress={retry}>
+                        {RETRY_TEXT}
+                    </Button>
+                    {secondaryAction && (
+                        <Button
+                            variant="ghost"
+                            onPress={secondaryAction.onPress}
+                        >
+                            {secondaryAction.label}
+                        </Button>
+                    )}
+                </View>
             }
             className={cn('bg-background', className)}
         />
