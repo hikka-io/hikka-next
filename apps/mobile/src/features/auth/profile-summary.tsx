@@ -1,10 +1,13 @@
 import type { FC } from 'react';
 
-import { Image } from 'expo-image';
 import { Link } from 'expo-router';
-import { ActivityIndicator, Pressable, Text, View } from 'react-native';
+import { ActivityIndicator, View } from 'react-native';
 
 import { HikkaApiError } from '@hikka/api';
+
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Button } from '@/components/ui/button';
+import { Text } from '@/components/ui/text';
 
 import { FALLBACK_ERROR } from './constants';
 import { useSession } from './use-session';
@@ -23,15 +26,17 @@ const ProfileSummary: FC = () => {
     if (user) {
         return (
             <View className="flex-1 items-center justify-center gap-4 bg-background p-6">
-                <Image
-                    source={user.avatar}
-                    style={{ width: 96, height: 96, borderRadius: 48 }}
-                    contentFit="cover"
-                />
+                <Avatar className="size-24">
+                    <AvatarImage
+                        src={user.avatar}
+                        alt={user.username ?? undefined}
+                    />
+                    <AvatarFallback>
+                        {user.username?.slice(0, 2).toUpperCase()}
+                    </AvatarFallback>
+                </Avatar>
                 <View className="items-center gap-1">
-                    <Text className="font-bold text-foreground text-xl">
-                        {user.username}
-                    </Text>
+                    <Text className="font-bold text-xl">{user.username}</Text>
                     <Text className="text-muted-foreground text-sm">
                         {user.email}
                     </Text>
@@ -58,11 +63,7 @@ const ProfileSummary: FC = () => {
                 Увійдіть, щоб відстежувати аніме та бачити свої списки
             </Text>
             <Link href="/login" asChild>
-                <Pressable className="h-12 items-center justify-center rounded-lg border border-primary-border bg-primary px-6 active:opacity-80">
-                    <Text className="font-semibold text-base text-primary-foreground">
-                        Увійти
-                    </Text>
-                </Pressable>
+                <Button className="px-6">Увійти</Button>
             </Link>
         </View>
     );

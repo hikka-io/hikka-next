@@ -2,11 +2,13 @@ import { type FC, useState } from 'react';
 
 import { useForm, useStore } from '@tanstack/react-form';
 import { useMutation } from '@tanstack/react-query';
-import { ActivityIndicator, Pressable, Text, View } from 'react-native';
+import { ActivityIndicator, View } from 'react-native';
 import { z } from 'zod';
 
 import { HikkaApiError, loginMutation } from '@hikka/api';
 
+import { Button } from '@/components/ui/button';
+import { Text } from '@/components/ui/text';
 import { identifierSchema, passwordSchema } from '@/utils/form-schemas';
 
 import Captcha from './captcha';
@@ -150,19 +152,18 @@ const LoginForm: FC<Props> = ({ onSuccess }) => {
                 </Text>
             ) : null}
 
-            <Pressable
-                className="h-12 items-center justify-center rounded-lg border border-primary-border bg-primary active:opacity-80 disabled:opacity-50"
+            <Button
+                containerClassName="self-stretch"
+                className="w-full"
                 disabled={!captchaToken || busy}
                 onPress={form.handleSubmit}
             >
                 {busy ? (
-                    <ActivityIndicator />
+                    <ActivityIndicator colorClassName="accent-primary-foreground" />
                 ) : (
-                    <Text className="font-semibold text-base text-primary-foreground">
-                        Увійти
-                    </Text>
+                    'Увійти'
                 )}
-            </Pressable>
+            </Button>
         </View>
     );
 };
