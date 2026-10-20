@@ -1,6 +1,6 @@
 import { type FC, useState } from 'react';
 
-import { View } from 'react-native';
+import { Pressable, View } from 'react-native';
 
 import { MDViewer } from '@/components/markdown';
 import { Text } from '@/components/ui/text';
@@ -33,13 +33,15 @@ const ClampedMarkdown: FC<Props> = ({ children, onReadMore }) => {
                 </View>
             </View>
             {clamped && (
-                <Text
+                <Pressable
                     accessibilityRole="link"
                     onPress={onReadMore}
-                    className="text-primary-foreground text-sm"
+                    className="min-h-11 justify-center self-start active:opacity-70"
                 >
-                    Читати далі
-                </Text>
+                    <Text className="text-primary-foreground text-sm">
+                        Читати далі
+                    </Text>
+                </Pressable>
             )}
         </View>
     );

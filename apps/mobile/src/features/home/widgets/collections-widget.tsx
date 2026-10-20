@@ -5,6 +5,7 @@ import { ArrowBigUp, Layers, MessageCircle } from 'lucide-react-native';
 import { View } from 'react-native';
 
 import type { CollectionResponse } from '@hikka/api';
+import type { CommunityTab } from '@hikka/core';
 
 import {
     HorizontalCard,
@@ -26,18 +27,19 @@ import { DENSE_MAX_FONT_SCALE } from '@/components/ui/typography';
 import ChipTabs from '../chip-tabs';
 import { flattenPages } from '../flatten-pages';
 import { COLLECTIONS_PREVIEW_SIZE, homeCollectionsOptions } from '../queries';
-import type { CommunityTab } from '../types';
-import { openWebPage } from '../web-page';
+import { useOpenSitePath } from '../use-open-site-path';
 import WidgetError from '../widget-error';
 import WidgetSection from '../widget-section';
 
 const CollectionRow: FC<{ collection: CollectionResponse }> = ({
     collection,
 }) => {
+    const openSitePath = useOpenSitePath();
+
     return (
         <HorizontalCard
             className="px-4 py-3"
-            onPress={() => openWebPage(`/collections/${collection.reference}`)}
+            onPress={() => openSitePath(`/collections/${collection.reference}`)}
         >
             <HorizontalCardImage
                 className="w-14"
@@ -110,6 +112,7 @@ type Props = {
 };
 
 const CollectionsWidget: FC<Props> = ({ username }) => {
+    const openSitePath = useOpenSitePath();
     const [tab, setTab] = useState<CommunityTab>('newest');
     const own = !!username && tab === 'own';
     const { data, isPending, isError, refetch } = useInfiniteQuery(
@@ -126,7 +129,7 @@ const CollectionsWidget: FC<Props> = ({ username }) => {
     return (
         <WidgetSection
             title="Колекції"
-            onPress={() => openWebPage('/collections')}
+            onPress={() => openSitePath('/collections')}
         >
             <ChipTabs options={tabs} value={tab} onChange={setTab} />
             {isError && <WidgetError onRetry={refetch} />}

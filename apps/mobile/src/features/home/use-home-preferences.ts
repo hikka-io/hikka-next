@@ -20,14 +20,19 @@ type HomePreferences = {
     nameLanguage: NameLanguage;
     feed: UiFeedSettingsOutput;
     widgets: Set<UiFeedWidget['slug']>;
+    loading: boolean;
 };
 
 const DEFAULTS = DEFAULT_USER_UI.preferences;
 
 export function useHomePreferences(): HomePreferences {
-    const { user } = useSession();
-    const { data } = useQuery({ ...profileUiOptions(), enabled: !!user });
+    const { user, hasToken, isPending: sessionPending } = useSession();
+    const { data, isPending: uiPending } = useQuery({
+        ...profileUiOptions(),
+        enabled: !!user,
+    });
     const saved = user ? data?.preferences : undefined;
+    const loading = hasToken && (sessionPending || (!!user && uiPending));
 
     return useMemo(() => {
         const feed = { ...DEFAULTS.feed, ...saved?.feed };
@@ -39,6 +44,7 @@ export function useHomePreferences(): HomePreferences {
                 DEFAULTS.name_language) as NameLanguage,
             feed,
             widgets: new Set(feed.widgets?.map((widget) => widget.slug)),
+            loading,
         };
-    }, [saved]);
+    }, [saved, loading]);
 }

@@ -24,12 +24,11 @@ import { flattenPages } from '../flatten-pages';
 import { homeScheduleOptions } from '../queries';
 import ToggleChip from '../toggle-chip';
 import { useHomePreferences } from '../use-home-preferences';
-import { openWebPage } from '../web-page';
+import { useOpenSitePath } from '../use-open-site-path';
 import WidgetError from '../widget-error';
 import WidgetSection from '../widget-section';
 
 const AIRING_WINDOW_MS = 30 * 60 * 1000;
-const SKELETON_ROWS = 3;
 const PREVIEW_SIZE = 6;
 
 type Props = {
@@ -38,6 +37,7 @@ type Props = {
 
 const ScheduleWidget: FC<Props> = ({ signedIn }) => {
     const [onlyWatch, setOnlyWatch] = useState(false);
+    const openSitePath = useOpenSitePath();
     const { titleLanguage, nameLanguage } = useHomePreferences();
     const { data, isPending, isError, refetch } = useInfiniteQuery(
         homeScheduleOptions(onlyWatch),
@@ -57,7 +57,7 @@ const ScheduleWidget: FC<Props> = ({ signedIn }) => {
     return (
         <WidgetSection
             title="Календар"
-            onPress={() => openWebPage('/schedule')}
+            onPress={() => openSitePath('/schedule')}
             actions={
                 signedIn && (
                     <ToggleChip
@@ -82,7 +82,7 @@ const ScheduleWidget: FC<Props> = ({ signedIn }) => {
                         </Text>
                     </View>
                     {isPending &&
-                        Array.from({ length: SKELETON_ROWS }, (_, index) => (
+                        Array.from({ length: PREVIEW_SIZE }, (_, index) => (
                             <View
                                 key={index}
                                 className="min-h-11 flex-row items-center gap-3 px-4"
@@ -158,7 +158,7 @@ const ScheduleWidget: FC<Props> = ({ signedIn }) => {
                             <Separator />
                             <Pressable
                                 accessibilityRole="link"
-                                onPress={() => openWebPage('/schedule')}
+                                onPress={() => openSitePath('/schedule')}
                                 className="min-h-11 items-center justify-center active:opacity-70"
                             >
                                 <Text className="text-primary-foreground text-sm">

@@ -16,10 +16,8 @@ function ChipTabs<T extends string>({ options, value, onChange }: Props<T>) {
             {options.map((option) => (
                 <ToggleChip
                     key={option.value}
+                    accessibilityRole="tab"
                     selected={option.value === value}
-                    className={
-                        option.value === value ? undefined : 'bg-secondary/40'
-                    }
                     onPress={() => onChange(option.value)}
                 >
                     {option.label}

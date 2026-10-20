@@ -17,20 +17,22 @@ import FeedHeader from './feed/feed-header';
 import FeedItem from './feed/feed-item';
 import FeedItemSkeleton from './feed/feed-item-skeleton';
 import { type FeedItemResponse, getFeedItemKey } from './feed/feed-item-types';
-import { FEED_SKELETON_SIZE, homeFeedOptions } from './queries';
+import { FEED_SKELETON_SIZE, homeFeedOptions, isHomeQuery } from './queries';
 import { useHomePreferences } from './use-home-preferences';
 import WidgetError from './widget-error';
 import ArticlesWidget from './widgets/articles-widget';
 import CollectionsWidget from './widgets/collections-widget';
-import HistoryWidget from './widgets/history-widget';
+import HistoryWidget, { HistoryWidgetSkeleton } from './widgets/history-widget';
 import JoinCard from './widgets/join-card';
 import OngoingsWidget from './widgets/ongoings-widget';
 import ScheduleWidget from './widgets/schedule-widget';
-import TrackerWidget from './widgets/tracker-widget';
+import TrackerWidget, { TrackerWidgetSkeleton } from './widgets/tracker-widget';
 
 type Row =
     | { type: 'join' }
     | { type: 'tracker' }
+    | { type: 'tracker-skeleton' }
+    | { type: 'history-skeleton' }
     | { type: 'history' }
     | { type: 'ongoings' }
     | { type: 'schedule' }
@@ -63,7 +65,7 @@ const rowKey = (row: Row) => {
 const HomeScreen: FC = () => {
     const queryClient = useQueryClient();
     const { user, hasToken } = useSession();
-    const { feed, widgets } = useHomePreferences();
+    const { feed, widgets, loading } = useHomePreferences();
     const username = user?.username ?? undefined;
 
     const [refreshing, setRefreshing] = useState(false);
@@ -75,12 +77,14 @@ const HomeScreen: FC = () => {
         boolean | undefined
     >();
 
+    const savedTypes = user ? feed.feed_content_types : null;
+    const savedActiveType = !savedTypes
+        ? null
+        : savedTypes.length === 1
+          ? savedTypes[0]
+          : undefined;
     const activeType =
-        typeOverride !== undefined
-            ? typeOverride
-            : feed.feed_content_types?.length === 1
-              ? feed.feed_content_types[0]
-              : null;
+        typeOverride !== undefined ? typeOverride : savedActiveType;
     const onlyFollowed = user
         ? (onlyFollowedOverride ?? feed.only_followed ?? false)
         : false;
@@ -101,7 +105,7 @@ const HomeScreen: FC = () => {
 
     const feedQuery = useInfiniteQuery({
         ...homeFeedOptions(feedArgs),
-        enabled: feedActive && !feedDisabled,
+        enabled: feedActive && !feedDisabled && !loading,
     });
 
     const feedItems = useMemo(() => {
@@ -118,6 +122,16 @@ const HomeScreen: FC = () => {
 
     const rows = useMemo(() => {
         const result: Row[] = [];
+
+        if (loading) {
+            result.push({ type: 'tracker-skeleton' });
+            result.push({ type: 'history-skeleton' });
+            for (let index = 0; index < FEED_SKELETON_SIZE; index++) {
+                result.push({ type: 'feed-skeleton', index });
+            }
+
+            return result;
+        }
 
         if (!hasToken) result.push({ type: 'join' });
         if (user && widgets.has('tracker')) result.push({ type: 'tracker' });
@@ -146,11 +160,19 @@ const HomeScreen: FC = () => {
         }
 
         return result;
-    }, [hasToken, user, widgets, feedDisabled, feedItems, feedQuery.isError]);
+    }, [
+        loading,
+        hasToken,
+        user,
+        widgets,
+        feedDisabled,
+        feedItems,
+        feedQuery.isError,
+    ]);
 
     const refresh = useCallback(async () => {
         setRefreshing(true);
-        await queryClient.refetchQueries({ type: 'active' });
+        await queryClient.invalidateQueries({ predicate: isHomeQuery });
         setRefreshing(false);
     }, [queryClient]);
 
@@ -181,6 +203,10 @@ const HomeScreen: FC = () => {
         switch (row.type) {
             case 'join':
                 return <JoinCard />;
+            case 'tracker-skeleton':
+                return <TrackerWidgetSkeleton />;
+            case 'history-skeleton':
+                return <HistoryWidgetSkeleton />;
             case 'tracker':
                 return username ? <TrackerWidget username={username} /> : null;
             case 'history':
@@ -251,7 +277,6 @@ const HomeScreen: FC = () => {
             keyExtractor={rowKey}
             getItemType={(row) => row.type}
             renderItem={renderItem}
-            CellRendererComponent={undefined}
             onEndReached={loadMore}
             onEndReachedThreshold={1}
             refreshing={refreshing}

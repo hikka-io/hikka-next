@@ -1,22 +1,25 @@
 import type { FC } from 'react';
 
-import { type Href, Link, useRouter } from 'expo-router';
+import { Link } from 'expo-router';
 import { ArrowBigUp, MessageCircle } from 'lucide-react-native';
 import { Pressable, View } from 'react-native';
 
-import {
-    type ArticleCategoryEnum,
-    type ArticlePreviewResponse,
-    type CollectionResponse,
-    type CommentResponseFeed,
+import type {
+    ArticleCategoryEnum,
+    ArticlePreviewResponse,
+    CollectionResponse,
+    CommentResponseFeed,
     ContentTypeEnum,
-    type ReviewResponse,
+    ReviewResponse,
 } from '@hikka/api';
 import {
     ARTICLE_CATEGORY,
     CONTENT_TYPES,
     contentPath,
+    type FeedCommentPreview,
     formatTimeAgo,
+    getFeedItemCommentsPath,
+    getFeedItemPath,
     getTitle,
 } from '@hikka/core';
 
@@ -32,23 +35,11 @@ import { cn } from '@/utils/cn';
 
 import { getArticleExcerpt } from '../article-excerpt';
 import { useHomePreferences } from '../use-home-preferences';
-import { openWebPage } from '../web-page';
+import { useOpenSitePath } from '../use-open-site-path';
 import ClampedMarkdown from './clamped-markdown';
-import {
-    type CommentPreview,
-    type FeedItemResponse,
-    getFeedItemPath,
-} from './feed-item-types';
+import type { FeedItemResponse } from './feed-item-types';
 
 const MAX_PREVIEW = 3;
-const IN_APP_TYPES = new Set<string>([
-    ContentTypeEnum.ANIME,
-    ContentTypeEnum.MANGA,
-    ContentTypeEnum.NOVEL,
-    ContentTypeEnum.CHARACTER,
-    ContentTypeEnum.PERSON,
-]);
-
 const TYPE_STYLES = {
     comment: { badge: 'bg-feed-comment/10', text: 'text-feed-comment' },
     article: { badge: 'bg-feed-article/10', text: 'text-feed-article' },
@@ -103,22 +94,17 @@ const TypeBadge: FC<{
 };
 
 const ReferenceBadge: FC<{ reference: Reference }> = ({ reference }) => {
-    const router = useRouter();
+    const openSitePath = useOpenSitePath();
     const { contentType, slug, title } = reference;
 
     if (!contentType || !slug) return null;
 
-    const open = () =>
-        IN_APP_TYPES.has(contentType)
-            ? router.push(
-                  contentPath(contentType as ContentTypeEnum, slug) as Href,
-              )
-            : openWebPage(contentPath(contentType as ContentTypeEnum, slug));
-
     return (
         <Pressable
             accessibilityRole="link"
-            onPress={open}
+            onPress={() =>
+                openSitePath(contentPath(contentType as ContentTypeEnum, slug))
+            }
             className="-my-2 min-h-11 max-w-full justify-center self-start active:opacity-70"
         >
             <Badge variant="secondary" className="max-w-full">
@@ -131,6 +117,7 @@ const ReferenceBadge: FC<{ reference: Reference }> = ({ reference }) => {
 };
 
 const CollectionBody: FC<{ data: CollectionResponse }> = ({ data }) => {
+    const openSitePath = useOpenSitePath();
     const previewItems = data.collection.slice(0, MAX_PREVIEW);
     const remaining = data.entries - MAX_PREVIEW;
     const coverItem =
@@ -141,7 +128,7 @@ const CollectionBody: FC<{ data: CollectionResponse }> = ({ data }) => {
         <View className="gap-3">
             <Text
                 accessibilityRole="link"
-                onPress={() => openWebPage(`/collections/${data.reference}`)}
+                onPress={() => openSitePath(`/collections/${data.reference}`)}
                 className="font-bold text-base"
             >
                 {data.title}
@@ -164,11 +151,14 @@ const CollectionBody: FC<{ data: CollectionResponse }> = ({ data }) => {
                 {previewItems.map((item) => (
                     <View key={item.content.slug} className="flex-1">
                         <PosterCard
-                            href={
-                                contentPath(
-                                    item.content.data_type as ContentTypeEnum,
-                                    item.content.slug,
-                                ) as Href
+                            onPress={() =>
+                                openSitePath(
+                                    contentPath(
+                                        item.content
+                                            .data_type as ContentTypeEnum,
+                                        item.content.slug,
+                                    ),
+                                )
                             }
                             image={item.content.image ?? undefined}
                             titleBlur={data.spoiler}
@@ -180,7 +170,7 @@ const CollectionBody: FC<{ data: CollectionResponse }> = ({ data }) => {
                     <View className="flex-1">
                         <PosterCard
                             onPress={() =>
-                                openWebPage(`/collections/${data.reference}`)
+                                openSitePath(`/collections/${data.reference}`)
                             }
                             image={
                                 <View className="size-full items-center justify-center">
@@ -206,13 +196,14 @@ const CollectionBody: FC<{ data: CollectionResponse }> = ({ data }) => {
 };
 
 const ArticleBody: FC<{ data: ArticlePreviewResponse }> = ({ data }) => {
+    const openSitePath = useOpenSitePath();
     const excerpt = getArticleExcerpt(data.preview);
 
     return (
         <View className="gap-3">
             <Text
                 accessibilityRole="link"
-                onPress={() => openWebPage(`/articles/${data.slug}`)}
+                onPress={() => openSitePath(`/articles/${data.slug}`)}
                 className="font-bold text-base"
             >
                 {data.title}
@@ -242,10 +233,12 @@ const ArticleBody: FC<{ data: ArticlePreviewResponse }> = ({ data }) => {
 };
 
 const CommentBody: FC<{ data: CommentResponseFeed }> = ({ data }) => {
+    const openSitePath = useOpenSitePath();
+
     if (!data.text) return null;
 
     return (
-        <ClampedMarkdown onReadMore={() => openWebPage(getFeedItemPath(data))}>
+        <ClampedMarkdown onReadMore={() => openSitePath(getFeedItemPath(data))}>
             {data.text}
         </ClampedMarkdown>
     );
@@ -256,6 +249,7 @@ type Props = {
 };
 
 const FeedItem: FC<Props> = ({ item }) => {
+    const openSitePath = useOpenSitePath();
     const { titleLanguage, nameLanguage } = useHomePreferences();
 
     let reference: Reference | undefined;
@@ -264,7 +258,7 @@ const FeedItem: FC<Props> = ({ item }) => {
     let commentsCount = 0;
 
     if (item.data_type === 'comment') {
-        const preview = item.preview as CommentPreview;
+        const preview = item.preview as FeedCommentPreview;
         reference = {
             contentType: item.content_type,
             slug: preview.slug,
@@ -290,14 +284,14 @@ const FeedItem: FC<Props> = ({ item }) => {
         commentsCount = item.comments_count;
     }
 
-    const openComments = () => openWebPage(getFeedItemPath(item));
+    const openComments = () => openSitePath(getFeedItemCommentsPath(item));
 
     return (
         <View className="flex-row items-start gap-4 px-4 py-4">
             <Link href={`/u/${item.author.username}`} asChild>
                 <Pressable
                     accessibilityRole="link"
-                    className="active:opacity-70"
+                    className="-m-0.5 size-11 items-center justify-center active:opacity-70"
                 >
                     <Avatar className="size-10 rounded-lg">
                         <AvatarImage src={item.author.avatar} />
@@ -309,14 +303,19 @@ const FeedItem: FC<Props> = ({ item }) => {
             </Link>
             <View className="min-w-0 flex-1 gap-3">
                 <View className="gap-1">
-                    <View className="flex-row items-baseline gap-2">
+                    <View className="flex-row items-center gap-2">
                         <Link href={`/u/${item.author.username}`} asChild>
-                            <Text
-                                numberOfLines={1}
-                                className="shrink font-bold text-sm"
+                            <Pressable
+                                accessibilityRole="link"
+                                className="-my-3 min-h-11 shrink justify-center active:opacity-70"
                             >
-                                {item.author.username}
-                            </Text>
+                                <Text
+                                    numberOfLines={1}
+                                    className="font-bold text-sm"
+                                >
+                                    {item.author.username}
+                                </Text>
+                            </Pressable>
                         </Link>
                         <Text
                             maxFontSizeMultiplier={DENSE_MAX_FONT_SCALE}

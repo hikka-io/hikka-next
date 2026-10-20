@@ -5,7 +5,11 @@ import { ArrowBigUp, Eye, MessageCircle, Newspaper } from 'lucide-react-native';
 import { Pressable, View } from 'react-native';
 
 import type { ArticleCategoryEnum, ArticlePreviewResponse } from '@hikka/api';
-import { ARTICLE_CATEGORY, formatTimeAgo } from '@hikka/core';
+import {
+    ARTICLE_CATEGORY,
+    type CommunityTab,
+    formatTimeAgo,
+} from '@hikka/core';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
@@ -22,19 +26,19 @@ import { getArticleExcerpt } from '../article-excerpt';
 import ChipTabs from '../chip-tabs';
 import { flattenPages } from '../flatten-pages';
 import { ARTICLES_PREVIEW_SIZE, homeArticlesTabOptions } from '../queries';
-import type { CommunityTab } from '../types';
-import { openWebPage } from '../web-page';
+import { useOpenSitePath } from '../use-open-site-path';
 import WidgetError from '../widget-error';
 import WidgetSection from '../widget-section';
 
 const ArticleRow: FC<{ article: ArticlePreviewResponse }> = ({ article }) => {
+    const openSitePath = useOpenSitePath();
     const category = article.category as ArticleCategoryEnum;
     const excerpt = getArticleExcerpt(article.preview);
 
     return (
         <Pressable
             accessibilityRole="link"
-            onPress={() => openWebPage(`/articles/${article.slug}`)}
+            onPress={() => openSitePath(`/articles/${article.slug}`)}
             className="gap-2 px-4 py-3 active:opacity-70"
         >
             <View className="flex-row items-center justify-between gap-2">
@@ -116,6 +120,7 @@ type Props = {
 };
 
 const ArticlesWidget: FC<Props> = ({ username }) => {
+    const openSitePath = useOpenSitePath();
     const [tab, setTab] = useState<CommunityTab>('newest');
     const own = !!username && tab === 'own';
     const { data, isPending, isError, refetch } = useInfiniteQuery(
@@ -130,7 +135,7 @@ const ArticlesWidget: FC<Props> = ({ username }) => {
     ];
 
     return (
-        <WidgetSection title="Статті" onPress={() => openWebPage('/articles')}>
+        <WidgetSection title="Статті" onPress={() => openSitePath('/articles')}>
             <ChipTabs options={tabs} value={tab} onChange={setTab} />
             {isError && <WidgetError onRetry={refetch} />}
             {(isPending || (list && list.length > 0)) && (

@@ -111,6 +111,27 @@ const ProgressBar: FC<{ current: number; total: number | null }> = ({
     );
 };
 
+const TrackerPosterSkeleton: FC = () => {
+    return (
+        <PosterRow>
+            {Array.from({ length: SKELETON_SIZE }, (_, index) => (
+                <PosterRowItem key={index}>
+                    <PosterCardSkeleton />
+                </PosterRowItem>
+            ))}
+        </PosterRow>
+    );
+};
+
+export const TrackerWidgetSkeleton: FC = () => {
+    return (
+        <WidgetSection title="Дивлюсь">
+            <ChipTabs options={TABS} value="anime" onChange={() => {}} />
+            <TrackerPosterSkeleton />
+        </WidgetSection>
+    );
+};
+
 const TrackerWidget: FC<Props> = ({ username }) => {
     const [tab, setTab] = useState<TrackerTab>('anime');
     const { items, isPending, isError, refetch } = useTrackerItems(
@@ -125,15 +146,7 @@ const TrackerWidget: FC<Props> = ({ username }) => {
         >
             <ChipTabs options={TABS} value={tab} onChange={setTab} />
             {isError && <WidgetError onRetry={refetch} />}
-            {isPending && (
-                <PosterRow>
-                    {Array.from({ length: SKELETON_SIZE }, (_, index) => (
-                        <PosterRowItem key={index}>
-                            <PosterCardSkeleton />
-                        </PosterRowItem>
-                    ))}
-                </PosterRow>
-            )}
+            {isPending && <TrackerPosterSkeleton />}
             {items && items.length > 0 && (
                 <PosterRow>
                     {items.map((item) => (

@@ -36,7 +36,7 @@ const QUICK_FILTERS: QuickFilter[] = [
 ];
 
 type Props = {
-    activeType: FeedContentTypeEnum | null;
+    activeType: FeedContentTypeEnum | null | undefined;
     onTypeChange: (value: FeedContentTypeEnum | null) => void;
     onlyFollowed?: boolean;
     onOnlyFollowedChange?: (value: boolean) => void;

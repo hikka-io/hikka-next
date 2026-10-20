@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 
 import { useInfiniteQuery } from '@tanstack/react-query';
-import type { Href } from 'expo-router';
+import { type Href, useIsFocused } from 'expo-router';
 import { History } from 'lucide-react-native';
 import { View } from 'react-native';
 
@@ -13,6 +13,8 @@ import {
     getTitle,
     groupHistoryByDay,
     type HistoryFact,
+    type NameLanguage,
+    type TitleLanguage,
 } from '@hikka/core';
 
 import {
@@ -33,6 +35,7 @@ import { DENSE_MAX_FONT_SCALE } from '@/components/ui/typography';
 import { flattenPages } from '../flatten-pages';
 import { HISTORY_PREVIEW_SIZE, homeFollowingHistoryOptions } from '../queries';
 import { useHomePreferences } from '../use-home-preferences';
+import { useOpenSitePath } from '../use-open-site-path';
 import WidgetError from '../widget-error';
 import WidgetSection from '../widget-section';
 
@@ -62,8 +65,13 @@ const Fact: FC<{ fact: HistoryFact }> = ({ fact }) => {
     );
 };
 
-const HistoryRow: FC<{ item: HistoryResponse }> = ({ item }) => {
-    const { titleLanguage, nameLanguage } = useHomePreferences();
+type RowProps = {
+    item: HistoryResponse;
+    titleLanguage: TitleLanguage;
+    nameLanguage: NameLanguage;
+};
+
+const HistoryRow: FC<RowProps> = ({ item, titleLanguage, nameLanguage }) => {
     const entry = convertHistory(item);
     const content = item.content;
     const title =
@@ -128,7 +136,7 @@ const HistoryRow: FC<{ item: HistoryResponse }> = ({ item }) => {
     );
 };
 
-const HistorySkeleton: FC = () => {
+const HistoryRowSkeleton: FC = () => {
     return (
         <View className="flex-row items-center gap-4 px-4 py-3">
             <Skeleton className="aspect-[0.7] w-12 rounded-lg" />
@@ -141,34 +149,55 @@ const HistorySkeleton: FC = () => {
     );
 };
 
+const HistoryCardSkeleton: FC = () => {
+    return (
+        <Card className="gap-0 overflow-hidden p-0">
+            <View className="flex-row items-baseline gap-1.5 px-4 pt-3">
+                <Skeleton className="h-3 w-16" />
+                <Skeleton className="h-3 w-20" />
+            </View>
+            {Array.from({ length: HISTORY_PREVIEW_SIZE }, (_, index) => (
+                <View key={index}>
+                    {index > 0 && <Separator />}
+                    <HistoryRowSkeleton />
+                </View>
+            ))}
+        </Card>
+    );
+};
+
+export const HistoryWidgetSkeleton: FC = () => {
+    return (
+        <WidgetSection title="Активність">
+            <HistoryCardSkeleton />
+        </WidgetSection>
+    );
+};
+
 type Props = {
     username: string;
 };
 
 const HistoryWidget: FC<Props> = ({ username }) => {
+    const focused = useIsFocused();
+    const openSitePath = useOpenSitePath();
+    const { titleLanguage, nameLanguage } = useHomePreferences();
     const { data, isPending, isError, refetch } = useInfiniteQuery({
         ...homeFollowingHistoryOptions(),
-        refetchInterval: HISTORY_REFETCH_INTERVAL_MS,
+        refetchInterval: focused ? HISTORY_REFETCH_INTERVAL_MS : false,
     });
     const list = flattenPages(data);
     const days = list && groupHistoryByDay(list, Date.now());
 
     return (
-        <WidgetSection title="Активність" href={`/u/${username}`}>
+        <WidgetSection
+            title="Активність"
+            onPress={() =>
+                openSitePath(`/u/${username}/history?type=following`)
+            }
+        >
             {isError && <WidgetError onRetry={refetch} />}
-            {isPending && (
-                <Card className="gap-0 overflow-hidden p-0">
-                    {Array.from(
-                        { length: HISTORY_PREVIEW_SIZE },
-                        (_, index) => (
-                            <View key={index}>
-                                {index > 0 && <Separator />}
-                                <HistorySkeleton />
-                            </View>
-                        ),
-                    )}
-                </Card>
-            )}
+            {isPending && <HistoryCardSkeleton />}
             {days && days.length > 0 && (
                 <Card className="gap-0 overflow-hidden p-0">
                     {days.map((day, dayIndex) => (
@@ -183,7 +212,12 @@ const HistoryWidget: FC<Props> = ({ username }) => {
                                 </Text>
                             </View>
                             {day.items.map((item) => (
-                                <HistoryRow key={item.reference} item={item} />
+                                <HistoryRow
+                                    key={item.reference}
+                                    item={item}
+                                    titleLanguage={titleLanguage}
+                                    nameLanguage={nameLanguage}
+                                />
                             ))}
                         </View>
                     ))}
