@@ -76,7 +76,7 @@ const OngoingsWidget: FC<WidgetProps> = ({ side }) => {
 
     if (isCenter) {
         return (
-            <Block variant="card" id="ongoings">
+            <Block id="ongoings">
                 <Header>
                     <HeaderTitle to="/anime" search={search}>
                         Онґоїнґи
