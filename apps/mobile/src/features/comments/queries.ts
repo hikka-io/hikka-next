@@ -90,11 +90,13 @@ export function latestCommentsOptions() {
 export type CommentStats = {
     commentsCount: number;
     reviewStats: ReviewStatsResponse | undefined;
+    nsfw: boolean;
 };
 
 type StatsSource = {
     comments_count: number;
     review_stats?: ReviewStatsResponse;
+    nsfw: boolean;
 };
 
 type StatsOptions = UseQueryOptions<
@@ -113,7 +115,7 @@ const CONTENT_INFO = {
         novelInfoOptions({ path: { slug } }),
 } satisfies Record<MainContentTypeEnum, unknown>;
 
-/** The comment and review counts from the content info: the detail page's own query (same key). */
+/** The comment and review counts and the 18+ flag from the content info: the detail page's own query (same key). */
 export function commentStatsOptions(
     content_type: MainContentTypeEnum,
     slug: string,
@@ -123,6 +125,7 @@ export function commentStatsOptions(
         select: (data) => ({
             commentsCount: data.comments_count,
             reviewStats: data.review_stats,
+            nsfw: data.nsfw,
         }),
     };
 }

@@ -14,6 +14,7 @@ export type PosterRowSkeletonProps = {
     // Match the loaded card: `description` above the title, `subtitles` under it (one title line instead of two).
     description?: boolean;
     subtitles?: boolean;
+    containerRatio?: number;
     itemClassName?: string;
 };
 
@@ -21,6 +22,7 @@ const PosterRowSkeleton: FC<PosterRowSkeletonProps> = ({
     count = VISIBLE_CELLS,
     description = false,
     subtitles = false,
+    containerRatio,
     itemClassName = 'w-28',
 }) => (
     <View className="-mx-4 flex-row gap-3 overflow-hidden px-4">
@@ -31,6 +33,7 @@ const PosterRowSkeleton: FC<PosterRowSkeletonProps> = ({
                 description={description}
                 subtitles={subtitles}
                 titleLines={subtitles ? 1 : 2}
+                containerRatio={containerRatio}
                 className={cn('shrink-0', itemClassName)}
             />
         ))}

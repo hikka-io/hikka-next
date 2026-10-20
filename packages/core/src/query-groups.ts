@@ -28,6 +28,9 @@ export const COLLECTION_IDS: readonly QueryId[] = [
 
 export const USER_PROFILE_ID: QueryId = 'userProfile';
 
+/** The favourite lists a favourite toggle changes. */
+export const FAVOURITE_LIST_IDS: readonly QueryId[] = ['favouriteList'];
+
 /** Follow lists/stats + the personalised "following" feeds. */
 export const FOLLOW_IDS: readonly QueryId[] = [
     'followingList',

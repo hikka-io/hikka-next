@@ -4,7 +4,7 @@ import * as Haptics from 'expo-haptics';
 import { Platform, Switch, View } from 'react-native';
 import { useCSSVariable } from 'uniwind';
 
-import { Text } from '@/components/ui/text';
+import { Text } from './text';
 
 type Props = {
     label: string;
@@ -16,7 +16,7 @@ type Props = {
  * React Native's own `Switch` (UISwitch / Material switch) beside our label: an `@expo/ui`
  * host does not center in a row, and its labeled `Switch` crashes Expo Go 57.0.0 on Android.
  */
-const SwitchFilter: FC<Props> = ({ label, value = false, onChange }) => {
+const SwitchRow: FC<Props> = ({ label, value = false, onChange }) => {
     const [tint, track] = useCSSVariable([
         '--color-primary-foreground',
         '--color-primary-border',
@@ -40,4 +40,4 @@ const SwitchFilter: FC<Props> = ({ label, value = false, onChange }) => {
     );
 };
 
-export default SwitchFilter;
+export default SwitchRow;

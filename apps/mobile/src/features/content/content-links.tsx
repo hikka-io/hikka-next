@@ -1,11 +1,9 @@
 import { type FC, useState } from 'react';
 
-import { openBrowserAsync } from 'expo-web-browser';
 import { View } from 'react-native';
-import { toast } from 'sonner-native';
 
 import { ContentTypeEnum } from '@hikka/api';
-import { getPlatformIcon, groupExternalLinks, parseUrl } from '@hikka/core';
+import { getPlatformIcon, groupExternalLinks } from '@hikka/core';
 
 import {
     HorizontalCard,
@@ -21,6 +19,7 @@ import { Text } from '@/components/ui/text';
 import { useSession } from '@/features/auth';
 import { siteUrl } from '@/utils/site-origin';
 
+import { openWebLink } from './open-web-link';
 import type { ContentInfo } from './queries';
 
 const LINKS_MAX_HEIGHT = 160;
@@ -28,15 +27,6 @@ const LINKS_MAX_HEIGHT = 160;
 type Link = ContentInfo['external'][number];
 
 type LinkTab = 'general' | 'watch';
-
-const WEB_PROTOCOLS = ['http:', 'https:'];
-
-const openLink = (url: string) => {
-    if (!WEB_PROTOCOLS.includes(parseUrl(url)?.protocol ?? '')) return;
-    openBrowserAsync(url).catch(() =>
-        toast.error('Не вдалося відкрити посилання'),
-    );
-};
 
 const linkImage = (link: Link) => {
     const icon = getPlatformIcon(link.url);
@@ -101,7 +91,7 @@ const ContentLinks: FC<Props> = ({ content }) => {
                     {tab.links.map((link) => (
                         <HorizontalCard
                             key={link.url}
-                            onPress={() => openLink(link.url)}
+                            onPress={() => openWebLink(link.url)}
                         >
                             <HorizontalCardImage
                                 imageRatio={1}

@@ -4,13 +4,11 @@ import { openBrowserAsync } from 'expo-web-browser';
 import { Play } from 'lucide-react-native';
 import { Pressable, View } from 'react-native';
 
-import { getYouTubeThumbnail } from '@hikka/core';
+import { getYouTubeThumbnail, youTubeWatchUrl } from '@hikka/core';
 
 import { Icon } from '@/components/ui/icon';
 import Image from '@/components/ui/image';
 import { Text } from '@/components/ui/text';
-
-import { youTubeWatchUrl } from './document-layout';
 
 const VIDEO_RATIO = 16 / 9;
 

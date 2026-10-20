@@ -9,11 +9,9 @@ import {
     characterMangaInfiniteOptions,
     characterNovelInfiniteOptions,
     characterVoicesInfiniteOptions,
-    type FavouriteContentTypeEnum,
     getArticleOptions,
     getCollectionOptions,
     getEditOptions,
-    getFavouriteOptions,
     mangaInfoOptions,
     novelInfoOptions,
     paginationPageParam,
@@ -24,20 +22,9 @@ import {
     personVoicesInfiniteOptions,
     userProfileOptions,
 } from '@hikka/api';
-import { listEntryOptions, nullOn404 } from '@hikka/core';
+import { favouriteEntryOptions, listEntryOptions } from '@hikka/core';
 
-export { listEntryOptions };
-
-/** The viewer's favourite for an item; a 404 (not a favourite) resolves to `null` instead of an error. */
-export function favouriteEntryOptions(
-    content_type: FavouriteContentTypeEnum,
-    slug: string,
-    client?: Client,
-) {
-    return nullOn404(
-        getFavouriteOptions({ path: { content_type, slug }, client }),
-    );
-}
+export { favouriteEntryOptions, listEntryOptions };
 
 const CONTENT_INFO_OPTIONS = {
     [ContentTypeEnum.ANIME]: (slug: string, client?: Client) =>

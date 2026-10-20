@@ -4,6 +4,7 @@ import {
     isYouTubeVideoUrl,
     normalizeYouTubeVideoUrl,
     readYouTubeVideo,
+    youTubeWatchUrl,
 } from './youtube';
 
 const ID = 'dQw4w9WgXcQ';
@@ -155,5 +156,16 @@ describe('readYouTubeVideo', () => {
             start: undefined,
         });
         expect(readYouTubeVideo(`https://evil.com/watch?v=${ID}`)).toBeNull();
+    });
+});
+
+describe('youTubeWatchUrl', () => {
+    it('opens the video at its start time', () => {
+        expect(youTubeWatchUrl(ID)).toBe(
+            `https://www.youtube.com/watch?v=${ID}`,
+        );
+        expect(youTubeWatchUrl(ID, 65)).toBe(
+            `https://www.youtube.com/watch?v=${ID}&t=65s`,
+        );
     });
 });

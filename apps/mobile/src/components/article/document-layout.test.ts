@@ -7,7 +7,6 @@ import {
     imageGridLayout,
     listMarker,
     markClassName,
-    youTubeWatchUrl,
 } from './document-layout';
 
 describe('markClassName', () => {
@@ -87,17 +86,6 @@ describe('imageGridLayout', () => {
             ['a', 'c'],
             ['b', 'd'],
         ]);
-    });
-});
-
-describe('youTubeWatchUrl', () => {
-    it('opens the video at its start time', () => {
-        expect(youTubeWatchUrl('dQw4w9WgXcQ')).toBe(
-            'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
-        );
-        expect(youTubeWatchUrl('dQw4w9WgXcQ', 65)).toBe(
-            'https://www.youtube.com/watch?v=dQw4w9WgXcQ&t=65s',
-        );
     });
 });
 

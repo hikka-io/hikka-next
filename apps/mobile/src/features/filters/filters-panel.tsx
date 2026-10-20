@@ -17,6 +17,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { Header, HeaderActions, HeaderTitle } from '@/components/ui/header';
 import { Separator } from '@/components/ui/separator';
+import SwitchRow from '@/components/ui/switch-row';
 import { useSession } from '@/features/auth';
 
 import { hasActiveFilters } from './active-filters';
@@ -34,7 +35,6 @@ import {
 import GenreFilter from './genre-filter';
 import RangeFilter from './range-filter';
 import StudioFilter from './studio-filter';
-import SwitchFilter from './switch-filter';
 
 type FilterMode = 'catalog' | 'userList';
 
@@ -95,7 +95,7 @@ const FiltersPanel: FC<Props> = ({
     );
     const hideListed =
         catalog && hasToken ? (
-            <SwitchFilter
+            <SwitchRow
                 key="hide_listed"
                 label="Приховати тайтли з мого списку"
                 value={search.hide_listed}
@@ -139,7 +139,7 @@ const FiltersPanel: FC<Props> = ({
         />
     );
     const translated = (
-        <SwitchFilter
+        <SwitchRow
             key="only_translated"
             label="Перекладено українською"
             value={search.only_translated}
@@ -178,7 +178,7 @@ const FiltersPanel: FC<Props> = ({
               years,
               catalog ? (
                   <View key="date_range" className="gap-6">
-                      <SwitchFilter
+                      <SwitchRow
                           label="Часовий проміжок"
                           value={search.date_range_enabled}
                           onChange={(enabled) =>

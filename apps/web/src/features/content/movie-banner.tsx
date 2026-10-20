@@ -4,6 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { MessageCirclePlus, Popcorn } from 'lucide-react';
 
 import { animeSlugOptions } from '@hikka/api';
+import { findMovieBanner } from '@hikka/core';
 
 import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
@@ -11,8 +12,6 @@ import { Label } from '@/components/ui/label';
 import { useSession } from '@/services/session';
 import { Link, useParams } from '@/utils/navigation';
 import { type PlausibleEvents, usePlausible } from '@/utils/plausible';
-
-import { findMovieBanner } from './movie-banners';
 
 type Props = {};
 

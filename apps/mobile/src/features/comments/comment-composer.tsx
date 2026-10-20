@@ -18,6 +18,7 @@ import {
     type MentionUser,
     normalizeCommentText,
     parseCommentMentions,
+    REVIEW_VERDICT_OPTIONS,
     serializeCommentMentions,
     toReviewArgs,
     type Verdict,
@@ -44,17 +45,12 @@ import {
     startMention,
 } from './composer-text';
 import MentionPicker from './mention-picker';
+import { VERDICT_ICONS } from './review-verdicts';
 import { useCachedComment } from './use-cached-comment';
 import { useEditComment, useWriteComment } from './use-comment-mutations';
 import { useKeyboardInset } from './use-keyboard-inset';
 
 const MAX_LENGTH = API_LIMITS.commentText.max;
-
-const VERDICTS: { value: Verdict; label: string }[] = [
-    { value: 'yes', label: 'Рекомендую' },
-    { value: 'maybe', label: 'Вагаюсь' },
-    { value: 'no', label: 'Не рекомендую' },
-];
 
 const VERDICT_SELECTED: Record<Verdict, string> = {
     yes: 'border border-success-border bg-success',
@@ -253,7 +249,7 @@ const ComposerForm: FC<FormProps> = ({
 
             {isReview && (
                 <View className="flex-row flex-wrap gap-x-2 px-4">
-                    {VERDICTS.map((option) => {
+                    {REVIEW_VERDICT_OPTIONS.map((option) => {
                         const selected = verdict === option.value;
 
                         return (
@@ -276,6 +272,7 @@ const ComposerForm: FC<FormProps> = ({
                                     setVerdict(selected ? null : option.value);
                                 }}
                             >
+                                <Icon as={VERDICT_ICONS[option.value]} />
                                 {option.label}
                             </Chip>
                         );

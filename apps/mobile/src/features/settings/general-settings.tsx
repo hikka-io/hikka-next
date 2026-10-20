@@ -9,7 +9,11 @@ import {
     type TitleLanguage,
 } from '@hikka/core';
 
-import { useSessionUI, useUpdateSessionUI } from '@/services/session';
+import {
+    clearNsfwConsent,
+    useSessionUI,
+    useUpdateSessionUI,
+} from '@/services/session';
 
 import SettingsFooterText from './settings-footer-text';
 import SettingsForm from './settings-form';
@@ -61,9 +65,10 @@ const GeneralSettings: FC = () => {
                 <SettingsSwitchRow
                     title="Контент 18+"
                     value={ui.showNsfw}
-                    onValueChange={(show_nsfw) =>
-                        update({ preferences: { show_nsfw } })
-                    }
+                    onValueChange={(show_nsfw) => {
+                        update({ preferences: { show_nsfw } });
+                        if (!show_nsfw) clearNsfwConsent();
+                    }}
                 />
                 <FieldGroup.SectionFooter>
                     <SettingsFooterText>

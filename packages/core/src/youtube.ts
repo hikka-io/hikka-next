@@ -89,6 +89,10 @@ export function readYouTubeVideo(
 export const isYouTubeVideoUrl = (value: string) =>
     normalizeYouTubeVideoUrl(value) !== null;
 
+/** The YouTube page a video thumbnail opens, starting where the author set it. */
+export const youTubeWatchUrl = (id: string, start?: number) =>
+    `https://www.youtube.com/watch?v=${id}${start ? `&t=${start}s` : ''}`;
+
 export type YouTubeThumbnailQuality =
     | 'default' // 120x90
     | 'medium' // 320x180

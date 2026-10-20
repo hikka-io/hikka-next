@@ -7,8 +7,9 @@ import { ContentTypeEnum, type MainContentTypeEnum } from '@hikka/api';
 import { contentPath } from '@hikka/core';
 
 import DetailHeaderChrome from '@/components/detail-header-chrome';
+import NsfwGate from '@/components/nsfw-gate';
 import ErrorState from '@/components/ui/error-state';
-import { useTitle } from '@/services/session';
+import { useNsfwAllowed, useTitle } from '@/services/session';
 import { isNotFoundError } from '@/utils/api/is-not-found';
 import { bySlug, usePullToRefresh } from '@/utils/api/use-pull-to-refresh';
 
@@ -19,6 +20,8 @@ import ContentDetails from './content-details';
 import ContentFranchise from './content-franchise';
 import ContentHero from './content-hero';
 import ContentLinks from './content-links';
+import ContentMedia from './content-media';
+import ContentMovieBanner from './content-movie-banner';
 import ContentRecommendations from './content-recommendations';
 import ContentStaff from './content-staff';
 import ContentSynopsis from './content-synopsis';
@@ -34,10 +37,12 @@ type SectionProps = {
 
 const SECTIONS = {
     synopsis: ContentSynopsis,
+    movieBanner: ContentMovieBanner,
     details: ContentDetails,
     franchise: ContentFranchise,
     characters: ContentCharacters,
     staff: ContentStaff,
+    media: ContentMedia,
     recommendations: ContentRecommendations,
     links: ContentLinks,
     comments: ContentComments,
@@ -58,10 +63,12 @@ const READ_SECTIONS = [
 const DETAIL_SECTIONS = {
     [ContentTypeEnum.ANIME]: [
         'synopsis',
+        'movieBanner',
         'details',
         'franchise',
         'characters',
         'staff',
+        'media',
         'recommendations',
         'links',
         'comments',
@@ -86,6 +93,8 @@ const ContentDetailBody: FC<Props> = ({ contentType, slug }) => {
     const [titleBottom, setTitleBottom] = useState<number | null>(null);
     const titleVisible = useScrolledPast(titleBottom);
     const { refreshing, onRefresh } = usePullToRefresh(bySlug(slug));
+    const nsfw = useNsfwAllowed();
+    const gated = !!content?.nsfw && !nsfw.allowed;
 
     return (
         <>
@@ -108,7 +117,11 @@ const ContentDetailBody: FC<Props> = ({ contentType, slug }) => {
                     />
                 }
             >
-                {content ? (
+                {content && gated && nsfw.isPending ? (
+                    <ContentDetailSkeleton />
+                ) : content && gated ? (
+                    <NsfwGate />
+                ) : content ? (
                     <>
                         <ContentHero
                             contentType={contentType}
