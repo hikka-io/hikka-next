@@ -1,6 +1,6 @@
-import type { FC } from 'react';
+import { type FC, useRef } from 'react';
 
-import { FieldGroup, TextInput } from '@expo/ui';
+import { FieldGroup, TextInput, type TextInputRef } from '@expo/ui';
 import { useForm, useStore } from '@tanstack/react-form';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import * as Haptics from 'expo-haptics';
@@ -32,6 +32,7 @@ const FIELDS = ['email', 'emailConfirmation'] as const;
 const EmailForm: FC = () => {
     const router = useRouter();
     const queryClient = useQueryClient();
+    const confirmation = useRef<TextInputRef>(null);
 
     const change = useMutation({
         ...changeEmailMutation(),
@@ -67,6 +68,10 @@ const EmailForm: FC = () => {
                     {(field) => (
                         <TextInput
                             placeholder="Введіть новий email"
+                            returnKeyType="next"
+                            onSubmitEditing={() =>
+                                confirmation.current?.focus()
+                            }
                             defaultValue={field.state.value}
                             onChangeText={field.handleChange}
                             onBlur={field.handleBlur}
@@ -81,6 +86,9 @@ const EmailForm: FC = () => {
                 <form.Field name="emailConfirmation">
                     {(field) => (
                         <TextInput
+                            ref={confirmation}
+                            returnKeyType="done"
+                            onSubmitEditing={() => form.handleSubmit()}
                             placeholder="Підтвердіть новий email"
                             defaultValue={field.state.value}
                             onChangeText={field.handleChange}

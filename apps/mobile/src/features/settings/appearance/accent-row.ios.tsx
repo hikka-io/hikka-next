@@ -2,6 +2,7 @@ import type { FC } from 'react';
 
 import { Button, Circle, HStack, Image, Spacer, Text } from '@expo/ui/swift-ui';
 import {
+    accessibilityLabel,
     buttonStyle,
     contentShape,
     font,
@@ -20,7 +21,13 @@ type Props = {
 const SWATCH_SIZE = 22;
 
 const AccentRow: FC<Props> = ({ name, color, selected, onPress }) => (
-    <Button onPress={onPress} modifiers={[buttonStyle('plain')]}>
+    <Button
+        onPress={onPress}
+        modifiers={[
+            buttonStyle('plain'),
+            accessibilityLabel(selected ? `${name}, вибрано` : name),
+        ]}
+    >
         <HStack spacing={12} modifiers={[contentShape(shapes.rectangle())]}>
             <Circle
                 modifiers={[

@@ -1,6 +1,7 @@
 import type { FC } from 'react';
 
 import { Icon, ListItem } from '@expo/ui';
+import { semantics } from '@expo/ui/jetpack-compose/modifiers';
 import { View } from 'react-native';
 
 import { CHECK_ICON } from '../icons';
@@ -15,6 +16,11 @@ type Props = {
 const AccentRow: FC<Props> = ({ name, color, selected, onPress }) => (
     <ListItem
         onPress={onPress}
+        modifiers={[
+            semantics({
+                contentDescription: selected ? `${name}, вибрано` : name,
+            }),
+        ]}
         leading={
             <View
                 className="size-6 rounded-full"

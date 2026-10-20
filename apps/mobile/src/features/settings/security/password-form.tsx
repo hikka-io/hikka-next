@@ -1,6 +1,6 @@
-import type { FC } from 'react';
+import { type FC, useRef } from 'react';
 
-import { FieldGroup, TextInput } from '@expo/ui';
+import { FieldGroup, TextInput, type TextInputRef } from '@expo/ui';
 import { useForm, useStore } from '@tanstack/react-form';
 import { useMutation } from '@tanstack/react-query';
 import * as Haptics from 'expo-haptics';
@@ -35,6 +35,7 @@ const FIELDS = ['password', 'passwordConfirmation'] as const;
 
 const PasswordForm: FC = () => {
     const router = useRouter();
+    const confirmation = useRef<TextInputRef>(null);
 
     const change = useMutation({
         ...changePasswordMutation(),
@@ -67,6 +68,10 @@ const PasswordForm: FC = () => {
                     {(field) => (
                         <TextInput
                             placeholder="Введіть новий пароль"
+                            returnKeyType="next"
+                            onSubmitEditing={() =>
+                                confirmation.current?.focus()
+                            }
                             defaultValue={field.state.value}
                             onChangeText={field.handleChange}
                             onBlur={field.handleBlur}
@@ -79,6 +84,9 @@ const PasswordForm: FC = () => {
                 <form.Field name="passwordConfirmation">
                     {(field) => (
                         <TextInput
+                            ref={confirmation}
+                            returnKeyType="done"
+                            onSubmitEditing={() => form.handleSubmit()}
                             placeholder="Підтвердіть новий пароль"
                             defaultValue={field.state.value}
                             onChangeText={field.handleChange}

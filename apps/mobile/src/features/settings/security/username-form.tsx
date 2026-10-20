@@ -72,7 +72,9 @@ const UsernameForm: FC = () => {
                             onBlur={field.handleBlur}
                             autoCapitalize="none"
                             autoCorrect={false}
-                            autoComplete="username"
+                            autoComplete="off"
+                            returnKeyType="done"
+                            onSubmitEditing={() => form.handleSubmit()}
                             editable={!change.isPending}
                         />
                     )}

@@ -20,12 +20,18 @@ import {
     invalidateUserProfile,
 } from '@/utils/api/invalidate-content-state';
 
+import { centredCrop } from './crop-region';
+
 export type ProfileImageType =
     | typeof UploadTypeEnum.AVATAR
     | typeof UploadTypeEnum.COVER;
 
-// The sizes the web crops to (1500x500 cover, 400x400 avatar); the API accepts 200 to 2000 px and 2 MB.
-const OUTPUT_WIDTH = { avatar: 400, cover: 1500 } as const;
+// The API takes a JPEG: a square avatar of 160 to 1500 px and a cover of exactly 1500x500 (the web's crop sizes), 2 MB at most.
+const OUTPUT_SIZE = {
+    avatar: { width: 400, height: 400 },
+    cover: { width: 1500, height: 500 },
+} as const;
+const MIN_AVATAR_SIDE = 160;
 const JPEG_QUALITY = 0.9;
 const FILE_NAME = 'image.jpg';
 
@@ -42,24 +48,22 @@ const fileFormData = (body: unknown) => {
     return data;
 };
 
-type Picked = { uri: string; width: number; height: number };
-
-// The API takes exactly the web's crop ratios: square avatar, 3:1 cover.
 const RATIO = { avatar: 1, cover: 3 } as const;
 
-const prepare = async (type: ProfileImageType, picked: Picked) => {
-    const ratio = RATIO[type];
-    const width = Math.min(picked.width, picked.height * ratio);
-    const height = width / ratio;
+class ImageTooSmallError extends Error {}
 
-    const image = await ImageManipulator.manipulate(picked.uri)
-        .crop({
-            originX: (picked.width - width) / 2,
-            originY: (picked.height - height) / 2,
-            width,
-            height,
-        })
-        .resize({ width: OUTPUT_WIDTH[type] })
+// Render first: the rendered image is upright (EXIF applied), so its size is what the crop must use, not the picker's reported size.
+const prepare = async (type: ProfileImageType, uri: string) => {
+    const upright = await ImageManipulator.manipulate(uri).renderAsync();
+    const crop = centredCrop(upright.width, upright.height, RATIO[type]);
+
+    if (type === UploadTypeEnum.AVATAR && crop.width < MIN_AVATAR_SIDE) {
+        throw new ImageTooSmallError();
+    }
+
+    const image = await ImageManipulator.manipulate(upright)
+        .crop(crop)
+        .resize(OUTPUT_SIZE[type])
         .renderAsync();
 
     return image.saveAsync({ format: SaveFormat.JPEG, compress: JPEG_QUALITY });
@@ -108,7 +112,7 @@ export function useProfileImage(type: ProfileImageType) {
 
         setPreparing(true);
         try {
-            const saved = await prepare(type, asset);
+            const saved = await prepare(type, asset.uri);
 
             const file = await (await fetch(saved.uri)).blob();
 
@@ -117,8 +121,12 @@ export function useProfileImage(type: ProfileImageType) {
                 body: { file },
                 bodySerializer: fileFormData,
             });
-        } catch {
-            toast.error('Не вдалося обробити зображення.');
+        } catch (error) {
+            toast.error(
+                error instanceof ImageTooSmallError
+                    ? 'Зображення замале: щонайменше 160 пікселів.'
+                    : 'Не вдалося обробити зображення.',
+            );
         } finally {
             setPreparing(false);
         }

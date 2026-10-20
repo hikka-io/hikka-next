@@ -1,6 +1,7 @@
 import type { FC } from 'react';
 
 import { ListItem } from '@expo/ui';
+import { alpha, semantics } from '@expo/ui/jetpack-compose/modifiers';
 import { useCSSVariable } from 'uniwind';
 
 type Props = {
@@ -9,6 +10,8 @@ type Props = {
     destructive?: boolean;
     disabled?: boolean;
 };
+
+const DISABLED_ALPHA = 0.38;
 
 const SettingsActionRow: FC<Props> = ({
     title,
@@ -26,6 +29,16 @@ const SettingsActionRow: FC<Props> = ({
             colors={{
                 contentColor: typeof color === 'string' ? color : undefined,
             }}
+            modifiers={
+                disabled
+                    ? [
+                          alpha(DISABLED_ALPHA),
+                          semantics({
+                              contentDescription: `${title}, недоступно`,
+                          }),
+                      ]
+                    : undefined
+            }
         >
             {title}
         </ListItem>
