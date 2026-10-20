@@ -28,17 +28,21 @@ const failed = (error: unknown, fallback: string) => {
     toast.error(apiErrorMessage(error, fallback));
 };
 
-type VoteVariables = { score: number; previous: number };
+type VoteVariables = { reference: string; score: number; previous: number };
 
-/** Optimistic: the cached comment changes at once and rolls back if the request fails. */
+/**
+ * Optimistic: the cached comment changes at once and rolls back if the request fails.
+ * Everything comes from the variables, never the render: FlashList reuses this hook's
+ * component for another comment while a request is in flight. Votes on one comment run in order.
+ */
 export function useCommentVote(comment: CommentResponse) {
     const queryClient = useQueryClient();
     const router = useRouter();
-    const { user } = useSession();
-    const { reference } = comment;
+    const { hasToken } = useSession();
 
     const mutation = useMutation({
-        mutationFn: async ({ score }: VoteVariables) => {
+        scope: { id: `vote:${comment.reference}` },
+        mutationFn: async ({ reference, score }: VoteVariables) => {
             const { data } = await setVote({
                 path: {
                     content_type: VoteContentTypeEnum.COMMENT,
@@ -49,25 +53,26 @@ export function useCommentVote(comment: CommentResponse) {
             });
             return data;
         },
-        onMutate: ({ score }) => {
+        onMutate: ({ reference, score }) => {
             void applyCommentVote(queryClient, reference, score);
         },
-        onSuccess: (data) =>
+        onSuccess: (data, { reference }) =>
             applyCommentVote(queryClient, reference, data.score),
-        onError: (error, { previous }) => {
+        onError: (error, { reference, previous }) => {
             void applyCommentVote(queryClient, reference, previous);
             failed(error, 'Не вдалося проголосувати');
         },
     });
 
     const vote = (score: 1 | -1) => {
-        if (!user) {
+        if (!hasToken) {
             router.push('/login');
             return;
         }
 
         void Haptics.selectionAsync();
         mutation.mutate({
+            reference: comment.reference,
             score: comment.my_score === score ? 0 : score,
             previous: comment.my_score,
         });
