@@ -17,14 +17,15 @@ Goal: a native-feeling iOS and Android app that keeps the web app's structure an
 
 Each running task owns one device and one Metro port so parallel tasks never collide. Port 8081 is taken locally.
 
-| Task | Device | Metro port |
+| Device | Metro port | Phase 3 owner |
 | --- | --- | --- |
-| Content detail | iPhone 17 Pro (iOS 26) | 8082 |
-| Tracking | iPhone 17 Pro Max (iOS 26) | 8083 |
-| Catalog and search | iPhone 17 (iOS 26) | 8084 |
-| Home | iPhone Air (iOS 26) | 8086 |
-| Characters, people, users | iPhone 16e (iOS 26) | 8087 |
-| Android QA (after merges) | Android emulator `Medium_Phone_API_36` | 8085 |
+| iPhone 17 Pro (iOS 26) | 8082 | Consolidation, then settings |
+| iPhone 17 Pro Max (iOS 26) | 8083 | Profile and lists |
+| iPhone 17 (iOS 26) | 8084 | Comments |
+| iPhone Air (iOS 26) | 8086 | Collections and articles |
+| iPhone 16e (iOS 26) | 8087 | Notifications and schedule |
+| iPhone 16 Pro (iOS 18.2) | 8088 | Auth flows (signup, reset, activation) |
+| Android emulator `Medium_Phone_API_36` | 8085 | Android QA pass |
 
 ## Phase 1: foundation (done, merged into `mobile/develop`)
 
@@ -44,10 +45,25 @@ Route skeleton: tabs `(home)`, `(catalog)`, `(profile)`, `(search)`; screens rea
 
 Shared touch points: `src/app/_layout.tsx` (a task adds its own `Stack.Screen`), `components/markdown/links.ts` (a task adds the routes it builds to the in-app table), `DESIGN.md`, `package.json`.
 
-## Phase 3: social and lists
+## Phase 2: core loop (done, merged into `mobile/develop`)
 
-- User profile: lists by status, history, favourites, followers.
-- Notifications (in-app), comments (read, plain write with mentions), collections (read), articles (read), schedule, settings and customization.
+Content detail, tracking (wired into the detail header), catalog with filters and multi-type search, home, characters/people/users. A consolidation pass then keeps one implementation of each shared piece the parallel tasks duplicated.
+
+## Phase 3: the rest of the web (in progress)
+
+Placeholder routes exist for every screen below in `src/app/(tabs)/(home,catalog,profile,search)/`. Each task replaces its placeholders, adds its paths to the in-app table in `components/markdown/links.ts`, and switches the matching Home "see all"/link-outs from the browser to the in-app screen.
+
+| Task | Model | Owns |
+| --- | --- | --- |
+| Auth flows: signup, password reset, activation, email links | Sonnet | `features/auth/`, their root form-sheet routes |
+| Profile and lists: own profile tab, user lists by status, history, favorites, follow/unfollow, followers/following | Opus | `(profile)/` (except `settings/`), `u/[username]/**`, `features/users/` |
+| Comments: threads, write with mentions and spoilers, replies, votes, edit/delete/report, latest and own, preview on detail pages | Opus | `comments/**`, `features/comments/`, one comments section in `features/content/` |
+| Collections and articles (read): lists, detail, article document renderer | Opus | `collections/**`, `articles/**`, `features/{collections,articles}/`, `components/article/` |
+| Notifications and schedule: list, unread badge, mark read, schedule by day | Sonnet | `notifications.tsx`, `schedule.tsx`, `features/{notifications,schedule}/`, the badge in `(tabs)/_layout.tsx` |
+| Settings and customization: profile, security, list, notification and UI preferences (title language, NSFW) | Sonnet | `(profile)/settings/**`, `features/settings/` |
+| Android QA: every screen on the emulator, Android-only fixes | Sonnet | fixes only, after the merges |
+
+Web-only for now: the edit/contribution system, the article and collection editors, OAuth app management.
 
 ## Phase 4: release
 
