@@ -14,6 +14,9 @@ import { ActivationAlert, useSession } from '@/features/auth';
 import { isNotFoundError } from '@/utils/api/is-not-found';
 import { byUsername, usePullToRefresh } from '@/utils/api/use-pull-to-refresh';
 
+import ActivitySection from './activity/activity-section';
+import ArticlesSection from './articles-section';
+import CollectionsSection from './collections-section';
 import FavouritesSection from './favourites/favourites-section';
 import HistorySection from './history-section';
 import ListStats from './list-stats';
@@ -108,8 +111,14 @@ const UserProfile: FC<Props> = ({ username, headerChrome = true }) => {
                             username={name}
                         />,
                         <ListStats key="stats" username={name} />,
+                        <ActivitySection key="activity" username={name} />,
                         <HistorySection key="history" username={name} />,
+                        <CollectionsSection
+                            key="collections"
+                            username={name}
+                        />,
                         <FavouritesSection key="favourites" username={name} />,
+                        <ArticlesSection key="articles" username={name} />,
                     ]}
                     refreshing={refreshing}
                     onRefresh={onRefresh}
