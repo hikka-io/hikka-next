@@ -1,6 +1,6 @@
 export { default as AboutSettings } from './about-settings';
 export { default as AppearanceSettings } from './appearance/appearance-settings';
-export { applyStoredTheme } from './appearance/theme-store';
+export { applyStoredAppearance } from './appearance/theme-store';
 export { default as UserStylesEffect } from './appearance/user-styles-effect';
 export { default as GeneralSettings } from './general-settings';
 export { SETTINGS_ICON } from './icons';

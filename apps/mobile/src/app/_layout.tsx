@@ -8,14 +8,14 @@ import { configureBrowserClient } from '@hikka/api';
 
 import { Toaster } from '@/components/ui/toaster';
 import { readStoredAuthToken } from '@/features/auth';
-import { applyStoredTheme, UserStylesEffect } from '@/features/settings';
+import { applyStoredAppearance, UserStylesEffect } from '@/features/settings';
 import { API_BASE_URL, queryClient } from '@/utils/query-client';
 
 configureBrowserClient({
     baseUrl: API_BASE_URL,
     authToken: readStoredAuthToken(),
 });
-applyStoredTheme();
+applyStoredAppearance();
 
 // Deep links to a sheet route (email links) keep the tabs underneath instead of opening the sheet as the only screen.
 export const unstable_settings = { anchor: '(tabs)' };

@@ -9,6 +9,7 @@ export {
     applyWatchMutation,
     invalidateReadState,
     invalidateSession,
+    invalidateSessionUI,
     invalidateUserProfile,
     invalidateWatchState,
     writeIgnoredNotifications,
