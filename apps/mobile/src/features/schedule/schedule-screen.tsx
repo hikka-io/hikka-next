@@ -7,10 +7,10 @@ import { View } from 'react-native';
 import type { AnimeScheduleResponse } from '@hikka/api';
 import { formatScheduleDay, groupScheduleByDay } from '@hikka/core';
 
+import ListFooter from '@/components/list-footer';
 import { Button } from '@/components/ui/button';
 import EmptyState from '@/components/ui/empty-state';
 import ErrorState from '@/components/ui/error-state';
-import { Spinner } from '@/components/ui/spinner';
 import { Text } from '@/components/ui/text';
 import { usePullToRefresh } from '@/utils/api/use-pull-to-refresh';
 
@@ -53,6 +53,7 @@ const ScheduleScreen: FC = () => {
         fetchNextPage,
         hasNextPage,
         isFetchingNextPage,
+        isFetchNextPageError,
         isPending,
         refetch,
     } = useInfiniteQuery(scheduleOptions(toScheduleSearch(filters)));
@@ -146,7 +147,11 @@ const ScheduleScreen: FC = () => {
                 }
                 ListEmptyComponent={empty}
                 ListFooterComponent={
-                    isFetchingNextPage ? <Spinner className="py-4" /> : null
+                    <ListFooter
+                        fetching={isFetchingNextPage}
+                        error={isFetchNextPageError}
+                        onRetry={() => void fetchNextPage()}
+                    />
                 }
                 onEndReached={() => {
                     if (hasNextPage && !isFetchingNextPage) fetchNextPage();

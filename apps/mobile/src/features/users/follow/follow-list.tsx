@@ -6,10 +6,10 @@ import { Users } from 'lucide-react-native';
 
 import type { FollowUserResponse } from '@hikka/api';
 
+import ListFooter from '@/components/list-footer';
 import EmptyState from '@/components/ui/empty-state';
 import ErrorState from '@/components/ui/error-state';
 import { Icon } from '@/components/ui/icon';
-import { Spinner } from '@/components/ui/spinner';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { byUsername, usePullToRefresh } from '@/utils/api/use-pull-to-refresh';
 
@@ -48,11 +48,18 @@ type Props = {
 /** The web's follow list modal as a pushed screen. */
 const FollowList: FC<Props> = ({ kind, username }) => {
     const copy = COPY[kind];
-    const { items, error, isFetchingNextPage, onEndReached, onRetry } =
-        useInfiniteList<FollowUserResponse>({
-            ...followListOptions(kind, username),
-            subscribed: useIsFocused(),
-        });
+    const {
+        items,
+        error,
+        isFetchingNextPage,
+        isFetchNextPageError,
+        onRetryNextPage,
+        onEndReached,
+        onRetry,
+    } = useInfiniteList<FollowUserResponse>({
+        ...followListOptions(kind, username),
+        subscribed: useIsFocused(),
+    });
     const { refreshing, onRefresh } = usePullToRefresh(byUsername([username]));
     const data: (FollowUserResponse | null)[] =
         items ?? (error ? [] : SKELETON_ITEMS);
@@ -92,7 +99,11 @@ const FollowList: FC<Props> = ({ kind, username }) => {
                     )
                 }
                 ListFooterComponent={
-                    isFetchingNextPage ? <Spinner className="py-4" /> : null
+                    <ListFooter
+                        fetching={isFetchingNextPage}
+                        error={isFetchNextPageError}
+                        onRetry={onRetryNextPage}
+                    />
                 }
                 onEndReached={onEndReached}
                 onEndReachedThreshold={0.5}

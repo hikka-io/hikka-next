@@ -8,11 +8,11 @@ import { ScrollView, View } from 'react-native';
 import { ContentTypeEnum, type FavouriteContentTypeEnum } from '@hikka/api';
 
 import PosterCardSkeleton from '@/components/content-card/poster-card-skeleton';
+import ListFooter from '@/components/list-footer';
 import EmptyState from '@/components/ui/empty-state';
 import ErrorState from '@/components/ui/error-state';
 import { Icon } from '@/components/ui/icon';
 import { Skeleton } from '@/components/ui/skeleton';
-import { Spinner } from '@/components/ui/spinner';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { byUsername, usePullToRefresh } from '@/utils/api/use-pull-to-refresh';
 
@@ -40,11 +40,18 @@ type GridProps = {
 };
 
 const FavouriteGrid: FC<GridProps> = ({ username, type, header }) => {
-    const { items, error, isFetchingNextPage, onEndReached, onRetry } =
-        useInfiniteList<FavouriteItem>({
-            ...userFavouritesOptions(username, type),
-            subscribed: useIsFocused(),
-        });
+    const {
+        items,
+        error,
+        isFetchingNextPage,
+        isFetchNextPageError,
+        onRetryNextPage,
+        onEndReached,
+        onRetry,
+    } = useInfiniteList<FavouriteItem>({
+        ...userFavouritesOptions(username, type),
+        subscribed: useIsFocused(),
+    });
     const { refreshing, onRefresh } = usePullToRefresh(byUsername([username]));
     const data: (FavouriteItem | null)[] =
         items ?? (error ? [] : SKELETON_ITEMS);
@@ -91,7 +98,11 @@ const FavouriteGrid: FC<GridProps> = ({ username, type, header }) => {
                 )
             }
             ListFooterComponent={
-                isFetchingNextPage ? <Spinner className="py-4" /> : null
+                <ListFooter
+                    fetching={isFetchingNextPage}
+                    error={isFetchNextPageError}
+                    onRetry={onRetryNextPage}
+                />
             }
             onEndReached={onEndReached}
             onEndReachedThreshold={0.5}

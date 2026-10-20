@@ -5,10 +5,10 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 import { View } from 'react-native';
 
 import PosterCardSkeleton from '@/components/content-card/poster-card-skeleton';
+import ListFooter from '@/components/list-footer';
 import { Button } from '@/components/ui/button';
 import EmptyState from '@/components/ui/empty-state';
 import ErrorState from '@/components/ui/error-state';
-import { Spinner } from '@/components/ui/spinner';
 import { useSession } from '@/features/auth';
 import {
     ActiveFilters,
@@ -52,6 +52,7 @@ const CatalogList: FC = () => {
         fetchNextPage,
         hasNextPage,
         isFetchingNextPage,
+        isFetchNextPageError,
         isPending,
         isRefetching,
         refetch,
@@ -126,7 +127,11 @@ const CatalogList: FC = () => {
             }
             ListEmptyComponent={empty}
             ListFooterComponent={
-                isFetchingNextPage ? <Spinner className="py-4" /> : null
+                <ListFooter
+                    fetching={isFetchingNextPage}
+                    error={isFetchNextPageError}
+                    onRetry={() => void fetchNextPage()}
+                />
             }
             onEndReached={() => {
                 if (hasNextPage && !isFetchingNextPage) fetchNextPage();

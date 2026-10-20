@@ -7,10 +7,10 @@ import { View } from 'react-native';
 import type { CommentResponse } from '@hikka/api';
 import { COMMENT_LIST_IDS, queryId } from '@hikka/core';
 
+import ListFooter from '@/components/list-footer';
 import EmptyState from '@/components/ui/empty-state';
 import ErrorState from '@/components/ui/error-state';
 import { Icon } from '@/components/ui/icon';
-import { Spinner } from '@/components/ui/spinner';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { usePullToRefresh } from '@/utils/api/use-pull-to-refresh';
 
@@ -34,8 +34,15 @@ const CommentFeedList: FC<Props> = ({
     emptyTitle,
     emptyDescription,
 }) => {
-    const { items, error, isFetchingNextPage, onEndReached, onRetry } =
-        useInfiniteList<CommentResponse>(options);
+    const {
+        items,
+        error,
+        isFetchingNextPage,
+        isFetchNextPageError,
+        onRetryNextPage,
+        onEndReached,
+        onRetry,
+    } = useInfiniteList<CommentResponse>(options);
     const { refreshing, onRefresh } = usePullToRefresh((query) =>
         LIST_IDS.has(queryId(query.queryKey) ?? ''),
     );
@@ -72,7 +79,11 @@ const CommentFeedList: FC<Props> = ({
             ListHeaderComponent={header}
             ListEmptyComponent={empty}
             ListFooterComponent={
-                isFetchingNextPage ? <Spinner className="py-4" /> : null
+                <ListFooter
+                    fetching={isFetchingNextPage}
+                    error={isFetchNextPageError}
+                    onRetry={onRetryNextPage}
+                />
             }
             onEndReached={onEndReached}
             onEndReachedThreshold={0.5}

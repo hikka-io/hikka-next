@@ -24,12 +24,12 @@ import {
     type Verdict,
 } from '@hikka/core';
 
+import ListFooter from '@/components/list-footer';
 import NsfwGate from '@/components/nsfw-gate';
 import { Button } from '@/components/ui/button';
 import EmptyState from '@/components/ui/empty-state';
 import ErrorState from '@/components/ui/error-state';
 import { Icon } from '@/components/ui/icon';
-import { Spinner } from '@/components/ui/spinner';
 import { Text } from '@/components/ui/text';
 import { useSession } from '@/features/auth';
 import { useNsfwAllowed } from '@/services/session';
@@ -97,17 +97,24 @@ const CommentsList: FC<Props> = ({ contentType, slug, reference }) => {
         mainContent &&
         ((statsPending && !statsError) || (gated && nsfw.isPending));
 
-    const { items, error, isFetchingNextPage, onEndReached, onRetry } =
-        useInfiniteList<CommentResponse>(
-            reference
-                ? commentThreadOptions(reference)
-                : commentListOptions(contentType, slug, {
-                      commentType,
-                      sort,
-                      order,
-                      verdict,
-                  }),
-        );
+    const {
+        items,
+        error,
+        isFetchingNextPage,
+        isFetchNextPageError,
+        onRetryNextPage,
+        onEndReached,
+        onRetry,
+    } = useInfiniteList<CommentResponse>(
+        reference
+            ? commentThreadOptions(reference)
+            : commentListOptions(contentType, slug, {
+                  commentType,
+                  sort,
+                  order,
+                  verdict,
+              }),
+    );
 
     // Built apart from the flattening, so an expand or collapse keeps every node and the rows skip re-rendering their comments.
     const tree = useMemo(
@@ -289,7 +296,11 @@ const CommentsList: FC<Props> = ({ contentType, slug, reference }) => {
                 ListHeaderComponent={header}
                 ListEmptyComponent={empty}
                 ListFooterComponent={
-                    isFetchingNextPage ? <Spinner className="py-4" /> : null
+                    <ListFooter
+                        fetching={isFetchingNextPage}
+                        error={isFetchNextPageError}
+                        onRetry={onRetryNextPage}
+                    />
                 }
                 onEndReached={onEndReached}
                 onEndReachedThreshold={0.5}

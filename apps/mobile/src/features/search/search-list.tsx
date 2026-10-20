@@ -5,9 +5,9 @@ import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 
 import { ContentTypeEnum, type UserResponse } from '@hikka/api';
 
+import ListFooter from '@/components/list-footer';
 import EmptyState from '@/components/ui/empty-state';
 import ErrorState from '@/components/ui/error-state';
-import { Spinner } from '@/components/ui/spinner';
 
 import {
     type ContentSearchType,
@@ -98,6 +98,7 @@ const ContentResults: FC<Props & { type: ContentSearchType }> = ({
         fetchNextPage,
         hasNextPage,
         isFetchingNextPage,
+        isFetchNextPageError,
         isPending,
         refetch,
     } = useInfiniteQuery(contentSearchOptions(type, query));
@@ -115,7 +116,13 @@ const ContentResults: FC<Props & { type: ContentSearchType }> = ({
             onEndReached={() => {
                 if (hasNextPage && !isFetchingNextPage) fetchNextPage();
             }}
-            footer={isFetchingNextPage ? <Spinner className="py-4" /> : null}
+            footer={
+                <ListFooter
+                    fetching={isFetchingNextPage}
+                    error={isFetchNextPageError}
+                    onRetry={() => void fetchNextPage()}
+                />
+            }
         />
     );
 };

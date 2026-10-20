@@ -12,12 +12,12 @@ import {
     type NotificationItem,
 } from '@hikka/core';
 
+import ListFooter from '@/components/list-footer';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import EmptyState from '@/components/ui/empty-state';
 import ErrorState from '@/components/ui/error-state';
 import { Icon } from '@/components/ui/icon';
-import { Spinner } from '@/components/ui/spinner';
 import { Text } from '@/components/ui/text';
 import { usePullToRefresh } from '@/utils/api/use-pull-to-refresh';
 
@@ -56,6 +56,7 @@ const NotificationsList: FC = () => {
         fetchNextPage,
         hasNextPage,
         isFetchingNextPage,
+        isFetchNextPageError,
         isPending,
         refetch,
     } = useInfiniteQuery(notificationsOptions());
@@ -150,7 +151,11 @@ const NotificationsList: FC = () => {
             }
             ListEmptyComponent={empty}
             ListFooterComponent={
-                isFetchingNextPage ? <Spinner className="py-4" /> : null
+                <ListFooter
+                    fetching={isFetchingNextPage}
+                    error={isFetchNextPageError}
+                    onRetry={() => void fetchNextPage()}
+                />
             }
             onEndReached={() => {
                 if (hasNextPage && !isFetchingNextPage) fetchNextPage();

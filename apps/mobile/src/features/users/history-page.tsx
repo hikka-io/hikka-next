@@ -9,13 +9,13 @@ import { View } from 'react-native';
 import type { HistoryResponse } from '@hikka/api';
 import { groupHistoryByDay, type QueryId, queryId } from '@hikka/core';
 
+import ListFooter from '@/components/list-footer';
 import HistoryRow from '@/components/list-items/history-row';
 import HistoryRowSkeleton from '@/components/list-items/history-row-skeleton';
 import EmptyState from '@/components/ui/empty-state';
 import ErrorState from '@/components/ui/error-state';
 import { Icon } from '@/components/ui/icon';
 import SegmentedControl from '@/components/ui/segmented-control';
-import { Spinner } from '@/components/ui/spinner';
 import { Text } from '@/components/ui/text';
 import { useSession } from '@/features/auth';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
@@ -64,11 +64,18 @@ type FeedProps = {
 
 const HistoryFeed: FC<FeedProps> = ({ username, source, header }) => {
     const following = source === 'following';
-    const { items, error, isFetchingNextPage, onEndReached, onRetry } =
-        useInfiniteList<HistoryResponse>({
-            ...userHistoryOptions(username, source),
-            subscribed: useIsFocused(),
-        });
+    const {
+        items,
+        error,
+        isFetchingNextPage,
+        isFetchNextPageError,
+        onRetryNextPage,
+        onEndReached,
+        onRetry,
+    } = useInfiniteList<HistoryResponse>({
+        ...userHistoryOptions(username, source),
+        subscribed: useIsFocused(),
+    });
     const { refreshing, onRefresh } = usePullToRefresh(
         following ? FOLLOWING_HISTORY : byUsername([username]),
     );
@@ -127,7 +134,11 @@ const HistoryFeed: FC<FeedProps> = ({ username, source, header }) => {
                 )
             }
             ListFooterComponent={
-                isFetchingNextPage ? <Spinner className="py-4" /> : null
+                <ListFooter
+                    fetching={isFetchingNextPage}
+                    error={isFetchNextPageError}
+                    onRetry={onRetryNextPage}
+                />
             }
             onEndReached={onEndReached}
             onEndReachedThreshold={0.5}
