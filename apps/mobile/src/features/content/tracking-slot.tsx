@@ -2,6 +2,8 @@ import type { FC } from 'react';
 
 import type { MainContentTypeEnum } from '@hikka/api';
 
+import { ListStatusButton } from '@/components/tracking';
+
 export type ProgressTotals = {
     episodes_total?: number | null;
     chapters?: number | null;
@@ -14,6 +16,8 @@ type Props = {
     totals: ProgressTotals;
 };
 
-const TrackingSlot: FC<Props> = () => null;
+const TrackingSlot: FC<Props> = ({ contentType, slug, totals }) => (
+    <ListStatusButton contentType={contentType} slug={slug} content={totals} />
+);
 
 export default TrackingSlot;

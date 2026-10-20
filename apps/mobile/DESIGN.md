@@ -106,7 +106,7 @@ Names match the web component with the same role, so reviewers can compare side 
 | `content-card/poster-card` (+ `poster-card-skeleton`) | `content-card/poster-card` (+ `poster-card-skeleton`; ratio `DEFAULT_CONTAINER_RATIO` from `@hikka/core`, shared with the web) | Done; `status` overlay, image presets and tooltips left for the tracking/content tasks |
 | `horizontal-card` | `horizontal-card` (same five exports; the row itself takes `href`/`onPress`, interactive content goes in `action`) | Done |
 | `markdown` (`MDViewer`) | `markdown` (`MDViewer`, `Link`, `Mention`, `Spoiler`, `SpoilerInline`) | Decided: see section 11 |
-| `tracking` (`WatchListButton`/`ReadListButton` → `ListStatusButton`, `IconStatusButton`, `ListEntryEditDialog` + `watch-edit-form`/`read-edit-form`, `use-tracking-mutations`) | `tracking` (`ListStatusButton` with `contentType`, `IconStatusButton`, `ListEntrySheet` on the `list-entry/[content_type]/[slug]` form sheet, `useSaveListEntry`/`useDeleteListEntry`, `useListEntry`) | Decided: see section 12 |
+| `tracking` (`WatchListButton`/`ReadListButton` → `ListStatusButton`, `IconStatusButton`, `ListEntryEditDialog` + `watch-edit-form`/`read-edit-form`, `use-tracking-mutations`) | `tracking` (`ListStatusButton` with `contentType`, `IconStatusButton`, `ListEntrySheet` on the `list-entry/[content_type]/[slug]` form sheet, `useSaveListEntry`/`useDeleteListEntry`, `useListEntry`) | Decided: see section 13 |
 
 Deliberate differences from the web, all for touch:
 
@@ -158,7 +158,7 @@ Anime, manga and novel share one detail system in `src/features/content/` (`Cont
 - **Pull to refresh** is a `RefreshControl` on the page `ScrollView`; it refetches every mounted query whose key carries this slug (`utils/api/refetch-content-detail.ts`), so the info and the sections that have loaded refresh together.
 - **States.** Loading renders `ContentDetailSkeleton` (poster box, title and original title lines at their real sizes, genre chips, scores box, synopsis header and lines, details card); unloaded rows render `PosterCardSkeleton` cells in the real row with the loaded card's title line count (two lines when the card has no subtitles). A 404 shows `EmptyState` "Не знайдено"; other errors show the message with "Повторити"; a failed section shows "Не вдалося завантажити" with a retry instead of disappearing. Empty sections are omitted, as on the web.
 
-## 12. Tracking (Decided)
+## 13. Tracking (Decided)
 
 `src/components/tracking` is the native `components/tracking`. Cache writes go only through `src/utils/api/invalidate-content-state.ts`, a thin re-export of the watch/read writers in `@hikka/core` (`content-cache.ts`: the id lists, `applyWatchMutation`/`applyReadMutation`/`apply*Deletion`), which the web's file re-exports too; components never call `setQueryData` or `invalidateQueries`. A watch or read write also stale-marks `userWatchStats`/`userReadStats` and `userHistory`. Shared with the web through core as well: the entry read (`listEntryOptions`, 404 to `null`), the COMPLETED fill (`completedWatchFill`/`completedReadFill`) and the list date helpers (`unixToLocalDate`/`localDateToUnix`).
 
@@ -173,7 +173,7 @@ Anime, manga and novel share one detail system in `src/features/content/` (`Cont
 - **Glyphs**: the web's filled status icons (`components/icons/list-status`) are ported as path data (`status-glyphs.ts`) and drawn by `StatusIcon`, which resolves colour and size like `Icon`.
 - **Session**: the components read the token through `useAuthToken` from `features/auth`, a component-to-feature import that stays until session hooks move to `src/services/` (decision log, auth).
 
-## 12. Catalog and search (Decided)
+## 14. Catalog and search (Decided)
 
 The web's three catalog pages, filter sidebar and search modal, as two tabs. Code: `features/catalog`, `features/filters`, `features/search`; routes `(tabs)/(catalog)/index.tsx`, `(tabs)/(search)/index.tsx` and the root `catalog-filters` sheet.
 
@@ -197,7 +197,7 @@ The web's three catalog pages, filter sidebar and search modal, as two tabs. Cod
 - Genres and studio lookups are static per release: `utils/query-client.ts` gives the `genres` and `searchCompanies` keys `staleTime: Infinity` as a per-key tier, like the web's `QUERY_DEFAULT_TIERS`. List keys add the index to the slug, since a title can move between pages while paging.
 - Haptics: selection feedback on the segmented control, scope chips, filter chips, switches, menu choices and chip removal.
 
-## 12. Home (Decided)
+## 15. Home (Decided)
 
 `features/home` builds the web home (`/`) as one `FlashList` under the native large title; `src/app/(tabs)/(home)/index.tsx` only composes it.
 
@@ -212,7 +212,7 @@ The web's three catalog pages, filter sidebar and search modal, as two tabs. Cod
 - Time: `formatTimestamp` from core needs `Intl.RelativeTimeFormat`, which Hermes lacks; relative times use `formatTimeAgo` (date-fns).
 - Shared logic moved into `@hikka/core` for this, with the web importing it: history fact conversion and day grouping (`convertHistory`, `groupHistoryByDay`, `formatHistoryTime`), `buildFeedArgs`/`isFeedDisabled`, the ongoings, schedule, collection and article arguments (`home-args`) and the feed item paths.
 
-## 12. Characters, people and public profiles (Decided)
+## 16. Characters, people and public profiles (Decided)
 
 Screens: `characters/[slug]`, `people/[slug]`, `u/[username]` in the shared group; features `features/entities` (barrel: `CharacterPage`, `PersonPage`) and `features/users` (barrel: `UserPage`). Route files only read the param and render the page, keyed by the param.
 
@@ -246,7 +246,7 @@ Append one line per decision: date, decision, task.
 - 2026-10-20: Markdown viewer is a `marked` lexer with directive/mention/strikethrough extensions and an own React Native renderer, not `react-native-marked` or a native text view; web dialect kept (no code/tables/autolinks); block spoiler hides behind an opaque pill, not a blur. (markdown task)
 - 2026-10-20: Review pass: real 44 pt boxes through `TouchTarget` instead of `hitSlop` (Android ignores touches outside the parent), buttons grow with Dynamic Type (`min-h-*`), icon buttons require `accessibilityLabel`, linked headers keep the header role, `Chip` gets `selected`, card and row actions sit outside the card's single accessible element; the auth form fields, submit and profile summary now use `Text`, `Button` and `Avatar`. (design-system)
 - 2026-10-20: Uniwind cannot theme non-color variables per scheme, so radii and the light card shadow are static `@theme` keys and the card uses `dark:shadow-none`; verified on device (radius 10.1 pt measured, shadow visible in light, none in dark). (design-system)
-- 2026-10-20: Tracking: section 12. Status menus are `NativeMenu` (SwiftUI `Menu` with an explicitly sized host on iOS, the community `MenuView` on Android; the community `MenuView` with a React Native trigger is zero-sized and untappable on iOS), dates `@expo/ui/community/datetime-picker` (cross-platform wrappers of the SwiftUI and Compose controls), steppers and the note field are content; the edit sheet is the root `list-entry/[content_type]/[slug]` form sheet; an entry read error blocks every write; `expo-haptics` added. (tracking)
+- 2026-10-20: Tracking: section 13. Status menus are `NativeMenu` (SwiftUI `Menu` with an explicitly sized host on iOS, the community `MenuView` on Android; the community `MenuView` with a React Native trigger is zero-sized and untappable on iOS), dates `@expo/ui/community/datetime-picker` (cross-platform wrappers of the SwiftUI and Compose controls), steppers and the note field are content; the edit sheet is the root `list-entry/[content_type]/[slug]` form sheet; an entry read error blocks every write; `expo-haptics` added. (tracking)
 - 2026-10-20: Tracking review: supplied entry wins and a tracked/untracked disagreement is re-read before any write; the sheet waits for the content and for in-flight saves; dead tokens sign out; entry read, COMPLETED fill, list dates and the watch/read cache writers moved into `@hikka/core` and the web imports them; stats and history stale-marked on writes; SwiftUI menu owns VoiceOver. (tracking)
 - 2026-10-20: `<Toaster />` is mounted once in `src/app/_layout.tsx`; loading toasts use `ActivityIndicator` (section 7). The poster ratio moved to `@hikka/core` (`DEFAULT_CONTAINER_RATIO`) and the web imports it from there. (design-system)
 - 2026-10-20: Content detail is one config-driven system in `features/content` (typed `contentInfoOptions` dispatcher, `DETAIL_SECTIONS` per type), in the web's single-column order plus anime recommendations; comments wait for phase 3. (content-detail)
@@ -255,9 +255,9 @@ Append one line per decision: date, decision, task.
 - 2026-10-20: Below-the-fold sections fetch through `useVisibleOnce` (layout `y` against the scroll viewport, one screen ahead); pull to refresh refetches the mounted queries keyed by the slug. (content-detail)
 - 2026-10-20: `formatCompactNumber` falls back to a hand-rolled compact format when `Intl` ignores `notation: 'compact'` (Hermes prints "657,496"); `getPlatformIcon` moved from the web into `@hikka/core`. (content-detail)
 - 2026-10-20: Review pass: detail helpers (original title, blank description, episode formatting, link grouping) and imgproxy presets live in `@hikka/core` and the web uses them too; segmented controls sit full width under the section header with no fixed width; the collapse fade composites translucent surfaces over the page; Android share falls back to a bundled PNG; the tracking slot gets progress totals. (content-detail)
-- 2026-10-20: Catalog and search (section 12): one catalog tab with a segmented type control, per-type filter state in the web's URL-param shape (search-args builders moved to `@hikka/core`), view/sort in one native menu, filters in a `formSheet`, chip-row search scopes; view mode and filters in memory until a prefs store exists. Android tab indicator uses `primary-border` (dark `primary` is invisible) and the tab bar hides with the keyboard. (catalog-search)
+- 2026-10-20: Catalog and search (section 14): one catalog tab with a segmented type control, per-type filter state in the web's URL-param shape (search-args builders moved to `@hikka/core`), view/sort in one native menu, filters in a `formSheet`, chip-row search scopes; view mode and filters in memory until a prefs store exists. Android tab indicator uses `primary-border` (dark `primary` is invisible) and the tab bar hides with the keyboard. (catalog-search)
 - 2026-10-20: Android pass on the catalog: header toolbar items use Material vector drawables (`assets/icons`), `@expo/ui` hosts take the colour scheme, filter switches are React Native's core `Switch`, long sliders are continuous, every tab label shows (`labelVisibilityMode="labeled"`). (catalog-search)
 - 2026-10-20: Review pass: hide-listed and the active-filter registry moved to `@hikka/core` (web uses them unchanged), search labels from `CONTENT_TYPES`, turning on the date range clears seasons/years (web bug noted), Android filter dot badge, static-lookup query tier. (catalog-search)
-- 2026-10-20: Home is the initial tab through a root `src/app/index.tsx` redirect (tab `initialRouteName` is ignored for `/` with shared group routes); one-column order, chip tabs, read-only feed with local filters, link-outs to the web for articles, collections and the schedule; history and feed-arg logic moved into `@hikka/core`. See section 12. (home)
+- 2026-10-20: Home is the initial tab through a root `src/app/index.tsx` redirect (tab `initialRouteName` is ignored for `/` with shared group routes); one-column order, chip tabs, read-only feed with local filters, link-outs to the web for articles, collections and the schedule; history and feed-arg logic moved into `@hikka/core`. See section 15. (home)
 - 2026-10-20: Character, person and profile screens are a FlashList of blocks that mount (and fetch) as they are drawn, with pull-to-refresh by slug or username; appearances are horizontal paged strips instead of the web's 4-up grid; link table gains `characters`, `people`, `u`; share is the system share sheet on iOS; follow, lists, activity, articles, collections and full pages are phase 3. (entities-users)
 - 2026-10-20: Review pass: per-block error states, status order and watch time moved to `@hikka/core` (web imports them), one table-driven appearance builder and section, one infinite-list hook, share sends `{ url }` on iOS. (entities-users)
