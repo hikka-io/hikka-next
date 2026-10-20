@@ -2,7 +2,6 @@
     "components/action-buttons/vote-button",
     "features/collections/collection-edit/collection-settings/components",
     "features/collections/collection-view/collection-groups",
-    "features/comments/utils",
     "features/content/actions/components",
     "features/content/articles",
     "features/content/characters/components",

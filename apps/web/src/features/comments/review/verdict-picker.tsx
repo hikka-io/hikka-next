@@ -1,9 +1,10 @@
 import type { FC } from 'react';
 
+import type { Verdict } from '@hikka/core';
+
 import { Button } from '@/components/ui/button';
 import { cn } from '@/utils/cn';
 
-import type { Verdict } from './review';
 import { REVIEW_VERDICTS } from './review-verdicts';
 
 const ACTIVE_CLASS: Record<Verdict, string> = {
