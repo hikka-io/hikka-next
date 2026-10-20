@@ -3,7 +3,11 @@ import type { FC } from 'react';
 import { Linking, useColorScheme } from 'react-native';
 import { WebView } from 'react-native-webview';
 
-import { CAPTCHA_ORIGIN, CAPTCHA_SITE_KEY } from './captcha-config';
+import {
+    CAPTCHA_ORIGIN,
+    CAPTCHA_SITE_KEY,
+    TURNSTILE_ORIGIN,
+} from './captcha-config';
 
 const WIDGET_WIDTH = 300;
 const WIDGET_HEIGHT = 65;
@@ -13,7 +17,7 @@ const widgetPage = (theme: 'light' | 'dark') => `<!doctype html>
 <head>
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
 <style>html,body{margin:0;background:transparent}</style>
-<script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit&onload=onTurnstileLoad" async defer></script>
+<script src="${TURNSTILE_ORIGIN}/turnstile/v0/api.js?render=explicit&onload=onTurnstileLoad" async defer></script>
 </head>
 <body>
 <div id="widget"></div>
@@ -31,6 +35,16 @@ window.onTurnstileLoad = () => turnstile.render('#widget', {
 </body>
 </html>`;
 
+const originOf = (url: string) => {
+    try {
+        return new URL(url).origin;
+    } catch {
+        return null;
+    }
+};
+
+const isBlank = (url: string) => url.startsWith('about:');
+
 type Props = {
     onToken: (token: string | undefined) => void;
 };
@@ -47,16 +61,17 @@ const Captcha: FC<Props> = ({ onToken }) => {
                 backgroundColor: 'transparent',
             }}
             scrollEnabled={false}
-            onMessage={(event) => onToken(event.nativeEvent.data || undefined)}
-            onShouldStartLoadWithRequest={(request) => {
-                if (
-                    !request.isTopFrame ||
-                    request.url.startsWith(CAPTCHA_ORIGIN) ||
-                    request.url.startsWith('about:')
-                ) {
-                    return true;
-                }
-                Linking.openURL(request.url);
+            // A request that fails originWhitelist goes to Linking.openURL with no scheme check, so the policy lives in onShouldStartLoadWithRequest.
+            originWhitelist={['*']}
+            onMessage={(event) => {
+                if (originOf(event.nativeEvent.url) !== CAPTCHA_ORIGIN) return;
+                onToken(event.nativeEvent.data || undefined);
+            }}
+            onShouldStartLoadWithRequest={({ url, isTopFrame }) => {
+                const allowed = isTopFrame ? CAPTCHA_ORIGIN : TURNSTILE_ORIGIN;
+                if (isBlank(url) || originOf(url) === allowed) return true;
+
+                if (url.startsWith('https:')) void Linking.openURL(url);
                 return false;
             }}
         />
