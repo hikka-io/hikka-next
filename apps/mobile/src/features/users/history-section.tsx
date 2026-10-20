@@ -21,6 +21,7 @@ import { Icon } from '@/components/ui/icon';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Text } from '@/components/ui/text';
 import { DENSE_MAX_FONT_SCALE } from '@/components/ui/typography';
+import { contentHref } from '@/utils/content-href';
 
 import {
     historyImportTitle,
@@ -28,12 +29,6 @@ import {
     summarizeHistory,
 } from './history-summary';
 import { HISTORY_PREVIEW_SIZE, userHistoryPreviewOptions } from './queries';
-
-const ROUTE = {
-    anime: '/anime',
-    manga: '/manga',
-    novel: '/novel',
-} as const;
 
 const HistorySkeleton: FC = () => (
     <View className="gap-4">
@@ -79,7 +74,10 @@ const HistorySection: FC<Props> = ({ username }) => {
                                     key={item.reference}
                                     href={
                                         content
-                                            ? `${ROUTE[content.data_type]}/${content.slug}`
+                                            ? contentHref(
+                                                  content.data_type,
+                                                  content.slug,
+                                              )
                                             : undefined
                                     }
                                 >

@@ -18,8 +18,8 @@ import Card from '@/components/ui/card';
 import { Header, HeaderTitle } from '@/components/ui/header';
 import { Text } from '@/components/ui/text';
 import { useSession } from '@/features/auth';
+import { siteUrl } from '@/utils/site-origin';
 
-import { SITE_ORIGIN } from './content-href';
 import type { ContentInfo } from './queries';
 import TextExpand from './text-expand';
 
@@ -40,7 +40,7 @@ const linkImage = (link: Link) => {
     const icon = getPlatformIcon(link.url);
 
     return icon ? (
-        `${SITE_ORIGIN}${icon}`
+        siteUrl(icon)
     ) : (
         <Text className="font-medium text-muted-foreground">
             {link.text[0]}

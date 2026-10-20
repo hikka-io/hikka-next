@@ -7,8 +7,8 @@ import { getTitle } from '@hikka/core';
 
 import { presetImageUrl } from '@/components/content-card/image-presets';
 import PosterCard from '@/components/content-card/poster-card';
+import { contentHref } from '@/utils/content-href';
 
-import { contentHref } from './content-href';
 import { useVisibleOnce } from './detail-scroll';
 import PosterRow from './poster-row';
 import {

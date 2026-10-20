@@ -13,6 +13,7 @@ import { Chip } from '@/components/ui/chip';
 import { Header, HeaderTitle } from '@/components/ui/header';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
+import { contentHref } from '@/utils/content-href';
 
 import { serviceUserStatsOptions, userFavouritesOptions } from './queries';
 
@@ -33,14 +34,6 @@ type FavouriteItem = {
     media_type?: string | null;
 };
 
-const ROUTE = {
-    anime: '/anime',
-    manga: '/manga',
-    novel: '/novel',
-    character: '/characters',
-    person: '/people',
-} as const satisfies Record<Category, string>;
-
 const FavouriteStrip: FC<{ username: string; type: Category }> = ({
     username,
     type,
@@ -55,7 +48,7 @@ const FavouriteStrip: FC<{ username: string; type: Category }> = ({
             keyExtractor={(item) => item.slug}
             renderItem={(item) => (
                 <PosterCard
-                    href={`${ROUTE[type]}/${item.slug}`}
+                    href={contentHref(type, item.slug)}
                     title={getTitle(item)}
                     image={item.image ?? undefined}
                     leftSubtitle={getMediaTypeLabel(item.media_type)}

@@ -5,8 +5,9 @@ import { unstable_getMaterialSymbolSourceAsync } from 'expo-symbols';
 import { type ImageSourcePropType, Platform, Share } from 'react-native';
 
 import type { MainContentTypeEnum } from '@hikka/api';
+import { contentPath } from '@hikka/core';
 
-import { contentWebUrl } from './content-href';
+import { siteUrl } from '@/utils/site-origin';
 
 const ANDROID_ICON_SIZE = 24;
 // Bundled Material `share` glyph, used when the symbol cannot be rendered.
@@ -46,7 +47,7 @@ const ContentHeaderChrome: FC<Props> = ({
     shareable,
 }) => {
     const androidIcon = useAndroidShareIcon();
-    const url = contentWebUrl(contentType, slug);
+    const url = siteUrl(contentPath(contentType, slug));
     const icon =
         Platform.OS === 'android' ? androidIcon : 'square.and.arrow.up';
 

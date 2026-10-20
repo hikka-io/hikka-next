@@ -1,13 +1,12 @@
 import type { FC } from 'react';
 
 import { useInfiniteQuery } from '@tanstack/react-query';
-import { type Href, useIsFocused } from 'expo-router';
+import { useIsFocused } from 'expo-router';
 import { History } from 'lucide-react-native';
 import { View } from 'react-native';
 
 import { type HistoryResponse, HistoryTypeEnum } from '@hikka/api';
 import {
-    contentPath,
     convertHistory,
     formatHistoryTime,
     getTitle,
@@ -31,6 +30,7 @@ import { Separator } from '@/components/ui/separator';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Text, TextClassContext } from '@/components/ui/text';
 import { DENSE_MAX_FONT_SCALE } from '@/components/ui/typography';
+import { contentHref } from '@/utils/content-href';
 
 import { flattenPages } from '../flatten-pages';
 import { HISTORY_PREVIEW_SIZE, homeFollowingHistoryOptions } from '../queries';
@@ -84,7 +84,7 @@ const HistoryRow: FC<RowProps> = ({ item, titleLanguage, nameLanguage }) => {
             className="px-4 py-3"
             href={
                 content
-                    ? (contentPath(content.data_type, content.slug) as Href)
+                    ? contentHref(content.data_type, content.slug)
                     : undefined
             }
         >
