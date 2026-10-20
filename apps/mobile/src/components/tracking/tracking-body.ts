@@ -12,7 +12,8 @@ import {
 import {
     carryOverReadArgs,
     carryOverWatchArgs,
-    omitUndefined,
+    completedReadFill,
+    completedWatchFill,
 } from '@hikka/core';
 
 export type TrackingKind = 'watch' | 'read';
@@ -59,11 +60,7 @@ export function buildStatusBody(
         return {
             status: status as WatchStatusEnum,
             ...carryOverWatchArgs(entry as WatchResponseBase | undefined),
-            ...(status === COMPLETED
-                ? omitUndefined({
-                      episodes: content?.episodes_total || undefined,
-                  })
-                : undefined),
+            ...(status === COMPLETED ? completedWatchFill(content) : undefined),
         };
     }
 
@@ -73,10 +70,7 @@ export function buildStatusBody(
         status: status as ReadStatusEnum,
         ...carryOverReadArgs(read),
         ...(status === COMPLETED
-            ? omitUndefined({
-                  volumes: content?.volumes || read?.volumes || undefined,
-                  chapters: content?.chapters || read?.chapters || undefined,
-              })
+            ? completedReadFill(content, read)
             : undefined),
     };
 }
@@ -141,15 +135,49 @@ export const clampInt = (value: number, min: number, max: number) =>
         Math.max(min, Math.trunc(Number.isFinite(value) ? value : 0)),
     );
 
-/** Dates are UTC-midnight unix seconds on the wire and a local calendar day in the picker, as on the web. */
-export const unixToLocalDate = (unix: number): Date => {
-    const date = new Date(unix * 1000);
-    return new Date(
-        date.getUTCFullYear(),
-        date.getUTCMonth(),
-        date.getUTCDate(),
-    );
+export type EntryResolution =
+    | { state: 'resolved'; entry: ListEntry | null }
+    | { state: 'loading' }
+    | { state: 'error' }
+    | { state: 'verify' };
+
+type ResolveInput = {
+    /** From a list response: `undefined` not supplied, `null` known untracked. */
+    supplied: ListEntry | null | undefined;
+    /** The per-title query's data (`null` after a 404 or a delete). */
+    cached: ListEntry | null | undefined;
+    /** The cached value was read or written after a disagreement was noticed. */
+    cachedVerified: boolean;
+    isError: boolean;
 };
 
-export const localDateToUnix = (date: Date): number =>
-    Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()) / 1000;
+// Both are entries: a refetched list can carry an edit made elsewhere, a local write updates both.
+const newer = (a: ListEntry, b: ListEntry) => (b.updated > a.updated ? b : a);
+
+/**
+ * Which entry a control may build a write from. The supplied entry wins, like the web's
+ * `entryProp || entryQuery`. When the two sources disagree on tracked vs untracked, neither is
+ * trusted until the per-title entry is re-read (`verify`): acting on a stale `null` would PUT
+ * `{ status: 'planned' }` over a real entry and wipe its score, progress, note and dates.
+ */
+export function resolveListEntry({
+    supplied,
+    cached,
+    cachedVerified,
+    isError,
+}: ResolveInput): EntryResolution {
+    if (supplied === undefined) {
+        if (cached !== undefined) return { state: 'resolved', entry: cached };
+        return isError ? { state: 'error' } : { state: 'loading' };
+    }
+
+    if (cached === undefined) return { state: 'resolved', entry: supplied };
+
+    if (cached && supplied) {
+        return { state: 'resolved', entry: newer(cached, supplied) };
+    }
+    if (cached === supplied) return { state: 'resolved', entry: null };
+
+    if (cachedVerified) return { state: 'resolved', entry: cached };
+    return isError ? { state: 'error' } : { state: 'verify' };
+}

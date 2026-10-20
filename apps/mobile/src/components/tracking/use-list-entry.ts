@@ -1,11 +1,13 @@
+import { useEffect, useState } from 'react';
+
 import { useQuery } from '@tanstack/react-query';
 
 import type { MainContentTypeEnum } from '@hikka/api';
+import { listEntryOptions } from '@hikka/core';
 
-import { useAuthToken } from '@/features/auth';
+import { isDeadTokenError, signOut, useAuthToken } from '@/features/auth';
 
-import { listEntryOptions } from './list-entry-options';
-import type { ListEntry } from './tracking-body';
+import { type ListEntry, resolveListEntry } from './tracking-body';
 
 export type ListEntryState =
     | { state: 'signed-out' }
@@ -21,14 +23,10 @@ type Args = {
     entry?: ListEntry | null;
 };
 
-// A cached per-title entry can be older than one a refetched list embeds (edited elsewhere).
-const newer = (a: ListEntry, b: ListEntry) => (b.updated > a.updated ? b : a);
-
 /**
- * The viewer's entry in one of four states. Only a successful read says "untracked";
- * a failed one is `error`, so nothing can write a snapshot built from an empty entry.
- * The per-title cache (written by every save and delete) wins over a supplied entry,
- * unless both are entries and the supplied one is newer.
+ * The viewer's entry in one of five states. Only a successful read says "untracked"; a failed
+ * one is `error`, and a disagreement between the supplied and the cached entry is `loading`
+ * until the entry is re-read (`resolveListEntry`), so no control writes from a stale snapshot.
  */
 export function useListEntry({
     contentType,
@@ -40,21 +38,50 @@ export function useListEntry({
         ...listEntryOptions(contentType, slug),
         enabled: Boolean(token) && supplied === undefined,
     });
+    const { data: cached, refetch } = query;
+    const disagree =
+        supplied !== undefined &&
+        cached !== undefined &&
+        (supplied === null) !== (cached === null);
+    // When the current disagreement was noticed: a read or write after it settles it.
+    const [verifyFrom, setVerifyFrom] = useState<number | null>(null);
+    const cachedVerified =
+        verifyFrom !== null &&
+        !query.isFetching &&
+        query.dataUpdatedAt >= verifyFrom;
+
+    const resolution = resolveListEntry({
+        supplied,
+        cached,
+        cachedVerified,
+        isError: query.isError,
+    });
+
+    useEffect(() => {
+        if (!token) return;
+        if (disagree && verifyFrom === null) {
+            setVerifyFrom(Date.now());
+            // Cancels any older in-flight read, so the result is from after the disagreement.
+            void refetch();
+        } else if (!disagree && verifyFrom !== null) {
+            setVerifyFrom(null);
+        }
+    }, [token, disagree, verifyFrom, refetch]);
+
+    useEffect(() => {
+        if (token && isDeadTokenError(query.error)) void signOut();
+    }, [token, query.error]);
 
     if (!token) return { state: 'signed-out' };
 
-    const entry =
-        query.data && supplied
-            ? newer(query.data, supplied)
-            : query.data !== undefined
-              ? query.data
-              : supplied;
-
-    if (entry === undefined) {
-        return query.isError
-            ? { state: 'error', retry: () => void query.refetch() }
-            : { state: 'loading' };
+    switch (resolution.state) {
+        case 'resolved':
+            return resolution.entry
+                ? { state: 'tracked', entry: resolution.entry }
+                : { state: 'untracked' };
+        case 'error':
+            return { state: 'error', retry: () => void refetch() };
+        default:
+            return { state: 'loading' };
     }
-
-    return entry ? { state: 'tracked', entry } : { state: 'untracked' };
 }

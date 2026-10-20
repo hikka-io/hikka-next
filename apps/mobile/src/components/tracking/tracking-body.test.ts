@@ -8,8 +8,7 @@ import {
     clampInt,
     draftFromEntry,
     episodesMax,
-    localDateToUnix,
-    unixToLocalDate,
+    resolveListEntry,
 } from './tracking-body';
 
 const WATCH: WatchResponseBase = {
@@ -141,15 +140,89 @@ describe('bounds and dates', () => {
         expect(clampInt(4.7, 0, 10)).toBe(4);
         expect(clampInt(Number.NaN, 0, 10)).toBe(0);
     });
+});
 
-    it('round-trips a calendar day through UTC midnight', () => {
-        const unix = Date.UTC(2026, 9, 20) / 1000;
-        const local = unixToLocalDate(unix);
-        expect([
-            local.getFullYear(),
-            local.getMonth(),
-            local.getDate(),
-        ]).toEqual([2026, 9, 20]);
-        expect(localDateToUnix(local)).toBe(unix);
+describe('resolveListEntry', () => {
+    const verify = { cachedVerified: false, isError: false };
+
+    it('never lets a stale cached null turn an embedded entry into "add"', () => {
+        // Untracked title opened (cache null), then added elsewhere; a refetched list embeds it.
+        expect(
+            resolveListEntry({ supplied: WATCH, cached: null, ...verify }),
+        ).toEqual({ state: 'verify' });
+    });
+
+    it('re-reads a stale cached entry the list says is gone the same way', () => {
+        expect(
+            resolveListEntry({ supplied: null, cached: WATCH, ...verify }),
+        ).toEqual({ state: 'verify' });
+    });
+
+    it('trusts the re-read entry once it lands', () => {
+        expect(
+            resolveListEntry({
+                supplied: WATCH,
+                cached: null,
+                cachedVerified: true,
+                isError: false,
+            }),
+        ).toEqual({ state: 'resolved', entry: null });
+    });
+
+    it('turns a failed re-read into an error, not untracked', () => {
+        expect(
+            resolveListEntry({
+                supplied: WATCH,
+                cached: null,
+                cachedVerified: false,
+                isError: true,
+            }),
+        ).toEqual({ state: 'error' });
+    });
+
+    it('takes the supplied entry when nothing is cached', () => {
+        expect(
+            resolveListEntry({ supplied: WATCH, cached: undefined, ...verify }),
+        ).toEqual({ state: 'resolved', entry: WATCH });
+        expect(
+            resolveListEntry({ supplied: null, cached: undefined, ...verify }),
+        ).toEqual({ state: 'resolved', entry: null });
+    });
+
+    it('takes the newer of two entries', () => {
+        const newer = { ...WATCH, updated: WATCH.updated + 10, score: 3 };
+        expect(
+            resolveListEntry({ supplied: newer, cached: WATCH, ...verify }),
+        ).toEqual({ state: 'resolved', entry: newer });
+        expect(
+            resolveListEntry({ supplied: WATCH, cached: newer, ...verify }),
+        ).toEqual({ state: 'resolved', entry: newer });
+    });
+
+    it('agrees on untracked', () => {
+        expect(
+            resolveListEntry({ supplied: null, cached: null, ...verify }),
+        ).toEqual({ state: 'resolved', entry: null });
+    });
+
+    it('waits for or fails the read when nothing is supplied', () => {
+        expect(
+            resolveListEntry({
+                supplied: undefined,
+                cached: undefined,
+                ...verify,
+            }),
+        ).toEqual({ state: 'loading' });
+        expect(
+            resolveListEntry({
+                supplied: undefined,
+                cached: undefined,
+                cachedVerified: false,
+                isError: true,
+            }),
+        ).toEqual({ state: 'error' });
+        expect(
+            resolveListEntry({ supplied: undefined, cached: null, ...verify }),
+        ).toEqual({ state: 'resolved', entry: null });
     });
 });

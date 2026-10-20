@@ -4,13 +4,14 @@ import { X } from 'lucide-react-native';
 import { Platform, View } from 'react-native';
 import { useCSSVariable } from 'uniwind';
 
+import { localDateToUnix, unixToLocalDate } from '@hikka/core';
+
 import { Button } from '@/components/ui/button';
 import { Icon } from '@/components/ui/icon';
 import { Text } from '@/components/ui/text';
 import { cn } from '@/utils/cn';
 
 import DatePicker from './date-picker';
-import { localDateToUnix, unixToLocalDate } from './tracking-body';
 
 type Props = {
     label: string;

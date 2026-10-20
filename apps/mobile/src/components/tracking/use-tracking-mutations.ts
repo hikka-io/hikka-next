@@ -21,6 +21,7 @@ import {
 } from '@hikka/api';
 import { apiErrorMessage, MUTATION_META_SKIP_ERROR_TOAST } from '@hikka/core';
 
+import { isDeadTokenError, signOut } from '@/features/auth';
 import {
     applyReadDeletion,
     applyReadMutation,
@@ -83,7 +84,12 @@ const deleteEntry = async ({ contentType, slug }: DeleteVariables) => {
     });
 };
 
+// A dead token signs out (the controls then offer the login sheet) instead of toasting forever.
 const notifyError = (error: unknown, fallback: string) => {
+    if (isDeadTokenError(error)) {
+        void signOut();
+        return;
+    }
     void Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
     toast.error(apiErrorMessage(error, fallback));
 };
