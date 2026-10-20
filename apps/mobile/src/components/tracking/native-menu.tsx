@@ -1,4 +1,4 @@
-import { type FC, type ReactNode, useState } from 'react';
+import { type FC, Fragment, type ReactNode, useState } from 'react';
 
 import type { MenuAction } from '@expo/ui/community/menu';
 import {
@@ -6,11 +6,13 @@ import {
     DropdownMenuItem,
     HorizontalDivider,
     Host,
+    Icon,
     RNHostView,
     Text,
     useMaterialColors,
 } from '@expo/ui/jetpack-compose';
-import { Pressable, useColorScheme } from 'react-native';
+import { selectable } from '@expo/ui/jetpack-compose/modifiers';
+import { Pressable, useColorScheme, View } from 'react-native';
 
 export type NativeMenuProps = {
     actions: MenuAction[];
@@ -23,6 +25,10 @@ export type NativeMenuProps = {
     title?: string;
     children: ReactNode;
 };
+
+const CHECK_ICON = require('../../../assets/icons/check.xml');
+const CHECK_SIZE = 24;
+const noop = () => {};
 
 const actionId = (action: MenuAction) => action.id ?? action.title;
 
@@ -43,40 +49,54 @@ const NativeMenu: FC<NativeMenuProps> = ({
     const destructive = useMaterialColors().error;
     const [expanded, setExpanded] = useState(false);
 
+    const choose = (action: MenuAction) => {
+        setExpanded(false);
+        onAction(actionId(action));
+    };
+
     const renderAction = (action: MenuAction): ReactNode => {
         if (action.attributes?.hidden) return null;
 
         if (action.subactions?.length) {
             return (
-                <Group key={actionId(action)}>
+                <Fragment key={actionId(action)}>
                     <HorizontalDivider />
                     {action.subactions.map(renderAction)}
-                </Group>
+                </Fragment>
             );
         }
 
-        const color = action.attributes?.destructive ? destructive : undefined;
+        const disabled = action.attributes?.disabled;
+        const color =
+            action.attributes?.destructive && !disabled
+                ? destructive
+                : undefined;
+        const checkable = action.state != null;
 
         return (
             <DropdownMenuItem
                 key={actionId(action)}
-                enabled={!action.attributes?.disabled}
-                elementColors={
-                    color
-                        ? { textColor: color, disabledTextColor: color }
+                enabled={!disabled}
+                elementColors={color ? { textColor: color } : undefined}
+                modifiers={
+                    checkable
+                        ? [
+                              selectable(
+                                  action.state === 'on',
+                                  noop,
+                                  'radioButton',
+                              ),
+                          ]
                         : undefined
                 }
-                onClick={() => {
-                    setExpanded(false);
-                    onAction(actionId(action));
-                }}
+                onClick={() => choose(action)}
             >
                 <DropdownMenuItem.Text>
                     <Text>{action.title}</Text>
                 </DropdownMenuItem.Text>
                 {action.state === 'on' ? (
                     <DropdownMenuItem.TrailingIcon>
-                        <Text>✓</Text>
+                        <Icon source={CHECK_ICON} size={CHECK_SIZE} />
                     </DropdownMenuItem.TrailingIcon>
                 ) : null}
             </DropdownMenuItem>
@@ -88,7 +108,6 @@ const NativeMenu: FC<NativeMenuProps> = ({
             <DropdownMenu
                 expanded={expanded}
                 onDismissRequest={() => setExpanded(false)}
-                properties={{ clippingEnabled: false }}
             >
                 <DropdownMenu.Trigger>
                     <RNHostView matchContents>
@@ -97,8 +116,15 @@ const NativeMenu: FC<NativeMenuProps> = ({
                             accessibilityLabel={accessibilityLabel}
                             onPress={() => setExpanded(true)}
                             android_disableSound
+                            style={{
+                                width,
+                                height,
+                                justifyContent: 'center',
+                            }}
                         >
-                            {children}
+                            <View importantForAccessibility="no-hide-descendants">
+                                {children}
+                            </View>
                         </Pressable>
                     </RNHostView>
                 </DropdownMenu.Trigger>
@@ -109,7 +135,5 @@ const NativeMenu: FC<NativeMenuProps> = ({
         </Host>
     );
 };
-
-const Group: FC<{ children: ReactNode }> = ({ children }) => <>{children}</>;
 
 export default NativeMenu;

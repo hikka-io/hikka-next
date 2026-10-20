@@ -11,7 +11,7 @@ import { toast } from 'sonner-native';
 
 import type { CommentResponse } from '@hikka/api';
 
-import { NativeMenu } from '@/components/tracking';
+import { MENU_TRIGGER_SIZE, NativeMenu } from '@/components/tracking';
 import { Icon } from '@/components/ui/icon';
 import { useSession } from '@/features/auth';
 import { shareSitePath } from '@/utils/share';
@@ -20,7 +20,7 @@ import { siteUrl } from '@/utils/site-origin';
 import { composerHref, threadHref } from './comment-routes';
 import { useDeleteComment } from './use-comment-mutations';
 
-const MENU_SIZE = 44;
+const MENU_SIZE = MENU_TRIGGER_SIZE;
 const REPORT_URL = 'https://t.me/hikka_io';
 
 type Props = {

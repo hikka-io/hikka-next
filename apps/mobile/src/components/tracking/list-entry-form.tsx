@@ -23,6 +23,7 @@ import { cn } from '@/utils/cn';
 
 import DateField from './date-field';
 import type { ContentInfo } from './list-entry-options';
+import { MENU_TRIGGER_SIZE } from './menu-trigger-size';
 import NativeMenu from './native-menu';
 import ProgressStepper from './progress-stepper';
 import { findStatus, STATUS_OPTIONS, statusStyle } from './status-config';
@@ -52,7 +53,7 @@ type Props = {
 };
 
 const PROGRESS_MAX = API_LIMITS.listProgress.max;
-const ROW_HEIGHT = 44;
+const ROW_HEIGHT = MENU_TRIGGER_SIZE;
 
 /** The web's watch/read edit forms. Every save sends the whole draft: the PUT is full-replace. */
 const ListEntryForm: FC<Props> = ({
