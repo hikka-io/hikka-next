@@ -15,6 +15,7 @@ export * from './customization-defaults';
 export * from './customization-merge';
 export * from './episodes';
 export * from './external-links';
+export * from './favourite-cache';
 export * from './feed-args';
 export * from './filter-ranges';
 export * from './follow-cache';

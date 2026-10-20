@@ -5,10 +5,7 @@ import type {
 } from '@tanstack/react-query';
 
 import {
-    type FavouriteContentTypeEnum,
-    type FavouriteResponse,
     getEditQueryKey,
-    getFavouriteQueryKey,
     type UserCollectionResponse,
     type UserCollectionsListResponse,
 } from '@hikka/api';
@@ -24,14 +21,15 @@ import {
     queryId,
     READ_EMBED_IDS,
     refetchTypeFor,
-    setQueryDataAfterCancel,
     USER_COLLECTIONS_ID,
     WATCH_EMBED_IDS,
 } from '@hikka/core';
 
-// Watch/read, follow, notification, comment and vote cache writers live in @hikka/core, shared with the mobile app.
+// Watch/read, follow, favourite, notification, comment and vote cache writers live in @hikka/core, shared with the mobile app.
 export {
     applyCommentVote,
+    applyFavouriteDeletion,
+    applyFavouriteMutation,
     applyFollowChange,
     applyReadDeletion,
     applyReadMutation,
@@ -82,8 +80,6 @@ const CONTENT_DETAIL_IDS: readonly QueryId[] = [
 const USER_CLIENT_IDS: readonly QueryId[] = ['listUserClients'];
 
 const AUTH_TOKEN_IDS: readonly QueryId[] = ['thirdPartyAuthTokens'];
-
-const FAVOURITE_IDS: readonly QueryId[] = ['favouriteList'];
 
 /** Invalidate the community-edit list queries after an edit mutation. */
 export function invalidateEdits(
@@ -213,44 +209,6 @@ export function resetPageList(
     queryKey: QueryKey,
 ): void {
     queryClient.removeQueries({ queryKey });
-}
-
-/** Invalidate the favourite lists after toggling a favourite. */
-function invalidateFavourites(
-    queryClient: QueryClient,
-    options?: InvalidateOptions,
-): Promise<void> {
-    return invalidateByIds(queryClient, FAVOURITE_IDS, options);
-}
-
-/** Write an added favourite into the per-content cache, then invalidate the lists. */
-export function applyFavouriteMutation(
-    queryClient: QueryClient,
-    content_type: FavouriteContentTypeEnum,
-    slug: string,
-    data: FavouriteResponse,
-    options?: InvalidateOptions,
-): Promise<void> {
-    queryClient.setQueryData(
-        getFavouriteQueryKey({ path: { content_type, slug } }),
-        data,
-    );
-    return invalidateFavourites(queryClient, options);
-}
-
-/** Favourite mirror of `applyWatchDeletion`. */
-export async function applyFavouriteDeletion(
-    queryClient: QueryClient,
-    content_type: FavouriteContentTypeEnum,
-    slug: string,
-    options?: InvalidateOptions,
-): Promise<void> {
-    await setQueryDataAfterCancel(
-        queryClient,
-        getFavouriteQueryKey({ path: { content_type, slug } }),
-        null,
-    );
-    return invalidateFavourites(queryClient, options);
 }
 
 /**

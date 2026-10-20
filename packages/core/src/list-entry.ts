@@ -7,6 +7,10 @@ import type {
 
 import {
     type Client,
+    type FavouriteContentTypeEnum,
+    type GetFavouriteError,
+    type GetFavouriteResponse,
+    getFavouriteOptions,
     HikkaApiError,
     MainContentTypeEnum,
     type ReadContentTypeEnum,
@@ -103,4 +107,21 @@ export function listEntryOptions(
     }
 
     return readEntryOptions(contentType, slug, client);
+}
+
+type FavouriteEntryOptions = NullOn404Options<
+    GetFavouriteResponse,
+    GetFavouriteError,
+    ReturnType<typeof getFavouriteOptions>['queryKey']
+>;
+
+/** The viewer's favourite for an item; a 404 (not a favourite) resolves to `null` instead of an error. */
+export function favouriteEntryOptions(
+    content_type: FavouriteContentTypeEnum,
+    slug: string,
+    client?: Client,
+): FavouriteEntryOptions {
+    return nullOn404(
+        getFavouriteOptions({ path: { content_type, slug }, client }),
+    );
 }
