@@ -153,8 +153,26 @@ const ComposerForm: FC<FormProps> = ({
     );
     const length = commentTextLength(prefix) + commentTextLength(body);
     const tooLong = length > MAX_LENGTH;
+    const reviewArgs = toReviewArgs(isReview, verdict);
+    // The backend keeps a history entry for every edit, so an unchanged save is not sent.
+    const unchanged =
+        isEdit &&
+        body === normalizeCommentText(comment.text ?? '') &&
+        (reviewArgs?.recommended ?? null) ===
+            (comment.review?.recommended ?? null);
     const canSend =
-        body !== '' && !tooLong && !(isReview && !verdict) && !pending;
+        body !== '' &&
+        !tooLong &&
+        !(isReview && !verdict) &&
+        !unchanged &&
+        !pending;
+    // `isPending` only flips on the next render, so a second tap in the same frame would send twice.
+    const submitting = useRef(false);
+    const release = {
+        onError: () => {
+            submitting.current = false;
+        },
+    };
 
     const apply = ({ text: next, selection: caret }: Edit) => {
         setText(next);
@@ -165,25 +183,31 @@ const ComposerForm: FC<FormProps> = ({
     };
 
     const submit = () => {
-        if (!canSend) return;
-        const reviewArgs = toReviewArgs(isReview, verdict);
+        if (!canSend || submitting.current) return;
+        submitting.current = true;
 
         if (isEdit) {
-            save.mutate({
-                path: { comment_reference: comment.reference },
-                body: { text: body, review: reviewArgs },
-            });
+            save.mutate(
+                {
+                    path: { comment_reference: comment.reference },
+                    body: { text: body, review: reviewArgs },
+                },
+                release,
+            );
             return;
         }
 
-        write.mutate({
-            path: { content_type: contentType, slug },
-            body: {
-                parent: replyTarget?.parent,
-                text: `${prefix}${body}`,
-                review: reviewArgs,
+        write.mutate(
+            {
+                path: { content_type: contentType, slug },
+                body: {
+                    parent: replyTarget?.parent,
+                    text: `${prefix}${body}`,
+                    review: reviewArgs,
+                },
             },
-        });
+            release,
+        );
     };
 
     const title = isEdit
