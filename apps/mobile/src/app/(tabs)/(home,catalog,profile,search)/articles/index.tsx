@@ -23,7 +23,7 @@ export default function ArticlesScreen() {
                 initialSearch={search}
                 options={contentArticlesOptions(content_type, content_slug)}
                 emptyTitle="Статей ще немає"
-                emptyDescription="Тут з’являться статті, пов’язані з цим тайтлом"
+                emptyDescription="Тут зʼявляться статті, повʼязані з цим тайтлом"
             />
         );
     }

@@ -66,6 +66,7 @@ const SkeletonText: FC<SkeletonTextProps> = ({
         <View className={cn('flex-col', className)} {...props}>
             {Array.from({ length: lines }, (_, index) => (
                 <View
+                    // biome-ignore lint/suspicious/noArrayIndexKey: static placeholders
                     key={index}
                     className="justify-center"
                     style={{ height: rowHeight }}

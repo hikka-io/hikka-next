@@ -1,21 +1,21 @@
 import type { FC } from 'react';
 
-import { Link } from 'expo-router';
+import { UserRound } from 'lucide-react-native';
 import { View } from 'react-native';
 
 import { UserRoleEnum } from '@hikka/api';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Button } from '@/components/ui/button';
+import ErrorState from '@/components/ui/error-state';
 import { Spinner } from '@/components/ui/spinner';
 import { Text } from '@/components/ui/text';
 
 import ActivationAlert from './activation-alert';
-import { errorMessage } from './error-message';
+import SignInPrompt from './sign-in-prompt';
 import { useSession } from './use-session';
 
 const ProfileSummary: FC = () => {
-    const { user, hasToken, isLoading, error } = useSession();
+    const { user, hasToken, isLoading, error, refetch } = useSession();
 
     if (isLoading) {
         return (
@@ -53,23 +53,19 @@ const ProfileSummary: FC = () => {
 
     if (hasToken && error) {
         return (
-            <View className="flex-1 items-center justify-center bg-background p-6">
-                <Text className="text-center text-destructive-foreground">
-                    {errorMessage(error)}
-                </Text>
-            </View>
+            <ErrorState
+                error={error}
+                onRetry={() => void refetch()}
+                className="flex-1 justify-center"
+            />
         );
     }
 
     return (
-        <View className="flex-1 items-center justify-center gap-4 bg-background p-6">
-            <Text className="text-center text-muted-foreground">
-                Увійдіть, щоб відстежувати аніме та бачити свої списки
-            </Text>
-            <Link href="/login" asChild>
-                <Button className="px-6">Увійти</Button>
-            </Link>
-        </View>
+        <SignInPrompt
+            icon={UserRound}
+            description="Увійдіть, щоб відстежувати аніме та бачити свої списки"
+        />
     );
 };
 

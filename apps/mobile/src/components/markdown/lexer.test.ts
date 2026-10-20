@@ -1,4 +1,4 @@
-import type { Token } from 'marked';
+import type { Token, Tokens } from 'marked';
 import { describe, expect, it } from 'vitest';
 
 import { lexMarkdown } from './lexer';
@@ -12,6 +12,12 @@ const inline = (source: string): Token[] => {
     return paragraph.tokens;
 };
 
+const children = (token: Token): Token[] =>
+    (token as Token & { tokens: Token[] }).tokens;
+
+const flatten = (token: Token): Token[] =>
+    'tokens' in token && token.tokens ? token.tokens : [token];
+
 const types = (tokens: Token[]) => tokens.map((token) => token.type);
 
 const visible = (tokens: Token[]) =>
@@ -22,21 +28,21 @@ describe('block spoiler', () => {
         const [directive] = visible(lexMarkdown(':::spoiler\nsecret\n:::'));
 
         expect(directive).toMatchObject({ type: 'directive', name: 'spoiler' });
-        expect(plainText((directive as any).tokens)).toBe('secret');
+        expect(plainText(children(directive))).toBe('secret');
     });
 
     it('keeps text after the closing fence outside', () => {
         const tokens = visible(lexMarkdown(':::spoiler\nsecret\n:::\n\nafter'));
 
         expect(types(tokens)).toEqual(['directive', 'paragraph']);
-        expect(plainText((tokens[1] as any).tokens)).toBe('after');
+        expect(plainText(children(tokens[1]))).toBe('after');
     });
 
     it('runs an unclosed container to the end', () => {
         const [directive] = visible(lexMarkdown(':::spoiler\na\n\nb'));
 
         expect(
-            types((directive as any).tokens).filter((t) => t === 'paragraph'),
+            types(children(directive)).filter((t) => t === 'paragraph'),
         ).toHaveLength(2);
     });
 
@@ -44,7 +50,7 @@ describe('block spoiler', () => {
         const [outer] = visible(
             lexMarkdown('::::spoiler\n:::spoiler\ninner\n:::\n::::'),
         );
-        const [inner] = visible((outer as any).tokens);
+        const [inner] = visible(children(outer));
 
         expect(inner).toMatchObject({ type: 'directive', name: 'spoiler' });
     });
@@ -62,7 +68,7 @@ describe('block spoiler', () => {
             lexMarkdown(':::spoiler\n**bold** and\n\n- item\n:::'),
         );
 
-        expect(types((directive as any).tokens)).toContain('list');
+        expect(types(children(directive))).toContain('list');
     });
 
     it('does not treat two colons as a container', () => {
@@ -77,23 +83,19 @@ describe('inline spoiler', () => {
         const tokens = inline('a :spoiler[hidden] b');
 
         expect(types(tokens)).toEqual(['text', 'spoiler', 'text']);
-        expect(plainText((tokens[1] as any).tokens)).toBe('hidden');
+        expect(plainText(children(tokens[1]))).toBe('hidden');
     });
 
     it('lexes markdown in the label', () => {
         const [spoiler] = inline(':spoiler[**bold** [x](https://a.b)]');
 
-        expect(types((spoiler as any).tokens)).toEqual([
-            'strong',
-            'text',
-            'link',
-        ]);
+        expect(types(children(spoiler))).toEqual(['strong', 'text', 'link']);
     });
 
     it('balances brackets in the label', () => {
         const [spoiler] = inline(':spoiler[a [b] c] tail');
 
-        expect(plainText((spoiler as any).tokens)).toBe('a [b] c');
+        expect(plainText(children(spoiler))).toBe('a [b] c');
     });
 
     it('consumes trailing attributes', () => {
@@ -157,7 +159,7 @@ describe('strikethrough', () => {
         const tokens = inline('a ~~struck~~ b');
 
         expect(types(tokens)).toEqual(['text', 'strike', 'text']);
-        expect(plainText((tokens[1] as any).tokens)).toBe('struck');
+        expect(plainText(children(tokens[1]))).toBe('struck');
     });
 
     it('leaves a single tilde as text', () => {
@@ -182,7 +184,7 @@ describe('web dialect', () => {
         const tokens = visible(lexMarkdown('```js\nlet a\n```'));
 
         expect(types(tokens)).toEqual(['paragraph']);
-        expect(plainText((tokens[0] as any).tokens)).toContain('```js');
+        expect(plainText(children(tokens[0]))).toContain('```js');
     });
 
     it('keeps bare urls as text', () => {
@@ -202,7 +204,7 @@ describe('web dialect', () => {
         ['a comment', 'a <!-- note --> b', 'a <!-- note --> b'],
     ])('shows %s as literal text', (_, source, expected) => {
         const tokens = visible(lexMarkdown(source));
-        const flat = plainText(tokens.flatMap((t: any) => t.tokens ?? [t]));
+        const flat = plainText(tokens.flatMap(flatten));
 
         expect(flat).toBe(expected);
     });
@@ -212,22 +214,17 @@ describe('web dialect', () => {
     });
 
     it('keeps task list markers literal', () => {
-        const [list] = visible(lexMarkdown('- [x] done\n- [ ] todo')) as any[];
+        const [list] = visible(
+            lexMarkdown('- [x] done\n- [ ] todo'),
+        ) as Tokens.List[];
 
-        expect(list.items.map((item: any) => item.task)).toEqual([
-            false,
-            false,
-        ]);
-        expect(
-            plainText(
-                list.items[0].tokens.flatMap((t: any) => t.tokens ?? [t]),
-            ),
-        ).toBe('[x] done');
-        expect(
-            plainText(
-                list.items[1].tokens.flatMap((t: any) => t.tokens ?? [t]),
-            ),
-        ).toBe('[ ] todo');
+        expect(list.items.map((item) => item.task)).toEqual([false, false]);
+        expect(plainText(list.items[0].tokens.flatMap(flatten))).toBe(
+            '[x] done',
+        );
+        expect(plainText(list.items[1].tokens.flatMap(flatten))).toBe(
+            '[ ] todo',
+        );
     });
 
     it('keeps table syntax as text', () => {
@@ -268,7 +265,7 @@ describe('mentions', () => {
     it('does not read a mention inside a user link label', () => {
         const [link] = inline(`[@olexh](https://hikka.io/u/${REFERENCE})`);
 
-        expect(types((link as any).tokens)).toEqual(['text']);
+        expect(types(children(link))).toEqual(['text']);
     });
 
     it.each([40, 41, 64])('links a %i character name whole', (length) => {

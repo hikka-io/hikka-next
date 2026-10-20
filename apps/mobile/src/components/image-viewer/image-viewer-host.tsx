@@ -152,9 +152,8 @@ const ImageViewerHost: FC = () => {
                     <Pressable
                         accessibilityRole="button"
                         accessibilityLabel="Закрити"
-                        hitSlop={8}
                         onPress={dismiss}
-                        className="size-10 items-center justify-center rounded-full bg-white/20 active:opacity-70"
+                        className="size-11 items-center justify-center rounded-full bg-white/20 active:opacity-70"
                     >
                         <Icon as={X} className="size-5 text-white" />
                     </Pressable>

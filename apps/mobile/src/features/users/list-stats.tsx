@@ -142,6 +142,7 @@ const StatsSkeleton: FC = () => (
         <View className="-mx-2 flex-row flex-wrap">
             {Array.from({ length: 6 }, (_, index) => (
                 <View
+                    // biome-ignore lint/suspicious/noArrayIndexKey: static placeholders
                     key={index}
                     className="min-h-11 w-1/2 justify-center px-2"
                 >

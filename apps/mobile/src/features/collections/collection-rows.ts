@@ -2,7 +2,7 @@ import type { CollectionContentResponse, CollectionResponse } from '@hikka/api';
 
 export const COLLECTION_COLUMNS = 3;
 
-export type CollectionGroup = {
+type CollectionGroup = {
     label?: string;
     items: CollectionContentResponse[];
 };

@@ -7,7 +7,7 @@ import { useSession } from '@/features/auth';
 
 import { serviceUserStatsOptions } from '../queries';
 
-export const FAVOURITE_CATEGORIES = [
+const FAVOURITE_CATEGORIES = [
     ContentTypeEnum.ANIME,
     ContentTypeEnum.MANGA,
     ContentTypeEnum.NOVEL,

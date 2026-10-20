@@ -31,7 +31,7 @@ type CatalogPage = {
     pagination: PaginationResponse;
 };
 
-export type CatalogData = InfiniteData<CatalogPage, number>;
+type CatalogData = InfiniteData<CatalogPage, number>;
 
 type CatalogOptions = UseInfiniteQueryOptions<
     CatalogPage,

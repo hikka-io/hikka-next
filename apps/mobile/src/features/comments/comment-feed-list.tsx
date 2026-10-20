@@ -7,10 +7,10 @@ import { View } from 'react-native';
 import type { CommentResponse } from '@hikka/api';
 import { COMMENT_LIST_IDS, queryId } from '@hikka/core';
 
+import ListFooter from '@/components/list-footer';
 import EmptyState from '@/components/ui/empty-state';
 import ErrorState from '@/components/ui/error-state';
 import { Icon } from '@/components/ui/icon';
-import { Spinner } from '@/components/ui/spinner';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { usePullToRefresh } from '@/utils/api/use-pull-to-refresh';
 
@@ -34,15 +34,22 @@ const CommentFeedList: FC<Props> = ({
     emptyTitle,
     emptyDescription,
 }) => {
-    const { items, error, isFetchingNextPage, onEndReached, onRetry } =
-        useInfiniteList<CommentResponse>(options);
+    const {
+        items,
+        error,
+        isFetchingNextPage,
+        isFetchNextPageError,
+        onRetryNextPage,
+        onEndReached,
+        onRetry,
+    } = useInfiniteList<CommentResponse>(options);
     const { refreshing, onRefresh } = usePullToRefresh((query) =>
         LIST_IDS.has(queryId(query.queryKey) ?? ''),
     );
 
     const empty = !items ? (
         error ? (
-            <ErrorState error={error} onRetry={onRetry} className="pt-8" />
+            <ErrorState error={error} onRetry={onRetry} className="mt-8" />
         ) : (
             <View className="gap-6 px-4">
                 {Array.from({ length: COMMENT_PREVIEW_SIZE }, (_, index) => (
@@ -53,11 +60,10 @@ const CommentFeedList: FC<Props> = ({
         )
     ) : (
         <EmptyState
-            bordered
             icon={<Icon as={MessageSquarePlus} />}
             title={emptyTitle}
             description={emptyDescription}
-            className="mx-4"
+            className="mt-8"
         />
     );
 
@@ -65,14 +71,19 @@ const CommentFeedList: FC<Props> = ({
         <FlashList
             className="bg-background"
             contentInsetAdjustmentBehavior="automatic"
-            contentContainerClassName="pt-4 pb-16"
+            contentContainerClassName="pt-4 pb-8"
             data={items ?? []}
             keyExtractor={(comment) => comment.reference}
             renderItem={({ item }) => <UserCommentRow comment={item} />}
             ListHeaderComponent={header}
             ListEmptyComponent={empty}
             ListFooterComponent={
-                isFetchingNextPage ? <Spinner className="py-4" /> : null
+                <ListFooter
+                    fetching={isFetchingNextPage}
+                    refreshing={refreshing}
+                    error={isFetchNextPageError}
+                    onRetry={onRetryNextPage}
+                />
             }
             onEndReached={onEndReached}
             onEndReachedThreshold={0.5}

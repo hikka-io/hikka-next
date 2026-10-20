@@ -24,14 +24,14 @@ import {
     type Verdict,
 } from '@hikka/core';
 
+import ListFooter from '@/components/list-footer';
 import NsfwGate from '@/components/nsfw-gate';
 import { Button } from '@/components/ui/button';
 import EmptyState from '@/components/ui/empty-state';
 import ErrorState from '@/components/ui/error-state';
 import { Icon } from '@/components/ui/icon';
-import { Spinner } from '@/components/ui/spinner';
 import { Text } from '@/components/ui/text';
-import { useSession } from '@/features/auth';
+import { SignInPrompt, useSession } from '@/features/auth';
 import { useNsfwAllowed } from '@/services/session';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { usePullToRefresh } from '@/utils/api/use-pull-to-refresh';
@@ -97,28 +97,40 @@ const CommentsList: FC<Props> = ({ contentType, slug, reference }) => {
         mainContent &&
         ((statsPending && !statsError) || (gated && nsfw.isPending));
 
-    const { items, error, isFetchingNextPage, onEndReached, onRetry } =
-        useInfiniteList<CommentResponse>(
-            reference
-                ? commentThreadOptions(reference)
-                : commentListOptions(contentType, slug, {
-                      commentType,
-                      sort,
-                      order,
-                      verdict,
-                  }),
-        );
+    const {
+        items,
+        error,
+        isFetchingNextPage,
+        isFetchNextPageError,
+        onRetryNextPage,
+        onEndReached,
+        onRetry,
+    } = useInfiniteList<CommentResponse>(
+        reference
+            ? commentThreadOptions(reference)
+            : commentListOptions(contentType, slug, {
+                  commentType,
+                  sort,
+                  order,
+                  verdict,
+              }),
+    );
 
+    // Built apart from the flattening, so an expand or collapse keeps every node and the rows skip re-rendering their comments.
+    const tree = useMemo(
+        () => (items ? buildCommentTree(items) : undefined),
+        [items],
+    );
     const rows = useMemo(
         () =>
-            items
-                ? flattenCommentRows(buildCommentTree(items), {
+            tree
+                ? flattenCommentRows(tree, {
                       isExpanded: (node, depth) =>
                           expanded[node.reference] ?? defaultExpanded(depth),
                       showMissing: !reference,
                   })
                 : undefined,
-        [items, expanded, reference],
+        [tree, expanded, reference],
     );
 
     const reviewsTotal = getReviewTotal(stats?.reviewStats);
@@ -192,25 +204,15 @@ const CommentsList: FC<Props> = ({ contentType, slug, reference }) => {
                             />
                             <Text className="text-muted-foreground text-sm">
                                 {commentType === 'review'
-                                    ? 'Поділіться враженнями від тайтлу…'
+                                    ? 'Поділіться враженнями від тайтлу...'
                                     : 'Напишіть повідомлення...'}
                             </Text>
                         </Pressable>
                     ) : (
-                        <EmptyState
-                            bordered
-                            size="sm"
-                            icon={<Icon as={LockOpen} />}
-                            title="Ви не авторизовані"
+                        <SignInPrompt
+                            variant="section"
+                            icon={LockOpen}
                             description="Увійдіть у свій акаунт, щоб залишити коментар"
-                            action={
-                                <Button
-                                    size="md"
-                                    onPress={() => router.push('/login')}
-                                >
-                                    Увійти
-                                </Button>
-                            }
                         />
                     )}
                 </>
@@ -221,7 +223,7 @@ const CommentsList: FC<Props> = ({ contentType, slug, reference }) => {
     const empty =
         !rows || deciding ? (
             error ? (
-                <ErrorState error={error} onRetry={onRetry} className="pt-8" />
+                <ErrorState error={error} onRetry={onRetry} className="mt-8" />
             ) : (
                 <View className="gap-6 px-4">
                     {Array.from(
@@ -235,19 +237,17 @@ const CommentsList: FC<Props> = ({ contentType, slug, reference }) => {
             )
         ) : commentType === 'review' ? (
             <EmptyState
-                bordered
                 icon={<Icon as={Star} />}
                 title="Відгуків не знайдено"
-                description="Тут з'являться відгуки, щойно хтось поділиться враженнями"
-                className="mx-4"
+                description="Тут зʼявляться відгуки, щойно хтось поділиться враженнями"
+                className="mt-8"
             />
         ) : (
             <EmptyState
-                bordered
                 icon={<Icon as={MessageSquarePlus} />}
                 title="Коментарів не знайдено"
                 description="Ви можете розпочати обговорення першим"
-                className="mx-4"
+                className="mt-8"
             />
         );
 
@@ -256,7 +256,7 @@ const CommentsList: FC<Props> = ({ contentType, slug, reference }) => {
             <ScrollView
                 className="flex-1 bg-background"
                 contentInsetAdjustmentBehavior="automatic"
-                contentContainerClassName="px-4 pt-4 pb-16"
+                contentContainerClassName="px-4 pt-4 pb-8"
             >
                 <NsfwGate />
             </ScrollView>
@@ -276,7 +276,7 @@ const CommentsList: FC<Props> = ({ contentType, slug, reference }) => {
             <FlashList
                 className="bg-background"
                 contentInsetAdjustmentBehavior="automatic"
-                contentContainerClassName="pb-16"
+                contentContainerClassName="pb-8"
                 data={deciding ? [] : (rows ?? [])}
                 keyExtractor={(row) => row.key}
                 getItemType={(row) => row.type}
@@ -284,7 +284,12 @@ const CommentsList: FC<Props> = ({ contentType, slug, reference }) => {
                 ListHeaderComponent={header}
                 ListEmptyComponent={empty}
                 ListFooterComponent={
-                    isFetchingNextPage ? <Spinner className="py-4" /> : null
+                    <ListFooter
+                        fetching={isFetchingNextPage}
+                        refreshing={refreshing}
+                        error={isFetchNextPageError}
+                        onRetry={onRetryNextPage}
+                    />
                 }
                 onEndReached={onEndReached}
                 onEndReachedThreshold={0.5}

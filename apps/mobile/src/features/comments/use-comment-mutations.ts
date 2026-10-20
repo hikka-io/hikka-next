@@ -11,7 +11,7 @@ import {
     writeCommentMutation,
 } from '@hikka/api';
 
-import { isDeadTokenError, signOut, useSession } from '@/features/auth';
+import { isDeadTokenError, signOut, useAuthToken } from '@/features/auth';
 import {
     applyCommentVote,
     invalidateComments,
@@ -37,7 +37,7 @@ type VoteVariables = { reference: string; score: number; previous: number };
 export function useCommentVote(comment: CommentResponse) {
     const queryClient = useQueryClient();
     const router = useRouter();
-    const { hasToken } = useSession();
+    const hasToken = !!useAuthToken();
 
     const mutation = useMutation({
         scope: { id: `vote:${comment.reference}` },
@@ -59,7 +59,7 @@ export function useCommentVote(comment: CommentResponse) {
             applyCommentVote(queryClient, reference, data.score),
         onError: (error, { reference, previous }) => {
             void applyCommentVote(queryClient, reference, previous);
-            failed(error, 'Не вдалося проголосувати');
+            failed(error, 'Не вдалося зберегти голос');
         },
     });
 

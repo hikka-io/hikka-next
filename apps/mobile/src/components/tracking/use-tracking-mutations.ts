@@ -29,19 +29,19 @@ import {
 } from '@/utils/api/invalidate-content-state';
 import { toastApiError } from '@/utils/offline-toast';
 
-export const LIST_ENTRY_SAVE_KEY = ['list-entry', 'save'] as const;
-export const LIST_ENTRY_DELETE_KEY = ['list-entry', 'delete'] as const;
+const LIST_ENTRY_SAVE_KEY = ['list-entry', 'save'] as const;
+const LIST_ENTRY_DELETE_KEY = ['list-entry', 'delete'] as const;
 
 const SAVE_ERROR = 'Не вдалося оновити список';
 const DELETE_ERROR = 'Не вдалося видалити зі списку';
 
-export type SaveVariables = {
+type SaveVariables = {
     contentType: MainContentTypeEnum;
     slug: string;
     body: WatchArgs | ReadArgs;
 };
 
-export type DeleteVariables = {
+type DeleteVariables = {
     contentType: MainContentTypeEnum;
     slug: string;
 };

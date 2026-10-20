@@ -8,11 +8,15 @@ import { ScrollView, View } from 'react-native';
 import { ContentTypeEnum, type FavouriteContentTypeEnum } from '@hikka/api';
 
 import PosterCardSkeleton from '@/components/content-card/poster-card-skeleton';
+import {
+    POSTER_GRID_COLUMNS,
+    POSTER_GRID_CONTAINER,
+} from '@/components/content-card/poster-grid';
+import ListFooter from '@/components/list-footer';
 import EmptyState from '@/components/ui/empty-state';
 import ErrorState from '@/components/ui/error-state';
 import { Icon } from '@/components/ui/icon';
 import { Skeleton } from '@/components/ui/skeleton';
-import { Spinner } from '@/components/ui/spinner';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { byUsername, usePullToRefresh } from '@/utils/api/use-pull-to-refresh';
 
@@ -25,9 +29,6 @@ import FavouriteChips from './favourite-chips';
 import { favouriteEmptyCopy, favouriteHasSubtitles } from './favourite-empty';
 import { useFavouriteCategories } from './use-favourite-categories';
 
-const GRID_COLUMNS = 3;
-/** With the cells' `px-1.5`, the grid keeps the screen's 16 pt gutter. */
-const GRID_CONTAINER = { paddingHorizontal: 10, paddingBottom: 16 };
 const SKELETON_ITEMS: null[] = Array.from(
     { length: FAVOURITES_PAGE_SIZE },
     () => null,
@@ -40,11 +41,18 @@ type GridProps = {
 };
 
 const FavouriteGrid: FC<GridProps> = ({ username, type, header }) => {
-    const { items, error, isFetchingNextPage, onEndReached, onRetry } =
-        useInfiniteList<FavouriteItem>({
-            ...userFavouritesOptions(username, type),
-            subscribed: useIsFocused(),
-        });
+    const {
+        items,
+        error,
+        isFetchingNextPage,
+        isFetchNextPageError,
+        onRetryNextPage,
+        onEndReached,
+        onRetry,
+    } = useInfiniteList<FavouriteItem>({
+        ...userFavouritesOptions(username, type),
+        subscribed: useIsFocused(),
+    });
     const { refreshing, onRefresh } = usePullToRefresh(byUsername([username]));
     const data: (FavouriteItem | null)[] =
         items ?? (error ? [] : SKELETON_ITEMS);
@@ -54,9 +62,9 @@ const FavouriteGrid: FC<GridProps> = ({ username, type, header }) => {
         <FlashList
             className="bg-background"
             contentInsetAdjustmentBehavior="automatic"
-            contentContainerStyle={GRID_CONTAINER}
+            contentContainerStyle={POSTER_GRID_CONTAINER}
             data={data}
-            numColumns={GRID_COLUMNS}
+            numColumns={POSTER_GRID_COLUMNS}
             keyExtractor={(item, index) =>
                 item ? favouriteKey(item) : `skeleton-${index}`
             }
@@ -82,8 +90,7 @@ const FavouriteGrid: FC<GridProps> = ({ username, type, header }) => {
                     />
                 ) : (
                     <EmptyState
-                        className="mx-1.5 mt-2"
-                        bordered
+                        className="mt-8"
                         icon={<Icon as={Heart} />}
                         title={copy.title}
                         description={copy.description}
@@ -91,7 +98,12 @@ const FavouriteGrid: FC<GridProps> = ({ username, type, header }) => {
                 )
             }
             ListFooterComponent={
-                isFetchingNextPage ? <Spinner className="py-4" /> : null
+                <ListFooter
+                    fetching={isFetchingNextPage}
+                    refreshing={refreshing}
+                    error={isFetchNextPageError}
+                    onRetry={onRetryNextPage}
+                />
             }
             onEndReached={onEndReached}
             onEndReachedThreshold={0.5}
@@ -106,7 +118,7 @@ const FavouritesSkeleton: FC<{ subtitles: boolean }> = ({ subtitles }) => (
     <ScrollView
         className="flex-1 bg-background"
         contentInsetAdjustmentBehavior="automatic"
-        contentContainerStyle={GRID_CONTAINER}
+        contentContainerStyle={POSTER_GRID_CONTAINER}
         scrollEnabled={false}
     >
         <View className="flex-row gap-2 px-1.5 pt-2 pb-4">

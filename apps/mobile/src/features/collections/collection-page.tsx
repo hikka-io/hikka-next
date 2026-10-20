@@ -1,15 +1,10 @@
-import { type FC, useMemo, useRef, useState } from 'react';
+import { type FC, useMemo, useRef } from 'react';
 
 import { FlashList, type FlashListRef } from '@shopify/flash-list';
 import { useQuery } from '@tanstack/react-query';
 import { Stack, useRouter } from 'expo-router';
 import { MessageCircle } from 'lucide-react-native';
-import {
-    type NativeScrollEvent,
-    type NativeSyntheticEvent,
-    Platform,
-    View,
-} from 'react-native';
+import { Platform, View } from 'react-native';
 
 import {
     type CollectionResponse,
@@ -30,6 +25,7 @@ import { Icon } from '@/components/ui/icon';
 import { StatItem } from '@/components/ui/stat-item';
 import { Text } from '@/components/ui/text';
 import VoteButton from '@/components/vote-button';
+import { useTitleOnScroll } from '@/services/use-title-on-scroll';
 import { isNotFoundError } from '@/utils/api/is-not-found';
 
 import CollectionBadges from './collection-badges';
@@ -131,8 +127,7 @@ const CollectionPage: FC<Props> = ({ reference }) => {
         collectionOptions(reference),
     );
     const listRef = useRef<FlashListRef<Item>>(null);
-    const [titleBottom, setTitleBottom] = useState<number | null>(null);
-    const [titleVisible, setTitleVisible] = useState(false);
+    const { titleVisible, onScroll, onTitleBottom } = useTitleOnScroll();
 
     const items = useMemo<Item[]>(
         () =>
@@ -148,14 +143,6 @@ const CollectionPage: FC<Props> = ({ reference }) => {
     const labels = items.flatMap((item, index) =>
         item.kind === 'label' ? [{ label: item.label, index }] : [],
     );
-
-    const onScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
-        const { contentOffset, contentInset } = event.nativeEvent;
-        setTitleVisible(
-            titleBottom !== null &&
-                contentOffset.y + contentInset.top > titleBottom,
-        );
-    };
 
     return (
         <>
@@ -213,7 +200,7 @@ const CollectionPage: FC<Props> = ({ reference }) => {
                                 return (
                                     <CollectionHeader
                                         collection={data}
-                                        onTitleBottom={setTitleBottom}
+                                        onTitleBottom={onTitleBottom}
                                     />
                                 );
                             case 'label':

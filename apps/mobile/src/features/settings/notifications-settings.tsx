@@ -73,7 +73,7 @@ const NotificationsForm: FC<Props> = ({ saved }) => {
             )}
             <FieldGroup.Section>
                 <SettingsActionRow
-                    title={isPending ? 'Збереження…' : 'Зберегти'}
+                    title={isPending ? 'Збереження...' : 'Зберегти'}
                     disabled={!changed || isPending}
                     onPress={() =>
                         mutate({
@@ -86,7 +86,7 @@ const NotificationsForm: FC<Props> = ({ saved }) => {
                 />
                 <FieldGroup.SectionFooter>
                     <SettingsFooterText>
-                        Вимкнені типи не з’являтимуться у списку сповіщень.
+                        Вимкнені типи не зʼявлятимуться у списку сповіщень.
                     </SettingsFooterText>
                 </FieldGroup.SectionFooter>
             </FieldGroup.Section>

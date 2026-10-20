@@ -14,12 +14,17 @@ import {
 } from '@hikka/core';
 
 import PosterCardSkeleton from '@/components/content-card/poster-card-skeleton';
+import {
+    LIST_CONTAINER,
+    POSTER_GRID_COLUMNS,
+    POSTER_GRID_CONTAINER,
+} from '@/components/content-card/poster-grid';
+import ListFooter from '@/components/list-footer';
 import { Button } from '@/components/ui/button';
 import EmptyState from '@/components/ui/empty-state';
 import ErrorState from '@/components/ui/error-state';
 import { Icon } from '@/components/ui/icon';
 import SegmentedControl from '@/components/ui/segmented-control';
-import { Spinner } from '@/components/ui/spinner';
 import { useSession } from '@/features/auth';
 import { clearFilters, hasActiveFilters } from '@/features/filters';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
@@ -51,10 +56,6 @@ const TYPES = [
     { label: 'Ранобе', value: ContentTypeEnum.NOVEL },
 ];
 
-const GRID_COLUMNS = 3;
-/** With the cells' `px-1.5`, the grid keeps the screen's 16 pt gutter. */
-const GRID_CONTAINER = { paddingHorizontal: 10, paddingBottom: 16 };
-const LIST_CONTAINER = { paddingBottom: 16 };
 const SKELETON_ITEMS: null[] = Array.from(
     { length: DEFAULT_PAGE_SIZE },
     () => null,
@@ -67,7 +68,7 @@ const IN_PROGRESS: Partial<Record<string, string>> = {
 };
 
 /** A status the type has, or `all`; anything else opens the web's default. */
-export function resolveListStatus(
+function resolveListStatus(
     contentType: ListContentType,
     status?: string,
 ): string {
@@ -123,16 +124,23 @@ const UserListPage: FC<Props> = ({ username, contentType, initialStatus }) => {
     // The web drops filters with the page URL; leaving the list does the same here.
     useEffect(() => () => resetFilters(filtersKey), [filtersKey, resetFilters]);
 
-    const { items, error, isFetchingNextPage, onEndReached, onRetry } =
-        useInfiniteList<UserListEntry>({
-            ...userListOptions(username, contentType, {
-                ...filters,
-                status,
-                sort,
-                order,
-            }),
-            subscribed: focused || sheetOpen,
-        });
+    const {
+        items,
+        error,
+        isFetchingNextPage,
+        isFetchNextPageError,
+        onRetryNextPage,
+        onEndReached,
+        onRetry,
+    } = useInfiniteList<UserListEntry>({
+        ...userListOptions(username, contentType, {
+            ...filters,
+            status,
+            sort,
+            order,
+        }),
+        subscribed: focused || sheetOpen,
+    });
     const { refreshing, onRefresh } = usePullToRefresh(byUsername([username]));
     const data: (UserListEntry | null)[] =
         items ?? (error ? [] : SKELETON_ITEMS);
@@ -162,9 +170,11 @@ const UserListPage: FC<Props> = ({ username, contentType, initialStatus }) => {
                 key={view}
                 className="bg-background"
                 contentInsetAdjustmentBehavior="automatic"
-                contentContainerStyle={grid ? GRID_CONTAINER : LIST_CONTAINER}
+                contentContainerStyle={
+                    grid ? POSTER_GRID_CONTAINER : LIST_CONTAINER
+                }
                 data={data}
-                numColumns={grid ? GRID_COLUMNS : 1}
+                numColumns={grid ? POSTER_GRID_COLUMNS : 1}
                 keyExtractor={(item, index) =>
                     item ? item.reference : `skeleton-${index}`
                 }
@@ -232,8 +242,7 @@ const UserListPage: FC<Props> = ({ username, contentType, initialStatus }) => {
                         />
                     ) : filtered ? (
                         <EmptyState
-                            className={grid ? 'mx-1.5 mt-4' : 'mx-4 mt-4'}
-                            bordered
+                            className="mt-8"
                             icon={<Icon as={Bookmark} />}
                             title="Не знайдено результатів за Вашим запитом"
                             description="Очистіть або змініть фільтри, щоб отримати інший результат"
@@ -248,8 +257,7 @@ const UserListPage: FC<Props> = ({ username, contentType, initialStatus }) => {
                         />
                     ) : (
                         <EmptyState
-                            className={grid ? 'mx-1.5 mt-4' : 'mx-4 mt-4'}
-                            bordered
+                            className="mt-8"
                             icon={<Icon as={Bookmark} />}
                             title={
                                 label
@@ -261,7 +269,12 @@ const UserListPage: FC<Props> = ({ username, contentType, initialStatus }) => {
                     )
                 }
                 ListFooterComponent={
-                    isFetchingNextPage ? <Spinner className="py-4" /> : null
+                    <ListFooter
+                        fetching={isFetchingNextPage}
+                        refreshing={refreshing}
+                        error={isFetchNextPageError}
+                        onRetry={onRetryNextPage}
+                    />
                 }
                 onEndReached={onEndReached}
                 onEndReachedThreshold={0.5}

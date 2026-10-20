@@ -1,4 +1,4 @@
-import { useLocalSearchParams } from 'expo-router';
+import { Stack, useLocalSearchParams } from 'expo-router';
 
 import { MainContentTypeEnum } from '@hikka/api';
 
@@ -18,11 +18,14 @@ export default function ContentFollowingsScreen() {
 
     if (!isContentType(content_type) || !slug) {
         return (
-            <EmptyState
-                title="Сторінку не знайдено"
-                description="Вона не існує або була переміщена"
-                className="flex-1 justify-center bg-background"
-            />
+            <>
+                <Stack.Title>Відстежується</Stack.Title>
+                <EmptyState
+                    title="Сторінку не знайдено"
+                    description="Вона не існує або була переміщена"
+                    className="flex-1 justify-center bg-background"
+                />
+            </>
         );
     }
 

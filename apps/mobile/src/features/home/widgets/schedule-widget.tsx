@@ -24,7 +24,6 @@ import { cn } from '@/utils/cn';
 import { flattenPages } from '../flatten-pages';
 import { homeScheduleOptions } from '../queries';
 import ToggleChip from '../toggle-chip';
-import { useOpenSitePath } from '../use-open-site-path';
 import WidgetSection from '../widget-section';
 
 const AIRING_WINDOW_MS = 30 * 60 * 1000;
@@ -36,7 +35,6 @@ type Props = {
 
 const ScheduleWidget: FC<Props> = ({ signedIn }) => {
     const [onlyWatch, setOnlyWatch] = useState(false);
-    const openSitePath = useOpenSitePath();
     const getTitle = useTitle();
     const { data, isPending, isError, refetch } = useInfiniteQuery(
         homeScheduleOptions(onlyWatch),
@@ -83,6 +81,7 @@ const ScheduleWidget: FC<Props> = ({ signedIn }) => {
                     {isPending &&
                         Array.from({ length: PREVIEW_SIZE }, (_, index) => (
                             <View
+                                // biome-ignore lint/suspicious/noArrayIndexKey: static placeholders
                                 key={index}
                                 className="min-h-11 flex-row items-center gap-3 px-4"
                             >
@@ -109,7 +108,7 @@ const ScheduleWidget: FC<Props> = ({ signedIn }) => {
                                         className={cn(
                                             'min-h-11 flex-row items-center gap-3 px-4 py-2 active:opacity-70',
                                             airingNow &&
-                                                'border-y border-primary-border bg-primary',
+                                                'border-primary-border border-y bg-primary',
                                         )}
                                     >
                                         <Text

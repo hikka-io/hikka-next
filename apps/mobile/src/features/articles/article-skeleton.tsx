@@ -24,6 +24,7 @@ const ArticleSkeleton: FC = () => {
             <View className="gap-4">
                 {Array.from({ length: PARAGRAPHS }, (_, index) => (
                     <SkeletonText
+                        // biome-ignore lint/suspicious/noArrayIndexKey: static placeholders
                         key={index}
                         className="text-base leading-6"
                         lines={4}

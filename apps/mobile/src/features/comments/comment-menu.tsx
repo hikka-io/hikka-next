@@ -63,7 +63,7 @@ const CommentMenu: FC<Props> = ({ comment, slug, editable = true }) => {
             'Ви впевнені, що хочете видалити коментар?',
             'Після цієї операції, Ви вже не зможете його відновити.',
             [
-                { text: 'Відмінити', style: 'cancel' },
+                { text: 'Скасувати', style: 'cancel' },
                 {
                     text: 'Підтвердити',
                     style: 'destructive',
@@ -82,7 +82,7 @@ const CommentMenu: FC<Props> = ({ comment, slug, editable = true }) => {
             'Поскаржитися на коментар',
             'Ми скопіюємо посилання на коментар. Надішліть його модераторам Hikka в Telegram і коротко опишіть порушення.',
             [
-                { text: 'Відмінити', style: 'cancel' },
+                { text: 'Скасувати', style: 'cancel' },
                 {
                     text: 'Відкрити Telegram',
                     onPress: async () => {

@@ -22,7 +22,7 @@ import { toastApiError } from '@/utils/offline-toast';
 
 import { centredCrop } from './crop-region';
 
-export type ProfileImageType =
+type ProfileImageType =
     | typeof UploadTypeEnum.AVATAR
     | typeof UploadTypeEnum.COVER;
 

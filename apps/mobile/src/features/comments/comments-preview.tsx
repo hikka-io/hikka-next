@@ -145,7 +145,7 @@ const CommentsPreview: FC<Props> = ({
     };
 
     return (
-        <View className="gap-4">
+        <View className="gap-3">
             <Header>
                 <HeaderTitle href={all} count={commentsCount}>
                     Обговорення

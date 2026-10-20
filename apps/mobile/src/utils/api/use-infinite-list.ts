@@ -22,6 +22,8 @@ export function useInfiniteList<T>(options: ListOptions) {
         items: query.data?.pages.flatMap((page) => page.list),
         error: query.error as unknown,
         isFetchingNextPage: query.isFetchingNextPage,
+        isFetchNextPageError: query.isFetchNextPageError,
+        onRetryNextPage: () => void query.fetchNextPage(),
         onEndReached: () => {
             if (query.hasNextPage && !query.isFetchingNextPage) {
                 void query.fetchNextPage();

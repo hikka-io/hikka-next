@@ -14,10 +14,10 @@ import {
     DEFAULT_COLLECTION_SORT,
 } from '@hikka/core';
 
+import ListFooter from '@/components/list-footer';
 import EmptyState from '@/components/ui/empty-state';
 import ErrorState from '@/components/ui/error-state';
 import { Icon } from '@/components/ui/icon';
-import { Spinner } from '@/components/ui/spinner';
 
 import CollectionCard from './collection-card';
 import CollectionCardSkeleton from './collection-card-skeleton';
@@ -128,14 +128,12 @@ const CollectionList: FC<Props> = ({
                     )
                 }
                 ListFooterComponent={
-                    isFetchingNextPage ? (
-                        <Spinner className="py-4" />
-                    ) : isFetchNextPageError ? (
-                        <ErrorState
-                            variant="inline"
-                            onRetry={() => void fetchNextPage()}
-                        />
-                    ) : null
+                    <ListFooter
+                        fetching={isFetchingNextPage}
+                        refreshing={isRefetching && !isFetchingNextPage}
+                        error={isFetchNextPageError}
+                        onRetry={() => void fetchNextPage()}
+                    />
                 }
                 onEndReached={() => {
                     if (hasNextPage && !isFetchingNextPage) fetchNextPage();

@@ -30,7 +30,7 @@ const imageOf = (token: Token): Tokens.Image | null => {
         : null;
 };
 
-export const renderInline = (
+const renderInline = (
     tokens: Token[] | undefined,
     context: RenderContext,
 ): ReactNode[] =>

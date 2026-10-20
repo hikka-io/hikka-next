@@ -20,7 +20,6 @@ import { userHistoryHref } from '@/features/users';
 
 import { flattenPages } from '../flatten-pages';
 import { HISTORY_PREVIEW_SIZE, homeFollowingHistoryOptions } from '../queries';
-import { useOpenSitePath } from '../use-open-site-path';
 import WidgetSection from '../widget-section';
 
 const HISTORY_REFETCH_INTERVAL_MS = 60_000;
@@ -33,6 +32,7 @@ const HistoryCardSkeleton: FC = () => {
                 <Skeleton className="h-3 w-20" />
             </View>
             {Array.from({ length: HISTORY_PREVIEW_SIZE }, (_, index) => (
+                // biome-ignore lint/suspicious/noArrayIndexKey: static placeholders
                 <View key={index}>
                     {index > 0 && <Separator />}
                     <HistoryRowSkeleton showUser className="px-4 py-3" />
@@ -56,7 +56,6 @@ type Props = {
 
 const HistoryWidget: FC<Props> = ({ username }) => {
     const focused = useIsFocused();
-    const openSitePath = useOpenSitePath();
     const { data, isPending, isError, refetch } = useInfiniteQuery({
         ...homeFollowingHistoryOptions(),
         refetchInterval: focused ? HISTORY_REFETCH_INTERVAL_MS : false,

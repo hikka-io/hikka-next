@@ -143,7 +143,7 @@ const LinksForm: FC<Props> = ({ user }) => {
                             editable={!save.isPending}
                         />
                         <TextInput
-                            placeholder="Підпис (необов'язково)"
+                            placeholder="Підпис (необовʼязково)"
                             defaultValue={draft.text}
                             onChangeText={(text) => edit(draft.id, { text })}
                             maxLength={API_LIMITS.userLinkText.max}
@@ -198,7 +198,7 @@ const LinksForm: FC<Props> = ({ user }) => {
             </FieldGroup.Section>
             <FieldGroup.Section>
                 <SettingsActionRow
-                    title={save.isPending ? 'Збереження…' : 'Зберегти'}
+                    title={save.isPending ? 'Збереження...' : 'Зберегти'}
                     disabled={save.isPending}
                     onPress={submit}
                 />

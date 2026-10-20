@@ -122,7 +122,7 @@ const ContentDetailBody: FC<Props> = ({ contentType, slug }) => {
             <ScrollView
                 className="flex-1 bg-background"
                 contentInsetAdjustmentBehavior="automatic"
-                contentContainerClassName="gap-6 px-4 pt-4 pb-16"
+                contentContainerClassName="gap-6 px-4 pt-4 pb-8"
                 scrollEventThrottle={16}
                 onScroll={onScroll}
                 onLayout={onLayout}

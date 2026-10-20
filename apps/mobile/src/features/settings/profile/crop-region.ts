@@ -1,4 +1,4 @@
-export type CropRegion = {
+type CropRegion = {
     originX: number;
     originY: number;
     width: number;

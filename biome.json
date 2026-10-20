@@ -1191,6 +1191,20 @@
                     }
                 }
             }
+        },
+        {
+            "includes": [
+                "apps/mobile/src/components/markdown/render.tsx",
+                "apps/mobile/src/components/article/render.tsx",
+                "apps/mobile/src/components/article/article-images.tsx"
+            ],
+            "linter": {
+                "rules": {
+                    "suspicious": {
+                        "noArrayIndexKey": "off"
+                    }
+                }
+            }
         }
     ],
     "assist": {

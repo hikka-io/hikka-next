@@ -4,11 +4,7 @@ import { FlashList } from '@shopify/flash-list';
 import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'expo-router';
 import { MessageCircle } from 'lucide-react-native';
-import {
-    type NativeScrollEvent,
-    type NativeSyntheticEvent,
-    View,
-} from 'react-native';
+import { View } from 'react-native';
 
 import {
     ArticleCategoryEnum,
@@ -26,6 +22,7 @@ import { StatItem } from '@/components/ui/stat-item';
 import { Text } from '@/components/ui/text';
 import VoteButton from '@/components/vote-button';
 import { useSession } from '@/features/auth';
+import { useTitleOnScroll } from '@/services/use-title-on-scroll';
 import { isNotFoundError } from '@/utils/api/is-not-found';
 import { bySlug, usePullToRefresh } from '@/utils/api/use-pull-to-refresh';
 
@@ -102,8 +99,7 @@ const ArticlePage: FC<Props> = ({ slug }) => {
     const { data, error, isPending, refetch } = useQuery(articleOptions(slug));
     const { hasToken } = useSession();
     const { refreshing, onRefresh } = usePullToRefresh(bySlug(slug));
-    const [titleBottom, setTitleBottom] = useState<number | null>(null);
-    const [titleVisible, setTitleVisible] = useState(false);
+    const { titleVisible, onScroll, onTitleBottom } = useTitleOnScroll();
     // System notices have no author card or votes on the web.
     const system = data?.category === ArticleCategoryEnum.SYSTEM;
 
@@ -126,14 +122,6 @@ const ArticlePage: FC<Props> = ({ slug }) => {
         [data],
     );
 
-    const onScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
-        const { contentOffset, contentInset } = event.nativeEvent;
-        setTitleVisible(
-            titleBottom !== null &&
-                contentOffset.y + contentInset.top > titleBottom,
-        );
-    };
-
     const renderItem = (item: Item, article: ArticleDocumentResponse) => {
         switch (item.kind) {
             case 'header':
@@ -141,7 +129,7 @@ const ArticlePage: FC<Props> = ({ slug }) => {
                     <ArticleHeader
                         article={article}
                         system={system}
-                        onTitleBottom={setTitleBottom}
+                        onTitleBottom={onTitleBottom}
                     />
                 );
             case 'block':
@@ -209,7 +197,7 @@ const ArticlePage: FC<Props> = ({ slug }) => {
                 <FlashList
                     className="bg-background"
                     contentInsetAdjustmentBehavior="automatic"
-                    contentContainerClassName="px-4 pt-4 pb-16"
+                    contentContainerClassName="px-4 pt-4 pb-8"
                     data={items}
                     keyExtractor={(item) =>
                         item.kind === 'block'

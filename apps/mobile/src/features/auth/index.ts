@@ -7,6 +7,7 @@ export { default as LoginForm } from './login-form';
 export { default as PasswordConfirmForm } from './password-confirm-form';
 export { default as ProfileSummary } from './profile-summary';
 export { isDeadTokenError, signOut } from './session';
+export { default as SignInPrompt } from './sign-in-prompt';
 export { default as SignupForm } from './signup-form';
 export { useCloseAuthFlow } from './use-close-auth-flow';
 export { useSession } from './use-session';

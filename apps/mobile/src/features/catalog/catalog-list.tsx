@@ -5,10 +5,15 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 import { View } from 'react-native';
 
 import PosterCardSkeleton from '@/components/content-card/poster-card-skeleton';
+import {
+    LIST_CONTAINER,
+    POSTER_GRID_COLUMNS,
+    POSTER_GRID_CONTAINER,
+} from '@/components/content-card/poster-grid';
+import ListFooter from '@/components/list-footer';
 import { Button } from '@/components/ui/button';
 import EmptyState from '@/components/ui/empty-state';
 import ErrorState from '@/components/ui/error-state';
-import { Spinner } from '@/components/ui/spinner';
 import { useSession } from '@/features/auth';
 import {
     ActiveFilters,
@@ -29,10 +34,6 @@ import {
     catalogSearchOptions,
 } from './queries';
 
-const GRID_COLUMNS = 3;
-/** With the cells' `px-1.5`, the grid keeps the screen's 16 pt gutter. */
-const GRID_CONTAINER = { paddingHorizontal: 10, paddingBottom: 16 };
-const LIST_CONTAINER = { paddingBottom: 16 };
 const SKELETON_ITEMS: null[] = Array.from(
     { length: CATALOG_PAGE_SIZE },
     () => null,
@@ -52,6 +53,7 @@ const CatalogList: FC = () => {
         fetchNextPage,
         hasNextPage,
         isFetchingNextPage,
+        isFetchNextPageError,
         isPending,
         isRefetching,
         refetch,
@@ -92,9 +94,11 @@ const CatalogList: FC = () => {
             key={view}
             className="bg-background"
             contentInsetAdjustmentBehavior="automatic"
-            contentContainerStyle={grid ? GRID_CONTAINER : LIST_CONTAINER}
+            contentContainerStyle={
+                grid ? POSTER_GRID_CONTAINER : LIST_CONTAINER
+            }
             data={list}
-            numColumns={grid ? GRID_COLUMNS : 1}
+            numColumns={grid ? POSTER_GRID_COLUMNS : 1}
             // A title can move between pages while paging, so the index keeps keys unique.
             keyExtractor={(item, index) =>
                 item ? `${item.slug}:${index}` : `skeleton-${index}`
@@ -126,7 +130,12 @@ const CatalogList: FC = () => {
             }
             ListEmptyComponent={empty}
             ListFooterComponent={
-                isFetchingNextPage ? <Spinner className="py-4" /> : null
+                <ListFooter
+                    fetching={isFetchingNextPage}
+                    refreshing={isRefetching && !isFetchingNextPage}
+                    error={isFetchNextPageError}
+                    onRetry={() => void fetchNextPage()}
+                />
             }
             onEndReached={() => {
                 if (hasNextPage && !isFetchingNextPage) fetchNextPage();

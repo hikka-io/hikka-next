@@ -43,18 +43,21 @@ const ReferenceRedirect: FC<{ reference: string }> = ({ reference }) => {
         }
     }, [data, router]);
 
-    if (error || (data && !data.username)) {
-        return (
-            <ErrorState
-                error={error}
-                onRetry={() => void refetch()}
-                notFound={!error || isNotFoundError(error)}
-                notFoundTitle="Користувача не знайдено"
-            />
-        );
-    }
-
-    return <UserSkeleton />;
+    return (
+        <>
+            <DetailHeaderChrome title="" />
+            {error || (data && !data.username) ? (
+                <ErrorState
+                    error={error}
+                    onRetry={() => void refetch()}
+                    notFound={!error || isNotFoundError(error)}
+                    notFoundTitle="Користувача не знайдено"
+                />
+            ) : (
+                <UserSkeleton />
+            )}
+        </>
+    );
 };
 
 const UserProfile: FC<Props> = ({ username, headerChrome = true }) => {
@@ -65,12 +68,11 @@ const UserProfile: FC<Props> = ({ username, headerChrome = true }) => {
     // The route param may differ in case from the stored name; every other query uses the stored one.
     const name = data?.username;
     const { user: viewer } = useSession();
+    const own = !!name && viewer?.username === name;
     const activationPending =
-        !!name &&
-        viewer?.username === name &&
-        viewer.role === UserRoleEnum.NOT_ACTIVATED;
+        own && viewer?.role === UserRoleEnum.NOT_ACTIVATED;
     const names = name ? [username, name] : [username];
-    const { refreshing, onRefresh } = usePullToRefresh(byProfile(names));
+    const { refreshing, onRefresh } = usePullToRefresh(byProfile(names, own));
 
     return (
         <>

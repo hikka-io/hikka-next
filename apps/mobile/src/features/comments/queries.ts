@@ -17,10 +17,10 @@ import {
 } from '@hikka/api';
 import { type CommentOrder, getCommentSort, type Verdict } from '@hikka/core';
 
-export const THREAD_PAGE_SIZE = API_LIMITS.pageSize.max;
+const THREAD_PAGE_SIZE = API_LIMITS.pageSize.max;
 export const COMMENT_PREVIEW_SIZE = 3;
 
-export type CommentListFilters = {
+type CommentListFilters = {
     commentType?: CommentTypeEnum;
     sort?: string;
     order?: CommentOrder;
@@ -87,7 +87,7 @@ export function latestCommentsOptions() {
     return { ...commentsListInfiniteOptions(), ...paginationPageParam() };
 }
 
-export type CommentStats = {
+type CommentStats = {
     commentsCount: number;
     reviewStats: ReviewStatsResponse | undefined;
     nsfw: boolean;

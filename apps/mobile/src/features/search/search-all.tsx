@@ -5,7 +5,6 @@ import { View } from 'react-native';
 
 import { ContentTypeEnum } from '@hikka/api';
 
-import { Button } from '@/components/ui/button';
 import EmptyState from '@/components/ui/empty-state';
 import ErrorState from '@/components/ui/error-state';
 import { Header, HeaderTitle } from '@/components/ui/header';
@@ -49,17 +48,10 @@ const SearchAll: FC<Props> = ({ text, onShowAll }) => {
 
         sections.push(
             <View key={type} className="gap-1">
-                <Header className="justify-between px-4">
-                    <HeaderTitle size="section">
+                <Header className="px-4">
+                    <HeaderTitle onPress={() => onShowAll(type)}>
                         {SEARCH_SECTION_TITLES[type]}
                     </HeaderTitle>
-                    <Button
-                        variant="link"
-                        size="sm"
-                        onPress={() => onShowAll(type)}
-                    >
-                        Показати всі
-                    </Button>
                 </Header>
                 {preview.type === ContentTypeEnum.USER
                     ? preview.list.map((user) => (

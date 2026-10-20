@@ -38,8 +38,8 @@ import { useTitle } from '@/services/session';
 import { cn } from '@/utils/cn';
 import { presetImageUrl } from '@/utils/image-presets';
 
-import { useOpenSitePath } from '../use-open-site-path';
 import type { FeedItemResponse } from './feed-item-types';
+import { useOpenSitePath } from './use-open-site-path';
 
 const COMMENT_LINES = 6;
 const COMMENT_TEXT_CLASS = 'text-[15px] leading-[22px] text-foreground';

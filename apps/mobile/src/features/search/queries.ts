@@ -29,8 +29,8 @@ import {
 import type { SearchType } from './search-scope';
 
 /** The web's single-type page size; the "Усе" scope shows three per type. */
-export const SEARCH_PAGE_SIZE = 30;
-export const SEARCH_PREVIEW_SIZE = 3;
+const SEARCH_PAGE_SIZE = 30;
+const SEARCH_PREVIEW_SIZE = 3;
 
 export type ContentSearchType = Exclude<
     SearchType,

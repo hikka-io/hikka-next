@@ -40,7 +40,7 @@ const FollowCount: FC<{ count?: number; label: string; href: Href }> = ({
         <Pressable
             accessibilityRole="link"
             accessibilityLabel={`${count ?? ''} ${label}`}
-            className="min-h-11 items-start justify-center active:opacity-60"
+            className="min-h-11 items-start justify-center active:opacity-70"
         >
             <Text
                 maxFontSizeMultiplier={DENSE_MAX_FONT_SCALE}
