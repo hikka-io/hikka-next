@@ -4,7 +4,7 @@ import { FlashList } from '@shopify/flash-list';
 import type { Query } from '@tanstack/react-query';
 import { Stack, useIsFocused } from 'expo-router';
 import { History } from 'lucide-react-native';
-import { ActivityIndicator, View } from 'react-native';
+import { View } from 'react-native';
 
 import type { HistoryResponse } from '@hikka/api';
 import { groupHistoryByDay, type QueryId, queryId } from '@hikka/core';
@@ -15,6 +15,7 @@ import EmptyState from '@/components/ui/empty-state';
 import ErrorState from '@/components/ui/error-state';
 import { Icon } from '@/components/ui/icon';
 import SegmentedControl from '@/components/ui/segmented-control';
+import { Spinner } from '@/components/ui/spinner';
 import { Text } from '@/components/ui/text';
 import { useSession } from '@/features/auth';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
@@ -126,9 +127,7 @@ const HistoryFeed: FC<FeedProps> = ({ username, source, header }) => {
                 )
             }
             ListFooterComponent={
-                isFetchingNextPage ? (
-                    <ActivityIndicator className="py-4" />
-                ) : null
+                isFetchingNextPage ? <Spinner className="py-4" /> : null
             }
             onEndReached={onEndReached}
             onEndReachedThreshold={0.5}

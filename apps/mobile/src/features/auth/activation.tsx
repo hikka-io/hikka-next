@@ -2,12 +2,13 @@ import { type FC, useEffect, useRef, useState } from 'react';
 
 import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'expo-router';
-import { ActivityIndicator, Alert, View } from 'react-native';
+import { Alert, View } from 'react-native';
 import { toast } from 'sonner-native';
 
 import { activationMutation, getAuthToken } from '@hikka/api';
 
 import { Button } from '@/components/ui/button';
+import { Spinner } from '@/components/ui/spinner';
 import { queryClient } from '@/utils/query-client';
 
 import AuthHeader from './auth-header';
@@ -104,7 +105,7 @@ const Activation: FC<Props> = ({ token, onDone }) => {
                       : 'Не вдалося підтвердити пошту'}
             </AuthHeader>
 
-            {state.kind === 'pending' ? <ActivityIndicator /> : null}
+            {state.kind === 'pending' ? <Spinner /> : null}
 
             {state.kind === 'error' ? (
                 <>

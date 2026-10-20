@@ -1,12 +1,13 @@
 import type { FC } from 'react';
 
-import { FieldGroup, ListItem } from '@expo/ui';
+import { FieldGroup } from '@expo/ui';
 import Constants from 'expo-constants';
 
 import { useOpenLink } from '@/components/markdown';
 import { siteUrl } from '@/utils/site-origin';
 
 import SettingsForm from './settings-form';
+import SettingsListItem from './settings-list-item';
 import SettingsValueRow from './settings-value-row';
 
 const LINKS = [
@@ -32,9 +33,12 @@ const AboutSettings: FC = () => {
             </FieldGroup.Section>
             <FieldGroup.Section title="Hikka">
                 {LINKS.map((link) => (
-                    <ListItem key={link.url} onPress={() => openLink(link.url)}>
+                    <SettingsListItem
+                        key={link.url}
+                        onPress={() => openLink(link.url)}
+                    >
                         {link.title}
-                    </ListItem>
+                    </SettingsListItem>
                 ))}
             </FieldGroup.Section>
         </SettingsForm>

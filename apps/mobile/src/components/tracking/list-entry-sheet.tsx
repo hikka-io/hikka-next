@@ -2,11 +2,12 @@ import { type FC, useEffect, useState } from 'react';
 
 import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'expo-router';
-import { ActivityIndicator, ScrollView, View } from 'react-native';
+import { ScrollView, View } from 'react-native';
 
 import { HikkaApiError, type MainContentTypeEnum } from '@hikka/api';
 
 import { Button } from '@/components/ui/button';
+import { Spinner } from '@/components/ui/spinner';
 import { Text } from '@/components/ui/text';
 import { isDeadTokenError, signOut } from '@/features/auth';
 import { useTitle } from '@/services/session';
@@ -116,7 +117,7 @@ const ListEntrySheet: FC<Props> = ({ contentType, slug }) => {
         }
         return (
             <View className="items-center py-10">
-                <ActivityIndicator />
+                <Spinner />
             </View>
         );
     };

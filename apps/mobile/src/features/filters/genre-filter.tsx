@@ -2,13 +2,14 @@ import type { FC } from 'react';
 
 import * as Haptics from 'expo-haptics';
 import { Minus, Plus } from 'lucide-react-native';
-import { ActivityIndicator, View } from 'react-native';
+import { View } from 'react-native';
 
 import { GenreTypeEnum } from '@hikka/api';
 import { GENRE_TYPES } from '@hikka/core';
 
 import { Chip } from '@/components/ui/chip';
 import { Icon } from '@/components/ui/icon';
+import { Spinner } from '@/components/ui/spinner';
 import { Text } from '@/components/ui/text';
 
 import { genreState } from './filter-params';
@@ -39,7 +40,7 @@ const GenreFilter: FC<Props> = ({ selected, onCycle }) => {
 
     return (
         <FilterSection title="Жанри">
-            {isPending ? <ActivityIndicator className="self-start" /> : null}
+            {isPending ? <Spinner className="self-start" /> : null}
             {error ? (
                 <Text className="text-muted-foreground text-sm">
                     Не вдалося завантажити жанри

@@ -1,12 +1,13 @@
 import type { FC } from 'react';
 
 import { useQuery } from '@tanstack/react-query';
-import { ActivityIndicator, Pressable, ScrollView, View } from 'react-native';
+import { Pressable, ScrollView, View } from 'react-native';
 
 import { API_LIMITS, searchUsersOptions, type UserResponse } from '@hikka/api';
 import { getDeclensionWord, SYMBOL_FORMS } from '@hikka/core';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Spinner } from '@/components/ui/spinner';
 import { Text } from '@/components/ui/text';
 import { DEBOUNCE_MS, useDebouncedValue } from '@/services/use-debounced-value';
 
@@ -50,7 +51,7 @@ const MentionPicker: FC<Props> = ({ query, onPick }) => {
                     {message}
                 </Text>
             ) : !users ? (
-                <ActivityIndicator className="py-3" />
+                <Spinner className="py-3" />
             ) : (
                 <ScrollView keyboardShouldPersistTaps="always">
                     {users.map((user) => (

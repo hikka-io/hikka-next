@@ -3,13 +3,13 @@ import type { FC } from 'react';
 import { FlashList } from '@shopify/flash-list';
 import { Stack, useIsFocused } from 'expo-router';
 import { Users } from 'lucide-react-native';
-import { ActivityIndicator } from 'react-native';
 
 import type { FollowUserResponse } from '@hikka/api';
 
 import EmptyState from '@/components/ui/empty-state';
 import ErrorState from '@/components/ui/error-state';
 import { Icon } from '@/components/ui/icon';
+import { Spinner } from '@/components/ui/spinner';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { byUsername, usePullToRefresh } from '@/utils/api/use-pull-to-refresh';
 
@@ -92,9 +92,7 @@ const FollowList: FC<Props> = ({ kind, username }) => {
                     )
                 }
                 ListFooterComponent={
-                    isFetchingNextPage ? (
-                        <ActivityIndicator className="py-4" />
-                    ) : null
+                    isFetchingNextPage ? <Spinner className="py-4" /> : null
                 }
                 onEndReached={onEndReached}
                 onEndReachedThreshold={0.5}

@@ -2,17 +2,19 @@ import { type FC, type ReactElement, type ReactNode, useState } from 'react';
 
 import { useRouter } from 'expo-router';
 import { ChevronDown, RotateCw, Settings } from 'lucide-react-native';
-import { ActivityIndicator, View } from 'react-native';
+import { View } from 'react-native';
 
 import type { MainContentTypeEnum } from '@hikka/api';
 
 import { Button, buttonVariants } from '@/components/ui/button';
 import { Icon, IconClassContext } from '@/components/ui/icon';
+import { Spinner } from '@/components/ui/spinner';
 import { Text, TextClassContext } from '@/components/ui/text';
 import { DENSE_MAX_FONT_SCALE } from '@/components/ui/typography';
 import { cn } from '@/utils/cn';
 
 import { LOGIN_HREF, listEntryHref } from './list-entry-href';
+import { MENU_TRIGGER_SIZE } from './menu-trigger-size';
 import NativeMenu from './native-menu';
 import { findStatus, STATUS_OPTIONS, statusStyle } from './status-config';
 import StatusIcon from './status-icon';
@@ -30,7 +32,7 @@ const ADD_LABEL = 'Додати у список';
 const SETTINGS = 'settings';
 const CHEVRON_WIDTH = 40;
 // The SwiftUI menu host does not report its size to Yoga: every trigger sits in an explicit box.
-const TRIGGER_HEIGHT = 44;
+const TRIGGER_HEIGHT = MENU_TRIGGER_SIZE;
 
 type Props = {
     contentType: MainContentTypeEnum;
@@ -239,7 +241,7 @@ const ListStatusButton: FC<Props> = ({
                                 textClassName={style.text}
                             >
                                 {pending ? (
-                                    <ActivityIndicator size="small" />
+                                    <Spinner size="small" />
                                 ) : (
                                     <View
                                         className={cn(
@@ -309,7 +311,7 @@ const ListStatusButton: FC<Props> = ({
                 onPress={() => changeStatus(PLANNED_STATUS[kind])}
             >
                 {blocked ? (
-                    <ActivityIndicator size="small" />
+                    <Spinner size="small" />
                 ) : (
                     <View className="rounded-sm border border-secondary-foreground/20 p-1">
                         <StatusIcon

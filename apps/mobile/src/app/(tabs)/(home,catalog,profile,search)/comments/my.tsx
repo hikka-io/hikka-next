@@ -1,9 +1,10 @@
 import { Redirect, Stack, useRouter } from 'expo-router';
-import { ActivityIndicator, View } from 'react-native';
+import { View } from 'react-native';
 
 import { Button } from '@/components/ui/button';
 import EmptyState from '@/components/ui/empty-state';
 import ErrorState from '@/components/ui/error-state';
+import { Spinner } from '@/components/ui/spinner';
 import { useSession } from '@/features/auth';
 
 /** The web's `/comments/my`: a redirect to the signed-in user's comments. */
@@ -37,7 +38,7 @@ export default function MyCommentsScreen() {
                 />
             ) : (
                 <View className="flex-1 items-center justify-center bg-background">
-                    <ActivityIndicator />
+                    <Spinner />
                 </View>
             )}
         </>

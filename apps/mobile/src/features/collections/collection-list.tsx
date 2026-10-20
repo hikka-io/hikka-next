@@ -5,7 +5,7 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 import * as Haptics from 'expo-haptics';
 import { Stack } from 'expo-router';
 import { Layers } from 'lucide-react-native';
-import { ActivityIndicator, Platform, View } from 'react-native';
+import { Platform, View } from 'react-native';
 
 import type { CollectionResponse } from '@hikka/api';
 import {
@@ -17,6 +17,7 @@ import {
 import EmptyState from '@/components/ui/empty-state';
 import ErrorState from '@/components/ui/error-state';
 import { Icon } from '@/components/ui/icon';
+import { Spinner } from '@/components/ui/spinner';
 
 import CollectionCard from './collection-card';
 import CollectionCardSkeleton from './collection-card-skeleton';
@@ -128,7 +129,7 @@ const CollectionList: FC<Props> = ({
                 }
                 ListFooterComponent={
                     isFetchingNextPage ? (
-                        <ActivityIndicator className="py-4" />
+                        <Spinner className="py-4" />
                     ) : isFetchNextPageError ? (
                         <ErrorState
                             variant="inline"

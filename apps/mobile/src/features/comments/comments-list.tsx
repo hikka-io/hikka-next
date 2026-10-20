@@ -4,7 +4,7 @@ import { FlashList } from '@shopify/flash-list';
 import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'expo-router';
 import { LockOpen, MessageSquarePlus, Star } from 'lucide-react-native';
-import { ActivityIndicator, Pressable, ScrollView, View } from 'react-native';
+import { Pressable, ScrollView, View } from 'react-native';
 
 import {
     type CommentContentTypeEnum,
@@ -29,6 +29,7 @@ import { Button } from '@/components/ui/button';
 import EmptyState from '@/components/ui/empty-state';
 import ErrorState from '@/components/ui/error-state';
 import { Icon } from '@/components/ui/icon';
+import { Spinner } from '@/components/ui/spinner';
 import { Text } from '@/components/ui/text';
 import { useSession } from '@/features/auth';
 import { useNsfwAllowed } from '@/services/session';
@@ -283,9 +284,7 @@ const CommentsList: FC<Props> = ({ contentType, slug, reference }) => {
                 ListHeaderComponent={header}
                 ListEmptyComponent={empty}
                 ListFooterComponent={
-                    isFetchingNextPage ? (
-                        <ActivityIndicator className="py-4" />
-                    ) : null
+                    isFetchingNextPage ? <Spinner className="py-4" /> : null
                 }
                 onEndReached={onEndReached}
                 onEndReachedThreshold={0.5}

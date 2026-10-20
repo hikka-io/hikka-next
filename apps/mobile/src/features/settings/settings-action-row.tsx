@@ -1,8 +1,9 @@
 import type { FC } from 'react';
 
-import { ListItem } from '@expo/ui';
 import { alpha, semantics } from '@expo/ui/jetpack-compose/modifiers';
 import { useCSSVariable } from 'uniwind';
+
+import SettingsListItem from './settings-list-item';
 
 type Props = {
     title: string;
@@ -24,7 +25,7 @@ const SettingsActionRow: FC<Props> = ({
     const color = destructive ? destructiveColor : primaryColor;
 
     return (
-        <ListItem
+        <SettingsListItem
             onPress={disabled ? undefined : onPress}
             colors={{
                 contentColor: typeof color === 'string' ? color : undefined,
@@ -41,7 +42,7 @@ const SettingsActionRow: FC<Props> = ({
             }
         >
             {title}
-        </ListItem>
+        </SettingsListItem>
     );
 };
 

@@ -1,5 +1,11 @@
-import { ListItem, Picker } from '@expo/ui';
+import { Picker } from '@expo/ui';
+import { Box } from '@expo/ui/jetpack-compose';
+import { width } from '@expo/ui/jetpack-compose/modifiers';
 import * as Haptics from 'expo-haptics';
+
+import SettingsListItem from './settings-list-item';
+
+const PICKER_WIDTH_DP = 168;
 
 type Option<T extends string> = { value: T; label: string };
 
@@ -19,28 +25,30 @@ function SettingsPickerRow<T extends string>({
     disabled,
 }: Props<T>) {
     return (
-        <ListItem
+        <SettingsListItem
             trailing={
-                <Picker
-                    selectedValue={value}
-                    enabled={!disabled}
-                    onValueChange={(next) => {
-                        Haptics.selectionAsync();
-                        onValueChange(next as T);
-                    }}
-                >
-                    {options.map((option) => (
-                        <Picker.Item
-                            key={option.value}
-                            label={option.label}
-                            value={option.value}
-                        />
-                    ))}
-                </Picker>
+                <Box modifiers={[width(PICKER_WIDTH_DP)]}>
+                    <Picker
+                        selectedValue={value}
+                        enabled={!disabled}
+                        onValueChange={(next) => {
+                            Haptics.selectionAsync();
+                            onValueChange(next as T);
+                        }}
+                    >
+                        {options.map((option) => (
+                            <Picker.Item
+                                key={option.value}
+                                label={option.label}
+                                value={option.value}
+                            />
+                        ))}
+                    </Picker>
+                </Box>
             }
         >
             {title}
-        </ListItem>
+        </SettingsListItem>
     );
 }
 
