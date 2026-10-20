@@ -13,6 +13,7 @@ import { Header, HeaderTitle } from '@/components/ui/header';
 import { Icon } from '@/components/ui/icon';
 
 import { HISTORY_PREVIEW_SIZE, userHistoryPreviewOptions } from './queries';
+import { userHistoryHref } from './user-hrefs';
 
 const HistorySkeleton: FC = () => (
     <View className="gap-4">
@@ -37,7 +38,9 @@ const HistorySection: FC<Props> = ({ username }) => {
         <View className="px-4 pt-6">
             <Card className="gap-3">
                 <Header>
-                    <HeaderTitle>Історія</HeaderTitle>
+                    <HeaderTitle href={userHistoryHref(username)}>
+                        Історія
+                    </HeaderTitle>
                 </Header>
                 {isPending ? (
                     <HistorySkeleton />

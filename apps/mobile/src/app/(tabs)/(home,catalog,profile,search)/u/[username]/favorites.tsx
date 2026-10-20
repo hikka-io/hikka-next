@@ -1,12 +1,25 @@
-import { Stack } from 'expo-router';
+import { useLocalSearchParams } from 'expo-router';
 
-import EmptyState from '@/components/ui/empty-state';
+import { FavouriteContentTypeEnum } from '@hikka/api';
+
+import { FavouritesPage } from '@/features/users';
+
+const TYPES: readonly string[] = Object.values(FavouriteContentTypeEnum);
+
+const isFavouriteType = (value?: string): value is FavouriteContentTypeEnum =>
+    !!value && TYPES.includes(value);
 
 export default function UserFavoritesScreen() {
+    const { username, type } = useLocalSearchParams<{
+        username: string;
+        type?: string;
+    }>();
+
     return (
-        <>
-            <Stack.Title>Улюблене</Stack.Title>
-            <EmptyState title="Незабаром" className="flex-1 justify-center" />
-        </>
+        <FavouritesPage
+            key={username}
+            username={username}
+            initialType={isFavouriteType(type) ? type : undefined}
+        />
     );
 }

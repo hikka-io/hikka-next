@@ -1,59 +1,59 @@
 import { type FC, useState } from 'react';
 
-import { useQuery } from '@tanstack/react-query';
-import { ScrollView, View } from 'react-native';
+import { Heart } from 'lucide-react-native';
+import { View } from 'react-native';
 
-import { ContentTypeEnum } from '@hikka/api';
-import { CONTENT_TYPES, getMediaTypeLabel, getTitle } from '@hikka/core';
+import type { FavouriteContentTypeEnum } from '@hikka/api';
 
-import PosterCard from '@/components/content-card/poster-card';
 import PosterRow from '@/components/content-card/poster-row';
-import { Chip } from '@/components/ui/chip';
+import EmptyState from '@/components/ui/empty-state';
 import ErrorState from '@/components/ui/error-state';
 import { Header, HeaderTitle } from '@/components/ui/header';
+import { Icon } from '@/components/ui/icon';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
-import { contentHref } from '@/utils/content-href';
 
-import { serviceUserStatsOptions, userFavouritesOptions } from './queries';
+import { userFavouritesOptions } from '../queries';
+import { userFavouritesHref } from '../user-hrefs';
+import FavouriteCard, {
+    type FavouriteItem,
+    favouriteKey,
+} from './favourite-card';
+import FavouriteChips from './favourite-chips';
+import { favouriteEmptyCopy, favouriteHasSubtitles } from './favourite-empty';
+import { useFavouriteCategories } from './use-favourite-categories';
 
-// Collections are left out until the collection screens exist.
-const CATEGORIES = [
-    ContentTypeEnum.ANIME,
-    ContentTypeEnum.MANGA,
-    ContentTypeEnum.NOVEL,
-    ContentTypeEnum.CHARACTER,
-    ContentTypeEnum.PERSON,
-] as const;
-
-type Category = (typeof CATEGORIES)[number];
-
-type FavouriteItem = {
-    slug: string;
-    image: string | null;
-    media_type?: string | null;
+type StripProps = {
+    username: string;
+    type: FavouriteContentTypeEnum;
+    count: number;
 };
 
-const FavouriteStrip: FC<{ username: string; type: Category }> = ({
-    username,
-    type,
-}) => {
+const FavouriteStrip: FC<StripProps> = ({ username, type, count }) => {
     const query = useInfiniteList<FavouriteItem>(
         userFavouritesOptions(username, type),
     );
 
+    if (count === 0) {
+        const copy = favouriteEmptyCopy(type);
+
+        return (
+            <EmptyState
+                size="sm"
+                bordered
+                icon={<Icon as={Heart} />}
+                title={copy.title}
+                description={copy.description}
+            />
+        );
+    }
+
     return (
         <PosterRow
             {...query}
-            keyExtractor={(item) => item.slug}
-            renderItem={(item) => (
-                <PosterCard
-                    href={contentHref(type, item.slug)}
-                    title={getTitle(item)}
-                    image={item.image ?? undefined}
-                    leftSubtitle={getMediaTypeLabel(item.media_type)}
-                />
-            )}
+            keyExtractor={favouriteKey}
+            renderItem={(item) => <FavouriteCard type={type} item={item} />}
+            skeleton={{ subtitles: favouriteHasSubtitles(type) }}
         />
     );
 };
@@ -63,22 +63,13 @@ type Props = {
 };
 
 const FavouritesSection: FC<Props> = ({ username }) => {
-    const {
-        data: stats,
-        isPending,
-        error,
-        refetch,
-    } = useQuery(serviceUserStatsOptions({ path: { username } }));
-    const [selected, setSelected] = useState<Category | null>(null);
-
-    const counts = stats?.favourites_count;
-    const available = CATEGORIES.filter((type) => (counts?.[type] ?? 0) > 0);
-    const total = available.reduce(
-        (sum, type) => sum + (counts?.[type] ?? 0),
-        0,
+    const { categories, count, total, isPending, error, refetch } =
+        useFavouriteCategories(username);
+    const [selected, setSelected] = useState<FavouriteContentTypeEnum | null>(
+        null,
     );
     const active =
-        selected && available.includes(selected) ? selected : available[0];
+        selected && categories.includes(selected) ? selected : categories[0];
 
     if (!isPending && !error && !active) return null;
 
@@ -86,7 +77,12 @@ const FavouritesSection: FC<Props> = ({ username }) => {
         <View className="mt-6 gap-3 px-4">
             <Header>
                 <HeaderTitle
-                    count={counts ? total : undefined}
+                    href={
+                        active
+                            ? userFavouritesHref(username, active)
+                            : undefined
+                    }
+                    count={total}
                     countPending={isPending}
                 >
                     Улюблені
@@ -94,26 +90,17 @@ const FavouritesSection: FC<Props> = ({ username }) => {
             </Header>
             {active ? (
                 <>
-                    <ScrollView
-                        horizontal
-                        showsHorizontalScrollIndicator={false}
-                        className="-mx-4"
-                        contentContainerClassName="gap-2 px-4"
-                    >
-                        {available.map((type) => (
-                            <Chip
-                                key={type}
-                                selected={type === active}
-                                onPress={() => setSelected(type)}
-                            >
-                                {`${CONTENT_TYPES[type].plural} ${counts?.[type] ?? 0}`}
-                            </Chip>
-                        ))}
-                    </ScrollView>
+                    <FavouriteChips
+                        categories={categories}
+                        count={count}
+                        value={active}
+                        onValueChange={setSelected}
+                    />
                     <FavouriteStrip
                         key={active}
                         username={username}
                         type={active}
+                        count={count(active)}
                     />
                 </>
             ) : error ? (
