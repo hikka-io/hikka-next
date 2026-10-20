@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { formatCompactNumber } from './number';
+import { formatCompactFallback, formatCompactNumber } from './number';
 
 describe('formatCompactNumber', () => {
     it.each([
@@ -16,5 +16,6 @@ describe('formatCompactNumber', () => {
         [1250000000, '1.3B'],
     ])('formats %d as %s', (value, expected) => {
         expect(formatCompactNumber(value)).toBe(expected);
+        expect(formatCompactFallback(value)).toBe(expected);
     });
 });
