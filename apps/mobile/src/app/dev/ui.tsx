@@ -408,7 +408,7 @@ const UICatalog: FC = () => {
                 <EmptyState
                     bordered
                     title="Список порожній"
-                    description="Додайте аніме, щоб воно з'явилось тут"
+                    description="Додайте аніме, щоб воно зʼявилось тут"
                     icon={<Icon as={Bookmark} />}
                     action={<Button size="md">Перейти до каталогу</Button>}
                 />

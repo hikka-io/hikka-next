@@ -7,7 +7,7 @@ import { NETWORK_ERROR_MESSAGE } from '@hikka/core';
 
 import { OFFLINE_TOAST_ID, setOfflineToastShown } from '@/utils/offline-toast';
 
-const BACK_ONLINE = 'З’єднання відновлено';
+const BACK_ONLINE = 'Зʼєднання відновлено';
 // A tunnel or an elevator flips connectivity for a moment; the warning waits this long.
 const OFFLINE_DELAY_MS = 1500;
 // sonner-native has no persistent toast: it gets a day and is dismissed by id.

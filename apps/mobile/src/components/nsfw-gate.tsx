@@ -61,7 +61,7 @@ const NsfwGate: FC = () => {
             </View>
             <View className="w-full">
                 <SwitchRow
-                    label="Запам'ятати мій вибір"
+                    label="Запамʼятати мій вибір"
                     value={remember}
                     onChange={setRemember}
                 />

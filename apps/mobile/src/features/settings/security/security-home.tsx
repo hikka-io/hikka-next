@@ -30,7 +30,7 @@ const SecurityHome: FC = () => {
                     href="/settings/security/email"
                 />
                 <SettingsNavRow
-                    title="Ім'я користувача"
+                    title="Імʼя користувача"
                     value={user.username ?? undefined}
                     href="/settings/security/username"
                 />

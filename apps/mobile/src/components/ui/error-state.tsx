@@ -13,7 +13,7 @@ import { Icon } from './icon';
 import { Text } from './text';
 
 const ERROR_TITLE = 'Не вдалося завантажити';
-const ERROR_FALLBACK = 'Перевірте з’єднання та спробуйте ще раз';
+const ERROR_FALLBACK = 'Перевірте зʼєднання та спробуйте ще раз';
 const RETRY_TEXT = 'Повторити';
 
 type Variant = 'page' | 'section' | 'inline';

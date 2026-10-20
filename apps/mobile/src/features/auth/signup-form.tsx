@@ -105,7 +105,7 @@ const SignupForm: FC<Props> = ({ onSuccess }) => {
                         <FormTextField
                             field={field}
                             submitted={submitted}
-                            label="Ім'я користувача (нікнейм)"
+                            label="Імʼя користувача (нікнейм)"
                             description={USERNAME_HINT}
                             placeholder="Введіть нікнейм"
                             autoCapitalize="none"

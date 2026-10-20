@@ -240,7 +240,7 @@ const CommentsList: FC<Props> = ({ contentType, slug, reference }) => {
                 bordered
                 icon={<Icon as={Star} />}
                 title="Відгуків не знайдено"
-                description="Тут з'являться відгуки, щойно хтось поділиться враженнями"
+                description="Тут зʼявляться відгуки, щойно хтось поділиться враженнями"
                 className="mx-4"
             />
         ) : (

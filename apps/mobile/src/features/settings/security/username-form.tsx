@@ -39,12 +39,12 @@ const UsernameForm: FC = () => {
             if (user?.username)
                 invalidateUserProfile(queryClient, user.username);
             Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-            toast.success("Ви успішно змінили ім'я користувача.");
+            toast.success('Ви успішно змінили імʼя користувача.');
             router.back();
         },
         onError: (error) => {
             Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
-            toastApiError(error, "Не вдалося змінити ім'я користувача.");
+            toastApiError(error, 'Не вдалося змінити імʼя користувача.');
         },
     });
 
@@ -61,7 +61,7 @@ const UsernameForm: FC = () => {
 
     return (
         <SettingsForm>
-            <FieldGroup.Section title="Нове ім'я користувача">
+            <FieldGroup.Section title="Нове імʼя користувача">
                 <form.Field name="username">
                     {(field) => (
                         <TextInput
