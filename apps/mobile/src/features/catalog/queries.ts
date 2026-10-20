@@ -10,19 +10,11 @@ import {
     type NovelResponseWithRead,
     type PaginationResponse,
     paginatedInfiniteOptions,
-    type ReadStatusEnum,
     searchAnimeInfiniteOptions,
     searchMangaInfiniteOptions,
     searchNovelInfiniteOptions,
-    type WatchStatusEnum,
 } from '@hikka/api';
-import {
-    buildAnimeSearchArgs,
-    buildMangaSearchArgs,
-    buildNovelSearchArgs,
-    READ_STATUS,
-    WATCH_STATUS,
-} from '@hikka/core';
+import { buildCatalogSearchArgs, listStatuses } from '@hikka/core';
 
 import type { CatalogSearch, CatalogType } from '@/features/filters';
 
@@ -49,50 +41,19 @@ type CatalogOptions = UseInfiniteQueryOptions<
     number
 > & { initialPageParam: number };
 
-const WATCH_STATUSES = Object.keys(WATCH_STATUS) as WatchStatusEnum[];
-const READ_STATUSES = Object.keys(READ_STATUS) as ReadStatusEnum[];
-
-function excludeWatched<T>(args: T, search: CatalogSearch, signedIn: boolean) {
-    return search.hide_listed && signedIn
-        ? { ...args, exclude_watch_status: WATCH_STATUSES }
-        : args;
-}
-
-function excludeRead<T>(args: T, search: CatalogSearch, signedIn: boolean) {
-    return search.hide_listed && signedIn
-        ? { ...args, exclude_read_status: READ_STATUSES }
-        : args;
-}
-
 /**
- * The web's `catalogSearchQuery`: the shared core builders turn catalog state into the
- * request body, and `hide_listed` excludes every list status for a signed-in viewer.
+ * The request body: the web's catalog builder, with "hide listed" excluding every list
+ * status for a signed-in viewer (the web's default until the viewer narrows them).
  */
-export function catalogSearchArgs(
-    type: CatalogType,
+export function catalogSearchArgs<T extends CatalogType>(
+    type: T,
     search: CatalogSearch,
     signedIn: boolean,
 ) {
-    switch (type) {
-        case ContentTypeEnum.ANIME:
-            return excludeWatched(
-                buildAnimeSearchArgs(search).args,
-                search,
-                signedIn,
-            );
-        case ContentTypeEnum.MANGA:
-            return excludeRead(
-                buildMangaSearchArgs(search).args,
-                search,
-                signedIn,
-            );
-        case ContentTypeEnum.NOVEL:
-            return excludeRead(
-                buildNovelSearchArgs(search).args,
-                search,
-                signedIn,
-            );
-    }
+    const hidden =
+        search.hide_listed && signedIn ? listStatuses(type) : undefined;
+
+    return buildCatalogSearchArgs(type, search, hidden).args;
 }
 
 export function catalogSearchOptions(
@@ -106,33 +67,21 @@ export function catalogSearchOptions(
         case ContentTypeEnum.ANIME:
             return paginatedInfiniteOptions(
                 searchAnimeInfiniteOptions({
-                    body: excludeWatched(
-                        buildAnimeSearchArgs(search).args,
-                        search,
-                        signedIn,
-                    ),
+                    body: catalogSearchArgs(type, search, signedIn),
                     query,
                 }),
             ) as CatalogOptions;
         case ContentTypeEnum.MANGA:
             return paginatedInfiniteOptions(
                 searchMangaInfiniteOptions({
-                    body: excludeRead(
-                        buildMangaSearchArgs(search).args,
-                        search,
-                        signedIn,
-                    ),
+                    body: catalogSearchArgs(type, search, signedIn),
                     query,
                 }),
             ) as CatalogOptions;
         case ContentTypeEnum.NOVEL:
             return paginatedInfiniteOptions(
                 searchNovelInfiniteOptions({
-                    body: excludeRead(
-                        buildNovelSearchArgs(search).args,
-                        search,
-                        signedIn,
-                    ),
+                    body: catalogSearchArgs(type, search, signedIn),
                     query,
                 }),
             ) as CatalogOptions;

@@ -7,6 +7,7 @@ import {
 import { AppState, Platform } from 'react-native';
 
 import { DEFAULT_BASE_URL } from '@hikka/api';
+import type { QueryId } from '@hikka/core';
 
 export const API_BASE_URL = process.env.EXPO_PUBLIC_API_URL ?? DEFAULT_BASE_URL;
 
@@ -27,3 +28,18 @@ export const queryClient = new QueryClient({
         },
     },
 });
+
+/**
+ * Per-key tiers, like the web's `QUERY_DEFAULT_TIERS`: lookups that change with a release,
+ * not a session. Generated keys are `[{ _id, … }]`, matched partially by `_id`.
+ */
+const STATIC_QUERY_IDS = [
+    'genres',
+    'searchCompanies',
+] as const satisfies readonly QueryId[];
+
+for (const id of STATIC_QUERY_IDS) {
+    queryClient.setQueryDefaults([{ _id: id }], {
+        staleTime: Number.POSITIVE_INFINITY,
+    });
+}

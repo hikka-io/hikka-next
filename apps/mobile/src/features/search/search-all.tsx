@@ -16,18 +16,14 @@ import { type SearchPreview, searchPreviewOptions } from './queries';
 import SearchResultRow from './search-result-row';
 import SearchRowSkeleton from './search-row-skeleton';
 import {
-    SEARCH_SCOPES,
     SEARCH_SECTION_TITLES,
+    SEARCH_TYPES,
     type SearchType,
     searchQuery,
 } from './search-scope';
 import UserResultRow from './user-result-row';
 
 const ERROR_FALLBACK = 'Перевірте з’єднання та спробуйте ще раз';
-
-const TYPES = SEARCH_SCOPES.filter(
-    (scope): scope is SearchType => scope !== 'all',
-);
 
 type Props = {
     text: string;
@@ -37,7 +33,7 @@ type Props = {
 /** The web's "Усе" mode: three results per type, each section opening its own scope. */
 const SearchAll: FC<Props> = ({ text, onShowAll }) => {
     const results = useQueries({
-        queries: TYPES.map((type) => {
+        queries: SEARCH_TYPES.map((type) => {
             const query = searchQuery(text, type);
 
             return {
@@ -50,7 +46,7 @@ const SearchAll: FC<Props> = ({ text, onShowAll }) => {
     const sections: ReactNode[] = [];
 
     results.forEach((result, index) => {
-        const type = TYPES[index];
+        const type = SEARCH_TYPES[index];
         const preview = result.data;
 
         if (!type || !preview?.list.length) return;

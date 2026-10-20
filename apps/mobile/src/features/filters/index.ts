@@ -1,4 +1,7 @@
-export { default as ActiveFilters } from './active-filters';
+export {
+    default as ActiveFilters,
+    useHasActiveFilters,
+} from './active-filters';
 export {
     useCatalogSearch,
     useUpdateCatalogSearch,
@@ -8,7 +11,6 @@ export {
     type CatalogSearch,
     type CatalogType,
     clearFilters,
-    getActiveFilters,
     setParam,
 } from './filter-params';
 export { default as FiltersSheet } from './filters-sheet';

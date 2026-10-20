@@ -19,6 +19,7 @@ import { Header, HeaderActions, HeaderTitle } from '@/components/ui/header';
 import { Separator } from '@/components/ui/separator';
 import { useSession } from '@/features/auth';
 
+import { useHasActiveFilters } from './active-filters';
 import {
     useCatalogSearch,
     useUpdateCatalogSearch,
@@ -30,7 +31,7 @@ import {
     type CatalogType,
     clearFilters,
     cycleGenre,
-    getActiveFilters,
+    setDateRangeEnabled,
     setParam,
     toggleValue,
 } from './filter-params';
@@ -60,8 +61,7 @@ const FiltersSheet: FC<Props> = ({ type, onDone }) => {
     const { hasToken } = useSession();
     const anime = type === ContentTypeEnum.ANIME;
     const dateRange = anime && Boolean(search.date_range_enabled);
-    const filtered =
-        getActiveFilters(search, { signedIn: hasToken }).length > 0;
+    const filtered = useHasActiveFilters(type);
 
     const change = <K extends CatalogSearchKey>(
         key: K,
@@ -173,17 +173,7 @@ const FiltersSheet: FC<Props> = ({ type, onDone }) => {
                       label="Часовий проміжок"
                       value={search.date_range_enabled}
                       onChange={(enabled) =>
-                          update((prev) =>
-                              setParam(
-                                  setParam(
-                                      prev,
-                                      'date_range',
-                                      enabled ? DATE_RANGE : null,
-                                  ),
-                                  'date_range_enabled',
-                                  enabled,
-                              ),
-                          )
+                          update((prev) => setDateRangeEnabled(prev, enabled))
                       }
                   />
                   {dateRange ? (
@@ -206,6 +196,7 @@ const FiltersSheet: FC<Props> = ({ type, onDone }) => {
         <ScrollView
             className="flex-1 bg-background"
             contentContainerClassName="gap-6 px-4 pt-6 pb-10"
+            keyboardDismissMode="on-drag"
             keyboardShouldPersistTaps="handled"
         >
             <Header className="justify-between">

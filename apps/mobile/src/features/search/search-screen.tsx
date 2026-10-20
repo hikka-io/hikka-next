@@ -3,6 +3,8 @@ import { type FC, useState } from 'react';
 import { Stack } from 'expo-router';
 import { ScrollView } from 'react-native';
 
+import { ContentTypeEnum } from '@hikka/api';
+
 import EmptyState from '@/components/ui/empty-state';
 import { DEBOUNCE_MS, useDebouncedValue } from '@/services/use-debounced-value';
 
@@ -20,7 +22,7 @@ const SearchScreen: FC = () => {
     const chips = <SearchScopeChips scope={scope} onChange={setScope} />;
     const query =
         scope === 'all'
-            ? searchQuery(debounced, 'anime')
+            ? searchQuery(debounced, ContentTypeEnum.ANIME)
             : searchQuery(debounced, scope);
 
     const searchBar = (

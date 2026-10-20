@@ -1,4 +1,5 @@
 import { API_LIMITS, ContentTypeEnum } from '@hikka/api';
+import { CONTENT_TYPES } from '@hikka/core';
 
 export const SEARCH_SCOPES = [
     'all',
@@ -14,26 +15,22 @@ export type SearchScope = (typeof SEARCH_SCOPES)[number];
 
 export type SearchType = Exclude<SearchScope, 'all'>;
 
-/** The web's search type labels (`features/search/types.ts`). */
-export const SEARCH_SCOPE_LABELS: Record<SearchScope, string> = {
+export const SEARCH_TYPES = SEARCH_SCOPES.filter(
+    (scope): scope is SearchType => scope !== 'all',
+);
+
+/** The web's search type labels (`features/search/types.ts`): "Усе", then core content type names. */
+export const SEARCH_SCOPE_LABELS = {
     all: 'Усе',
-    [ContentTypeEnum.ANIME]: 'Аніме',
-    [ContentTypeEnum.MANGA]: 'Манґа',
-    [ContentTypeEnum.NOVEL]: 'Ранобе',
-    [ContentTypeEnum.CHARACTER]: 'Персонаж',
-    [ContentTypeEnum.PERSON]: 'Людина',
-    [ContentTypeEnum.USER]: 'Користувач',
-};
+    ...Object.fromEntries(
+        SEARCH_TYPES.map((type) => [type, CONTENT_TYPES[type].title_ua]),
+    ),
+} as Record<SearchScope, string>;
 
 /** Section headings of the "Усе" scope, like the web's `CONTENT_TYPES[type].plural`. */
-export const SEARCH_SECTION_TITLES: Record<SearchType, string> = {
-    [ContentTypeEnum.ANIME]: 'Аніме',
-    [ContentTypeEnum.MANGA]: 'Манґа',
-    [ContentTypeEnum.NOVEL]: 'Ранобе',
-    [ContentTypeEnum.CHARACTER]: 'Персонажі',
-    [ContentTypeEnum.PERSON]: 'Люди',
-    [ContentTypeEnum.USER]: 'Користувачі',
-};
+export const SEARCH_SECTION_TITLES = Object.fromEntries(
+    SEARCH_TYPES.map((type) => [type, CONTENT_TYPES[type].plural]),
+) as Record<SearchType, string>;
 
 /** User search needs a longer query than content search (`userSearchQuery`). */
 export function minQueryLength(type: SearchType) {

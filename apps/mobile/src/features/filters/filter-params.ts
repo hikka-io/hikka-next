@@ -1,13 +1,9 @@
 import { ContentTypeEnum } from '@hikka/api';
 import {
-    AGE_RATING,
     type AnimeSearch,
-    type FilterProperty,
+    DATE_RANGE,
     type MangaSearch,
-    MEDIA_TYPE,
     type NovelSearch,
-    RELEASE_STATUS,
-    SEASON,
 } from '@hikka/core';
 
 export const CATALOG_TYPES = [
@@ -25,13 +21,6 @@ export type CatalogSearchKey = keyof CatalogSearch;
 
 /** Params that pick the result order or text, not filters; clearing keeps them. */
 const KEPT_ON_CLEAR: CatalogSearchKey[] = ['search', 'sort', 'order'];
-
-const ENUM_LABELS: Partial<Record<CatalogSearchKey, FilterProperty<string>>> = {
-    statuses: RELEASE_STATUS,
-    seasons: SEASON,
-    types: MEDIA_TYPE,
-    ratings: AGE_RATING,
-};
 
 function isEmpty(value: unknown) {
     return (
@@ -103,115 +92,27 @@ export function clearFilters(search: CatalogSearch): CatalogSearch {
     return next;
 }
 
-export type ActiveFilter = {
-    param: CatalogSearchKey;
-    value: string;
-    label: string;
-    excluded?: boolean;
-};
-
-type ActiveFilterOptions = {
-    names?: Record<string, string>;
-    signedIn?: boolean;
-};
-
-/** The web's active-filter chips (`FILTER_REGISTRY`) derived from catalog state. */
-export function getActiveFilters(
+/**
+ * Turning the date range on applies the full range at once and drops the season and year
+ * filters it hides, so no hidden filter stays in the request or the chips.
+ */
+export function setDateRangeEnabled(
     search: CatalogSearch,
-    { names = {}, signedIn = false }: ActiveFilterOptions = {},
-): ActiveFilter[] {
-    const result: ActiveFilter[] = [];
-
-    for (const param of [
-        'genres',
-        'studios',
-        'statuses',
-        'types',
-        'seasons',
-        'ratings',
-    ] as const) {
-        for (const raw of search[param] ?? []) {
-            const excluded = param === 'genres' && raw.startsWith('-');
-            const value = excluded ? raw.slice(1) : raw;
-            const label =
-                ENUM_LABELS[param]?.[value]?.title_ua ?? names[value] ?? value;
-
-            result.push({
-                param,
-                value: raw,
-                label,
-                ...(excluded && { excluded }),
-            });
-        }
-    }
-
-    if (search.date_range_enabled) {
-        result.push({
-            param: 'date_range_enabled',
-            value: 'true',
-            label: 'Часовий проміжок',
-        });
-    }
-
-    for (const param of ['years', 'score'] as const) {
-        const range = search[param];
-
-        if (range?.length === 2) {
-            result.push({
-                param,
-                value: range.join('–'),
-                label:
-                    param === 'score'
-                        ? `Оцінка ${range.join('–')}`
-                        : range.join('–'),
-            });
-        }
-    }
-
-    if (search.only_translated) {
-        result.push({
-            param: 'only_translated',
-            value: 'true',
-            label: 'Перекладено українською',
-        });
-    }
-
-    if (search.hide_listed && signedIn) {
-        result.push({
-            param: 'hide_listed',
-            value: 'true',
-            label: 'Без тайтлів з мого списку',
-        });
-    }
-
-    return result;
-}
-
-export function removeFilter(
-    search: CatalogSearch,
-    filter: ActiveFilter,
+    enabled: boolean,
 ): CatalogSearch {
-    switch (filter.param) {
-        case 'genres':
-        case 'studios':
-        case 'statuses':
-        case 'types':
-        case 'seasons':
-        case 'ratings':
-            return setParam(
-                search,
-                filter.param,
-                (search[filter.param] ?? []).filter(
-                    (item) => item !== filter.value,
-                ),
-            );
-        case 'date_range_enabled':
-            return setParam(
-                setParam(search, 'date_range', null),
-                'date_range_enabled',
-                null,
-            );
-        default:
-            return setParam(search, filter.param, null);
+    if (!enabled) {
+        return setParam(
+            setParam(search, 'date_range', null),
+            'date_range_enabled',
+            null,
+        );
     }
+
+    const { seasons: _seasons, years: _years, ...rest } = search;
+
+    return setParam(
+        setParam(rest, 'date_range', DATE_RANGE),
+        'date_range_enabled',
+        true,
+    );
 }

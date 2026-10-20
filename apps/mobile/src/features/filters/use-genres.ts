@@ -10,7 +10,6 @@ export function useGenres(enabled = true) {
     return useQuery({
         ...genresOptions(),
         enabled,
-        staleTime: Number.POSITIVE_INFINITY,
         select: (data) => ({
             list: data.list,
             names: Object.fromEntries(

@@ -3,14 +3,14 @@ import type { FC } from 'react';
 import * as Haptics from 'expo-haptics';
 import { Stack, useRouter } from 'expo-router';
 import { Platform } from 'react-native';
+import { useCSSVariable } from 'uniwind';
 
 import { getSort, type SortOrder } from '@hikka/core';
 
-import { useSession } from '@/features/auth';
 import {
-    getActiveFilters,
     setParam,
     useCatalogSearch,
+    useHasActiveFilters,
     useUpdateCatalogSearch,
 } from '@/features/filters';
 
@@ -38,16 +38,17 @@ const ORDERS: { value: SortOrder; label: string }[] = [
 /** Filters open the sheet; view and sort live in one native menu (web: view toggle + sort select). */
 const CatalogToolbar: FC = () => {
     const router = useRouter();
-    const { type, view, setView } = useCatalogPrefs();
+    const type = useCatalogPrefs((state) => state.type);
+    const view = useCatalogPrefs((state) => state.view);
+    const setView = useCatalogPrefs((state) => state.setView);
+    const badge = useCSSVariable('--color-primary-foreground');
     const search = useCatalogSearch(type);
     const update = useUpdateCatalogSearch(type);
-    const { hasToken } = useSession();
 
     const options = getSort(type);
     const sort = search.sort ?? options[0]?.value;
     const order = search.order ?? 'desc';
-    const filtered =
-        getActiveFilters(search, { signedIn: hasToken }).length > 0;
+    const filtered = useHasActiveFilters(type);
 
     const select = (apply: () => void) => {
         Haptics.selectionAsync();
@@ -71,7 +72,17 @@ const CatalogToolbar: FC = () => {
                         params: { type },
                     })
                 }
-            />
+            >
+                {/* Android icons are static images; a dot marks active filters instead of a filled icon. */}
+                {ANDROID && filtered ? (
+                    <Stack.Toolbar.Badge
+                        style={{
+                            backgroundColor:
+                                typeof badge === 'string' ? badge : undefined,
+                        }}
+                    />
+                ) : null}
+            </Stack.Toolbar.Button>
             <Stack.Toolbar.Menu
                 icon={ANDROID ? SORT_ICON : 'arrow.up.arrow.down'}
                 accessibilityLabel="Вигляд і сортування"

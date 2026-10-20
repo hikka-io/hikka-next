@@ -4,7 +4,7 @@ import type { Href } from 'expo-router';
 import { Star } from 'lucide-react-native';
 import { View } from 'react-native';
 
-import type { ContentStatusEnum } from '@hikka/api';
+import { type ContentStatusEnum, ContentTypeEnum } from '@hikka/api';
 import {
     contentPath,
     formatCompactNumber,
@@ -75,7 +75,7 @@ function joinMeta(parts: (string | null | undefined)[]) {
 /** The web's `CatalogListItem`: company, type · year · status, genres and both scores. */
 const CatalogListItem: FC<Props> = ({ item }) => {
     const company =
-        item.data_type === 'anime'
+        item.data_type === ContentTypeEnum.ANIME
             ? item.studios[0]?.name
             : item.magazines[0]?.name_en;
     const status = item.status

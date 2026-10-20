@@ -1,8 +1,15 @@
 import type { FC } from 'react';
 
 import * as Haptics from 'expo-haptics';
-import { X } from 'lucide-react-native';
+import { Star, X } from 'lucide-react-native';
 import { ScrollView } from 'react-native';
+
+import {
+    type ActiveFilter,
+    getActiveFilters,
+    isTristateFilter,
+    removeActiveFilter,
+} from '@hikka/core';
 
 import { Chip } from '@/components/ui/chip';
 import { Icon } from '@/components/ui/icon';
@@ -13,13 +20,7 @@ import {
     useFilterNames,
     useUpdateCatalogSearch,
 } from './catalog-search-store';
-import {
-    type ActiveFilter,
-    type CatalogType,
-    clearFilters,
-    getActiveFilters,
-    removeFilter,
-} from './filter-params';
+import { type CatalogType, clearFilters } from './filter-params';
 import { useGenres } from './use-genres';
 
 type Props = {
@@ -27,7 +28,7 @@ type Props = {
 };
 
 function chipTone(filter: ActiveFilter) {
-    if (filter.param !== 'genres') return undefined;
+    if (!isTristateFilter(filter.param)) return undefined;
 
     return filter.excluded
         ? {
@@ -40,6 +41,14 @@ function chipTone(filter: ActiveFilter) {
           };
 }
 
+/** Whether any chip would show, so the toolbar and empty state can reflect it. */
+export function useHasActiveFilters(type: CatalogType) {
+    const search = useCatalogSearch(type);
+    const { hasToken } = useSession();
+
+    return getActiveFilters(search, { signedIn: hasToken }).length > 0;
+}
+
 /** The web's active-filter chips: tap one to remove it, "Очистити все" when there are several. */
 const ActiveFilters: FC<Props> = ({ type }) => {
     const search = useCatalogSearch(type);
@@ -49,7 +58,7 @@ const ActiveFilters: FC<Props> = ({ type }) => {
     const { data: genres } = useGenres(Boolean(search.genres?.length));
 
     const filters = getActiveFilters(search, {
-        names: { ...names, ...genres?.names },
+        labelMaps: { genres: genres?.names, studios: names },
         signedIn: hasToken,
     });
 
@@ -57,7 +66,7 @@ const ActiveFilters: FC<Props> = ({ type }) => {
 
     const remove = (filter: ActiveFilter) => {
         Haptics.selectionAsync();
-        update((prev) => removeFilter(prev, filter));
+        update((prev) => removeActiveFilter(prev, filter));
     };
 
     return (
@@ -90,6 +99,7 @@ const ActiveFilters: FC<Props> = ({ type }) => {
                         accessibilityLabel={`Прибрати фільтр ${filter.label}`}
                         onPress={() => remove(filter)}
                     >
+                        {filter.param === 'score' && <Icon as={Star} />}
                         {filter.label}
                         <Icon as={X} />
                     </Chip>

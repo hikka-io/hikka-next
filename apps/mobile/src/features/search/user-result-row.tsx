@@ -3,7 +3,7 @@ import type { FC } from 'react';
 import type { Href } from 'expo-router';
 import { View } from 'react-native';
 
-import type { UserResponse, UserRoleEnum } from '@hikka/api';
+import { type UserResponse, UserRoleEnum } from '@hikka/api';
 import { APP_LOCALE_TAG, USER_ROLE } from '@hikka/core';
 
 import {
@@ -15,7 +15,10 @@ import {
 } from '@/components/horizontal-card';
 import { Badge } from '@/components/ui/badge';
 
-const STAFF_ROLES = new Set<string>(['admin', 'moderator']);
+const STAFF_ROLES = new Set<string>([
+    UserRoleEnum.ADMIN,
+    UserRoleEnum.MODERATOR,
+]);
 
 const JOINED_FORMAT = new Intl.DateTimeFormat(APP_LOCALE_TAG, {
     day: 'numeric',

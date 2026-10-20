@@ -4,7 +4,7 @@ import type { Href } from 'expo-router';
 import { Star, User } from 'lucide-react-native';
 import { View } from 'react-native';
 
-import type { ContentStatusEnum } from '@hikka/api';
+import { ContentStatusEnum, ContentTypeEnum } from '@hikka/api';
 import {
     contentPath,
     getMediaTypeLabel,
@@ -25,24 +25,18 @@ import { Text } from '@/components/ui/text';
 
 import type { SearchItem } from './queries';
 
-const STATUS_BADGE = new Set<string>([
-    'ongoing',
-    'finished',
-    'announced',
-    'discontinued',
-    'paused',
-]);
+const STATUS_BADGE = new Set<string>(Object.values(ContentStatusEnum));
 
 function subtitle(item: SearchItem) {
     switch (item.data_type) {
-        case 'anime':
+        case ContentTypeEnum.ANIME:
             return item.title_ja;
-        case 'manga':
-        case 'novel':
+        case ContentTypeEnum.MANGA:
+        case ContentTypeEnum.NOVEL:
             return item.title_original;
-        case 'character':
+        case ContentTypeEnum.CHARACTER:
             return item.name_ja;
-        case 'person':
+        case ContentTypeEnum.PERSON:
             return item.name_native;
     }
 }
@@ -55,9 +49,9 @@ type Props = {
 const SearchResultRow: FC<Props> = ({ item }) => {
     const original = subtitle(item);
     const content =
-        item.data_type === 'anime' ||
-        item.data_type === 'manga' ||
-        item.data_type === 'novel'
+        item.data_type === ContentTypeEnum.ANIME ||
+        item.data_type === ContentTypeEnum.MANGA ||
+        item.data_type === ContentTypeEnum.NOVEL
             ? item
             : null;
     const meta = content

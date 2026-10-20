@@ -1,11 +1,12 @@
 import { describe, expect, it } from 'vitest';
 
+import { DATE_RANGE } from '@hikka/core';
+
 import {
     clearFilters,
     cycleGenre,
     genreState,
-    getActiveFilters,
-    removeFilter,
+    setDateRangeEnabled,
     setParam,
     toggleValue,
 } from './filter-params';
@@ -72,82 +73,31 @@ describe('clearFilters', () => {
     });
 });
 
-describe('getActiveFilters', () => {
-    it('labels enums from core and genres from the names map', () => {
-        const filters = getActiveFilters(
-            {
-                statuses: ['ongoing'],
-                types: ['tv'],
-                genres: ['action', '-drama'],
-                seasons: ['fall'],
-                ratings: ['pg_13'],
-            },
-            { names: { action: 'Екшн', drama: 'Драма' } },
-        );
-
-        expect(filters.map((filter) => filter.label)).toEqual([
-            'Екшн',
-            'Драма',
-            'Онґоїнґ',
-            'TV Серіал',
-            'Осінь',
-            'PG-13',
-        ]);
-        expect(filters.find((f) => f.value === '-drama')?.excluded).toBe(true);
-    });
-
-    it('shows ranges, booleans and the date range as one chip each', () => {
-        const filters = getActiveFilters({
-            years: [2000, 2010],
-            score: [7, 10],
-            only_translated: true,
-            date_range_enabled: true,
-            date_range: [-1, 0],
-            sort: 'score',
-            page: 2,
-        });
-
-        expect(filters.map((filter) => filter.label)).toEqual([
-            'Часовий проміжок',
-            '2000–2010',
-            'Оцінка 7–10',
-            'Перекладено українською',
-        ]);
-    });
-
-    it('shows hide_listed only with a session', () => {
-        expect(getActiveFilters({ hide_listed: true })).toEqual([]);
+describe('setDateRangeEnabled', () => {
+    it('applies the full range and drops the season and year filters it hides', () => {
         expect(
-            getActiveFilters({ hide_listed: true }, { signedIn: true }),
-        ).toHaveLength(1);
-    });
-});
-
-describe('removeFilter', () => {
-    it('removes one value of a list', () => {
-        const search = { genres: ['action', '-drama'], page: 2 };
-        const [, drama] = getActiveFilters(search);
-
-        expect(removeFilter(search, drama)).toEqual({ genres: ['action'] });
-    });
-
-    it('removes the date range together with its switch', () => {
-        const search = {
+            setDateRangeEnabled(
+                {
+                    seasons: ['fall'],
+                    years: [2000, 2010],
+                    genres: ['action'],
+                    page: 2,
+                },
+                true,
+            ),
+        ).toEqual({
+            genres: ['action'],
+            date_range: DATE_RANGE,
             date_range_enabled: true,
-            date_range: [-1, 0],
-            years: [2000, 2010],
-        };
-        const [dateRange] = getActiveFilters(search);
-
-        expect(removeFilter(search, dateRange)).toEqual({
-            years: [2000, 2010],
         });
     });
 
-    it('drops a range param', () => {
-        const search = { score: [7, 10] };
-        const [score] = getActiveFilters(search);
-
-        expect(removeFilter(search, score)).toEqual({});
+    it('removes the range with the switch', () => {
+        expect(
+            setDateRangeEnabled(
+                { date_range_enabled: true, date_range: [-1, 0] },
+                false,
+            ),
+        ).toEqual({});
     });
 });

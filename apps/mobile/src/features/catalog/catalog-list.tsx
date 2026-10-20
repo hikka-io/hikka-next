@@ -15,8 +15,8 @@ import { useSession } from '@/features/auth';
 import {
     ActiveFilters,
     clearFilters,
-    getActiveFilters,
     useCatalogSearch,
+    useHasActiveFilters,
     useUpdateCatalogSearch,
 } from '@/features/filters';
 
@@ -43,7 +43,8 @@ const SKELETON_ITEMS: null[] = Array.from(
 );
 
 const CatalogList: FC = () => {
-    const { type, view } = useCatalogPrefs();
+    const type = useCatalogPrefs((state) => state.type);
+    const view = useCatalogPrefs((state) => state.view);
     const search = useCatalogSearch(type);
     const update = useUpdateCatalogSearch(type);
     const { hasToken } = useSession();
@@ -63,8 +64,7 @@ const CatalogList: FC = () => {
     const list: (CatalogItem | null)[] = isPending
         ? SKELETON_ITEMS
         : (data?.pages.flatMap((page) => page.list) ?? []);
-    const filtered =
-        getActiveFilters(search, { signedIn: hasToken }).length > 0;
+    const filtered = useHasActiveFilters(type);
 
     const empty = error ? (
         <EmptyState
@@ -104,7 +104,10 @@ const CatalogList: FC = () => {
             contentContainerStyle={grid ? GRID_CONTAINER : LIST_CONTAINER}
             data={list}
             numColumns={grid ? GRID_COLUMNS : 1}
-            keyExtractor={(item, index) => item?.slug ?? `skeleton-${index}`}
+            // A title can move between pages while paging, so the index keeps keys unique.
+            keyExtractor={(item, index) =>
+                item ? `${item.slug}:${index}` : `skeleton-${index}`
+            }
             renderItem={({ item }) => {
                 if (grid) {
                     return (

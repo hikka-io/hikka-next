@@ -61,9 +61,7 @@ const ResultList: FC<ListProps> = ({
             data={data}
             keyExtractor={(item, index) =>
                 item
-                    ? 'reference' in item
-                        ? item.reference
-                        : item.slug
+                    ? `${'reference' in item ? item.reference : item.slug}:${index}`
                     : `skeleton-${index}`
             }
             renderItem={({ item }) => {
