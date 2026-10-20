@@ -134,6 +134,38 @@ Not implemented. The current flow (`GET /auth/oauth/google` for a redirect URL, 
 - Then reuse the code flow unchanged: the JWT `sub` is the same Google user id that `userinfo/v2/me` returns as `id`, so `get_oauth_by_id(sub, "google")` finds already linked accounts; keep the `email-exists` check, `create_oauth_user`, `update_oauth_timestamp`, the `LOG_LOGIN_OAUTH` log and `create_auth_token`.
 - No captcha, like the existing OAuth flow. It needs an iOS and an Android OAuth client in the Google Cloud project.
 
+## Auth flows: signup, password reset, activation
+
+Built in `src/features/auth/` and verified on the iPhone 16 Pro / iOS 18.2 simulator against the local backend (captcha bypass, throwaway account, tokens read from `service_email_messages`).
+
+- **Routes.** Root-stack `formSheet`s: `signup`, `reset` (request), `auth/reset/[token]` (confirm), `auth/activate/[token]`. The login sheet links to `signup` ("Зареєструйтесь зараз") and `reset` ("Забули пароль?") with `router.replace`, so only one sheet is ever open. `reset/[token]` is a redirect alias to `auth/reset/[token]`, because the web serves its form at `/reset/<token>`.
+- **Email links.** The backend templates (`app/sync/data/*.markup`) send `https://hikka.io/auth/activate/<token>` and `https://hikka.io/auth/reset/<token>`; the file routes match those paths, so one route table serves the custom scheme (`hikka://auth/activate/<token>`), Expo Go (`exp://<host>/--/auth/...`) and universal links. Activation calls `POST /auth/activation` and signs the user in with the returned token; reset confirm calls `POST /auth/password/confirm` and signs in too. Both close the whole sheet stack (`useCloseAuthFlow`: `dismissAll`, then back, then replace to `/`), since a link may open over another auth sheet. The root layout sets `unstable_settings.anchor = '(tabs)'` so a link that cold-starts the app keeps the tabs under the sheet instead of showing the sheet as the only screen.
+- **Signup.** Username (`usernameSchema`, the API pattern `^[A-Za-z][A-Za-z0-9_]{4,63}$`), email (`emailSchema`, no `+`, signup only: login keeps the free-form identifier), password and confirmation (`matchFields`), Turnstile. After success the user is signed in and sees a toast; the not-activated notice (`ActivationAlert`, web copy) sits in the Profile tab.
+- **Resend.** `POST /auth/activation/resend` needs the session and fails with `auth:activation_valid` while the previous token is still valid; the notice maps that to the web's "link still active" toast. The web's code `auth-modal:activation_valid` is stale; the backend sends `auth:activation_valid`.
+- **Password reset request has no captcha.** The backend `POST /auth/password/reset` has no `check_captcha` dependency and the web form has no captcha either, so the mobile form sends none. Only login and signup use Turnstile.
+- **Expiry.** Activation links stay valid for as long as `activation_expire` says; an invalid or expired token shows the backend message ("Поганий токен активації") in the sheet with a close button, where the web silently redirects home.
+
+### Universal links and Android App Links (not enabled, server untouched)
+
+The custom scheme works today. Opening the same `https://hikka.io/auth/...` links from the mail app straight in the app needs both sides:
+
+1. `app.json`, iOS: `"ios": { "associatedDomains": ["applinks:hikka.io"] }` (EAS adds the Associated Domains capability to the App ID).
+2. `app.json`, Android: under `"android"`, `"intentFilters": [{ "action": "VIEW", "autoVerify": true, "data": [{ "scheme": "https", "host": "hikka.io", "pathPrefix": "/auth/activate" }, { "scheme": "https", "host": "hikka.io", "pathPrefix": "/auth/reset" }], "category": ["BROWSABLE", "DEFAULT"] }]`. Keep the prefixes narrow so the rest of the site stays in the browser.
+3. hikka.io must serve `https://hikka.io/.well-known/apple-app-site-association` (no extension, `application/json`, no redirect): `{ "applinks": { "details": [{ "appIDs": ["<TEAMID>.io.hikka.app"], "components": [{ "/": "/auth/activate/*" }, { "/": "/auth/reset/*" }] }] } }`.
+4. hikka.io must serve `https://hikka.io/.well-known/assetlinks.json`: `[{ "relation": ["delegate_permission/common.handle_all_urls"], "target": { "namespace": "android_app", "package_name": "io.hikka.app", "sha256_cert_fingerprints": ["<release signing key SHA-256>", "<Play app-signing key SHA-256 if used>"] } }]`.
+5. The web app's `/auth/activate/$token` server route currently consumes the token in the browser and sets the cookie; with universal links on, the OS opens the app first and the server route is never hit, so the token is spent by the app. Both can coexist: a device without the app falls through to the website.
+
+Universal links do not work in Expo Go or the simulator without a dev build signed with the domain entitlement; test with `xcrun simctl openurl booted hikka://auth/activate/<token>` (dev build) or the `exp://` form (Expo Go).
+
+### iOS 18.2 findings (iPhone 16 Pro simulator, no Liquid Glass)
+
+- Form sheets are plain full-width sheets with the system corner radius, not the floating glass card of iOS 26. A `fitToContents` sheet leaves a light-gray strip under the content (the screen's own background below the measured height); the iOS 26 card shows the same strip. Not fixed here: it needs a `contentStyle` background on the sheet screens in the root layout.
+- A `sheetAllowedDetents: [1]` sheet whose root is a plain `View` showed a gray area under the form on iOS 18; the signup form is a `ScrollView` with `flex-1`, which fills the sheet and also handles the keyboard (`automaticallyAdjustKeyboardInsets`).
+- **Strong Password autofill wedges two new-password fields.** With `textContentType="newPassword"` on both password and confirmation, iOS 18.2 laid its yellow "Automatic Strong Password cover view text" over both fields and typing stopped working. Only the first field keeps `newPassword` (so iOS can still offer to generate and save a password); the confirmation field has no content type and only gets `autoComplete="new-password"` on Android, because RN maps `autoComplete` onto `textContentType` on iOS. Reset-confirm does the same.
+- Dismissing or replacing a sheet that holds a filled password field makes iOS offer "Save Password?" (also after a failed login). That is the system's normal credential-capture behaviour with `textContentType="password"`; it is left on because saving the account is the point on a successful login.
+- Dark mode: tokens, inputs, the secondary button and the destructive text all render correctly; the sheet background follows the theme.
+- Simulator input quirk: `control text` returns before the characters render, and a tap during that window drops the rest of the text. Wait a few seconds between fields.
+
 ## Markdown renderer choice
 
 Decided 2026-10-20 (markdown task). The viewer must render the web's dialect: `:::spoiler` containers and `:spoiler[text]` inline directives, `[@name](<site>/u/<ref>)` mentions with live avatars, `~~` strikethrough, hikka.io links that open in-app, and no code, tables or bare-url autolinks (the web disables them too).

@@ -1,5 +1,6 @@
 export * from './active-filters';
 export * from './api-error-message';
+export * from './auth-schemas';
 export * from './catalog-search-args';
 export * from './content-cache';
 export * from './content-paths';

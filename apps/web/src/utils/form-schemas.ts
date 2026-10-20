@@ -1,106 +1,27 @@
 import { API_LIMITS, isWebUrl } from '@hikka/api';
-import { getDeclensionWord, parseUrl, SYMBOL_FORMS } from '@hikka/core';
+import {
+    atLeastSymbols as atLeast,
+    atMostSymbols as atMost,
+    parseUrl,
+} from '@hikka/core';
 
 import { z } from '@/utils/i18n-zod';
 
 // Each schema mirrors the backend validator for its field (hikka-io/hikka `app/schemas.py`, `app/client/schemas.py`).
 
+export {
+    emailSchema,
+    invalidUsernameCharacters,
+    matchFields,
+    passwordSchema,
+    USERNAME_HINT,
+    usernameSchema,
+} from '@hikka/core';
+
 /** `ClientCreate` / `ClientUpdate` endpoint limit (`app/constants.py`); the OpenAPI spec does not carry it. */
 const CLIENT_ENDPOINT_MAX_LENGTH = 128;
 
-export const USERNAME_HINT = `Латинські літери, цифри та _, від ${API_LIMITS.username.min} до ${API_LIMITS.username.max} символів`;
-
 export const ENDPOINT_HINT = 'Куди Hikka поверне користувача після входу';
-
-const USERNAME_ALLOWED = /^[A-Za-z0-9_]*$/;
-const USERNAME_FIRST = /^[A-Za-z]/;
-
-const atLeast = (min: number) =>
-    `Щонайменше ${min} ${getDeclensionWord(min, SYMBOL_FORMS)}`;
-
-const atMost = (max: number) => `Не більше ${max} символів`;
-
-export const invalidUsernameCharacters = (value: string): string[] => [
-    ...new Set([...value].filter((char) => !USERNAME_ALLOWED.test(char))),
-];
-
-const SHOWN_INVALID_CHARACTERS = 3;
-
-const showCharacter = (char: string) =>
-    /\s/.test(char) ? 'пробіл' : `«${char}»`;
-
-export const usernameSchema = z.string().superRefine((value, ctx) => {
-    const issue = (message: string) =>
-        ctx.addIssue({ code: z.ZodIssueCode.custom, message });
-
-    if (value.length === 0) {
-        return issue('Вкажіть нікнейм');
-    }
-
-    const invalid = [
-        ...new Set(invalidUsernameCharacters(value).map(showCharacter)),
-    ];
-
-    if (invalid.length > 0) {
-        const subject =
-            invalid.length === 1
-                ? 'Недопустимий символ'
-                : 'Недопустимі символи';
-        const shown = invalid.slice(0, SHOWN_INVALID_CHARACTERS).join(', ');
-        const more = invalid.length > SHOWN_INVALID_CHARACTERS ? '…' : '';
-
-        return issue(`${subject}: ${shown}${more}`);
-    }
-
-    if (!USERNAME_FIRST.test(value)) {
-        return issue('Має починатися з літери');
-    }
-
-    if (value.length < API_LIMITS.username.min) {
-        return issue(atLeast(API_LIMITS.username.min));
-    }
-
-    if (value.length > API_LIMITS.username.max) {
-        return issue(atMost(API_LIMITS.username.max));
-    }
-});
-
-const EMAIL_FORMAT = z.string().email();
-
-/** `EmailArgs.email`: the API also refuses any address with a `+` (`check_email`). */
-export const emailSchema = z.string().superRefine((value, ctx) => {
-    const issue = (message: string) =>
-        ctx.addIssue({ code: z.ZodIssueCode.custom, message });
-
-    if (value.length === 0) {
-        return issue('Вкажіть email');
-    }
-
-    if (!EMAIL_FORMAT.safeParse(value).success) {
-        return issue('Некоректний email');
-    }
-
-    if (value.includes('+')) {
-        return issue('Адреси з «+» не підтримуються');
-    }
-});
-
-export const passwordSchema = z
-    .string()
-    .min(API_LIMITS.password.min, atLeast(API_LIMITS.password.min))
-    .max(API_LIMITS.password.max, atMost(API_LIMITS.password.max));
-
-export const matchFields = <Field extends string>(
-    field: Field,
-    confirmation: Field,
-    message: string,
-): [
-    (data: Record<Field, unknown>) => boolean,
-    { message: string; path: [Field] },
-] => [
-    (data) => data[field] === data[confirmation],
-    { message, path: [confirmation] },
-];
 
 // The API runs `utils.remove_bad_characters` and `.strip()` before checking the length.
 const BAD_CHARACTERS = /[\u2800\ufff4]/g;

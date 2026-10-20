@@ -15,6 +15,9 @@ configureBrowserClient({
     authToken: readStoredAuthToken(),
 });
 
+// Deep links to a sheet route (email links) keep the tabs underneath instead of opening the sheet as the only screen.
+export const unstable_settings = { anchor: '(tabs)' };
+
 export default function RootLayout() {
     const scheme = useColorScheme();
 
@@ -25,6 +28,38 @@ export default function RootLayout() {
                     <Stack.Screen name="(tabs)" />
                     <Stack.Screen
                         name="login"
+                        options={{
+                            presentation: 'formSheet',
+                            sheetAllowedDetents: 'fitToContents',
+                            sheetGrabberVisible: true,
+                        }}
+                    />
+                    <Stack.Screen
+                        name="signup"
+                        options={{
+                            presentation: 'formSheet',
+                            sheetAllowedDetents: [1],
+                            sheetGrabberVisible: true,
+                        }}
+                    />
+                    <Stack.Screen
+                        name="reset"
+                        options={{
+                            presentation: 'formSheet',
+                            sheetAllowedDetents: 'fitToContents',
+                            sheetGrabberVisible: true,
+                        }}
+                    />
+                    <Stack.Screen
+                        name="auth/reset/[token]"
+                        options={{
+                            presentation: 'formSheet',
+                            sheetAllowedDetents: 'fitToContents',
+                            sheetGrabberVisible: true,
+                        }}
+                    />
+                    <Stack.Screen
+                        name="auth/activate/[token]"
                         options={{
                             presentation: 'formSheet',
                             sheetAllowedDetents: 'fitToContents',

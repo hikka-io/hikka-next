@@ -3,12 +3,13 @@ import type { FC } from 'react';
 import { Link } from 'expo-router';
 import { ActivityIndicator, View } from 'react-native';
 
-import { HikkaApiError } from '@hikka/api';
+import { HikkaApiError, UserRoleEnum } from '@hikka/api';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Text } from '@/components/ui/text';
 
+import ActivationAlert from './activation-alert';
 import { FALLBACK_ERROR } from './constants';
 import { useSession } from './use-session';
 
@@ -41,6 +42,9 @@ const ProfileSummary: FC = () => {
                         {user.email}
                     </Text>
                 </View>
+                {user.role === UserRoleEnum.NOT_ACTIVATED && user.username ? (
+                    <ActivationAlert username={user.username} />
+                ) : null}
             </View>
         );
     }
