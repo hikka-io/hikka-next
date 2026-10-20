@@ -23,7 +23,7 @@ export const useOpenLink = () => {
         }
 
         Alert.alert('Ви впевнені, що хочете відкрити посилання?', target.url, [
-            { text: 'Відмінити', style: 'cancel' },
+            { text: 'Скасувати', style: 'cancel' },
             { text: 'Продовжити', onPress: () => openBrowserAsync(target.url) },
         ]);
     };

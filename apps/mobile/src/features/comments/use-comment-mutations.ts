@@ -59,7 +59,7 @@ export function useCommentVote(comment: CommentResponse) {
             applyCommentVote(queryClient, reference, data.score),
         onError: (error, { reference, previous }) => {
             void applyCommentVote(queryClient, reference, previous);
-            failed(error, 'Не вдалося проголосувати');
+            failed(error, 'Не вдалося зберегти голос');
         },
     });
 
