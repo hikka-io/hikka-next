@@ -8,16 +8,16 @@ import { toast } from 'sonner-native';
 import { z } from 'zod';
 
 import { signupMutation } from '@hikka/api';
-
-import { Button } from '@/components/ui/button';
-import { Text } from '@/components/ui/text';
 import {
     emailSchema,
     matchFields,
     passwordSchema,
     USERNAME_HINT,
     usernameSchema,
-} from '@/utils/form-schemas';
+} from '@hikka/core';
+
+import { Button } from '@/components/ui/button';
+import { Text } from '@/components/ui/text';
 
 import AuthHeader from './auth-header';
 import CaptchaSlot from './captcha-slot';

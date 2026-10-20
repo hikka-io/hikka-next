@@ -7,10 +7,10 @@ import { View } from 'react-native';
 import { z } from 'zod';
 
 import { resetPasswordMutation } from '@hikka/api';
+import { emailSchema } from '@hikka/core';
 
 import { Button } from '@/components/ui/button';
 import { Text } from '@/components/ui/text';
-import { emailSchema } from '@/utils/form-schemas';
 
 import AuthHeader from './auth-header';
 import { errorMessage } from './error-message';

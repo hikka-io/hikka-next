@@ -4,13 +4,12 @@ import { API_LIMITS } from '@hikka/api';
 
 import {
     emailSchema,
-    identifierSchema,
     invalidUsernameCharacters,
     matchFields,
     passwordSchema,
     USERNAME_HINT,
     usernameSchema,
-} from './form-schemas';
+} from './auth-schemas';
 
 const messages = (
     schema: {
@@ -69,18 +68,6 @@ describe('emailSchema', () => {
         ['user+tag@example.com', 'Адреси з «+» не підтримуються'],
     ])('rejects %j', (value, message) => {
         expect(messages(emailSchema, value)).toEqual([message]);
-    });
-});
-
-describe('identifierSchema', () => {
-    it('keeps accepting an email with a plus on login', () => {
-        expect(messages(identifierSchema, 'user+tag@example.com')).toEqual([]);
-    });
-
-    it('requires the minimum username length', () => {
-        expect(messages(identifierSchema, 'abcd')).toEqual([
-            'Щонайменше 5 символів',
-        ]);
     });
 });
 

@@ -7,9 +7,9 @@ import { toast } from 'sonner-native';
 import { z } from 'zod';
 
 import { passwordResetMutation } from '@hikka/api';
+import { matchFields, passwordSchema } from '@hikka/core';
 
 import { Text } from '@/components/ui/text';
-import { matchFields, passwordSchema } from '@/utils/form-schemas';
 
 import AuthHeader from './auth-header';
 import { errorMessage } from './error-message';

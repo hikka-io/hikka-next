@@ -7,10 +7,11 @@ import { View } from 'react-native';
 import { z } from 'zod';
 
 import { loginMutation } from '@hikka/api';
+import { passwordSchema } from '@hikka/core';
 
 import { Button } from '@/components/ui/button';
 import { Text } from '@/components/ui/text';
-import { identifierSchema, passwordSchema } from '@/utils/form-schemas';
+import { identifierSchema } from '@/utils/form-schemas';
 
 import AuthHeader from './auth-header';
 import CaptchaSlot from './captcha-slot';
