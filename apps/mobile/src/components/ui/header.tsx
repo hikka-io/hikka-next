@@ -119,7 +119,7 @@ const HeaderTitle: FC<PropsWithChildren<HeaderTitleProps>> = ({
             role="heading"
             onPress={onPress}
             className={cn(
-                '-mx-1.5 min-h-11 flex-row items-center gap-1 rounded-md px-1.5 active:opacity-60',
+                '-mx-1.5 min-h-11 flex-row items-center gap-1 rounded-md px-1.5 active:opacity-70',
                 truncate && 'min-w-0 shrink',
                 className,
             )}

@@ -129,7 +129,7 @@ const TextExpand: FC<PropsWithChildren<Props>> = ({
                     onPress={() =>
                         onReadMore ? onReadMore() : setExpanded(!expanded)
                     }
-                    className="min-h-11 min-w-11 justify-center self-start active:opacity-60"
+                    className="min-h-11 min-w-11 justify-center self-start active:opacity-70"
                 >
                     <Text
                         className={cn(

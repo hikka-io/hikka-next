@@ -86,7 +86,7 @@ const SynonymsRow: FC<{ synonyms: string[] }> = ({ synonyms }) => {
                         : `Ще ${hidden}, торкніться, щоб показати`
                 }
                 onPress={() => setExpanded(!expanded)}
-                className="min-h-11 justify-center active:opacity-60"
+                className="min-h-11 justify-center active:opacity-70"
             >
                 <Text className="text-right font-medium text-sm leading-tight">
                     {expanded ? synonyms.join(', ') : preview}
