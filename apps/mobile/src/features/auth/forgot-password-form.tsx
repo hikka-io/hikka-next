@@ -10,10 +10,11 @@ import { resetPasswordMutation } from '@hikka/api';
 import { emailSchema } from '@hikka/core';
 
 import { Button } from '@/components/ui/button';
-import { Text } from '@/components/ui/text';
 
 import AuthHeader from './auth-header';
 import { errorMessage } from './error-message';
+import FieldChain from './field-chain';
+import FormMessage from './form-message';
 import FormTextField from './form-text-field';
 import SubmitButton from './submit-button';
 
@@ -36,62 +37,63 @@ const ForgotPasswordForm: FC = () => {
     );
 
     return (
-        <View className="gap-4 bg-background p-6">
-            <AuthHeader title="Відновити пароль">
-                Будь ласка, введіть дані для отримання листа відновлення.
-            </AuthHeader>
+        <FieldChain onSubmit={form.handleSubmit}>
+            <View className="gap-4 bg-background p-6">
+                <AuthHeader title="Відновити пароль">
+                    Будь ласка, введіть дані для отримання листа відновлення.
+                </AuthHeader>
 
-            {reset.isSuccess ? (
-                <Text className="text-sm">
-                    {reset.data.username}, ми успішно надіслали Вам лист для
-                    відновлення паролю на вашу поштову адресу.
-                </Text>
-            ) : (
-                <form.Field name="email">
-                    {(field) => (
-                        <FormTextField
-                            field={field}
-                            submitted={submitted}
-                            label="Email"
-                            placeholder="Введіть ваш email"
-                            autoCapitalize="none"
-                            autoComplete="email"
-                            autoCorrect={false}
-                            keyboardType="email-address"
-                            clearButtonMode="while-editing"
-                            textContentType="emailAddress"
-                            returnKeyType="go"
-                            onSubmitEditing={form.handleSubmit}
-                            editable={!reset.isPending}
-                        />
-                    )}
-                </form.Field>
-            )}
+                {reset.isSuccess ? (
+                    <FormMessage
+                        tone="info"
+                        className="text-foreground"
+                        message={`${reset.data.username}, ми успішно надіслали Вам лист для відновлення паролю на вашу поштову адресу.`}
+                    />
+                ) : (
+                    <form.Field name="email">
+                        {(field) => (
+                            <FormTextField
+                                field={field}
+                                submitted={submitted}
+                                label="Email"
+                                placeholder="Введіть ваш email"
+                                autoCapitalize="none"
+                                autoComplete="email"
+                                autoCorrect={false}
+                                keyboardType="email-address"
+                                clearButtonMode="while-editing"
+                                textContentType="emailAddress"
+                                editable={!reset.isPending}
+                            />
+                        )}
+                    </form.Field>
+                )}
 
-            {reset.error ? (
-                <Text className="text-destructive-foreground text-sm">
-                    {errorMessage(reset.error)}
-                </Text>
-            ) : null}
-
-            {reset.isSuccess ? null : (
-                <SubmitButton
-                    label="Відновити"
-                    busy={reset.isPending}
-                    onPress={form.handleSubmit}
+                <FormMessage
+                    message={
+                        reset.error ? errorMessage(reset.error) : undefined
+                    }
                 />
-            )}
 
-            <Button
-                variant="secondary"
-                containerClassName="self-stretch"
-                className="w-full"
-                disabled={reset.isPending}
-                onPress={() => router.replace('/login')}
-            >
-                Повернутись до входу
-            </Button>
-        </View>
+                {reset.isSuccess ? null : (
+                    <SubmitButton
+                        label="Відновити"
+                        busy={reset.isPending}
+                        onPress={form.handleSubmit}
+                    />
+                )}
+
+                <Button
+                    variant="secondary"
+                    containerClassName="self-stretch"
+                    className="w-full"
+                    disabled={reset.isPending}
+                    onPress={() => router.replace('/login')}
+                >
+                    Повернутись до входу
+                </Button>
+            </View>
+        </FieldChain>
     );
 };
 

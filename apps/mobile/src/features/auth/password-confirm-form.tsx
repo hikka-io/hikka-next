@@ -12,7 +12,10 @@ import { matchFields, passwordSchema } from '@hikka/core';
 import { Text } from '@/components/ui/text';
 
 import AuthHeader from './auth-header';
+import { CONFIRM_PASSWORD_AUTO_COMPLETE } from './constants';
 import { errorMessage } from './error-message';
+import FieldChain from './field-chain';
+import FormMessage from './form-message';
 import FormTextField from './form-text-field';
 import { signIn } from './session';
 import SubmitButton from './submit-button';
@@ -59,54 +62,54 @@ const PasswordConfirmForm: FC<Props> = ({ token, onSuccess }) => {
     const busy = confirm.isPending || confirm.isSuccess;
 
     return (
-        <View className="gap-4 bg-background p-6">
-            <AuthHeader title="Новий пароль">
-                Будь ласка, введіть новий пароль.
-            </AuthHeader>
+        <FieldChain onSubmit={form.handleSubmit}>
+            <View className="gap-4 bg-background p-6">
+                <AuthHeader title="Новий пароль">
+                    Будь ласка, введіть новий пароль.
+                </AuthHeader>
 
-            <form.Field name="password">
-                {(field) => (
-                    <FormTextField
-                        field={field}
-                        submitted={submitted}
-                        label="Пароль"
-                        placeholder="Введіть пароль"
-                        secureTextEntry
-                        autoComplete="new-password"
-                        textContentType="newPassword"
-                        returnKeyType="next"
-                        editable={!busy}
-                    />
-                )}
-            </form.Field>
+                <form.Field name="password">
+                    {(field) => (
+                        <FormTextField
+                            field={field}
+                            submitted={submitted}
+                            label="Пароль"
+                            placeholder="Введіть пароль"
+                            secureTextEntry
+                            autoComplete="new-password"
+                            textContentType="newPassword"
+                            editable={!busy}
+                        />
+                    )}
+                </form.Field>
 
-            <form.Field name="passwordConfirmation">
-                {(field) => (
-                    <FormTextField
-                        field={field}
-                        submitted={submitted}
-                        label="Підтвердження паролю"
-                        placeholder="Повторіть пароль"
-                        secureTextEntry
-                        returnKeyType="go"
-                        onSubmitEditing={form.handleSubmit}
-                        editable={!busy}
-                    />
-                )}
-            </form.Field>
+                <form.Field name="passwordConfirmation">
+                    {(field) => (
+                        <FormTextField
+                            field={field}
+                            submitted={submitted}
+                            label="Підтвердження паролю"
+                            placeholder="Повторіть пароль"
+                            secureTextEntry
+                            autoComplete={CONFIRM_PASSWORD_AUTO_COMPLETE}
+                            editable={!busy}
+                        />
+                    )}
+                </form.Field>
 
-            {confirm.error ? (
-                <Text className="text-destructive-foreground text-sm">
-                    {errorMessage(confirm.error)}
-                </Text>
-            ) : null}
+                <FormMessage
+                    message={
+                        confirm.error ? errorMessage(confirm.error) : undefined
+                    }
+                />
 
-            <SubmitButton
-                label="Відновити"
-                busy={busy}
-                onPress={form.handleSubmit}
-            />
-        </View>
+                <SubmitButton
+                    label="Відновити"
+                    busy={busy}
+                    onPress={form.handleSubmit}
+                />
+            </View>
+        </FieldChain>
     );
 };
 

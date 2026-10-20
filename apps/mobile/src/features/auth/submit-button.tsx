@@ -16,13 +16,14 @@ const SubmitButton: FC<Props> = ({ label, busy, disabled, onPress }) => (
         containerClassName="self-stretch"
         className="w-full"
         disabled={disabled || busy}
+        accessibilityLabel={label}
+        accessibilityState={{ busy, disabled: disabled || busy }}
         onPress={onPress}
     >
         {busy ? (
             <ActivityIndicator colorClassName="accent-primary-foreground" />
-        ) : (
-            label
-        )}
+        ) : null}
+        {label}
     </Button>
 );
 
