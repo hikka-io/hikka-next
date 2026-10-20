@@ -43,18 +43,21 @@ const ReferenceRedirect: FC<{ reference: string }> = ({ reference }) => {
         }
     }, [data, router]);
 
-    if (error || (data && !data.username)) {
-        return (
-            <ErrorState
-                error={error}
-                onRetry={() => void refetch()}
-                notFound={!error || isNotFoundError(error)}
-                notFoundTitle="Користувача не знайдено"
-            />
-        );
-    }
-
-    return <UserSkeleton />;
+    return (
+        <>
+            <DetailHeaderChrome title="" />
+            {error || (data && !data.username) ? (
+                <ErrorState
+                    error={error}
+                    onRetry={() => void refetch()}
+                    notFound={!error || isNotFoundError(error)}
+                    notFoundTitle="Користувача не знайдено"
+                />
+            ) : (
+                <UserSkeleton />
+            )}
+        </>
+    );
 };
 
 const UserProfile: FC<Props> = ({ username, headerChrome = true }) => {
