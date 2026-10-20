@@ -9,6 +9,7 @@ import {
     Section,
     Toggle,
 } from '@expo/ui/swift-ui';
+import { accessibilityLabel as accessibilityLabelModifier } from '@expo/ui/swift-ui/modifiers';
 import { View } from 'react-native';
 
 import type { NativeMenuProps } from './native-menu';
@@ -63,6 +64,7 @@ const NativeMenu: FC<NativeMenuProps> = ({
     width,
     height,
     title,
+    accessibilityLabel,
     children,
 }) => {
     const items = actions.map((action) => renderAction(action, onAction));
@@ -70,9 +72,18 @@ const NativeMenu: FC<NativeMenuProps> = ({
     return (
         <Host style={{ width, height }} ignoreSafeArea="all">
             <Menu
+                modifiers={[accessibilityLabelModifier(accessibilityLabel)]}
                 label={
                     <RNHostView>
-                        <View style={{ width, height }}>{children}</View>
+                        {/* The SwiftUI menu button is the VoiceOver element; a hosted view inside
+                            it would take the focus and swallow the double tap. */}
+                        <View
+                            accessibilityElementsHidden
+                            importantForAccessibility="no-hide-descendants"
+                            style={{ width, height }}
+                        >
+                            {children}
+                        </View>
                     </RNHostView>
                 }
             >

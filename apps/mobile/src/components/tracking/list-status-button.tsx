@@ -192,7 +192,11 @@ const ListStatusButton: FC<Props> = ({
             : []),
     ];
 
-    const withMenu = (trigger: ReactElement, width: number) => (
+    const withMenu = (
+        trigger: ReactElement,
+        width: number,
+        accessibilityLabel: string,
+    ) => (
         <View style={{ width, height: TRIGGER_HEIGHT }}>
             {blocked ? (
                 trigger
@@ -200,6 +204,7 @@ const ListStatusButton: FC<Props> = ({
                 <NativeMenu
                     actions={actions}
                     onAction={handleAction}
+                    accessibilityLabel={accessibilityLabel}
                     width={width}
                     height={TRIGGER_HEIGHT}
                 >
@@ -270,6 +275,7 @@ const ListStatusButton: FC<Props> = ({
                                 )}
                             </Segment>,
                             fillWidth,
+                            `Список: ${status?.title ?? ADD_LABEL}`,
                         )}
                 </View>
                 <Button
@@ -324,6 +330,7 @@ const ListStatusButton: FC<Props> = ({
                     <Icon as={ChevronDown} />
                 </Segment>,
                 CHEVRON_WIDTH,
+                'Вибрати список',
             )}
         </View>
     );

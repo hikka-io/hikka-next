@@ -34,7 +34,11 @@ import {
     kindOf,
     type ListEntry,
 } from './tracking-body';
-import { useDeleteListEntry, useSaveListEntry } from './use-tracking-mutations';
+import {
+    useDeleteListEntry,
+    useSaveListEntry,
+    useSavePending,
+} from './use-tracking-mutations';
 
 type Props = {
     contentType: MainContentTypeEnum;
@@ -42,7 +46,7 @@ type Props = {
     title: string;
     /** `null`: not in the list yet, the save creates the entry. */
     entry: ListEntry | null;
-    content?: ContentInfo;
+    content: ContentInfo;
     onClose: () => void;
 };
 
@@ -85,7 +89,12 @@ const ListEntryForm: FC<Props> = ({
         },
     });
     // A deleted entry stays deleted until the sheet closes: no save may re-create it.
-    const busy = save.isPending || remove.isPending || remove.isSuccess;
+    // Any write for this title (another control included) freezes the draft until it lands.
+    const busy =
+        useSavePending(slug) ||
+        save.isPending ||
+        remove.isPending ||
+        remove.isSuccess;
 
     const update = (patch: Partial<EntryDraft>) =>
         setDraft((current) => ({ ...current, ...patch }));
@@ -125,11 +134,9 @@ const ListEntryForm: FC<Props> = ({
     const style = statusStyle(status?.value);
     const repeatsLabel =
         kind === 'watch' ? 'Повторні перегляди' : 'Повторні читання';
-    const readTotals = content && 'chapters' in content ? content : undefined;
+    const readTotals = 'chapters' in content ? content : undefined;
     const animeTotal =
-        content && 'episodes_total' in content
-            ? content.episodes_total
-            : undefined;
+        'episodes_total' in content ? content.episodes_total : undefined;
 
     return (
         <View className="gap-4">
@@ -158,13 +165,9 @@ const ListEntryForm: FC<Props> = ({
                                 void Haptics.selectionAsync();
                                 update({ status: id });
                             }}
+                            accessibilityLabel={`Список: ${status?.title ?? ''}`}
                         >
-                            <View
-                                accessible
-                                accessibilityRole="button"
-                                accessibilityLabel={`Список: ${status?.title ?? ''}`}
-                                className="h-11 flex-row items-center gap-2"
-                            >
+                            <View className="h-11 flex-row items-center gap-2">
                                 <Text className="flex-1 text-base">Список</Text>
                                 <View
                                     className={cn(

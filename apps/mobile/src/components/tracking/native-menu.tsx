@@ -5,6 +5,8 @@ import { type MenuAction, MenuView } from '@expo/ui/community/menu';
 export type NativeMenuProps = {
     actions: MenuAction[];
     onAction: (id: string) => void;
+    /** VoiceOver label of the menu button (iOS; Android reads the trigger's text). */
+    accessibilityLabel: string;
     /** The trigger box: the native host does not size itself in the Yoga layout. */
     width: number;
     height: number;
