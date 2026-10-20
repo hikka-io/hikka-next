@@ -15,10 +15,15 @@ import EmptyState from '@/components/ui/empty-state';
 import { Field, FieldLabel, FieldTitle } from '@/components/ui/field';
 import { Header, HeaderActions, HeaderTitle } from '@/components/ui/header';
 import {
+    STICKY_BAR_CLASS_NAME,
+    SURFACE_VARIANTS,
+} from '@/components/ui/surface';
+import {
     useSession,
     useSessionUI,
     useUpdateSessionUI,
 } from '@/services/session';
+import { cn } from '@/utils/cn';
 
 import { homeFeedOptions } from '../../queries';
 import type { WidgetProps } from '../../types';
@@ -149,9 +154,20 @@ const FeedWidget: FC<WidgetProps> = ({ isLast }) => {
                 </HeaderActions>
             </Header>
 
-            <FeedQuickFilters value={filters} onChange={handleFiltersChange} />
+            <div
+                className={cn(
+                    '-mx-4 -mt-4 border-b',
+                    SURFACE_VARIANTS.surface,
+                    STICKY_BAR_CLASS_NAME,
+                )}
+            >
+                <FeedQuickFilters
+                    value={filters}
+                    onChange={handleFiltersChange}
+                />
+            </div>
 
-            <BlockBleed className="-mb-4 divide-y divide-border border-border border-t">
+            <BlockBleed className="-mt-4 -mb-4 divide-y divide-border">
                 {isPending && !allSectionsDisabled
                     ? Array.from({ length: 3 }).map((_, i) => (
                           <FeedItemSkeleton key={i} />

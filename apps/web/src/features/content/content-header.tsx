@@ -8,6 +8,7 @@ import { MaterialSymbolsChevronRightRounded } from '@/components/icons/material-
 import Block from '@/components/ui/block';
 import { ChipTabs } from '@/components/ui/chip-tabs';
 import { Header, HeaderActions, HeaderTitle } from '@/components/ui/header';
+import { STICKY_BAR_CLASS_NAME } from '@/components/ui/surface';
 import TextLink from '@/components/ui/text-link';
 import { usePageTitleAnchor } from '@/features/app-shell';
 import { cn } from '@/utils/cn';
@@ -94,7 +95,10 @@ const ContentHeader: FC<Props> = ({
                 <Block
                     variant="card"
                     flushOnMobile
-                    className="rounded-t-none border-t-0 p-2 backdrop-blur sm:rounded-t-none md:sticky md:top-16 md:z-1"
+                    className={cn(
+                        'rounded-t-none border-t-0 sm:rounded-t-none',
+                        STICKY_BAR_CLASS_NAME,
+                    )}
                 >
                     <ChipTabs
                         options={routes.map((route) => ({
@@ -103,7 +107,6 @@ const ContentHeader: FC<Props> = ({
                             to: route.url,
                         }))}
                         value={current?.slug ?? ''}
-                        className="mr-0 pr-0"
                     />
                 </Block>
             )}
