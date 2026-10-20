@@ -6,46 +6,14 @@ import {
     patchQueries,
 } from './content-cache';
 import { type FollowChange, patchEmbeddedFollow } from './patch-embedded';
-import { matchesPath, type QueryId } from './query-id';
-
-/** Article list + detail queries. */
-export const ARTICLE_IDS: readonly QueryId[] = [
-    'getArticles',
-    'getArticleTop',
-    'getArticle',
-];
-
-export const USER_COLLECTIONS_ID: QueryId = 'getUserCollections';
-
-/** Collection list + detail queries. */
-export const COLLECTION_IDS: readonly QueryId[] = [
-    'getCollections',
-    'getCollection',
-    USER_COLLECTIONS_ID,
-];
-
-const USER_PROFILE_ID: QueryId = 'userProfile';
-
-/** Follow lists/stats + the personalised "following" feeds. */
-export const FOLLOW_IDS: readonly QueryId[] = [
-    'followingList',
-    'followersList',
-    'followStats',
-    'followingHistory',
-    'getFeed',
-    'getWatchFollowing',
-    'getReadFollowing',
-];
-
-/** Every query embedding a user object whose `is_followed` a follow flips. */
-export const FOLLOW_EMBED_IDS: readonly QueryId[] = [
-    ...ARTICLE_IDS,
-    ...COLLECTION_IDS,
-    'followingList',
-    'followersList',
-    'favouriteList',
+import {
+    ARTICLE_IDS,
+    COLLECTION_IDS,
+    FOLLOW_EMBED_IDS,
+    FOLLOW_IDS,
     USER_PROFILE_ID,
-];
+} from './query-groups';
+import { matchesPath } from './query-id';
 
 const FOLLOW_EMBED_SET = new Set<string>(FOLLOW_EMBED_IDS);
 

@@ -1,6 +1,7 @@
 export { default as Activation } from './activation';
 export { default as ActivationAlert } from './activation-alert';
 export { readStoredAuthToken, useAuthToken } from './auth-token';
+export { CONFIRM_PASSWORD_AUTO_COMPLETE } from './constants';
 export { default as ForgotPasswordForm } from './forgot-password-form';
 export { default as LoginForm } from './login-form';
 export { default as PasswordConfirmForm } from './password-confirm-form';

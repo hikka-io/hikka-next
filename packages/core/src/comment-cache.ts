@@ -6,16 +6,8 @@ import {
     patchQueries,
 } from './content-cache';
 import { patchEmbeddedVote } from './patch-embedded';
+import { COMMENT_LIST_IDS } from './query-groups';
 import type { QueryId } from './query-id';
-
-/** The single list of comment-list query ids; every other cache module imports this one. */
-export const COMMENT_LIST_IDS: readonly QueryId[] = [
-    'commentsList',
-    'getCommentsList',
-    'getCommentsUser',
-    'thread',
-    'latestComments',
-];
 
 /** Comment lists + content-list queries that embed a comments count/preview. */
 const COMMENT_IDS: readonly QueryId[] = [

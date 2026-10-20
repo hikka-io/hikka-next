@@ -3,10 +3,11 @@ import type { FC } from 'react';
 import { View } from 'react-native';
 
 import type { MainContentTypeEnum } from '@hikka/api';
-import { getMediaTypeLabel, getTitle } from '@hikka/core';
+import { getMediaTypeLabel } from '@hikka/core';
 
 import PosterCard from '@/components/content-card/poster-card';
 import { IconStatusButton } from '@/components/tracking';
+import { useTitle } from '@/services/session';
 import { contentHref } from '@/utils/content-href';
 
 import type { UserListEntry } from '../queries';
@@ -24,6 +25,7 @@ type Props = {
  * is never the viewer's, so their cards get no tracking overlay.
  */
 const ListEntryPoster: FC<Props> = ({ entry, contentType, owner }) => {
+    const getTitle = useTitle();
     const content = entryContent(entry);
     const year = 'year' in content ? content.year : null;
 

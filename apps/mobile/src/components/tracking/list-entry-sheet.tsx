@@ -5,11 +5,11 @@ import { useRouter } from 'expo-router';
 import { ActivityIndicator, ScrollView, View } from 'react-native';
 
 import { HikkaApiError, type MainContentTypeEnum } from '@hikka/api';
-import { getTitle } from '@hikka/core';
 
 import { Button } from '@/components/ui/button';
 import { Text } from '@/components/ui/text';
 import { isDeadTokenError, signOut } from '@/features/auth';
+import { useTitle } from '@/services/session';
 
 import ListEntryForm from './list-entry-form';
 import { LOGIN_HREF } from './list-entry-href';
@@ -39,6 +39,7 @@ const Message: FC<{ text: string; action: string; onPress: () => void }> = ({
 
 /** The edit sheet's content (the web's `ListEntryEditDialog`). Mount it keyed by slug. */
 const ListEntrySheet: FC<Props> = ({ contentType, slug }) => {
+    const getTitle = useTitle();
     const router = useRouter();
     const entryState = useListEntry({ contentType, slug });
     const contentQuery = useQuery(contentInfoOptions(contentType, slug));

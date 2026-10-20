@@ -6,12 +6,7 @@ import { Play } from 'lucide-react-native';
 import { View } from 'react-native';
 
 import { ReadContentTypeEnum } from '@hikka/api';
-import {
-    CHAPTER_FORMS,
-    EPISODE_FORMS,
-    getDeclensionWord,
-    getTitle,
-} from '@hikka/core';
+import { CHAPTER_FORMS, EPISODE_FORMS, getDeclensionWord } from '@hikka/core';
 
 import PosterCard from '@/components/content-card/poster-card';
 import PosterRow from '@/components/content-card/poster-row';
@@ -21,11 +16,11 @@ import EmptyState from '@/components/ui/empty-state';
 import ErrorState from '@/components/ui/error-state';
 import { Icon } from '@/components/ui/icon';
 import SegmentedControl from '@/components/ui/segmented-control';
+import { useTitle } from '@/services/session';
 
 import { flattenPages } from '../flatten-pages';
 import { homeReadingOptions, homeWatchingOptions } from '../queries';
 import type { TrackerTab } from '../types';
-import { useHomePreferences } from '../use-home-preferences';
 import WidgetSection from '../widget-section';
 
 const POSTER_CLASS = 'w-32';
@@ -52,7 +47,7 @@ type Props = {
 };
 
 const useTrackerItems = (tab: TrackerTab, username: string) => {
-    const { titleLanguage, nameLanguage } = useHomePreferences();
+    const getTitle = useTitle();
     const watching = useInfiniteQuery({
         ...homeWatchingOptions(username),
         enabled: tab === 'anime',
@@ -73,7 +68,7 @@ const useTrackerItems = (tab: TrackerTab, username: string) => {
             ? flattenPages(watching.data)?.map((entry) => ({
                   slug: entry.anime.slug,
                   image: entry.anime.image,
-                  title: getTitle(entry.anime, titleLanguage, nameLanguage),
+                  title: getTitle(entry.anime),
                   current: entry.episodes,
                   total: entry.anime.episodes_total,
                   unit: EPISODE_FORMS,
@@ -81,7 +76,7 @@ const useTrackerItems = (tab: TrackerTab, username: string) => {
             : flattenPages(reading.data)?.map((entry) => ({
                   slug: entry.content.slug,
                   image: entry.content.image,
-                  title: getTitle(entry.content, titleLanguage, nameLanguage),
+                  title: getTitle(entry.content),
                   current: entry.chapters,
                   total: entry.content.chapters,
                   unit: CHAPTER_FORMS,

@@ -1,4 +1,4 @@
-import { API_LIMITS, isWebUrl } from '@hikka/api';
+import { API_LIMITS } from '@hikka/api';
 import {
     atLeastSymbols as atLeast,
     atMostSymbols as atMost,
@@ -15,6 +15,8 @@ export {
     matchFields,
     passwordSchema,
     USERNAME_HINT,
+    userLinkTextSchema,
+    userLinkUrlSchema,
     usernameSchema,
 } from '@hikka/core';
 
@@ -129,28 +131,5 @@ export const endpointSchema = z.string().superRefine((raw, ctx) => {
         return issue(
             `${atMost(CLIENT_ENDPOINT_MAX_LENGTH)} (зараз ${url.href.length})`,
         );
-    }
-});
-
-export const userLinkTextSchema = z
-    .string()
-    .trim()
-    .max(API_LIMITS.userLinkText.max, atMost(API_LIMITS.userLinkText.max));
-
-export const userLinkUrlSchema = z.string().superRefine((raw, ctx) => {
-    const issue = (message: string) =>
-        ctx.addIssue({ code: z.ZodIssueCode.custom, message });
-    const value = raw.trim();
-
-    if (value.length === 0) {
-        return issue('Вкажіть посилання');
-    }
-
-    if (value.length > API_LIMITS.userLinkUrl.max) {
-        return issue(atMost(API_LIMITS.userLinkUrl.max));
-    }
-
-    if (!isWebUrl(value)) {
-        return issue('Посилання має починатися з https://');
     }
 });

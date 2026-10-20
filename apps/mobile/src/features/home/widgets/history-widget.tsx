@@ -20,7 +20,7 @@ import { userHistoryHref } from '@/features/users';
 
 import { flattenPages } from '../flatten-pages';
 import { HISTORY_PREVIEW_SIZE, homeFollowingHistoryOptions } from '../queries';
-import { useHomePreferences } from '../use-home-preferences';
+import { useOpenSitePath } from '../use-open-site-path';
 import WidgetSection from '../widget-section';
 
 const HISTORY_REFETCH_INTERVAL_MS = 60_000;
@@ -56,7 +56,7 @@ type Props = {
 
 const HistoryWidget: FC<Props> = ({ username }) => {
     const focused = useIsFocused();
-    const { titleLanguage, nameLanguage } = useHomePreferences();
+    const openSitePath = useOpenSitePath();
     const { data, isPending, isError, refetch } = useInfiniteQuery({
         ...homeFollowingHistoryOptions(),
         refetchInterval: focused ? HISTORY_REFETCH_INTERVAL_MS : false,
@@ -88,8 +88,6 @@ const HistoryWidget: FC<Props> = ({ username }) => {
                                 <HistoryRow
                                     key={item.reference}
                                     item={item}
-                                    titleLanguage={titleLanguage}
-                                    nameLanguage={nameLanguage}
                                     showUser
                                     className="px-4 py-3"
                                 />

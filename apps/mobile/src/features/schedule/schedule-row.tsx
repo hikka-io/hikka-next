@@ -3,13 +3,7 @@ import { type FC, memo } from 'react';
 import { View } from 'react-native';
 
 import type { AnimeScheduleResponse } from '@hikka/api';
-import {
-    formatHistoryTime,
-    getScheduleDuration,
-    getTitle,
-    type NameLanguage,
-    type TitleLanguage,
-} from '@hikka/core';
+import { formatHistoryTime, getScheduleDuration } from '@hikka/core';
 
 import {
     HorizontalCard,
@@ -21,16 +15,16 @@ import {
 import { IconStatusButton } from '@/components/tracking';
 import { Text } from '@/components/ui/text';
 import { DENSE_MAX_FONT_SCALE } from '@/components/ui/typography';
+import { useTitle } from '@/services/session';
 import { cn } from '@/utils/cn';
 import { contentHref } from '@/utils/content-href';
 
 type Props = {
     item: AnimeScheduleResponse;
-    titleLanguage?: TitleLanguage;
-    nameLanguage?: NameLanguage;
 };
 
-const ScheduleRow: FC<Props> = ({ item, titleLanguage, nameLanguage }) => {
+const ScheduleRow: FC<Props> = ({ item }) => {
+    const getTitle = useTitle();
     const { anime } = item;
     const aired = item.time_left <= 0;
 
@@ -49,7 +43,7 @@ const ScheduleRow: FC<Props> = ({ item, titleLanguage, nameLanguage }) => {
             <HorizontalCardImage image={anime.image} className="w-16" />
             <HorizontalCardContainer className="gap-1.5">
                 <HorizontalCardTitle className="text-base">
-                    {getTitle(anime, titleLanguage, nameLanguage)}
+                    {getTitle(anime)}
                 </HorizontalCardTitle>
                 <HorizontalCardDescription>
                     <Text>

@@ -1,6 +1,6 @@
 import { describe, expect, expectTypeOf, it } from 'vitest';
 
-import type { UIEffect } from '@/utils/customization';
+import type { UIEffect } from '@hikka/core';
 
 import { EFFECT_IDS, EFFECTS } from './effects-registry';
 

@@ -2,7 +2,7 @@ import type { FC } from 'react';
 
 import { useQuery } from '@tanstack/react-query';
 
-import { getTitle } from '@hikka/core';
+import { useTitle } from '@/services/session';
 
 import EntityHeader from './entity-header';
 import EntityScreen from './entity-screen';
@@ -14,6 +14,7 @@ type Props = {
 };
 
 const CharacterPage: FC<Props> = ({ slug }) => {
+    const getTitle = useTitle();
     const { data, isPending, error, refetch } = useQuery(
         characterInfoOptions({ path: { slug } }),
     );

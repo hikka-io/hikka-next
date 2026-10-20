@@ -7,7 +7,6 @@ import { type ContentStatusEnum, ContentTypeEnum } from '@hikka/api';
 import {
     formatCompactNumber,
     getMediaTypeLabel,
-    getTitle,
     RELEASE_STATUS,
 } from '@hikka/core';
 
@@ -21,6 +20,7 @@ import {
 import { Icon } from '@/components/ui/icon';
 import { Text } from '@/components/ui/text';
 import { DENSE_MAX_FONT_SCALE } from '@/components/ui/typography';
+import { useTitle } from '@/services/session';
 import { contentHref } from '@/utils/content-href';
 
 import type { CatalogItem } from './queries';
@@ -73,6 +73,7 @@ function joinMeta(parts: (string | null | undefined)[]) {
 
 /** The web's `CatalogListItem`: company, type · year · status, genres and both scores. */
 const CatalogListItem: FC<Props> = ({ item }) => {
+    const getTitle = useTitle();
     const company =
         item.data_type === ContentTypeEnum.ANIME
             ? item.studios[0]?.name

@@ -1,4 +1,4 @@
-import type { UIEffect } from '@/utils/customization';
+import type { UIEffect } from '@hikka/core';
 
 type EffectMeta = {
     label: string;

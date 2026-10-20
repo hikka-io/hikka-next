@@ -3,11 +3,12 @@ import { type FC, useEffect, useState } from 'react';
 import { View } from 'react-native';
 
 import { ContentTypeEnum, type MainContentTypeEnum } from '@hikka/api';
-import { getOriginalTitle, getTitle } from '@hikka/core';
+import { getOriginalTitle } from '@hikka/core';
 
 import PosterCard from '@/components/content-card/poster-card';
 import { Badge } from '@/components/ui/badge';
 import { Text } from '@/components/ui/text';
+import { useTitle } from '@/services/session';
 import { cn } from '@/utils/cn';
 
 import ContentScores from './content-scores';
@@ -33,6 +34,7 @@ type Props = {
 };
 
 const ContentHero: FC<Props> = ({ contentType, content, onTitleBottom }) => {
+    const getTitle = useTitle();
     const [heroTop, setHeroTop] = useState<number | null>(null);
     const [titleBottom, setTitleBottom] = useState<number | null>(null);
     const title = getTitle(content);
