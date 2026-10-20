@@ -21,10 +21,14 @@ type Args = {
     entry?: ListEntry | null;
 };
 
+// A cached per-title entry can be older than one a refetched list embeds (edited elsewhere).
+const newer = (a: ListEntry, b: ListEntry) => (b.updated > a.updated ? b : a);
+
 /**
  * The viewer's entry in one of four states. Only a successful read says "untracked";
  * a failed one is `error`, so nothing can write a snapshot built from an empty entry.
- * The per-title cache (written by every save and delete) wins over a supplied entry.
+ * The per-title cache (written by every save and delete) wins over a supplied entry,
+ * unless both are entries and the supplied one is newer.
  */
 export function useListEntry({
     contentType,
@@ -39,7 +43,12 @@ export function useListEntry({
 
     if (!token) return { state: 'signed-out' };
 
-    const entry = query.data !== undefined ? query.data : supplied;
+    const entry =
+        query.data && supplied
+            ? newer(query.data, supplied)
+            : query.data !== undefined
+              ? query.data
+              : supplied;
 
     if (entry === undefined) {
         return query.isError

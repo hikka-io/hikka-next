@@ -10,6 +10,7 @@ import {
     ContentTypeEnum,
     type MainContentTypeEnum,
 } from '@hikka/api';
+import { getTitle } from '@hikka/core';
 
 import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
@@ -66,8 +67,10 @@ const ListEntryForm: FC<Props> = ({
     const [rowWidth, setRowWidth] = useState(0);
 
     const save = useSaveListEntry({
-        onSuccess: () => {
-            toast.success(`${title} успішно оновлено.`);
+        onSuccess: (data) => {
+            toast.success(
+                `${getTitle('anime' in data ? data.anime : data.content)} успішно оновлено.`,
+            );
             onClose();
         },
     });
@@ -81,7 +84,8 @@ const ListEntryForm: FC<Props> = ({
             onClose();
         },
     });
-    const busy = save.isPending || remove.isPending;
+    // A deleted entry stays deleted until the sheet closes: no save may re-create it.
+    const busy = save.isPending || remove.isPending || remove.isSuccess;
 
     const update = (patch: Partial<EntryDraft>) =>
         setDraft((current) => ({ ...current, ...patch }));

@@ -15,7 +15,7 @@ import { findStatus, STATUS_OPTIONS, statusStyle } from './status-config';
 import StatusIcon from './status-icon';
 import { kindOf, type ListEntry, PLANNED_STATUS } from './tracking-body';
 import { useListEntry } from './use-list-entry';
-import { useSaveListEntry } from './use-tracking-mutations';
+import { useSaveListEntry, useSavePending } from './use-tracking-mutations';
 
 type Props = {
     contentType: MainContentTypeEnum;
@@ -44,7 +44,9 @@ const IconStatusButton: FC<Props> = ({
         entry: suppliedEntry,
     });
     const save = useSaveListEntry();
-    const pending = save.isPending && save.variables?.slug === slug;
+    // Slug-bound and shared: a recycled cell ignores another title's write, and the header
+    // button and a poster overlay for the same title wait for each other.
+    const pending = useSavePending(slug);
     const plannedGlyph = STATUS_OPTIONS[kind][0].glyph;
 
     if (entryState.state === 'error') {

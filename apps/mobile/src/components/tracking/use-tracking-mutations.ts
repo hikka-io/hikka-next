@@ -1,4 +1,8 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import {
+    useIsMutating,
+    useMutation,
+    useQueryClient,
+} from '@tanstack/react-query';
 import * as Haptics from 'expo-haptics';
 import { toast } from 'sonner-native';
 
@@ -130,3 +134,12 @@ export const useDeleteListEntry = ({ onSuccess }: Options<void> = {}) => {
         onError: (error) => notifyError(error, DELETE_ERROR),
     });
 };
+
+/** Any save for this slug in flight, from any control: a second write would reuse the same snapshot. */
+export const useSavePending = (slug: string) =>
+    useIsMutating({
+        mutationKey: LIST_ENTRY_SAVE_KEY,
+        predicate: (mutation) =>
+            (mutation.state.variables as SaveVariables | undefined)?.slug ===
+            slug,
+    }) > 0;

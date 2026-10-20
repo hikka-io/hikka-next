@@ -24,7 +24,7 @@ import {
     type ProgressTotals,
 } from './tracking-body';
 import { useListEntry } from './use-list-entry';
-import { useSaveListEntry } from './use-tracking-mutations';
+import { useSaveListEntry, useSavePending } from './use-tracking-mutations';
 
 const ADD_LABEL = 'Додати у список';
 const SETTINGS = 'settings';
@@ -106,8 +106,9 @@ const ListStatusButton: FC<Props> = ({
     });
     const save = useSaveListEntry();
     const [fillWidth, setFillWidth] = useState(0);
-    // Slug-bound: the hook outlives a slug change, and another title's write is not this one's.
-    const pending = save.isPending && save.variables?.slug === slug;
+    // Slug-bound and shared: a recycled cell ignores another title's write, and the header
+    // button and a poster overlay for the same title wait for each other.
+    const pending = useSavePending(slug);
     const tracked =
         entryState.state === 'tracked' ? entryState.entry : undefined;
 
