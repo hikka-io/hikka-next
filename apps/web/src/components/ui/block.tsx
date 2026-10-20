@@ -70,6 +70,7 @@ const Block = ({
                 >
                     {header}
                     <div
+                        data-slot="block-surface"
                         className={cn(
                             'flex min-w-0 flex-1 flex-col',
                             CARD_CLASS_NAME,
@@ -85,6 +86,7 @@ const Block = ({
 
     return (
         <section
+            data-slot={variant === 'card' ? 'block-surface' : undefined}
             className={cn(
                 'flex min-w-0 flex-col',
                 VARIANTS[variant],

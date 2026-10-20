@@ -17,6 +17,7 @@ import { BlockFlushOnMobileContext } from '@/components/ui/block';
 import { Button } from '@/components/ui/button';
 import { Chip } from '@/components/ui/chip';
 import { SELECTED_TINT } from '@/components/ui/selected-tint';
+import { FIRST_BLOCK_BLUR_CLASS_NAME } from '@/components/ui/surface';
 import { useSession } from '@/services/session';
 import { cn } from '@/utils/cn';
 
@@ -42,7 +43,8 @@ const WidgetColumn: FC<{ widgets: UiFeedWidget[]; className?: string }> = ({
 }) => (
     <div
         className={cn(
-            'flex flex-col gap-8 [&>*:first-child]:backdrop-blur',
+            'flex flex-col gap-8',
+            FIRST_BLOCK_BLUR_CLASS_NAME,
             className,
         )}
     >
@@ -163,7 +165,7 @@ const SidebarWidgetChips: FC<{
                     role="tabpanel"
                     id={`widget-panel-${currentWidget.slug}`}
                     aria-labelledby={`widget-tab-${currentWidget.slug}`}
-                    className="[&>*:first-child]:backdrop-blur"
+                    className={FIRST_BLOCK_BLUR_CLASS_NAME}
                 >
                     <WidgetRenderer widget={currentWidget} isLast />
                 </div>
@@ -331,7 +333,8 @@ const FeedLayout: FC<{ className?: string }> = ({ className }) => {
             {hasCenter && (
                 <main
                     className={cn(
-                        'flex min-w-0 flex-col gap-8 [&>*:first-child]:backdrop-blur',
+                        'flex min-w-0 flex-col gap-8',
+                        FIRST_BLOCK_BLUR_CLASS_NAME,
                         layout === 3 && 'order-2 lg:order-1',
                         isCenterRight && 'lg:order-1',
                     )}

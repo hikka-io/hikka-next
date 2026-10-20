@@ -4,10 +4,12 @@ import { createFileRoute, Outlet } from '@tanstack/react-router';
 import { getEditOptions } from '@hikka/api';
 
 import Block from '@/components/ui/block';
+import { FIRST_BLOCK_BLUR_CLASS_NAME } from '@/components/ui/surface';
 import { usePageHeader } from '@/features/app-shell';
 import { EditContent, EditTimeline } from '@/features/edit';
 import { useTitle } from '@/services/session';
 import { ensureOr404 } from '@/utils/api/ensure-or-404';
+import { cn } from '@/utils/cn';
 import { generateHeadMeta } from '@/utils/metadata';
 import { usePathname } from '@/utils/navigation';
 
@@ -57,7 +59,12 @@ function EditLayout() {
             <Block>
                 <Outlet />
             </Block>
-            <div className="flex flex-col gap-6 [&>*:first-child]:backdrop-blur">
+            <div
+                className={cn(
+                    'flex flex-col gap-6',
+                    FIRST_BLOCK_BLUR_CLASS_NAME,
+                )}
+            >
                 <EditTimeline editId={editId} />
                 {edit && (
                     <EditContent
