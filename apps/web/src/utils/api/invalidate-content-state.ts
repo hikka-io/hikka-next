@@ -18,13 +18,13 @@ import {
 } from '@hikka/api';
 import {
     ARTICLE_IDS,
+    applyCommentVote,
     COLLECTION_IDS,
     COMMENT_LIST_IDS,
     FOLLOW_EMBED_IDS,
     type InvalidateOptions,
     invalidateByIds,
     matchesPath,
-    patchEmbeddedVote,
     patchQueries,
     type QueryId,
     queryId,
@@ -35,13 +35,15 @@ import {
     WATCH_EMBED_IDS,
 } from '@hikka/core';
 
-// Watch/read, follow and notification cache writers live in @hikka/core, shared with the mobile app.
+// Watch/read, follow, notification and comment cache writers live in @hikka/core, shared with the mobile app.
 export {
+    applyCommentVote,
     applyFollowChange,
     applyReadDeletion,
     applyReadMutation,
     applyWatchDeletion,
     applyWatchMutation,
+    invalidateComments,
     invalidateNotifications,
     invalidateReadState,
     invalidateSession,
@@ -52,19 +54,6 @@ export {
     writeSessionUI,
     writeWatchToCaches,
 } from '@hikka/core';
-
-/** Comment lists + content-list queries that embed a comments count/preview. */
-const COMMENT_IDS: readonly QueryId[] = [
-    ...COMMENT_LIST_IDS,
-    'animeSlug',
-    'mangaInfo',
-    'novelInfo',
-    'characterInfo',
-    'personInfo',
-    'getCollection',
-    'getEdit',
-    'getArticle',
-];
 
 /** Community-edit list queries (the `/edit` index, top stats, content todo). */
 const EDIT_LIST_IDS: readonly QueryId[] = [
@@ -108,16 +97,6 @@ const USER_CLIENT_IDS: readonly QueryId[] = ['listUserClients'];
 const AUTH_TOKEN_IDS: readonly QueryId[] = ['thirdPartyAuthTokens'];
 
 const FAVOURITE_IDS: readonly QueryId[] = ['favouriteList'];
-
-const COMMENT_LIST_SET = new Set(COMMENT_LIST_IDS);
-
-/** Invalidate comment lists/threads after a comment write/edit/delete. */
-export function invalidateComments(
-    queryClient: QueryClient,
-    options?: InvalidateOptions,
-): Promise<void> {
-    return invalidateByIds(queryClient, COMMENT_IDS, options);
-}
 
 /** Invalidate the community-edit list queries after an edit mutation. */
 export function invalidateEdits(
@@ -299,23 +278,9 @@ export function applyVoteMutation(
     options?: InvalidateOptions,
 ): Promise<void> {
     queryClient.setQueryData(getVoteQueryKey({ path: target }), data);
-    if (target.content_type === VoteContentTypeEnum.COMMENT) {
-        patchQueries(queryClient, COMMENT_LIST_SET, (cached) =>
-            patchEmbeddedVote(cached, target.slug, data.score),
-        );
-    }
-    return invalidateVote(queryClient, target, options);
-}
-
-function invalidateVote(
-    queryClient: QueryClient,
-    { content_type, slug }: SetVoteData['path'],
-    options?: InvalidateOptions,
-): Promise<void> {
+    const { content_type, slug } = target;
     if (content_type === VoteContentTypeEnum.COMMENT) {
-        return invalidateByIds(queryClient, COMMENT_LIST_IDS, {
-            refetch: false,
-        });
+        return applyCommentVote(queryClient, slug, data.score);
     }
     const [id, field] = VOTE_DETAIL[content_type];
     return queryClient.invalidateQueries({

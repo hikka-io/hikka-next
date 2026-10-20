@@ -17,7 +17,7 @@ import type {
 import { KEYS, type TElement, TextApi } from 'platejs';
 import remarkDirective from 'remark-directive';
 
-import { isMentionLabel, isUserUrl } from '@hikka/core';
+import { isMentionLabel, isUserUrl, mentionMarkdown } from '@hikka/core';
 
 import remarkStrikethrough from '@/components/markdown/remark/remark-strikethrough';
 import { userMentionUrl } from '@/utils/mentions';
@@ -269,7 +269,8 @@ const mentionRules = {
 // Written raw rather than as an mdast link: remark-stringify escapes `_` in the
 // label, and `@second\_user` no longer matches the `@([a-zA-Z0-9_]+)` scan the
 // backend runs to raise tag notifications.
-const userLinkHandler = (node: MdastUserLink) => `[${node.label}](${node.url})`;
+const userLinkHandler = (node: MdastUserLink) =>
+    mentionMarkdown(node.label, node.url);
 
 type StringifyHandlers = NonNullable<
     NonNullable<SerializeMdOptions['remarkStringifyOptions']>['handlers']

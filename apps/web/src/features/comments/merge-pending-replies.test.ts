@@ -1,9 +1,9 @@
 import { describe, expect, it } from 'vitest';
 
 import type { CommentResponse } from '@hikka/api';
+import { buildCommentTree } from '@hikka/core';
 
-import type { PendingReply } from '../comments-provider';
-import { buildCommentTree } from './build-comment-tree';
+import type { PendingReply } from './comments-provider';
 import { mergePendingReplies } from './merge-pending-replies';
 
 function comment(

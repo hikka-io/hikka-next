@@ -4,6 +4,13 @@ import { clamp } from '@antfu/utils';
 import { Star } from 'lucide-react';
 
 import type { CommentContentTypeEnum, CommentTypeEnum } from '@hikka/api';
+import {
+    buildCommentTree,
+    type CommentNode,
+    getReviewTotal,
+    supportsReviews,
+    type Verdict,
+} from '@hikka/core';
 
 import AntDesignArrowDownOutlined from '@/components/icons/ant-design/AntDesignArrowDownOutlined';
 import MaterialSymbolsAddCommentRounded from '@/components/icons/material-symbols/MaterialSymbolsAddCommentRounded';
@@ -29,12 +36,10 @@ import CommentTree from './comment-tree';
 import { COMMENT_TYPE_OPTIONS } from './comment-type-options';
 import CommentsProvider from './comments-provider';
 import { COMMENT_PREVIEW_SIZE, commentListOptions } from './queries';
-import { getReviewTotal, supportsReviews, type Verdict } from './review/review';
 import ReviewStatsCard from './review/review-stats-card';
 import { useReviewStats } from './review/use-review-stats';
 import { type CommentSortProps, useCommentSort } from './use-comment-sort';
 import { useCommentThread } from './use-comment-thread';
-import { buildCommentTree, type CommentNode } from './utils/build-comment-tree';
 
 type Props = {
     slug: string;

@@ -36,6 +36,10 @@ const IN_APP_ROUTES = new Set([
 
 const BARE_ROUTES = new Set(['schedule']);
 
+// In-app routes deeper than `/<segment>/<slug>`: the comment pages and single threads.
+const NESTED_ROUTE =
+    /^\/comments\/(latest|my|[a-z]+\/[^/?#]+(?:\/[^/?#]+)?)\/?$/;
+
 export type LinkTarget =
     | { kind: 'route'; href: string }
     | { kind: 'external'; url: string; trusted: boolean; authOnly: boolean }
@@ -84,6 +88,12 @@ export const resolveLink = (href: string): LinkTarget => {
 
         if (bare && BARE_ROUTES.has(bare)) {
             return { kind: 'route', href: `/${bare}` };
+        }
+
+        const nested = NESTED_ROUTE.exec(url.pathname);
+
+        if (nested) {
+            return { kind: 'route', href: `/comments/${nested[1]}` };
         }
 
         return {

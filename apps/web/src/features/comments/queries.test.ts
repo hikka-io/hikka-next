@@ -22,6 +22,7 @@ import {
     DEFAULT_COMMENT_ORDER,
     DEFAULT_COMMENT_SORT,
     getCommentSort,
+    type Verdict,
 } from '@hikka/core';
 
 import {
@@ -38,7 +39,6 @@ import {
     THREAD_PAGE_SIZE,
     userCommentListOptions,
 } from './queries';
-import type { Verdict } from './review/review';
 
 const BASE_URL = 'https://api.example.test';
 const slug = 'cowboy-bebop-f6f0ab';
