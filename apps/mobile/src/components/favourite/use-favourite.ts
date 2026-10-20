@@ -6,16 +6,18 @@ import {
 } from '@tanstack/react-query';
 import * as Haptics from 'expo-haptics';
 import { useRouter } from 'expo-router';
-import { toast } from 'sonner-native';
 import { useResolveClassNames } from 'uniwind';
 
 import {
+    type FavouriteAddResponse,
     type FavouriteContentTypeEnum,
+    type FavouriteDeleteResponse,
+    favouriteAdd,
     favouriteAddMutation,
+    favouriteDelete,
     favouriteDeleteMutation,
 } from '@hikka/api';
 import {
-    apiErrorMessage,
     favouriteEntryOptions,
     MUTATION_META_SKIP_ERROR_TOAST,
 } from '@hikka/core';
@@ -25,6 +27,7 @@ import {
     applyFavouriteDeletion,
     applyFavouriteMutation,
 } from '@/utils/api/invalidate-content-state';
+import { toastApiError } from '@/utils/offline-toast';
 
 const FAVOURITE_KEY = 'favourite';
 const ADD = 'add';
@@ -84,7 +87,7 @@ export function useFavourite(
             return;
         }
         void Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
-        toast.error(apiErrorMessage(error, 'Не вдалося оновити улюблене'));
+        toastApiError(error, 'Не вдалося оновити улюблене');
         void entry.refetch();
     };
 
@@ -93,35 +96,61 @@ export function useFavourite(
             Haptics.NotificationFeedbackType.Success,
         );
 
+    // A queued write runs against the entry its predecessors left: after a failed add the
+    // queued remove has nothing to remove, so it resolves without a request (and vice versa).
+    const cachedEntry = (path: Target) =>
+        queryClient.getQueryData(
+            favouriteEntryOptions(path.content_type, path.slug).queryKey,
+        );
+
     const add = useMutation({
         ...favouriteAddMutation(),
+        mutationFn: async (variables) => {
+            const cached = cachedEntry(variables.path);
+            if (cached) return cached as FavouriteAddResponse;
+            const { data } = await favouriteAdd({
+                ...variables,
+                throwOnError: true,
+            });
+            return data;
+        },
         mutationKey: [FAVOURITE_KEY, ADD],
         scope,
         meta: MUTATION_META_SKIP_ERROR_TOAST,
-        onSuccess: (data, { path }) => {
-            void applyFavouriteMutation(
+        onSuccess: async (data, { path }) => {
+            notifySuccess();
+            await applyFavouriteMutation(
                 queryClient,
                 path.content_type,
                 path.slug,
                 data,
             );
-            notifySuccess();
         },
         onError,
     });
 
     const remove = useMutation({
         ...favouriteDeleteMutation(),
+        mutationFn: async (variables) => {
+            if (cachedEntry(variables.path) === null) {
+                return { success: true } as FavouriteDeleteResponse;
+            }
+            const { data } = await favouriteDelete({
+                ...variables,
+                throwOnError: true,
+            });
+            return data;
+        },
         mutationKey: [FAVOURITE_KEY, 'delete'],
         scope,
         meta: MUTATION_META_SKIP_ERROR_TOAST,
-        onSuccess: (_, { path }) => {
-            void applyFavouriteDeletion(
+        onSuccess: async (_, { path }) => {
+            notifySuccess();
+            await applyFavouriteDeletion(
                 queryClient,
                 path.content_type,
                 path.slug,
             );
-            notifySuccess();
         },
         onError,
     });

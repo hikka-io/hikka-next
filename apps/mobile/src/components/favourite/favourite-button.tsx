@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Icon } from '@/components/ui/icon';
 import { cn } from '@/utils/cn';
 
-import { FAVOURITE_LABEL, favouriteHint } from './favourite-copy';
+import { favouriteHint, favouriteLabel } from './favourite-copy';
 import { useFavourite } from './use-favourite';
 
 type Props = {
@@ -32,7 +32,7 @@ const FavouriteButton: FC<Props> = ({
         <Button
             variant={variant}
             size="icon-md"
-            accessibilityLabel={FAVOURITE_LABEL}
+            accessibilityLabel={favouriteLabel(favourite)}
             accessibilityHint={favouriteHint(favourite)}
             accessibilityState={{ selected: isFavourite }}
             disabled={status === 'loading'}

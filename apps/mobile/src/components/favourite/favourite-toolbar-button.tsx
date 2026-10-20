@@ -1,7 +1,7 @@
 import { Stack } from 'expo-router';
 import { Platform } from 'react-native';
 
-import { FAVOURITE_LABEL, favouriteHint } from './favourite-copy';
+import { favouriteHint, favouriteLabel } from './favourite-copy';
 import type { FavouriteState } from './use-favourite';
 
 // Compose toolbar items take image sources only; SF Symbols are iOS-only.
@@ -24,8 +24,9 @@ export function renderFavouriteToolbarButton(favourite: FavouriteState) {
         <Stack.Toolbar.Button
             icon={isFavourite ? ICONS.on : ICONS.off}
             tintColor={isFavourite ? activeColor : undefined}
-            accessibilityLabel={FAVOURITE_LABEL}
+            accessibilityLabel={favouriteLabel(favourite)}
             accessibilityHint={favouriteHint(favourite)}
+            selected={isFavourite}
             disabled={status === 'loading'}
             onPress={favourite.onPress}
         />
