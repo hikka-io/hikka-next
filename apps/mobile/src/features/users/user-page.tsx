@@ -23,7 +23,6 @@ import UserSkeleton from './user-skeleton';
 
 type Props = {
     username: string;
-    // The Profile tab draws its own title and toolbar.
     headerChrome?: boolean;
 };
 
