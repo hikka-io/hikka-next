@@ -9,6 +9,7 @@ import {
     type ReviewResponse,
     type VoteContentTypeEnum,
 } from '@hikka/api';
+import { getFeedItemCommentsPath, getFeedItemPath } from '@hikka/core';
 
 import { HorizontalCardImage } from '@/components/horizontal-card';
 import { useTitle } from '@/services/session';
@@ -54,7 +55,7 @@ function getStats(item: FeedItemResponse): {
             return {
                 commentsCount: item.comments_count,
                 voteScore: item.vote_score,
-                commentsHref: `/comments/article/${item.slug}`,
+                commentsHref: getFeedItemCommentsPath(item),
                 contentType: ContentTypeEnum.ARTICLE,
                 slug: item.slug,
                 myScore: item.my_score,
@@ -63,34 +64,20 @@ function getStats(item: FeedItemResponse): {
             return {
                 commentsCount: item.comments_count,
                 voteScore: item.vote_score,
-                commentsHref: `/comments/collection/${item.reference}`,
+                commentsHref: getFeedItemCommentsPath(item),
                 contentType: ContentTypeEnum.COLLECTION,
                 slug: item.reference,
                 myScore: item.my_score,
             };
         case ContentTypeEnum.COMMENT: {
-            const preview = item.preview as CommentPreview;
             return {
                 commentsCount: item.total_replies ?? 0,
                 voteScore: item.vote_score,
-                commentsHref: `/comments/${item.content_type}/${preview.slug}/${item.reference}`,
+                commentsHref: getFeedItemCommentsPath(item),
                 contentType: ContentTypeEnum.COMMENT,
                 slug: item.reference,
                 myScore: item.my_score,
             };
-        }
-    }
-}
-
-function getShareUrl(item: FeedItemResponse): string {
-    switch (item.data_type) {
-        case ContentTypeEnum.ARTICLE:
-            return `/articles/${item.slug}`;
-        case ContentTypeEnum.COLLECTION:
-            return `/collections/${item.reference}`;
-        case ContentTypeEnum.COMMENT: {
-            const preview = item.preview as CommentPreview;
-            return `/comments/${item.content_type}/${preview.slug}/${item.reference}`;
         }
     }
 }
@@ -106,7 +93,7 @@ const FeedItem: FC<Props> = ({ item }) => {
     const articleTitle = useTitle(articleContent);
 
     const stats = getStats(item);
-    const shareUrl = getShareUrl(item);
+    const shareUrl = getFeedItemPath(item);
 
     let reference: Reference | undefined;
     let review: ReviewResponse | undefined;

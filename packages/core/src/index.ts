@@ -5,6 +5,7 @@ export * from './feed-args';
 export * from './get-content-title';
 export * from './get-title';
 export * from './history';
+export * from './home-args';
 export * from './i18n';
 export * from './labels';
 export * from './markdown';

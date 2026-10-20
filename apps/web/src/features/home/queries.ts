@@ -1,8 +1,6 @@
 import type { QueryClient } from '@tanstack/react-query';
 
 import {
-    AnimeMediaEnum,
-    AnimeStatusEnum,
     type ArticlesListArgs,
     type Client,
     type FeedArgs,
@@ -14,7 +12,6 @@ import {
     getFeedInfiniteOptions,
     paginationPageParam,
     profileUiQueryKey,
-    type SeasonEnum,
     searchAnimeInfiniteOptions,
     type UiFeedWidget,
     type UserCustomizationResponse,
@@ -22,10 +19,11 @@ import {
     WatchStatusEnum,
 } from '@hikka/api';
 import {
+    ARTICLES_NEWEST_SORT,
     buildFeedArgs,
     DEFAULT_USER_UI,
-    getCurrentSeason,
-    getOngoingsSort,
+    getCollectionsArgs,
+    getOngoingsArgs,
     isFeedDisabled,
 } from '@hikka/core';
 
@@ -41,26 +39,10 @@ export const COLLECTIONS_PREVIEW_SIZE = 3;
 export const HOME_ARTICLES_SIZE = 3;
 export const ONGOINGS_SIZE = 5;
 
-export const HOME_ARTICLES_NEWEST_SORT = ['created:desc'];
-export const HOME_ARTICLES_POPULAR_SORT = ['vote_score:desc'];
-
-const COLLECTIONS_POPULAR_SORT = ['system_ranking:desc', 'created:desc'];
-const COLLECTIONS_NEWEST_SORT = ['created:desc'];
-
 export function homeOngoingsOptions(client?: Client) {
-    const season = getCurrentSeason() as SeasonEnum;
-    const year = new Date().getFullYear();
-
     return {
         ...searchAnimeInfiniteOptions({
-            body: {
-                season: [season],
-                media_type: [AnimeMediaEnum.TV],
-                years: [year, year],
-                genres: ['-ecchi', '-hentai'],
-                status: [AnimeStatusEnum.ONGOING],
-                sort: getOngoingsSort(),
-            },
+            body: getOngoingsArgs(),
             query: { size: ONGOINGS_SIZE },
             client,
         }),
@@ -114,19 +96,7 @@ export function homeCollectionsOptions(
 ) {
     return {
         ...getCollectionsInfiniteOptions({
-            body:
-                tab === 'own' && username
-                    ? {
-                          sort: COLLECTIONS_NEWEST_SORT,
-                          author: username,
-                          only_public: false,
-                      }
-                    : {
-                          sort:
-                              tab === 'popular'
-                                  ? COLLECTIONS_POPULAR_SORT
-                                  : COLLECTIONS_NEWEST_SORT,
-                      },
+            body: getCollectionsArgs(tab, username),
             query: { size: COLLECTIONS_PREVIEW_SIZE },
             client,
         }),
@@ -206,7 +176,7 @@ export async function loadHomePage({ queryClient, apiClient }: LoaderContext) {
         feedHasWidget(queryClient, 'articles')
             ? queryClient.prefetchInfiniteQuery(
                   homeArticlesOptions(
-                      { sort: HOME_ARTICLES_NEWEST_SORT },
+                      { sort: ARTICLES_NEWEST_SORT },
                       apiClient,
                   ),
               )
