@@ -4,6 +4,7 @@ import { useRecyclingState } from '@shopify/flash-list';
 import { Image } from 'expo-image';
 import { Pressable, View } from 'react-native';
 
+import { openImageViewer } from '@/components/image-viewer';
 import { sizedImageUrl } from '@/utils/image-presets';
 
 import { resolveImageUrl } from './links';
@@ -50,7 +51,13 @@ const MDImage: FC<Props> = ({ uri, alt, href }) => {
             {image}
         </Pressable>
     ) : (
-        image
+        <Pressable
+            accessibilityRole="imagebutton"
+            accessibilityLabel={alt || 'Переглянути зображення'}
+            onPress={() => openImageViewer(source, 0, alt)}
+        >
+            {image}
+        </Pressable>
     );
 };
 

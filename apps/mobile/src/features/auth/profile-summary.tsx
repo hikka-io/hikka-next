@@ -3,14 +3,14 @@ import type { FC } from 'react';
 import { Link } from 'expo-router';
 import { ActivityIndicator, View } from 'react-native';
 
-import { HikkaApiError, UserRoleEnum } from '@hikka/api';
+import { UserRoleEnum } from '@hikka/api';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Text } from '@/components/ui/text';
 
 import ActivationAlert from './activation-alert';
-import { FALLBACK_ERROR } from './constants';
+import { errorMessage } from './error-message';
 import { useSession } from './use-session';
 
 const ProfileSummary: FC = () => {
@@ -54,9 +54,7 @@ const ProfileSummary: FC = () => {
         return (
             <View className="flex-1 items-center justify-center bg-background p-6">
                 <Text className="text-center text-destructive-foreground">
-                    {error instanceof HikkaApiError
-                        ? error.message
-                        : FALLBACK_ERROR}
+                    {errorMessage(error)}
                 </Text>
             </View>
         );

@@ -1,7 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import * as Haptics from 'expo-haptics';
 import { useRouter } from 'expo-router';
-import { toast } from 'sonner-native';
 
 import {
     type CommentResponse,
@@ -11,13 +10,13 @@ import {
     VoteContentTypeEnum,
     writeCommentMutation,
 } from '@hikka/api';
-import { apiErrorMessage } from '@hikka/core';
 
 import { isDeadTokenError, signOut, useSession } from '@/features/auth';
 import {
     applyCommentVote,
     invalidateComments,
 } from '@/utils/api/invalidate-content-state';
+import { toastApiError } from '@/utils/offline-toast';
 
 const failed = (error: unknown, fallback: string) => {
     if (isDeadTokenError(error)) {
@@ -25,7 +24,7 @@ const failed = (error: unknown, fallback: string) => {
         return;
     }
     void Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
-    toast.error(apiErrorMessage(error, fallback));
+    toastApiError(error, fallback);
 };
 
 type VoteVariables = { reference: string; score: number; previous: number };

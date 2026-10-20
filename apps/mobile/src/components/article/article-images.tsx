@@ -1,8 +1,9 @@
 import type { FC } from 'react';
 
 import { useRecyclingState } from '@shopify/flash-list';
-import { View } from 'react-native';
+import { Pressable, View } from 'react-native';
 
+import { openImageViewer } from '@/components/image-viewer';
 import Image from '@/components/ui/image';
 import { sizedImageUrl } from '@/utils/image-presets';
 
@@ -17,11 +18,27 @@ type Props = {
     urls: string[];
 };
 
+// The grid reorders a group of four by column, so each tile looks up its own position in the group.
+const positionsByColumn = (urls: string[], columns: { urls: string[] }[]) => {
+    const taken = new Set<number>();
+
+    return columns.map((column) =>
+        column.urls.map((url) => {
+            const position = urls.findIndex(
+                (candidate, index) => candidate === url && !taken.has(index),
+            );
+            taken.add(position);
+            return position;
+        }),
+    );
+};
+
 const ArticleImages: FC<Props> = ({ urls }) => {
     const layout = imageGridLayout(urls);
     const [measured, setMeasured] = useRecyclingState<number | null>(null, [
         urls[0],
     ]);
+    const positions = positionsByColumn(urls, layout.columns);
     const single = layout.aspectRatio === null;
     const totalFlex = layout.columns.reduce((sum, { flex }) => sum + flex, 0);
 
@@ -40,33 +57,46 @@ const ArticleImages: FC<Props> = ({ urls }) => {
             {layout.columns.map((column, columnIndex) => (
                 <View key={columnIndex} style={{ flex: column.flex, gap: GAP }}>
                     {column.urls.map((url, index) => (
-                        <Image
+                        <Pressable
                             // One group may repeat a url, so the position is part of the key.
                             key={`${index}:${url}`}
-                            source={sizedImageUrl(
-                                url,
-                                (MAX_WIDTH * column.flex) / totalFlex,
-                            )}
-                            recyclingKey={url}
-                            contentFit="cover"
-                            transition={150}
-                            accessibilityIgnoresInvertColors
-                            className="flex-1 bg-muted"
-                            onLoad={
-                                single
-                                    ? ({ source }) => {
-                                          if (
-                                              source.width > 0 &&
-                                              source.height > 0
-                                          ) {
-                                              setMeasured(
-                                                  source.width / source.height,
-                                              );
-                                          }
-                                      }
-                                    : undefined
+                            accessibilityRole="imagebutton"
+                            accessibilityLabel="Переглянути зображення"
+                            onPress={() =>
+                                openImageViewer(
+                                    urls,
+                                    positions[columnIndex][index],
+                                )
                             }
-                        />
+                            className="flex-1"
+                        >
+                            <Image
+                                source={sizedImageUrl(
+                                    url,
+                                    (MAX_WIDTH * column.flex) / totalFlex,
+                                )}
+                                recyclingKey={url}
+                                contentFit="cover"
+                                transition={150}
+                                accessibilityIgnoresInvertColors
+                                className="size-full bg-muted"
+                                onLoad={
+                                    single
+                                        ? ({ source }) => {
+                                              if (
+                                                  source.width > 0 &&
+                                                  source.height > 0
+                                              ) {
+                                                  setMeasured(
+                                                      source.width /
+                                                          source.height,
+                                                  );
+                                              }
+                                          }
+                                        : undefined
+                                }
+                            />
+                        </Pressable>
                     ))}
                 </View>
             ))}

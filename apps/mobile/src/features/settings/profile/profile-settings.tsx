@@ -12,10 +12,10 @@ import {
     parseUserLinks,
     UploadTypeEnum,
 } from '@hikka/api';
-import { apiErrorMessage } from '@hikka/core';
 
 import { useSession } from '@/features/auth';
 import { invalidateSession } from '@/utils/api/invalidate-content-state';
+import { toastApiError } from '@/utils/offline-toast';
 
 import SettingsActionRow from '../settings-action-row';
 import SettingsFooterText from '../settings-footer-text';
@@ -45,7 +45,7 @@ const ProfileForm: FC<Props> = ({ user }) => {
         },
         onError: (error) => {
             Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
-            toast.error(apiErrorMessage(error, 'Не вдалося зберегти опис.'));
+            toastApiError(error, 'Не вдалося зберегти опис.');
         },
     });
 

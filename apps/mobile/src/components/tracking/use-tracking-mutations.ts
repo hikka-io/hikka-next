@@ -4,7 +4,6 @@ import {
     useQueryClient,
 } from '@tanstack/react-query';
 import * as Haptics from 'expo-haptics';
-import { toast } from 'sonner-native';
 
 import {
     ContentTypeEnum,
@@ -19,7 +18,7 @@ import {
     type WatchResponse,
     watchAdd,
 } from '@hikka/api';
-import { apiErrorMessage, MUTATION_META_SKIP_ERROR_TOAST } from '@hikka/core';
+import { MUTATION_META_SKIP_ERROR_TOAST } from '@hikka/core';
 
 import { isDeadTokenError, signOut } from '@/features/auth';
 import {
@@ -28,6 +27,7 @@ import {
     applyWatchDeletion,
     applyWatchMutation,
 } from '@/utils/api/invalidate-content-state';
+import { toastApiError } from '@/utils/offline-toast';
 
 export const LIST_ENTRY_SAVE_KEY = ['list-entry', 'save'] as const;
 export const LIST_ENTRY_DELETE_KEY = ['list-entry', 'delete'] as const;
@@ -91,7 +91,7 @@ const notifyError = (error: unknown, fallback: string) => {
         return;
     }
     void Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
-    toast.error(apiErrorMessage(error, fallback));
+    toastApiError(error, fallback);
 };
 
 /** One write for both kinds; `variables.slug` lets a recycled cell ignore another title's pending write. */

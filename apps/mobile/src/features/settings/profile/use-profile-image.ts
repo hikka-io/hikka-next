@@ -12,13 +12,13 @@ import {
     UploadTypeEnum,
     uploadImageMutation,
 } from '@hikka/api';
-import { apiErrorMessage } from '@hikka/core';
 
 import { useSession } from '@/features/auth';
 import {
     invalidateSession,
     invalidateUserProfile,
 } from '@/utils/api/invalidate-content-state';
+import { toastApiError } from '@/utils/offline-toast';
 
 import { centredCrop } from './crop-region';
 
@@ -90,11 +90,9 @@ export function useProfileImage(type: ProfileImageType) {
         },
         onError: (error) => {
             Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
-            toast.error(
-                apiErrorMessage(
-                    error,
-                    'Не вдалося завантажити зображення. Спробуйте ще раз.',
-                ),
+            toastApiError(
+                error,
+                'Не вдалося завантажити зображення. Спробуйте ще раз.',
             );
         },
     });
@@ -149,9 +147,7 @@ export function useDeleteProfileCover() {
         },
         onError: (error) => {
             Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
-            toast.error(
-                apiErrorMessage(error, 'Не вдалося видалити обкладинку.'),
-            );
+            toastApiError(error, 'Не вдалося видалити обкладинку.');
         },
     });
 }

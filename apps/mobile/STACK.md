@@ -37,7 +37,7 @@ Conclusion: the data layer is the expensive part and it is already portable. The
 | Lists | FlashList v2 | Catalog, lists, comments and feeds are long; FlatList is not enough. |
 | Images | `expo-image` | Disk cache, blurhash/placeholder, recycling-friendly. Keep imgproxy sizing from `utils/imgproxy.ts`. |
 | Styling | Uniwind (free tier) for our own content components; no styling layer on native controls | See next section. |
-| Animation / gestures | Reanimated 4, Gesture Handler, `expo-haptics` | |
+| Animation / gestures | Reanimated 4, Gesture Handler, `expo-haptics` | The image viewer (`components/image-viewer`) is our own on these: pinch, double tap, pan and swipe-to-dismiss are ~250 lines, and the maintained gallery libraries add native or peer-dependency risk on SDK 57 for the same result. |
 | Forms | TanStack Form + the shared Zod schemas | Same as web, minus the DOM field components. |
 | Markdown (comments, synopses) | `marked` lexer (same library and 12.x line as the web) with custom extensions for `:::spoiler`, `:spoiler[...]`, `~~` and `@mentions`, rendered by our own small React Native renderer (`components/markdown`); read-only in v1, plain `TextInput` for writing comments | Plate is DOM-only. The mention wire format `[@user](<site>/u/<ref>)` must be preserved on write. See "Markdown renderer choice". |
 | Compiler | React Compiler (Expo supports it) | Same as web. |

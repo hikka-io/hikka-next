@@ -9,9 +9,10 @@ import { toast } from 'sonner-native';
 import { z } from 'zod';
 
 import { changeEmailMutation } from '@hikka/api';
-import { apiErrorMessage, emailSchema, matchFields } from '@hikka/core';
+import { emailSchema, matchFields } from '@hikka/core';
 
 import { invalidateSession } from '@/utils/api/invalidate-content-state';
+import { toastApiError } from '@/utils/offline-toast';
 
 import { firstFieldError } from '../first-field-error';
 import SettingsActionRow from '../settings-action-row';
@@ -44,9 +45,7 @@ const EmailForm: FC = () => {
         },
         onError: (error) => {
             Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
-            toast.error(
-                apiErrorMessage(error, 'Не вдалося змінити поштову адресу.'),
-            );
+            toastApiError(error, 'Не вдалося змінити поштову адресу.');
         },
     });
 

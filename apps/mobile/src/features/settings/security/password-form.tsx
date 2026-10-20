@@ -9,9 +9,10 @@ import { toast } from 'sonner-native';
 import { z } from 'zod';
 
 import { changePasswordMutation } from '@hikka/api';
-import { apiErrorMessage, matchFields, passwordSchema } from '@hikka/core';
+import { matchFields, passwordSchema } from '@hikka/core';
 
 import { CONFIRM_PASSWORD_AUTO_COMPLETE } from '@/features/auth';
+import { toastApiError } from '@/utils/offline-toast';
 
 import { firstFieldError } from '../first-field-error';
 import SettingsActionRow from '../settings-action-row';
@@ -46,7 +47,7 @@ const PasswordForm: FC = () => {
         },
         onError: (error) => {
             Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
-            toast.error(apiErrorMessage(error, 'Не вдалося змінити пароль.'));
+            toastApiError(error, 'Не вдалося змінити пароль.');
         },
     });
 
