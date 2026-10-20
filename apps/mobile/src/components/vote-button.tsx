@@ -18,7 +18,7 @@ import { Button } from '@/components/ui/button';
 import { Icon } from '@/components/ui/icon';
 import { Text } from '@/components/ui/text';
 import { DENSE_MAX_FONT_SCALE } from '@/components/ui/typography';
-import { useSession } from '@/features/auth';
+import { useAuthToken } from '@/features/auth';
 import { applyVoteMutation } from '@/utils/api/invalidate-content-state';
 import { cn } from '@/utils/cn';
 import { toastApiError } from '@/utils/offline-toast';
@@ -36,7 +36,7 @@ type Props = {
 const VoteButton: FC<Props> = ({ contentType, slug, myScore, voteScore }) => {
     const router = useRouter();
     const queryClient = useQueryClient();
-    const { hasToken } = useSession();
+    const hasToken = !!useAuthToken();
     const { color: success } = useResolveClassNames('text-success-foreground');
     const { color: destructive } = useResolveClassNames(
         'text-destructive-foreground',

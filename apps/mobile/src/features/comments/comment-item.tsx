@@ -12,7 +12,7 @@ import TextExpand from '@/components/text-expand';
 import { Icon } from '@/components/ui/icon';
 import { StatItem, StatItemGroup } from '@/components/ui/stat-item';
 import { Text } from '@/components/ui/text';
-import { useSession } from '@/features/auth';
+import { useAuthToken } from '@/features/auth';
 
 import CommentAuthor from './comment-author';
 import CommentAvatar from './comment-avatar';
@@ -45,7 +45,7 @@ const CommentItem: FC<Props> = ({
     onReadMore,
 }) => {
     const router = useRouter();
-    const { hasToken } = useSession();
+    const hasToken = !!useAuthToken();
 
     const reply = () => {
         if (!hasToken) {
