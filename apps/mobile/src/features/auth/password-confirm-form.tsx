@@ -9,8 +9,6 @@ import { z } from 'zod';
 import { passwordResetMutation } from '@hikka/api';
 import { matchFields, passwordSchema } from '@hikka/core';
 
-import { Text } from '@/components/ui/text';
-
 import AuthHeader from './auth-header';
 import { CONFIRM_PASSWORD_AUTO_COMPLETE } from './constants';
 import { errorMessage } from './error-message';
