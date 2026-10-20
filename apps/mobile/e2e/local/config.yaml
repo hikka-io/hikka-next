@@ -1,0 +1,9 @@
+executionOrder:
+  continueOnFailure: true
+  flowsOrder:
+    - 01-login
+    - 02-tracking
+    - 03-comments
+    - 04-follow
+    - 05-notifications
+    - 99-logout

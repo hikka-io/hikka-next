@@ -1,0 +1,27 @@
+appId: host.exp.Exponent
+# Follow and unfollow
+---
+- runFlow: ../subflows/ensure-login.yaml
+- openLink: ${METRO_URL}/--/u/${E2E_FOLLOW_USER}
+- extendedWaitUntil:
+    visible: "Відстежувати|Не стежити"
+    timeout: 30000
+- runFlow:
+    when:
+      visible: "Не стежити"
+    commands:
+      - tapOn: "Не стежити"
+      - extendedWaitUntil:
+          visible: "Відстежувати"
+          timeout: 20000
+- tapOn:
+    text: "Відстежувати"
+    index: 0
+- extendedWaitUntil:
+    visible: "Не стежити"
+    timeout: 20000
+- assertVisible: "[1-9][0-9]* стежать"
+- tapOn: "Не стежити"
+- extendedWaitUntil:
+    visible: "Відстежувати"
+    timeout: 20000

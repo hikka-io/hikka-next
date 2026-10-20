@@ -1,0 +1,5 @@
+# Switches tab by the tab icon's accessibility label (the tab titles also appear as screen headers).
+# TAB: home | Grid view | account | Search
+appId: host.exp.Exponent
+---
+- tapOn: ${TAB}

@@ -1,0 +1,11 @@
+executionOrder:
+  continueOnFailure: true
+  flowsOrder:
+    - 01-home
+    - 02-catalog-title
+    - 03-search-title
+    - 04-character
+    - 05-user-list
+    - 06-collection
+    - 07-article
+    - 08-schedule

@@ -1,0 +1,22 @@
+appId: host.exp.Exponent
+# Search with a Latin query, open a result
+---
+- runFlow: ../subflows/launch.yaml
+- runFlow:
+    file: ../subflows/tab.yaml
+    env:
+      TAB: Search
+- tapOn: "Пошук..."
+- inputText: "frieren"
+- extendedWaitUntil:
+    visible: "Проводжальниця Фрірен, Sousou no Frieren, .*"
+    timeout: 30000
+- tapOn: "Проводжальниця Фрірен, Sousou no Frieren, .*"
+- extendedWaitUntil:
+    visible: "Додати у список"
+    timeout: 30000
+- assertVisible: "Sousou no Frieren"
+- runFlow: ../subflows/back.yaml
+- extendedWaitUntil:
+    visible: "Проводжальниця Фрірен, Sousou no Frieren, .*"
+    timeout: 15000
