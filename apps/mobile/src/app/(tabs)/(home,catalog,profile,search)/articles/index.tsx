@@ -1,12 +1,17 @@
-import { Stack } from 'expo-router';
+import { useLocalSearchParams } from 'expo-router';
 
-import EmptyState from '@/components/ui/empty-state';
+import { ArticleCategoryEnum } from '@hikka/api';
+
+import { ArticleList } from '@/features/articles';
+
+const CATEGORIES = new Set<string>(Object.values(ArticleCategoryEnum));
 
 export default function ArticlesScreen() {
-    return (
-        <>
-            <Stack.Title>Статті</Stack.Title>
-            <EmptyState title="Незабаром" className="flex-1 justify-center" />
-        </>
-    );
+    const { categories } = useLocalSearchParams<{ categories?: string }>();
+    const category =
+        categories && CATEGORIES.has(categories)
+            ? (categories as ArticleCategoryEnum)
+            : undefined;
+
+    return <ArticleList key={category ?? 'all'} initialCategory={category} />;
 }
