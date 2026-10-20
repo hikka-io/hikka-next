@@ -22,4 +22,5 @@ export * from './tracking-args';
 export * from './tracking-entry';
 export * from './url';
 export * from './user-links';
+export * from './user-list-stats';
 export * from './youtube';
