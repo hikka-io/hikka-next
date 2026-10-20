@@ -1,8 +1,8 @@
 import type { FC } from 'react';
 
 import { ContentTypeEnum, type MainContentTypeEnum } from '@hikka/api';
+import { DEFAULT_CONTAINER_RATIO } from '@hikka/core';
 
-import { DEFAULT_CONTAINER_RATIO } from '@/components/content-card/image-presets';
 import { AspectRatio } from '@/components/ui/aspect-ratio';
 import { Skeleton } from '@/components/ui/skeleton';
 import { TableCell, TableRow } from '@/components/ui/table';

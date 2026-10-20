@@ -29,5 +29,3 @@ export const IMAGE_PRESETS = {
     ImagePreset,
     { width: number; height: number; sizes: string }
 >;
-
-export const DEFAULT_CONTAINER_RATIO = 0.7;

@@ -11,9 +11,8 @@ import {
     useState,
 } from 'react';
 
-import { CONTENT_TYPES } from '@hikka/core';
+import { CONTENT_TYPES, DEFAULT_CONTAINER_RATIO } from '@hikka/core';
 
-import { DEFAULT_CONTAINER_RATIO } from '@/components/content-card/image-presets';
 import { CONTENT_TYPE_ICONS } from '@/components/icons/content-type-icons';
 import { SearchModal } from '@/features/search';
 import { useIsDesktop } from '@/services/hooks/use-media-query';

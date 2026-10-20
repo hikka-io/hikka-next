@@ -11,6 +11,8 @@ import {
 import { cva } from 'class-variance-authority';
 import { Eye } from 'lucide-react';
 
+import { DEFAULT_CONTAINER_RATIO } from '@hikka/core';
+
 import { AspectRatio } from '@/components/ui/aspect-ratio';
 import {
     type ImagePreset,
@@ -22,7 +24,7 @@ import { Link } from '@/utils/navigation';
 import CardImage, { type CardImageProps } from './card-image';
 import CardMeta from './card-meta';
 import ContentStatus, { type CardStatus } from './content-status';
-import { DEFAULT_CONTAINER_RATIO, IMAGE_PRESETS } from './image-presets';
+import { IMAGE_PRESETS } from './image-presets';
 import { TooltipSuppressProvider } from './tooltips/tooltip-suppress-context';
 
 const posterCardVariants = cva('group relative flex w-full flex-col gap-2', {

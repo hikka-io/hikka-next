@@ -2,7 +2,8 @@ import type { FC } from 'react';
 
 import { range } from '@antfu/utils';
 
-import { DEFAULT_CONTAINER_RATIO } from '@/components/content-card/image-presets';
+import { DEFAULT_CONTAINER_RATIO } from '@hikka/core';
+
 import { AspectRatio } from '@/components/ui/aspect-ratio';
 import { labelVariants } from '@/components/ui/label';
 import { Skeleton, SkeletonText } from '@/components/ui/skeleton';

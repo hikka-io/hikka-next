@@ -11,6 +11,7 @@ export * from './mutation-meta';
 export * from './new-id';
 export * from './oklch';
 export * from './patch-embedded';
+export * from './poster';
 export * from './query-id';
 export * from './search-schemas';
 export * from './season';

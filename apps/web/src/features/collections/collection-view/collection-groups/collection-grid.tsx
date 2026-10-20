@@ -3,11 +3,10 @@ import { type FC, memo, useRef } from 'react';
 import { Info } from 'lucide-react';
 
 import type { CollectionContentResponse } from '@hikka/api';
-import { getTitle } from '@hikka/core';
+import { DEFAULT_CONTAINER_RATIO, getTitle } from '@hikka/core';
 
 import { contentEntity } from '@/components/content-card';
 import EntityCard from '@/components/content-card/entity-card';
-import { DEFAULT_CONTAINER_RATIO } from '@/components/content-card/image-presets';
 import { Header, HeaderTitle } from '@/components/ui/header';
 import {
     Popover,
