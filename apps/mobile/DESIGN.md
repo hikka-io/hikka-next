@@ -228,6 +228,14 @@ Screens: `characters/[slug]`, `people/[slug]`, `u/[username]` in the shared grou
 - Every block has its own error state (`components/inline-error`: "Не вдалося завантажити" and a retry button), so a failed request never reads as an empty list. A profile with no username is "not found", as on the web. The status order and the watch-time label come from `@hikka/core` (`WATCH_STATUS_ORDER`, `READ_STATUS_ORDER`, `getWatchTime`), shared with the web. Appearance strips and favourites share `utils/api/use-infinite-list`; the clamped text of `ExpandableMarkdown` is hidden from screen readers and the button announces "Показати повний опис".
 - Errors: a 404 shows "not found" copy, anything else the message with a retry (`components/error-state`); an error never renders as an empty page.
 
+## 17. Auth flows (Decided)
+
+- Signup, password reset (request and confirm) and email activation are root-stack `formSheet`s like login, in `src/features/auth/`. Sheets chain by `router.replace` (login to signup to reset and back), never stacking. Short forms are `fitToContents`; signup is a `ScrollView` at the full detent.
+- Forms use the existing `TextField` (now with an optional hint line, shown until an error replaces it), `Button`, `Text` and toasts; no new shared components. The feature-local pieces are `AuthHeader`, `FormTextField` (error after blur or first submit), `SubmitButton`, `CaptchaSlot` and `useCaptchaGate`, shared by login and signup.
+- Copy is the web's, without its emoji titles. Titles: login "Вхід", signup "Раді познайомитись!", reset "Відновити пароль", confirm "Новий пароль", activation "Підтвердження пошти".
+- The not-activated notice with the resend button is a `Card` in the Profile tab (web copy); the resend toast covers success and the "link still active" case.
+- Email links open in-app through the file routes `auth/activate/[token]` and `auth/reset/[token]`, which match the real `https://hikka.io/auth/...` paths. `links.ts` is unchanged: those URLs only arrive by email, never in markdown.
+
 ## Decision log
 
 Append one line per decision: date, decision, task.
@@ -261,3 +269,4 @@ Append one line per decision: date, decision, task.
 - 2026-10-20: Home is the initial tab through a root `src/app/index.tsx` redirect (tab `initialRouteName` is ignored for `/` with shared group routes); one-column order, chip tabs, read-only feed with local filters, link-outs to the web for articles, collections and the schedule; history and feed-arg logic moved into `@hikka/core`. See section 15. (home)
 - 2026-10-20: Character, person and profile screens are a FlashList of blocks that mount (and fetch) as they are drawn, with pull-to-refresh by slug or username; appearances are horizontal paged strips instead of the web's 4-up grid; link table gains `characters`, `people`, `u`; share is the system share sheet on iOS; follow, lists, activity, articles, collections and full pages are phase 3. (entities-users)
 - 2026-10-20: Review pass: per-block error states, status order and watch time moved to `@hikka/core` (web imports them), one table-driven appearance builder and section, one infinite-list hook, share sends `{ url }` on iOS. (entities-users)
+- 2026-10-20: Auth flows (section 17): signup, reset request/confirm and activation as formSheets; email-link routes mirror the hikka.io paths; the reset request sends no captcha (the backend route has none); only the first new-password field carries `newPassword` because two wedge the iOS 18 Strong Password overlay; the root layout anchors on `(tabs)` so link-opened sheets keep the tabs underneath. (auth-flows)
