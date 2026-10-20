@@ -60,7 +60,7 @@ type Props = {
 /** The web's `CommentList` page: a content's discussion, or one thread when `reference` is set. */
 const CommentsList: FC<Props> = ({ contentType, slug, reference }) => {
     const router = useRouter();
-    const { user, hasToken } = useSession();
+    const { hasToken } = useSession();
     const [sort, setSort] = useState<string>(DEFAULT_COMMENT_SORT);
     const [order, setOrder] = useState<CommentOrder>(DEFAULT_COMMENT_ORDER);
     const [commentType, setCommentType] = useState<CommentTypeEnum>('all');
@@ -104,7 +104,7 @@ const CommentsList: FC<Props> = ({ contentType, slug, reference }) => {
     );
 
     const compose = () => {
-        if (!user) {
+        if (!hasToken) {
             router.push('/login');
             return;
         }

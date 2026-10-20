@@ -37,7 +37,7 @@ const CommentsPreview: FC<Props> = ({
     enabled,
 }) => {
     const router = useRouter();
-    const { user } = useSession();
+    const { hasToken } = useSession();
     const options = {
         ...commentListOptions(contentType, slug, {}, true),
         enabled,
@@ -47,7 +47,7 @@ const CommentsPreview: FC<Props> = ({
     const all = threadHref(contentType, slug);
 
     const compose = () =>
-        router.push(user ? composerHref({ contentType, slug }) : '/login');
+        router.push(hasToken ? composerHref({ contentType, slug }) : '/login');
 
     const body = () => {
         if (error && !items) {

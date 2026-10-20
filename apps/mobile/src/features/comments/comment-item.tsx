@@ -45,10 +45,10 @@ const CommentItem: FC<Props> = ({
     onReadMore,
 }) => {
     const router = useRouter();
-    const { user } = useSession();
+    const { hasToken } = useSession();
 
     const reply = () => {
-        if (!user) {
+        if (!hasToken) {
             router.push('/login');
             return;
         }
