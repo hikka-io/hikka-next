@@ -1,8 +1,8 @@
 import type { FC } from 'react';
 
-import { cn } from '@/utils/cn';
+import type { HistoryFact, HistoryFactPart } from '@hikka/core';
 
-import type { HistoryFact, HistoryFactPart } from './types';
+import { cn } from '@/utils/cn';
 
 type Props = {
     facts: HistoryFact[];

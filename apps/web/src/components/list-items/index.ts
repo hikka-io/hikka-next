@@ -1,3 +1,5 @@
+export type { HistoryFact, HistoryFactPart } from '@hikka/core';
+
 export { default as ArticleItemCompact } from './article-item-compact';
 export { default as ArticlePreviewCard } from './article-preview-card';
 export { default as ArticlePreviewCardSkeleton } from './article-preview-card-skeleton';
@@ -10,4 +12,3 @@ export {
 } from './history/history-row';
 export { default as HistoryTimeline } from './history/history-timeline';
 export { default as HistoryTimelineSkeleton } from './history/history-timeline-skeleton';
-export type { HistoryFact, HistoryFactPart } from './history/types';

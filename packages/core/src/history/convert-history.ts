@@ -1,6 +1,6 @@
 import { type HistoryResponse, HistoryTypeEnum } from '@hikka/api';
-import { getDeclensionWord, type WordForms } from '@hikka/core';
 
+import { getDeclensionWord, type WordForms } from '../i18n';
 import {
     convertListEntry,
     type ListEntryContext,

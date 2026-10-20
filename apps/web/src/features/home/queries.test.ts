@@ -38,19 +38,20 @@ import {
     type UserCustomizationResponse,
 } from '@hikka/api';
 import {
+    ARTICLES_NEWEST_SORT,
+    ARTICLES_POPULAR_SORT,
+    buildFeedArgs,
     DEFAULT_USER_UI,
     getCurrentSeason,
     getOngoingsSort,
+    isFeedDisabled,
 } from '@hikka/core';
 
 import { scheduleOptions } from '@/features/schedule/queries';
 
 import { Route as HomeRoute } from '../../routes/_pages/index';
 import {
-    buildFeedArgs,
     COLLECTIONS_PREVIEW_SIZE,
-    HOME_ARTICLES_NEWEST_SORT,
-    HOME_ARTICLES_POPULAR_SORT,
     homeArticlesOptions,
     homeCollectionsOptions,
     homeFeedOptions,
@@ -58,7 +59,6 @@ import {
     homeOngoingsOptions,
     homeScheduleOptions,
     homeWatchingOptions,
-    isFeedDisabled,
     loadHomePage,
     ONGOINGS_SIZE,
 } from './queries';
@@ -926,8 +926,7 @@ describe('HistoryWidget polling', () => {
 describe('homeArticlesOptions', () => {
     it('asks for 3 items', () => {
         expect(
-            homeArticlesOptions({ sort: HOME_ARTICLES_NEWEST_SORT })
-                .queryKey[0],
+            homeArticlesOptions({ sort: ARTICLES_NEWEST_SORT }).queryKey[0],
         ).toMatchObject({ query: { size: 3 } });
     });
 
@@ -936,7 +935,7 @@ describe('homeArticlesOptions', () => {
 
         const [[options]] = widgetCalls();
         const loader = homeArticlesOptions(
-            { sort: HOME_ARTICLES_NEWEST_SORT },
+            { sort: ARTICLES_NEWEST_SORT },
             ssrRequestClient(),
         ).queryKey;
         expect(hashKey(loader)).toBe(hashKey(options.queryKey));
@@ -945,13 +944,11 @@ describe('homeArticlesOptions', () => {
     it('hashes the popular tab differently from the newest tab', () => {
         expect(
             hashKey(
-                homeArticlesOptions({ sort: HOME_ARTICLES_POPULAR_SORT })
-                    .queryKey,
+                homeArticlesOptions({ sort: ARTICLES_POPULAR_SORT }).queryKey,
             ),
         ).not.toBe(
             hashKey(
-                homeArticlesOptions({ sort: HOME_ARTICLES_NEWEST_SORT })
-                    .queryKey,
+                homeArticlesOptions({ sort: ARTICLES_NEWEST_SORT }).queryKey,
             ),
         );
     });

@@ -3,6 +3,7 @@ import type { FC } from 'react';
 import { cva } from 'class-variance-authority';
 
 import { ContentTypeEnum, type HistoryResponse } from '@hikka/api';
+import type { HistoryMedium } from '@hikka/core';
 import { DEFAULT_CONTAINER_RATIO } from '@hikka/core';
 
 import { contentEntity } from '@/components/content-card/entity';
@@ -12,7 +13,6 @@ import { AspectRatio } from '@/components/ui/aspect-ratio';
 import { cn } from '@/utils/cn';
 
 import type { HistorySize } from './history-row';
-import type { HistoryMedium } from './types';
 
 type Props = {
     content: HistoryResponse['content'];

@@ -3,10 +3,10 @@ import type { FC } from 'react';
 import { useHydrated } from '@tanstack/react-router';
 
 import type { HistoryResponse } from '@hikka/api';
+import { groupHistoryByDay } from '@hikka/core';
 
 import { cn } from '@/utils/cn';
 
-import { groupHistoryByDay } from './history-dates';
 import HistoryDayHeading from './history-day-heading';
 import HistoryItem from './history-item';
 import { type HistorySize, historyRowsVariants } from './history-row';
