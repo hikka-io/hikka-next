@@ -95,7 +95,7 @@ const FORWARD_LABELS: Record<FranchiseRelationTypeEnum, string> = {
     summary: 'Рекап',
     spin_off: 'Спіноф',
     alternative_version: 'Альтернативна версія',
-    alternative_setting: 'Альтернативний світ',
+    alternative_setting: 'Альтернативний сетинг',
     adaptation: 'Адаптація',
 };
 
@@ -105,7 +105,7 @@ const REVERSE_LABELS: Record<FranchiseRelationTypeEnum, string> = {
     summary: 'Повна історія',
     spin_off: 'Оригінал',
     alternative_version: 'Альтернативна версія',
-    alternative_setting: 'Альтернативний світ',
+    alternative_setting: 'Альтернативний сетинг',
     adaptation: 'Адаптація',
 };
 
@@ -144,7 +144,7 @@ const DIRECT_ORDER = [
     'Спіноф',
     'Оригінал',
     'Альтернативна версія',
-    'Альтернативний світ',
+    'Альтернативний сетинг',
     'Рекап',
     'Повна історія',
 ];
