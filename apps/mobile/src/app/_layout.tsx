@@ -6,6 +6,7 @@ import { useColorScheme } from 'react-native';
 
 import { configureBrowserClient } from '@hikka/api';
 
+import OfflineNotice from '@/components/offline-notice';
 import RouteErrorBoundary from '@/components/route-error-boundary';
 import { Toaster } from '@/components/ui/toaster';
 import { readStoredAuthToken } from '@/features/auth';
@@ -117,6 +118,7 @@ export default function RootLayout() {
                     />
                 </Stack>
                 <Toaster />
+                <OfflineNotice />
             </ThemeProvider>
         </QueryClientProvider>
     );

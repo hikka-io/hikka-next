@@ -13,7 +13,6 @@ import {
     parseUserLinks,
 } from '@hikka/api';
 import {
-    apiErrorMessage,
     newId,
     parseUrl,
     userLinkTextSchema,
@@ -25,6 +24,7 @@ import {
     invalidateSession,
     invalidateUserProfile,
 } from '@/utils/api/invalidate-content-state';
+import { toastApiError } from '@/utils/offline-toast';
 
 import SettingsActionRow from '../settings-action-row';
 import SettingsFooterText from '../settings-footer-text';
@@ -85,9 +85,7 @@ const LinksForm: FC<Props> = ({ user }) => {
         },
         onError: (error) => {
             Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
-            toast.error(
-                apiErrorMessage(error, 'Не вдалося зберегти посилання.'),
-            );
+            toastApiError(error, 'Не вдалося зберегти посилання.');
         },
     });
 

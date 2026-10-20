@@ -8,16 +8,13 @@ import {
     type UserCustomizationArgs,
     type UserCustomizationResponse,
 } from '@hikka/api';
-import {
-    apiErrorMessage,
-    applySessionUIPatch,
-    type SessionUIPatch,
-} from '@hikka/core';
+import { applySessionUIPatch, type SessionUIPatch } from '@hikka/core';
 
 import {
     invalidateSessionUI,
     writeSessionUI,
 } from '@/utils/api/invalidate-content-state';
+import { toastApiError } from '@/utils/offline-toast';
 
 import { writer } from './session-ui-writer';
 
@@ -51,7 +48,7 @@ export function useUpdateSessionUI() {
             if (writer.epoch !== epoch) return;
             writer.queued = null;
             void invalidateSessionUI(queryClient);
-            toast.error(apiErrorMessage(error, SAVE_ERROR));
+            toastApiError(error, SAVE_ERROR);
         } finally {
             if (writer.epoch === epoch) writer.inFlight = false;
         }

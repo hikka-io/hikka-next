@@ -9,13 +9,14 @@ import { toast } from 'sonner-native';
 import { z } from 'zod';
 
 import { changeUsernameMutation } from '@hikka/api';
-import { apiErrorMessage, USERNAME_HINT, usernameSchema } from '@hikka/core';
+import { USERNAME_HINT, usernameSchema } from '@hikka/core';
 
 import { useSession } from '@/features/auth';
 import {
     invalidateSession,
     invalidateUserProfile,
 } from '@/utils/api/invalidate-content-state';
+import { toastApiError } from '@/utils/offline-toast';
 
 import { firstFieldError } from '../first-field-error';
 import SettingsActionRow from '../settings-action-row';
@@ -43,9 +44,7 @@ const UsernameForm: FC = () => {
         },
         onError: (error) => {
             Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
-            toast.error(
-                apiErrorMessage(error, "Не вдалося змінити ім'я користувача."),
-            );
+            toastApiError(error, "Не вдалося змінити ім'я користувача.");
         },
     });
 

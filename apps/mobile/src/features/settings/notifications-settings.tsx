@@ -10,13 +10,13 @@ import {
     getIgnoredNotificationsOptions,
 } from '@hikka/api';
 import {
-    apiErrorMessage,
     ignoredNotifications,
     NOTIFICATION_GROUPS,
     notificationSwitches,
 } from '@hikka/core';
 
 import { writeIgnoredNotifications } from '@/utils/api/invalidate-content-state';
+import { toastApiError } from '@/utils/offline-toast';
 
 import SettingsActionRow from './settings-action-row';
 import SettingsFooterText from './settings-footer-text';
@@ -41,9 +41,7 @@ const NotificationsForm: FC<Props> = ({ saved }) => {
         },
         onError: (error) => {
             Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
-            toast.error(
-                apiErrorMessage(error, 'Не вдалося зберегти налаштування.'),
-            );
+            toastApiError(error, 'Не вдалося зберегти налаштування.');
         },
     });
 

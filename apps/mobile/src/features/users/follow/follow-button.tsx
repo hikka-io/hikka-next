@@ -9,15 +9,15 @@ import * as Haptics from 'expo-haptics';
 import { Link } from 'expo-router';
 import { UserMinus, UserPlus } from 'lucide-react-native';
 import { ActivityIndicator } from 'react-native';
-import { toast } from 'sonner-native';
 
 import { followMutation, unfollowMutation } from '@hikka/api';
-import { apiErrorMessage, MUTATION_META_SKIP_ERROR_TOAST } from '@hikka/core';
+import { MUTATION_META_SKIP_ERROR_TOAST } from '@hikka/core';
 
 import { Button } from '@/components/ui/button';
 import { Icon } from '@/components/ui/icon';
 import { isDeadTokenError, signOut, useSession } from '@/features/auth';
 import { applyFollowChange } from '@/utils/api/invalidate-content-state';
+import { toastApiError } from '@/utils/offline-toast';
 
 const FOLLOW_KEY = ['user', 'follow'] as const;
 
@@ -36,7 +36,7 @@ const notifyError = (error: unknown) => {
         return;
     }
     void Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
-    toast.error(apiErrorMessage(error, 'Не вдалося оновити підписку'));
+    toastApiError(error, 'Не вдалося оновити підписку');
 };
 
 /** The web's `FollowButton`: login for guests, nothing on the viewer's own profile. */
