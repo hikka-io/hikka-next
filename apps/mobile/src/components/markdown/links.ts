@@ -11,7 +11,7 @@ const TRUSTED_HOSTS = [
     'mikai.me',
 ];
 
-const ROUTE = /^\/(anime|manga|novel|characters|people|u)\/([^/?#]+)\/?$/;
+const ROUTE = /^\/([a-z]+)(?:\/([^/?#]+))?\/?$/;
 
 // Routes that exist in the app; every other hikka.io link opens in the browser. Add a segment when its route lands.
 const IN_APP_ROUTES = new Set([
@@ -21,7 +21,16 @@ const IN_APP_ROUTES = new Set([
     'characters',
     'people',
     'u',
+    'collections',
+    'articles',
 ]);
+
+// Segments whose list page (`/articles`, with its query) also exists in the app.
+const IN_APP_INDEXES = new Set(['collections', 'articles']);
+
+// `/articles/new` and `/collections/new` are the web editors.
+const isEditor = (segment: string, slug: string) =>
+    IN_APP_INDEXES.has(segment) && slug === 'new';
 
 export type LinkTarget =
     | { kind: 'route'; href: string }
@@ -52,7 +61,12 @@ export const resolveLink = (href: string): LinkTarget => {
         const match = ROUTE.exec(url.pathname);
 
         if (match && IN_APP_ROUTES.has(match[1])) {
-            return { kind: 'route', href: `/${match[1]}/${match[2]}` };
+            if (match[2] && !isEditor(match[1], match[2])) {
+                return { kind: 'route', href: `/${match[1]}/${match[2]}` };
+            }
+            if (!match[2] && IN_APP_INDEXES.has(match[1])) {
+                return { kind: 'route', href: `/${match[1]}${url.search}` };
+            }
         }
 
         return {

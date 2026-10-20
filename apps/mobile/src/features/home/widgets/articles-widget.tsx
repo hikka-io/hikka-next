@@ -1,6 +1,7 @@
 import { type FC, useState } from 'react';
 
 import { useInfiniteQuery } from '@tanstack/react-query';
+import { Link } from 'expo-router';
 import { ArrowBigUp, Eye, MessageCircle, Newspaper } from 'lucide-react-native';
 import { Pressable, View } from 'react-native';
 
@@ -27,74 +28,79 @@ import { DENSE_MAX_FONT_SCALE } from '@/components/ui/typography';
 import { getArticleExcerpt } from '../article-excerpt';
 import { flattenPages } from '../flatten-pages';
 import { ARTICLES_PREVIEW_SIZE, homeArticlesTabOptions } from '../queries';
-import { useOpenSitePath } from '../use-open-site-path';
 import WidgetSection from '../widget-section';
 
 const ArticleRow: FC<{ article: ArticlePreviewResponse }> = ({ article }) => {
-    const openSitePath = useOpenSitePath();
     const category = article.category as ArticleCategoryEnum;
     const excerpt = getArticleExcerpt(article.preview);
 
     return (
-        <Pressable
-            accessibilityRole="link"
-            onPress={() => openSitePath(`/articles/${article.slug}`)}
-            className="gap-2 px-4 py-3 active:opacity-70"
-        >
-            <View className="flex-row items-center justify-between gap-2">
-                <View className="min-w-0 flex-1 flex-row items-center gap-2">
-                    <Avatar className="size-5 rounded-sm">
-                        <AvatarImage src={article.author.avatar} size={20} />
-                        <AvatarFallback className="rounded-sm" />
-                    </Avatar>
+        <Link href={`/articles/${article.slug}`} asChild>
+            <Pressable
+                accessibilityRole="link"
+                className="gap-2 px-4 py-3 active:opacity-70"
+            >
+                <View className="flex-row items-center justify-between gap-2">
+                    <View className="min-w-0 flex-1 flex-row items-center gap-2">
+                        <Avatar className="size-5 rounded-sm">
+                            <AvatarImage
+                                src={article.author.avatar}
+                                size={20}
+                            />
+                            <AvatarFallback className="rounded-sm" />
+                        </Avatar>
+                        <Text
+                            numberOfLines={1}
+                            maxFontSizeMultiplier={DENSE_MAX_FONT_SCALE}
+                            className="shrink text-muted-foreground text-xs"
+                        >
+                            {article.author.username}
+                        </Text>
+                    </View>
+                    <Badge variant="outline">
+                        {ARTICLE_CATEGORY[category]?.title_ua ?? category}
+                    </Badge>
+                    {article.draft && <Badge variant="warning">Чернетка</Badge>}
+                </View>
+                <Text
+                    numberOfLines={2}
+                    className="font-semibold text-sm leading-5"
+                >
+                    {article.title}
+                </Text>
+                {excerpt && (
                     <Text
                         numberOfLines={1}
                         maxFontSizeMultiplier={DENSE_MAX_FONT_SCALE}
-                        className="shrink text-muted-foreground text-xs"
+                        className="text-muted-foreground text-xs"
                     >
-                        {article.author.username}
+                        {excerpt}
                     </Text>
+                )}
+                <View className="flex-row items-center justify-between gap-2">
+                    <Text
+                        maxFontSizeMultiplier={DENSE_MAX_FONT_SCALE}
+                        className="text-muted-foreground text-xs"
+                    >
+                        {formatTimeAgo(article.created, Date.now())}
+                    </Text>
+                    <StatItemGroup size="sm">
+                        <StatItem size="sm">
+                            <Icon as={Eye} />
+                            {article.views}
+                        </StatItem>
+                        <StatItem size="sm">
+                            <Icon as={MessageCircle} />
+                            {article.comments_count}
+                        </StatItem>
+                        <StatItem size="sm">
+                            <Icon as={ArrowBigUp} className="size-4" />
+                            {article.vote_score}
+                        </StatItem>
+                    </StatItemGroup>
                 </View>
-                <Badge variant="outline">
-                    {ARTICLE_CATEGORY[category]?.title_ua ?? category}
-                </Badge>
-                {article.draft && <Badge variant="warning">Чернетка</Badge>}
-            </View>
-            <Text numberOfLines={2} className="font-semibold text-sm leading-5">
-                {article.title}
-            </Text>
-            {excerpt && (
-                <Text
-                    numberOfLines={1}
-                    maxFontSizeMultiplier={DENSE_MAX_FONT_SCALE}
-                    className="text-muted-foreground text-xs"
-                >
-                    {excerpt}
-                </Text>
-            )}
-            <View className="flex-row items-center justify-between gap-2">
-                <Text
-                    maxFontSizeMultiplier={DENSE_MAX_FONT_SCALE}
-                    className="text-muted-foreground text-xs"
-                >
-                    {formatTimeAgo(article.created, Date.now())}
-                </Text>
-                <StatItemGroup size="sm">
-                    <StatItem size="sm">
-                        <Icon as={Eye} />
-                        {article.views}
-                    </StatItem>
-                    <StatItem size="sm">
-                        <Icon as={MessageCircle} />
-                        {article.comments_count}
-                    </StatItem>
-                    <StatItem size="sm">
-                        <Icon as={ArrowBigUp} className="size-4" />
-                        {article.vote_score}
-                    </StatItem>
-                </StatItemGroup>
-            </View>
-        </Pressable>
+            </Pressable>
+        </Link>
     );
 };
 
@@ -120,7 +126,6 @@ type Props = {
 };
 
 const ArticlesWidget: FC<Props> = ({ username }) => {
-    const openSitePath = useOpenSitePath();
     const [tab, setTab] = useState<CommunityTab>('newest');
     const own = !!username && tab === 'own';
     const { data, isPending, isError, refetch } = useInfiniteQuery(
@@ -135,7 +140,7 @@ const ArticlesWidget: FC<Props> = ({ username }) => {
     ];
 
     return (
-        <WidgetSection title="Статті" onPress={() => openSitePath('/articles')}>
+        <WidgetSection title="Статті" href="/articles">
             <SegmentedControl
                 options={tabs}
                 value={tab}
