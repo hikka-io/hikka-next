@@ -1,3 +1,5 @@
+import { resolveSameOriginUrl } from '@hikka/core';
+
 import { isServer } from '@/utils/is-server';
 
 export const SITE_ORIGIN = 'https://hikka.io';
@@ -10,27 +12,6 @@ export const getSiteUrl = (): string => {
     if (import.meta.env.VITE_SITE_URL) return import.meta.env.VITE_SITE_URL;
     if (!isServer()) return window.location.origin;
     return 'http://localhost:3000';
-};
-
-export const parseUrl = (value: string): URL | null => {
-    try {
-        return new URL(value);
-    } catch {
-        return null;
-    }
-};
-
-export const resolveSameOriginUrl = (
-    target: string,
-    base: string,
-): URL | null => {
-    try {
-        const url = new URL(target, base);
-
-        return url.origin === new URL(base).origin ? url : null;
-    } catch {
-        return null;
-    }
 };
 
 /**

@@ -38,12 +38,11 @@ import {
     userWatchListInfiniteOptions,
     type WatchStatusEnum,
 } from '@hikka/api';
-
 import {
+    expandSort,
     type UserlistSearch,
     userlistSearchSchema,
-} from '@/utils/search-schemas';
-import { expandSort } from '@/utils/sort';
+} from '@hikka/core';
 
 import { Route as LayoutRoute } from '../../routes/_pages/u/$username';
 import { Route as FavoritesRoute } from '../../routes/_pages/u/$username/favorites';
@@ -226,9 +225,10 @@ function headUseWatchListOptions(
     return userWatchListInfiniteOptions({
         path: { username: String(params.username) },
         body: {
+            // A missing status is left out instead of sent as "undefined".
             watch_status:
-                watchStatus !== 'all'
-                    ? (String(watchStatus) as WatchStatusEnum)
+                watchStatus && watchStatus !== 'all'
+                    ? (watchStatus as WatchStatusEnum)
                     : undefined,
             media_type,
             status,

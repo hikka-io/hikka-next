@@ -2,10 +2,8 @@ import { createElement } from 'react';
 
 import { useQuery } from '@tanstack/react-query';
 
-import type {
-    AppCommonSchemasReadReadStatsResponse as ReadStatsResponse,
-    ReadStatusEnum,
-} from '@hikka/api';
+import type { ReadStatusEnum } from '@hikka/api';
+import { contentStatusStats } from '@hikka/core';
 
 import { READ_STATUS_ICONS } from '@/components/icons/list-status-icons';
 import { contentInfoOptions } from '@/utils/api/content-queries';
@@ -28,27 +26,14 @@ const ReadStatusStats = ({ content_type }: Props) => {
         return null;
     }
 
-    const sumStats =
-        (data.stats.completed ?? 0) +
-        (data.stats.on_hold ?? 0) +
-        (data.stats.dropped ?? 0) +
-        (data.stats.planned ?? 0) +
-        (data.stats.reading ?? 0);
-
-    const stats: ListStat[] = Object.keys(data.stats)
-        .filter((stat) => !stat.includes('score'))
-        .map((stat) => {
-            const percentage =
-                (100 * (data.stats[stat as keyof ReadStatsResponse] ?? 0)) /
-                sumStats;
-
-            return {
-                percentage,
-                value: data.stats[stat as keyof ReadStatsResponse] ?? 0,
-                icon: createElement(READ_STATUS_ICONS[stat as ReadStatusEnum]),
-                name: stat,
-            };
-        });
+    const stats: ListStat[] = contentStatusStats(data.stats, content_type).map(
+        ({ key, count, percentage }) => ({
+            percentage,
+            value: count,
+            icon: createElement(READ_STATUS_ICONS[key as ReadStatusEnum]),
+            name: key,
+        }),
+    );
 
     return <Stats stats={stats} />;
 };

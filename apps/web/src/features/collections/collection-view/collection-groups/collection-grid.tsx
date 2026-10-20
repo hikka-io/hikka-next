@@ -3,10 +3,10 @@ import { type FC, memo, useRef } from 'react';
 import { Info } from 'lucide-react';
 
 import type { CollectionContentResponse } from '@hikka/api';
+import { DEFAULT_CONTAINER_RATIO, getTitle } from '@hikka/core';
 
 import { contentEntity } from '@/components/content-card';
 import EntityCard from '@/components/content-card/entity-card';
-import { DEFAULT_CONTAINER_RATIO } from '@/components/content-card/image-presets';
 import { Header, HeaderTitle } from '@/components/ui/header';
 import {
     Popover,
@@ -23,7 +23,6 @@ import {
 import { useIsDesktop } from '@/services/hooks/use-media-query';
 import { useScrollGradientMask } from '@/services/hooks/use-scroll-position';
 import { useSessionUI } from '@/services/session';
-import { getTitle } from '@/utils/title/get-title';
 
 const ASPECT_RATIO = String(DEFAULT_CONTAINER_RATIO);
 

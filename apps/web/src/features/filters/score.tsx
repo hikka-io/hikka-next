@@ -2,6 +2,9 @@ import { type FC, useEffect, useState } from 'react';
 
 import { Star } from 'lucide-react';
 
+import type { ContentFilterSearch } from '@hikka/core';
+import { SCORE_RANGE } from '@hikka/core';
+
 import {
     SliderField,
     type SliderFieldProps,
@@ -11,9 +14,7 @@ import MaterialSymbolsStarRounded from '@/components/icons/material-symbols/Mate
 import { Label } from '@/components/ui/label';
 import { Slider } from '@/components/ui/slider';
 import { useRouteSearch } from '@/utils/navigation';
-import type { ContentFilterSearch } from '@/utils/search-schemas';
 
-import { SCORE_RANGE } from './filter-ranges';
 import { filterPresetFormOptions } from './presets/filter-preset-form';
 import { useChangeParam } from './use-change-param';
 

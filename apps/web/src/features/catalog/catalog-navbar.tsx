@@ -1,6 +1,7 @@
 import { type FC, Suspense } from 'react';
 
 import type { ContentTypeEnum } from '@hikka/api';
+import type { SortType } from '@hikka/core';
 
 import { Separator } from '@/components/ui/separator';
 import {
@@ -12,7 +13,6 @@ import {
     SearchInput,
     Sort,
 } from '@/features/filters';
-import type { SortType } from '@/utils/sort';
 
 import ViewToggle from './view-toggle';
 

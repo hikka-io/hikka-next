@@ -1,8 +1,8 @@
 import Block from '@/components/ui/block';
 import { Header, HeaderTitle } from '@/components/ui/header';
 
-import ActivityHeatmap from './components/activity-heatmap';
-import ActivityStats from './components/activity-stats';
+import ActivityHeatmap from './activity-heatmap';
+import ActivityStats from './activity-stats';
 
 const UserActivity = () => {
     return (

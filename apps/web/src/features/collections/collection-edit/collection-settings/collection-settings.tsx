@@ -9,6 +9,12 @@ import {
     createCollectionMutation,
     updateCollectionMutation,
 } from '@hikka/api';
+import {
+    COLLECTION_CONTENT_TYPE_OPTIONS,
+    COLLECTION_VISIBILITY,
+    CONTENT_TYPE_LINKS,
+    isValidTitleLength,
+} from '@hikka/core';
 
 import MaterialSymbolsAddRounded from '@/components/icons/material-symbols/MaterialSymbolsAddRounded';
 import MaterialSymbolsRefreshRounded from '@/components/icons/material-symbols/MaterialSymbolsRefreshRounded';
@@ -36,13 +42,7 @@ import {
     TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { invalidateCollections } from '@/utils/api/invalidate-content-state';
-import { CONTENT_TYPE_LINKS } from '@/utils/content-paths';
-import {
-    COLLECTION_CONTENT_TYPE_OPTIONS,
-    COLLECTION_VISIBILITY,
-} from '@/utils/labels';
 import { Link, useParams, useRouter } from '@/utils/navigation';
-import { isValidTitleLength } from '@/utils/title-length';
 
 import {
     useCollectionContext,

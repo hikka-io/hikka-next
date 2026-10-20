@@ -2,6 +2,7 @@ import { createFileRoute, redirect } from '@tanstack/react-router';
 import { zodValidator } from '@tanstack/zod-adapter';
 
 import { ContentTypeEnum, type EditContentTypeEnum } from '@hikka/api';
+import { editNewSearchSchema } from '@hikka/core';
 
 import RulesAlert from '@/components/rules-alert';
 import Block from '@/components/ui/block';
@@ -10,7 +11,6 @@ import { usePageHeader } from '@/features/app-shell';
 import { EditContent, EditCreateForm, useContentBySlug } from '@/features/edit';
 import { contentInfoOptions } from '@/utils/api/content-queries';
 import { generateHeadMeta } from '@/utils/metadata';
-import { editNewSearchSchema } from '@/utils/search-schemas';
 
 export const Route = createFileRoute('/_pages/edit/new')({
     validateSearch: zodValidator(editNewSearchSchema),

@@ -5,6 +5,7 @@ import type {
     ContentTypeEnum,
     EditContentTypeEnum,
 } from '@hikka/api';
+import { getContentTitle } from '@hikka/core';
 
 import { useSessionUI } from '@/services/session';
 import {
@@ -12,7 +13,6 @@ import {
     type ContentInfoType,
     contentInfoOptions,
 } from '@/utils/api/content-queries';
-import { getContentTitle } from '@/utils/title/get-content-title';
 
 type HeaderContentType =
     | CommentContentTypeEnum

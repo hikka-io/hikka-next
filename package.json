@@ -8,7 +8,7 @@
         "lint:fix": "biome lint --write .",
         "check": "biome check --write .",
         "check:ci": "biome check .",
-        "lint:ratchet": "biome lint --reporter=json --max-diagnostics=none apps/web/src | node apps/web/scripts/lint-ratchet.mjs",
+        "lint:ratchet": "biome lint --reporter=json --max-diagnostics=none apps/web/src packages/core/src apps/mobile/src | node apps/web/scripts/lint-ratchet.mjs",
         "check:structure": "node apps/web/scripts/check-structure.mjs --self-test && node apps/web/scripts/check-structure.mjs",
         "typecheck": "turbo run typecheck",
         "clean": "turbo run clean",
@@ -19,6 +19,7 @@
         "build:web": "turbo run build --filter=@hikka/web",
         "start:web": "turbo run start --filter=@hikka/web",
         "dev:api": "turbo run dev --filter=@hikka/api",
+        "dev:core": "turbo run dev --filter=@hikka/core",
         "build:api": "turbo run build --filter=@hikka/api",
         "api:generate": "turbo run api:generate --filter=@hikka/api"
     },

@@ -11,13 +11,13 @@ import {
     useState,
 } from 'react';
 
-import { DEFAULT_CONTAINER_RATIO } from '@/components/content-card/image-presets';
+import { CONTENT_TYPES, DEFAULT_CONTAINER_RATIO } from '@hikka/core';
+
 import { CONTENT_TYPE_ICONS } from '@/components/icons/content-type-icons';
 import { SearchModal } from '@/features/search';
 import { useIsDesktop } from '@/services/hooks/use-media-query';
 import { useSession, useTitle } from '@/services/session';
 import { cn } from '@/utils/cn';
-import { CONTENT_TYPES } from '@/utils/labels';
 
 import {
     type FranchiseModel,

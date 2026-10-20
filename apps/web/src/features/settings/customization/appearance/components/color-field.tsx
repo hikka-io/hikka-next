@@ -1,10 +1,8 @@
 import { Check, Link2 } from 'lucide-react';
 
 import type { OklchColor } from '@hikka/api';
+import { type AccentPreset, oklchToCss, oklchToHex } from '@hikka/core';
 
-import { oklchToCss, oklchToHex } from '@/utils/customization';
-
-import type { AccentPreset } from '../accent-presets';
 import ColorPicker from './color-picker';
 import Swatch from './swatch';
 

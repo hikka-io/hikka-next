@@ -10,11 +10,13 @@ import {
     createArticleMutation,
     updateArticleMutation,
 } from '@hikka/api';
+import {
+    apiErrorMessage,
+    contentPath,
+    MUTATION_META_SKIP_ERROR_TOAST,
+} from '@hikka/core';
 
-import { apiErrorMessage } from '@/utils/api/api-error-message';
 import { invalidateArticles } from '@/utils/api/invalidate-content-state';
-import { MUTATION_META_SKIP_ERROR_TOAST } from '@/utils/api/mutation-meta';
-import { contentPath } from '@/utils/content-paths';
 import { useRouter } from '@/utils/navigation';
 
 import {

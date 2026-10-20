@@ -14,7 +14,7 @@ import {
     ENDPOINT_HINT,
     endpointSchema,
 } from '@/utils/form-schemas';
-import { z } from '@/utils/i18n/zod';
+import { z } from '@/utils/i18n-zod';
 
 const formSchema = z.object({
     name: clientNameSchema,

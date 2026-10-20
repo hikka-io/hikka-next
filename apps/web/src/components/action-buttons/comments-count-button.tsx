@@ -2,9 +2,9 @@ import type { FC } from 'react';
 
 import { MessageCircle } from 'lucide-react';
 
+import { COMMENT_FORMS, getDeclensionWord } from '@hikka/core';
+
 import { Button } from '@/components/ui/button';
-import { getDeclensionWord } from '@/utils/i18n/declension';
-import { COMMENT_FORMS } from '@/utils/i18n/word-forms';
 import { Link } from '@/utils/navigation';
 
 type Props = {

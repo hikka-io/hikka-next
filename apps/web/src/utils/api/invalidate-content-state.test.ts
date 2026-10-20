@@ -43,6 +43,7 @@ const USERNAME = 'target-user';
 
 const WATCH_EMBED_IDS = [
     'searchAnime',
+    'animeSchedule',
     'animeRecommendations',
     'characterAnime',
     'personAnime',
@@ -63,6 +64,9 @@ const READ_EMBED_IDS = [
     'getCollection',
     'getCollections',
 ];
+// Stats and history a watch/read write changes, stale-marked with the embeds.
+const WATCH_STALE_IDS = [...WATCH_EMBED_IDS, 'userWatchStats', 'userHistory'];
+const READ_STALE_IDS = [...READ_EMBED_IDS, 'userReadStats', 'userHistory'];
 const COMMENT_LIST_IDS = [
     'commentsList',
     'getCommentsList',
@@ -214,7 +218,7 @@ describe('invalidation registry ids', () => {
             (id) => builders[`${id}QueryKey`]?.()[0]._id !== id,
         );
 
-        expect(registered.size).toBe(62);
+        expect(registered.size).toBe(63);
         expect(drifted).toEqual([]);
     });
 });
@@ -230,7 +234,7 @@ describe('invalidation helpers', () => {
         [
             'invalidateWatchState',
             (queryClient) => invalidateWatchState(queryClient),
-            [expected(['userWatchList']), expected(WATCH_EMBED_IDS, 'none')],
+            [expected(['userWatchList']), expected(WATCH_STALE_IDS, 'none')],
         ],
         [
             'invalidateWatchState without refetch',
@@ -238,13 +242,13 @@ describe('invalidation helpers', () => {
                 invalidateWatchState(queryClient, { refetch: false }),
             [
                 expected(['userWatchList'], 'none'),
-                expected(WATCH_EMBED_IDS, 'none'),
+                expected(WATCH_STALE_IDS, 'none'),
             ],
         ],
         [
             'invalidateReadState',
             (queryClient) => invalidateReadState(queryClient),
-            [expected(['userReadList']), expected(READ_EMBED_IDS, 'none')],
+            [expected(['userReadList']), expected(READ_STALE_IDS, 'none')],
         ],
         [
             'invalidateComments',
@@ -480,7 +484,7 @@ describe.each([
         key: api.watchGetQueryKey({ path: { slug: SLUG } }),
         remove: (queryClient: QueryClient) =>
             applyWatchDeletion(queryClient, SLUG),
-        lists: [expected(['userWatchList']), expected(WATCH_EMBED_IDS, 'none')],
+        lists: [expected(['userWatchList']), expected(WATCH_STALE_IDS, 'none')],
         patched: WATCH_EMBED_IDS,
     },
     {
@@ -490,7 +494,7 @@ describe.each([
         }),
         remove: (queryClient: QueryClient) =>
             applyReadDeletion(queryClient, api.ReadContentTypeEnum.MANGA, SLUG),
-        lists: [expected(['userReadList']), expected(READ_EMBED_IDS, 'none')],
+        lists: [expected(['userReadList']), expected(READ_STALE_IDS, 'none')],
         patched: READ_EMBED_IDS,
     },
     {

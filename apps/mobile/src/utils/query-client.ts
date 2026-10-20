@@ -6,14 +6,14 @@ import {
 } from '@tanstack/react-query';
 import { AppState, Platform } from 'react-native';
 
-import { configureBrowserClient, DEFAULT_BASE_URL } from '@hikka/api';
+import { DEFAULT_BASE_URL } from '@hikka/api';
 
-configureBrowserClient({
-    baseUrl: process.env.EXPO_PUBLIC_API_URL ?? DEFAULT_BASE_URL,
-});
+import { applyQueryDefaults } from './query-defaults';
+
+export const API_BASE_URL = process.env.EXPO_PUBLIC_API_URL ?? DEFAULT_BASE_URL;
 
 onlineManager.setEventListener((setOnline) =>
-    NetInfo.addEventListener((state) => setOnline(!!state.isConnected)),
+    NetInfo.addEventListener((state) => setOnline(state.isConnected !== false)),
 );
 
 AppState.addEventListener('change', (status) => {
@@ -27,5 +27,9 @@ export const queryClient = new QueryClient({
             retry: false,
             refetchOnWindowFocus: false,
         },
+        // A write offline fails at once with the network copy instead of waiting to replay a stale full-snapshot PUT later.
+        mutations: { networkMode: 'always' },
     },
 });
+
+applyQueryDefaults(queryClient);

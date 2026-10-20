@@ -1,0 +1,41 @@
+appId: host.exp.Exponent
+# Post, edit and delete a comment
+---
+- runFlow: ../subflows/ensure-login.yaml
+- runFlow: ../subflows/open-anime.yaml
+- evalScript: ${output.comment = 'e2e comment ' + new Date().getTime()}
+- scrollUntilVisible:
+    element: "Написати"
+    timeout: 30000
+- tapOn: "Написати"
+- extendedWaitUntil:
+    visible: "Надіслати"
+    timeout: 10000
+- inputText: ${output.comment}
+- tapOn: "Надіслати"
+- extendedWaitUntil:
+    visible: ${output.comment}
+    timeout: 30000
+- tapOn:
+    text: "Більше"
+    index: 0
+- tapOn: "Редагувати"
+- extendedWaitUntil:
+    visible: "Зберегти"
+    timeout: 10000
+- inputText: " edited"
+- tapOn: "Зберегти"
+- extendedWaitUntil:
+    visible: "${output.comment} edited"
+    timeout: 30000
+- tapOn:
+    text: "Більше"
+    index: 0
+- tapOn: "Видалити"
+- extendedWaitUntil:
+    visible: "Ви впевнені, що хочете видалити коментар?"
+    timeout: 10000
+- tapOn: "Підтвердити"
+- extendedWaitUntil:
+    notVisible: "${output.comment} edited"
+    timeout: 30000

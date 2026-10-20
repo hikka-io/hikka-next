@@ -1,11 +1,12 @@
 import { type ComponentType, createElement, type FC } from 'react';
 
+import { READ_STATUS, WATCH_STATUS } from '@hikka/core';
+
 import {
     READ_STATUS_ICONS,
     WATCH_STATUS_ICONS,
 } from '@/components/icons/list-status-icons';
 import { cn } from '@/utils/cn';
-import { READ_STATUS, WATCH_STATUS } from '@/utils/labels/enum-labels';
 
 type StatusIconChipProps = {
     status: string;

@@ -1,0 +1,11 @@
+# Launches the app and makes sure E2E_USERNAME is signed in (the token survives launches).
+appId: host.exp.Exponent
+---
+- runFlow: launch.yaml
+- runFlow:
+    when:
+      visible: "Увійти"
+    file: login.yaml
+- extendedWaitUntil:
+    visible: "Сповіщення"
+    timeout: 30000

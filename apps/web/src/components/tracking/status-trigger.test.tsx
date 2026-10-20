@@ -12,6 +12,7 @@ import {
     type WatchResponseBase,
     type WatchStatusEnum,
 } from '@hikka/api';
+import { READ_STATUS, WATCH_STATUS } from '@hikka/core';
 
 import {
     READ_STATUS_ICONS,
@@ -30,7 +31,6 @@ import {
 } from '@/components/ui/select';
 import Spinner from '@/components/ui/spinner';
 import { cn } from '@/utils/cn';
-import { READ_STATUS, WATCH_STATUS } from '@/utils/labels/enum-labels';
 
 import {
     READ_STATUS_OPTIONS,

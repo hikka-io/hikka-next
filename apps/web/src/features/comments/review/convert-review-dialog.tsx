@@ -1,6 +1,7 @@
 import { type FC, useEffect, useState } from 'react';
 
 import type { CommentResponse } from '@hikka/api';
+import type { Verdict } from '@hikka/core';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -9,7 +10,6 @@ import {
     ResponsiveModalFooter,
 } from '@/components/ui/responsive-modal';
 
-import type { Verdict } from './review';
 import { useReviewConversion } from './use-review-conversion';
 import VerdictPicker from './verdict-picker';
 

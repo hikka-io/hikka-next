@@ -1,0 +1,29 @@
+# Signs in through the login sheet. Run it from a screen that shows the "Увійти" button (logged-out Home or Profile tab).
+# E2E_USERNAME, E2E_PASSWORD: a throwaway account on the local backend (needs the dev build's captcha bypass).
+appId: host.exp.Exponent
+---
+- tapOn: "Увійти"
+- extendedWaitUntil:
+    visible: "Вхід"
+    timeout: 20000
+- tapOn:
+    text: "Юзернейм або пошта"
+    index: 1
+- inputText: ${E2E_USERNAME}
+- tapOn:
+    text: "Пароль"
+    index: 1
+- inputText: ${E2E_PASSWORD}
+- tapOn:
+    text: "Увійти"
+    below: "Забули пароль?"
+- extendedWaitUntil:
+    visible: "Not Now|Не зараз"
+    timeout: 20000
+    optional: true
+- tapOn:
+    text: "Not Now|Не зараз"
+    optional: true
+- extendedWaitUntil:
+    notVisible: "Вхід"
+    timeout: 30000

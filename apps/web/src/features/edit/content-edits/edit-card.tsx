@@ -1,6 +1,7 @@
 import { format } from 'date-fns';
 
 import type { EditSimpleResponse } from '@hikka/api';
+import { EDIT_STATUS } from '@hikka/core';
 
 import {
     HorizontalCard,
@@ -13,7 +14,6 @@ import MaterialSymbolsVisibilityOutlineRounded from '@/components/icons/material
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/utils/cn';
-import { EDIT_STATUS } from '@/utils/labels/enum-labels';
 import { Link } from '@/utils/navigation';
 
 import { EDIT_PARAMS } from '../edit-params';

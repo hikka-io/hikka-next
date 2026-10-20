@@ -8,20 +8,17 @@ import {
     configureBrowserClient,
     type MainContentTypeEnum,
 } from '@hikka/api';
-
 import {
     animeSearchSchema,
-    mangaSearchSchema,
-    novelSearchSchema,
-} from '@/utils/search-schemas';
-
-import CatalogList from './catalog-list';
-import CatalogListSummary from './catalog-list-summary';
-import {
     buildAnimeSearchArgs,
     buildMangaSearchArgs,
     buildNovelSearchArgs,
-} from './search-args';
+    mangaSearchSchema,
+    novelSearchSchema,
+} from '@hikka/core';
+
+import CatalogList from './catalog-list';
+import CatalogListSummary from './catalog-list-summary';
 import { useCatalogSearchQuery } from './use-catalog-search-query';
 
 const mocks = vi.hoisted(() => ({

@@ -2,6 +2,7 @@ import { createFileRoute } from '@tanstack/react-router';
 import { zodValidator } from '@tanstack/zod-adapter';
 
 import { getArticleTopOptions, paginationPageParam } from '@hikka/api';
+import { articlesSearchSchema } from '@hikka/core';
 
 import { usePageHeader } from '@/features/app-shell';
 import {
@@ -12,7 +13,6 @@ import {
 } from '@/features/articles';
 import { articleListOptions } from '@/features/articles/queries';
 import { generateHeadMeta } from '@/utils/metadata';
-import { articlesSearchSchema } from '@/utils/search-schemas';
 import { SITE_ORIGIN } from '@/utils/url';
 
 export const Route = createFileRoute('/_pages/articles/')({

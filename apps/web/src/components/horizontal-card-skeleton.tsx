@@ -1,6 +1,7 @@
 import type { FC, PropsWithChildren, ReactNode } from 'react';
 
-import { DEFAULT_CONTAINER_RATIO } from '@/components/content-card/image-presets';
+import { DEFAULT_CONTAINER_RATIO } from '@hikka/core';
+
 import {
     HorizontalCard,
     HorizontalCardContainer,

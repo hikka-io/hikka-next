@@ -1,0 +1,10 @@
+# Opens the first card of a feed list (collections, articles): the title under the author row.
+appId: host.exp.Exponent
+---
+- extendedWaitUntil:
+    visible: ".* тому"
+    timeout: 30000
+- tapOn:
+    text: ".+"
+    below: ".* тому"
+    index: 0

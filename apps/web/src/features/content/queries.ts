@@ -25,6 +25,10 @@ import {
     paginationPageParam,
     type RelatedContentTypeEnum,
 } from '@hikka/api';
+import {
+    contentArticlesListArgs,
+    contentCollectionsListArgs,
+} from '@hikka/core';
 
 export const FOLLOWING_PREVIEW_SIZE = 3;
 export const COLLECTIONS_PREVIEW_SIZE = 3;
@@ -111,7 +115,7 @@ export function contentCollectionsOptions(
 ) {
     return {
         ...getCollectionsInfiniteOptions({
-            body: { content_type, content: [slug] },
+            body: contentCollectionsListArgs(content_type, slug),
             query: preview ? { size: COLLECTIONS_PREVIEW_SIZE } : undefined,
             client,
         }),
@@ -127,7 +131,7 @@ export function contentArticlesOptions(
 ) {
     return {
         ...getArticlesInfiniteOptions({
-            body: { content_type, content_slug: slug },
+            body: contentArticlesListArgs(content_type, slug),
             query: preview ? { size: ARTICLES_PREVIEW_SIZE } : undefined,
             client,
         }),

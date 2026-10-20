@@ -3,6 +3,7 @@ import { type FC, type KeyboardEvent, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 
 import { API_LIMITS, getArticleTopOptions } from '@hikka/api';
+import { getDeclensionWord, TAG_FORMS } from '@hikka/core';
 
 import MaterialSymbolsAddRounded from '@/components/icons/material-symbols/MaterialSymbolsAddRounded';
 import MaterialSymbolsCloseRounded from '@/components/icons/material-symbols/MaterialSymbolsCloseRounded';
@@ -16,8 +17,6 @@ import {
 } from '@/components/ui/autocomplete';
 import { Badge, badgeVariants } from '@/components/ui/badge';
 import { cn } from '@/utils/cn';
-import { getDeclensionWord } from '@/utils/i18n/declension';
-import { TAG_FORMS } from '@/utils/i18n/word-forms';
 
 import { useArticleContext } from './article-provider';
 import {

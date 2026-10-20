@@ -5,12 +5,12 @@ import type {
     ReadStatusEnum,
     WatchStatusEnum,
 } from '@hikka/api';
+import type { UserlistSearch } from '@hikka/core';
 
 import LoadMoreButton from '@/components/load-more-button';
 import type { StackSize } from '@/components/ui/stack';
 import { CatalogSummary, useCatalogView } from '@/features/catalog';
 import { useRouteSearch } from '@/utils/navigation';
-import type { UserlistSearch } from '@/utils/search-schemas';
 
 import GridView from './components/grid-view';
 import RecordsNotFound from './components/records-not-found';

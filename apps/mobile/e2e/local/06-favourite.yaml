@@ -1,0 +1,21 @@
+appId: host.exp.Exponent
+# Favourite a title from its detail page and remove it again
+---
+- runFlow: ../subflows/ensure-login.yaml
+- runFlow: ../subflows/open-anime.yaml
+- runFlow:
+    when:
+      visible: "Прибрати з улюбленого"
+    commands:
+      - tapOn: "Прибрати з улюбленого"
+      - extendedWaitUntil:
+          visible: "В улюблене"
+          timeout: 20000
+- tapOn: "В улюблене"
+- extendedWaitUntil:
+    visible: "Прибрати з улюбленого"
+    timeout: 20000
+- tapOn: "Прибрати з улюбленого"
+- extendedWaitUntil:
+    visible: "В улюблене"
+    timeout: 20000

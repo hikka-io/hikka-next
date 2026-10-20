@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { setVoteMutation, type VoteContentTypeEnum } from '@hikka/api';
+import { nextVoteScore, optimisticVote } from '@hikka/core';
 
 import { useSession } from '@/services/session';
 import { applyVoteMutation } from '@/utils/api/invalidate-content-state';
@@ -30,11 +31,8 @@ export function useVote({
         },
     });
 
-    const pendingScore = mutation.variables?.body?.score;
-
-    const currentMyScore = pendingScore !== undefined ? pendingScore : myScore;
-
-    const optimisticVoteScore = voteScore + (currentMyScore - myScore);
+    const { myScore: currentMyScore, voteScore: optimisticVoteScore } =
+        optimisticVote(myScore, voteScore, mutation.variables?.body?.score);
 
     const handleVote = (score: -1 | 1) => {
         if (!loggedUser) {
@@ -42,11 +40,9 @@ export function useVote({
             return;
         }
 
-        const updated = currentMyScore === score ? 0 : score;
-
         mutation.mutate({
             path: { content_type: contentType, slug },
-            body: { score: updated },
+            body: { score: nextVoteScore(currentMyScore, score) },
         });
     };
 

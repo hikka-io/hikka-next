@@ -1,0 +1,31 @@
+appId: host.exp.Exponent
+# Public user profile and their list
+env:
+  E2E_PUBLIC_USER: olexh
+---
+- runFlow: ../subflows/launch.yaml
+- runFlow:
+    file: ../subflows/tab.yaml
+    env:
+      TAB: Search
+- tapOn: "Пошук..."
+- inputText: ${E2E_PUBLIC_USER}
+- extendedWaitUntil:
+    visible: "${E2E_PUBLIC_USER}, .*"
+    timeout: 30000
+- tapOn: "${E2E_PUBLIC_USER}, .*"
+- extendedWaitUntil:
+    visible: "Список"
+    timeout: 30000
+- assertVisible: "Відстежувати"
+- assertVisible: "Всього, .*"
+- tapOn: "Завершено, .*"
+- extendedWaitUntil:
+    visible: "Список аніме"
+    timeout: 30000
+- assertVisible: "Усе, .*"
+- assertVisible: "Вигляд і сортування"
+- runFlow: ../subflows/back.yaml
+- extendedWaitUntil:
+    visible: "Список"
+    timeout: 15000

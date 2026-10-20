@@ -1,0 +1,18 @@
+# Finds an anime through search and opens its page (the first anime result for E2E_ANIME_QUERY).
+appId: host.exp.Exponent
+env:
+  E2E_ANIME_QUERY: frieren
+---
+- runFlow:
+    file: tab.yaml
+    env:
+      TAB: Search
+- tapOn: "Пошук..."
+- inputText: ${E2E_ANIME_QUERY}
+- extendedWaitUntil:
+    visible: ".* · TV Серіал, .*"
+    timeout: 30000
+- tapOn: ".* · TV Серіал, .*"
+- extendedWaitUntil:
+    visible: "Додати у список|Список: .*"
+    timeout: 30000

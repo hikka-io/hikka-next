@@ -66,7 +66,7 @@ const CANARIES = [
         "import '@/services/x';\nexport const a = process.env.A;\nexport enum E {\n    A,\n}",
         ['D5', 'lint/style/noProcessEnv', 'lint/style/noEnum'],
     ],
-    ['utils/labels/canary.ts', "import 'react';", ['D12']],
+    ['utils/auth/canary.ts', "import 'react';", ['D12']],
     [
         'components/canary.tsx',
         'const Component = () => null;\nexport default Component;',
@@ -83,6 +83,24 @@ const CANARIES = [
         'utils/cycle-b.ts',
         "import { a } from './cycle-a';\nexport const b = () => a;",
         ['lint/suspicious/noImportCycles'],
+    ],
+];
+
+// The same for packages/core/src: [path under packages/core/src, source, tags].
+const CORE_CANARIES = [
+    [
+        'canary.ts',
+        "import 'react';\nimport 'node:fs';\nexport const w = window;",
+        ['K1', 'K2', 'lint/style/noRestrictedGlobals'],
+    ],
+];
+
+// And for apps/mobile/src: [path under apps/mobile/src, source, tags].
+const MOBILE_CANARIES = [
+    [
+        'canary.ts',
+        "import { getTitle } from '@hikka/core';\nexport { getTitle };",
+        ['M1'],
     ],
 ];
 
@@ -133,8 +151,25 @@ const checkCanaries = () => {
             join(dir, 'apps/web/biome-plugins'),
             { recursive: true },
         );
-        for (const [path, source] of CANARIES) {
-            const file = join(dir, 'apps/web/src', path);
+        const canaries = [
+            ...CANARIES.map(([path, source, tags]) => [
+                `apps/web/src/${path}`,
+                source,
+                tags,
+            ]),
+            ...CORE_CANARIES.map(([path, source, tags]) => [
+                `packages/core/src/${path}`,
+                source,
+                tags,
+            ]),
+            ...MOBILE_CANARIES.map(([path, source, tags]) => [
+                `apps/mobile/src/${path}`,
+                source,
+                tags,
+            ]),
+        ];
+        for (const [path, source] of canaries) {
+            const file = join(dir, path);
             mkdirSync(dirname(file), { recursive: true });
             writeFileSync(file, `${source}\n`);
         }
@@ -145,6 +180,8 @@ const checkCanaries = () => {
                 '--reporter=json',
                 '--max-diagnostics=none',
                 'apps/web/src',
+                'packages/core/src',
+                'apps/mobile/src',
             ],
             { cwd: dir, encoding: 'utf8', maxBuffer: 1 << 26 },
         );
@@ -154,9 +191,9 @@ const checkCanaries = () => {
             );
         }
         const diagnostics = parseReport(run.stdout, 'the canary run');
-        const missing = CANARIES.flatMap(([path, , tags]) => {
+        const missing = canaries.flatMap(([path, , tags]) => {
             const got = diagnostics
-                .filter((d) => d.location.path === `apps/web/src/${path}`)
+                .filter((d) => d.location.path === path)
                 .map((d) => tagOf(d) ?? d.category);
             return tags
                 .filter((tag) => !got.includes(tag))

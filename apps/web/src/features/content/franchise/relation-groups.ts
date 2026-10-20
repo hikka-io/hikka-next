@@ -2,8 +2,7 @@ import {
     FranchiseRelationTypeEnum,
     type MainContentTypeEnum,
 } from '@hikka/api';
-
-import { CONTENT_TYPES } from '@/utils/labels';
+import { CONTENT_TYPES } from '@hikka/core';
 
 import type { GraphEdgeType, RelationGroupEnum } from './franchise-model';
 

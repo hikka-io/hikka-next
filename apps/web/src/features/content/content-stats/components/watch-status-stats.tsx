@@ -3,10 +3,11 @@ import { createElement } from 'react';
 import { useQuery } from '@tanstack/react-query';
 
 import {
-    type AnimeStatsResponse,
     animeSlugOptions,
+    ContentTypeEnum,
     type WatchStatusEnum,
 } from '@hikka/api';
+import { contentStatusStats } from '@hikka/core';
 
 import { WATCH_STATUS_ICONS } from '@/components/icons/list-status-icons';
 import { useParams } from '@/utils/navigation';
@@ -24,32 +25,17 @@ const WatchStatusStats = () => {
         return null;
     }
 
-    const sumStats =
-        (data.stats.completed ?? 0) +
-        (data.stats.on_hold ?? 0) +
-        (data.stats.dropped ?? 0) +
-        (data.stats.planned ?? 0) +
-        (data.stats.watching ?? 0);
-
-    const stats: ListStat[] = Object.keys(data.stats)
-        .filter((stat) => !stat.includes('score'))
-        .map((stat) => {
-            const percentage =
-                (100 * (data.stats[stat as keyof AnimeStatsResponse] ?? 0)) /
-                sumStats;
-
-            return {
-                percentage,
-                value: data.stats[stat as keyof AnimeStatsResponse] ?? 0,
-                icon: createElement(
-                    WATCH_STATUS_ICONS[stat as WatchStatusEnum],
-                    {
-                        className: 'size-3!',
-                    },
-                ),
-                name: stat,
-            };
-        });
+    const stats: ListStat[] = contentStatusStats(
+        data.stats,
+        ContentTypeEnum.ANIME,
+    ).map(({ key, count, percentage }) => ({
+        percentage,
+        value: count,
+        icon: createElement(WATCH_STATUS_ICONS[key as WatchStatusEnum], {
+            className: 'size-3!',
+        }),
+        name: key,
+    }));
 
     return <Stats stats={stats} />;
 };

@@ -1,10 +1,10 @@
 import { createFileRoute } from '@tanstack/react-router';
 
 import { getCollectionOptions } from '@hikka/api';
+import { truncateText } from '@hikka/core';
 
 import { ensureOr404 } from '@/utils/api/ensure-or-404';
 import { generateHeadMeta } from '@/utils/metadata';
-import { truncateText } from '@/utils/text';
 import { SITE_ORIGIN } from '@/utils/url';
 
 export const Route = createFileRoute('/_pages/collections/$reference')({

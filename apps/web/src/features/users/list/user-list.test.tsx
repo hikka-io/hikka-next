@@ -13,8 +13,7 @@ import {
     configureBrowserClient,
     getBrowserClient,
 } from '@hikka/api';
-
-import type { UserlistSearch } from '@/utils/search-schemas';
+import type { UserlistSearch } from '@hikka/core';
 
 import { userListOptions } from '../queries';
 import UserList from './user-list';

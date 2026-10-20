@@ -1,11 +1,12 @@
 import { createFileRoute } from '@tanstack/react-router';
 
 import { HikkaApiError, oauthToken } from '@hikka/api';
+import { resolveSameOriginUrl } from '@hikka/core';
 
 import { firstForwardedIp } from '@/utils/api/client-ip';
 import { createServerHikkaClient } from '@/utils/api/server-client';
 import { COOKIE, makeCookieHeader } from '@/utils/cookies';
-import { getSiteUrl, resolveSameOriginUrl } from '@/utils/url';
+import { getSiteUrl } from '@/utils/url';
 
 export const Route = createFileRoute('/auth/google')({
     server: {

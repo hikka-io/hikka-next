@@ -1,9 +1,5 @@
-import {
-    ContentTypeEnum,
-    type MainContentTypeEnum,
-    ReadStatusEnum,
-    WatchStatusEnum,
-} from '@hikka/api';
+import { ContentTypeEnum, type MainContentTypeEnum } from '@hikka/api';
+import { listStatuses } from '@hikka/core';
 
 import { COOKIE } from './constants';
 import { writeHostCookie } from './ui-cookie';
@@ -23,11 +19,7 @@ export function catalogHideListedStatuses(
     filters: UiPreferences['filters'],
     contentType: MainContentTypeEnum,
 ): string[] {
-    const statuses: string[] = Object.values(
-        contentType === ContentTypeEnum.ANIME
-            ? WatchStatusEnum
-            : ReadStatusEnum,
-    );
+    const statuses = listStatuses(contentType);
     const stored = filters[catalogHideListedKey(contentType)];
 
     return stored

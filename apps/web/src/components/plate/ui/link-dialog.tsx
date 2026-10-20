@@ -13,7 +13,7 @@ import {
     ResponsiveModalContent,
     ResponsiveModalFooter,
 } from '@/components/ui/responsive-modal';
-import { z } from '@/utils/i18n/zod';
+import { z } from '@/utils/i18n-zod';
 
 export const linkFormSchema = z.object({
     url: z.string().url(),

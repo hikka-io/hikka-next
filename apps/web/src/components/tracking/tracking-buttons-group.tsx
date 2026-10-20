@@ -22,6 +22,13 @@ import {
     type WatchResponseBase,
     WatchStatusEnum,
 } from '@hikka/api';
+import {
+    carryOverReadArgs,
+    carryOverWatchArgs,
+    completedReadFill,
+    completedWatchFill,
+    resolveTrackingEntry,
+} from '@hikka/core';
 
 import {
     READ_STATUS_ICONS,
@@ -40,12 +47,6 @@ import {
     SelectTrigger,
 } from '@/components/ui/select';
 import Spinner from '@/components/ui/spinner';
-import {
-    carryOverReadArgs,
-    carryOverWatchArgs,
-    omitUndefined,
-} from '@/utils/api/tracking-args';
-import { resolveTrackingEntry } from '@/utils/api/tracking-entry';
 
 import ListEntryEditDialog from './list-entry-edit-dialog';
 import {
@@ -95,7 +96,7 @@ const buildWatchArgs = (
         return {
             status: WatchStatusEnum.COMPLETED,
             ...current,
-            ...omitUndefined({ episodes: item.episodes_total || undefined }),
+            ...completedWatchFill(item),
         };
     }
 
@@ -117,10 +118,7 @@ const buildReadArgs = (
         return {
             status: ReadStatusEnum.COMPLETED,
             ...current,
-            ...omitUndefined({
-                volumes: item.volumes || undefined,
-                chapters: item.chapters || undefined,
-            }),
+            ...completedReadFill(item, read),
         };
     }
 

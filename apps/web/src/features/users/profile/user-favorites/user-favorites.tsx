@@ -8,6 +8,7 @@ import {
     type FavouriteContentTypeEnum,
     serviceUserStatsOptions,
 } from '@hikka/api';
+import { CONTENT_TYPES } from '@hikka/core';
 
 import { CONTENT_TYPE_ICONS } from '@/components/icons/content-type-icons';
 import MaterialSymbolsStack from '@/components/icons/material-symbols/MaterialSymbolsStack';
@@ -16,7 +17,6 @@ import { type ChipTabOption, ChipTabs } from '@/components/ui/chip-tabs';
 import EmptyState from '@/components/ui/empty-state';
 import { Header, HeaderTitle } from '@/components/ui/header';
 import { useSession } from '@/services/session';
-import { CONTENT_TYPES } from '@/utils/labels';
 import { useParams } from '@/utils/navigation';
 
 import FavoriteSection from './components/favorite-section';

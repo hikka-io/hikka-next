@@ -1,6 +1,12 @@
 import { type ReactNode, useEffect, useRef, useState } from 'react';
 
 import type { OklchColor, UiBackdrop } from '@hikka/api';
+import {
+    ACCENT_PRESETS,
+    DEFAULT_BRAND,
+    oklchEqual,
+    oklchToCss,
+} from '@hikka/core';
 
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
@@ -10,13 +16,9 @@ import { useSessionUI, useUpdateSessionUI } from '@/services/session';
 import {
     applyBackdrop,
     clearLivePreview,
-    DEFAULT_BRAND,
-    oklchEqual,
-    oklchToCss,
     setLiveVar,
 } from '@/utils/customization';
 
-import { ACCENT_PRESETS } from './accent-presets';
 import ColorField from './components/color-field';
 
 const RADIUS_OPTIONS: { value: string; label: string }[] = [

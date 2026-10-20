@@ -12,6 +12,13 @@ import {
     editCommentMutation,
     writeCommentMutation,
 } from '@hikka/api';
+import {
+    commentReplyTarget,
+    commentTextLength,
+    MAX_COMMENT_DEPTH,
+    toReviewArgs,
+    type Verdict,
+} from '@hikka/core';
 
 import CharacterCounter from '@/components/character-counter';
 import {
@@ -28,12 +35,6 @@ import { DEBOUNCE_MS, useDebounce } from '@/services/hooks/use-debounce';
 import { invalidateComments } from '@/utils/api/invalidate-content-state';
 
 import { useCommentsContext } from './comments-provider';
-import type { Verdict } from './review/review';
-import { toReviewArgs } from './review/review';
-
-const MAX_COMMENT_DEPTH = 5;
-
-const codePointLength = (text: string) => Array.from(text).length;
 
 type Props = {
     slug: string;
@@ -70,16 +71,15 @@ const CommentInputBottomBar: FC<Props> = ({
         [],
     );
 
-    const replyMention =
-        !isEdit && comment?.depth && comment.depth >= MAX_COMMENT_DEPTH
-            ? `@${comment.author.username} `
-            : '';
+    const replyTarget =
+        !isEdit && comment ? commentReplyTarget(comment) : undefined;
+    const replyMention = replyTarget?.mention ?? '';
     const [countedValue] = useDebounce<Value>({
         value: useEditorValue(),
         delay: DEBOUNCE_MS.input,
     });
     const textLength = useMemo(
-        () => codePointLength(getCommentText(editor, countedValue)),
+        () => commentTextLength(getCommentText(editor, countedValue)),
         [editor, countedValue],
     );
     const sentLength = replyMention.length + textLength;
@@ -146,7 +146,7 @@ const CommentInputBottomBar: FC<Props> = ({
         }
 
         if (
-            replyMention.length + codePointLength(text) >
+            replyMention.length + commentTextLength(text) >
             API_LIMITS.commentText.max
         ) {
             return;
@@ -173,11 +173,7 @@ const CommentInputBottomBar: FC<Props> = ({
                     slug,
                 },
                 body: {
-                    parent: comment?.depth
-                        ? comment?.depth < MAX_COMMENT_DEPTH
-                            ? comment?.reference
-                            : comment.parent!
-                        : undefined,
+                    parent: replyTarget?.parent,
                     text: `${replyMention}${text}`,
                     review: toReviewArgs(isReview, verdict),
                 },

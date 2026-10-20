@@ -1,6 +1,5 @@
 import { Fragment } from 'react';
 
-import { format, formatDuration, intervalToDuration } from 'date-fns';
 import {
     Building2,
     Calendar,
@@ -12,7 +11,17 @@ import {
     ShieldEllipsis,
 } from 'lucide-react';
 
-import { type AnimeInfoResponse, AnimeStatusEnum } from '@hikka/api';
+import type { AnimeInfoResponse } from '@hikka/api';
+import {
+    AGE_RATING,
+    findNextEpisode,
+    formatEpisodeCount,
+    formatEpisodeDuration,
+    formatNextEpisodeDate,
+    getMediaTypeLabel,
+    getScheduleDuration,
+    SEASON,
+} from '@hikka/core';
 
 import { ReleaseStatusBadge } from '@/components/badges';
 import Card from '@/components/ui/card';
@@ -24,34 +33,10 @@ import {
 } from '@/components/ui/tooltip';
 import { useTitle } from '@/services/session';
 import { cn } from '@/utils/cn';
-import { getScheduleDuration } from '@/utils/i18n';
-import { AGE_RATING, getMediaTypeLabel, SEASON } from '@/utils/labels';
 import { Link } from '@/utils/navigation';
 
 import DetailItem from './detail-item';
 import SynonymsTrigger from './synonyms-trigger';
-
-const formatEpisodeDuration = (duration: number) =>
-    formatDuration(
-        intervalToDuration({
-            start: 0,
-            end: duration * 60 * 1000,
-        }),
-    );
-
-const formatEpisodeCount = (
-    status: string,
-    episodesReleased: number | null,
-    episodesTotal: number | null,
-) => {
-    if (status === AnimeStatusEnum.FINISHED) {
-        return episodesTotal?.toString() ?? '?';
-    }
-    return `${episodesReleased ?? '?'} / ${episodesTotal ?? '?'}`;
-};
-
-const formatNextEpisodeDate = (airingAt: number) =>
-    format(new Date(airingAt * 1000), 'd MMMM HH:mm');
 
 const NextEpisodeDetail = ({
     schedule,
@@ -118,15 +103,7 @@ const WatchDetails = ({
 }) => {
     const title = useTitle(data);
 
-    // @hikka/api types AnimeInfoResponse.schedule as an open
-    // `{ [key: string]: unknown }` record; the items carry a numeric
-    // `airing_at`. Guard the field so a shape change degrades to "no next
-    // episode" instead of producing NaN comparisons.
-    const schedule = data.schedule as Array<{ airing_at?: unknown }>;
-    const nextEpisodeSchedule = schedule.find(
-        (s): s is { airing_at: number } =>
-            typeof s.airing_at === 'number' && s.airing_at * 1000 > Date.now(),
-    );
+    const nextEpisodeSchedule = findNextEpisode(data.schedule);
     const studio = data.companies.find((c) => c.type === 'studio');
 
     const seasonLabel = data.season

@@ -1,0 +1,56 @@
+import type { FC } from 'react';
+
+import { useQuery } from '@tanstack/react-query';
+
+import { FavouriteContentTypeEnum } from '@hikka/api';
+
+import { useTitle } from '@/services/session';
+
+import EntityHeader from './entity-header';
+import EntityScreen from './entity-screen';
+import { entitySections } from './entity-sections';
+import { characterInfoOptions } from './queries';
+
+type Props = {
+    slug: string;
+};
+
+const CharacterPage: FC<Props> = ({ slug }) => {
+    const getTitle = useTitle();
+    const { data, isPending, error, refetch } = useQuery(
+        characterInfoOptions({ path: { slug } }),
+    );
+    const title = data ? getTitle(data) : '';
+
+    return (
+        <EntityScreen
+            slug={slug}
+            favouriteType={FavouriteContentTypeEnum.CHARACTER}
+            sharePath={`/characters/${slug}`}
+            title={title}
+            isPending={isPending}
+            error={error}
+            refetch={() => void refetch()}
+            header={
+                data && (
+                    <EntityHeader
+                        slug={slug}
+                        title={title}
+                        original={data.name_ja}
+                        english={data.name_en}
+                        synonyms={data.synonyms}
+                        image={data.image ?? undefined}
+                        description={data.description_ua}
+                    />
+                )
+            }
+            sections={
+                data
+                    ? entitySections('character', slug, data.comments_count)
+                    : []
+            }
+        />
+    );
+};
+
+export default CharacterPage;

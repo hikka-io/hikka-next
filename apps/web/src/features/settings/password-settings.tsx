@@ -5,7 +5,7 @@ import { changePasswordMutation } from '@hikka/api';
 
 import { SubmitButton, useAppForm } from '@/components/form';
 import { matchFields, passwordSchema } from '@/utils/form-schemas';
-import { z } from '@/utils/i18n/zod';
+import { z } from '@/utils/i18n-zod';
 
 const formSchema = z
     .object({

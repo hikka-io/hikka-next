@@ -2,9 +2,9 @@ import { createFileRoute, redirect } from '@tanstack/react-router';
 import { zodValidator } from '@tanstack/zod-adapter';
 
 import { ContentTypeEnum } from '@hikka/api';
+import { commentsSearchSchema } from '@hikka/core';
 
 import { requireAuth } from '@/utils/auth';
-import { commentsSearchSchema } from '@/utils/search-schemas';
 
 export const Route = createFileRoute('/_pages/comments/my')({
     validateSearch: zodValidator(commentsSearchSchema),

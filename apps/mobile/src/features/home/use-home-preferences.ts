@@ -1,0 +1,40 @@
+import { useMemo } from 'react';
+
+import { useQuery } from '@tanstack/react-query';
+
+import {
+    profileUiOptions,
+    type UiFeedSettingsOutput,
+    type UiFeedWidget,
+} from '@hikka/api';
+import { DEFAULT_USER_UI } from '@hikka/core';
+
+import { useSession } from '@/features/auth';
+
+type HomePreferences = {
+    feed: UiFeedSettingsOutput;
+    widgets: Set<UiFeedWidget['slug']>;
+    loading: boolean;
+};
+
+const DEFAULTS = DEFAULT_USER_UI.preferences;
+
+export function useHomePreferences(): HomePreferences {
+    const { user, hasToken, isPending: sessionPending } = useSession();
+    const { data, isPending: uiPending } = useQuery({
+        ...profileUiOptions(),
+        enabled: hasToken,
+    });
+    const saved = user ? data?.preferences : undefined;
+    const loading = hasToken && (sessionPending || (!!user && uiPending));
+
+    return useMemo(() => {
+        const feed = { ...DEFAULTS.feed, ...saved?.feed };
+
+        return {
+            feed,
+            widgets: new Set(feed.widgets?.map((widget) => widget.slug)),
+            loading,
+        };
+    }, [saved, loading]);
+}

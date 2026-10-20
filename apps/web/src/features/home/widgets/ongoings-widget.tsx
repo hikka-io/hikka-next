@@ -3,10 +3,16 @@ import type { FC } from 'react';
 import { range } from '@antfu/utils';
 
 import { ContentTypeEnum, type SeasonEnum } from '@hikka/api';
+import {
+    DEFAULT_CONTAINER_RATIO,
+    EPISODE_FORMS,
+    getCurrentSeason,
+    getDeclensionWord,
+    getTitle,
+} from '@hikka/core';
 
 import { MediaTooltip } from '@/components/content-card';
 import AnimeCard from '@/components/content-card/anime-card';
-import { DEFAULT_CONTAINER_RATIO } from '@/components/content-card/image-presets';
 import PosterCard from '@/components/content-card/poster-card';
 import SkeletonCard from '@/components/content-card/poster-card-skeleton';
 import MaterialSymbolsLiveTvRounded from '@/components/icons/material-symbols/MaterialSymbolsLiveTvRounded';
@@ -22,11 +28,7 @@ import Stack from '@/components/ui/stack';
 import { useSessionUI } from '@/services/session';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { cn } from '@/utils/cn';
-import { getDeclensionWord } from '@/utils/i18n/declension';
-import { EPISODE_FORMS } from '@/utils/i18n/word-forms';
 import { Link } from '@/utils/navigation';
-import { getCurrentSeason } from '@/utils/season';
-import { getTitle } from '@/utils/title/get-title';
 
 import { homeOngoingsOptions, ONGOINGS_SIZE } from '../queries';
 import type { WidgetProps } from '../types';

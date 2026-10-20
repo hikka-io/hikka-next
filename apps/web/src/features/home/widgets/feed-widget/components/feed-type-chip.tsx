@@ -5,14 +5,13 @@ import type {
     ContentTypeEnum,
     ReviewResponse,
 } from '@hikka/api';
+import { ARTICLE_CATEGORY, CONTENT_TYPES } from '@hikka/core';
 
 import { ReviewBadge } from '@/components/badges';
 import ContentTypeIcon from '@/components/content-type-icon';
 import { ARTICLE_CATEGORY_ICONS } from '@/components/icons/article-category-icons';
 import { chipVariants } from '@/components/ui/chip';
 import { cn } from '@/utils/cn';
-import { CONTENT_TYPES } from '@/utils/labels';
-import { ARTICLE_CATEGORY } from '@/utils/labels/enum-labels';
 
 type FeedDataType = 'comment' | 'article' | 'collection';
 

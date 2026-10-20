@@ -6,6 +6,7 @@ import { LucideChevronsUpDown } from 'lucide-react';
 import { toast } from 'sonner';
 
 import { type AuthTokenInfoResponse, revokeTokenMutation } from '@hikka/api';
+import { MUTATION_META_SKIP_ERROR_TOAST } from '@hikka/core';
 
 import MaterialSymbolsDeleteForeverRounded from '@/components/icons/material-symbols/MaterialSymbolsDeleteForeverRounded';
 import MaterialSymbolsVerifiedRounded from '@/components/icons/material-symbols/MaterialSymbolsVerifiedRounded';
@@ -34,7 +35,6 @@ import {
     TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { invalidateAuthTokens } from '@/utils/api/invalidate-content-state';
-import { MUTATION_META_SKIP_ERROR_TOAST } from '@/utils/api/mutation-meta';
 
 type Props = {
     appName: string;

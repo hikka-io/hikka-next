@@ -1,0 +1,26 @@
+appId: host.exp.Exponent
+# Catalog, open a title, back
+---
+- runFlow: ../subflows/launch.yaml
+- runFlow:
+    file: ../subflows/tab.yaml
+    env:
+      TAB: Grid view
+- extendedWaitUntil:
+    visible: "Фільтри"
+    timeout: 30000
+- assertVisible: "Аніме"
+- assertVisible: "Манґа"
+- assertVisible: "Ранобе"
+- tapOn:
+    text: ".+"
+    below: "Ранобе"
+    index: 0
+- extendedWaitUntil:
+    visible: "Додати у список"
+    timeout: 30000
+- assertVisible: "Опис"
+- runFlow: ../subflows/back.yaml
+- extendedWaitUntil:
+    visible: "Фільтри"
+    timeout: 15000

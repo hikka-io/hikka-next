@@ -1,0 +1,21 @@
+# Signs out from Profile > Settings; ends on the logged-out Profile tab.
+appId: host.exp.Exponent
+---
+- runFlow:
+    file: tab.yaml
+    env:
+      TAB: account
+- tapOn: "Налаштування"
+- extendedWaitUntil:
+    visible: "Вийти"
+    timeout: 20000
+- tapOn: "Вийти"
+- extendedWaitUntil:
+    visible: "Вийти з акаунту?"
+    timeout: 10000
+- tapOn:
+    text: "Вийти"
+    rightOf: "Скасувати"
+- extendedWaitUntil:
+    visible: "Увійдіть, щоб відстежувати аніме та бачити свої списки"
+    timeout: 20000

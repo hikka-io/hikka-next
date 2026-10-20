@@ -7,14 +7,13 @@ import {
     type MangaResponse,
     type NovelResponse,
 } from '@hikka/api';
+import { getDeclensionWord, REREAD_FORMS, VIEW_FORMS } from '@hikka/core';
 
 import PosterCard from '@/components/content-card/poster-card';
 import { MDViewer } from '@/components/markdown';
 import { Badge } from '@/components/ui/badge';
 import { TableCell } from '@/components/ui/table';
 import { useTitle } from '@/services/session';
-import { getDeclensionWord } from '@/utils/i18n/declension';
-import { REREAD_FORMS, VIEW_FORMS } from '@/utils/i18n/word-forms';
 import { Link } from '@/utils/navigation';
 
 type Props = {

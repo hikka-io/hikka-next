@@ -11,7 +11,7 @@ import {
     USERNAME_HINT,
     usernameSchema,
 } from '@/utils/form-schemas';
-import { z } from '@/utils/i18n/zod';
+import { z } from '@/utils/i18n-zod';
 import { useRouter } from '@/utils/navigation';
 
 import Captcha from './captcha';

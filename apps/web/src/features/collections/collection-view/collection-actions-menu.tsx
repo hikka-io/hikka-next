@@ -4,6 +4,10 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
 import { deleteCollectionMutation, getCollectionOptions } from '@hikka/api';
+import {
+    CONTENT_TYPE_LINKS,
+    MUTATION_META_SKIP_ERROR_TOAST,
+} from '@hikka/core';
 
 import MaterialSymbolsDeleteForeverRounded from '@/components/icons/material-symbols/MaterialSymbolsDeleteForeverRounded';
 import MaterialSymbolsEditRounded from '@/components/icons/material-symbols/MaterialSymbolsEditRounded';
@@ -21,8 +25,6 @@ import {
 import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
 import { useSession } from '@/services/session';
 import { invalidateCollections } from '@/utils/api/invalidate-content-state';
-import { MUTATION_META_SKIP_ERROR_TOAST } from '@/utils/api/mutation-meta';
-import { CONTENT_TYPE_LINKS } from '@/utils/content-paths';
 import { Link, useParams, useRouter } from '@/utils/navigation';
 
 type Props = {

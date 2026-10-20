@@ -1,12 +1,12 @@
 import { format } from 'date-fns/format';
 
 import type { UserResponse } from '@hikka/api';
+import { USER_ROLE } from '@hikka/core';
 
 import PosterCard from '@/components/content-card/poster-card';
 import { Badge } from '@/components/ui/badge';
 import { Label } from '@/components/ui/label';
 import { cn } from '@/utils/cn';
-import { USER_ROLE } from '@/utils/labels';
 import { Link } from '@/utils/navigation';
 
 const ROLE_BADGE_CLASSES = {

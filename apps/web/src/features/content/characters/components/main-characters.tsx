@@ -1,13 +1,13 @@
 import type { FC } from 'react';
 
 import type { MainContentTypeEnum } from '@hikka/api';
+import { CONTENT_TYPE_LINKS } from '@hikka/core';
 
 import CharacterCard from '@/components/content-card/character-card';
 import Block from '@/components/ui/block';
 import { Header, HeaderTitle } from '@/components/ui/header';
 import Stack from '@/components/ui/stack';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
-import { CONTENT_TYPE_LINKS } from '@/utils/content-paths';
 import { useParams } from '@/utils/navigation';
 
 import { contentCharactersOptions } from '../../queries';

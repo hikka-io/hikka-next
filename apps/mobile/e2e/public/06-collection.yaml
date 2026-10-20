@@ -1,0 +1,26 @@
+appId: host.exp.Exponent
+# Collection
+---
+- runFlow: ../subflows/launch.yaml
+- scrollUntilVisible:
+    element: "Колекції"
+    timeout: 30000
+- tapOn: "Колекції"
+- extendedWaitUntil:
+    visible: "Сортування"
+    timeout: 30000
+- extendedWaitUntil:
+    visible: "\\+[0-9]+"
+    timeout: 30000
+- tapOn:
+    text: "\\+[0-9]+"
+    index: 0
+- extendedWaitUntil:
+    visible: "Подобається"
+    timeout: 30000
+- assertVisible: "Не подобається"
+- assertVisible: "Поділитися"
+- runFlow: ../subflows/back.yaml
+- extendedWaitUntil:
+    visible: "Сортування"
+    timeout: 15000

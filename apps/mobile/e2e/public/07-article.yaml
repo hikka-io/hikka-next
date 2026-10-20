@@ -1,0 +1,20 @@
+appId: host.exp.Exponent
+# Article
+---
+- runFlow: ../subflows/launch.yaml
+- scrollUntilVisible:
+    element: "Статті"
+    timeout: 30000
+- tapOn: "Статті"
+- extendedWaitUntil:
+    visible: "Новини"
+    timeout: 30000
+- runFlow: ../subflows/open-first-card.yaml
+- extendedWaitUntil:
+    visible: "Поділитися"
+    timeout: 30000
+- assertVisible: ".* тому"
+- runFlow: ../subflows/back.yaml
+- extendedWaitUntil:
+    visible: "Новини"
+    timeout: 15000

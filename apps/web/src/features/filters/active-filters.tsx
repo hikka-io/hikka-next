@@ -9,6 +9,12 @@ import {
     genresOptions,
     searchCompaniesInfiniteOptions,
 } from '@hikka/api';
+import {
+    type ActiveFilter as CoreActiveFilter,
+    getActiveFilters,
+    isTristateFilter,
+    removeActiveFilter,
+} from '@hikka/core';
 
 import { MaterialSymbolsStarRounded } from '@/components/icons/material-symbols/MaterialSymbolsStarRounded';
 import { Badge } from '@/components/ui/badge';
@@ -16,98 +22,18 @@ import { Button } from '@/components/ui/button';
 import { useSession } from '@/services/session';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { cn } from '@/utils/cn';
-import { CONTENT_TYPES } from '@/utils/labels/content-types';
-import {
-    AGE_RATING,
-    CHARACTER_ISSUES,
-    CONTENT_ISSUES,
-    MEDIA_TYPE,
-    RELEASE_STATUS,
-    SEASON,
-} from '@/utils/labels/enum-labels';
 import { useRouteSearch } from '@/utils/navigation';
 
 import { useClearFilters } from './use-clear-filters';
 
-type FilterDef =
-    | {
-          kind: 'enum';
-          labelMap: Record<string, { title_ua: string }>;
-          tristate?: true;
-      }
-    | { kind: 'dynamic'; tristate?: true }
-    | { kind: 'range'; icon?: (props: SVGProps<SVGSVGElement>) => ReactElement }
-    /** `viewerOnly` flags apply only with a session, so a logged-out visitor gets no chip. */
-    | { kind: 'boolean'; label: string; viewerOnly?: true }
-    /** Free-form param whose own value belongs on the chip, e.g. `MAL ID: 47128`. */
-    | { kind: 'value'; label: string }
-    | { kind: 'combined'; label: string; related: string[] }
-    | { kind: 'subordinate' }
-    | { kind: 'ignored' };
-
-const FILTER_REGISTRY: Record<string, FilterDef> = {
-    // Ignored params (not displayed as active filters)
-    page: { kind: 'ignored' },
-    search: { kind: 'ignored' },
-    order: { kind: 'ignored' },
-    sort: { kind: 'ignored' },
-    // Selects which list is shown rather than filtering it.
-    tab: { kind: 'ignored' },
-
-    // Subordinate params (controlled by a combined param)
-    date_range: { kind: 'subordinate' },
-
-    // Enum params with static label maps
-    statuses: { kind: 'enum', labelMap: RELEASE_STATUS },
-    seasons: { kind: 'enum', labelMap: SEASON },
-    types: { kind: 'enum', labelMap: MEDIA_TYPE },
-    ratings: { kind: 'enum', labelMap: AGE_RATING },
-    content_type: { kind: 'enum', labelMap: CONTENT_TYPES },
-
-    // Enum params with dynamic label maps (fetched from API)
-    genres: { kind: 'dynamic', tristate: true },
-    studios: { kind: 'dynamic' },
-    // No magazine lookup endpoint, so chips show the raw slug.
-    magazines: { kind: 'dynamic' },
-
-    // Range params
-    years: { kind: 'range' },
-    score: { kind: 'range', icon: MaterialSymbolsStarRounded },
-
-    // Boolean params
-    only_translated: { kind: 'boolean', label: 'Перекладено українською' },
-    hide_listed: {
-        kind: 'boolean',
-        label: 'Без тайтлів з мого списку',
-        viewerOnly: true,
-    },
-
-    // Missing-data flags of the /edit/content lists
-    issues: {
-        kind: 'enum',
-        tristate: true,
-        labelMap: { ...CONTENT_ISSUES, ...CHARACTER_ISSUES },
-    },
-
-    // Value params (the chip carries the entered value)
-    mal_id: { kind: 'value', label: 'MAL ID' },
-    content_slug: { kind: 'value', label: 'Slug' },
-
-    // Combined params (group related URL params under one chip)
-    date_range_enabled: {
-        kind: 'combined',
-        label: 'Часовий проміжок',
-        related: ['date_range'],
-    },
+export type ActiveFilter = CoreActiveFilter & {
+    icon?: (props: SVGProps<SVGSVGElement>) => ReactElement;
 };
 
-export interface ActiveFilter {
-    param: string;
-    value: string;
-    label: string;
-    icon?: (props: SVGProps<SVGSVGElement>) => ReactElement;
-    excluded?: boolean;
-}
+/** Range chips that carry an icon. */
+const FILTER_ICONS: Record<string, ActiveFilter['icon']> = {
+    score: MaterialSymbolsStarRounded,
+};
 
 /** Derives human-readable active filters (+ count, clearAll) from URL params and dynamic label maps. */
 export function useActiveFilters() {
@@ -155,154 +81,24 @@ export function useActiveFilters() {
             [genreMap, studioMap],
         );
 
-    const filters = useMemo(() => {
-        const resolveLabel = (key: string, rawValue: string): string => {
-            const def = FILTER_REGISTRY[key];
-            const isTristate = def && 'tristate' in def && def.tristate;
-            const value =
-                isTristate && rawValue.startsWith('-')
-                    ? rawValue.substring(1)
-                    : rawValue;
+    const filters = useMemo<ActiveFilter[]>(
+        () =>
+            getActiveFilters(search, {
+                labelMaps: dynamicLabelMaps,
+                signedIn: Boolean(user),
+            }).map((filter) => {
+                const icon = FILTER_ICONS[filter.param];
 
-            if (def?.kind === 'enum' && def.labelMap[value]) {
-                return def.labelMap[value].title_ua;
-            }
-
-            if (def?.kind === 'dynamic' && dynamicLabelMaps[key]?.[value]) {
-                return dynamicLabelMaps[key]![value];
-            }
-
-            return value;
-        };
-
-        const result: ActiveFilter[] = [];
-
-        Object.entries(search).forEach(([key, rawValue]) => {
-            const def = FILTER_REGISTRY[key];
-
-            if (!def || def.kind === 'ignored' || def.kind === 'subordinate')
-                return;
-
-            switch (def.kind) {
-                case 'combined': {
-                    if (rawValue === true || rawValue === 'true') {
-                        result.push({
-                            param: key,
-                            value: 'true',
-                            label: def.label,
-                        });
-                    }
-                    return;
-                }
-
-                case 'range': {
-                    const values = Array.isArray(rawValue)
-                        ? rawValue.map(String)
-                        : [String(rawValue)];
-
-                    if (values.length === 2) {
-                        result.push({
-                            param: key,
-                            value: values.join(','),
-                            label: `${values[0]}–${values[1]}`,
-                            icon: def.icon,
-                        });
-                    }
-                    return;
-                }
-
-                case 'boolean': {
-                    if (def.viewerOnly && !user) return;
-
-                    result.push({
-                        param: key,
-                        value: String(rawValue),
-                        label: def.label,
-                    });
-                    return;
-                }
-
-                case 'value': {
-                    result.push({
-                        param: key,
-                        value: String(rawValue),
-                        label: `${def.label}: ${rawValue}`,
-                    });
-                    return;
-                }
-
-                case 'enum':
-                case 'dynamic': {
-                    const isTristate = 'tristate' in def && def.tristate;
-                    const addValue = (v: unknown) => {
-                        const value = String(v);
-                        const excluded = isTristate && value.startsWith('-');
-                        result.push({
-                            param: key,
-                            value,
-                            label: resolveLabel(key, value),
-                            excluded,
-                        });
-                    };
-
-                    if (Array.isArray(rawValue)) {
-                        rawValue.forEach(addValue);
-                    } else {
-                        addValue(rawValue);
-                    }
-                    return;
-                }
-            }
-        });
-
-        return result;
-    }, [search, dynamicLabelMaps, user]);
+                return icon ? { ...filter, icon } : filter;
+            }),
+        [search, dynamicLabelMaps, user],
+    );
 
     const removeFilter = (filter: ActiveFilter) => {
-        const def = FILTER_REGISTRY[filter.param];
-
         router.navigate({
             to: '.',
-            search: (prev: Record<string, unknown>) => {
-                const next: Record<string, unknown> = { ...prev };
-
-                switch (def?.kind) {
-                    case 'combined':
-                        delete next[filter.param];
-                        def.related.forEach((p) => {
-                            delete next[p];
-                        });
-                        break;
-
-                    // Range, boolean and value always map to a single chip — delete the whole param
-                    case 'range':
-                    case 'boolean':
-                    case 'value':
-                        delete next[filter.param];
-                        break;
-
-                    case 'enum':
-                    case 'dynamic': {
-                        const current = next[filter.param];
-                        if (Array.isArray(current)) {
-                            const filtered = current.filter(
-                                (v) => String(v) !== filter.value,
-                            );
-                            if (filtered.length > 0) {
-                                next[filter.param] = filtered;
-                            } else {
-                                delete next[filter.param];
-                            }
-                        } else {
-                            delete next[filter.param];
-                        }
-                        break;
-                    }
-                }
-
-                delete next.page;
-                return next;
-            },
+            search: (prev: Record<string, unknown>) =>
+                removeActiveFilter(prev, filter),
             replace: true,
         } as any);
     };
@@ -331,8 +127,7 @@ const ActiveFilters: FC<Props> = ({ className }) => {
             )}
         >
             {filters.map((filter, idx) => {
-                const def = FILTER_REGISTRY[filter.param];
-                const isTriState = def && 'tristate' in def && def.tristate;
+                const isTriState = isTristateFilter(filter.param);
                 const variant = isTriState
                     ? filter.excluded
                         ? 'destructive'

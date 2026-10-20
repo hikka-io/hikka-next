@@ -5,9 +5,9 @@ import type { PlateElementProps } from 'platejs/react';
 import { PlateElement } from 'platejs/react';
 
 import { userProfileOptions, userReferenceOptions } from '@hikka/api';
+import { isUserReference, userUrlTarget } from '@hikka/core';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { isUserReference, userUrlTarget } from '@/utils/mentions';
 
 const mentionTarget = (element: TLinkElement) => {
     const label = element.children

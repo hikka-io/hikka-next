@@ -1,0 +1,21 @@
+# On a title page: removes it from the list through the tracking sheet, if it is in one.
+appId: host.exp.Exponent
+---
+- runFlow:
+    when:
+      visible: "Список: .*"
+    commands:
+      - tapOn: "Налаштування"
+      - extendedWaitUntil:
+          visible: "Видалити"
+          timeout: 10000
+      - tapOn: "Видалити"
+      - extendedWaitUntil:
+          visible: "Видалити зі списку?"
+          timeout: 10000
+      - tapOn:
+          text: "Видалити"
+          rightOf: "Скасувати"
+      - extendedWaitUntil:
+          visible: "Додати у список"
+          timeout: 20000

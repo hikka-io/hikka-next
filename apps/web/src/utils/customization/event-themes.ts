@@ -1,6 +1,5 @@
 import type { UiStylesOutput } from '@hikka/api';
-
-import type { UIEffect } from './merge';
+import type { UIEffect } from '@hikka/core';
 
 export type EventTheme = {
     id: string;

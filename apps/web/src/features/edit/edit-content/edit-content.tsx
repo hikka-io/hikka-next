@@ -1,10 +1,10 @@
 import type { FC } from 'react';
 
 import type { EditContentTypeEnum } from '@hikka/api';
+import { contentPath } from '@hikka/core';
 
 import Block from '@/components/ui/block';
 import { Header, HeaderTitle } from '@/components/ui/header';
-import { contentPath } from '@/utils/content-paths';
 
 import type { EditMainContent } from '../types';
 import EditContentDetails from './edit-content-details';

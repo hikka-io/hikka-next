@@ -4,8 +4,8 @@ import type {
     MangaInfoResponse,
     NovelInfoResponse,
 } from '@hikka/api';
+import { parseTextFromMarkDown } from '@hikka/core';
 
-import { parseTextFromMarkDown } from '@/utils/markdown';
 import { SITE_ORIGIN } from '@/utils/url';
 
 type ContentSchemaType = 'anime' | 'manga' | 'novel';

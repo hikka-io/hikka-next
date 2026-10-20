@@ -1,6 +1,6 @@
 import { ElementApi, NodeApi, type TElement, TextApi } from 'platejs';
 
-import { BLANK_CHARS } from '@/utils/text';
+import { BLANK_CHARS } from '@hikka/core';
 
 import { CONTAINER_BLOCK_TYPES } from '../plate-types';
 

@@ -1,0 +1,173 @@
+import { type FC, useState } from 'react';
+
+import { useQuery } from '@tanstack/react-query';
+import { RefreshControl, ScrollView } from 'react-native';
+
+import { ContentTypeEnum, type MainContentTypeEnum } from '@hikka/api';
+import { contentPath } from '@hikka/core';
+
+import DetailHeaderChrome from '@/components/detail-header-chrome';
+import NsfwGate from '@/components/nsfw-gate';
+import ErrorState from '@/components/ui/error-state';
+import { useNsfwAllowed, useTitle } from '@/services/session';
+import { isNotFoundError } from '@/utils/api/is-not-found';
+import { byContent, usePullToRefresh } from '@/utils/api/use-pull-to-refresh';
+
+import ContentArticles from './content-articles';
+import ContentCharacters from './content-characters';
+import { ContentCollectionsSection } from './content-collections';
+import ContentComments from './content-comments';
+import ContentDetailSkeleton from './content-detail-skeleton';
+import ContentDetails from './content-details';
+import ContentFollowings from './content-followings';
+import ContentFranchise from './content-franchise';
+import ContentHero from './content-hero';
+import ContentLinks from './content-links';
+import ContentMedia from './content-media';
+import ContentMovieBanner from './content-movie-banner';
+import ContentRecommendations from './content-recommendations';
+import ContentStaff from './content-staff';
+import ContentStats from './content-stats';
+import ContentSynopsis from './content-synopsis';
+import DetailScrollProvider, {
+    useDetailScroll,
+    useScrolledPast,
+} from './detail-scroll';
+import { type ContentInfo, contentInfoOptions } from './queries';
+
+type SectionProps = {
+    content: ContentInfo;
+};
+
+const SECTIONS = {
+    synopsis: ContentSynopsis,
+    movieBanner: ContentMovieBanner,
+    details: ContentDetails,
+    franchise: ContentFranchise,
+    characters: ContentCharacters,
+    staff: ContentStaff,
+    media: ContentMedia,
+    recommendations: ContentRecommendations,
+    stats: ContentStats,
+    followings: ContentFollowings,
+    collections: ContentCollectionsSection,
+    articles: ContentArticles,
+    links: ContentLinks,
+    comments: ContentComments,
+} satisfies Record<string, FC<SectionProps>>;
+
+type DetailSection = keyof typeof SECTIONS;
+
+const READ_SECTIONS = [
+    'synopsis',
+    'details',
+    'franchise',
+    'characters',
+    'staff',
+    'stats',
+    'followings',
+    'collections',
+    'articles',
+    'links',
+    'comments',
+] as const satisfies readonly DetailSection[];
+
+const DETAIL_SECTIONS = {
+    [ContentTypeEnum.ANIME]: [
+        'synopsis',
+        'movieBanner',
+        'details',
+        'franchise',
+        'characters',
+        'staff',
+        'media',
+        'recommendations',
+        'stats',
+        'followings',
+        'collections',
+        'articles',
+        'links',
+        'comments',
+    ],
+    [ContentTypeEnum.MANGA]: READ_SECTIONS,
+    [ContentTypeEnum.NOVEL]: READ_SECTIONS,
+} as const satisfies Record<MainContentTypeEnum, readonly DetailSection[]>;
+
+type Props = {
+    contentType: MainContentTypeEnum;
+    slug: string;
+};
+
+const ContentDetailBody: FC<Props> = ({ contentType, slug }) => {
+    const getTitle = useTitle();
+    const {
+        data: content,
+        error,
+        refetch,
+    } = useQuery(contentInfoOptions(contentType, slug));
+    const { onScroll, onLayout } = useDetailScroll();
+    const [titleBottom, setTitleBottom] = useState<number | null>(null);
+    const titleVisible = useScrolledPast(titleBottom);
+    const { refreshing, onRefresh } = usePullToRefresh(byContent(slug));
+    const nsfw = useNsfwAllowed();
+    const gated = !!content?.nsfw && !nsfw.allowed;
+
+    return (
+        <>
+            <DetailHeaderChrome
+                title={content ? getTitle(content) : ''}
+                titleVisible={titleVisible}
+                sharePath={content ? contentPath(contentType, slug) : undefined}
+            />
+            <ScrollView
+                className="flex-1 bg-background"
+                contentInsetAdjustmentBehavior="automatic"
+                contentContainerClassName="gap-6 px-4 pt-4 pb-8"
+                scrollEventThrottle={16}
+                onScroll={onScroll}
+                onLayout={onLayout}
+                refreshControl={
+                    <RefreshControl
+                        refreshing={refreshing}
+                        onRefresh={onRefresh}
+                    />
+                }
+            >
+                {content && gated && nsfw.isPending ? (
+                    <ContentDetailSkeleton />
+                ) : content && gated ? (
+                    <NsfwGate />
+                ) : content ? (
+                    <>
+                        <ContentHero
+                            contentType={contentType}
+                            content={content}
+                            onTitleBottom={setTitleBottom}
+                        />
+                        {DETAIL_SECTIONS[contentType].map((key) => {
+                            const Section = SECTIONS[key];
+                            return <Section key={key} content={content} />;
+                        })}
+                    </>
+                ) : error ? (
+                    <ErrorState
+                        error={error}
+                        onRetry={refetch}
+                        notFound={isNotFoundError(error)}
+                        className="pt-16"
+                    />
+                ) : (
+                    <ContentDetailSkeleton />
+                )}
+            </ScrollView>
+        </>
+    );
+};
+
+const ContentDetailPage: FC<Props> = ({ contentType, slug }) => (
+    <DetailScrollProvider key={slug}>
+        <ContentDetailBody contentType={contentType} slug={slug} />
+    </DetailScrollProvider>
+);
+
+export default ContentDetailPage;

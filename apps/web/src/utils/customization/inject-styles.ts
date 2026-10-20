@@ -1,31 +1,7 @@
 import type { UiStylesOutput, UiSurfaceOverrides } from '@hikka/api';
-
-import { isValidOklch, oklchToCss } from './color';
+import { isValidOklch, oklchToCss, SURFACE_OVERRIDE_TOKENS } from '@hikka/core';
 
 export const STYLE_ELEMENT_ID = 'user-styles';
-
-/**
- * Surface tokens a user may override directly (the advanced reveal). Excludes
- * the brand-derived `primary*` family and the developer-controlled status
- * colors. Mirrors `UiSurfaceOverrides` from the API.
- */
-export const SURFACE_OVERRIDE_TOKENS = new Set<keyof UiSurfaceOverrides>([
-    'background',
-    'foreground',
-    'card',
-    'card_foreground',
-    'popover',
-    'popover_foreground',
-    'secondary',
-    'secondary_foreground',
-    'muted',
-    'muted_foreground',
-    'accent',
-    'accent_foreground',
-    'border',
-    'input',
-    'ring',
-]);
 
 /** Convert snake_case/camelCase to kebab-case. */
 function keyToKebab(str: string): string {

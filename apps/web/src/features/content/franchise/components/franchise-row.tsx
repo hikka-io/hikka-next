@@ -1,5 +1,7 @@
 import type { FC, ReactNode } from 'react';
 
+import { contentPath } from '@hikka/core';
+
 import {
     HorizontalCard,
     HorizontalCardContainer,
@@ -7,7 +9,6 @@ import {
 } from '@/components/horizontal-card';
 import { HistoryFacts } from '@/components/list-items';
 import { useTitle } from '@/services/session';
-import { contentPath } from '@/utils/content-paths';
 
 import { basicMeta, type FranchiseContent } from '../franchise-model';
 import FranchiseListButton from './franchise-list-button';

@@ -1,0 +1,27 @@
+appId: host.exp.Exponent
+# 18+ gate on an NSFW title: Back leaves, "Мені є 18 років" reveals the page for this launch
+env:
+  E2E_NSFW_SLUG: overflow-fd4028
+---
+- runFlow: ../subflows/launch.yaml
+- openLink: ${METRO_URL}/--/anime/${E2E_NSFW_SLUG}
+- extendedWaitUntil:
+    visible: "Відвертий контент"
+    timeout: 60000
+- assertVisible: "Контент 18\\+"
+- assertVisible: "Запам'ятати мій вибір"
+- assertNotVisible: "Опис"
+- tapOn: "Назад"
+- extendedWaitUntil:
+    visible: "Приєднуйся до hikka"
+    timeout: 20000
+- openLink: ${METRO_URL}/--/anime/${E2E_NSFW_SLUG}
+- extendedWaitUntil:
+    visible: "Мені є 18 років"
+    timeout: 60000
+- tapOn: "Мені є 18 років"
+- extendedWaitUntil:
+    visible: "Додати у список"
+    timeout: 30000
+- assertNotVisible: "Відвертий контент"
+- assertVisible: "Опис"

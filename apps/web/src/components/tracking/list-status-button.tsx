@@ -22,6 +22,12 @@ import {
     type WatchResponse,
     type WatchResponseBase,
 } from '@hikka/api';
+import {
+    carryOverReadArgs,
+    carryOverWatchArgs,
+    completedReadFill,
+    completedWatchFill,
+} from '@hikka/core';
 
 import MaterialSymbolsSettingsOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsSettingsOutlineRounded';
 import type { ButtonProps } from '@/components/ui/button';
@@ -34,11 +40,6 @@ import {
     SelectSeparator,
 } from '@/components/ui/select';
 import { listEntryOptions } from '@/utils/api/content-queries';
-import {
-    carryOverReadArgs,
-    carryOverWatchArgs,
-    omitUndefined,
-} from '@/utils/api/tracking-args';
 
 import IconStatusButton from './icon-status-button';
 import ListEntryEditDialog from './list-entry-edit-dialog';
@@ -135,9 +136,8 @@ const KINDS: Record<'watch' | 'read', KindConfig> = {
         useEntry: useWatchEntry,
         useAdd: useAddWatch,
         carryOver: carryOverWatchArgs,
-        fillCompleted: (content: WatchContent | undefined) => ({
-            episodes: content?.episodes_total || undefined,
-        }),
+        fillCompleted: (content: WatchContent | undefined) =>
+            completedWatchFill(content),
     },
     read: {
         options: READ_STATUS_OPTIONS,
@@ -148,10 +148,7 @@ const KINDS: Record<'watch' | 'read', KindConfig> = {
         fillCompleted: (
             content: ReadContent | undefined,
             entry: ReadEntry | undefined,
-        ) => ({
-            volumes: content?.volumes || entry?.volumes || undefined,
-            chapters: content?.chapters || entry?.chapters || undefined,
-        }),
+        ) => completedReadFill(content, entry),
     },
 };
 
@@ -207,7 +204,7 @@ const ListStatusButton: FC<Props> = ({
                 status: selectedOption,
                 ...KINDS[kind].carryOver(trackedEntry),
                 ...(selectedOption === 'completed'
-                    ? omitUndefined(KINDS[kind].fillCompleted(content, entry))
+                    ? KINDS[kind].fillCompleted(content, entry)
                     : undefined),
             };
 

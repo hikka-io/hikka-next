@@ -1,0 +1,1 @@
+export const DEFAULT_CONTAINER_RATIO = 0.7;

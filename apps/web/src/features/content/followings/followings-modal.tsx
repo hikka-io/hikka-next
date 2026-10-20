@@ -45,14 +45,7 @@ const FollowingsModal: FC<Props> = ({ content_type }) => {
             loadMoreRef={ref}
             skeleton={FollowingItemSkeleton}
             renderItem={(item) => (
-                <FollowingItem
-                    data={{
-                        type: 'watch' in item ? 'watch' : 'read',
-                        content: 'watch' in item ? item.watch : item.read,
-                        ...item,
-                    }}
-                    key={item.reference}
-                />
+                <FollowingItem user={item} key={item.reference} />
             )}
             emptyState={
                 <EmptyState

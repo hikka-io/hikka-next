@@ -3,6 +3,8 @@ import type { FC } from 'react';
 import { Activity } from 'lucide-react';
 
 import type { EditStatusEnum } from '@hikka/api';
+import type { EditSearch } from '@hikka/core';
+import { EDIT_STATUS } from '@hikka/core';
 
 import { Label } from '@/components/ui/label';
 import {
@@ -14,9 +16,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
-import { EDIT_STATUS } from '@/utils/labels/enum-labels';
 import { useRouteSearch } from '@/utils/navigation';
-import type { EditSearch } from '@/utils/search-schemas';
 
 import { useChangeParam } from './use-change-param';
 

@@ -10,6 +10,11 @@ import {
     FeedContentTypeEnum,
     FeedReviewContentTypeEnum,
 } from '@hikka/api';
+import {
+    ARTICLE_CATEGORY,
+    COLLECTION_CONTENT_TYPE_OPTIONS,
+    CONTENT_TYPES,
+} from '@hikka/core';
 
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -26,11 +31,6 @@ import {
     TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { cn } from '@/utils/cn';
-import {
-    COLLECTION_CONTENT_TYPE_OPTIONS,
-    CONTENT_TYPES,
-} from '@/utils/labels/content-types';
-import { ARTICLE_CATEGORY } from '@/utils/labels/enum-labels';
 
 export type FeedSubTypeFilters = {
     feed_content_types: FeedContentTypeEnum[] | null;

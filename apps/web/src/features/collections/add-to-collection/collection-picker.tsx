@@ -8,8 +8,8 @@ import type {
     CollectionContentTypeEnum,
     UserCollectionResponse,
 } from '@hikka/api';
+import { DEFAULT_CONTAINER_RATIO } from '@hikka/core';
 
-import { DEFAULT_CONTAINER_RATIO } from '@/components/content-card/image-presets';
 import HorizontalCardSkeleton from '@/components/horizontal-card-skeleton';
 import MaterialSymbolsStack from '@/components/icons/material-symbols/MaterialSymbolsStack';
 import { AspectRatio } from '@/components/ui/aspect-ratio';

@@ -1,11 +1,12 @@
 import { useState } from 'react';
 
+import { isBlankDescription } from '@hikka/core';
+
 import { MDViewer } from '@/components/markdown';
 import TextExpand from '@/components/text-expand';
 import Block from '@/components/ui/block';
 import { Header, HeaderTitle } from '@/components/ui/header';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { BLANK_CHARS } from '@/utils/text';
 
 export interface DescriptionOption {
     text?: string | null;
@@ -27,18 +28,6 @@ type Props = {
 };
 
 /**
- * Treats a description as empty when it has no meaningful content — only
- * whitespace, newlines (real or literal `\n`/`\r` escapes), non-breaking
- * spaces, or zero-width spaces.
- */
-const isBlank = (text?: string | null) =>
-    !text ||
-    text
-        .replace(/\\[rn]/g, '')
-        .replace(BLANK_CHARS, '')
-        .trim() === '';
-
-/**
  * Shared "Опис" block used by content and character pages: renders a markdown
  * description with an optional UA/EN toggle. Blank options are dropped, the
  * toggle only appears when more than one language is available, and the whole
@@ -51,7 +40,7 @@ const DescriptionBlock = ({
     id,
 }: Props) => {
     const valid = options
-        .filter((o) => !isBlank(o.text))
+        .filter((o) => !isBlankDescription(o.text))
         .map((o, i) => ({ ...o, key: o.value ?? String(i) }));
     const [active, setActive] = useState<string | undefined>(undefined);
 

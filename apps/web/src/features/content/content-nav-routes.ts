@@ -1,6 +1,6 @@
 import { ContentTypeEnum, type MainContentTypeEnum } from '@hikka/api';
+import { contentPath } from '@hikka/core';
 
-import { contentPath } from '@/utils/content-paths';
 import type { NavRoute } from '@/utils/navigation';
 
 export type NavContentType =

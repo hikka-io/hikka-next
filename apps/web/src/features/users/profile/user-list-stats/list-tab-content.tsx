@@ -6,10 +6,16 @@ import { useQuery } from '@tanstack/react-query';
 import {
     ContentTypeEnum,
     type MainContentTypeEnum,
-    ReadStatusEnum,
     type UserWatchStatsResponse,
-    WatchStatusEnum,
 } from '@hikka/api';
+import {
+    getDeclensionWord,
+    getWatchTime,
+    HOUR_FORMS,
+    LIST_STATUS,
+    READ_STATUS_ORDER,
+    WATCH_STATUS_ORDER,
+} from '@hikka/core';
 
 import { MaterialSymbolsClockLoader10 } from '@/components/icons/material-symbols/MaterialSymbolsClockLoader10';
 import BlockFooter from '@/components/ui/block-footer';
@@ -22,9 +28,6 @@ import {
     TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { cn } from '@/utils/cn';
-import { getDeclensionWord } from '@/utils/i18n/declension';
-import { DAY_FORMS, HOUR_FORMS, MONTH_FORMS } from '@/utils/i18n/word-forms';
-import { LIST_STATUS } from '@/utils/labels';
 import { Link } from '@/utils/navigation';
 
 import { userListStatsOptions } from '../../queries';
@@ -35,27 +38,12 @@ type Props = {
     username: string;
 };
 
-const WATCH_ORDER: WatchStatusEnum[] = [
-    WatchStatusEnum.COMPLETED,
-    WatchStatusEnum.WATCHING,
-    WatchStatusEnum.PLANNED,
-    WatchStatusEnum.DROPPED,
-    WatchStatusEnum.ON_HOLD,
-];
-
-const READ_ORDER: ReadStatusEnum[] = [
-    ReadStatusEnum.COMPLETED,
-    ReadStatusEnum.READING,
-    ReadStatusEnum.PLANNED,
-    ReadStatusEnum.DROPPED,
-    ReadStatusEnum.ON_HOLD,
-];
-
 const ListTabContent: FC<Props> = ({ type, username }) => {
     const [hoveredStatus, setHoveredStatus] = useState<string | null>(null);
     const isAnime = type === ContentTypeEnum.ANIME;
     const sortParam = isAnime ? 'watch_score' : 'read_score';
-    const statusCount = (isAnime ? WATCH_ORDER : READ_ORDER).length;
+    const statusCount = (isAnime ? WATCH_STATUS_ORDER : READ_STATUS_ORDER)
+        .length;
 
     const { data, isPending } = useQuery(userListStatsOptions(username, type));
 
@@ -82,7 +70,7 @@ const ListTabContent: FC<Props> = ({ type, username }) => {
         ) : null;
     }
 
-    const statuses = isAnime ? WATCH_ORDER : READ_ORDER;
+    const statuses = isAnime ? WATCH_STATUS_ORDER : READ_STATUS_ORDER;
     const statusMap = LIST_STATUS[isAnime ? 'watch' : 'read'];
 
     const total = statuses.reduce(
@@ -102,23 +90,11 @@ const ListTabContent: FC<Props> = ({ type, username }) => {
         };
     });
 
-    const watchHours = isAnime
-        ? Math.round(((data as UserWatchStatsResponse).duration || 0) / 60)
+    const watchTime = isAnime
+        ? getWatchTime((data as UserWatchStatsResponse).duration)
         : null;
-
-    const watchTotalDays =
-        watchHours !== null ? Math.floor(watchHours / 24) : 0;
-    const watchMonths = Math.floor(watchTotalDays / 30);
-    const watchDays = watchTotalDays % 30;
-
-    const watchDisplayLabel = [
-        watchMonths > 0 &&
-            `${watchMonths} ${getDeclensionWord(watchMonths, MONTH_FORMS)}`,
-        (watchDays > 0 || watchMonths === 0) &&
-            `${watchDays} ${getDeclensionWord(watchDays, DAY_FORMS)}`,
-    ]
-        .filter(Boolean)
-        .join(' ');
+    const watchHours = watchTime?.hours ?? null;
+    const watchDisplayLabel = watchTime?.label ?? '';
 
     return (
         <>

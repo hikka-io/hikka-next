@@ -2,6 +2,12 @@ import { type FC, useMemo, useState } from 'react';
 
 import { range } from '@antfu/utils';
 
+import {
+    ARTICLES_NEWEST_SORT,
+    ARTICLES_POPULAR_SORT,
+    CONTENT_TYPE_LINKS,
+} from '@hikka/core';
+
 import MaterialSymbolsAddRounded from '@/components/icons/material-symbols/MaterialSymbolsAddRounded';
 import MaterialSymbolsDynamicFeedRounded from '@/components/icons/material-symbols/MaterialSymbolsDynamicFeedRounded';
 import {
@@ -21,15 +27,9 @@ import {
 } from '@/components/ui/tooltip';
 import { useSession } from '@/services/session';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
-import { CONTENT_TYPE_LINKS } from '@/utils/content-paths';
 import { Link } from '@/utils/navigation';
 
-import {
-    HOME_ARTICLES_NEWEST_SORT,
-    HOME_ARTICLES_POPULAR_SORT,
-    HOME_ARTICLES_SIZE,
-    homeArticlesOptions,
-} from '../queries';
+import { HOME_ARTICLES_SIZE, homeArticlesOptions } from '../queries';
 import type { WidgetProps } from '../types';
 
 type ArticlesTab = 'popular' | 'newest' | 'own';
@@ -43,19 +43,19 @@ const ArticlesWidget: FC<WidgetProps> = () => {
     const { list: published, isLoading: isPublishedLoading } = useInfiniteList(
         homeArticlesOptions(
             isOwn && user
-                ? { sort: HOME_ARTICLES_NEWEST_SORT, author: user.username }
+                ? { sort: ARTICLES_NEWEST_SORT, author: user.username }
                 : {
                       sort:
                           tab === 'popular'
-                              ? HOME_ARTICLES_POPULAR_SORT
-                              : HOME_ARTICLES_NEWEST_SORT,
+                              ? ARTICLES_POPULAR_SORT
+                              : ARTICLES_NEWEST_SORT,
                   },
         ),
     );
 
     const { list: drafts, isLoading: isDraftsLoading } = useInfiniteList(
         homeArticlesOptions({
-            sort: HOME_ARTICLES_NEWEST_SORT,
+            sort: ARTICLES_NEWEST_SORT,
             author: user?.username,
             draft: true,
         }),

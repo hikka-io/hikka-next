@@ -1,8 +1,13 @@
 import { useRouter } from '@tanstack/react-router';
 
+import {
+    COLLECTION_SORT_OPTIONS,
+    type CollectionsSearch,
+    DEFAULT_COLLECTION_SORT,
+} from '@hikka/core';
+
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { useRouteSearch } from '@/utils/navigation';
-import type { CollectionsSearch } from '@/utils/search-schemas';
 
 const CollectionSort = () => {
     const router = useRouter();
@@ -13,7 +18,7 @@ const CollectionSort = () => {
         ? Array.isArray(sortRaw)
             ? sortRaw
             : [sortRaw]
-        : ['system_ranking'];
+        : [DEFAULT_COLLECTION_SORT];
 
     const handleChangeSort = ([value]: string[]) => {
         if (!value) return;
@@ -31,8 +36,11 @@ const CollectionSort = () => {
 
     return (
         <ToggleGroup value={[sort[0]]} onValueChange={handleChangeSort}>
-            <ToggleGroupItem value="system_ranking">Популярні</ToggleGroupItem>
-            <ToggleGroupItem value="created">Нові</ToggleGroupItem>
+            {COLLECTION_SORT_OPTIONS.map((option) => (
+                <ToggleGroupItem key={option.value} value={option.value}>
+                    {option.label}
+                </ToggleGroupItem>
+            ))}
         </ToggleGroup>
     );
 };

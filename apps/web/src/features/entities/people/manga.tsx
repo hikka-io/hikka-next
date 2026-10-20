@@ -1,12 +1,12 @@
 import type { FC } from 'react';
 
 import { ContentTypeEnum } from '@hikka/api';
+import { getTitle } from '@hikka/core';
 
 import MangaCard from '@/components/content-card/manga-card';
 import MaterialSymbolsPalette from '@/components/icons/material-symbols/MaterialSymbolsPalette';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { useParams } from '@/utils/navigation';
-import { getTitle } from '@/utils/title/get-title';
 
 import AppearanceGrid from '../appearance-grid';
 import { entityAppearanceOptions } from '../queries';

@@ -4,6 +4,7 @@ import { getUnixTime, startOfDay } from 'date-fns';
 import { format } from 'date-fns/format';
 
 import type { AnimeScheduleResponse } from '@hikka/api';
+import { getTitle } from '@hikka/core';
 
 import MaterialSymbolsCalendarClockRounded from '@/components/icons/material-symbols/MaterialSymbolsCalendarClockRounded';
 import Block from '@/components/ui/block';
@@ -16,7 +17,6 @@ import { useSession, useSessionUI } from '@/services/session';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { cn } from '@/utils/cn';
 import { Link } from '@/utils/navigation';
-import { getTitle } from '@/utils/title/get-title';
 
 import { homeScheduleOptions } from '../queries';
 import type { WidgetProps } from '../types';

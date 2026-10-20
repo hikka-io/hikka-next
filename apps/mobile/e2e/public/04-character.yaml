@@ -1,0 +1,30 @@
+appId: host.exp.Exponent
+# Character page
+---
+- runFlow: ../subflows/launch.yaml
+- runFlow:
+    file: ../subflows/tab.yaml
+    env:
+      TAB: Search
+- tapOn: "Пошук..."
+- inputText: "frieren"
+- extendedWaitUntil:
+    visible: "Персонаж"
+    timeout: 30000
+- tapOn: "Персонаж"
+- extendedWaitUntil:
+    visible: "Фрірен, .*"
+    timeout: 30000
+- tapOn: "Фрірен, .*"
+- extendedWaitUntil:
+    visible: "Імʼя англ."
+    timeout: 30000
+- assertVisible: "Frieren"
+- assertVisible: "Опис"
+- scrollUntilVisible:
+    element: "Аніме"
+    timeout: 20000
+- runFlow: ../subflows/back.yaml
+- extendedWaitUntil:
+    visible: "Фрірен, .*"
+    timeout: 15000

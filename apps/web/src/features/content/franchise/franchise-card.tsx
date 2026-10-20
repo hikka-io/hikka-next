@@ -4,6 +4,7 @@ import { range } from '@antfu/utils';
 import { Share2 } from 'lucide-react';
 
 import type { MainContentTypeEnum } from '@hikka/api';
+import { contentPath } from '@hikka/core';
 
 import PosterCardSkeleton from '@/components/content-card/poster-card-skeleton';
 import Block from '@/components/ui/block';
@@ -18,7 +19,6 @@ import {
     TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { useVisibleOnce } from '@/services/hooks/use-visible-once';
-import { contentPath } from '@/utils/content-paths';
 
 import FranchiseRow from './components/franchise-row';
 import RelationLabel from './components/relation-label';

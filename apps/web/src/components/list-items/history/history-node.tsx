@@ -3,6 +3,7 @@ import type { ComponentType, FC } from 'react';
 import { BookOpen, Calendar, Download, Undo2 } from 'lucide-react';
 
 import type { UserResponse } from '@hikka/api';
+import type { HistoryEntry, HistoryIcon } from '@hikka/core';
 
 import { LIST_STATUS_ICONS } from '@/components/icons/list-status-icons';
 import MaterialSymbolsDeleteForeverRounded from '@/components/icons/material-symbols/MaterialSymbolsDeleteForeverRounded';
@@ -19,8 +20,6 @@ import {
 } from '@/components/ui/tooltip';
 import { cn } from '@/utils/cn';
 import { Link } from '@/utils/navigation';
-
-import type { HistoryEntry, HistoryIcon } from './types';
 
 type Icon = ComponentType<{ className?: string }>;
 

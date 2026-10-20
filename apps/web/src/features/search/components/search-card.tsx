@@ -3,6 +3,7 @@ import type {
     AnimeResponseWithWatch,
     MangaResponseWithRead,
 } from '@hikka/api';
+import { getMediaTypeLabel, RELEASE_STATUS } from '@hikka/core';
 
 import PersonPlaceholder from '@/components/content-card/person-placeholder';
 import PosterCard from '@/components/content-card/poster-card';
@@ -11,7 +12,6 @@ import { Badge } from '@/components/ui/badge';
 import { Label } from '@/components/ui/label';
 import { useTitle } from '@/services/session';
 import { cn } from '@/utils/cn';
-import { getMediaTypeLabel, RELEASE_STATUS } from '@/utils/labels';
 import { Link } from '@/utils/navigation';
 
 import type { SearchContent } from '../types';

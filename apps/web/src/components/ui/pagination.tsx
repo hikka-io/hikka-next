@@ -8,11 +8,12 @@ import {
 
 import { range } from '@antfu/utils';
 
+import { POSITIVE_INTEGER_PATTERN } from '@hikka/core';
+
 import AntDesignArrowLeftOutlined from '@/components/icons/ant-design/AntDesignArrowLeftOutlined';
 import AntDesignArrowRightOutlined from '@/components/icons/ant-design/AntDesignArrowRightOutlined';
 import { useIsDesktop } from '@/services/hooks/use-media-query';
 import { cn } from '@/utils/cn';
-import { POSITIVE_INTEGER_PATTERN } from '@/utils/text';
 
 import { Button } from './button';
 import Card from './card';

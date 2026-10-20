@@ -4,6 +4,7 @@ import { Check, Palette, Pipette } from 'lucide-react';
 import { HexColorPicker } from 'react-colorful';
 
 import type { OklchColor } from '@hikka/api';
+import { hexToOklch, oklchToHex } from '@hikka/core';
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -12,7 +13,6 @@ import {
     PopoverContent,
     PopoverTrigger,
 } from '@/components/ui/popover';
-import { hexToOklch, oklchToHex } from '@/utils/customization';
 
 import Swatch from './swatch';
 
