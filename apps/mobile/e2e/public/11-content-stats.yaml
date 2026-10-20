@@ -1,0 +1,31 @@
+appId: host.exp.Exponent
+# Title statistics block: list statuses and the score histogram (rows are one element each: "Завершено: 1 234, 5%")
+---
+- runFlow: ../subflows/launch.yaml
+- runFlow:
+    file: ../subflows/tab.yaml
+    env:
+      TAB: Search
+- tapOn: "Пошук..."
+- inputText: "frieren"
+- extendedWaitUntil:
+    visible: "Проводжальниця Фрірен, Sousou no Frieren, .*"
+    timeout: 30000
+- tapOn: "Проводжальниця Фрірен, Sousou no Frieren, .*"
+- extendedWaitUntil:
+    visible: "Додати у список"
+    timeout: 30000
+- scrollUntilVisible:
+    element: "Статистика"
+    timeout: 60000
+    centerElement: true
+- assertVisible: "Завершено: .*"
+- tapOn: "Оцінки"
+- extendedWaitUntil:
+    visible: "Оцінка [0-9]+: .*"
+    timeout: 10000
+- assertNotVisible: "Завершено: .*"
+- tapOn: "У списках"
+- extendedWaitUntil:
+    visible: "Завершено: .*"
+    timeout: 10000

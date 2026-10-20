@@ -68,8 +68,8 @@ Install (needs Java 17+; no admin rights). The official `curl -Ls "https://get.m
 
 Layout:
 
-- `e2e/public/`: read-only flows against production: Home, Catalog (open a title and back), Latin search, a character, a public user and their list, a collection, an article, the schedule. They assume a signed-out app.
-- `e2e/local/`: signed-in flows against the local backend: login, add to planned and edit progress and score and delete, post and edit and delete a comment, follow and unfollow, notifications, logout. Each flow signs in on its own when needed; `config.yaml` fixes the order.
+- `e2e/public/`: read-only flows against production: Home, Catalog (open a title and back), Latin search, a character, a public user and their list, a collection, an article, the schedule, the 18+ gate on an NSFW title (`E2E_NSFW_SLUG`), the image viewer from an article image (`E2E_IMAGE_ARTICLE`), a title's statistics block. They assume a signed-out app.
+- `e2e/local/`: signed-in flows against the local backend: login, add to planned and edit progress and score and delete, post and edit and delete a comment, follow and unfollow, notifications, favourite and unfavourite a title, logout. Each flow signs in on its own when needed; `config.yaml` fixes the order.
 - `e2e/subflows/`: `launch` (stop Expo Go, open the Metro URL, wait for Home), `tab`, `back`, `login`, `logout`, `ensure-login`, `open-anime`, `open-first-card`, `remove-from-list`.
 
 Flows target visible Ukrainian copy and accessibility labels. Tabs are tapped by their icon label (`home`, `Grid view`, `account`, `Search`) because the tab titles repeat as screen headers; Back is the navigation `BackButton` id. Lists whose first item changes over time use regexes or relative selectors (`below`, `rightOf`).
@@ -98,6 +98,8 @@ E2E_USERNAME=<user> E2E_PASSWORD=<password> E2E_FOLLOW_USER=<other user> METRO_U
 | `E2E_ANIME_QUERY` | `e2e:local` | Search query that finds an anime, default `frieren` |
 
 Local accounts: sign up two throwaway users in the app or with `POST /auth/signup` (header `captcha: fake_captcha`). Commenting needs an activated account: read the activation token from `service_email_messages` in the local Postgres and `POST /auth/activation`. Never commit credentials; pass them through the environment.
+
+The public suite also passes on the iOS 18.2 simulator (iPhone 16 Pro): the `tab` and `back` subflows fall back to the tab title and a tap by position, since iOS 18 has no icon labels or `BackButton` id, and the Search tab is pulled down first because iOS 18 collapses its header field on the first visit. Expo Go's floating tools button on that simulator covers the image viewer's close button, so that flow dismisses the viewer by dragging.
 
 Notes for writing flows: the iOS "Save Password?" system prompt appears after login (the `login` subflow dismisses it); a text match is a full-string, case-insensitive regex, so list rows with composite labels (`Title, subtitle, status`) need `.*`; Maestro's `text` also matches the search field's own contents. The tracking and follow flows first undo leftovers of an aborted run, and every mutating flow cleans up after itself; the comment flow deletes its own comment.
 

@@ -6,4 +6,5 @@ executionOrder:
     - 03-comments
     - 04-follow
     - 05-notifications
+    - 06-favourite
     - 99-logout
