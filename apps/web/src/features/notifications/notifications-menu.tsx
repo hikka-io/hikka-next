@@ -32,9 +32,9 @@ import { useInfiniteList } from '@/utils/api/use-infinite-list';
 
 import NotificationsContent from './components/notifications-content';
 import NotificationsHeader from './components/notifications-header';
+import { convertNotification } from './convert-notification';
 import NotificationCountBadge from './notification-count-badge';
 import type { Notification } from './types';
-import { convertNotification } from './convert-notification';
 
 type Props = {
     trigger?: (unseenCount: number) => ReactNode;
