@@ -19,6 +19,8 @@ import ContentDetails from './content-details';
 import ContentFranchise from './content-franchise';
 import ContentHero from './content-hero';
 import ContentLinks from './content-links';
+import ContentMedia from './content-media';
+import ContentMovieBanner from './content-movie-banner';
 import ContentRecommendations from './content-recommendations';
 import ContentStaff from './content-staff';
 import ContentSynopsis from './content-synopsis';
@@ -34,10 +36,12 @@ type SectionProps = {
 
 const SECTIONS = {
     synopsis: ContentSynopsis,
+    movieBanner: ContentMovieBanner,
     details: ContentDetails,
     franchise: ContentFranchise,
     characters: ContentCharacters,
     staff: ContentStaff,
+    media: ContentMedia,
     recommendations: ContentRecommendations,
     links: ContentLinks,
     comments: ContentComments,
@@ -58,10 +62,12 @@ const READ_SECTIONS = [
 const DETAIL_SECTIONS = {
     [ContentTypeEnum.ANIME]: [
         'synopsis',
+        'movieBanner',
         'details',
         'franchise',
         'characters',
         'staff',
+        'media',
         'recommendations',
         'links',
         'comments',
