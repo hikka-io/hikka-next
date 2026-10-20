@@ -13,6 +13,7 @@ import { Settings2 } from 'lucide-react';
 
 import type { UiFeedWidget } from '@hikka/api';
 
+import { BlockFlushOnMobileContext } from '@/components/ui/block';
 import { Button } from '@/components/ui/button';
 import { Chip } from '@/components/ui/chip';
 import { SELECTED_TINT } from '@/components/ui/selected-tint';
@@ -53,12 +54,6 @@ const WidgetColumn: FC<{ widgets: UiFeedWidget[]; className?: string }> = ({
             />
         ))}
     </div>
-);
-
-const CENTER_FULL_BLEED = cn(
-    '-mx-4 sm:mx-0',
-    '[&>*]:rounded-none! [&>*]:border-x-0!',
-    'sm:[&>*]:rounded-lg! sm:[&>*]:border-x!',
 );
 
 const CHIP_IDLE =
@@ -337,19 +332,20 @@ const FeedLayout: FC<{ className?: string }> = ({ className }) => {
                 <main
                     className={cn(
                         'flex min-w-0 flex-col gap-8 [&>*:first-child]:backdrop-blur',
-                        CENTER_FULL_BLEED,
                         layout === 3 && 'order-2 lg:order-1',
                         isCenterRight && 'lg:order-1',
                     )}
                     id="feed"
                 >
-                    {center.map((w, i) => (
-                        <WidgetRenderer
-                            key={w.slug}
-                            widget={w}
-                            isLast={i === center.length - 1}
-                        />
-                    ))}
+                    <BlockFlushOnMobileContext value>
+                        {center.map((w, i) => (
+                            <WidgetRenderer
+                                key={w.slug}
+                                widget={w}
+                                isLast={i === center.length - 1}
+                            />
+                        ))}
+                    </BlockFlushOnMobileContext>
                 </main>
             )}
         </div>

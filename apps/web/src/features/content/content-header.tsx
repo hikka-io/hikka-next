@@ -45,6 +45,7 @@ const ContentHeader: FC<Props> = ({
             <Block
                 variant="card"
                 flushOnMobile
+                headerInside
                 className={cn(
                     'backdrop-blur',
                     hasTabs && 'rounded-b-none sm:rounded-b-none',

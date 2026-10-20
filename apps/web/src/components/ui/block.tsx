@@ -1,9 +1,11 @@
 import {
     Children,
     type ComponentProps,
+    createContext,
     isValidElement,
     memo,
     type ReactNode,
+    use,
 } from 'react';
 
 import { Header } from '@/components/ui/header';
@@ -15,6 +17,7 @@ type Variant = 'open' | 'card';
 type Props = ComponentProps<'section'> & {
     variant?: Variant;
     flushOnMobile?: boolean;
+    headerInside?: boolean;
 };
 
 const CARD_CLASS_NAME = cn(
@@ -23,10 +26,15 @@ const CARD_CLASS_NAME = cn(
     SURFACE_VARIANTS.surface,
 );
 
+const FLUSH_ON_MOBILE_CLASS_NAME =
+    '-mx-4 rounded-none border-x-0 sm:mx-0 sm:rounded-lg sm:border-x';
+
 const VARIANTS: Record<Variant, string> = {
     open: 'gap-5',
     card: CARD_CLASS_NAME,
 };
+
+const BlockFlushOnMobileContext = createContext(false);
 
 const splitHeader = (children: ReactNode) => {
     const items = Children.toArray(children);
@@ -45,9 +53,13 @@ const Block = ({
     className,
     variant = 'open',
     flushOnMobile,
+    headerInside,
     ...props
 }: Props) => {
-    if (variant === 'card' && !flushOnMobile) {
+    const flushContext = use(BlockFlushOnMobileContext);
+    const flush = variant === 'card' && (flushOnMobile ?? flushContext);
+
+    if (variant === 'card' && !headerInside) {
         const { header, body } = splitHeader(children);
 
         if (header) {
@@ -61,6 +73,7 @@ const Block = ({
                         className={cn(
                             'flex min-w-0 flex-1 flex-col',
                             CARD_CLASS_NAME,
+                            flush && FLUSH_ON_MOBILE_CLASS_NAME,
                         )}
                     >
                         {body}
@@ -75,8 +88,7 @@ const Block = ({
             className={cn(
                 'flex min-w-0 flex-col',
                 VARIANTS[variant],
-                flushOnMobile &&
-                    '-mx-4 rounded-none border-x-0 sm:mx-0 sm:rounded-lg sm:border-x',
+                flush && FLUSH_ON_MOBILE_CLASS_NAME,
                 className,
             )}
             {...props}
@@ -85,5 +97,7 @@ const Block = ({
         </section>
     );
 };
+
+export { BlockFlushOnMobileContext };
 
 export default memo(Block);

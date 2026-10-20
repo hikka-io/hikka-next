@@ -43,7 +43,7 @@ const EMPTY_FILTERS: FeedSubTypeFilters = {
     review_content_types: null,
 };
 
-const FeedWidget: FC<WidgetProps> = ({ isLast, side }) => {
+const FeedWidget: FC<WidgetProps> = ({ isLast }) => {
     const { user } = useSession();
     const { preferences } = useSessionUI();
     const { update } = useUpdateSessionUI();
@@ -120,13 +120,7 @@ const FeedWidget: FC<WidgetProps> = ({ isLast, side }) => {
     }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage]);
 
     return (
-        <Block
-            variant="card"
-            // the center column bleeds its children itself; only sidebar
-            // placements need to cancel the page padding on their own
-            flushOnMobile={side !== 'center'}
-            id="feed-widget"
-        >
+        <Block variant="card" flushOnMobile id="feed-widget">
             <Header>
                 <HeaderTitle>Стрічка</HeaderTitle>
                 <HeaderActions>
