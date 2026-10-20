@@ -4,6 +4,7 @@ import { range } from '@antfu/utils';
 
 import { ContentTypeEnum, type SeasonEnum } from '@hikka/api';
 import {
+    DEFAULT_CONTAINER_RATIO,
     EPISODE_FORMS,
     getCurrentSeason,
     getDeclensionWord,
@@ -12,7 +13,6 @@ import {
 
 import { MediaTooltip } from '@/components/content-card';
 import AnimeCard from '@/components/content-card/anime-card';
-import { DEFAULT_CONTAINER_RATIO } from '@/components/content-card/image-presets';
 import PosterCard from '@/components/content-card/poster-card';
 import SkeletonCard from '@/components/content-card/poster-card-skeleton';
 import MaterialSymbolsLiveTvRounded from '@/components/icons/material-symbols/MaterialSymbolsLiveTvRounded';

@@ -3,10 +3,10 @@ import type { FC } from 'react';
 import { cva } from 'class-variance-authority';
 
 import { ContentTypeEnum, type HistoryResponse } from '@hikka/api';
+import { DEFAULT_CONTAINER_RATIO } from '@hikka/core';
 
 import { contentEntity } from '@/components/content-card/entity';
 import EntityCard from '@/components/content-card/entity-card';
-import { DEFAULT_CONTAINER_RATIO } from '@/components/content-card/image-presets';
 import { CONTENT_TYPE_ICONS } from '@/components/icons/content-type-icons';
 import { AspectRatio } from '@/components/ui/aspect-ratio';
 import { cn } from '@/utils/cn';

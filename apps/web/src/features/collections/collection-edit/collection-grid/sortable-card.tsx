@@ -4,7 +4,8 @@ import { pointerIntersection } from '@dnd-kit/collision';
 import { useSortable } from '@dnd-kit/react/sortable';
 import { Check, Trash2, X } from 'lucide-react';
 
-import { DEFAULT_CONTAINER_RATIO } from '@/components/content-card/image-presets';
+import { DEFAULT_CONTAINER_RATIO } from '@hikka/core';
+
 import PosterCard from '@/components/content-card/poster-card';
 import MaterialSymbolsAddCommentRounded from '@/components/icons/material-symbols/MaterialSymbolsAddCommentRounded';
 import MaterialSymbolsDeleteForever from '@/components/icons/material-symbols/MaterialSymbolsDeleteForever';

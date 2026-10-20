@@ -6,6 +6,7 @@ export * from './labels';
 export * from './markdown';
 export * from './mentions';
 export * from './new-id';
+export * from './poster';
 export * from './search-schemas';
 export * from './season';
 export * from './sort';

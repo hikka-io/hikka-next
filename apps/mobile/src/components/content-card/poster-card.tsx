@@ -4,13 +4,13 @@ import { type Href, Link } from 'expo-router';
 import { Eye, ImageOff } from 'lucide-react-native';
 import { Pressable, View } from 'react-native';
 
+import { DEFAULT_CONTAINER_RATIO } from '@hikka/core';
+
 import { Icon } from '@/components/ui/icon';
 import Image from '@/components/ui/image';
 import { Text } from '@/components/ui/text';
 import { DENSE_MAX_FONT_SCALE } from '@/components/ui/typography';
 import { cn } from '@/utils/cn';
-
-import { DEFAULT_CONTAINER_RATIO } from './image-presets';
 
 const BLUR_RADIUS = 24;
 

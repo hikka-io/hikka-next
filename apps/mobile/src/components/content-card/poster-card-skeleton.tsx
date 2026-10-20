@@ -2,10 +2,10 @@ import type { FC } from 'react';
 
 import { View } from 'react-native';
 
+import { DEFAULT_CONTAINER_RATIO } from '@hikka/core';
+
 import { Skeleton, SkeletonText } from '@/components/ui/skeleton';
 import { cn } from '@/utils/cn';
-
-import { DEFAULT_CONTAINER_RATIO } from './image-presets';
 
 type Props = {
     hasTitle?: boolean;
