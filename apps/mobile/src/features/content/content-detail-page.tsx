@@ -1,6 +1,6 @@
 import { type FC, useState } from 'react';
 
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { RefreshControl, ScrollView } from 'react-native';
 
 import {
@@ -12,7 +12,7 @@ import { getTitle } from '@hikka/core';
 
 import { Button } from '@/components/ui/button';
 import EmptyState from '@/components/ui/empty-state';
-import { refetchContentDetail } from '@/utils/api/refetch-content-detail';
+import { bySlug, usePullToRefresh } from '@/utils/api/use-pull-to-refresh';
 
 import ContentCharacters from './content-characters';
 import ContentDetailSkeleton from './content-detail-skeleton';
@@ -98,7 +98,6 @@ const DetailError: FC<{ error: Error; onRetry: () => void }> = ({
     );
 
 const ContentDetailBody: FC<Props> = ({ contentType, slug }) => {
-    const queryClient = useQueryClient();
     const {
         data: content,
         error,
@@ -107,16 +106,7 @@ const ContentDetailBody: FC<Props> = ({ contentType, slug }) => {
     const { onScroll, onLayout } = useDetailScroll();
     const [titleBottom, setTitleBottom] = useState<number | null>(null);
     const titleVisible = useScrolledPast(titleBottom);
-    const [refreshing, setRefreshing] = useState(false);
-
-    const refresh = async () => {
-        setRefreshing(true);
-        try {
-            await refetchContentDetail(queryClient, slug);
-        } finally {
-            setRefreshing(false);
-        }
-    };
+    const { refreshing, onRefresh } = usePullToRefresh(bySlug(slug));
 
     return (
         <>
@@ -137,7 +127,7 @@ const ContentDetailBody: FC<Props> = ({ contentType, slug }) => {
                 refreshControl={
                     <RefreshControl
                         refreshing={refreshing}
-                        onRefresh={refresh}
+                        onRefresh={onRefresh}
                     />
                 }
             >

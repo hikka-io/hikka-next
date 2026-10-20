@@ -1,7 +1,7 @@
 import { type FC, useCallback, useMemo, useState } from 'react';
 
 import { FlashList } from '@shopify/flash-list';
-import { useInfiniteQuery, useQueryClient } from '@tanstack/react-query';
+import { useInfiniteQuery } from '@tanstack/react-query';
 import { Rss } from 'lucide-react-native';
 import { ActivityIndicator, View } from 'react-native';
 
@@ -11,6 +11,7 @@ import { buildFeedArgs, type FeedFilters, isFeedDisabled } from '@hikka/core';
 import EmptyState from '@/components/ui/empty-state';
 import { Icon } from '@/components/ui/icon';
 import { useSession } from '@/features/auth';
+import { usePullToRefresh } from '@/utils/api/use-pull-to-refresh';
 import { cn } from '@/utils/cn';
 
 import FeedHeader from './feed/feed-header';
@@ -63,12 +64,11 @@ const rowKey = (row: Row) => {
 };
 
 const HomeScreen: FC = () => {
-    const queryClient = useQueryClient();
     const { user, hasToken } = useSession();
     const { feed, widgets, loading } = useHomePreferences();
     const username = user?.username ?? undefined;
 
-    const [refreshing, setRefreshing] = useState(false);
+    const { refreshing, onRefresh } = usePullToRefresh(isHomeQuery);
     const [feedActive, setFeedActive] = useState(false);
     const [typeOverride, setTypeOverride] = useState<
         FeedContentTypeEnum | null | undefined
@@ -169,12 +169,6 @@ const HomeScreen: FC = () => {
         feedItems,
         feedQuery.isError,
     ]);
-
-    const refresh = useCallback(async () => {
-        setRefreshing(true);
-        await queryClient.invalidateQueries({ predicate: isHomeQuery });
-        setRefreshing(false);
-    }, [queryClient]);
 
     const loadMore = () => {
         if (feedQuery.hasNextPage && !feedQuery.isFetchingNextPage) {
@@ -280,7 +274,7 @@ const HomeScreen: FC = () => {
             onEndReached={loadMore}
             onEndReachedThreshold={1}
             refreshing={refreshing}
-            onRefresh={refresh}
+            onRefresh={onRefresh}
             ListFooterComponent={
                 feedQuery.isFetchingNextPage ? (
                     <ActivityIndicator className="py-4" />

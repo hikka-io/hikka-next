@@ -1,6 +1,6 @@
 import { type FC, useEffect } from 'react';
 
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { Stack, useRouter } from 'expo-router';
 import { Platform } from 'react-native';
 
@@ -8,6 +8,7 @@ import { isUserReference } from '@hikka/core';
 
 import BlockList from '@/components/block-list';
 import ErrorState from '@/components/error-state';
+import { byUsername, usePullToRefresh } from '@/utils/api/use-pull-to-refresh';
 import { shareSitePath } from '@/utils/share';
 
 import FavouritesSection from './favourites-section';
@@ -16,13 +17,6 @@ import ListStats from './list-stats';
 import ProfileHeader from './profile-header';
 import { userProfileOptions, userReferenceOptions } from './queries';
 import UserSkeleton from './user-skeleton';
-
-const isForUsers = (queryKey: readonly unknown[], usernames: string[]) => {
-    const first = queryKey[0] as { path?: { username?: string } } | undefined;
-    const name = first?.path?.username?.toLowerCase();
-
-    return name !== undefined && usernames.includes(name);
-};
 
 type Props = {
     username: string;
@@ -55,12 +49,14 @@ const ReferenceRedirect: FC<{ reference: string }> = ({ reference }) => {
 };
 
 const UserProfile: FC<Props> = ({ username }) => {
-    const queryClient = useQueryClient();
     const { data, isPending, error, refetch } = useQuery(
         userProfileOptions({ path: { username } }),
     );
     // The route param may differ in case from the stored name; every other query uses the stored one.
     const name = data?.username;
+    const { refreshing, onRefresh } = usePullToRefresh(
+        byUsername(name ? [username, name] : [username]),
+    );
 
     return (
         <>
@@ -101,15 +97,8 @@ const UserProfile: FC<Props> = ({ username }) => {
                         <HistorySection key="history" username={name} />,
                         <FavouritesSection key="favourites" username={name} />,
                     ]}
-                    onRefresh={() =>
-                        queryClient.invalidateQueries({
-                            predicate: (query) =>
-                                isForUsers(query.queryKey, [
-                                    username.toLowerCase(),
-                                    name.toLowerCase(),
-                                ]),
-                        })
-                    }
+                    refreshing={refreshing}
+                    onRefresh={onRefresh}
                 />
             )}
         </>
