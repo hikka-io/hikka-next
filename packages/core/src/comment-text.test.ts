@@ -114,6 +114,14 @@ describe('parseCommentMentions', () => {
         });
     });
 
+    it('keeps a link glued to a word as typed, so it round-trips', () => {
+        const markdown = `foo[@olexh](${SITE}/u/${REF}) and [@olexh](${SITE}/u/${REF})`;
+        const { text, mentions } = parseCommentMentions(markdown);
+
+        expect(text).toBe(`foo[@olexh](${SITE}/u/${REF}) and @olexh`);
+        expect(serializeCommentMentions(text, mentions, SITE)).toBe(markdown);
+    });
+
     it('leaves other links alone', () => {
         const text = '[@olexh](https://example.com/olexh) [site](https://x.y)';
         expect(parseCommentMentions(text)).toEqual({ text, mentions: [] });

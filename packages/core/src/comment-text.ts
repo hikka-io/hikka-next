@@ -80,9 +80,16 @@ export function parseCommentMentions(markdown: string): {
 
     const text = markdown.replace(
         MENTION_LINK,
-        (match, username: string, url: string) => {
+        (
+            match,
+            username: string,
+            url: string,
+            offset: number,
+            source: string,
+        ) => {
             const target = userUrlTarget(url);
-            if (!target) return match;
+            // Glued to a word, a plain `@name` would not be re-linked on save: keep the link as typed.
+            if (!target || /\w/.test(source[offset - 1] ?? '')) return match;
 
             if (!mentions.some((mention) => mention.username === username)) {
                 mentions.push({
