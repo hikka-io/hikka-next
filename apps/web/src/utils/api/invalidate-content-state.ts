@@ -22,11 +22,10 @@ import {
     type VoteResponse,
 } from '@hikka/api';
 import {
-    type FollowChange,
+    FOLLOW_EMBED_IDS,
     type InvalidateOptions,
     invalidateByIds,
     matchesPath,
-    patchEmbeddedFollow,
     patchEmbeddedVote,
     patchQueries,
     type QueryId,
@@ -37,8 +36,9 @@ import {
     WATCH_EMBED_IDS,
 } from '@hikka/core';
 
-// Watch/read cache writers live in @hikka/core, shared with the mobile app.
+// Watch/read and follow cache writers live in @hikka/core, shared with the mobile app.
 export {
+    applyFollowChange,
     applyReadDeletion,
     applyReadMutation,
     applyWatchDeletion,
@@ -98,17 +98,6 @@ const ARTICLE_IDS: readonly QueryId[] = [
     'getArticle',
 ];
 
-/** Follow lists/stats + the personalised "following" feed. */
-const FOLLOW_IDS: readonly QueryId[] = [
-    'followingList',
-    'followersList',
-    'followStats',
-    'followingHistory',
-    'getFeed', // the home feed widget
-    'getWatchFollowing',
-    'getReadFollowing',
-];
-
 /** Content-detail queries keyed by slug (used when an accepted edit mutates content). */
 const CONTENT_DETAIL_IDS: readonly QueryId[] = [
     'animeSlug',
@@ -148,16 +137,6 @@ const AUTH_TOKEN_IDS: readonly QueryId[] = ['thirdPartyAuthTokens'];
 const FAVOURITE_IDS: readonly QueryId[] = ['favouriteList'];
 
 const USER_PROFILE_ID: QueryId = 'userProfile';
-
-// Every query embedding a user object whose `is_followed` a follow flips.
-const FOLLOW_EMBED_SET = new Set<QueryId>([
-    ...ARTICLE_IDS,
-    ...COLLECTION_IDS,
-    'followingList',
-    'followersList',
-    ...FAVOURITE_IDS,
-    USER_PROFILE_ID,
-]);
 
 const COMMENT_LIST_SET = new Set(COMMENT_LIST_IDS);
 
@@ -273,7 +252,7 @@ const SESSION_DEPENDENT_IDS: readonly QueryId[] = [
     ...WATCH_EMBED_IDS,
     ...READ_EMBED_IDS,
     ...COMMENT_LIST_IDS,
-    ...FOLLOW_EMBED_SET,
+    ...FOLLOW_EMBED_IDS,
 ];
 
 /** After a login: refetch the on-screen per-viewer queries and stale-mark the rest. */
@@ -400,35 +379,6 @@ export async function applyFavouriteDeletion(
         null,
     );
     return invalidateFavourites(queryClient, options);
-}
-
-/**
- * Reflect a follow/unfollow: patch `is_followed` into the embedded authors and
- * the target's profile, refetch the follow lists/stats, the personalised feed
- * and the target's profile, and only stale-mark the article/collection lists
- * (they order by followed authors) so one click never reloads a large list.
- */
-export function applyFollowChange(
-    queryClient: QueryClient,
-    change: FollowChange,
-    options?: InvalidateOptions,
-): Promise<void> {
-    patchQueries(queryClient, FOLLOW_EMBED_SET, (data) =>
-        patchEmbeddedFollow(data, change),
-    );
-    return Promise.all([
-        invalidateByIds(queryClient, FOLLOW_IDS, options, (query) =>
-            matchesPath(
-                query.queryKey,
-                USER_PROFILE_ID,
-                'username',
-                change.username,
-            ),
-        ),
-        invalidateByIds(queryClient, [...ARTICLE_IDS, ...COLLECTION_IDS], {
-            refetch: false,
-        }),
-    ]).then(() => undefined);
 }
 
 /**
