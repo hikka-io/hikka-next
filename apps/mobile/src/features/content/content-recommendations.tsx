@@ -5,6 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 import { type AnimeResponseWithWatch, ContentTypeEnum } from '@hikka/api';
 import { getMediaTypeLabel, getTitle } from '@hikka/core';
 
+import { presetImageUrl } from '@/components/content-card/image-presets';
 import PosterCard from '@/components/content-card/poster-card';
 
 import { contentHref } from './content-href';
@@ -44,7 +45,7 @@ const ContentRecommendations: FC<Props> = ({ content }) => {
             renderItem={(anime) => (
                 <PosterCard
                     title={getTitle(anime)}
-                    image={anime.image ?? undefined}
+                    image={presetImageUrl(anime.image, 'cardSm')}
                     leftSubtitle={getMediaTypeLabel(anime.media_type)}
                     rightSubtitle={anime.year ? String(anime.year) : null}
                     href={contentHref(ContentTypeEnum.ANIME, anime.slug)}

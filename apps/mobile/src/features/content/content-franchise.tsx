@@ -4,6 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 
 import { getMediaTypeLabel, getTitle } from '@hikka/core';
 
+import { presetImageUrl } from '@/components/content-card/image-presets';
 import PosterCard from '@/components/content-card/poster-card';
 
 import { contentHref } from './content-href';
@@ -44,7 +45,7 @@ const ContentFranchise: FC<Props> = ({ content }) => {
             renderItem={(entry) => (
                 <PosterCard
                     title={getTitle(entry)}
-                    image={entry.image ?? undefined}
+                    image={presetImageUrl(entry.image, 'cardSm')}
                     leftSubtitle={getMediaTypeLabel(entry.media_type)}
                     rightSubtitle={entry.year ? String(entry.year) : null}
                     href={contentHref(entry.data_type, entry.slug)}
