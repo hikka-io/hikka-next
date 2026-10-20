@@ -1,6 +1,6 @@
 import { Stack, useLocalSearchParams } from 'expo-router';
 
-import { ContentTypeEnum } from '@hikka/api';
+import { CommentTypeEnum, ContentTypeEnum } from '@hikka/api';
 
 import EmptyState from '@/components/ui/empty-state';
 import {
@@ -9,17 +9,29 @@ import {
     UserComments,
 } from '@/features/comments';
 
+const COMMENT_TYPES: readonly string[] = Object.values(CommentTypeEnum);
+
+const isCommentType = (value?: string): value is CommentTypeEnum =>
+    !!value && COMMENT_TYPES.includes(value);
+
 export default function CommentsScreen() {
-    const { content_type, slug } = useLocalSearchParams<{
+    const { content_type, slug, comment_type } = useLocalSearchParams<{
         content_type: string;
         slug: string;
+        comment_type?: string;
     }>();
 
     if (content_type === ContentTypeEnum.USER) {
         return (
             <>
                 <Stack.Title>Коментарі</Stack.Title>
-                <UserComments key={slug} username={slug} />
+                <UserComments
+                    key={`${slug}/${comment_type}`}
+                    username={slug}
+                    initialType={
+                        isCommentType(comment_type) ? comment_type : undefined
+                    }
+                />
             </>
         );
     }
