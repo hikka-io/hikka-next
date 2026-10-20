@@ -1,6 +1,11 @@
 import { describe, expect, it } from 'vitest';
 
-import { BLANK_CHARS, POSITIVE_INTEGER_PATTERN, truncateText } from './text';
+import {
+    BLANK_CHARS,
+    isBlankDescription,
+    POSITIVE_INTEGER_PATTERN,
+    truncateText,
+} from './text';
 
 const ZWSP = '\u200B';
 const BOM = '\uFEFF';
@@ -86,5 +91,18 @@ describe('POSITIVE_INTEGER_PATTERN', () => {
 
     it.each(['', '0', '01', '-1', '1.5', 'a1'])('rejects %j', (value) => {
         expect(POSITIVE_INTEGER_PATTERN.test(value)).toBe(false);
+    });
+});
+
+describe('isBlankDescription', () => {
+    it.each([null, undefined, '', '  \n', '\\n\\r', '\u200B\u00A0\uFEFF'])(
+        'treats %j as blank',
+        (text) => {
+            expect(isBlankDescription(text)).toBe(true);
+        },
+    );
+
+    it('keeps real text', () => {
+        expect(isBlankDescription(' a ')).toBe(false);
     });
 });

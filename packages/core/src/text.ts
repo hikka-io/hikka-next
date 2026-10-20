@@ -2,6 +2,17 @@
 // U+200B for every blank paragraph.
 export const BLANK_CHARS = /[\s\u200B\uFEFF]/g;
 
+/**
+ * A description is blank when it holds only whitespace, newlines (real or
+ * literal `\n`/`\r` escapes), non-breaking or zero-width spaces.
+ */
+export const isBlankDescription = (text?: string | null) =>
+    !text ||
+    text
+        .replace(/\\[rn]/g, '')
+        .replace(BLANK_CHARS, '')
+        .trim() === '';
+
 export const POSITIVE_INTEGER_PATTERN = /^(?!0)\d+$/;
 
 export function truncateText(str: string, n: number, useWordBoundary: boolean) {
