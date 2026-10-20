@@ -34,6 +34,7 @@ import { StatItem, StatItemGroup } from '@/components/ui/stat-item';
 import { Text } from '@/components/ui/text';
 import { DENSE_MAX_FONT_SCALE } from '@/components/ui/typography';
 import { cn } from '@/utils/cn';
+import { presetImageUrl } from '@/utils/image-presets';
 
 import { getArticleExcerpt } from '../article-excerpt';
 import { useHomePreferences } from '../use-home-preferences';
@@ -180,7 +181,10 @@ const CollectionBody: FC<{ data: CollectionResponse }> = ({ data }) => {
                                 <View className="size-full items-center justify-center">
                                     {coverItem.content.image && (
                                         <Image
-                                            source={coverItem.content.image}
+                                            source={presetImageUrl(
+                                                coverItem.content.image,
+                                                'cardXs',
+                                            )}
                                             blurRadius={24}
                                             contentFit="cover"
                                             className="absolute inset-0 size-full"
@@ -307,7 +311,7 @@ const FeedItem: FC<Props> = ({ item }) => {
                     className="-m-0.5 size-11 items-center justify-center active:opacity-70"
                 >
                     <Avatar className="size-10 rounded-lg">
-                        <AvatarImage src={item.author.avatar} />
+                        <AvatarImage src={item.author.avatar} size={40} />
                         <AvatarFallback className="rounded-lg">
                             {item.author.username?.[0]}
                         </AvatarFallback>

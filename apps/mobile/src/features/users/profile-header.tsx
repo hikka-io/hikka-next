@@ -14,10 +14,13 @@ import { Chip } from '@/components/ui/chip';
 import Image from '@/components/ui/image';
 import { Text } from '@/components/ui/text';
 import { DENSE_MAX_FONT_SCALE } from '@/components/ui/typography';
+import { sizedImageUrl } from '@/utils/image-presets';
 
 import { followStatsOptions } from './queries';
 import RoleBadge from './role-badge';
 
+// The widest phone screen, in points.
+const COVER_WIDTH = 440;
 const DESCRIPTION_CLASS = 'text-sm leading-5 text-muted-foreground';
 
 type Props = {
@@ -57,7 +60,7 @@ const ProfileHeader: FC<Props> = ({ user, username }) => {
             {user.cover ? (
                 <View className="h-36 w-full bg-muted">
                     <Image
-                        source={user.cover}
+                        source={sizedImageUrl(user.cover, COVER_WIDTH)}
                         contentFit="cover"
                         accessibilityIgnoresInvertColors
                         className="size-full"
@@ -70,7 +73,11 @@ const ProfileHeader: FC<Props> = ({ user, username }) => {
                 >
                     <View>
                         <Avatar className="size-24 border-4 border-background">
-                            <AvatarImage src={user.avatar} alt={username} />
+                            <AvatarImage
+                                src={user.avatar}
+                                alt={username}
+                                size={96}
+                            />
                             <AvatarFallback>
                                 {username.slice(0, 2).toUpperCase()}
                             </AvatarFallback>

@@ -5,7 +5,6 @@ import { View } from 'react-native';
 import { ContentTypeEnum, type MainContentTypeEnum } from '@hikka/api';
 import { getOriginalTitle, getTitle } from '@hikka/core';
 
-import { presetImageUrl } from '@/components/content-card/image-presets';
 import PosterCard from '@/components/content-card/poster-card';
 import { Badge } from '@/components/ui/badge';
 import { Text } from '@/components/ui/text';
@@ -51,7 +50,8 @@ const ContentHero: FC<Props> = ({ contentType, content, onTitleBottom }) => {
             onLayout={(event) => setHeroTop(event.nativeEvent.layout.y)}
         >
             <PosterCard
-                image={presetImageUrl(content.image, 'cardLg')}
+                image={content.image ?? undefined}
+                imagePreset="cardLg"
                 className="w-48 self-center"
             />
             <View

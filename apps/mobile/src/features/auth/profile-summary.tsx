@@ -30,6 +30,7 @@ const ProfileSummary: FC = () => {
                     <AvatarImage
                         src={user.avatar}
                         alt={user.username ?? undefined}
+                        size={96}
                     />
                     <AvatarFallback>
                         {user.username?.slice(0, 2).toUpperCase()}

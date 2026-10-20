@@ -44,7 +44,7 @@ const ArticleRow: FC<{ article: ArticlePreviewResponse }> = ({ article }) => {
             <View className="flex-row items-center justify-between gap-2">
                 <View className="min-w-0 flex-1 flex-row items-center gap-2">
                     <Avatar className="size-5 rounded-sm">
-                        <AvatarImage src={article.author.avatar} />
+                        <AvatarImage src={article.author.avatar} size={20} />
                         <AvatarFallback className="rounded-sm" />
                     </Avatar>
                     <Text

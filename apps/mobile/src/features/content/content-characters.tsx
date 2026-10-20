@@ -5,7 +5,6 @@ import { useQuery } from '@tanstack/react-query';
 import { type ContentCharacterResponse, ContentTypeEnum } from '@hikka/api';
 import { getTitle } from '@hikka/core';
 
-import { presetImageUrl } from '@/components/content-card/image-presets';
 import PosterCard from '@/components/content-card/poster-card';
 import PosterRow from '@/components/content-card/poster-row';
 import { contentHref } from '@/utils/content-href';
@@ -46,7 +45,7 @@ const ContentCharacters: FC<Props> = ({ content }) => {
             renderItem={({ character }) => (
                 <PosterCard
                     title={getTitle(character)}
-                    image={presetImageUrl(character.image, 'cardSm')}
+                    image={character.image ?? undefined}
                     href={contentHref(
                         ContentTypeEnum.CHARACTER,
                         character.slug,

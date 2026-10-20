@@ -59,7 +59,7 @@ const CollectionRow: FC<{ collection: CollectionResponse }> = ({
             <HorizontalCardContainer className="gap-1">
                 <View className="flex-row items-center gap-2">
                     <Avatar className="size-5 rounded-sm">
-                        <AvatarImage src={collection.author.avatar} />
+                        <AvatarImage src={collection.author.avatar} size={20} />
                         <AvatarFallback className="rounded-sm" />
                     </Avatar>
                     <Text

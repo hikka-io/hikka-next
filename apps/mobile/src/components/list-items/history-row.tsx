@@ -116,7 +116,7 @@ const HistoryRow: FC<Props> = ({
                 {showUser && (
                     <View className="flex-row items-center gap-1.5">
                         <Avatar className="size-4 rounded-sm">
-                            <AvatarImage src={item.user.avatar} />
+                            <AvatarImage src={item.user.avatar} size={16} />
                             <AvatarFallback className="rounded-sm" />
                         </Avatar>
                         <Text

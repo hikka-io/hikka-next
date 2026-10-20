@@ -53,7 +53,7 @@ const EntityHeader: FC<Props> = ({
         <View className="gap-6 px-4 pt-4">
             <View className="flex-row gap-4">
                 <View className="w-32">
-                    <PosterCard image={image} />
+                    <PosterCard image={image} imagePreset="cardLg" />
                 </View>
                 <View className="flex-1 justify-end gap-2">
                     <Text
