@@ -21,6 +21,7 @@ import {
     getReviewTotal,
     queryId,
     supportsReviews,
+    type Verdict,
 } from '@hikka/core';
 
 import { Button } from '@/components/ui/button';
@@ -45,6 +46,7 @@ import {
     commentStatsOptions,
     commentThreadOptions,
 } from './queries';
+import ReviewStatsCard from './review-stats-card';
 
 const LIST_IDS = new Set<string>(COMMENT_LIST_IDS);
 const isMainContent = (type: string): type is MainContentTypeEnum =>
@@ -64,6 +66,7 @@ const CommentsList: FC<Props> = ({ contentType, slug, reference }) => {
     const [sort, setSort] = useState<string>(DEFAULT_COMMENT_SORT);
     const [order, setOrder] = useState<CommentOrder>(DEFAULT_COMMENT_ORDER);
     const [commentType, setCommentType] = useState<CommentTypeEnum>('all');
+    const [verdict, setVerdict] = useState<Verdict | null>(null);
     const expanded = useCommentTreeStore((state) => state.expanded);
     const { refreshing, onRefresh } = usePullToRefresh((query) =>
         LIST_IDS.has(queryId(query.queryKey) ?? ''),
@@ -88,6 +91,7 @@ const CommentsList: FC<Props> = ({ contentType, slug, reference }) => {
                       commentType,
                       sort,
                       order,
+                      verdict,
                   }),
         );
 
@@ -102,6 +106,23 @@ const CommentsList: FC<Props> = ({ contentType, slug, reference }) => {
                 : undefined,
         [items, expanded, reference],
     );
+
+    const reviewsTotal = getReviewTotal(stats?.reviewStats);
+    const reviewStats =
+        showTypes && commentType !== 'comment' && reviewsTotal > 0
+            ? stats?.reviewStats
+            : undefined;
+
+    // The web's rule: picking a verdict shows reviews, leaving reviews drops the verdict.
+    const changeType = (type: CommentTypeEnum) => {
+        setCommentType(type);
+        if (type !== 'review') setVerdict(null);
+    };
+
+    const changeVerdict = (next: Verdict | null) => {
+        setVerdict(next);
+        setCommentType('review');
+    };
 
     const compose = () => {
         if (!hasToken) {
@@ -133,9 +154,16 @@ const CommentsList: FC<Props> = ({ contentType, slug, reference }) => {
                     {showTypes && (
                         <CommentTypeChips
                             value={commentType}
-                            onChange={setCommentType}
+                            onChange={changeType}
                             commentsCount={stats?.commentsCount}
-                            reviewsCount={getReviewTotal(stats?.reviewStats)}
+                            reviewsCount={reviewsTotal}
+                        />
+                    )}
+                    {reviewStats && (
+                        <ReviewStatsCard
+                            stats={reviewStats}
+                            value={verdict}
+                            onChange={changeVerdict}
                         />
                     )}
                     {hasToken ? (
