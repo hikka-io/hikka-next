@@ -1,11 +1,14 @@
-import type {
-    AnimeAgeRatingEnum,
-    AnimeMediaEnum,
-    AnimeStatusEnum,
-    ContentStatusEnum,
-    MangaMediaEnum,
-    NovelMediaEnum,
-    SeasonEnum,
+import {
+    type AnimeAgeRatingEnum,
+    type AnimeMediaEnum,
+    type AnimeStatusEnum,
+    type ContentStatusEnum,
+    MainContentTypeEnum,
+    type MangaMediaEnum,
+    type NovelMediaEnum,
+    ReadStatusEnum,
+    type SeasonEnum,
+    WatchStatusEnum,
 } from '@hikka/api';
 
 import type { AnimeSearch, MangaSearch, NovelSearch } from './search-schemas';
@@ -103,4 +106,78 @@ export function buildNovelSearchArgs(search: NovelSearch) {
         },
         page: search.page || 1,
     };
+}
+
+type CatalogSearchArgsMap = {
+    [MainContentTypeEnum.ANIME]: ReturnType<
+        typeof buildAnimeSearchArgs
+    >['args'] & { exclude_watch_status?: WatchStatusEnum[] };
+    [MainContentTypeEnum.MANGA]: ReturnType<
+        typeof buildMangaSearchArgs
+    >['args'] & { exclude_read_status?: ReadStatusEnum[] };
+    [MainContentTypeEnum.NOVEL]: ReturnType<
+        typeof buildNovelSearchArgs
+    >['args'] & { exclude_read_status?: ReadStatusEnum[] };
+};
+
+/** Every list status of a content type: what "hide listed" excludes until the viewer narrows it. */
+export function listStatuses(contentType: MainContentTypeEnum): string[] {
+    return Object.values(
+        contentType === MainContentTypeEnum.ANIME
+            ? WatchStatusEnum
+            : ReadStatusEnum,
+    );
+}
+
+/**
+ * The catalog request body for one content type: the search params plus the viewer's
+ * hidden list statuses (`exclude_watch_status` / `exclude_read_status`).
+ */
+export function buildCatalogSearchArgs<T extends MainContentTypeEnum>(
+    contentType: T,
+    search: AnimeSearch | MangaSearch | NovelSearch,
+    hiddenStatuses?: string[],
+): { args: CatalogSearchArgsMap[T]; page: number } {
+    switch (contentType as MainContentTypeEnum) {
+        case MainContentTypeEnum.ANIME: {
+            const { args, page } = buildAnimeSearchArgs(search);
+
+            return {
+                args: {
+                    ...args,
+                    ...(hiddenStatuses && {
+                        exclude_watch_status:
+                            hiddenStatuses as WatchStatusEnum[],
+                    }),
+                } as CatalogSearchArgsMap[T],
+                page,
+            };
+        }
+        case MainContentTypeEnum.MANGA: {
+            const { args, page } = buildMangaSearchArgs(search);
+
+            return {
+                args: {
+                    ...args,
+                    ...(hiddenStatuses && {
+                        exclude_read_status: hiddenStatuses as ReadStatusEnum[],
+                    }),
+                } as CatalogSearchArgsMap[T],
+                page,
+            };
+        }
+        default: {
+            const { args, page } = buildNovelSearchArgs(search);
+
+            return {
+                args: {
+                    ...args,
+                    ...(hiddenStatuses && {
+                        exclude_read_status: hiddenStatuses as ReadStatusEnum[],
+                    }),
+                } as CatalogSearchArgsMap[T],
+                page,
+            };
+        }
+    }
 }

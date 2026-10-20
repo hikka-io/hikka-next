@@ -1,3 +1,4 @@
+export * from './active-filters';
 export * from './api-error-message';
 export * from './catalog-search-args';
 export * from './content-paths';

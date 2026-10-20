@@ -12,17 +12,15 @@ import {
     type NovelResponseWithRead,
     type PaginationResponse,
     paginatedInfiniteOptions,
-    type ReadStatusEnum,
     searchAnimeInfiniteOptions,
     searchMangaInfiniteOptions,
     searchNovelInfiniteOptions,
-    type WatchStatusEnum,
 } from '@hikka/api';
-import type { AnimeSearch, MangaSearch, NovelSearch } from '@hikka/core';
 import {
-    buildAnimeSearchArgs,
-    buildMangaSearchArgs,
-    buildNovelSearchArgs,
+    type AnimeSearch,
+    buildCatalogSearchArgs,
+    type MangaSearch,
+    type NovelSearch,
 } from '@hikka/core';
 
 import {
@@ -86,13 +84,11 @@ export function catalogSearchQuery(
 ) {
     switch (contentType) {
         case ContentTypeEnum.ANIME: {
-            const { args: searchArgs, page } = buildAnimeSearchArgs(search);
-            const args = {
-                ...searchArgs,
-                ...(hiddenStatuses && {
-                    exclude_watch_status: hiddenStatuses as WatchStatusEnum[],
-                }),
-            };
+            const { args, page } = buildCatalogSearchArgs(
+                ContentTypeEnum.ANIME,
+                search,
+                hiddenStatuses,
+            );
 
             return {
                 args,
@@ -107,13 +103,11 @@ export function catalogSearchQuery(
             };
         }
         case ContentTypeEnum.MANGA: {
-            const { args: searchArgs, page } = buildMangaSearchArgs(search);
-            const args = {
-                ...searchArgs,
-                ...(hiddenStatuses && {
-                    exclude_read_status: hiddenStatuses as ReadStatusEnum[],
-                }),
-            };
+            const { args, page } = buildCatalogSearchArgs(
+                ContentTypeEnum.MANGA,
+                search,
+                hiddenStatuses,
+            );
 
             return {
                 args,
@@ -128,13 +122,11 @@ export function catalogSearchQuery(
             };
         }
         case ContentTypeEnum.NOVEL: {
-            const { args: searchArgs, page } = buildNovelSearchArgs(search);
-            const args = {
-                ...searchArgs,
-                ...(hiddenStatuses && {
-                    exclude_read_status: hiddenStatuses as ReadStatusEnum[],
-                }),
-            };
+            const { args, page } = buildCatalogSearchArgs(
+                ContentTypeEnum.NOVEL,
+                search,
+                hiddenStatuses,
+            );
 
             return {
                 args,
