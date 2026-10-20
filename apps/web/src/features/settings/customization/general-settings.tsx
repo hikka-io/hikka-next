@@ -1,5 +1,7 @@
 import { useRouter } from '@tanstack/react-router';
 
+import { NAME_LANGUAGE_OPTIONS, TITLE_LANGUAGE_OPTIONS } from '@hikka/core';
+
 import MaterialSymbolsComputerOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsComputerOutlineRounded';
 import MaterialSymbolsNightlightOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsNightlightOutlineRounded';
 import MaterialSymbolsSunnyOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsSunnyOutlineRounded';
@@ -105,13 +107,13 @@ const GeneralSettings = () => {
                     <SelectContent>
                         <SelectList>
                             <SelectGroup>
-                                <SelectItem value="title_ua">
-                                    Українська
-                                </SelectItem>
-                                <SelectItem value="title_en">
-                                    Англійська
-                                </SelectItem>
-                                <SelectItem value="title_ja">Рідна</SelectItem>
+                                {TITLE_LANGUAGE_OPTIONS.map(
+                                    ({ value, label }) => (
+                                        <SelectItem key={value} value={value}>
+                                            {label}
+                                        </SelectItem>
+                                    ),
+                                )}
                             </SelectGroup>
                         </SelectList>
                     </SelectContent>
@@ -130,15 +132,13 @@ const GeneralSettings = () => {
                     <SelectContent>
                         <SelectList>
                             <SelectGroup>
-                                <SelectItem value="name_ua">
-                                    Українська
-                                </SelectItem>
-                                <SelectItem value="name_en">
-                                    Англійська
-                                </SelectItem>
-                                <SelectItem value="name_native">
-                                    Рідна
-                                </SelectItem>
+                                {NAME_LANGUAGE_OPTIONS.map(
+                                    ({ value, label }) => (
+                                        <SelectItem key={value} value={value}>
+                                            {label}
+                                        </SelectItem>
+                                    ),
+                                )}
                             </SelectGroup>
                         </SelectList>
                     </SelectContent>

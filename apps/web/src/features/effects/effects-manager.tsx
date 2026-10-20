@@ -1,7 +1,8 @@
 import { lazy, Suspense } from 'react';
 
+import type { UIEffect } from '@hikka/core';
+
 import { useSessionUI } from '@/services/session';
-import type { UIEffect } from '@/utils/customization';
 
 const SnowfallEffect = lazy(() => import('./snowfall-effect'));
 const SakuraEffect = lazy(() => import('./sakura'));

@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 
 import { API_LIMITS, type UserLinkResponse } from '@hikka/api';
-import { parseUrl } from '@hikka/core';
+import { detectLinkIcon, parseUrl } from '@hikka/core';
 
 import { SubmitButton, useAppForm } from '@/components/form';
 import { USER_LINK_ICONS } from '@/components/icons/user-link-icons';
@@ -9,8 +9,6 @@ import { Button } from '@/components/ui/button';
 import { ResponsiveModalFooter } from '@/components/ui/responsive-modal';
 import { userLinkTextSchema, userLinkUrlSchema } from '@/utils/form-schemas';
 import { z } from '@/utils/i18n-zod';
-
-import { detectLinkIcon } from './detect-link-icon';
 
 const formSchema = z.object({
     url: userLinkUrlSchema,

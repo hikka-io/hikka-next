@@ -9,18 +9,19 @@ import {
     type UiStylesOutput,
     type UserCustomizationResponse,
 } from '@hikka/api';
-import type { NameLanguage, TitleLanguage } from '@hikka/core';
-import { DEFAULT_USER_UI } from '@hikka/core';
-
+import type { NameLanguage, TitleLanguage, UIEffect } from '@hikka/core';
 import {
-    getActiveEventTheme,
+    DEFAULT_USER_UI,
     mergeEffects,
     mergePreferences,
     mergeStyles,
+} from '@hikka/core';
+
+import {
+    getActiveEventTheme,
     mergeUserStyles,
     type ResolvedBackdrop,
     resolveBackdrop,
-    type UIEffect,
 } from '@/utils/customization';
 
 import { useSession } from './use-session';

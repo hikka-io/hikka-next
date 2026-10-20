@@ -1,8 +1,9 @@
+import type { UIEffect } from '@hikka/core';
+
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { EFFECT_IDS, EFFECTS } from '@/features/effects';
 import { useSessionUI, useUpdateSessionUI } from '@/services/session';
-import type { UIEffect } from '@/utils/customization';
 
 const EffectsSettings = () => {
     const { preferences } = useSessionUI();
