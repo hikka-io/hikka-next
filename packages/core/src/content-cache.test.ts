@@ -5,6 +5,7 @@ import {
     applyWatchDeletion,
     invalidateReadState,
     invalidateWatchState,
+    writeWatchToCaches,
 } from './content-cache';
 
 const seed = (queryClient: QueryClient, ids: string[]) => {
@@ -60,6 +61,28 @@ describe('watch/read invalidation', () => {
             'userReadList',
             'userReadStats',
         ]);
+    });
+
+    it('patches the watch entry embedded in the schedule', async () => {
+        const queryClient = new QueryClient();
+        const key = [{ _id: 'animeSchedule' }];
+        queryClient.setQueryData(key, {
+            pages: [{ list: [{ anime: { slug: 'frieren', watch: [] } }] }],
+        });
+
+        await applyWatchDeletion(queryClient, 'frieren');
+        writeWatchToCaches(queryClient, {
+            anime: { slug: 'frieren' },
+            status: 'planned',
+        } as Parameters<typeof writeWatchToCaches>[1]);
+
+        expect(
+            (
+                queryClient.getQueryData(key) as {
+                    pages: { list: { anime: { watch: unknown[] } }[] }[];
+                }
+            ).pages[0].list[0].anime.watch,
+        ).toEqual([{ status: 'planned' }]);
     });
 
     it('stores null for a deleted entry', async () => {

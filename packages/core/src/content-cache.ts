@@ -19,6 +19,7 @@ export const WATCH_LIST_IDS: readonly QueryId[] = ['userWatchList'];
 // stale-marked, never refetched, so one toggle never reloads a large grid.
 export const WATCH_EMBED_IDS: readonly QueryId[] = [
     'searchAnime',
+    'animeSchedule',
     'animeRecommendations',
     'characterAnime',
     'personAnime',
