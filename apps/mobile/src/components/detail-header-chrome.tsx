@@ -2,17 +2,15 @@ import { type FC, useEffect, useState } from 'react';
 
 import { Stack } from 'expo-router';
 import { unstable_getMaterialSymbolSourceAsync } from 'expo-symbols';
-import { type ImageSourcePropType, Platform, Share } from 'react-native';
+import { type ImageSourcePropType, Platform } from 'react-native';
 
-import type { MainContentTypeEnum } from '@hikka/api';
-import { contentPath } from '@hikka/core';
-
-import { siteUrl } from '@/utils/site-origin';
+import { shareSitePath } from '@/utils/share';
 
 const ANDROID_ICON_SIZE = 24;
 // Bundled Material `share` glyph, used when the symbol cannot be rendered.
-const shareIcon: ImageSourcePropType = require('../../../assets/images/share.png');
+const shareIcon: ImageSourcePropType = require('../../assets/images/share.png');
 
+// Compose toolbar items take image sources only, so the Material symbol is rendered to one.
 const useAndroidShareIcon = () => {
     const [icon, setIcon] = useState<ImageSourcePropType | null>(null);
 
@@ -32,37 +30,31 @@ const useAndroidShareIcon = () => {
 };
 
 type Props = {
-    contentType: MainContentTypeEnum;
-    slug: string;
     title: string;
-    titleVisible: boolean;
-    shareable: boolean;
+    // Detail pages start with an empty title and show it once the hero title scrolls under the bar.
+    titleVisible?: boolean;
+    // The hikka.io path to share; the share action shows only once it is known.
+    sharePath?: string;
 };
 
-const ContentHeaderChrome: FC<Props> = ({
-    contentType,
-    slug,
+const DetailHeaderChrome: FC<Props> = ({
     title,
-    titleVisible,
-    shareable,
+    titleVisible = true,
+    sharePath,
 }) => {
     const androidIcon = useAndroidShareIcon();
-    const url = siteUrl(contentPath(contentType, slug));
     const icon =
         Platform.OS === 'android' ? androidIcon : 'square.and.arrow.up';
-
-    const share = () =>
-        Share.share(Platform.OS === 'ios' ? { url } : { title, message: url });
 
     return (
         <>
             <Stack.Title>{titleVisible ? title : ''}</Stack.Title>
-            {icon && shareable && (
+            {icon && sharePath && (
                 <Stack.Toolbar placement="right">
                     <Stack.Toolbar.Button
                         icon={icon}
                         accessibilityLabel="Поділитися"
-                        onPress={share}
+                        onPress={() => shareSitePath(sharePath, title)}
                     />
                 </Stack.Toolbar>
             )}
@@ -70,4 +62,4 @@ const ContentHeaderChrome: FC<Props> = ({
     );
 };
 
-export default ContentHeaderChrome;
+export default DetailHeaderChrome;

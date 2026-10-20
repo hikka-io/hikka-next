@@ -1,15 +1,14 @@
 import { type FC, useEffect } from 'react';
 
 import { useQuery } from '@tanstack/react-query';
-import { Stack, useRouter } from 'expo-router';
-import { Platform } from 'react-native';
+import { useRouter } from 'expo-router';
 
 import { isUserReference } from '@hikka/core';
 
 import BlockList from '@/components/block-list';
+import DetailHeaderChrome from '@/components/detail-header-chrome';
 import ErrorState from '@/components/ui/error-state';
 import { byUsername, usePullToRefresh } from '@/utils/api/use-pull-to-refresh';
-import { shareSitePath } from '@/utils/share';
 
 import FavouritesSection from './favourites-section';
 import HistorySection from './history-section';
@@ -60,16 +59,10 @@ const UserProfile: FC<Props> = ({ username }) => {
 
     return (
         <>
-            <Stack.Title>{name ?? username}</Stack.Title>
-            {Platform.OS === 'ios' && name && (
-                <Stack.Toolbar placement="right">
-                    <Stack.Toolbar.Button
-                        icon="square.and.arrow.up"
-                        accessibilityLabel="Поділитися"
-                        onPress={() => shareSitePath(`/u/${name}`)}
-                    />
-                </Stack.Toolbar>
-            )}
+            <DetailHeaderChrome
+                title={name ?? username}
+                sharePath={name ? `/u/${name}` : undefined}
+            />
             {isPending ? (
                 <UserSkeleton />
             ) : error || !data ? (

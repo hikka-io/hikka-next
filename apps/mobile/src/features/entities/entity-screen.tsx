@@ -1,12 +1,9 @@
 import { type FC, Fragment, type ReactElement } from 'react';
 
-import { Stack } from 'expo-router';
-import { Platform } from 'react-native';
-
 import BlockList from '@/components/block-list';
+import DetailHeaderChrome from '@/components/detail-header-chrome';
 import ErrorState from '@/components/ui/error-state';
 import { bySlug, usePullToRefresh } from '@/utils/api/use-pull-to-refresh';
-import { shareSitePath } from '@/utils/share';
 
 import EntitySkeleton from './entity-skeleton';
 
@@ -36,16 +33,10 @@ const EntityScreen: FC<Props> = ({
 
     return (
         <>
-            <Stack.Title>{title}</Stack.Title>
-            {Platform.OS === 'ios' && ready && (
-                <Stack.Toolbar placement="right">
-                    <Stack.Toolbar.Button
-                        icon="square.and.arrow.up"
-                        accessibilityLabel="Поділитися"
-                        onPress={() => shareSitePath(sharePath)}
-                    />
-                </Stack.Toolbar>
-            )}
+            <DetailHeaderChrome
+                title={title}
+                sharePath={ready ? sharePath : undefined}
+            />
             {isPending ? (
                 <EntitySkeleton />
             ) : error ? (

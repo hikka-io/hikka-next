@@ -4,8 +4,9 @@ import { useQuery } from '@tanstack/react-query';
 import { RefreshControl, ScrollView } from 'react-native';
 
 import { ContentTypeEnum, type MainContentTypeEnum } from '@hikka/api';
-import { getTitle } from '@hikka/core';
+import { contentPath, getTitle } from '@hikka/core';
 
+import DetailHeaderChrome from '@/components/detail-header-chrome';
 import ErrorState from '@/components/ui/error-state';
 import { bySlug, usePullToRefresh } from '@/utils/api/use-pull-to-refresh';
 
@@ -13,7 +14,6 @@ import ContentCharacters from './content-characters';
 import ContentDetailSkeleton from './content-detail-skeleton';
 import ContentDetails from './content-details';
 import ContentFranchise from './content-franchise';
-import ContentHeaderChrome from './content-header-chrome';
 import ContentHero from './content-hero';
 import ContentLinks from './content-links';
 import ContentRecommendations from './content-recommendations';
@@ -82,12 +82,10 @@ const ContentDetailBody: FC<Props> = ({ contentType, slug }) => {
 
     return (
         <>
-            <ContentHeaderChrome
-                contentType={contentType}
-                slug={slug}
+            <DetailHeaderChrome
                 title={content ? getTitle(content) : ''}
                 titleVisible={titleVisible}
-                shareable={!!content}
+                sharePath={content ? contentPath(contentType, slug) : undefined}
             />
             <ScrollView
                 className="flex-1 bg-background"
