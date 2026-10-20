@@ -14,7 +14,7 @@ Status legend: **Decided** (follow it), **Open** (the named task decides and rec
 ## 2. Tokens (Decided)
 
 - Colors come only from `src/theme.css`, generated from `apps/web/src/globals.css` by `pnpm --filter @hikka/mobile tokens`. Never edit it, never hard-code a hex in a component.
-- The generator also emits the web's radius scale (`--radius-lg/md/sm/xs`), the surface fills (`surface`, `surface-inset`, `surface-inset-border`, including the web's `color-mix` translucency) and `--shadow-card` per scheme, so `rounded-*`, `bg-surface*` and `shadow-card` mean the same thing in both apps.
+- The generator also emits the web's surface fills per scheme (`surface`, `surface-inset`, `surface-inset-border`, including the web's `color-mix` translucency) and, in a static `@theme` block, the radius scale (`--radius-lg/md/sm/xs`) and the light `--shadow-card`, so `rounded-*`, `bg-surface*` and `shadow-card` mean the same thing in both apps. Uniwind themes only colors per scheme (a non-color variable inside `@variant` resolves to `unset`), so the web's dark shadow (none) is applied as `dark:shadow-none` on the card; the generator fails if the web's dark shadow ever stops being none.
 - Uniwind only compiles class names it finds as literals: never build a class from a variable (`bg-${status}`). Map values to literal classes (the badge `status` variant does this).
 - A new semantic color goes into the web `globals.css` first (so both apps share it), then the generator is re-run. A token that only makes sense on mobile goes in `src/global.css` under `@layer theme` with a line here explaining why.
 - Usage follows the web: `background` page, `card` grouped content surfaces, `muted`/`secondary` chips and inset fills, `primary`/`primary-foreground`/`primary-border` brand accents (score chip, active state), `border` hairlines, status tokens (`watching`, `planned`, `completed`, `on_hold`, `dropped`, `reading`, `ongoing`, `finished`, `announced`, `discontinued`, `paused`) for list and release status.
@@ -25,7 +25,7 @@ Status legend: **Decided** (follow it), **Open** (the named task decides and rec
 
 - **System font** (SF Pro on iOS, Roboto on Android) for native feel; the web's Geist is not used. Headers use the native large title on top-level screens.
 - Sizes use Tailwind's scale, mapped to the web's `Header` variants: page `text-2xl leading-8 font-bold`, section `text-lg leading-7 font-bold`, subsection `text-base leading-6 font-semibold`; body `text-base`, secondary `text-sm text-muted-foreground`, meta `text-xs`.
-- Dynamic Type is respected (font scaling on). Dense rows (badges, chips, stat items, poster and horizontal card meta, header counts, toasts) cap scaling with `maxFontSizeMultiplier={DENSE_MAX_FONT_SCALE}` = **1.3** (`components/ui/typography.ts`), roughly the largest non-accessibility size; titles and body text scale freely.
+- Dynamic Type is respected (font scaling on). Dense rows (badges, chips, stat items, poster and horizontal card meta, header counts, toasts) cap scaling with `maxFontSizeMultiplier={DENSE_MAX_FONT_SCALE}` = **1.3** (`components/ui/typography.ts`), roughly the largest non-accessibility size; titles and body text scale freely. Controls never clip their label: buttons use `min-h-*`, so the box grows with the text, and fixed-height chips and stat items only hold capped dense text.
 - Text never inherits styles from a `View` in React Native. Primitives that carry text (Button, Badge, Chip, StatItem, HorizontalCardDescription) provide their text classes through `TextClassContext`, and our `Text` (`components/ui/text`) merges them; string children are wrapped automatically, so `<Button>Зберегти</Button>` works like the web. Content icons use `<Icon as={Glyph} />` (`components/ui/icon`), which takes its color from the inherited text class and its size from `IconClassContext` (the web's `[&_svg]:size-*`) or its own `size-*` class.
 
 ## 4. Layout, shape, elevation (Decided)
@@ -33,9 +33,10 @@ Status legend: **Decided** (follow it), **Open** (the named task decides and rec
 - 4 px spacing scale (Tailwind). Screen gutter `px-4`. Gap between sections `gap-6`, inside a section `gap-3`.
 - Radii from the web (`--radius` 0.625rem): `rounded-lg` 10 for cards, surfaces and buttons, `rounded-md` 8 for posters, chips, `md`/`lg` buttons, `rounded-sm` 6 for badges, `rounded-full` for avatars. Small posters in horizontal cards use `rounded-lg` like the web's `--base-radius`.
 - Poster ratio is **0.7** (width / height, `DEFAULT_CONTAINER_RATIO` in `content-card/image-presets.ts`, same constant as the web), poster box `rounded-md bg-muted`, missing image shows the `ImageOff` glyph.
-- Elevation: `Card` `surface` is `border-border bg-surface shadow-card`. In light, `shadow-card` is the web's two-layer soft shadow (`0 1px 3px` 8% + `0 1px 2px` 5%); in dark it resolves to none and surfaces lift by fill, as on the web. `inset` uses `bg-surface-inset` (muted at 60% light / 45% dark) with its own border; `plain` is border only. The web's `glass` variant has no mobile equivalent: floating bars are native chrome (Liquid Glass), not cards.
-- Touch targets: every pressable primitive reaches 44 pt. Buttons below 44 pt (`sm`, `md`, `icon-sm`, `icon-md`) get a computed `hitSlop`; chips and stat items get `hitSlop` 6; a linked `HeaderTitle` is `min-h-11` with negative margins so the header row keeps the web's 32 pt height.
-- Pressed state replaces hover: the web's `hover:` colour becomes `active:` (`bg-primary` → `active:bg-primary-border`, ghost/outline → `active:bg-accent`); whole cards and rows dim with `active:opacity-70`.
+- Elevation: `Card` `surface` is `border-border bg-surface shadow-card dark:shadow-none`. In light, `shadow-card` is the web's two-layer soft shadow (`0 1px 3px` 8% + `0 1px 2px` 5%); in dark it resolves to none and surfaces lift by fill, as on the web. `inset` uses `bg-surface-inset` (muted at 60% light / 45% dark) with its own border; `plain` is border only. The web's `glass` variant has no mobile equivalent: floating bars are native chrome (Liquid Glass), not cards.
+- Touch targets: every pressable primitive is a real 44 pt layout box, not a `hitSlop` (on Android a touch outside the parent's bounds never reaches the child). Button, Chip and StatItem render through `TouchTarget` (`components/ui/touch-target`): a transparent `min-h-11 min-w-11` Pressable around the smaller visual, so a row holding a 32 pt button is 44 pt tall. Their `className` styles the visual like the web; `containerClassName` lays out the hit box (`self-stretch` + `w-full` for a full-width button). A linked `HeaderTitle` is `min-h-11`; poster cards and rows are already larger.
+- Pressed state replaces hover: the web's `hover:` colour becomes the pressed colour (`bg-primary` → `bg-primary-border`, ghost/outline → `bg-accent`, applied from the Pressable's `pressed` state); whole cards and rows dim with `active:opacity-70`.
+- Accessibility: icon-only buttons (`icon`, `icon-md`, `icon-sm`) must pass `accessibilityLabel` (enforced by the type). A linked `HeaderTitle` keeps the header role (`role="heading"`; double tap still opens it). A selected `Chip` sets `accessibilityState.selected` and the primary tint, which the chip row (`ChipTabs` equivalent) builds on. Cards and rows are one element; anything interactive on them sits outside that element: `PosterCard` `overlay` is an absolute sibling over the poster box (as on the web), `HorizontalCard` `action` sits after the row. `children` and `titleMeta` are decoration only.
 
 ## 5. Icons (Decided)
 
@@ -89,25 +90,26 @@ Names match the web component with the same role, so reviewers can compare side 
 | `ui/card` (`variant` surface/inset/glass/plain) | `ui/card` (surface/inset/plain) | Done |
 | `ui/header` (`Header`, `HeaderTitle` page/section/subsection with `count`/`countPending`/link, `HeaderActions`) | `ui/header` (same names; link is `href` or `onPress`) | Done |
 | `ui/badge` (incl. `status`) | `ui/badge` (`variant="status" status="watching"`, literal class map) | Done |
-| `ui/chip` | `ui/chip` (pressable when `onPress` is set, static otherwise) | Done |
+| `ui/chip` | `ui/chip` (pressable when `onPress` is set, static otherwise; `selected`) | Done |
 | `ui/button` (`buttonVariants`) | `ui/button` (all 9 variants; sizes `default`, `sm`, `md`, `lg`, `icon`, `icon-md`, `icon-sm`) | Done |
 | `ui/skeleton` (+ `SkeletonText`) | `ui/skeleton` (Reanimated pulse matching `animate-pulse`; `SkeletonText` reads font size and line height from its classes) | Done |
 | `ui/avatar` (`Avatar`, `AvatarImage`, `AvatarFallback`) | `ui/avatar` (same names; fallback shows until the image loads or when it fails) | Done |
 | `ui/empty-state` | `ui/empty-state` (same props and sizes) | Done |
 | `ui/stat-item` (+ `StatItemGroup`) | `ui/stat-item` | Done |
 | `ui/separator` | `ui/separator` | Done |
-| `ui/sonner` (`Toaster`) | `ui/toaster` | Done, not mounted yet (see decision log) |
+| `ui/sonner` (`Toaster`) | `ui/toaster` (mounted once in the root layout; loading toasts spin an `ActivityIndicator`) | Done |
+| — | `ui/touch-target` (44 pt hit box for Button, Chip, StatItem) | Done (mobile-only) |
 | `ui/image` | `ui/image` (`expo-image` with `className`) | Done |
 | — | `ui/text` (`Text`, `TextClassContext`, `wrapText`), `ui/icon` (`Icon`, `IconClassContext`), `ui/typography.ts` | Done (mobile-only: React Native has no style inheritance) |
-| `content-card/poster-card` (+ `poster-card-skeleton`) | `content-card/poster-card` (+ `poster-card-skeleton`) | Done; `status` overlay, image presets and tooltips left for the tracking/content tasks |
-| `horizontal-card` | `horizontal-card` (same five exports; the row itself takes `href`/`onPress`) | Done |
+| `content-card/poster-card` (+ `poster-card-skeleton`) | `content-card/poster-card` (+ `poster-card-skeleton`; ratio `DEFAULT_CONTAINER_RATIO` from `@hikka/core`, shared with the web) | Done; `status` overlay, image presets and tooltips left for the tracking/content tasks |
+| `horizontal-card` | `horizontal-card` (same five exports; the row itself takes `href`/`onPress`, interactive content goes in `action`) | Done |
 | `markdown` (`MDViewer`) | `markdown` (`MDViewer`, `Link`, `Mention`, `Spoiler`, `SpoilerInline`) | Decided: see section 11 |
 
 Deliberate differences from the web, all for touch:
 
 - Button drops `xs`, `icon-xs` and `badge` sizes: 24 pt controls are too small to read as buttons on a phone, and pill filters are `Chip`.
-- `HorizontalCard` links the whole row (`href`/`onPress` on the root) instead of separate image and title links: one 44 pt target per row, one VoiceOver element. `PosterCard` is likewise one pressable for poster and title.
-- Sensitive posters (`imageBlur`/`titleBlur`) reveal on the first tap and navigate on the next, like the web; the blur is `expo-image` `blurRadius`.
+- `HorizontalCard` links the whole row (`href`/`onPress` on the root) instead of separate image and title links: one 44 pt target per row, one VoiceOver element, with an `action` slot outside it. `PosterCard` is likewise one pressable for poster and title.
+- Sensitive posters (`imageBlur`/`titleBlur`) reveal on the first tap and navigate on the next, like the web: the `Link` stays mounted and the first press calls `preventDefault`, so the card never remounts or flashes. The image blur is `expo-image` `blurRadius`. A hidden title is `opacity-0` instead of the web's `spoiler-blur-sm`, because React Native has no text blur; its space is kept so the grid does not shift. While hidden, the card announces "Прихований вміст" instead of the title, with the hint "Торкніться, щоб показати".
 
 ## 10. Code structure (Decided)
 
@@ -149,3 +151,6 @@ Append one line per decision: date, decision, task.
 - 2026-10-20: The Profile tab is the third native tab (between catalog and search). Signed out: muted copy plus a login button that opens the sheet; signed in: avatar, username, email. Logout is a header `Stack.Toolbar` button (SF `rectangle.portrait.and.arrow.right`), not a content button. The summary lives in `features/auth` until the `users` feature exists. (auth)
 - 2026-10-20: Session state is in `features/auth` (`useSession`, `signIn`/`signOut`, token storage), as the parent plan asked, not in `src/services/` as section 10 suggests; move it if `services/` becomes the home for session hooks. (auth)
 - 2026-10-20: Markdown viewer is a `marked` lexer with directive/mention/strikethrough extensions and an own React Native renderer, not `react-native-marked` or a native text view; web dialect kept (no code/tables/autolinks); block spoiler hides behind an opaque pill, not a blur. (markdown task)
+- 2026-10-20: Review pass: real 44 pt boxes through `TouchTarget` instead of `hitSlop` (Android ignores touches outside the parent), buttons grow with Dynamic Type (`min-h-*`), icon buttons require `accessibilityLabel`, linked headers keep the header role, `Chip` gets `selected`, card and row actions sit outside the card's single accessible element; the auth form fields, submit and profile summary now use `Text`, `Button` and `Avatar`. (design-system)
+- 2026-10-20: Uniwind cannot theme non-color variables per scheme, so radii and the light card shadow are static `@theme` keys and the card uses `dark:shadow-none`; verified on device (radius 10.1 pt measured, shadow visible in light, none in dark). (design-system)
+- 2026-10-20: `<Toaster />` is mounted once in `src/app/_layout.tsx`; loading toasts use `ActivityIndicator` (section 7). The poster ratio moved to `@hikka/core` (`DEFAULT_CONTAINER_RATIO`) and the web imports it from there. (design-system)
