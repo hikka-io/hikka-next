@@ -1,10 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 
-import type {
-    AnimeStatsResponse,
-    MainContentTypeEnum,
-    AppCommonSchemasReadReadStatsResponse as ReadStatsResponse,
-} from '@hikka/api';
+import type { MainContentTypeEnum } from '@hikka/api';
+import { contentScoreStats } from '@hikka/core';
 
 import { contentInfoOptions } from '@/utils/api/content-queries';
 import { useParams } from '@/utils/navigation';
@@ -26,44 +23,13 @@ const Score = ({ content_type }: Props) => {
         return null;
     }
 
-    const sumStats =
-        (data.stats.score_1 ?? 0) +
-        (data.stats.score_2 ?? 0) +
-        (data.stats.score_3 ?? 0) +
-        (data.stats.score_4 ?? 0) +
-        (data.stats.score_5 ?? 0) +
-        (data.stats.score_6 ?? 0) +
-        (data.stats.score_7 ?? 0) +
-        (data.stats.score_8 ?? 0) +
-        (data.stats.score_9 ?? 0) +
-        (data.stats.score_10 ?? 0);
-
-    const stats: ListStat[] = Object.keys(data.stats)
-        .filter(
-            (stat) =>
-                stat.includes('score') &&
-                (data.stats[
-                    stat as keyof (AnimeStatsResponse | ReadStatsResponse)
-                ] ?? 0) > 0,
-        )
-        .reverse()
-        .map((stat) => {
-            const percentage =
-                (100 *
-                    (data.stats[
-                        stat as keyof (AnimeStatsResponse | ReadStatsResponse)
-                    ] ?? 0)) /
-                sumStats;
-
-            return {
-                icon: <small>{stat.split('score_')[1]}</small>,
-                percentage,
-                value:
-                    data.stats[
-                        stat as keyof (AnimeStatsResponse | ReadStatsResponse)
-                    ] ?? 0,
-            };
-        });
+    const stats: ListStat[] = contentScoreStats(data.stats).map(
+        ({ key, count, percentage }) => ({
+            icon: <small>{key}</small>,
+            percentage,
+            value: count,
+        }),
+    );
 
     return <Stats stats={stats} />;
 };

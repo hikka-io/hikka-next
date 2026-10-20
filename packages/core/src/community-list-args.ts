@@ -1,6 +1,8 @@
 import type {
     ArticleCategoryEnum,
+    ArticleContentEnum,
     ArticlesListArgs,
+    CollectionContentTypeEnum,
     CollectionsListArgs,
 } from '@hikka/api';
 
@@ -34,6 +36,22 @@ export function collectionListArgs(
 /** A user's collections, newest first, private ones included (the profile block and its full list). */
 export function userCollectionsListArgs(username: string): CollectionsListArgs {
     return { author: username, sort: ['created:desc'], only_public: false };
+}
+
+/** The collections that contain one title, character or person. */
+export function contentCollectionsListArgs(
+    content_type: CollectionContentTypeEnum,
+    slug: string,
+): CollectionsListArgs {
+    return { content_type, content: [slug] };
+}
+
+/** The articles about one title. */
+export function contentArticlesListArgs(
+    content_type: ArticleContentEnum,
+    slug: string,
+): ArticlesListArgs {
+    return { content_type, content_slug: slug };
 }
 
 /** A user's articles (the profile block). */
