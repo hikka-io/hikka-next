@@ -39,9 +39,10 @@ const ArticleImages: FC<Props> = ({ urls }) => {
         >
             {layout.columns.map((column, columnIndex) => (
                 <View key={columnIndex} style={{ flex: column.flex, gap: GAP }}>
-                    {column.urls.map((url) => (
+                    {column.urls.map((url, index) => (
                         <Image
-                            key={url}
+                            // One group may repeat a url, so the position is part of the key.
+                            key={`${index}:${url}`}
                             source={sizedImageUrl(
                                 url,
                                 (MAX_WIDTH * column.flex) / totalFlex,
