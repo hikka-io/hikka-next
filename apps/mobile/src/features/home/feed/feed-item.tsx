@@ -185,6 +185,9 @@ const CollectionBody: FC<{ data: CollectionResponse }> = ({ data }) => {
                                                 coverItem.content.image,
                                                 'cardXs',
                                             )}
+                                            recyclingKey={
+                                                coverItem.content.image
+                                            }
                                             blurRadius={24}
                                             contentFit="cover"
                                             className="absolute inset-0 size-full"

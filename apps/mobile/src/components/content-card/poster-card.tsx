@@ -1,5 +1,6 @@
-import { type FC, type ReactNode, useState } from 'react';
+import type { FC, ReactNode } from 'react';
 
+import { useRecyclingState } from '@shopify/flash-list';
 import { type Href, Link } from 'expo-router';
 import { Eye, ImageOff } from 'lucide-react-native';
 import { type GestureResponderEvent, Pressable, View } from 'react-native';
@@ -57,7 +58,12 @@ const PosterCard: FC<Props> = ({
     imageBlur,
     titleBlur,
 }) => {
-    const [revealed, setRevealed] = useState(false);
+    // A recycled list cell shows another title: the reveal resets with it.
+    const [revealed, setRevealed] = useRecyclingState(false, [
+        typeof href === 'string' ? href : JSON.stringify(href ?? null),
+        typeof image === 'string' ? image : null,
+        title,
+    ]);
     const hidden = Boolean(imageBlur || titleBlur) && !revealed;
     const hasSubtitles = Boolean(leftSubtitle || rightSubtitle);
     const pressable = Boolean(href || onPress || hidden);
