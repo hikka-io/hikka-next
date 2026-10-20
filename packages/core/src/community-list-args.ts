@@ -31,6 +31,16 @@ export function collectionListArgs(
     return { sort: [`${sort}:desc`] };
 }
 
+/** A user's collections, newest first, private ones included (the profile block and its full list). */
+export function userCollectionsListArgs(username: string): CollectionsListArgs {
+    return { author: username, sort: ['created:desc'], only_public: false };
+}
+
+/** A user's articles (the profile block). */
+export function userArticlesListArgs(username: string): ArticlesListArgs {
+    return { author: username };
+}
+
 /** The articles page body built from its search params. */
 export function articleListArgs(search: ArticlesSearch): ArticlesListArgs {
     return {

@@ -1,5 +1,6 @@
 export * from './accent-presets';
 export * from './active-filters';
+export * from './activity-grid';
 export * from './api-error-message';
 export * from './article-document';
 export * from './auth-schemas';

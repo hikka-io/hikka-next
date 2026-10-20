@@ -31,7 +31,12 @@ import {
     userWatchStatsOptions,
 } from '@hikka/api';
 import type { UserlistSearch } from '@hikka/core';
-import { buildUserReadListArgs, buildUserWatchListArgs } from '@hikka/core';
+import {
+    buildUserReadListArgs,
+    buildUserWatchListArgs,
+    userArticlesListArgs,
+    userCollectionsListArgs,
+} from '@hikka/core';
 
 const HISTORY_PREVIEW_SIZE = 3;
 const ARTICLES_PREVIEW_SIZE = 3;
@@ -125,7 +130,7 @@ export function userListStatsOptions(
 export function userArticlesPreviewOptions(username: string, client?: Client) {
     return {
         ...getArticlesInfiniteOptions({
-            body: { author: username },
+            body: userArticlesListArgs(username),
             query: { size: ARTICLES_PREVIEW_SIZE },
             client,
         }),
@@ -140,11 +145,7 @@ export function userCollectionsOptions(
 ) {
     return {
         ...getCollectionsInfiniteOptions({
-            body: {
-                author: username,
-                sort: ['created:desc'],
-                only_public: false,
-            },
+            body: userCollectionsListArgs(username),
             query: preview ? { size: COLLECTIONS_PREVIEW_SIZE } : undefined,
             client,
         }),
