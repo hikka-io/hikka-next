@@ -16,6 +16,7 @@ import { AVATAR_EMBED_IDS, USER_PROFILE_ID } from './query-groups';
 import { matchesPath, type QueryId } from './query-id';
 
 const SESSION_IDS: readonly QueryId[] = ['profile'];
+const SESSION_UI_IDS: readonly QueryId[] = ['profileUi'];
 
 /** Invalidate the current-user session/profile query (`profileOptions`). */
 export function invalidateSession(
@@ -23,6 +24,14 @@ export function invalidateSession(
     options?: InvalidateOptions,
 ): Promise<void> {
     return invalidateByIds(queryClient, SESSION_IDS, options);
+}
+
+/** Refetch the saved UI customization, e.g. after a failed write left the optimistic copy in doubt. */
+export function invalidateSessionUI(
+    queryClient: QueryClient,
+    options?: InvalidateOptions,
+): Promise<void> {
+    return invalidateByIds(queryClient, SESSION_UI_IDS, options);
 }
 
 /** Refetch one user's public profile (avatar, cover) after they change it and stale-mark the lists that embed the avatar. */

@@ -241,7 +241,6 @@ export function invalidateAuthTokens(
     return invalidateByIds(queryClient, AUTH_TOKEN_IDS, options);
 }
 
-
 /** Drop an infinite list with several loaded pages before a page jump restarts it. */
 export function resetPageList(
     queryClient: QueryClient,

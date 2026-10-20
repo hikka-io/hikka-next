@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import { z } from 'zod';
 
 import { HikkaApiError } from '@hikka/api';
 
@@ -21,9 +22,9 @@ describe('apiErrorMessage', () => {
     });
 
     it('falls back for a response that failed validation', () => {
-        const error = new Error('[{"code":"invalid_type"}]');
-        error.name = 'ZodError';
+        const { error } = z.object({ id: z.string() }).safeParse({ id: 1 });
 
+        expect(error?.message).toContain('invalid_type');
         expect(apiErrorMessage(error, 'fallback')).toBe('fallback');
     });
 
