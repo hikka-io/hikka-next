@@ -3,7 +3,6 @@ import type { FC } from 'react';
 import { CircleAlert } from 'lucide-react-native';
 import { View } from 'react-native';
 
-import { HikkaApiError } from '@hikka/api';
 import { apiErrorMessage } from '@hikka/core';
 
 import { cn } from '@/utils/cn';
@@ -25,7 +24,7 @@ type Props = {
     // `page` fills a screen or list, `section` replaces one block's content, `inline` sits in a row or card.
     variant?: Variant;
     title?: string;
-    // A 404 on a page is "not found" by itself; `notFound` forces it (a profile without a username).
+    // Detail pages pass it for a 404 (`isNotFoundError`) or a profile without a username; lists never do.
     notFound?: boolean;
     notFoundTitle?: string;
     className?: string;
@@ -72,7 +71,7 @@ const ErrorState: FC<Props> = ({
         );
     }
 
-    if (notFound || (error instanceof HikkaApiError && error.status === 404)) {
+    if (notFound) {
         return (
             <EmptyState
                 title={notFoundTitle}

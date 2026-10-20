@@ -12,7 +12,7 @@ import {
 
 import PosterCard from '@/components/content-card/poster-card';
 import Image from '@/components/ui/image';
-import { presetImageUrl } from '@/utils/image-presets';
+import { presetForWidth, presetImageUrl } from '@/utils/image-presets';
 
 import PersonPlaceholder from './person-placeholder';
 
@@ -57,7 +57,7 @@ const AnimeOverlay: FC<AnimeOverlayProps> = ({ anime }) => (
             >
                 {anime.image && (
                     <Image
-                        source={presetImageUrl(anime.image, 'cardXs')}
+                        source={presetImageUrl(anime.image, presetForWidth(44))}
                         contentFit="cover"
                         accessibilityIgnoresInvertColors
                         className="size-full"

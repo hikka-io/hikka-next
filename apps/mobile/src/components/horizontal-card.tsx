@@ -92,7 +92,6 @@ const HorizontalCardImage: FC<PropsWithChildren<HorizontalCardImageProps>> = ({
             )}
             containerRatio={imageRatio}
             image={image}
-            imagePreset="cardXs"
             imageBlur={imageBlur}
         >
             {children}

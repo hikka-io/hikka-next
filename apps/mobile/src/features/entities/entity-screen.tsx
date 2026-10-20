@@ -3,6 +3,7 @@ import { type FC, Fragment, type ReactElement } from 'react';
 import BlockList from '@/components/block-list';
 import DetailHeaderChrome from '@/components/detail-header-chrome';
 import ErrorState from '@/components/ui/error-state';
+import { isNotFoundError } from '@/utils/api/is-not-found';
 import { bySlug, usePullToRefresh } from '@/utils/api/use-pull-to-refresh';
 
 import EntitySkeleton from './entity-skeleton';
@@ -40,7 +41,11 @@ const EntityScreen: FC<Props> = ({
             {isPending ? (
                 <EntitySkeleton />
             ) : error ? (
-                <ErrorState error={error} onRetry={refetch} />
+                <ErrorState
+                    error={error}
+                    onRetry={refetch}
+                    notFound={isNotFoundError(error)}
+                />
             ) : (
                 <BlockList
                     blocks={[

@@ -1,18 +1,18 @@
-import type { FC, ReactNode } from 'react';
+import { type FC, type ReactNode, useState } from 'react';
 
 import { useRecyclingState } from '@shopify/flash-list';
 import { type Href, Link } from 'expo-router';
 import { Eye, ImageOff } from 'lucide-react-native';
 import { type GestureResponderEvent, Pressable, View } from 'react-native';
 
-import { DEFAULT_CONTAINER_RATIO, type ImagePresetName } from '@hikka/core';
+import { DEFAULT_CONTAINER_RATIO } from '@hikka/core';
 
 import { Icon } from '@/components/ui/icon';
 import Image from '@/components/ui/image';
 import { Text } from '@/components/ui/text';
 import { DENSE_MAX_FONT_SCALE } from '@/components/ui/typography';
 import { cn } from '@/utils/cn';
-import { presetImageUrl } from '@/utils/image-presets';
+import { presetForWidth, presetImageUrl } from '@/utils/image-presets';
 
 const BLUR_RADIUS = 24;
 const HIDDEN_LABEL = 'Прихований вміст';
@@ -24,8 +24,6 @@ type Props = {
     leftSubtitle?: string | null;
     rightSubtitle?: string | null;
     image?: string | ReactNode;
-    // The imgproxy preset a string `image` loads at; originals are never downloaded.
-    imagePreset?: ImagePresetName;
     href?: Href;
     containerRatio?: number;
     imageClassName?: string;
@@ -45,7 +43,6 @@ const PosterCard: FC<Props> = ({
     leftSubtitle,
     rightSubtitle,
     image,
-    imagePreset = 'cardSm',
     href,
     containerRatio = DEFAULT_CONTAINER_RATIO,
     imageClassName,
@@ -64,6 +61,8 @@ const PosterCard: FC<Props> = ({
         typeof image === 'string' ? image : null,
         title,
     ]);
+    // A string `image` loads at the smallest imgproxy preset that covers the measured box; never the original.
+    const [boxWidth, setBoxWidth] = useState(0);
     const hidden = Boolean(imageBlur || titleBlur) && !revealed;
     const hasSubtitles = Boolean(leftSubtitle || rightSubtitle);
     const pressable = Boolean(href || onPress || hidden);
@@ -71,7 +70,11 @@ const PosterCard: FC<Props> = ({
     const poster =
         typeof image === 'string' ? (
             <Image
-                source={presetImageUrl(image, imagePreset)}
+                source={
+                    boxWidth > 0
+                        ? presetImageUrl(image, presetForWidth(boxWidth))
+                        : undefined
+                }
                 contentFit="cover"
                 transition={150}
                 recyclingKey={image}
@@ -89,6 +92,9 @@ const PosterCard: FC<Props> = ({
         <>
             <View
                 style={{ aspectRatio: containerRatio }}
+                onLayout={(event) =>
+                    setBoxWidth(event.nativeEvent.layout.width)
+                }
                 className={cn(
                     'relative w-full items-center justify-center overflow-hidden rounded-md bg-muted',
                     containerClassName,

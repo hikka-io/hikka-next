@@ -83,9 +83,8 @@ const TextExpand: FC<PropsWithChildren<Props>> = ({
 
     const line = (typeof lineHeight === 'number' ? lineHeight : 24) * fontScale;
     const clampHeight = maxHeight ?? lines * line;
-    // A clamp that would hide a single line shows it instead.
-    const needsExpansion =
-        contentHeight > clampHeight + (maxHeight === undefined ? line : 0);
+    // Sub-point rounding of the measured height never counts as overflow.
+    const needsExpansion = contentHeight > clampHeight + 1;
     const collapsed = needsExpansion && (!expanded || !!onReadMore);
 
     return (
@@ -99,6 +98,8 @@ const TextExpand: FC<PropsWithChildren<Props>> = ({
                 }
             >
                 <View
+                    // A recycled cell keeps its frame, so onLayout would not fire again: remount to re-measure.
+                    key={contentKey}
                     onLayout={(event) =>
                         setContentHeight(event.nativeEvent.layout.height)
                     }

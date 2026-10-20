@@ -8,6 +8,7 @@ import { contentPath, getTitle } from '@hikka/core';
 
 import DetailHeaderChrome from '@/components/detail-header-chrome';
 import ErrorState from '@/components/ui/error-state';
+import { isNotFoundError } from '@/utils/api/is-not-found';
 import { bySlug, usePullToRefresh } from '@/utils/api/use-pull-to-refresh';
 
 import ContentCharacters from './content-characters';
@@ -117,6 +118,7 @@ const ContentDetailBody: FC<Props> = ({ contentType, slug }) => {
                     <ErrorState
                         error={error}
                         onRetry={refetch}
+                        notFound={isNotFoundError(error)}
                         className="pt-16"
                     />
                 ) : (

@@ -6,7 +6,7 @@ import { type HistoryResponse, HistoryTypeEnum } from '@hikka/api';
 import {
     convertHistory,
     formatHistoryTime,
-    formatTimestamp,
+    formatTimeAgo,
     getTitle,
     type HistoryFact,
     type NameLanguage,
@@ -91,8 +91,7 @@ const HistoryRow: FC<Props> = ({
                             className="shrink-0 text-muted-foreground text-xs tabular-nums"
                         >
                             {relativeTime
-                                ? formatTimestamp(item.created, Date.now())
-                                      .label
+                                ? formatTimeAgo(item.created, Date.now())
                                 : formatHistoryTime(item.created)}
                         </Text>
                     }

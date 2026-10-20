@@ -8,6 +8,7 @@ import { isUserReference } from '@hikka/core';
 import BlockList from '@/components/block-list';
 import DetailHeaderChrome from '@/components/detail-header-chrome';
 import ErrorState from '@/components/ui/error-state';
+import { isNotFoundError } from '@/utils/api/is-not-found';
 import { byUsername, usePullToRefresh } from '@/utils/api/use-pull-to-refresh';
 
 import FavouritesSection from './favourites-section';
@@ -39,6 +40,7 @@ const ReferenceRedirect: FC<{ reference: string }> = ({ reference }) => {
             <ErrorState
                 error={error}
                 onRetry={() => void refetch()}
+                notFound={!error || isNotFoundError(error)}
                 notFoundTitle="Користувача не знайдено"
             />
         );
@@ -69,6 +71,7 @@ const UserProfile: FC<Props> = ({ username }) => {
                 <ErrorState
                     error={error}
                     onRetry={() => void refetch()}
+                    notFound={isNotFoundError(error)}
                     notFoundTitle="Користувача не знайдено"
                 />
             ) : !name ? (

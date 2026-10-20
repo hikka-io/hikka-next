@@ -1,3 +1,5 @@
+import { PixelRatio } from 'react-native';
+
 import {
     buildImgproxyUrl,
     IMAGE_PRESET_SIZES,
@@ -7,14 +9,27 @@ import {
 const IMGPROXY_URL =
     process.env.EXPO_PUBLIC_IMGPROXY_URL ?? 'https://img.hikka.io';
 
-// Phones draw at up to 3 pixels per point.
+// Denser screens than this gain nothing visible from bigger downloads.
 const MAX_PIXEL_RATIO = 3;
 
-/**
- * The image resized by imgproxy to a poster preset, so lists never download
- * originals: `cardLg` for a detail hero, `cardSm` for row and grid cards,
- * `cardXs` for horizontal-card thumbnails.
- */
+const PRESETS_BY_WIDTH = (
+    Object.keys(IMAGE_PRESET_SIZES) as ImagePresetName[]
+).sort((a, b) => IMAGE_PRESET_SIZES[a].width - IMAGE_PRESET_SIZES[b].width);
+
+const pixels = (points: number) =>
+    Math.ceil(points * Math.min(PixelRatio.get(), MAX_PIXEL_RATIO));
+
+/** The smallest poster preset that covers a box `width` points wide on this screen, else the largest. */
+export function presetForWidth(width: number): ImagePresetName {
+    const needed = pixels(width);
+    return (
+        PRESETS_BY_WIDTH.find(
+            (name) => IMAGE_PRESET_SIZES[name].width >= needed,
+        ) ?? PRESETS_BY_WIDTH[PRESETS_BY_WIDTH.length - 1]
+    );
+}
+
+/** The image resized by imgproxy to a poster preset, so lists never download originals. */
 export function presetImageUrl(
     src: string | null | undefined,
     preset: ImagePresetName,
@@ -35,11 +50,8 @@ export function sizedImageUrl(
               IMGPROXY_URL,
               src,
               {
-                  width: Math.ceil(width * MAX_PIXEL_RATIO),
-                  height:
-                      height === undefined
-                          ? undefined
-                          : Math.ceil(height * MAX_PIXEL_RATIO),
+                  width: pixels(width),
+                  height: height === undefined ? undefined : pixels(height),
               },
               height === width ? 'fill' : 'fit',
           )

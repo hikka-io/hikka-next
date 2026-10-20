@@ -51,7 +51,6 @@ const ContentHero: FC<Props> = ({ contentType, content, onTitleBottom }) => {
         >
             <PosterCard
                 image={content.image ?? undefined}
-                imagePreset="cardLg"
                 className="w-48 self-center"
             />
             <View

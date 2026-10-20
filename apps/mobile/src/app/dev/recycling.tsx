@@ -10,13 +10,17 @@ import { Text } from '@/components/ui/text';
 const POSTER =
     'https://cdn.hikka.io/content/anime/sousou-no-frieren-ad4e3e/8D-SGEkCBMAUE7CgEt9UPQ.jpg';
 
+// Every other item has the same long text, so recycled cells often get content of the same height.
 const ITEMS = Array.from({ length: 300 }, (_, index) => ({
     id: String(index + 1),
-    text: Array.from(
-        { length: 4 + (index % 5) },
-        (_, line) =>
-            `Комірка ${index + 1}, рядок ${line + 1}: :spoiler[спойлер ${index + 1}] і текст, що займає місце.`,
-    ).join('\n\n'),
+    text:
+        index % 2 === 0
+            ? Array.from(
+                  { length: 6 },
+                  (_, line) =>
+                      `Рядок ${line + 1}: :spoiler[спойлер] і текст, що займає місце.`,
+              ).join('\n\n')
+            : 'Короткий текст.',
 }));
 
 // Reveal a poster, open a spoiler and expand a text in a few cells, scroll far and back:
@@ -46,7 +50,10 @@ export default function RecyclingCheckScreen() {
                         titleBlur
                         onPress={() => {}}
                     />
-                    <View className="flex-1">
+                    <View className="flex-1 gap-1">
+                        <Text className="font-medium text-sm">
+                            {`Комірка ${item.id}`}
+                        </Text>
                         <TextExpand lines={3} contentKey={item.id}>
                             <MDViewer key={item.id}>{item.text}</MDViewer>
                         </TextExpand>
