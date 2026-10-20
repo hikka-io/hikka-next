@@ -12,44 +12,10 @@ import {
     invalidateByIds,
     refetchTypeFor,
 } from './content-cache';
+import { AVATAR_EMBED_IDS, USER_PROFILE_ID } from './query-groups';
 import { matchesPath, type QueryId } from './query-id';
 
-export const COMMENT_LIST_IDS: readonly QueryId[] = [
-    'commentsList',
-    'getCommentsList',
-    'getCommentsUser',
-    'thread',
-    'latestComments',
-];
-
-/** Collection list + detail queries. */
-export const USER_COLLECTIONS_ID: QueryId = 'getUserCollections';
-
-export const COLLECTION_IDS: readonly QueryId[] = [
-    'getCollections',
-    'getCollection',
-    USER_COLLECTIONS_ID,
-];
-
-/** Article list + detail queries. */
-export const ARTICLE_IDS: readonly QueryId[] = [
-    'getArticles',
-    'getArticleTop',
-    'getArticle',
-];
-
-export const USER_PROFILE_ID: QueryId = 'userProfile';
-
 const SESSION_IDS: readonly QueryId[] = ['profile'];
-
-// Queries that embed a user's avatar; stale-marked so a changed avatar shows on the next mount.
-const AVATAR_EMBED_IDS: readonly QueryId[] = [
-    ...COMMENT_LIST_IDS,
-    ...ARTICLE_IDS,
-    ...COLLECTION_IDS,
-    'followingList',
-    'followersList',
-];
 
 /** Invalidate the current-user session/profile query (`profileOptions`). */
 export function invalidateSession(

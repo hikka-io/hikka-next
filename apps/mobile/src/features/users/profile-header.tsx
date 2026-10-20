@@ -1,7 +1,8 @@
 import type { FC } from 'react';
 
 import { useQuery } from '@tanstack/react-query';
-import { View } from 'react-native';
+import { type Href, Link, useIsFocused } from 'expo-router';
+import { Pressable, View } from 'react-native';
 
 import { parseUserLinks, type UserResponseFollowed } from '@hikka/api';
 import { getUserLinkLabel } from '@hikka/core';
@@ -16,8 +17,10 @@ import { Text } from '@/components/ui/text';
 import { DENSE_MAX_FONT_SCALE } from '@/components/ui/typography';
 import { sizedImageUrl } from '@/utils/image-presets';
 
+import FollowButton from './follow/follow-button';
 import { followStatsOptions } from './queries';
 import RoleBadge from './role-badge';
+import { followListHref } from './user-hrefs';
 
 // The widest phone screen, in points.
 const COVER_WIDTH = 440;
@@ -28,31 +31,39 @@ type Props = {
     username: string;
 };
 
-const FollowCount: FC<{ count?: number; label: string }> = ({
+const FollowCount: FC<{ count?: number; label: string; href: Href }> = ({
     count,
     label,
+    href,
 }) => (
-    <View className="items-start">
-        <Text
-            maxFontSizeMultiplier={DENSE_MAX_FONT_SCALE}
-            className="font-bold text-base tabular-nums"
+    <Link href={href} asChild>
+        <Pressable
+            accessibilityRole="link"
+            accessibilityLabel={`${count ?? ''} ${label}`}
+            className="min-h-11 items-start justify-center active:opacity-60"
         >
-            {count ?? '–'}
-        </Text>
-        <Text
-            maxFontSizeMultiplier={DENSE_MAX_FONT_SCALE}
-            className="text-muted-foreground text-xs"
-        >
-            {label}
-        </Text>
-    </View>
+            <Text
+                maxFontSizeMultiplier={DENSE_MAX_FONT_SCALE}
+                className="font-bold text-base tabular-nums"
+            >
+                {count ?? '–'}
+            </Text>
+            <Text
+                maxFontSizeMultiplier={DENSE_MAX_FONT_SCALE}
+                className="text-muted-foreground text-xs"
+            >
+                {label}
+            </Text>
+        </Pressable>
+    </Link>
 );
 
 const ProfileHeader: FC<Props> = ({ user, username }) => {
     const openLink = useOpenLink();
-    const { data: follow } = useQuery(
-        followStatsOptions({ path: { username } }),
-    );
+    const { data: follow } = useQuery({
+        ...followStatsOptions({ path: { username } }),
+        subscribed: useIsFocused(),
+    });
     const links = parseUserLinks(user.links);
 
     return (
@@ -89,14 +100,16 @@ const ProfileHeader: FC<Props> = ({ user, username }) => {
                             />
                         )}
                     </View>
-                    <View className="flex-1 flex-row gap-6 pb-1">
+                    <View className="flex-1 flex-row gap-6">
                         <FollowCount
                             count={follow?.followers}
                             label="стежать"
+                            href={followListHref(username, 'followers')}
                         />
                         <FollowCount
                             count={follow?.following}
                             label="відстежується"
+                            href={followListHref(username, 'followings')}
                         />
                     </View>
                 </View>
@@ -125,6 +138,11 @@ const ProfileHeader: FC<Props> = ({ user, username }) => {
                         </MDViewer>
                     </TextExpand>
                 ) : null}
+                <FollowButton
+                    user={user}
+                    containerClassName="self-stretch"
+                    className="w-full"
+                />
                 {links.length > 0 && (
                     <View className="-mx-4">
                         <LinkChips

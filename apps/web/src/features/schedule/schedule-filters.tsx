@@ -1,9 +1,13 @@
 import type { FC } from 'react';
 
-import { range } from '@antfu/utils';
 import { useRouter } from '@tanstack/react-router';
 
-import { getCurrentSeason, RELEASE_STATUS, SEASON } from '@hikka/core';
+import {
+    getCurrentSeason,
+    getScheduleYears,
+    RELEASE_STATUS,
+    SEASON,
+} from '@hikka/core';
 
 import { Label } from '@/components/ui/label';
 import {
@@ -21,7 +25,7 @@ import { useSession } from '@/services/session';
 import { cn } from '@/utils/cn';
 import { useRouteSearch } from '@/utils/navigation';
 
-const YEARS = range(2023, new Date().getFullYear() + 1).reverse();
+const YEARS = getScheduleYears();
 
 type Props = {
     className?: string;

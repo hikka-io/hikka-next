@@ -16,6 +16,7 @@ import { Icon } from '@/components/ui/icon';
 import { Separator } from '@/components/ui/separator';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Text } from '@/components/ui/text';
+import { userHistoryHref } from '@/features/users';
 
 import { flattenPages } from '../flatten-pages';
 import { HISTORY_PREVIEW_SIZE, homeFollowingHistoryOptions } from '../queries';
@@ -66,9 +67,7 @@ const HistoryWidget: FC<Props> = ({ username }) => {
     return (
         <WidgetSection
             title="Активність"
-            onPress={() =>
-                openSitePath(`/u/${username}/history?type=following`)
-            }
+            href={userHistoryHref(username, 'following')}
         >
             {isError && <ErrorState variant="section" onRetry={refetch} />}
             {isPending && <HistoryCardSkeleton />}

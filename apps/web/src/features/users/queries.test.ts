@@ -225,9 +225,10 @@ function headUseWatchListOptions(
     return userWatchListInfiniteOptions({
         path: { username: String(params.username) },
         body: {
+            // A missing status is left out instead of sent as "undefined".
             watch_status:
-                watchStatus !== 'all'
-                    ? (String(watchStatus) as WatchStatusEnum)
+                watchStatus && watchStatus !== 'all'
+                    ? (watchStatus as WatchStatusEnum)
                     : undefined,
             media_type,
             status,

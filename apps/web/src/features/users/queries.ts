@@ -5,11 +5,7 @@ import type {
 } from '@tanstack/react-query';
 
 import {
-    type AnimeAgeRatingEnum,
-    type AnimeMediaEnum,
-    type AnimeStatusEnum,
     type Client,
-    type ContentStatusEnum,
     ContentTypeEnum,
     type FavouriteContentTypeEnum,
     favouriteListInfiniteOptions,
@@ -18,12 +14,8 @@ import {
     getArticlesInfiniteOptions,
     getCollectionsInfiniteOptions,
     type MainContentTypeEnum,
-    type MangaMediaEnum,
-    type NovelMediaEnum,
     paginationPageParam,
     type ReadContentTypeEnum,
-    type ReadStatusEnum,
-    type SeasonEnum,
     type UserReadListError,
     type UserReadListResponse,
     type UserReadStatsError,
@@ -37,10 +29,9 @@ import {
     userReadStatsOptions,
     userWatchListInfiniteOptions,
     userWatchStatsOptions,
-    type WatchStatusEnum,
 } from '@hikka/api';
 import type { UserlistSearch } from '@hikka/core';
-import { expandSort } from '@hikka/core';
+import { buildUserReadListArgs, buildUserWatchListArgs } from '@hikka/core';
 
 const HISTORY_PREVIEW_SIZE = 3;
 const ARTICLES_PREVIEW_SIZE = 3;
@@ -48,16 +39,6 @@ export const COLLECTIONS_PREVIEW_SIZE = 3;
 export const FAVOURITES_PREVIEW_SIZE = 6;
 // Backend page size of the lists below that send no `size`; skeletons render this many.
 export const DEFAULT_PAGE_SIZE = 15;
-
-function listYears(search: UserlistSearch) {
-    return (search.years ?? []) as [number | null, number | null];
-}
-
-function listScore(search: UserlistSearch) {
-    return search.score?.length
-        ? (search.score as [number, number])
-        : undefined;
-}
 
 function userWatchListOptions(
     username: string,
@@ -67,21 +48,7 @@ function userWatchListOptions(
     return {
         ...userWatchListInfiniteOptions({
             path: { username },
-            body: {
-                watch_status:
-                    search.status !== 'all'
-                        ? (String(search.status) as WatchStatusEnum)
-                        : undefined,
-                media_type: (search.types ?? []) as AnimeMediaEnum[],
-                status: (search.statuses ?? []) as AnimeStatusEnum[],
-                season: (search.seasons ?? []) as SeasonEnum[],
-                rating: (search.ratings ?? []) as AnimeAgeRatingEnum[],
-                years: listYears(search),
-                genres: search.genres ?? [],
-                studios: search.studios ?? [],
-                score: listScore(search),
-                sort: expandSort('watch', search.sort, search.order),
-            },
+            body: buildUserWatchListArgs(search),
             client,
         }),
         ...paginationPageParam(),
@@ -97,22 +64,7 @@ function userReadListOptions(
     return {
         ...userReadListInfiniteOptions({
             path: { username, content_type: contentType },
-            body: {
-                read_status:
-                    search.status !== 'all'
-                        ? (search.status as ReadStatusEnum)
-                        : undefined,
-                media_type: (search.types ?? []) as (
-                    | MangaMediaEnum
-                    | NovelMediaEnum
-                )[],
-                status: (search.statuses ?? []) as ContentStatusEnum[],
-                years: listYears(search),
-                genres: search.genres ?? [],
-                magazines: search.magazines ?? [],
-                score: listScore(search),
-                sort: expandSort('read', search.sort, search.order),
-            },
+            body: buildUserReadListArgs(search),
             client,
         }),
         ...paginationPageParam(),

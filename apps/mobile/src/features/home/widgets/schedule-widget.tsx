@@ -56,7 +56,7 @@ const ScheduleWidget: FC<Props> = ({ signedIn }) => {
     return (
         <WidgetSection
             title="Календар"
-            onPress={() => openSitePath('/schedule')}
+            href="/schedule"
             actions={
                 signedIn && (
                     <ToggleChip
@@ -151,15 +151,16 @@ const ScheduleWidget: FC<Props> = ({ signedIn }) => {
                     {hiddenCount > 0 && (
                         <>
                             <Separator />
-                            <Pressable
-                                accessibilityRole="link"
-                                onPress={() => openSitePath('/schedule')}
-                                className="min-h-11 items-center justify-center active:opacity-70"
-                            >
-                                <Text className="text-primary-foreground text-sm">
-                                    Ще {hiddenCount}
-                                </Text>
-                            </Pressable>
+                            <Link href="/schedule" asChild>
+                                <Pressable
+                                    accessibilityRole="link"
+                                    className="min-h-11 items-center justify-center active:opacity-70"
+                                >
+                                    <Text className="text-primary-foreground text-sm">
+                                        Ще {hiddenCount}
+                                    </Text>
+                                </Pressable>
+                            </Link>
                         </>
                     )}
                     {today?.length === 0 && (
