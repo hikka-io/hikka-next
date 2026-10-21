@@ -8,7 +8,6 @@ import { CONTENT_TYPE_LINKS } from '@hikka/core';
 
 import { StaticViewer } from '@/components/plate/editor/static-viewer';
 import { Badge } from '@/components/ui/badge';
-import Card from '@/components/ui/card';
 import { StatItem, StatItemGroup } from '@/components/ui/stat-item';
 import { cn } from '@/utils/cn';
 import { Link } from '@/utils/navigation';
@@ -25,14 +24,11 @@ const ArticleItem: FC<Props> = ({ article, className }) => {
     const document = article.preview as Value;
 
     return (
-        <Card
-            className={cn(
-                'isolate gap-0 overflow-hidden rounded-none border-x-0 p-0 md:rounded-lg md:border-x',
-                className,
-            )}
+        <article
+            className={cn('isolate flex flex-col px-4 sm:px-0', className)}
         >
-            <ArticleAuthorCard article={article} />
-            <div className="relative flex flex-col gap-4 p-4 py-0">
+            <ArticleAuthorCard article={article} className="px-0" />
+            <div className="relative flex flex-col gap-4">
                 <Link
                     to={`${CONTENT_TYPE_LINKS.article}/${article.slug}`}
                     className="absolute top-0 left-0 z-10 size-full"
@@ -64,7 +60,7 @@ const ArticleItem: FC<Props> = ({ article, className }) => {
                 )}
                 <StaticViewer value={document} />
             </div>
-            <div className="flex items-center justify-between p-4">
+            <div className="flex items-center justify-between py-4">
                 <StatItemGroup>
                     {article.views > 0 && (
                         <StatItem className="pointer-events-none">
@@ -86,7 +82,7 @@ const ArticleItem: FC<Props> = ({ article, className }) => {
                     </StatItem>
                 </StatItemGroup>
             </div>
-        </Card>
+        </article>
     );
 };
 

@@ -3,7 +3,6 @@ import type { FC } from 'react';
 import { range } from '@antfu/utils';
 
 import PosterCardSkeleton from '@/components/content-card/poster-card-skeleton';
-import Card from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import Stack, { type StackSize } from '@/components/ui/stack';
 
@@ -13,7 +12,7 @@ type Props = {
 
 const CollectionCardSkeleton: FC<Props> = ({ maxPreviewItems }) => {
     return (
-        <Card className="-mx-4 rounded-none border-x-0 md:mx-0 md:rounded-lg md:border-x">
+        <div className="flex flex-col gap-4 p-4 sm:px-0">
             <div className="flex items-center gap-4">
                 <Skeleton className="size-12 shrink-0" />
                 <div className="flex min-w-0 flex-1 flex-col gap-1">
@@ -43,7 +42,7 @@ const CollectionCardSkeleton: FC<Props> = ({ maxPreviewItems }) => {
                 <Skeleton className="h-8 w-12 rounded-lg" />
                 <Skeleton className="h-8 w-13 rounded-lg" />
             </div>
-        </Card>
+        </div>
     );
 };
 

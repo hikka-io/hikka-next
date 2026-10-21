@@ -18,7 +18,6 @@ import {
 } from '@/components/horizontal-card';
 import RelativeTime from '@/components/relative-time';
 import { Badge } from '@/components/ui/badge';
-import Card from '@/components/ui/card';
 import Image from '@/components/ui/image';
 import Stack, { type StackSize } from '@/components/ui/stack';
 import { StatItem, StatItemGroup } from '@/components/ui/stat-item';
@@ -48,11 +47,8 @@ const CollectionCard: FC<Props> = ({
             : collection.collection[collection.collection.length - 1];
 
     return (
-        <Card
-            className={cn(
-                'isolate -mx-4 overflow-hidden rounded-none border-x-0 md:mx-0 md:rounded-lg md:border-x',
-                className,
-            )}
+        <article
+            className={cn('isolate flex flex-col gap-4 p-4 sm:px-0', className)}
         >
             <HorizontalCard>
                 <HorizontalCardImage
@@ -172,7 +168,7 @@ const CollectionCard: FC<Props> = ({
                     </StatItem>
                 </StatItemGroup>
             </div>
-        </Card>
+        </article>
     );
 };
 

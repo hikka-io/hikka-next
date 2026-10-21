@@ -22,7 +22,6 @@ import { usePageTitleAnchor } from '@/features/app-shell';
 import { FiltersModal } from '@/features/filters';
 import { useSession } from '@/services/session';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
-import { cn } from '@/utils/cn';
 import { Link, useRouteSearch } from '@/utils/navigation';
 
 import { articleListOptions } from '../queries';
@@ -94,12 +93,7 @@ const ArticleList: FC<Props> = () => {
                     </FiltersModal>
                 </HeaderActions>
             </Header>
-            <div
-                className={cn(
-                    '-mx-4 flex flex-col max-md:[&>*+*]:-mt-px md:mx-0 md:gap-6',
-                    !isPending && (!list || list.length === 0) && 'mx-0',
-                )}
-            >
+            <div className="-mx-4 flex flex-col divide-y divide-border border-t sm:mx-0">
                 {isPending &&
                     range(0, SKELETON_COUNT).map((index) => (
                         <ArticleItemSkeleton key={index} />
@@ -108,15 +102,18 @@ const ArticleList: FC<Props> = () => {
                     <ArticleItem article={article} key={article.slug} />
                 ))}
                 {(!list || list.length === 0) && !isPending && (
-                    <FiltersNotFound />
+                    <div className="px-4 py-4 sm:px-0">
+                        <FiltersNotFound />
+                    </div>
                 )}
                 {hasNextPage && (
-                    <LoadMoreButton
-                        className="max-md:mt-6"
-                        ref={ref}
-                        isFetchingNextPage={isFetchingNextPage}
-                        fetchNextPage={fetchNextPage}
-                    />
+                    <div className="px-4 py-4 sm:px-0">
+                        <LoadMoreButton
+                            ref={ref}
+                            isFetchingNextPage={isFetchingNextPage}
+                            fetchNextPage={fetchNextPage}
+                        />
+                    </div>
                 )}
             </div>
         </Block>

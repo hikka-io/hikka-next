@@ -17,7 +17,7 @@ type Props = {
 const SKELETON_COUNT = 3;
 const PREVIEW_ITEMS = 6;
 const LIST_CLASSNAME =
-    'grid grid-cols-1 gap-x-16 max-md:[&>*+*]:-mt-px md:gap-y-8';
+    '-mx-4 flex flex-col divide-y divide-border border-t sm:mx-0';
 
 const CollectionList: FC<Props> = ({ page, sort }) => {
     const { list, pagination } = useInfiniteList(
