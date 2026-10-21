@@ -9,7 +9,6 @@ import { buildFeedArgs, isFeedDisabled } from '@hikka/core';
 import MaterialSymbolsDynamicFeedRounded from '@/components/icons/material-symbols/MaterialSymbolsDynamicFeedRounded';
 import LoadMoreButton from '@/components/load-more-button';
 import Block from '@/components/ui/block';
-import BlockBleed from '@/components/ui/block-bleed';
 import { Checkbox } from '@/components/ui/checkbox';
 import EmptyState from '@/components/ui/empty-state';
 import { Field, FieldLabel, FieldTitle } from '@/components/ui/field';
@@ -120,7 +119,7 @@ const FeedWidget: FC<WidgetProps> = ({ isLast }) => {
     }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage]);
 
     return (
-        <Block variant="card" flushOnMobile id="feed-widget">
+        <Block id="feed-widget">
             <Header>
                 <HeaderTitle>Стрічка</HeaderTitle>
                 <HeaderActions>
@@ -149,14 +148,9 @@ const FeedWidget: FC<WidgetProps> = ({ isLast }) => {
                 </HeaderActions>
             </Header>
 
-            <div className="-mx-4 -mt-4 border-b px-4 py-3">
-                <FeedQuickFilters
-                    value={filters}
-                    onChange={handleFiltersChange}
-                />
-            </div>
+            <FeedQuickFilters value={filters} onChange={handleFiltersChange} />
 
-            <BlockBleed className="-mt-4 -mb-4 divide-y divide-border">
+            <div className="-mx-4 flex flex-col divide-y divide-border border-t sm:mx-0">
                 {isPending && !allSectionsDisabled
                     ? Array.from({ length: 3 }).map((_, i) => (
                           <FeedItemSkeleton key={i} />
@@ -168,7 +162,7 @@ const FeedWidget: FC<WidgetProps> = ({ isLast }) => {
 
                 {(allSectionsDisabled ||
                     (!isPending && feedList?.length === 0)) && (
-                    <div className="p-4">
+                    <div className="px-4 py-4 sm:px-0">
                         <EmptyState
                             icon={<MaterialSymbolsDynamicFeedRounded />}
                             title="Стрічка порожня"
@@ -184,7 +178,7 @@ const FeedWidget: FC<WidgetProps> = ({ isLast }) => {
                 )}
 
                 {!allSectionsDisabled && hasNextPage && (
-                    <div className="p-4">
+                    <div className="px-4 py-4 sm:px-0">
                         <LoadMoreButton
                             className="w-full"
                             isFetchingNextPage={isFetchingNextPage}
@@ -193,7 +187,7 @@ const FeedWidget: FC<WidgetProps> = ({ isLast }) => {
                         />
                     </div>
                 )}
-            </BlockBleed>
+            </div>
         </Block>
     );
 };

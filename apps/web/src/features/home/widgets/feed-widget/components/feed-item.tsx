@@ -120,7 +120,7 @@ const FeedItem: FC<Props> = ({ item }) => {
     }
 
     return (
-        <article className="flex items-start gap-4 p-4">
+        <article className="flex items-start gap-4 p-4 sm:px-0">
             <HorizontalCardImage
                 className="w-10 shrink-0 sm:w-12"
                 image={item.author.avatar}
