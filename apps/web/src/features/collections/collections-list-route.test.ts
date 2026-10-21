@@ -27,6 +27,8 @@ vi.mock('@/utils/api/use-infinite-list', () => ({
     useInfiniteList: () => ({ list: [], pagination: mocks.pagination }),
 }));
 
+vi.mock('@/components/filters-not-found', () => ({ default: () => null }));
+
 vi.mock('@/components/page-pagination', () => ({
     default: ({ pagination }: { pagination: { page: number } }) =>
         createElement('nav', { 'data-page': pagination.page }),
@@ -165,10 +167,7 @@ describe('CollectionList pagination', () => {
 
         expect(
             renderToStaticMarkup(
-                createElement(CollectionList, {
-                    page: 1,
-                    sort: 'system_ranking',
-                }),
+                createElement(CollectionList, { search: { page: 1 } }),
             ),
         ).toContain('data-page="1"');
     });
@@ -176,10 +175,7 @@ describe('CollectionList pagination', () => {
     it('renders no pagination before the list loads', () => {
         expect(
             renderToStaticMarkup(
-                createElement(CollectionList, {
-                    page: 1,
-                    sort: 'system_ranking',
-                }),
+                createElement(CollectionList, { search: { page: 1 } }),
             ),
         ).not.toContain('<nav');
     });

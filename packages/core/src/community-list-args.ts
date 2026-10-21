@@ -26,11 +26,21 @@ export const COLLECTION_SORT_OPTIONS: readonly {
     { value: 'created', label: 'Нові' },
 ];
 
-/** The collections page body; the sort is a single descending field. */
-export function collectionListArgs(
-    sort: CollectionSort = DEFAULT_COLLECTION_SORT,
-): CollectionsListArgs {
-    return { sort: [`${sort}:desc`] };
+/** The collections page body; the sort is a single descending field, and a title filter needs its content type. */
+export function collectionListArgs({
+    sort = DEFAULT_COLLECTION_SORT,
+    content_type,
+    content_slug,
+    author,
+    tags,
+}: Omit<CollectionsSearch, 'page'> = {}): CollectionsListArgs {
+    return {
+        sort: [`${sort}:desc`],
+        content_type,
+        content: content_type && content_slug ? [content_slug] : undefined,
+        author: author || undefined,
+        tags: tags?.length ? tags : undefined,
+    };
 }
 
 /** A user's collections, newest first, private ones included (the profile block and its full list). */
@@ -63,6 +73,10 @@ export function userArticlesListArgs(username: string): ArticlesListArgs {
 export function articleListArgs(search: ArticlesSearch): ArticlesListArgs {
     return {
         categories: (search.categories ?? []) as ArticleCategoryEnum[],
+        content_type: search.content_type,
+        content_slug: search.content_type
+            ? search.content_slug || undefined
+            : undefined,
         author: search.author || undefined,
         sort: expandSort('article', search.sort, search.order),
         tags: search.tags?.length ? search.tags : undefined,

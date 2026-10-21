@@ -12,6 +12,8 @@ import ClearFiltersFooter from './clear-filters-footer';
 type Props = {
     body: ReactNode;
     footer?: ReactNode;
+    /** Search params the default footer keeps when it clears the filters. */
+    preserve?: string[];
 } & (
     | { children: ReactElement; open?: never; onOpenChange?: never }
     | {
@@ -25,6 +27,7 @@ const FiltersModal: FC<Props> = ({
     children,
     body,
     footer,
+    preserve,
     open: controlledOpen,
     onOpenChange,
 }) => {
@@ -46,6 +49,7 @@ const FiltersModal: FC<Props> = ({
                     {footer ?? (
                         <ClearFiltersFooter
                             className="w-full"
+                            preserve={preserve}
                             onDone={() => setOpen(false)}
                         />
                     )}

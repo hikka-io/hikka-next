@@ -16,9 +16,36 @@ describe('collectionListArgs', () => {
         expect(collectionListArgs()).toEqual({
             sort: ['system_ranking:desc'],
         });
-        expect(collectionListArgs('created')).toEqual({
+        expect(collectionListArgs({ sort: 'created' })).toEqual({
             sort: ['created:desc'],
         });
+    });
+
+    it('passes the content type, author and tags', () => {
+        expect(
+            collectionListArgs({
+                content_type: 'anime',
+                author: 'olexh',
+                tags: ['romance'],
+            }),
+        ).toEqual({
+            sort: ['system_ranking:desc'],
+            content_type: 'anime',
+            author: 'olexh',
+            tags: ['romance'],
+        });
+    });
+
+    it('sends a title only together with its content type', () => {
+        expect(
+            collectionListArgs({
+                content_type: 'manga',
+                content_slug: 'berserk',
+            }),
+        ).toMatchObject({ content_type: 'manga', content: ['berserk'] });
+        expect(
+            collectionListArgs({ content_slug: 'berserk' }).content,
+        ).toBeUndefined();
     });
 });
 
@@ -46,6 +73,15 @@ describe('articleListArgs', () => {
             tags: ['anime'],
             sort: ['vote_score:asc'],
         });
+    });
+
+    it('sends a title only together with its content type', () => {
+        expect(
+            articleListArgs({ content_type: 'anime', content_slug: 'frieren' }),
+        ).toMatchObject({ content_type: 'anime', content_slug: 'frieren' });
+        expect(
+            articleListArgs({ content_slug: 'frieren' }).content_slug,
+        ).toBeUndefined();
     });
 });
 

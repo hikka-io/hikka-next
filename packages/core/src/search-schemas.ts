@@ -1,6 +1,7 @@
 import { z } from 'zod';
 
 import {
+    ArticleContentEnum,
     CollectionContentTypeEnum,
     EditContentToDoEnum,
     EditContentTypeEnum,
@@ -109,6 +110,8 @@ export const articlesSearchSchema = z.object({
     author: z.string().optional().catch(undefined),
     tags: stringArray.optional().catch(undefined),
     categories: stringArray.optional().catch(undefined),
+    content_type: z.nativeEnum(ArticleContentEnum).optional().catch(undefined),
+    content_slug: z.string().optional().catch(undefined),
     draft: coerceBoolean.optional().catch(undefined),
     ...sortOrderSearch,
     ...paginationSearch,
@@ -170,6 +173,13 @@ export const commentsSearchSchema = z.object({
 
 export const collectionsSearchSchema = z.object({
     sort: z.enum(['system_ranking', 'created']).optional().catch(undefined),
+    content_type: z
+        .nativeEnum(CollectionContentTypeEnum)
+        .optional()
+        .catch(undefined),
+    content_slug: z.string().optional().catch(undefined),
+    author: z.string().optional().catch(undefined),
+    tags: stringArray.optional().catch(undefined),
     ...paginationSearch,
 });
 

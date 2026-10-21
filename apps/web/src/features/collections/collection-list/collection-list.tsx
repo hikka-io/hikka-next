@@ -2,6 +2,9 @@ import type { FC } from 'react';
 
 import { range } from '@antfu/utils';
 
+import type { CollectionsSearch } from '@hikka/core';
+
+import FiltersNotFound from '@/components/filters-not-found';
 import PagePagination from '@/components/page-pagination';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 
@@ -10,8 +13,7 @@ import CollectionCard from './collection-card';
 import CollectionCardSkeleton from './collection-card-skeleton';
 
 type Props = {
-    page: number;
-    sort: 'system_ranking' | 'created';
+    search: CollectionsSearch;
 };
 
 const SKELETON_COUNT = 3;
@@ -19,10 +21,8 @@ const PREVIEW_ITEMS = 6;
 const LIST_CLASSNAME =
     '-mx-4 flex flex-col divide-y divide-border border-t sm:mx-0';
 
-const CollectionList: FC<Props> = ({ page, sort }) => {
-    const { list, pagination } = useInfiniteList(
-        collectionListOptions({ page, sort }),
-    );
+const CollectionList: FC<Props> = ({ search }) => {
+    const { list, pagination } = useInfiniteList(collectionListOptions(search));
 
     if (!list) {
         return (
@@ -40,13 +40,23 @@ const CollectionList: FC<Props> = ({ page, sort }) => {
     return (
         <>
             <div className={LIST_CLASSNAME}>
-                {list?.map((collection, _index) => (
+                {list.map((collection) => (
                     <CollectionCard
                         maxPreviewItems={PREVIEW_ITEMS}
                         collection={collection}
                         key={collection.reference}
                     />
                 ))}
+                {list.length === 0 && (
+                    <div className="px-4 py-4 sm:px-0">
+                        <FiltersNotFound
+                            search={{
+                                page: 1,
+                                content_type: search.content_type,
+                            }}
+                        />
+                    </div>
+                )}
             </div>
             {pagination && <PagePagination pagination={pagination} />}
         </>

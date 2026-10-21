@@ -59,12 +59,17 @@ vi.mock('@/features/app-shell', () => ({
 
 vi.mock('@/features/filters', () => ({
     FiltersModal: ({ children }: { children?: ReactNode }) => children,
-    ArticleCategoryFilter: () => null,
     ArticleDraftsFilter: () => null,
     ClearFiltersFooter: () => null,
+    ContentTypeFilter: () => null,
     Sort: () => null,
     TagFilter: () => null,
     UserFilter: () => null,
+    useChangeParam: () => () => undefined,
+}));
+
+vi.mock('@/features/search', () => ({
+    ContentPickerFilter: () => null,
 }));
 
 vi.mock('@/components/filters-not-found', () => ({

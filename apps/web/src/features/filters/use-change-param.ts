@@ -6,6 +6,7 @@ export const useChangeParam = () => {
     const handleChangeParam = (
         name: string,
         value: string | string[] | number[] | boolean,
+        clear: readonly string[] = [],
     ) => {
         navigate({
             to: '.',
@@ -14,6 +15,8 @@ export const useChangeParam = () => {
 
                 // Reset pagination on filter change
                 delete next.page;
+
+                for (const key of clear) delete next[key];
 
                 if (
                     value === false ||

@@ -16,7 +16,7 @@ export const AUTHOR_COLLECTIONS_PREVIEW_SIZE = 3;
 export function collectionListOptions(sort: CollectionSort) {
     return paginatedInfiniteOptions(
         getCollectionsInfiniteOptions({
-            body: collectionListArgs(sort),
+            body: collectionListArgs({ sort }),
             query: { size: COLLECTIONS_PAGE_SIZE },
         }),
     );

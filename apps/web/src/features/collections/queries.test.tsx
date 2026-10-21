@@ -61,12 +61,7 @@ describe('collectionListOptions', () => {
             mocks.calls = [];
             const key = await loaderKey(deps);
 
-            renderToStaticMarkup(
-                <CollectionList
-                    page={deps.page}
-                    sort={deps.sort ?? 'system_ranking'}
-                />,
-            );
+            renderToStaticMarkup(<CollectionList search={deps} />);
 
             expect(hashKey(key)).toBe(hashKey(mocks.calls[0].queryKey));
         },

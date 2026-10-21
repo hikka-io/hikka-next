@@ -23,9 +23,11 @@ import { useChangeParam } from './use-change-param';
 type Props = {
     className?: string;
     contentTypes: ContentTypeEnum[];
+    /** Params that depend on the content type, dropped when it changes. */
+    clearOnChange?: readonly string[];
 };
 
-const ContentTypeFilter: FC<Props> = ({ contentTypes }) => {
+const ContentTypeFilter: FC<Props> = ({ contentTypes, clearOnChange }) => {
     const { content_type } = useRouteSearch<Pick<EditSearch, 'content_type'>>();
 
     const handleChangeParam = useChangeParam();
@@ -39,7 +41,7 @@ const ContentTypeFilter: FC<Props> = ({ contentTypes }) => {
             <Select
                 value={content_type ? [content_type] : undefined}
                 onValueChange={(value) =>
-                    handleChangeParam('content_type', value[0])
+                    handleChangeParam('content_type', value[0], clearOnChange)
                 }
             >
                 <SelectTrigger size="md" className="flex-1">

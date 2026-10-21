@@ -2,7 +2,6 @@ export { default as ActiveFilters, useActiveFilters } from './active-filters';
 export { default as AgeRating } from './age-rating';
 export { default as AnimeFilters } from './anime-filters';
 export { default as AnimeFiltersModal } from './anime-filters-modal';
-export { default as ArticleCategoryFilter } from './article-category';
 export { default as ArticleDraftsFilter } from './article-drafts';
 export { default as ClearFiltersFooter } from './clear-filters-footer';
 export { default as ContentSlug } from './content-slug';

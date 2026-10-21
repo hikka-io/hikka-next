@@ -16,12 +16,12 @@ import { contentInfoOptions } from '@/utils/api/content-queries';
 import type { LoaderContext } from '@/utils/api/loader-prefetch';
 
 export function collectionListOptions(
-    { page, sort }: CollectionsSearch,
+    { page, ...search }: CollectionsSearch,
     client?: Client,
 ) {
     return paginatedInfiniteOptions(
         getCollectionsInfiniteOptions({
-            body: collectionListArgs(sort),
+            body: collectionListArgs(search),
             client,
         }),
         Number(page),

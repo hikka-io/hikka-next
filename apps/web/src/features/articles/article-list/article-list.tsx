@@ -2,9 +2,8 @@ import type { FC } from 'react';
 
 import { range } from '@antfu/utils';
 
-import type { ArticleCategoryEnum } from '@hikka/api';
 import type { ArticlesSearch } from '@hikka/core';
-import { ARTICLE_CATEGORY, CONTENT_TYPE_LINKS } from '@hikka/core';
+import { CONTENT_TYPE_LINKS } from '@hikka/core';
 
 import FiltersNotFound from '@/components/filters-not-found';
 import AntDesignFilterFilled from '@/components/icons/ant-design/AntDesignFilterFilled';
@@ -25,9 +24,11 @@ import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { Link, useRouteSearch } from '@/utils/navigation';
 
 import { articleListOptions } from '../queries';
+import ArticleCategoryChips from './article-category-chips';
 import { ArticleFiltersBody } from './article-filters';
 import ArticleItem from './article-item';
 import ArticleItemSkeleton from './article-item-skeleton';
+import { ARTICLE_FILTERS_PRESERVE } from './constants';
 
 type Props = {};
 
@@ -37,10 +38,6 @@ const ArticleList: FC<Props> = () => {
     const titleAnchor = usePageTitleAnchor();
     const { user } = useSession();
     const search = useRouteSearch<ArticlesSearch>();
-
-    const categories = (search.categories as ArticleCategoryEnum[]) || [];
-
-    const selectedCategory = categories.length === 1 && categories[0];
 
     const {
         ref,
@@ -56,9 +53,7 @@ const ArticleList: FC<Props> = () => {
         <Block>
             <Header>
                 <HeaderTitle ref={titleAnchor} as="h1" size="page">
-                    {selectedCategory
-                        ? ARTICLE_CATEGORY[selectedCategory]?.title_ua
-                        : 'Статті'}
+                    Статті
                 </HeaderTitle>
                 {user && (
                     <Tooltip>
@@ -83,6 +78,7 @@ const ArticleList: FC<Props> = () => {
                 )}
                 <HeaderActions className="md:hidden">
                     <FiltersModal
+                        preserve={ARTICLE_FILTERS_PRESERVE}
                         body={
                             <ArticleFiltersBody className="-m-4 flex-1 overflow-y-auto p-4" />
                         }
@@ -93,6 +89,7 @@ const ArticleList: FC<Props> = () => {
                     </FiltersModal>
                 </HeaderActions>
             </Header>
+            <ArticleCategoryChips />
             <div className="-mx-4 flex flex-col divide-y divide-border border-t sm:mx-0">
                 {isPending &&
                     range(0, SKELETON_COUNT).map((index) => (
@@ -103,7 +100,9 @@ const ArticleList: FC<Props> = () => {
                 ))}
                 {(!list || list.length === 0) && !isPending && (
                     <div className="px-4 py-4 sm:px-0">
-                        <FiltersNotFound />
+                        <FiltersNotFound
+                            search={{ categories: search.categories }}
+                        />
                     </div>
                 )}
                 {hasNextPage && (

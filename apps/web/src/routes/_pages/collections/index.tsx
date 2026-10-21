@@ -1,20 +1,26 @@
 import { createFileRoute, redirect } from '@tanstack/react-router';
 import { zodValidator } from '@tanstack/zod-adapter';
 
-import { collectionsSearchSchema, DEFAULT_COLLECTION_SORT } from '@hikka/core';
+import { collectionsSearchSchema } from '@hikka/core';
 
 import MaterialSymbolsAddRounded from '@/components/icons/material-symbols/MaterialSymbolsAddRounded';
 import Block from '@/components/ui/block';
 import { Button } from '@/components/ui/button';
-import { Header, HeaderTitle } from '@/components/ui/header';
+import { Header, HeaderActions, HeaderTitle } from '@/components/ui/header';
 import {
     Tooltip,
     TooltipContent,
     TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { usePageHeader, usePageTitleAnchor } from '@/features/app-shell';
-import { CollectionList, CollectionSort } from '@/features/collections';
+import {
+    CollectionFiltersButton,
+    CollectionList,
+    CollectionListFilters,
+    CollectionTypeChips,
+} from '@/features/collections';
 import { collectionListOptions } from '@/features/collections/queries';
+import { FiltersSidebarLayout } from '@/features/filters';
 import { generateHeadMeta } from '@/utils/metadata';
 import { Link } from '@/utils/navigation';
 import { SITE_ORIGIN } from '@/utils/url';
@@ -47,15 +53,20 @@ export const Route = createFileRoute('/_pages/collections/')({
 });
 
 function CollectionsPage() {
-    const { page, sort = DEFAULT_COLLECTION_SORT } = Route.useSearch();
+    const search = Route.useSearch();
 
     const titleAnchor = usePageTitleAnchor();
 
     usePageHeader({ title: 'Колекції', parent: '/', anchored: true });
 
     return (
-        <Block>
-            <div className="flex items-center justify-between gap-4">
+        <FiltersSidebarLayout
+            collapsible={false}
+            className="grid grid-cols-1 gap-x-10 gap-y-8 lg:grid-cols-[1fr_20rem] lg:items-start"
+            contentClassName="flex min-w-0 flex-col"
+            sidebar={<CollectionListFilters />}
+        >
+            <Block>
                 <Header>
                     <HeaderTitle ref={titleAnchor} as="h1" size="page">
                         Колекції
@@ -75,10 +86,13 @@ function CollectionsPage() {
                         </TooltipTrigger>
                         <TooltipContent>Нова колекція</TooltipContent>
                     </Tooltip>
+                    <HeaderActions className="lg:hidden">
+                        <CollectionFiltersButton />
+                    </HeaderActions>
                 </Header>
-                <CollectionSort />
-            </div>
-            <CollectionList page={Number(page)} sort={sort} />
-        </Block>
+                <CollectionTypeChips />
+                <CollectionList search={search} />
+            </Block>
+        </FiltersSidebarLayout>
     );
 }
