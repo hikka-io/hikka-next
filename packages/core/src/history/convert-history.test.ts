@@ -165,27 +165,47 @@ describe('convertHistory: progress', () => {
     it('rolls progress back', () => {
         const entry = convert(watch({ episodes: 12 }, { episodes: 10 }));
 
-        expect(lines(entry)).toEqual(['Прогрес повернуто з 12 до 10 епізодів']);
+        expect(lines(entry)).toEqual(['Повернуто до епізоду 10']);
         expect(entry.icon).toEqual({ kind: 'rollback' });
     });
 
-    it('declines the rollback target as a count', () => {
-        expect(lines(convert(watch({ episodes: 3 }, { episodes: 1 })))).toEqual(
-            ['Прогрес повернуто з 3 до 1 епізоду'],
-        );
-        expect(
-            lines(convert(watch({ episodes: 24 }, { episodes: 21 }))),
-        ).toEqual(['Прогрес повернуто з 24 до 21 епізоду']);
+    it('names the unit of the rollback target', () => {
         expect(lines(convert(read({ volumes: 5 }, { volumes: 2 })))).toEqual([
-            'Прогрес повернуто з 5 до 2 томів',
+            'Повернуто до тому 2',
         ]);
     });
 
-    it('skips progress reset to zero', () => {
+    it('resets progress to zero', () => {
         const entry = convert(watch({ episodes: 12 }, { episodes: 0 }));
 
-        expect(lines(entry)).toEqual(['Запис оновлено']);
-        expect(entry.icon).toEqual({ kind: 'updated' });
+        expect(lines(entry)).toEqual(['Прогрес скинуто']);
+        expect(entry.icon).toEqual({ kind: 'rollback' });
+    });
+
+    it('reports one reset for chapters and volumes', () => {
+        expect(
+            lines(
+                convert(
+                    read(
+                        { status: 'completed', chapters: 30, volumes: 3 },
+                        { status: 'planned', chapters: 0, volumes: 0 },
+                    ),
+                ),
+            ),
+        ).toEqual(['Заплановано', 'прогрес скинуто']);
+    });
+
+    it('leaves the reset implied by a repeat', () => {
+        expect(
+            lines(
+                convert(
+                    watch(
+                        { status: 'completed', episodes: 12, rewatches: 0 },
+                        { status: 'watching', episodes: 0, rewatches: 1 },
+                    ),
+                ),
+            ),
+        ).toEqual(['Дивлюсь', 'повторний перегляд']);
     });
 
     it('declines the count of a new entry', () => {
@@ -212,7 +232,7 @@ describe('convertHistory: progress', () => {
         ).toEqual(['Дивлюсь', 'переглянуто 5 епізодів з 28']);
     });
 
-    it('says "всі" when a completed entry reaches the total', () => {
+    it('drops the progress a completion implies', () => {
         expect(
             lines(
                 convert(
@@ -224,7 +244,7 @@ describe('convertHistory: progress', () => {
                     ),
                 ),
             ),
-        ).toEqual(['Завершено', 'переглянуто всі 24 епізоди']);
+        ).toEqual(['Додано в Завершено']);
         expect(
             lines(
                 convert(
@@ -235,22 +255,33 @@ describe('convertHistory: progress', () => {
                     ),
                 ),
             ),
-        ).toEqual(['Завершено', 'переглянуто всі 12 епізодів']);
+        ).toEqual(['Завершено']);
     });
 
-    it('skips the count of a completed single-episode title', () => {
+    it('keeps progress below the total on completion', () => {
         expect(
             lines(
                 convert(
                     watch(
-                        null,
-                        { status: 'completed', episodes: 1 },
-                        { data_type: 'anime', episodes_total: 1 },
-                        { new_watch: true },
+                        { status: 'watching', episodes: 10 },
+                        { status: 'completed', episodes: 11 },
                     ),
                 ),
             ),
-        ).toEqual(['Додано в Завершено']);
+        ).toEqual(['Завершено', 'переглянуто епізод 11 з 28']);
+    });
+
+    it('keeps progress reaching the total on an already completed entry', () => {
+        expect(
+            lines(
+                convert(
+                    watch(
+                        { status: 'completed', episodes: 26 },
+                        { status: 'completed', episodes: 28 },
+                    ),
+                ),
+            ),
+        ).toEqual(['Переглянуто епізоди 27–28 з 28']);
     });
 
     it('keeps the verb after a status change', () => {
@@ -278,7 +309,7 @@ describe('convertHistory: progress', () => {
             'Прочитано томи 2–3 з 37',
         ]);
         expect(lines(convert(read({ chapters: 10 }, { chapters: 8 })))).toEqual(
-            ['Прогрес повернуто з 10 до 8 розділів'],
+            ['Повернуто до розділу 8'],
         );
     });
 
@@ -319,16 +350,16 @@ describe('convertHistory: score', () => {
 
     it('changes a score', () => {
         expect(lines(convert(watch({ score: 6 }, { score: 8 })))).toEqual([
-            'Оцінку змінено з 6 на 8',
+            'Оцінка 6 → 8',
         ]);
     });
 
     it('removes a score', () => {
         expect(lines(convert(watch({ score: 8 }, { score: 0 })))).toEqual([
-            'Оцінку 8 прибрано',
+            'Оцінку прибрано',
         ]);
         expect(lines(convert(watch({ score: 8 }, { score: null })))).toEqual([
-            'Оцінку 8 прибрано',
+            'Оцінку прибрано',
         ]);
     });
 
@@ -407,10 +438,7 @@ describe('convertHistory: dates', () => {
                     ),
                 ),
             ),
-        ).toEqual([
-            'Прогрес повернуто з 12 до 10 епізодів',
-            'оцінку 8 прибрано',
-        ]);
+        ).toEqual(['Повернуто до епізоду 10', 'оцінку прибрано']);
     });
 });
 
@@ -517,7 +545,7 @@ describe('convertHistory: typography', () => {
         );
 
         expect(first).toBe('Переглянуто епізод 2 з 28');
-        expect(rest).toEqual(['оцінку змінено з 6 на 8']);
+        expect(rest).toEqual(['оцінка 6 → 8']);
     });
 
     it('binds numbers and short prepositions to the next word', () => {
@@ -526,12 +554,19 @@ describe('convertHistory: typography', () => {
         ).facts;
 
         expect(progress.map((part) => part.text).join('')).toBe(
-            'Прогрес повернуто з\u00A012\u00A0до\u00A010\u00A0епізодів',
+            'Повернуто до\u00A0епізоду\u00A010',
         );
         expect(progress.filter((part) => part.type === 'value')).toEqual([
-            { type: 'value', text: '12' },
             { type: 'value', text: '10' },
         ]);
+    });
+
+    it('keeps both scores and the arrow together', () => {
+        const [score] = convert(watch({ score: 6 }, { score: 8 })).facts;
+
+        expect(score.map((part) => part.text).join('')).toBe(
+            'Оцінка 6\u00A0→\u00A08',
+        );
     });
 
     it('keeps the total and "з" together', () => {

@@ -40,16 +40,10 @@ export type ListEntryContext = {
 
 type Step = { fact: HistoryFact; icon: HistoryIcon };
 
-const UNITS: Record<Unit, { forms: WordForms; genitive: WordForms }> = {
-    episodes: {
-        forms: EPISODE_FORMS,
-        genitive: ['епізоду', 'епізодів', 'епізодів'],
-    },
-    chapters: {
-        forms: CHAPTER_FORMS,
-        genitive: ['розділу', 'розділів', 'розділів'],
-    },
-    volumes: { forms: VOLUME_FORMS, genitive: ['тому', 'томів', 'томів'] },
+const UNITS: Record<Unit, { forms: WordForms; genitive: string }> = {
+    episodes: { forms: EPISODE_FORMS, genitive: 'епізоду' },
+    chapters: { forms: CHAPTER_FORMS, genitive: 'розділу' },
+    volumes: { forms: VOLUME_FORMS, genitive: 'тому' },
 };
 
 const MEDIUMS = {
@@ -105,10 +99,11 @@ function describeProgress(
     {
         verb,
         isNew,
-        completed,
-    }: { verb: string; isNew: boolean; completed: boolean },
+        becameCompleted,
+    }: { verb: string; isNew: boolean; becameCompleted: boolean },
 ): Step | null {
     if (after === before || after === 0) return null;
+    if (becameCompleted && after === total) return null;
 
     const { forms, genitive } = UNITS[unit];
     const progress: HistoryIcon = { kind: 'progress' };
@@ -117,18 +112,8 @@ function describeProgress(
 
     if (after < before) {
         return {
-            fact: fact`прогрес повернуто з ${value(before)} до ${value(after)} ${getDeclensionWord(after, genitive)}`,
+            fact: fact`повернуто до ${genitive}\u00A0${value(after)}`,
             icon: { kind: 'rollback' },
-        };
-    }
-
-    if (completed && after === total) {
-        if (total === 1) return null;
-        return {
-            fact: isNew
-                ? fact`всі ${value(after)} ${word}`
-                : fact`${verb} всі ${value(after)} ${word}`,
-            icon: progress,
         };
     }
 
@@ -157,10 +142,10 @@ function describeScore(before: number, after: number, isNew: boolean) {
 
     if (after === before || (isNew && !after)) return null;
     if (!before) return { fact: fact`оцінка ${value(after)}`, icon };
-    if (!after) return { fact: fact`оцінку ${value(before)} прибрано`, icon };
+    if (!after) return { fact: fact`оцінку прибрано`, icon };
 
     return {
-        fact: fact`оцінку змінено з ${value(before)} на ${value(after)}`,
+        fact: fact`оцінка ${value(before)} →\u00A0${value(after)}`,
         icon,
     };
 }
@@ -213,7 +198,15 @@ export function convertListEntry(
     const isNew =
         Boolean(data.new_watch || data.new_read) ||
         (!before.status && Boolean(after.status));
-    const completed = after.status === config.completed;
+    const becameCompleted =
+        after.status === config.completed && after.status !== before.status;
+    const repeated =
+        (after[config.repeats] ?? 0) > (before[config.repeats] ?? 0);
+    const reset =
+        !repeated &&
+        config.units.some(
+            (unit) => (before[unit] ?? 0) > 0 && (after[unit] ?? 0) === 0,
+        );
 
     const progress = config.units.flatMap(
         (unit) =>
@@ -222,7 +215,7 @@ export function convertListEntry(
                 before[unit] ?? 0,
                 after[unit] ?? 0,
                 context.totals[unit] || null,
-                { verb: config.verb, isNew, completed },
+                { verb: config.verb, isNew, becameCompleted },
             ) ?? [],
     );
 
@@ -232,6 +225,12 @@ export function convertListEntry(
             withProgress: progress.length > 0,
         }),
         ...(isNew ? joinNewProgress(progress, config.verb) : progress),
+        reset
+            ? {
+                  fact: fact`прогрес скинуто`,
+                  icon: { kind: 'rollback' } as const,
+              }
+            : null,
         describeScore(before.score ?? 0, after.score ?? 0, isNew),
         describeRepeats(
             medium,
