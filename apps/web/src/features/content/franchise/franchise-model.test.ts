@@ -112,7 +112,7 @@ describe('buildFranchiseModel', () => {
         expect(node(model, 'manga', 'm1')?.relation).toEqual({
             label: 'Першоджерело',
             targetId: nodeId('anime', 'a1'),
-            targetKind: null,
+            targetKind: 'аніме',
         });
         expect(node(model, 'manga', 'm2')?.relation?.label).toBe(
             'Першоджерело',

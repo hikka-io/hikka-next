@@ -395,7 +395,8 @@ export function buildFranchiseModel(
             label: relationLabel(best.relation, node, best.other),
             targetId: best.other.id,
             targetKind:
-                best.other.contentType === current.contentType
+                best.other.contentType === current.contentType &&
+                node.contentType === current.contentType
                     ? null
                     : (CONTENT_TYPES[best.other.contentType].genitive ?? null),
         };
