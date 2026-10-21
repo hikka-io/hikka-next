@@ -5,10 +5,8 @@ import { type HistoryResponse, HistoryTypeEnum } from '@hikka/api';
 import { convertHistory } from './convert-history';
 import type { HistoryEntry } from './types';
 
-const TIME_ZONE = 'Europe/Kyiv';
 const MAY_28 = Date.UTC(2025, 4, 28, 12) / 1000;
 const MAY_17 = Date.UTC(2025, 4, 17, 12) / 1000;
-const JUNE_3 = Date.UTC(2025, 5, 3, 12) / 1000;
 
 const ANIME = { data_type: 'anime', episodes_total: 28 };
 const NO_TOTAL = { data_type: 'anime', episodes_total: null };
@@ -52,7 +50,7 @@ const lines = (entry: HistoryEntry) =>
             .replaceAll('\u00A0', ' '),
     );
 
-const convert = (item: HistoryResponse) => convertHistory(item, TIME_ZONE);
+const convert = (item: HistoryResponse) => convertHistory(item);
 
 describe('convertHistory: list status', () => {
     it.each([
@@ -71,32 +69,41 @@ describe('convertHistory: list status', () => {
     });
 
     it.each([
-        ['planned', 'watching', 'Перенесено із Заплановано в Дивлюсь'],
-        ['planned', 'on_hold', 'Перенесено із Заплановано у Відкладено'],
-        ['watching', 'completed', 'Перенесено з Дивлюсь в Завершено'],
-        ['on_hold', 'dropped', 'Перенесено з Відкладено в Закинуто'],
-        ['completed', 'planned', 'Перенесено із Завершено в Заплановано'],
-    ])('moves an entry from %s to %s', (from, to, text) => {
-        const entry = convert(watch({ status: from }, { status: to }));
+        ['planned', 'watching', 'Дивлюсь'],
+        ['planned', 'on_hold', 'Відкладено'],
+        ['watching', 'completed', 'Завершено'],
+        ['on_hold', 'dropped', 'Закинуто'],
+        ['completed', 'planned', 'Заплановано'],
+    ])(
+        'names only the new status when moving from %s to %s',
+        (from, to, text) => {
+            const entry = convert(watch({ status: from }, { status: to }));
 
-        expect(lines(entry)).toEqual([text]);
-        expect(entry.icon).toEqual({ kind: 'status', status: to });
-    });
+            expect(lines(entry)).toEqual([text]);
+            expect(entry.icon).toEqual({ kind: 'status', status: to });
+        },
+    );
 
-    it('uses "із" before Ч for reading', () => {
-        expect(
-            lines(convert(read({ status: 'reading' }, { status: 'dropped' }))),
-        ).toEqual(['Перенесено із Читаю в Закинуто']);
-    });
-
-    it('styles only the new status as a status word', () => {
+    it('styles the new status as a status word', () => {
         const [first] = convert(
             watch({ status: 'planned' }, { status: 'watching' }),
         ).facts;
 
-        expect(first.filter((part) => part.type === 'status')).toEqual([
-            { type: 'status', text: 'Дивлюсь' },
-        ]);
+        expect(first).toEqual([{ type: 'status', text: 'Дивлюсь' }]);
+    });
+
+    it('starts watching with the first episode', () => {
+        expect(
+            lines(
+                convert(
+                    watch(
+                        { status: 'planned', episodes: 0 },
+                        { status: 'watching', episodes: 1 },
+                        { data_type: 'anime', episodes_total: 16 },
+                    ),
+                ),
+            ),
+        ).toEqual(['Дивлюсь', 'переглянуто епізод 1 з 16']);
     });
 
     it('treats a missing before status as a new entry', () => {
@@ -228,10 +235,7 @@ describe('convertHistory: progress', () => {
                     ),
                 ),
             ),
-        ).toEqual([
-            'Перенесено із Заплановано в Завершено',
-            'переглянуто всі 12 епізодів',
-        ]);
+        ).toEqual(['Завершено', 'переглянуто всі 12 епізодів']);
     });
 
     it('skips the count of a completed single-episode title', () => {
@@ -260,10 +264,7 @@ describe('convertHistory: progress', () => {
                     ),
                 ),
             ),
-        ).toEqual([
-            'Перенесено із Заплановано в Читаю',
-            'прочитано розділи 1–5',
-        ]);
+        ).toEqual(['Читаю', 'прочитано розділи 1–5']);
     });
 
     it('reads chapters and volumes', () => {
@@ -374,56 +375,19 @@ describe('convertHistory: repeats', () => {
 });
 
 describe('convertHistory: dates', () => {
-    it('sets and changes dates', () => {
+    it('reports a date-only change as an update', () => {
         const entry = convert(
-            watch({ start_date: null }, { start_date: MAY_28 }),
+            watch(
+                { start_date: null, end_date: MAY_17 },
+                { start_date: MAY_28, end_date: null },
+            ),
         );
 
-        expect(lines(entry)).toEqual(['Почато 28 травня']);
-        expect(entry.icon).toEqual({ kind: 'date' });
-        expect(
-            lines(
-                convert(watch({ start_date: MAY_17 }, { start_date: MAY_28 })),
-            ),
-        ).toEqual(['Почато 28 травня']);
-        expect(
-            lines(convert(watch({ end_date: null }, { end_date: JUNE_3 }))),
-        ).toEqual(['Закінчено 3 червня']);
+        expect(lines(entry)).toEqual(['Запис оновлено']);
+        expect(entry.icon).toEqual({ kind: 'updated' });
     });
 
-    it('removes dates', () => {
-        expect(
-            lines(convert(watch({ start_date: MAY_28 }, { start_date: null }))),
-        ).toEqual(['Дату початку прибрано']);
-        expect(
-            lines(convert(watch({ end_date: MAY_28 }, { end_date: null }))),
-        ).toEqual(['Дату закінчення прибрано']);
-    });
-
-    it('skips a date the status change set on the same day', () => {
-        expect(
-            lines(
-                convert(
-                    watch(
-                        { status: 'watching', end_date: null },
-                        { status: 'completed', end_date: MAY_28 },
-                    ),
-                ),
-            ),
-        ).toEqual(['Перенесено з Дивлюсь в Завершено']);
-        expect(
-            lines(
-                convert(
-                    read(
-                        { status: 'planned', start_date: null },
-                        { status: 'reading', start_date: MAY_28 },
-                    ),
-                ),
-            ),
-        ).toEqual(['Перенесено із Заплановано в Читаю']);
-    });
-
-    it('keeps a date the status change set on another day', () => {
+    it('leaves dates out of other changes', () => {
         expect(
             lines(
                 convert(
@@ -433,25 +397,7 @@ describe('convertHistory: dates', () => {
                     ),
                 ),
             ),
-        ).toEqual(['Перенесено з Дивлюсь в Завершено', 'закінчено 17 травня']);
-    });
-
-    it('ignores the start date a new entry sets on its own', () => {
-        expect(
-            lines(
-                convert(
-                    watch(
-                        null,
-                        { status: 'watching', start_date: MAY_28 },
-                        ANIME,
-                        { new_watch: true },
-                    ),
-                ),
-            ),
-        ).toEqual(['Додано в Дивлюсь']);
-    });
-
-    it('combines rollback, score removal and a date', () => {
+        ).toEqual(['Завершено']);
         expect(
             lines(
                 convert(
@@ -464,7 +410,6 @@ describe('convertHistory: dates', () => {
         ).toEqual([
             'Прогрес повернуто з 12 до 10 епізодів',
             'оцінку 8 прибрано',
-            'почато 28 травня',
         ]);
     });
 });

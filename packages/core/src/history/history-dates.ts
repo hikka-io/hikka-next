@@ -51,9 +51,6 @@ const previousDayKey = (key: string) => {
 export const isSameHistoryDay = (a: number, b: number, timeZone?: string) =>
     dayKey(a * 1000, timeZone) === dayKey(b * 1000, timeZone);
 
-export const formatHistoryDate = (seconds: number, timeZone?: string) =>
-    formatter('dayMonth', timeZone).format(seconds * 1000);
-
 export const formatHistoryTime = (seconds: number, timeZone?: string) =>
     formatter('time', timeZone).format(seconds * 1000);
 

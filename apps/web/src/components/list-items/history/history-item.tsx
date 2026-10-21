@@ -37,7 +37,7 @@ const IMPORT_TITLES: Partial<Record<HistoryTypeEnum, string>> = {
 
 const HistoryItem: FC<Props> = ({ data, size, withUser, timeZone }) => {
     const title = useTitle(data.content);
-    const entry = convertHistory(data, timeZone);
+    const entry = convertHistory(data);
 
     return (
         <HistoryRow
@@ -66,7 +66,7 @@ const HistoryItem: FC<Props> = ({ data, size, withUser, timeZone }) => {
                               )
                             : undefined
                     }
-                    className={cn(labelVariants(), 'min-w-0 truncate')}
+                    className={cn(labelVariants(), 'line-clamp-2 min-w-0')}
                 >
                     {title || IMPORT_TITLES[data.history_type] || 'Загальне'}
                 </TextLink>

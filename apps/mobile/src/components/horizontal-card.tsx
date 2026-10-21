@@ -11,17 +11,24 @@ import { cn } from '@/utils/cn';
 type HorizontalCardTitleProps = {
     className?: string;
     titleMeta?: ReactNode;
+    numberOfLines?: number;
 };
 
 const HorizontalCardTitle: FC<PropsWithChildren<HorizontalCardTitleProps>> = ({
     children,
     className,
     titleMeta,
+    numberOfLines = 1,
 }) => {
     return (
-        <View className="min-w-0 flex-row items-center justify-between gap-2">
+        <View
+            className={cn(
+                'min-w-0 flex-row justify-between gap-2',
+                numberOfLines > 1 ? 'items-baseline' : 'items-center',
+            )}
+        >
             <Text
-                numberOfLines={1}
+                numberOfLines={numberOfLines}
                 className={cn(
                     'min-w-0 flex-1 font-medium text-sm leading-tight',
                     className,

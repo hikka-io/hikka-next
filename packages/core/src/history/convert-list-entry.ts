@@ -14,17 +14,15 @@ import {
     type WordForms,
 } from '../i18n';
 import { LIST_STATUS } from '../labels';
-import { fact, into, joinFacts, outOf, status, value } from './fact-builder';
-import { formatHistoryDate, isSameHistoryDay } from './history-dates';
+import { fact, into, joinFacts, status, value } from './fact-builder';
 import type { HistoryFact, HistoryIcon, HistoryMedium } from './types';
 
 type Unit = 'episodes' | 'chapters' | 'volumes';
 
 type ListEntryState = Partial<
-    Record<
-        Unit | 'score' | 'rewatches' | 'rereads' | 'start_date' | 'end_date',
-        number | null
-    > & { status: WatchStatus | ReadStatus | null }
+    Record<Unit | 'score' | 'rewatches' | 'rereads', number | null> & {
+        status: WatchStatus | ReadStatus | null;
+    }
 >;
 
 export type ListEntryData = {
@@ -38,8 +36,6 @@ type ListEntryTotals = Partial<Record<Unit, number | null>>;
 
 export type ListEntryContext = {
     totals: ListEntryTotals;
-    recordedAt: number[];
-    timeZone?: string;
 };
 
 type Step = { fact: HistoryFact; icon: HistoryIcon };
@@ -79,11 +75,6 @@ const MEDIUMS = {
     }
 >;
 
-const DATES = [
-    { key: 'start_date', set: 'почато', removed: 'дату початку прибрано' },
-    { key: 'end_date', set: 'закінчено', removed: 'дату закінчення прибрано' },
-] as const;
-
 const statusLabel = (medium: HistoryMedium, entryStatus: string) =>
     (LIST_STATUS[medium] as Record<string, { title_ua: string }>)[entryStatus]
         ?.title_ua ?? entryStatus;
@@ -99,21 +90,11 @@ function describeStatus(
     const icon: HistoryIcon = { kind: 'status', status: after.status };
     const next = statusLabel(medium, after.status);
 
-    if (isNew || !before.status) {
-        return {
-            fact: withProgress
-                ? fact`${status(next)}`
-                : fact`додано ${into(next)} ${status(next)}`,
-            icon,
-        };
+    if (isNew && !withProgress) {
+        return { fact: fact`додано ${into(next)} ${status(next)}`, icon };
     }
 
-    const previous = statusLabel(medium, before.status);
-
-    return {
-        fact: fact`перенесено ${outOf(previous)} ${previous} ${into(next)} ${status(next)}`,
-        icon,
-    };
+    return { fact: fact`${status(next)}`, icon };
 }
 
 function describeProgress(
@@ -203,31 +184,6 @@ function describeRepeats(
     return { fact: fact`переглянуто повторно ${value(after)} ${times}`, icon };
 }
 
-function describeDates(
-    before: ListEntryState,
-    after: ListEntryState,
-    statusChanged: boolean,
-    { recordedAt, timeZone }: ListEntryContext,
-): Step[] {
-    const impliedByStatus = (date: number) =>
-        statusChanged &&
-        recordedAt.some((at) => isSameHistoryDay(at, date, timeZone));
-
-    return DATES.flatMap(({ key, set, removed }) => {
-        const previous = before[key] ?? null;
-        const next = after[key] ?? null;
-
-        if (previous === next || (next && impliedByStatus(next))) return [];
-
-        return {
-            fact: next
-                ? fact`${set} ${formatHistoryDate(next, timeZone)}`
-                : fact`${removed}`,
-            icon: { kind: 'date' } as const,
-        };
-    });
-}
-
 const joinNewProgress = (steps: Step[], verb: string): Step[] =>
     steps.length > 0
         ? [
@@ -282,14 +238,6 @@ export function convertListEntry(
             before[config.repeats] ?? 0,
             after[config.repeats] ?? 0,
         ),
-        ...(isNew
-            ? []
-            : describeDates(
-                  before,
-                  after,
-                  Boolean(before.status && after.status !== before.status),
-                  context,
-              )),
     ].filter((step): step is Step => step !== null);
 
     if (steps.length === 0) {

@@ -80,6 +80,7 @@ const HistoryRow: FC<Props> = ({
             <HorizontalCardImage image={content?.image ?? undefined} />
             <HorizontalCardContainer className="gap-1">
                 <HorizontalCardTitle
+                    numberOfLines={2}
                     titleMeta={
                         <Text
                             maxFontSizeMultiplier={DENSE_MAX_FONT_SCALE}

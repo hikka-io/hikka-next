@@ -74,10 +74,7 @@ function convertImport(
     return [fact`додано ${joinFacts(parts, ' та ')}`, ...overwrite];
 }
 
-function convertEntry(
-    history: HistoryResponse,
-    timeZone?: string,
-): Omit<HistoryEntry, 'medium'> {
+function convertEntry(history: HistoryResponse): Omit<HistoryEntry, 'medium'> {
     const type = history.history_type;
 
     switch (type) {
@@ -94,11 +91,7 @@ function convertEntry(
             return convertListEntry(
                 getHistoryMedium(type),
                 history.data as ListEntryData,
-                {
-                    totals: getTotals(history.content),
-                    recordedAt: [history.created, history.updated],
-                    timeZone,
-                },
+                { totals: getTotals(history.content) },
             );
         case HistoryTypeEnum.WATCH_IMPORT:
         case HistoryTypeEnum.READ_IMPORT:
@@ -128,11 +121,8 @@ function convertEntry(
     }
 }
 
-export function convertHistory(
-    history: HistoryResponse,
-    timeZone?: string,
-): HistoryEntry {
-    const { icon, facts } = convertEntry(history, timeZone);
+export function convertHistory(history: HistoryResponse): HistoryEntry {
+    const { icon, facts } = convertEntry(history);
 
     return {
         medium: getHistoryMedium(history.history_type),

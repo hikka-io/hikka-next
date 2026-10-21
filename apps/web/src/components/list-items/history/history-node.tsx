@@ -1,6 +1,6 @@
 import type { ComponentType, FC } from 'react';
 
-import { BookOpen, Calendar, Download, Undo2 } from 'lucide-react';
+import { BookOpen, Download, Undo2 } from 'lucide-react';
 
 import type { UserResponse } from '@hikka/api';
 import type { HistoryEntry, HistoryIcon } from '@hikka/core';
@@ -34,7 +34,6 @@ const ACTION_ICONS: Record<
 > = {
     rollback: Undo2,
     score: MaterialSymbolsStarRounded,
-    date: Calendar,
     updated: MaterialSymbolsEditRounded,
     delete: MaterialSymbolsDeleteForeverRounded,
     'favourite-add': MaterialSymbolsFavoriteRounded,

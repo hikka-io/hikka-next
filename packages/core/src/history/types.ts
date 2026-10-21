@@ -16,7 +16,6 @@ export type HistoryIcon =
               | 'progress'
               | 'rollback'
               | 'score'
-              | 'date'
               | 'updated'
               | 'delete'
               | 'favourite-add'
