@@ -7,6 +7,7 @@ import type { MainContentTypeEnum } from '@hikka/api';
 import { contentPath } from '@hikka/core';
 
 import PosterCardSkeleton from '@/components/content-card/poster-card-skeleton';
+import ShowMoreTrigger from '@/components/show-more-trigger';
 import Block from '@/components/ui/block';
 import { Button } from '@/components/ui/button';
 import { Collapsible, CollapsibleContent } from '@/components/ui/collapsible';
@@ -22,7 +23,6 @@ import { useVisibleOnce } from '@/services/hooks/use-visible-once';
 
 import FranchiseRow from './components/franchise-row';
 import RelationLabel from './components/relation-label';
-import ShowMoreTrigger from './components/show-more-trigger';
 import type { DirectRelation, FranchiseModel } from './franchise-model';
 import { useFranchise } from './use-franchise';
 import { useGraphOverlay } from './use-graph-overlay';

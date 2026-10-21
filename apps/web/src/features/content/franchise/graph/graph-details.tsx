@@ -5,6 +5,7 @@ import { ArrowUpRight, Crosshair, X } from 'lucide-react';
 import { contentPath } from '@hikka/core';
 
 import { HistoryFacts, historyRowsVariants } from '@/components/list-items';
+import ShowMoreTrigger from '@/components/show-more-trigger';
 import { Collapsible } from '@/components/ui/collapsible';
 import { labelVariants } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
@@ -19,7 +20,6 @@ import FranchisePoster from '../components/franchise-poster';
 import FranchiseRow from '../components/franchise-row';
 import RelationLabel from '../components/relation-label';
 import RelationLine from '../components/relation-line';
-import ShowMoreTrigger from '../components/show-more-trigger';
 import {
     basicMeta,
     type DirectRelation,
