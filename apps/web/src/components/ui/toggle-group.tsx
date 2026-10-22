@@ -29,7 +29,7 @@ function ToggleGroup({
                 // Select) shrinks it below its content and it scrolls internally
                 // instead of keeping its natural width. Segmented controls should
                 // size to their content.
-                'flex items-center rounded-md border border-border bg-secondary/20 p-0.75',
+                'flex items-center rounded-md border border-border bg-background p-0.75 shadow-xs dark:border-input dark:bg-input/30',
                 className,
             )}
             {...props}
