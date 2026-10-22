@@ -31,6 +31,7 @@ vi.mock('@/features/comments', () => ({
     CommentList: () => null,
     UserCommentList: () => null,
     supportsReviews: () => true,
+    useCommentThread: () => ({ list: undefined, pagination: undefined }),
 }));
 
 vi.mock('@/features/filters', () => ({ useChangeParam: () => () => {} }));

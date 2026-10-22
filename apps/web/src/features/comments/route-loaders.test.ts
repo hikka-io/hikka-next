@@ -31,6 +31,7 @@ function fakeContext() {
     const info = deferred<unknown>();
     const list = deferred<void>();
     const stats = deferred<void>();
+    const thread = deferred<unknown>();
     const started: string[] = [];
 
     const queryClient = new QueryClient();
@@ -47,12 +48,17 @@ function fakeContext() {
             started.push(options.queryKey[0]._id);
             return stats.promise;
         }),
+        ensureInfiniteQueryData: vi.fn((options: QueryOptions) => {
+            started.push(options.queryKey[0]._id);
+            return thread.promise;
+        }),
     });
 
     return {
         info,
         list,
         stats,
+        thread,
         started,
         context: {
             queryClient,
@@ -128,17 +134,30 @@ describe('comment thread loader', () => {
         context,
     });
 
+    const root = {
+        reference: 'abc-123',
+        author: { username: 'olexh' },
+        review: null,
+        hidden: false,
+        text: 'Hello **there** :spoiler[secret]',
+    };
+    const threadPage = (list: unknown[]) => ({
+        pages: [{ list, pagination: { total: list.length } }],
+    });
+
     it('starts the content and the thread together', async () => {
-        const { context, info, list, started } = fakeContext();
+        const { context, info, thread, started } = fakeContext();
         const result = runLoader(ThreadRoute, args(context, 'abc-123'));
 
         await flush();
-        expect(started).toHaveLength(2);
-        expect(started).toContain('animeSlug');
+        expect(started).toEqual(['animeSlug', 'thread']);
 
         info.resolve({ slug: 'test-slug' });
-        list.resolve();
-        await expect(result).resolves.toBeUndefined();
+        thread.resolve(threadPage([root, { ...root, reference: 'reply' }]));
+        await expect(result).resolves.toEqual({
+            content: { slug: 'test-slug' },
+            comment: root,
+        });
     });
 
     it('requests only the content without a comment reference', async () => {
@@ -149,7 +168,69 @@ describe('comment thread loader', () => {
         expect(started).toEqual(['animeSlug']);
 
         info.resolve({ slug: 'test-slug' });
-        await expect(result).resolves.toBeUndefined();
+        await expect(result).resolves.toEqual({
+            content: { slug: 'test-slug' },
+            comment: undefined,
+        });
+    });
+
+    it('turns a missing comment into notFound', async () => {
+        const { context, info, thread } = fakeContext();
+        const rejection = runLoader(
+            ThreadRoute,
+            args(context, 'abc-123'),
+        ).catch((error) => error);
+
+        await flush();
+        info.resolve({ slug: 'test-slug' });
+        thread.reject(new HikkaApiError('Not found', 404, 'comment:not-found'));
+
+        expect(isNotFound(await rejection)).toBe(true);
+    });
+
+    it('renders without the comment when the thread fails otherwise', async () => {
+        const { context, info, thread } = fakeContext();
+        const result = runLoader(ThreadRoute, args(context, 'abc-123'));
+
+        await flush();
+        info.resolve({ slug: 'test-slug' });
+        thread.reject(new HikkaApiError('Hidden', 400, 'comment:hidden'));
+
+        await expect(result).resolves.toEqual({
+            content: { slug: 'test-slug' },
+            comment: undefined,
+        });
+    });
+
+    type Head = (ctx: object) => {
+        meta: { name?: string; title?: string; content?: string }[];
+    };
+    const head = (loaderData: object | undefined) => {
+        const { meta } = (ThreadRoute.options.head as unknown as Head)({
+            loaderData,
+            params: { content_type: 'anime', slug: 'test-slug' },
+        });
+        return {
+            title: meta.find((tag) => tag.title)?.title,
+            description: meta.find((tag) => tag.name === 'description')
+                ?.content,
+        };
+    };
+
+    it('heads the page with the root comment', () => {
+        expect(
+            head({ content: { title_ua: 'Фрірен' }, comment: root }),
+        ).toEqual({
+            title: expect.stringContaining('Коментар @olexh / Фрірен'),
+            description: 'Hello there [спойлер]',
+        });
+    });
+
+    it('keeps a hidden comment out of the description', () => {
+        expect(
+            head({ content: undefined, comment: { ...root, hidden: true } })
+                .description,
+        ).not.toContain('Hello');
     });
 });
 

@@ -1,7 +1,9 @@
+import { marked } from 'marked';
+
 import type { CommentResponse } from '@hikka/api';
 
 import { isUserReference, userMentionPath, userUrlTarget } from './mentions';
-import { BLANK_CHARS } from './text';
+import { BLANK_CHARS, truncateText } from './text';
 
 /** Replies to a comment this deep attach to its parent instead (backend nesting limit). */
 export const MAX_COMMENT_DEPTH = 5;
@@ -130,4 +132,80 @@ export function serializeCommentMentions(
             ? `${before}${userMentionMarkdown(siteOrigin, mention)}`
             : match;
     });
+}
+
+/** Page title of a comment thread: `Коментар @username`, or `Відгук @username` for a review. */
+export function commentThreadTitle(
+    comment: Pick<CommentResponse, 'author' | 'review'>,
+): string {
+    const kind = comment.review ? 'Відгук' : 'Коментар';
+    return comment.author.username
+        ? `${kind} @${comment.author.username}`
+        : kind;
+}
+
+const SPOILER_PLACEHOLDER = '[спойлер]';
+const SPOILER_BLOCK = /^(:{3,})spoiler\b[^\n]*\n[\s\S]*?^\1[ \t]*$/gm;
+const SPOILER_INLINE_OPEN = ':spoiler[';
+const WHITESPACE_RUN = /[\s\u200B\uFEFF]+/g;
+
+function hideInlineSpoilers(text: string): string {
+    let result = '';
+    let index = 0;
+    let start = text.indexOf(SPOILER_INLINE_OPEN);
+
+    while (start !== -1) {
+        let end = start + SPOILER_INLINE_OPEN.length;
+        for (let depth = 1; end < text.length && depth > 0; end++) {
+            if (text[end] === '[') depth++;
+            else if (text[end] === ']') depth--;
+        }
+        result += text.slice(index, start) + SPOILER_PLACEHOLDER;
+        index = end;
+        start = text.indexOf(SPOILER_INLINE_OPEN, index);
+    }
+
+    return result + text.slice(index);
+}
+
+/**
+ * Plain-text excerpt of comment markdown for link previews. Spoiler contents
+ * never reach it: an unclosed inline spoiler hides the rest of the text.
+ */
+export function commentExcerpt(
+    text: string | null | undefined,
+    maxLength: number,
+): string | null {
+    if (!text) return null;
+
+    const parts: string[] = [];
+    const visible = hideInlineSpoilers(
+        text.replace(SPOILER_BLOCK, SPOILER_PLACEHOLDER),
+    );
+
+    marked.walkTokens(marked.lexer(visible), (token) => {
+        switch (token.type) {
+            case 'text':
+                if (!('tokens' in token && token.tokens)) parts.push(token.raw);
+                break;
+            case 'escape':
+                parts.push(token.text);
+                break;
+            case 'codespan':
+                parts.push(token.raw.replace(/^`+|`+$/g, ''));
+                break;
+            case 'paragraph':
+            case 'heading':
+            case 'list_item':
+            case 'br':
+                parts.push(' ');
+                break;
+        }
+    });
+
+    return truncateText(
+        parts.join('').replace(WHITESPACE_RUN, ' ').trim(),
+        maxLength,
+        true,
+    );
 }

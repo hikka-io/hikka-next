@@ -3,8 +3,10 @@ import { describe, expect, it } from 'vitest';
 import type { CommentResponse } from '@hikka/api';
 
 import {
+    commentExcerpt,
     commentReplyTarget,
     commentTextLength,
+    commentThreadTitle,
     mentionMarkdown,
     normalizeCommentText,
     parseCommentMentions,
@@ -161,5 +163,68 @@ describe('serializeCommentMentions', () => {
 
     it('does not touch text without picked users', () => {
         expect(serializeCommentMentions('@olexh', [], SITE)).toBe('@olexh');
+    });
+});
+
+describe('commentThreadTitle', () => {
+    const author = { username: 'olexh' } as CommentResponse['author'];
+
+    it('names a comment by its author', () => {
+        expect(commentThreadTitle({ author, review: null })).toBe(
+            'Коментар @olexh',
+        );
+    });
+
+    it('names a review as a review', () => {
+        expect(
+            commentThreadTitle({
+                author,
+                review: { recommended: 'yes', score: 8 },
+            }),
+        ).toBe('Відгук @olexh');
+    });
+
+    it('drops the mention without a username', () => {
+        expect(
+            commentThreadTitle({
+                author: { ...author, username: null },
+                review: null,
+            }),
+        ).toBe('Коментар');
+    });
+});
+
+describe('commentExcerpt', () => {
+    it('flattens markdown to plain text', () => {
+        expect(
+            commentExcerpt(
+                `Це м'ята "x" & **жирний** [@olexh](${SITE}/u/${REF}) @a\\_b\n\n- one\n- two\n\n> \`code\` ![img](${SITE}/i.png)`,
+                200,
+            ),
+        ).toBe(`Це м'ята "x" & жирний @olexh @a_b one two code`);
+    });
+
+    it('hides inline and block spoilers', () => {
+        expect(
+            commentExcerpt(
+                'Before :spoiler[he [dies](https://x.io)] after\n\n:::spoiler\nsecret\n:::\n\nEnd',
+                200,
+            ),
+        ).toBe('Before [спойлер] after [спойлер] End');
+    });
+
+    it('hides everything after an unclosed spoiler', () => {
+        expect(commentExcerpt('Open :spoiler[secret', 200)).toBe(
+            'Open [спойлер]',
+        );
+    });
+
+    it('truncates on a word boundary', () => {
+        expect(commentExcerpt('one two three four', 10)).toBe('one two\u2026');
+    });
+
+    it('returns null for blank text', () => {
+        expect(commentExcerpt(null, 150)).toBeNull();
+        expect(commentExcerpt('\u200B', 150)).toBeNull();
     });
 });

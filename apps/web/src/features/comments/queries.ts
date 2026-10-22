@@ -1,3 +1,5 @@
+import { isNotFound } from '@tanstack/react-router';
+
 import {
     API_LIMITS,
     type Client,
@@ -104,4 +106,27 @@ export function loadCommentsContent(
     return ensureOr404(() =>
         queryClient.ensureQueryData(contentInfoOptions(type, slug, apiClient)),
     );
+}
+
+/**
+ * The thread's root comment for the page title and head. A missing comment is a
+ * 404; any other failure (hidden, malformed reference) leaves the page to the list.
+ */
+export async function loadCommentThread(
+    reference: string,
+    { queryClient, apiClient }: LoaderContext,
+) {
+    const thread = await ensureOr404(() =>
+        queryClient.ensureInfiniteQueryData(
+            commentThreadOptions(reference, apiClient),
+        ),
+    ).catch((error: unknown) => {
+        if (isNotFound(error)) throw error;
+        return undefined;
+    });
+    const page = thread?.pages[0];
+
+    return page && 'list' in page
+        ? page.list.find((comment) => comment.reference === reference)
+        : undefined;
 }
