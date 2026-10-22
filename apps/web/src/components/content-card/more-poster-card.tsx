@@ -5,7 +5,6 @@ import { ArrowRight } from 'lucide-react';
 import { CONTENT_COUNT_FORMS, getDeclensionWord } from '@hikka/core';
 
 import { useImagePreset } from '@/components/ui/image-preset-context';
-import { cn } from '@/utils/cn';
 
 import CardImage from './card-image';
 import { IMAGE_PRESETS } from './image-presets';
@@ -43,21 +42,22 @@ const MorePosterCard: FC<Props> = ({
             image={
                 <div className="absolute inset-0">
                     {image && !blurred && (
-                        <CardImage
-                            image={image}
-                            imageProps={preset}
-                            className="size-full! object-cover"
-                        />
+                        <>
+                            <CardImage
+                                image={image}
+                                imageProps={preset}
+                                className="size-full! object-cover"
+                            />
+                            {/* A blurred copy would fade at its own edges too, so the mask would read as a vignette. */}
+                            <div className="absolute inset-x-0 bottom-0 h-3/5 gradient-mask-t-40 backdrop-blur-lg" />
+                        </>
                     )}
-                    {image && (
+                    {image && blurred && (
                         // Scaled past the clip so the blur's soft edges stay hidden.
                         <CardImage
                             image={image}
                             blurred
-                            className={cn(
-                                'scale-110',
-                                !blurred && 'gradient-mask-t-40',
-                            )}
+                            className="scale-110"
                         />
                     )}
                     <div className="absolute inset-0 bg-linear-to-t from-black/85 via-black/30 to-transparent" />
