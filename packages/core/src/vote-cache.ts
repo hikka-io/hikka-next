@@ -8,7 +8,12 @@ import {
 } from '@hikka/api';
 
 import { applyCommentVote } from './comment-cache';
-import { type InvalidateOptions, refetchTypeFor } from './content-cache';
+import {
+    type InvalidateOptions,
+    patchQueries,
+    refetchTypeFor,
+} from './content-cache';
+import { patchEmbeddedVote } from './patch-embedded';
 import { matchesPath, type QueryId } from './query-id';
 
 const VOTE_DETAIL = {
@@ -19,10 +24,26 @@ const VOTE_DETAIL = {
     readonly [QueryId, string]
 >;
 
+const VOTE_LISTS = {
+    [VoteContentTypeEnum.ARTICLE]: {
+        field: 'slug',
+        ids: new Set<string>(['getArticles', 'getFeed']),
+    },
+    [VoteContentTypeEnum.COLLECTION]: {
+        field: 'reference',
+        ids: new Set<string>([
+            'getCollections',
+            'getUserCollections',
+            'getFeed',
+            'favouriteList',
+        ]),
+    },
+} as const;
+
 /**
  * Store a vote and refresh what embeds it. The vote button is optimistic, so a
  * comment vote patches the comment lists and only stale-marks them; an
- * article/collection vote refetches that one detail.
+ * article/collection vote patches the lists that embed it and refetches that one detail.
  */
 export function applyVoteMutation(
     queryClient: QueryClient,
@@ -38,6 +59,10 @@ export function applyVoteMutation(
     const [id, field] =
         VOTE_DETAIL[content_type as keyof typeof VOTE_DETAIL] ?? [];
     if (!id) return Promise.resolve();
+    const lists = VOTE_LISTS[content_type as keyof typeof VOTE_LISTS];
+    patchQueries(queryClient, lists.ids, (cached) =>
+        patchEmbeddedVote(cached, slug, data.score, lists.field),
+    );
     return queryClient.invalidateQueries({
         predicate: (query) => matchesPath(query.queryKey, id, field, slug),
         refetchType: refetchTypeFor(options),

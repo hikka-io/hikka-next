@@ -3,7 +3,9 @@ import { describe, expect, it } from 'vitest';
 
 import {
     getArticleQueryKey,
+    getArticlesInfiniteQueryKey,
     getCollectionQueryKey,
+    getCollectionsInfiniteQueryKey,
     getVoteQueryKey,
     VoteContentTypeEnum,
 } from '@hikka/api';
@@ -18,6 +20,54 @@ const invalidated = (queryClient: QueryClient) =>
         .map((query) => query.queryKey[0]);
 
 describe('applyVoteMutation', () => {
+    it('patches the voted article and collection in their lists', async () => {
+        const queryClient = new QueryClient();
+        const articles = getArticlesInfiniteQueryKey({ body: {} });
+        const collections = getCollectionsInfiniteQueryKey({ body: {} });
+        queryClient.setQueryData(articles, {
+            pages: [
+                {
+                    list: [
+                        { slug: 'a', my_score: 0, vote_score: 4 },
+                        { slug: 'b', my_score: 0, vote_score: 2 },
+                    ],
+                },
+            ],
+        });
+        queryClient.setQueryData(collections, {
+            pages: [
+                { list: [{ reference: 'ref', my_score: 1, vote_score: 9 }] },
+            ],
+        });
+
+        await applyVoteMutation(
+            queryClient,
+            { content_type: VoteContentTypeEnum.ARTICLE, slug: 'a' },
+            { score: 1 },
+        );
+        await applyVoteMutation(
+            queryClient,
+            { content_type: VoteContentTypeEnum.COLLECTION, slug: 'ref' },
+            { score: -1 },
+        );
+
+        expect(queryClient.getQueryData(articles)).toEqual({
+            pages: [
+                {
+                    list: [
+                        { slug: 'a', my_score: 1, vote_score: 5 },
+                        { slug: 'b', my_score: 0, vote_score: 2 },
+                    ],
+                },
+            ],
+        });
+        expect(queryClient.getQueryData(collections)).toEqual({
+            pages: [
+                { list: [{ reference: 'ref', my_score: -1, vote_score: 7 }] },
+            ],
+        });
+    });
+
     it('stores the vote and refreshes that article only', async () => {
         const queryClient = new QueryClient();
         const article = getArticleQueryKey({ path: { slug: 'a' } });

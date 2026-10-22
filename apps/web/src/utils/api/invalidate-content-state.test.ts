@@ -456,8 +456,21 @@ describe('invalidation helpers', () => {
 
     it.each([
         [api.VoteContentTypeEnum.COMMENT, [expected(COMMENT_LIST_IDS)]],
-        [api.VoteContentTypeEnum.ARTICLE, []],
-        [api.VoteContentTypeEnum.COLLECTION, []],
+        [
+            api.VoteContentTypeEnum.ARTICLE,
+            [expected(['getArticles', 'getFeed'])],
+        ],
+        [
+            api.VoteContentTypeEnum.COLLECTION,
+            [
+                expected([
+                    'getCollections',
+                    'getUserCollections',
+                    'getFeed',
+                    'favouriteList',
+                ]),
+            ],
+        ],
     ])(
         'applyVoteMutation for a %s stores the vote and patches its lists',
         async (content_type, calls) => {

@@ -77,15 +77,16 @@ export function patchEmbeddedFollow<T>(
     });
 }
 
-/** Apply the user's new `score` to every embedded copy of the voted entity. */
+/** Apply the user's new `score` to every embedded copy of the voted entity, found by its `reference` (or `slug` for articles). */
 export function patchEmbeddedVote<T>(
     node: T,
     reference: string,
     score: number,
+    field: 'reference' | 'slug' = 'reference',
 ): T {
     return patchTree(node, (record) => {
         if (
-            record.reference !== reference ||
+            record[field] !== reference ||
             typeof record.my_score !== 'number' ||
             typeof record.vote_score !== 'number'
         )
