@@ -6,7 +6,6 @@ import type { ArticlesSearch } from '@hikka/core';
 import { CONTENT_TYPE_LINKS } from '@hikka/core';
 
 import FiltersNotFound from '@/components/filters-not-found';
-import AntDesignFilterFilled from '@/components/icons/ant-design/AntDesignFilterFilled';
 import MaterialSymbolsAddRounded from '@/components/icons/material-symbols/MaterialSymbolsAddRounded';
 import LoadMoreButton from '@/components/load-more-button';
 import Block from '@/components/ui/block';
@@ -18,17 +17,15 @@ import {
     TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { usePageTitleAnchor } from '@/features/app-shell';
-import { FiltersModal } from '@/features/filters';
 import { useSession } from '@/services/session';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { Link, useRouteSearch } from '@/utils/navigation';
 
 import { articleListOptions } from '../queries';
 import ArticleCategoryChips from './article-category-chips';
-import { ArticleFiltersBody } from './article-filters';
+import ArticleFiltersButton from './article-filters-button';
 import ArticleItem from './article-item';
 import ArticleItemSkeleton from './article-item-skeleton';
-import { ARTICLE_FILTERS_PRESERVE } from './constants';
 
 type Props = {};
 
@@ -77,16 +74,7 @@ const ArticleList: FC<Props> = () => {
                     </Tooltip>
                 )}
                 <HeaderActions className="md:hidden">
-                    <FiltersModal
-                        preserve={ARTICLE_FILTERS_PRESERVE}
-                        body={
-                            <ArticleFiltersBody className="-m-4 flex-1 overflow-y-auto p-4" />
-                        }
-                    >
-                        <Button variant="outline" size="md">
-                            <AntDesignFilterFilled /> Фільтри
-                        </Button>
-                    </FiltersModal>
+                    <ArticleFiltersButton />
                 </HeaderActions>
             </Header>
             <ArticleCategoryChips />

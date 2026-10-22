@@ -58,7 +58,9 @@ vi.mock('@/features/app-shell', () => ({
 }));
 
 vi.mock('@/features/filters', () => ({
+    FiltersButton: () => null,
     FiltersModal: ({ children }: { children?: ReactNode }) => children,
+    HeaderFiltersButton: () => null,
     ArticleDraftsFilter: () => null,
     ClearFiltersFooter: () => null,
     ContentTypeFilter: () => null,

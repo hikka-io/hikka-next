@@ -57,7 +57,13 @@ function CollectionsPage() {
 
     const titleAnchor = usePageTitleAnchor();
 
-    usePageHeader({ title: 'Колекції', parent: '/', anchored: true });
+    usePageHeader({
+        title: 'Колекції',
+        parent: '/',
+        anchored: true,
+        actionsAnchored: true,
+        actionsComponent: () => <CollectionFiltersButton inHeader />,
+    });
 
     return (
         <FiltersSidebarLayout

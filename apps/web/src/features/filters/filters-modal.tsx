@@ -13,7 +13,7 @@ type Props = {
     body: ReactNode;
     footer?: ReactNode;
     /** Search params the default footer keeps when it clears the filters. */
-    preserve?: string[];
+    preserve?: readonly string[];
 } & (
     | { children: ReactElement; open?: never; onOpenChange?: never }
     | {

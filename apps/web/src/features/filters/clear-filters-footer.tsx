@@ -11,7 +11,7 @@ type Props = {
     /** Dismisses the surrounding modal; the always-visible sidebar omits it. */
     onDone?: () => void;
     /** Search params that select the list itself (e.g. a tab) rather than filter it. */
-    preserve?: string[];
+    preserve?: readonly string[];
 };
 
 /** Footer for the filter panels that have no presets — schedule, articles, edits. */

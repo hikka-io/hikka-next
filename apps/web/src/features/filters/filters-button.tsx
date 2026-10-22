@@ -11,6 +11,7 @@ import { useActiveFilters } from './active-filters';
 export type RenderFiltersModal = (props: {
     open: boolean;
     onOpenChange: (open: boolean) => void;
+    preserve?: readonly string[];
 }) => ReactNode;
 
 type Props = {
@@ -18,6 +19,8 @@ type Props = {
     variant?: ButtonProps['variant'];
     className?: string;
     badgeClassName?: string;
+    /** Params that select the list itself (chips above it): left out of the count and kept by the modal's clear button. */
+    preserve?: readonly string[];
 };
 
 const FiltersButton: FC<Props> = ({
@@ -25,9 +28,13 @@ const FiltersButton: FC<Props> = ({
     variant = 'outline',
     className,
     badgeClassName,
+    preserve = [],
 }) => {
     const [open, setOpen] = useState(false);
-    const { count } = useActiveFilters();
+    const { filters } = useActiveFilters();
+    const count = filters.filter(
+        (filter) => !preserve.includes(filter.param),
+    ).length;
 
     return (
         <>
@@ -51,19 +58,20 @@ const FiltersButton: FC<Props> = ({
                     </Badge>
                 )}
             </Button>
-            {renderModal({ open, onOpenChange: setOpen })}
+            {renderModal({ open, onOpenChange: setOpen, preserve })}
         </>
     );
 };
 
-export const HeaderFiltersButton: FC<{ renderModal: RenderFiltersModal }> = ({
-    renderModal,
-}) => (
+export const HeaderFiltersButton: FC<
+    Pick<Props, 'renderModal' | 'preserve'>
+> = ({ renderModal, preserve }) => (
     <FiltersButton
         variant="ghost"
         className="text-muted-foreground [&_svg]:size-5"
         badgeClassName="top-0 right-0"
         renderModal={renderModal}
+        preserve={preserve}
     />
 );
 

@@ -1,5 +1,6 @@
 export { default as ArticleEditorPage } from './article-editor-page';
 export { default as ArticleListFilters } from './article-list/article-filters';
+export { default as ArticleFiltersButton } from './article-list/article-filters-button';
 export { default as ArticleList } from './article-list/article-list';
 export { default as ArticleListPopularAuthors } from './article-list/popular-authors';
 export { default as ArticleListPopularTags } from './article-list/popular-tags';

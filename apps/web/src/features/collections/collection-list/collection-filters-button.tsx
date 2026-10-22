@@ -1,23 +1,42 @@
 import type { FC } from 'react';
 
-import AntDesignFilterFilled from '@/components/icons/ant-design/AntDesignFilterFilled';
-import { Button } from '@/components/ui/button';
-import { FiltersModal } from '@/features/filters';
+import {
+    FiltersButton,
+    FiltersModal,
+    HeaderFiltersButton,
+    type RenderFiltersModal,
+} from '@/features/filters';
 
 import { CollectionFiltersBody } from './collection-filters';
 import { COLLECTION_FILTERS_PRESERVE } from './constants';
 
-const CollectionFiltersButton: FC = () => (
+type Props = {
+    /** The ghost variant for the mobile page header. */
+    inHeader?: boolean;
+    className?: string;
+};
+
+const renderModal: RenderFiltersModal = (props) => (
     <FiltersModal
-        preserve={COLLECTION_FILTERS_PRESERVE}
+        {...props}
         body={
             <CollectionFiltersBody className="-m-4 flex-1 overflow-y-auto p-4" />
         }
-    >
-        <Button variant="outline" size="md">
-            <AntDesignFilterFilled /> Фільтри
-        </Button>
-    </FiltersModal>
+    />
 );
+
+const CollectionFiltersButton: FC<Props> = ({ inHeader, className }) =>
+    inHeader ? (
+        <HeaderFiltersButton
+            renderModal={renderModal}
+            preserve={COLLECTION_FILTERS_PRESERVE}
+        />
+    ) : (
+        <FiltersButton
+            className={className}
+            renderModal={renderModal}
+            preserve={COLLECTION_FILTERS_PRESERVE}
+        />
+    );
 
 export default CollectionFiltersButton;

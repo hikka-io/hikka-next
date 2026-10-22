@@ -1,8 +1,10 @@
 import {
     AGE_RATING,
+    ARTICLE_CATEGORY,
     CHARACTER_ISSUES,
     CONTENT_ISSUES,
     CONTENT_TYPES,
+    EDIT_STATUS,
     MEDIA_TYPE,
     RELEASE_STATUS,
     SEASON,
@@ -42,12 +44,16 @@ const FILTER_REGISTRY: Record<string, FilterDef> = {
     types: { kind: 'enum', labelMap: MEDIA_TYPE },
     ratings: { kind: 'enum', labelMap: AGE_RATING },
     content_type: { kind: 'enum', labelMap: CONTENT_TYPES },
+    categories: { kind: 'enum', labelMap: ARTICLE_CATEGORY },
+    edit_status: { kind: 'enum', labelMap: EDIT_STATUS },
 
     // Enum params with dynamic label maps (fetched from API)
     genres: { kind: 'dynamic', tristate: true },
     studios: { kind: 'dynamic' },
     // No magazine lookup endpoint, so chips show the raw slug.
     magazines: { kind: 'dynamic' },
+    // Free-text tags of articles and collections; the chip shows the tag itself.
+    tags: { kind: 'dynamic' },
 
     // Range params
     years: { kind: 'range' },
@@ -60,6 +66,7 @@ const FILTER_REGISTRY: Record<string, FilterDef> = {
         label: 'Без тайтлів з мого списку',
         viewerOnly: true,
     },
+    draft: { kind: 'boolean', label: 'Чернетки', viewerOnly: true },
 
     // Missing-data flags of the /edit/content lists
     issues: {
@@ -71,6 +78,8 @@ const FILTER_REGISTRY: Record<string, FilterDef> = {
     // Value params (the chip carries the entered value)
     mal_id: { kind: 'value', label: 'MAL ID' },
     content_slug: { kind: 'value', label: 'Slug' },
+    author: { kind: 'value', label: 'Автор' },
+    moderator: { kind: 'value', label: 'Модератор' },
 
     // Combined params (group related URL params under one chip)
     date_range_enabled: {

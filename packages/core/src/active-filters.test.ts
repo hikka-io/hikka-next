@@ -79,6 +79,29 @@ describe('getActiveFilters', () => {
         );
     });
 
+    it('counts the article and collection filters', () => {
+        expect(
+            getActiveFilters(
+                {
+                    categories: ['news'],
+                    author: 'olexh',
+                    tags: ['romance', 'drama'],
+                    draft: true,
+                },
+                { signedIn: true },
+            ).map((filter) => filter.label),
+        ).toEqual(['Новини', 'Автор: olexh', 'romance', 'drama', 'Чернетки']);
+    });
+
+    it('counts the edit filters', () => {
+        expect(
+            getActiveFilters({
+                edit_status: 'accepted',
+                moderator: 'olexh',
+            }).map((filter) => filter.param),
+        ).toEqual(['edit_status', 'moderator']);
+    });
+
     it('marks genres and issues as tri-state', () => {
         expect(isTristateFilter('genres')).toBe(true);
         expect(isTristateFilter('issues')).toBe(true);

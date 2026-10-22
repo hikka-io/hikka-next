@@ -4,10 +4,8 @@ import { zodValidator } from '@tanstack/zod-adapter';
 import { editsTopInfiniteOptions, paginationPageParam } from '@hikka/api';
 import { editSearchSchema } from '@hikka/core';
 
-import AntDesignFilterFilled from '@/components/icons/ant-design/AntDesignFilterFilled';
 import Block from '@/components/ui/block';
-import { Button } from '@/components/ui/button';
-import { Header, HeaderTitle } from '@/components/ui/header';
+import { Header, HeaderActions, HeaderTitle } from '@/components/ui/header';
 import { usePageHeader, usePageTitleAnchor } from '@/features/app-shell';
 import {
     EditFilters,
@@ -16,7 +14,13 @@ import {
     EditTopStats,
 } from '@/features/edit';
 import { editListOptions } from '@/features/edit/queries';
-import { FiltersModal, FiltersSidebarLayout } from '@/features/filters';
+import {
+    FiltersButton,
+    FiltersModal,
+    FiltersSidebarLayout,
+    HeaderFiltersButton,
+    type RenderFiltersModal,
+} from '@/features/filters';
 import { generateHeadMeta } from '@/utils/metadata';
 import { SITE_ORIGIN } from '@/utils/url';
 
@@ -51,10 +55,26 @@ export const Route = createFileRoute('/_pages/edit/')({
     component: EditListPage,
 });
 
+const renderFiltersModal: RenderFiltersModal = ({ open, onOpenChange }) => (
+    <FiltersModal
+        open={open}
+        onOpenChange={onOpenChange}
+        body={<EditFiltersBody className="-m-4 flex-1 overflow-y-auto p-4" />}
+    />
+);
+
 function EditListPage() {
     const titleAnchor = usePageTitleAnchor();
 
-    usePageHeader({ title: 'Правки', parent: '/', anchored: true });
+    usePageHeader({
+        title: 'Правки',
+        parent: '/',
+        anchored: true,
+        actionsAnchored: true,
+        actionsComponent: () => (
+            <HeaderFiltersButton renderModal={renderFiltersModal} />
+        ),
+    });
 
     return (
         <div className="flex flex-col gap-12 lg:gap-12">
@@ -66,26 +86,14 @@ function EditListPage() {
                 sidebar={<EditFilters />}
             >
                 <Block>
-                    <div className="flex items-center justify-between">
-                        <Header>
-                            <HeaderTitle ref={titleAnchor} as="h1" size="page">
-                                Правки
-                            </HeaderTitle>
-                        </Header>
-                        <FiltersModal
-                            body={
-                                <EditFiltersBody className="-m-4 flex-1 overflow-y-auto p-4" />
-                            }
-                        >
-                            <Button
-                                size="md"
-                                variant="outline"
-                                className="flex lg:hidden"
-                            >
-                                <AntDesignFilterFilled /> Фільтри
-                            </Button>
-                        </FiltersModal>
-                    </div>
+                    <Header>
+                        <HeaderTitle ref={titleAnchor} as="h1" size="page">
+                            Правки
+                        </HeaderTitle>
+                        <HeaderActions className="lg:hidden">
+                            <FiltersButton renderModal={renderFiltersModal} />
+                        </HeaderActions>
+                    </Header>
                     <EditList />
                 </Block>
             </FiltersSidebarLayout>
