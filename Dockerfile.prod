@@ -10,7 +10,7 @@ WORKDIR /app
 ENV CI=true
 
 # Install dependencies
-COPY package.json pnpm-lock.yaml pnpm-workspace.yaml .npmrc ./
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 COPY turbo.json ./
 COPY tsconfig.base.json ./
 COPY packages/api/package.json ./packages/api/

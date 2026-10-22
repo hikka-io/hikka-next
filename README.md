@@ -39,7 +39,7 @@ packages/api/         → Generated API client + TanStack Query options (@hikka/
 packages/core/        → Runtime-agnostic logic shared by web and mobile (@hikka/core)
 ```
 
-**Package manager**: pnpm 10.33.4  
+**Package manager**: pnpm 12.14.0  
 **Build orchestration**: Turborepo  
 **Library builds**: tsup
 
@@ -48,7 +48,7 @@ packages/core/        → Runtime-agnostic logic shared by web and mobile (@hikk
 ### Prerequisites
 
 - Node.js >= 22.12.0
-- Corepack enabled (ships with Node.js)
+- Corepack >= 0.36 (ships with Node.js; older versions cannot run pnpm 12, update with `npm i -g corepack@latest`)
 
 ### Installation
 

@@ -114,4 +114,4 @@ Notes for writing flows: the iOS "Save Password?" system prompt appears after lo
 
 - Native chrome (tabs, headers, search, sheets, menus, pickers) comes from Expo Router and `@expo/ui`; Tailwind classes (Uniwind) style only our own content components.
 - Add Expo packages with `npx expo install <pkg>` so versions match the SDK.
-- This app is on React 19.2.3 and the web app on 19.3.0. Never add `react`/`react-dom` back to the root `pnpm.overrides`; `metro.config.js` keeps the bundle on one React.
+- This app is on React 19.2.3 and the web app on 19.3.0. Never add `react`/`react-dom` back to the root `overrides` in `pnpm-workspace.yaml`; `metro.config.js` keeps the bundle on one React.
