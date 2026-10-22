@@ -111,21 +111,25 @@ const SearchCard = ({ content, contentType, type }: Props) => {
                 {isContent && (
                     <div className="flex flex-col gap-2">
                         <div className="flex items-center gap-2">
-                            {meta.year && (
-                                <>
-                                    <Label className="text-muted-foreground text-xs">
-                                        {meta.year}
-                                    </Label>
-                                    <div className="size-1 rounded-full bg-muted-foreground" />
-                                </>
-                            )}
-
                             {meta.media_type && (
                                 <>
                                     <Label className="text-muted-foreground text-xs">
                                         {getMediaTypeLabel(meta.media_type)}
                                     </Label>
-                                    <div className="size-1 rounded-full bg-muted-foreground" />
+                                    {(meta.year || meta.status) && (
+                                        <div className="size-1 rounded-full bg-muted-foreground" />
+                                    )}
+                                </>
+                            )}
+
+                            {meta.year && (
+                                <>
+                                    <Label className="text-muted-foreground text-xs">
+                                        {meta.year}
+                                    </Label>
+                                    {meta.status && (
+                                        <div className="size-1 rounded-full bg-muted-foreground" />
+                                    )}
                                 </>
                             )}
 
