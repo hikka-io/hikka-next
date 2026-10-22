@@ -66,6 +66,7 @@ export type PlateMarkdownEditorProps = {
     modalEditButtonTitle?: string;
     onValueChange?: (value: string) => void;
     editorId?: string;
+    preventUnsavedClose?: boolean;
 };
 
 export function PlateMarkdownEditor({
@@ -80,9 +81,15 @@ export function PlateMarkdownEditor({
     modalTitle = 'Коментар',
     modalDescription,
     editorId,
+    preventUnsavedClose,
 }: PlateMarkdownEditorProps) {
     const { editor, isMobile, isModalOpen, setIsModalOpen, handleChange } =
-        usePlateMarkdownSetup({ value, modalDefaultOpen, editorId });
+        usePlateMarkdownSetup({
+            value,
+            modalDefaultOpen,
+            editorId,
+            preventUnsavedClose,
+        });
 
     useVisualViewportOffset(!!isModalOpen);
 

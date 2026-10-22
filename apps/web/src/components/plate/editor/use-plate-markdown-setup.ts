@@ -14,6 +14,8 @@ type UsePlateMarkdownSetupOptions = {
     value?: string;
     modalDefaultOpen?: boolean;
     editorId?: string;
+    /** Off where the page guards its own unsaved changes. */
+    preventUnsavedClose?: boolean;
 };
 
 export function usePlateMarkdownSetup(options: UsePlateMarkdownSetupOptions) {
@@ -37,7 +39,9 @@ export function usePlateMarkdownSetup(options: UsePlateMarkdownSetupOptions) {
         setHasUnsavedContent(!editor.api.isEmpty());
     }, [editor]);
 
-    usePreventUnsavedClose(hasUnsavedContent);
+    usePreventUnsavedClose(
+        (options.preventUnsavedClose ?? true) && hasUnsavedContent,
+    );
 
     const handleChange = () => {
         setHasUnsavedContent(!editor.api.isEmpty());

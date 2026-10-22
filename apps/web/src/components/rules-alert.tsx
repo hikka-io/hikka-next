@@ -9,12 +9,14 @@ import {
     ResponsiveModal,
     ResponsiveModalContent,
 } from '@/components/ui/responsive-modal';
+import { cn } from '@/utils/cn';
 
 type Props = {
     rulesFile: string;
     before: string;
     after: string;
     modalTitle: string;
+    className?: string;
 };
 
 const rulesOptions = (rulesFile: string) =>
@@ -34,7 +36,13 @@ const rulesOptions = (rulesFile: string) =>
         staleTime: Infinity,
     });
 
-const RulesAlert: FC<Props> = ({ rulesFile, before, after, modalTitle }) => {
+const RulesAlert: FC<Props> = ({
+    rulesFile,
+    before,
+    after,
+    modalTitle,
+    className,
+}) => {
     const queryClient = useQueryClient();
     const [open, setOpen] = useState(false);
 
@@ -49,7 +57,12 @@ const RulesAlert: FC<Props> = ({ rulesFile, before, after, modalTitle }) => {
 
     return (
         <>
-            <div className="flex items-center gap-4 rounded-md border border-border surface p-4">
+            <div
+                className={cn(
+                    'flex items-center gap-4 rounded-md border border-border surface p-4',
+                    className,
+                )}
+            >
                 <MaterialSymbolsInfoRounded className="text-xl" />
                 <span className="flex-1 text-sm">
                     {before}{' '}

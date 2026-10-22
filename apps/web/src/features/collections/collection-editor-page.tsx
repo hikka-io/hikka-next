@@ -1,27 +1,51 @@
-import type { FC } from 'react';
+import {
+    type ComponentProps,
+    type FC,
+    type RefObject,
+    useEffect,
+    useRef,
+    useState,
+} from 'react';
 
 import { useQuery } from '@tanstack/react-query';
 
 import {
     type CollectionContentTypeEnum,
+    ContentTypeEnum,
     getCollectionOptions,
 } from '@hikka/api';
-import { newId } from '@hikka/core';
+import { CONTENT_TYPE_LINKS, contentPath, newId } from '@hikka/core';
 
-import Block from '@/components/ui/block';
-import Card from '@/components/ui/card';
+import RulesAlert from '@/components/rules-alert';
+import UnsavedChangesDialog from '@/components/unsaved-changes-dialog';
 import { usePageHeader } from '@/features/app-shell';
+import { usePreventUnsavedClose } from '@/services/hooks/use-prevent-unsaved-close';
+import { useSession } from '@/services/session';
 import { contentInfoOptions } from '@/utils/api/content-queries';
 
-import CollectionEditGroups from './collection-edit/collection-groups';
-import CollectionProvider from './collection-edit/collection-provider';
-import CollectionEditSettings from './collection-edit/collection-settings';
+import CollectionDescription from './collection-edit/collection-description';
+import CollectionEditorAuthor from './collection-edit/collection-editor-author';
+import CollectionProvider, {
+    CollectionContext,
+    useCollectionContext,
+    useCollectionStore,
+} from './collection-edit/collection-provider';
 import {
     type CollectionState,
     collectionState,
     type Item,
 } from './collection-edit/collection-store';
 import CollectionEditTitle from './collection-edit/collection-title';
+import CollectionEditGroups from './collection-edit/groups/collection-groups';
+import HeaderActions from './collection-edit/publish/header-actions';
+import PublishCard from './collection-edit/publish/publish-card';
+import PublishDrawer from './collection-edit/publish/publish-drawer';
+import {
+    type CollectionSave,
+    describeSave,
+    selectUnsavedBlocking,
+    useCollectionSave,
+} from './collection-edit/use-collection-save';
 
 type InitialContent = {
     content_type?: CollectionContentTypeEnum;
@@ -37,27 +61,99 @@ type NewProps = {
     initialContent?: InitialContent;
 };
 
-type LayoutProps = {
-    mode?: 'create' | 'edit';
-};
-
 type UpdateProps = {
     reference: string;
 };
 
-const CollectionEditorLayout: FC<LayoutProps> = ({ mode }) => {
+type LayoutProps = {
+    title: string;
+    parent: string;
+    author?: ComponentProps<typeof CollectionEditorAuthor>['author'];
+};
+
+type HeaderControls = {
+    save: CollectionSave['save'];
+    openSettings: () => void;
+};
+
+type RulesProps = {
+    className?: string;
+};
+
+const CollectionRules: FC<RulesProps> = ({ className }) => (
+    <RulesAlert
+        rulesFile="COLLECTION_RULES.md"
+        before="Перш ніж створювати колекції, рекомендуємо ознайомитись з"
+        after="створення колекцій."
+        modalTitle="Правила колекцій"
+        className={className}
+    />
+);
+
+// The mobile header renders outside the provider and keeps the slot it gets,
+// so the slot is created once and reaches the page through the store and a ref.
+function createHeaderActions(
+    store: ReturnType<typeof useCollectionStore>,
+    controls: RefObject<HeaderControls>,
+) {
+    return function CollectionHeaderActions() {
+        return (
+            <CollectionContext.Provider value={store}>
+                <HeaderActions
+                    save={() => controls.current.save()}
+                    onOpenSettings={() => controls.current.openSettings()}
+                />
+            </CollectionContext.Provider>
+        );
+    };
+}
+
+const CollectionEditorLayout: FC<LayoutProps> = ({ title, parent, author }) => {
+    const store = useCollectionStore();
+    const save = useCollectionSave();
+    const [settingsOpen, setSettingsOpen] = useState(false);
+
+    const status = useCollectionContext((state) => describeSave(state).label);
+    const blocking = useCollectionContext(selectUnsavedBlocking);
+    const blocker = usePreventUnsavedClose(blocking, { navigation: true });
+
+    const controls = useRef<HeaderControls>({
+        save: save.save,
+        openSettings: () => setSettingsOpen(true),
+    });
+
+    useEffect(() => {
+        controls.current.save = save.save;
+    });
+
+    const [actionsComponent] = useState(() =>
+        createHeaderActions(store, controls),
+    );
+
+    usePageHeader({ title, subtitle: status, parent, actionsComponent });
+
     return (
-        <div className="grid grid-cols-1 gap-5 lg:grid-cols-[1fr_25%] lg:grid-rows-[auto_1fr] lg:items-start lg:gap-x-10">
-            <Block>
-                <CollectionEditTitle />
-            </Block>
-            <Card className="-mx-4 block w-auto rounded-none border-x-0 p-0 lg:sticky lg:top-20 lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:mx-0 lg:w-full lg:rounded-lg lg:border-x">
-                <CollectionEditSettings mode={mode} />
-            </Card>
-            <Block>
-                <CollectionEditGroups />
-            </Block>
-        </div>
+        <>
+            <div className="mx-auto grid w-full max-w-[75rem] grid-cols-1 gap-12 lg:grid-cols-[minmax(0,52rem)_20rem] lg:items-start lg:justify-center">
+                <div className="flex min-w-0 flex-col gap-8">
+                    <CollectionRules className="md:hidden" />
+                    {author && <CollectionEditorAuthor author={author} />}
+                    <CollectionEditTitle />
+                    <CollectionDescription />
+                    <CollectionEditGroups />
+                </div>
+                <aside className="hidden flex-col gap-4 md:flex lg:sticky lg:top-20 lg:max-h-[calc(100dvh-6rem)] lg:overflow-y-auto">
+                    <PublishCard save={save} />
+                    <CollectionRules />
+                </aside>
+            </div>
+            <PublishDrawer
+                open={settingsOpen}
+                onOpenChange={setSettingsOpen}
+                save={save}
+            />
+            <UnsavedChangesDialog blocker={blocker} />
+        </>
     );
 };
 
@@ -78,6 +174,7 @@ function stateWithItem(
 }
 
 const CollectionEditorNew: FC<NewProps> = ({ initialContent }) => {
+    const { user } = useSession();
     const content_type = initialContent?.content_type;
     const slug = initialContent?.slug;
     const prefilled = Boolean(content_type && slug);
@@ -85,11 +182,6 @@ const CollectionEditorNew: FC<NewProps> = ({ initialContent }) => {
     const { data: content, isPending } = useQuery({
         ...contentInfoOptions(content_type ?? 'anime', slug ?? ''),
         enabled: prefilled,
-    });
-
-    usePageHeader({
-        title: 'Нова колекція',
-        parent: '/collections',
     });
 
     if (prefilled && isPending) return null;
@@ -103,7 +195,11 @@ const CollectionEditorNew: FC<NewProps> = ({ initialContent }) => {
                     : undefined
             }
         >
-            <CollectionEditorLayout />
+            <CollectionEditorLayout
+                title="Нова колекція"
+                parent={CONTENT_TYPE_LINKS.collection}
+                author={user}
+            />
         </CollectionProvider>
     );
 };
@@ -113,12 +209,6 @@ const CollectionEditorUpdate: FC<UpdateProps> = ({ reference }) => {
         getCollectionOptions({ path: { reference } }),
     );
 
-    usePageHeader({
-        title: collection?.title,
-        subtitle: 'Редагування',
-        parent: `/collections/${reference}`,
-    });
-
     if (!collection) return null;
 
     return (
@@ -126,19 +216,20 @@ const CollectionEditorUpdate: FC<UpdateProps> = ({ reference }) => {
             key={reference}
             initialState={collectionState(collection)}
         >
-            <div>
-                <CollectionEditorLayout mode="edit" />
-            </div>
+            <CollectionEditorLayout
+                title={collection.title}
+                parent={contentPath(ContentTypeEnum.COLLECTION, reference)}
+                author={collection.author}
+            />
         </CollectionProvider>
     );
 };
 
-const CollectionEditorPage: FC<Props> = ({ reference, initialContent }) => {
-    return reference === undefined ? (
+const CollectionEditorPage: FC<Props> = ({ reference, initialContent }) =>
+    reference === undefined ? (
         <CollectionEditorNew initialContent={initialContent} />
     ) : (
         <CollectionEditorUpdate reference={reference} />
     );
-};
 
 export default CollectionEditorPage;

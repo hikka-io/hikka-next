@@ -142,8 +142,9 @@ describe('groupsFromCollection', () => {
 });
 
 describe('collectionState', () => {
-    it('takes only the editable fields', () => {
+    it('takes the reference and the editable fields', () => {
         expect(collectionState(collection([entry('a', null)]))).toEqual({
+            reference: 'reference',
             title: 'Колекція',
             description: 'Опис',
             content_type: 'manga',
@@ -189,6 +190,66 @@ describe('collectionState', () => {
     });
 });
 
+describe('getApiData', () => {
+    const item = (id: string, comment?: string): Item => ({
+        id,
+        content: content(id),
+        comment,
+    });
+
+    it('trims group names and comments and drops blank comments', () => {
+        const store = createCollectionStore({
+            groups: [
+                {
+                    id: 'a',
+                    title: '  Перша ',
+                    items: [item('x', '  коментар  '), item('y', '   ')],
+                },
+            ],
+        });
+
+        expect(store.getState().getApiData()).toMatchObject({
+            labels_order: ['Перша'],
+            content: [
+                { comment: 'коментар', label: 'Перша', order: 1, slug: 'x' },
+                { comment: undefined, label: 'Перша', order: 2, slug: 'y' },
+            ],
+        });
+    });
+
+    it('leaves empty groups out of the label order', () => {
+        const store = createCollectionStore({
+            groups: [
+                { id: 'a', title: 'Перша', items: [] },
+                { id: 'b', title: 'Друга', items: [item('x')] },
+                { id: 'c', title: 'Третя', items: [] },
+            ],
+        });
+
+        expect(store.getState().getApiData()).toMatchObject({
+            labels_order: ['Друга'],
+            content: [{ label: 'Друга', order: 1, slug: 'x' }],
+        });
+    });
+});
+
+describe('addItem', () => {
+    it('adds a title once across all groups', () => {
+        const store = createCollectionStore({
+            groups: [
+                { id: 'a', title: 'Перша', items: [] },
+                { id: 'b', title: 'Друга', items: [] },
+            ],
+        });
+
+        expect(store.getState().addItem('a', content('x'))).toBe(true);
+        expect(store.getState().addItem('b', content('x'))).toBe(false);
+        expect(
+            store.getState().groups.map((group) => group.items.length),
+        ).toEqual([1, 0]);
+    });
+});
+
 describe('applySaved', () => {
     const saved = collection([entry('a', 'Перша', 'з сервера')]);
 
@@ -198,8 +259,7 @@ describe('applySaved', () => {
         );
         const sent = store.getState().getApiData();
 
-        store.getState().applySaved(sent, saved);
-
+        expect(store.getState().applySaved(sent, saved)).toBe(true);
         expect(store.getState().groups[0].items[0].comment).toBe('з сервера');
     });
 
@@ -210,7 +270,7 @@ describe('applySaved', () => {
         const sent = store.getState().getApiData();
         store.getState().setTitle('Нова назва');
 
-        store.getState().applySaved(sent, saved);
+        expect(store.getState().applySaved(sent, saved)).toBe(false);
 
         expect(store.getState().title).toBe('Нова назва');
         expect(store.getState().groups[0].items[0].comment).toBeUndefined();

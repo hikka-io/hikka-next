@@ -145,6 +145,10 @@ const RANGE_PINS: Record<string, string[]> = {
     articleTitle: ['zArticleArgs.title'],
     collectionTitle: ['zCollectionArgs.title'],
     collectionDescription: ['zCollectionArgs.description'],
+    collectionComment: [
+        'zCollectionContentArgs.comment',
+        'zCollectionContentAddArgs.comment',
+    ],
     tags: [
         'zArticleArgs.tags',
         'zArticlesListArgs.tags',

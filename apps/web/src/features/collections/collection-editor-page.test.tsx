@@ -22,16 +22,31 @@ import {
 import CollectionEditorPage from './collection-editor-page';
 
 vi.mock('@/features/app-shell', () => ({ usePageHeader: vi.fn() }));
-vi.mock('./collection-edit/collection-groups', () => ({
-    default: ({ mode }: { mode?: string }) => (
-        <div data-stub="groups" data-mode={mode ?? 'default'} />
-    ),
+vi.mock('@/services/hooks/use-prevent-unsaved-close', () => ({
+    usePreventUnsavedClose: () => ({ status: 'idle' }),
 }));
-vi.mock('./collection-edit/collection-settings', () => ({
-    default: ({ mode }: { mode?: string }) => (
-        <div data-stub="settings" data-mode={mode ?? 'default'} />
-    ),
+vi.mock('@/services/session', () => ({
+    useSession: () => ({ user: { username: 'author', avatar: '' } }),
 }));
+vi.mock('@/utils/navigation', () => ({
+    useRouter: () => ({ replace: vi.fn() }),
+}));
+
+const { stub } = vi.hoisted(() => ({
+    stub: (name: string) => ({
+        default: ({ className }: { className?: string }) => (
+            <div data-stub={name} data-class={className ?? ''} />
+        ),
+    }),
+}));
+
+vi.mock('@/components/rules-alert', () => stub('rules'));
+vi.mock('@/components/unsaved-changes-dialog', () => stub('leave'));
+vi.mock('./collection-edit/collection-editor-author', () => stub('author'));
+vi.mock('./collection-edit/collection-description', () => stub('description'));
+vi.mock('./collection-edit/groups/collection-groups', () => stub('groups'));
+vi.mock('./collection-edit/publish/publish-card', () => stub('publish'));
+vi.mock('./collection-edit/publish/publish-drawer', () => stub('drawer'));
 vi.mock('./collection-edit/collection-title', async () => {
     const { useCollectionContext } = await import(
         './collection-edit/collection-provider'
@@ -61,6 +76,7 @@ const COLLECTION = {
     spoiler: false,
     visibility: 'public',
     tags: ['a'],
+    author: { username: 'author', avatar: '' },
     collection: [
         { comment: 'коментар', label: 'Група', content: { slug: 'a' } },
         { comment: null, label: 'Група', content: { slug: 'b' } },
@@ -82,40 +98,64 @@ const render = (node: ReactNode, cached: boolean) => {
     return { html, header: [...vi.mocked(usePageHeader).mock.calls] };
 };
 
+const readState = (html: string) =>
+    JSON.parse(
+        new DOMParser().parseFromString(html, 'text/html').querySelector('pre')
+            ?.textContent ?? '',
+    );
+
+const parts = (html: string) =>
+    [...html.matchAll(/<pre>|data-stub="(\w+)" data-class="([^"]*)"/g)].map(
+        ([, name, className]) =>
+            name ? `${name}${className ? `.${className}` : ''}` : 'title',
+    );
+
 describe('CollectionEditorPage', () => {
-    const stubs = (html: string) =>
-        [...html.matchAll(/<pre>|data-stub="(\w+)" data-mode="(\w+)"/g)].map(
-            ([, stub, mode]) => (stub ? `${stub}:${mode}` : 'title'),
-        );
-
-    it('renders one settings panel between the title and the groups', () => {
-        const newPage = render(<CollectionEditorPage />, false);
-        expect(newPage.header).toEqual([
-            [{ title: 'Нова колекція', parent: '/collections' }],
-        ]);
-        expect(stubs(newPage.html)).toEqual([
-            'title',
-            'settings:default',
-            'groups:default',
-        ]);
-
-        const updatePage = render(
+    it('lays the editor out like the collection page, settings to the side', () => {
+        const { html } = render(
             <CollectionEditorPage reference={REFERENCE} />,
             true,
         );
-        expect(updatePage.header).toEqual([
+
+        expect(parts(html)).toEqual([
+            'rules.md:hidden',
+            'author',
+            'title',
+            'description',
+            'groups',
+            'publish',
+            'rules',
+            'drawer',
+            'leave',
+        ]);
+    });
+
+    it('titles the header with the collection and its save status', () => {
+        const update = render(
+            <CollectionEditorPage reference={REFERENCE} />,
+            true,
+        );
+        expect(update.header).toEqual([
             [
                 {
                     title: 'Колекція',
-                    subtitle: 'Редагування',
+                    subtitle: 'Збережено',
                     parent: `/collections/${REFERENCE}`,
+                    actionsComponent: expect.any(Function),
                 },
             ],
         ]);
-        expect(stubs(updatePage.html)).toEqual([
-            'title',
-            'settings:edit',
-            'groups:default',
+
+        const created = render(<CollectionEditorPage />, false);
+        expect(created.header).toEqual([
+            [
+                {
+                    title: 'Нова колекція',
+                    subtitle: 'Нова колекція',
+                    parent: '/collections',
+                    actionsComponent: expect.any(Function),
+                },
+            ],
         ]);
 
         expect(
@@ -128,13 +168,9 @@ describe('CollectionEditorPage', () => {
             <CollectionEditorPage reference={REFERENCE} />,
             true,
         );
-        const state = JSON.parse(
-            new DOMParser()
-                .parseFromString(html, 'text/html')
-                .querySelector('pre')?.textContent ?? '',
-        );
 
-        expect(state).toEqual({
+        expect(readState(html)).toEqual({
+            reference: REFERENCE,
             title: 'Колекція',
             description: 'Опис',
             content_type: 'manga',
@@ -151,6 +187,7 @@ describe('CollectionEditorPage', () => {
             spoiler: false,
             visibility: 'public',
             tags: ['a'],
+            save: { status: 'idle', dirty: false },
         });
     });
 
@@ -167,12 +204,9 @@ describe('CollectionEditorPage', () => {
                 />
             </QueryClientProvider>,
         );
-        const state = JSON.parse(
-            new DOMParser()
-                .parseFromString(html, 'text/html')
-                .querySelector('pre')?.textContent ?? '',
-        );
+        const state = readState(html);
 
+        expect(state.reference).toBeUndefined();
         expect(state.content_type).toBe('anime');
         expect(state.groups).toEqual([
             {

@@ -22,7 +22,12 @@ import {
     useCollectionStore,
 } from '../collection-provider';
 import type { Group, Item } from '../collection-store';
-import { getCrossGroupMove, getDropMove, getItemPositions } from './card-moves';
+import {
+    DRAG_HANDLE_ATTRIBUTE,
+    getCrossGroupMove,
+    getDropMove,
+    getItemPositions,
+} from './card-moves';
 
 type Props = {
     children: ReactNode;
@@ -30,15 +35,24 @@ type Props = {
 
 const SENSORS = [
     PointerSensor.configure({
-        activationConstraints: (event) =>
-            event.pointerType === 'touch'
+        activationConstraints: (event) => {
+            // The handle drags at once; anywhere else a touch has to hold, so the page still scrolls.
+            if (
+                event.target instanceof Element &&
+                event.target.closest(`[${DRAG_HANDLE_ATTRIBUTE}]`)
+            ) {
+                return undefined;
+            }
+
+            return event.pointerType === 'touch'
                 ? [
                       new PointerActivationConstraints.Delay({
                           value: 200,
                           tolerance: 5,
                       }),
                   ]
-                : [new PointerActivationConstraints.Distance({ value: 8 })],
+                : [new PointerActivationConstraints.Distance({ value: 8 })];
+        },
     }),
 ];
 

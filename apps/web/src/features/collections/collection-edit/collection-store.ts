@@ -29,6 +29,8 @@ export type Group = {
 };
 
 export type CollectionState = {
+    /** Set once the collection exists on the backend. */
+    reference?: string;
     title?: string;
     description?: string;
     content_type: CollectionContentType;
@@ -37,6 +39,34 @@ export type CollectionState = {
     spoiler: boolean;
     visibility: CollectionVisibilityEnum;
     tags: string[];
+};
+
+export type SaveStatus = 'idle' | 'saving' | 'saved' | 'error';
+
+export type CollectionSaveState = {
+    status: SaveStatus;
+    dirty: boolean;
+    error?: string;
+};
+
+/** The fields a save sends; edits to any of them make the collection dirty. */
+export const COLLECTION_EDITABLE_KEYS = [
+    'title',
+    'description',
+    'content_type',
+    'groups',
+    'nsfw',
+    'spoiler',
+    'visibility',
+    'tags',
+] as const satisfies (keyof CollectionState)[];
+
+type CollectionSession = {
+    save: CollectionSaveState;
+    /** The title whose comment and group are being edited. */
+    editingItemId?: Item['id'];
+    /** The group the title search adds to while it is open. */
+    searchGroupId?: string;
 };
 
 export type CollectionActions = {
@@ -54,10 +84,11 @@ export type CollectionActions = {
     updateGroupTitle: (groupId: string, title: string) => void;
     reorderGroups: (activeIndex: number, overIndex: number) => void;
 
+    /** Adds the title to the group; false when the collection already has it. */
     addItem: (
         groupId: string,
         content: CollectionContent & { title?: string },
-    ) => void;
+    ) => boolean;
     removeItem: (groupId: string, itemId: string | number) => void;
     updateItemComment: (
         groupId: string,
@@ -78,11 +109,18 @@ export type CollectionActions = {
         overIndex: number,
     ) => void;
 
-    applySaved: (sent: CollectionArgs, saved: CollectionResponse) => void;
+    openItem: (itemId?: Item['id']) => void;
+    openSearch: (groupId?: string) => void;
+
+    /** Takes the saved collection unless it was edited since `sent`; true when it did. */
+    applySaved: (sent: CollectionArgs, saved: CollectionResponse) => boolean;
+    setSaveState: (save: Partial<CollectionSaveState>) => void;
     getApiData: () => CollectionArgs;
 };
 
-export type CollectionStore = CollectionState & CollectionActions;
+export type CollectionStore = CollectionState &
+    CollectionSession &
+    CollectionActions;
 
 function updateGroup(
     groups: Group[],
@@ -94,6 +132,15 @@ function updateGroup(
 
 const sameItems = (a: Item[], b: Item[]) =>
     a.length === b.length && a.every((item, index) => item === b[index]);
+
+export function findItemGroup(
+    groups: Group[],
+    itemId: Item['id'],
+): Group | undefined {
+    return groups.find((group) =>
+        group.items.some((item) => item.id === itemId),
+    );
+}
 
 export function groupsFromCollection(
     collection: CollectionResponse,
@@ -147,6 +194,7 @@ export function collectionState(
     previousGroups?: Group[],
 ): CollectionState {
     return {
+        reference: collection.reference,
         title: collection.title,
         description: collection.description,
         content_type: collection.content_type,
@@ -178,6 +226,7 @@ export const createCollectionStore = (initProps?: Partial<CollectionState>) => {
     return createStore<CollectionStore>()((set, get) => ({
         ...DEFAULT_PROPS,
         ...initProps,
+        save: { status: 'idle', dirty: false },
         setTitle: (title) => set({ title }),
         setDescription: (description) => set({ description }),
         setTags: (tags) => set({ tags }),
@@ -247,7 +296,7 @@ export const createCollectionStore = (initProps?: Partial<CollectionState>) => {
             const isDuplicate = groups.some((g) =>
                 g.items.some((item) => item.content.slug === content.slug),
             );
-            if (isDuplicate) return;
+            if (isDuplicate) return false;
 
             set({
                 groups: updateGroup(groups, groupId, (g) => ({
@@ -255,6 +304,7 @@ export const createCollectionStore = (initProps?: Partial<CollectionState>) => {
                     items: [...g.items, { id: content.slug, content }],
                 })),
             });
+            return true;
         },
 
         removeItem: (groupId, itemId) => {
@@ -312,21 +362,32 @@ export const createCollectionStore = (initProps?: Partial<CollectionState>) => {
             });
         },
 
+        openItem: (editingItemId) => set({ editingItemId }),
+        openSearch: (searchGroupId) => set({ searchGroupId }),
+
         applySaved: (sent, saved) => {
             const state = get();
             if (JSON.stringify(state.getApiData()) !== JSON.stringify(sent)) {
-                return;
+                return false;
             }
             set(collectionState(saved, state.groups));
+            return true;
         },
+
+        setSaveState: (save) =>
+            set((state) => ({ save: { ...state.save, ...save } })),
 
         getApiData: () => {
             const state = get();
+            // An empty group has nothing to label, and the backend rejects a label no title carries.
+            const groups = state.groups.filter(
+                (group) => group.items.length > 0,
+            );
             let order = 0;
-            const content = state.groups.flatMap((group) =>
+            const content = groups.flatMap((group) =>
                 group.items.map((item) => ({
-                    comment: item.comment || undefined,
-                    label: group.title || undefined,
+                    comment: item.comment?.trim() || undefined,
+                    label: group.title?.trim() || undefined,
                     order: ++order,
                     slug: item.content.slug,
                 })),
@@ -339,8 +400,8 @@ export const createCollectionStore = (initProps?: Partial<CollectionState>) => {
                 nsfw: state.nsfw,
                 spoiler: state.spoiler,
                 visibility: state.visibility,
-                labels_order: state.groups
-                    .map((g) => g.title || '')
+                labels_order: groups
+                    .map((g) => g.title?.trim() ?? '')
                     .filter(Boolean),
                 content,
                 tags: state.tags,

@@ -1,6 +1,5 @@
 [
     "components/action-buttons/vote-button",
-    "features/collections/collection-edit/collection-settings/components",
     "features/collections/collection-view/collection-groups",
     "features/content/actions/components",
     "features/content/articles",

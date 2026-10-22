@@ -9,6 +9,7 @@ import { requireAuth } from '@/utils/auth';
 import { generateHeadMeta } from '@/utils/metadata';
 
 export const Route = createFileRoute('/_pages/collections/new')({
+    staticData: { immersive: true },
     validateSearch: zodValidator(collectionNewSearchSchema),
     beforeLoad: async ({ context: { queryClient } }) => {
         requireAuth(queryClient);

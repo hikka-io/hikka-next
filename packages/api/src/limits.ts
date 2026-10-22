@@ -15,6 +15,7 @@ export const API_LIMITS = {
     articleTitle: { min: 3, max: 255 },
     collectionTitle: { min: 3, max: 255 },
     collectionDescription: { min: 3, max: 65536 },
+    collectionComment: { min: 3 },
     tags: { max: 3 },
     searchQuery: { min: 2, max: 255 },
     userSearchQuery: { min: 3, max: 255 },

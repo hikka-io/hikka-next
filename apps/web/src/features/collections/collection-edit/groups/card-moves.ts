@@ -1,6 +1,9 @@
 import type { UniqueIdentifier } from '@dnd-kit/abstract';
 
-import type { Group } from '../collection-store';
+import { findItemGroup, type Group } from '../collection-store';
+
+/** Marks the control a card can be dragged by without the long press. */
+export const DRAG_HANDLE_ATTRIBUTE = 'data-drag-handle';
 
 export type CrossGroupMove = {
     fromGroupId: string;
@@ -19,21 +22,14 @@ export type ItemPosition = {
     index: number;
 };
 
-function findGroupContainingItem(
-    groups: Group[],
-    itemId: UniqueIdentifier,
-): Group | undefined {
-    return groups.find((g) => g.items.some((item) => item.id === itemId));
-}
-
 export function getCrossGroupMove(
     groups: Group[],
     sourceId: UniqueIdentifier,
     targetId: UniqueIdentifier,
 ): CrossGroupMove | null {
-    const fromGroup = findGroupContainingItem(groups, sourceId);
+    const fromGroup = findItemGroup(groups, sourceId);
     const toGroup =
-        findGroupContainingItem(groups, targetId) ??
+        findItemGroup(groups, targetId) ??
         groups.find((g) => g.id === targetId);
 
     if (!fromGroup || !toGroup || fromGroup === toGroup) return null;
@@ -53,7 +49,7 @@ export function getDropMove(
     sortableGroup: UniqueIdentifier | undefined,
     sortableIndex: number,
 ): DropMove | null {
-    const group = findGroupContainingItem(groups, itemId);
+    const group = findItemGroup(groups, itemId);
     if (!group || group.id !== sortableGroup) return null;
 
     const from = group.items.findIndex((item) => item.id === itemId);
