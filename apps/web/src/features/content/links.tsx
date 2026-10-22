@@ -2,7 +2,11 @@ import { type FC, useState } from 'react';
 
 import { useQuery } from '@tanstack/react-query';
 
-import { ExternalTypeEnum, type MainContentTypeEnum } from '@hikka/api';
+import {
+    type ExternalResponse,
+    ExternalTypeEnum,
+    type MainContentTypeEnum,
+} from '@hikka/api';
 import { getPlatformIcon, groupExternalLinks } from '@hikka/core';
 
 import {
@@ -13,13 +17,51 @@ import {
 } from '@/components/horizontal-card';
 import MaterialSymbolsInfoIRounded from '@/components/icons/material-symbols/MaterialSymbolsInfoIRounded';
 import MaterialSymbolsPlayArrowRounded from '@/components/icons/material-symbols/MaterialSymbolsPlayArrowRounded';
-import TextExpand from '@/components/text-expand';
+import ShowMoreTrigger from '@/components/show-more-trigger';
 import Block from '@/components/ui/block';
+import { Collapsible, CollapsibleContent } from '@/components/ui/collapsible';
 import { Header, HeaderTitle } from '@/components/ui/header';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useSession } from '@/services/session';
 import { contentInfoOptions } from '@/utils/api/content-queries';
 import { useParams } from '@/utils/navigation';
+
+const PREVIEW_ROWS = 3;
+
+const LinkRow: FC<{ link: ExternalResponse }> = ({ link }) => {
+    const icon = getPlatformIcon(link.url);
+
+    return (
+        <HorizontalCard>
+            <HorizontalCardImage
+                imageRatio={1}
+                className="w-10"
+                image={
+                    icon ? (
+                        <img
+                            src={icon}
+                            alt={link.text}
+                            className="size-full object-contain"
+                        />
+                    ) : (
+                        <p>{link.text[0]}</p>
+                    )
+                }
+                to={link.url}
+                referrerPolicy="origin"
+            />
+            <HorizontalCardContainer>
+                <HorizontalCardTitle
+                    href={link.url}
+                    target="_blank"
+                    referrerPolicy="origin"
+                >
+                    {link.text}
+                </HorizontalCardTitle>
+            </HorizontalCardContainer>
+        </HorizontalCard>
+    );
+};
 
 type Props = {
     content_type: MainContentTypeEnum;
@@ -53,6 +95,9 @@ const ContentLinks: FC<Props> = ({ content_type }) => {
             ? watchLinksData
             : generalLinksData;
 
+    const preview = linksData.slice(0, PREVIEW_ROWS);
+    const rest = linksData.slice(PREVIEW_ROWS);
+
     const handleChangeActive = (value: string) => {
         setActive(value as ExternalTypeEnum);
         setIsExpanded(false);
@@ -81,44 +126,25 @@ const ContentLinks: FC<Props> = ({ content_type }) => {
                     </Tabs>
                 )}
             </Header>
-            <TextExpand
-                expanded={isExpanded}
-                setExpanded={setIsExpanded}
-                className="max-h-40"
+            <Collapsible
+                open={isExpanded}
+                onOpenChange={setIsExpanded}
+                className="flex flex-col gap-4"
             >
-                <div className="flex flex-col gap-4">
-                    {linksData.map((link) => (
-                        <HorizontalCard key={link.url}>
-                            <HorizontalCardImage
-                                imageRatio={1}
-                                className="w-10"
-                                image={
-                                    getPlatformIcon(link.url) ? (
-                                        <img
-                                            src={getPlatformIcon(link.url)!}
-                                            alt={link.text}
-                                            className="size-full object-contain"
-                                        />
-                                    ) : (
-                                        <p>{link.text[0]}</p>
-                                    )
-                                }
-                                to={link.url}
-                                referrerPolicy="origin"
-                            />
-                            <HorizontalCardContainer>
-                                <HorizontalCardTitle
-                                    href={link.url}
-                                    target="_blank"
-                                    referrerPolicy="origin"
-                                >
-                                    {link.text}
-                                </HorizontalCardTitle>
-                            </HorizontalCardContainer>
-                        </HorizontalCard>
-                    ))}
-                </div>
-            </TextExpand>
+                {preview.map((link) => (
+                    <LinkRow key={link.url} link={link} />
+                ))}
+                {rest.length > 0 && (
+                    <>
+                        <CollapsibleContent className="flex flex-col gap-4">
+                            {rest.map((link) => (
+                                <LinkRow key={link.url} link={link} />
+                            ))}
+                        </CollapsibleContent>
+                        <ShowMoreTrigger count={rest.length} />
+                    </>
+                )}
+            </Collapsible>
         </Block>
     );
 };
