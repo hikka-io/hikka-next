@@ -5,7 +5,7 @@ import { range } from '@antfu/utils';
 import SkeletonCard from '@/components/content-card/poster-card-skeleton';
 import Stack from '@/components/ui/stack';
 
-import { DEFAULT_PAGE_SIZE, FAVOURITES_PREVIEW_SIZE } from '../../../queries';
+import { DEFAULT_PAGE_SIZE, FAVOURITES_PREVIEW_SIZE } from '../../queries';
 
 type Props = {
     extended?: boolean;

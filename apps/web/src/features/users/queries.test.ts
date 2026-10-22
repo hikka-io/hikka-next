@@ -52,7 +52,7 @@ import { Route as ListRoute } from '../../routes/_pages/u/$username/list/$conten
 import { useUserList } from './list/use-user-list';
 import UserArticles from './profile/user-articles';
 import UserCollections from './profile/user-collections';
-import FavoriteSection from './profile/user-favorites/components/favorite-section';
+import FavoriteSection from './profile/user-favorites/favorite-section';
 import UserHistory from './profile/user-history';
 import {
     FAVOURITES_PREVIEW_SIZE,

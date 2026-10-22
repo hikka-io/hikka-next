@@ -21,6 +21,7 @@ import { getTitle } from '@hikka/core';
 import AnimeCard from '@/components/content-card/anime-card';
 import EntityCard from '@/components/content-card/entity-card';
 import MangaCard from '@/components/content-card/manga-card';
+import MorePosterCard from '@/components/content-card/more-poster-card';
 import NovelCard from '@/components/content-card/novel-card';
 import PosterCard from '@/components/content-card/poster-card';
 import MaterialSymbolsGridViewRounded from '@/components/icons/material-symbols/MaterialSymbolsGridViewRounded';
@@ -35,9 +36,8 @@ import { useSessionUI } from '@/services/session';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { useParams } from '@/utils/navigation';
 
-import { userFavouritesOptions } from '../../../queries';
-import { favoritePreview } from '../favorite-preview';
-import FavoriteMoreCard from './favorite-more-card';
+import { userFavouritesOptions } from '../../queries';
+import { favoritePreview } from './favorite-preview';
 import FavoriteSection from './favorite-section';
 import FavoriteSkeleton from './favorite-skeleton';
 
@@ -305,11 +305,18 @@ const LegacySection = ({ type, extended }: SectionProps) => {
                 >
                     {filteredData.map((res) => legacy.card(res, preferences))}
                     {remainingCount > 0 && (
-                        <FavoriteMoreCard
-                            count={remainingCount}
+                        <MorePosterCard
+                            to={`/u/${String(params.username)}/favorites`}
+                            linkProps={{ search: { type } }}
                             image={legacy.moreImage(remainingItem)}
-                            username={String(params.username)}
-                            type={type}
+                            blurred={
+                                remainingItem && 'nsfw' in remainingItem
+                                    ? remainingItem.nsfw ||
+                                      remainingItem.spoiler
+                                    : undefined
+                            }
+                            total={pagination?.total ?? 0}
+                            contentType={type}
                         />
                     )}
                 </Stack>

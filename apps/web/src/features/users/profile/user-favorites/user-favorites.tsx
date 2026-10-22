@@ -19,7 +19,7 @@ import { Header, HeaderTitle } from '@/components/ui/header';
 import { useSession } from '@/services/session';
 import { useParams } from '@/utils/navigation';
 
-import FavoriteSection from './components/favorite-section';
+import FavoriteSection from './favorite-section';
 
 const CONTENT_OPTIONS: ChipTabOption<FavouriteContentTypeEnum>[] = [
     {
