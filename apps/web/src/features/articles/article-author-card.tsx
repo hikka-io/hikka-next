@@ -52,6 +52,7 @@ const ArticleAuthorCard: FC<Props> = ({
             <HorizontalCardImage
                 className={preview ? 'w-10' : ''}
                 image={article.author.avatar}
+                imageClassName="sm:rounded-lg"
                 imageRatio={1}
                 href={`/u/${article.author.username}`}
             />

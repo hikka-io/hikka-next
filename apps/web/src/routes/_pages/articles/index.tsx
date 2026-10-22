@@ -49,7 +49,7 @@ function ArticlesPage() {
 
     return (
         <div className="grid grid-cols-1 gap-x-10 gap-y-8 md:grid-cols-[1fr_20rem] xl:grid-cols-[20rem_1fr_20rem]">
-            <div className="sticky top-20 hidden flex-col gap-4 self-start xl:flex">
+            <div className="sticky top-20 hidden flex-col gap-8 self-start xl:flex">
                 <ArticleListPopularAuthors />
                 <ArticleListPopularTags />
             </div>
