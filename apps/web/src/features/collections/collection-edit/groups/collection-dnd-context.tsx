@@ -14,6 +14,7 @@ import {
 import { isSortable } from '@dnd-kit/react/sortable';
 
 import PosterCard from '@/components/content-card/poster-card';
+import MaterialSymbolsDragIndicator from '@/components/icons/material-symbols/MaterialSymbolsDragIndicator';
 import { useTitle } from '@/services/session';
 import { createDragDropManager } from '@/utils/drag-drop-manager';
 
@@ -24,25 +25,31 @@ import {
 import type { Group, Item } from '../collection-store';
 import {
     DRAG_HANDLE_ATTRIBUTE,
+    GROUP_DRAG_TYPE,
     getCrossGroupMove,
     getDropMove,
+    getGroupMove,
     getItemPositions,
+    groupSortableId,
 } from './card-moves';
 
 type Props = {
     children: ReactNode;
 };
 
+const isDragHandle = (target: EventTarget | null) =>
+    target instanceof Element &&
+    target.closest(`[${DRAG_HANDLE_ATTRIBUTE}]`) !== null;
+
 const SENSORS = [
     PointerSensor.configure({
+        // dnd-kit refuses to start a drag from a button, and the handles are buttons.
+        preventActivation: (event, source) =>
+            !isDragHandle(event.target) &&
+            Boolean(PointerSensor.defaults.preventActivation?.(event, source)),
         activationConstraints: (event) => {
-            // The handle drags at once; anywhere else a touch has to hold, so the page still scrolls.
-            if (
-                event.target instanceof Element &&
-                event.target.closest(`[${DRAG_HANDLE_ATTRIBUTE}]`)
-            ) {
-                return undefined;
-            }
+            // A handle drags at once; anywhere else a touch has to hold, so the page still scrolls.
+            if (isDragHandle(event.target)) return undefined;
 
             return event.pointerType === 'touch'
                 ? [
@@ -74,6 +81,12 @@ function syncSortableIndices(manager: DragDropManager, groups: Group[]) {
     for (const droppable of manager.registry.droppables) {
         if (!isSortable(droppable)) continue;
         const { sortable } = droppable;
+        if (sortable.type === GROUP_DRAG_TYPE) {
+            sortable.index = groups.findIndex(
+                (group) => groupSortableId(group.id) === sortable.id,
+            );
+            continue;
+        }
         const position = positions.get(String(sortable.id));
         if (position && position.groupId === sortable.group) {
             sortable.index = position.index;
@@ -93,6 +106,26 @@ const OverlayCard = memo<{ id: UniqueIdentifier }>(({ id }) => {
 });
 
 OverlayCard.displayName = 'OverlayCard';
+
+const OverlayGroup = memo<{ id: UniqueIdentifier }>(({ id }) => {
+    const group = useCollectionContext((state) =>
+        state.groups.find((entry) => groupSortableId(entry.id) === id),
+    );
+
+    if (!group) return null;
+
+    return (
+        <div className="surface-glass flex w-fit items-center gap-2 rounded-lg border px-3 py-2 font-semibold shadow-lg">
+            <MaterialSymbolsDragIndicator className="size-4 text-muted-foreground" />
+            {group.title?.trim() || 'Група без назви'}
+            <span className="font-medium text-muted-foreground tabular-nums">
+                {group.items.length}
+            </span>
+        </div>
+    );
+});
+
+OverlayGroup.displayName = 'OverlayGroup';
 
 const CollectionDndContext: FC<Props> = ({ children }) => {
     const store = useCollectionStore();
@@ -145,6 +178,21 @@ const CollectionDndContext: FC<Props> = ({ children }) => {
         const { source } = event.operation;
         if (!isSortable(source)) return;
 
+        if (source.type === GROUP_DRAG_TYPE) {
+            const move = event.canceled
+                ? null
+                : getGroupMove(
+                      store.getState().groups,
+                      source.id,
+                      source.sortable.index,
+                  );
+            if (!move) return;
+
+            store.getState().reorderGroups(move.from, move.to);
+            syncSortableIndices(manager, store.getState().groups);
+            return;
+        }
+
         if (event.canceled) {
             const { groups, removeItem, setGroups } = store.getState();
             if (!initialGroups || initialGroups === groups) return;
@@ -180,7 +228,13 @@ const CollectionDndContext: FC<Props> = ({ children }) => {
         >
             {children}
             <DragOverlay>
-                {(source) => <OverlayCard id={source.id} />}
+                {(source) =>
+                    source.type === GROUP_DRAG_TYPE ? (
+                        <OverlayGroup id={source.id} />
+                    ) : (
+                        <OverlayCard id={source.id} />
+                    )
+                }
             </DragOverlay>
         </DragDropProvider>
     );

@@ -74,7 +74,7 @@ const ItemEditorContent: FC<ContentProps> = ({ itemId, onDone }) => {
                     <Textarea
                         id={`${id}-comment`}
                         value={item.comment ?? ''}
-                        placeholder="Чому цей тайтл у колекції?"
+                        placeholder="Напишіть коментар до цього контенту"
                         aria-invalid={tooShort}
                         onChange={(e) =>
                             updateItemComment(group.id, item.id, e.target.value)

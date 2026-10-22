@@ -113,7 +113,11 @@ describe('PublishCard', () => {
     });
 
     it.each([
-        ['once titles are added', VALID, 'Приберіть тайтли, щоб змінити тип'],
+        [
+            'once titles are added',
+            VALID,
+            'Не змінюється, поки колекція не порожня',
+        ],
         [
             'once the collection exists',
             { ...VALID, reference: REFERENCE },

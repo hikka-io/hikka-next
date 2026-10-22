@@ -29,7 +29,7 @@ const TitleSearch: FC = () => {
             disableHotkey
             onClick={(content) => {
                 if (groupId && !addItem(groupId, content as Item['content'])) {
-                    toast.info('Цей тайтл уже є в колекції');
+                    toast.info('Це вже є в колекції');
                 }
             }}
         />
@@ -47,8 +47,12 @@ const CollectionEditGroups: FC = () => {
             <div className="flex flex-col gap-8">
                 <CollectionDndContext>
                     <div className="flex flex-col gap-8">
-                        {groupIds.map((groupId) => (
-                            <CollectionGroup key={groupId} groupId={groupId} />
+                        {groupIds.map((groupId, index) => (
+                            <CollectionGroup
+                                key={groupId}
+                                groupId={groupId}
+                                index={index}
+                            />
                         ))}
                     </div>
                 </CollectionDndContext>

@@ -1,6 +1,6 @@
 import { type FC, useId } from 'react';
 
-import { Eye, Flag, Layers } from 'lucide-react';
+import { Eye, EyeOff, Layers, ShieldAlert } from 'lucide-react';
 
 import {
     type CollectionContentTypeEnum,
@@ -17,7 +17,6 @@ import OptionSelect from '@/components/option-select';
 import type { ChoiceOption } from '@/components/option-summary';
 import PanelSection from '@/components/panel-section';
 import RadioCards from '@/components/radio-cards';
-import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 
 import { useCollectionContext } from '../collection-provider';
@@ -63,7 +62,7 @@ const ContentTypeSection: FC = () => {
     const lockedHint = created
         ? 'Не змінюється після створення'
         : hasItems
-          ? 'Приберіть тайтли, щоб змінити тип'
+          ? 'Не змінюється, поки колекція не порожня'
           : undefined;
 
     return (
@@ -108,24 +107,32 @@ const FlagsSection: FC = () => {
     const id = useId();
 
     return (
-        <PanelSection icon={Flag} title="Позначки">
-            <div className="flex items-center justify-between gap-4">
-                <Label htmlFor={`${id}-spoiler`}>Містить спойлери</Label>
-                <Switch
-                    id={`${id}-spoiler`}
-                    checked={spoiler}
-                    onCheckedChange={setSpoiler}
-                />
-            </div>
-            <div className="flex items-center justify-between gap-4">
-                <Label htmlFor={`${id}-nsfw`}>Контент 18+</Label>
-                <Switch
-                    id={`${id}-nsfw`}
-                    checked={nsfw}
-                    onCheckedChange={setNsfw}
-                />
-            </div>
-        </PanelSection>
+        <div className="flex flex-col gap-4">
+            <PanelSection
+                icon={EyeOff}
+                title="Спойлери"
+                htmlFor={`${id}-spoiler`}
+                action={
+                    <Switch
+                        id={`${id}-spoiler`}
+                        checked={spoiler}
+                        onCheckedChange={setSpoiler}
+                    />
+                }
+            />
+            <PanelSection
+                icon={ShieldAlert}
+                title="Контент 18+"
+                htmlFor={`${id}-nsfw`}
+                action={
+                    <Switch
+                        id={`${id}-nsfw`}
+                        checked={nsfw}
+                        onCheckedChange={setNsfw}
+                    />
+                }
+            />
+        </div>
     );
 };
 

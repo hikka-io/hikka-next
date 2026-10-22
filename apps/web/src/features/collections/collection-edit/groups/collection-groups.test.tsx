@@ -131,11 +131,17 @@ describe('CollectionEditGroups', () => {
         ]);
 
         expect(byLabel('Назва групи')).toHaveLength(0);
-        expect(container.textContent).toContain('Додати тайтл');
+        expect(byLabel('Перетягніть, щоб змінити порядок груп')).toHaveLength(
+            0,
+        );
+        expect(byText('Додати')).toBeDefined();
 
         await click(byText('Додати групу'));
 
         expect(byLabel('Назва групи')).toHaveLength(1);
+        expect(byLabel('Перетягніть, щоб змінити порядок груп')).toHaveLength(
+            1,
+        );
         expect(store().groups[0].title).toBe('');
         expect(container.textContent).toContain('Вкажіть назву групи');
     });
@@ -169,8 +175,8 @@ describe('CollectionEditGroups', () => {
             group('a', 'Класика', [item('x')]),
             group('b', 'Нова', []),
         ]);
-        const [, emptyGroup] = [...document.querySelectorAll('button')].filter(
-            (element) => element.textContent?.includes('Додати тайтл'),
+        const emptyGroup = [...document.querySelectorAll('button')].find(
+            (element) => element.textContent?.includes('або перетягніть'),
         );
 
         await click(emptyGroup);
@@ -180,7 +186,7 @@ describe('CollectionEditGroups', () => {
         expect(slugs(store().groups)).toEqual([['x'], ['z']]);
 
         await act(async () => search.pick({ slug: 'x' }));
-        expect(toast.info).toHaveBeenCalledWith('Цей тайтл уже є в колекції');
+        expect(toast.info).toHaveBeenCalledWith('Це вже є в колекції');
     });
 
     it('removes a title from its card', async () => {

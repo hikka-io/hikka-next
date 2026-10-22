@@ -25,7 +25,7 @@ const PublishDrawer: FC<Props> = ({ open, onOpenChange, save }) => {
     return (
         <ResponsiveModal open={open} onOpenChange={onOpenChange}>
             <ResponsiveModalContent title="Публікація">
-                <div className="flex flex-col gap-6 overflow-y-auto">
+                <div className="-m-4 flex flex-1 flex-col gap-8 overflow-y-auto p-4">
                     <CategoryPicker />
                     <ArticleVolume />
                 </div>

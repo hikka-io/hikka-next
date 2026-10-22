@@ -3,8 +3,8 @@ import type { FC } from 'react';
 import type { FollowUserResponse } from '@hikka/api';
 import {
     COLLECTION_VISIBILITY,
+    CONTENT_COUNT_FORMS,
     getDeclensionWord,
-    TITLE_FORMS,
 } from '@hikka/core';
 
 import {
@@ -29,6 +29,7 @@ const Dot: FC = () => (
 
 const CollectionEditorAuthor: FC<Props> = ({ author }) => {
     const visibility = useCollectionContext((state) => state.visibility);
+    const contentType = useCollectionContext((state) => state.content_type);
     const count = useCollectionContext((state) =>
         state.groups.reduce((total, group) => total + group.items.length, 0),
     );
@@ -52,7 +53,11 @@ const CollectionEditorAuthor: FC<Props> = ({ author }) => {
                         </HorizontalCardDescription>
                         <Dot />
                         <HorizontalCardDescription className="tabular-nums">
-                            {count} {getDeclensionWord(count, TITLE_FORMS)}
+                            {count}{' '}
+                            {getDeclensionWord(
+                                count,
+                                CONTENT_COUNT_FORMS[contentType],
+                            )}
                         </HorizontalCardDescription>
                         {/* Phones carry the save status in the page header. */}
                         <div className="contents max-md:hidden">

@@ -11,7 +11,7 @@ type Props = {
     groupId: string;
 };
 
-/** The last tile of a group's grid, poster-sized so the grid keeps its rhythm. */
+/** The last card of a group: an empty poster with a title, like the cards before it. */
 const AddTitleTile: FC<Props> = ({ groupId }) => {
     const openSearch = useCollectionContext((state) => state.openSearch);
 
@@ -19,15 +19,15 @@ const AddTitleTile: FC<Props> = ({ groupId }) => {
         <button
             type="button"
             onClick={() => openSearch(groupId)}
-            className="group/add flex flex-col text-left"
+            className="group/add flex w-full flex-col gap-2 text-left text-muted-foreground outline-none transition-colors hover:text-foreground focus-visible:text-foreground"
         >
             <AspectRatio
                 ratio={DEFAULT_CONTAINER_RATIO}
-                className="flex w-full flex-col items-center justify-center gap-2 rounded-md bg-secondary/40 text-muted-foreground transition-colors group-hover/add:bg-accent group-hover/add:text-foreground"
+                className="flex w-full items-center justify-center rounded-md bg-muted group-focus-visible/add:ring-[3px] group-focus-visible/add:ring-ring/50"
             >
-                <MaterialSymbolsAddRounded className="size-7" />
-                <span className="font-medium text-sm">Додати тайтл</span>
+                <MaterialSymbolsAddRounded className="size-8 transition-transform group-hover/add:scale-110" />
             </AspectRatio>
+            <span className="font-medium text-sm leading-5">Додати</span>
         </button>
     );
 };

@@ -5,7 +5,13 @@ import {
     type Group,
     type Item,
 } from '../collection-store';
-import { getCrossGroupMove, getDropMove, getItemPositions } from './card-moves';
+import {
+    getCrossGroupMove,
+    getDropMove,
+    getGroupMove,
+    getItemPositions,
+    groupSortableId,
+} from './card-moves';
 
 const item = (id: string) =>
     ({ id, content: { slug: id, data_type: 'anime' } }) as Item;
@@ -126,5 +132,23 @@ describe('getItemPositions', () => {
             expect(getDropMove(groups, id, 'a', index)).toBeNull();
         }
         expect(synced.get('s')).toEqual({ groupId: 'b', index: 0 });
+    });
+});
+
+describe('getGroupMove', () => {
+    it('moves a group to the index it was dropped at', () => {
+        expect(getGroupMove(GROUPS, groupSortableId('empty'), 0)).toEqual({
+            from: 2,
+            to: 0,
+        });
+    });
+
+    it('ignores a drop in place and an unknown group', () => {
+        expect(getGroupMove(GROUPS, groupSortableId('b'), 1)).toBeNull();
+        expect(getGroupMove(GROUPS, 'b', 0)).toBeNull();
+    });
+
+    it('keeps group sortables apart from the group drop areas', () => {
+        expect(groupSortableId('a')).not.toBe('a');
     });
 });

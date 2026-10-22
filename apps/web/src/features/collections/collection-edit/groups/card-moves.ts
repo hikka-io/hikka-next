@@ -2,8 +2,17 @@ import type { UniqueIdentifier } from '@dnd-kit/abstract';
 
 import { findItemGroup, type Group } from '../collection-store';
 
-/** Marks the control a card can be dragged by without the long press. */
+/** Marks a control that starts a drag at once, button or not. */
 export const DRAG_HANDLE_ATTRIBUTE = 'data-drag-handle';
+
+export const ITEM_DRAG_TYPE = 'item';
+export const GROUP_DRAG_TYPE = 'group';
+
+// A group's drop area already takes the group id, so its sortable needs its own.
+const GROUP_SORTABLE_PREFIX = 'group:';
+
+export const groupSortableId = (groupId: string) =>
+    `${GROUP_SORTABLE_PREFIX}${groupId}`;
 
 export type CrossGroupMove = {
     fromGroupId: string;
@@ -13,6 +22,11 @@ export type CrossGroupMove = {
 
 export type DropMove = {
     groupId: string;
+    from: number;
+    to: number;
+};
+
+export type GroupMove = {
     from: number;
     to: number;
 };
@@ -56,6 +70,19 @@ export function getDropMove(
     if (from === sortableIndex) return null;
 
     return { groupId: group.id, from, to: sortableIndex };
+}
+
+export function getGroupMove(
+    groups: Group[],
+    sortableId: UniqueIdentifier,
+    sortableIndex: number,
+): GroupMove | null {
+    const from = groups.findIndex(
+        (group) => groupSortableId(group.id) === sortableId,
+    );
+    if (from === -1 || from === sortableIndex) return null;
+
+    return { from, to: sortableIndex };
 }
 
 export function getItemPositions(groups: Group[]): Map<string, ItemPosition> {

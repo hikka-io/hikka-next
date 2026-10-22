@@ -8,7 +8,7 @@ type Props = {
     groupId: string;
 };
 
-/** A group with no titles yet: one wide target to add to or drop onto. */
+/** A group with nothing in it yet: one wide target to add to or drop onto. */
 const EmptyGroup: FC<Props> = ({ groupId }) => {
     const openSearch = useCollectionContext((state) => state.openSearch);
     const hasOtherGroups = useCollectionContext(
@@ -19,19 +19,15 @@ const EmptyGroup: FC<Props> = ({ groupId }) => {
         <button
             type="button"
             onClick={() => openSearch(groupId)}
-            className="group/empty flex min-h-38 w-full flex-col items-center justify-center gap-3 rounded-lg bg-secondary/40 p-6 text-center transition-colors hover:bg-accent"
+            className="group/empty flex min-h-38 w-full flex-col items-center justify-center gap-2 rounded-lg bg-muted p-6 text-center text-muted-foreground outline-none transition-colors hover:text-foreground focus-visible:text-foreground focus-visible:ring-[3px] focus-visible:ring-ring/50"
         >
-            <span className="flex size-10 items-center justify-center rounded-lg bg-secondary group-hover/empty:bg-background/40">
-                <MaterialSymbolsAddRounded className="size-5" />
-            </span>
-            <span className="flex flex-col gap-1">
-                <span className="font-medium text-sm">Додати тайтл</span>
-                {hasOtherGroups && (
-                    <span className="text-muted-foreground text-xs">
-                        або перетягніть сюди з інших груп
-                    </span>
-                )}
-            </span>
+            <MaterialSymbolsAddRounded className="size-8 transition-transform group-hover/empty:scale-110" />
+            <span className="font-medium text-sm">Додати</span>
+            {hasOtherGroups && (
+                <span className="text-xs">
+                    або перетягніть сюди з інших груп
+                </span>
+            )}
         </button>
     );
 };

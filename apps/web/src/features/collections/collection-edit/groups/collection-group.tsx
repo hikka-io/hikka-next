@@ -2,6 +2,7 @@ import type { FC } from 'react';
 
 import { CollisionPriority } from '@dnd-kit/abstract';
 import { useDroppable } from '@dnd-kit/react';
+import { useSortable } from '@dnd-kit/react/sortable';
 
 import Stack from '@/components/ui/stack';
 import { cn } from '@/utils/cn';
@@ -9,17 +10,19 @@ import { cn } from '@/utils/cn';
 import { useCollectionContext } from '../collection-provider';
 import type { Item } from '../collection-store';
 import AddTitleTile from './add-title-tile';
+import { GROUP_DRAG_TYPE, groupSortableId, ITEM_DRAG_TYPE } from './card-moves';
 import CollectionItemCard from './collection-item-card';
 import EmptyGroup from './empty-group';
 import GroupHeader from './group-header';
 
 type Props = {
     groupId: string;
+    index: number;
 };
 
 const NO_ITEMS: Item[] = [];
 
-const CollectionGroup: FC<Props> = ({ groupId }) => {
+const CollectionGroup: FC<Props> = ({ groupId, index }) => {
     const items = useCollectionContext(
         (state) =>
             state.groups.find((group) => group.id === groupId)?.items ??
@@ -30,16 +33,31 @@ const CollectionGroup: FC<Props> = ({ groupId }) => {
             state.groups.find((group) => group.id === groupId)?.title !== null,
     );
 
-    const { ref, isDropTarget } = useDroppable({
+    const {
+        ref: sortableRef,
+        handleRef,
+        isDragSource,
+    } = useSortable({
+        id: groupSortableId(groupId),
+        index,
+        type: GROUP_DRAG_TYPE,
+        accept: GROUP_DRAG_TYPE,
+        disabled: !named,
+    });
+    const { ref: dropRef, isDropTarget } = useDroppable({
         id: groupId,
+        accept: ITEM_DRAG_TYPE,
         collisionPriority: CollisionPriority.Low,
     });
 
     return (
-        <section className="flex flex-col gap-4">
-            {named && <GroupHeader groupId={groupId} />}
+        <section
+            ref={sortableRef}
+            className={cn('flex flex-col gap-4', isDragSource && 'opacity-40')}
+        >
+            {named && <GroupHeader groupId={groupId} handleRef={handleRef} />}
             <div
-                ref={ref}
+                ref={dropRef}
                 className={cn(
                     'rounded-lg outline-2 outline-transparent outline-offset-8 transition-[outline-color]',
                     isDropTarget && 'outline-primary-border',
@@ -47,11 +65,11 @@ const CollectionGroup: FC<Props> = ({ groupId }) => {
             >
                 {items.length > 0 ? (
                     <Stack size={5} extendedSize={5} extended>
-                        {items.map((item, index) => (
+                        {items.map((item, itemIndex) => (
                             <CollectionItemCard
                                 key={item.id}
                                 item={item}
-                                index={index}
+                                index={itemIndex}
                                 groupId={groupId}
                             />
                         ))}

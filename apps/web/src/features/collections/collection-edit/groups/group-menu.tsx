@@ -34,7 +34,7 @@ const GroupMenu: FC<Props> = ({ groupId, className }) => {
                 render={
                     <Button
                         variant="ghost"
-                        size="icon-md"
+                        size="icon-sm"
                         aria-label="Дії з групою"
                         className={className}
                     />

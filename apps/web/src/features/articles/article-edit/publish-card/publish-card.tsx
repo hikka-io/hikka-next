@@ -21,8 +21,8 @@ const PublishCard: FC<Props> = ({ save, className }) => {
     const previewUrl = useArticleContext(selectPreviewUrl);
 
     return (
-        <Card className={cn('gap-6', className)}>
-            <Header>
+        <Card className={cn('gap-0 p-0', className)}>
+            <Header className="border-b px-4 py-3">
                 <HeaderTitle as="h2" size="subsection">
                     Публікація
                 </HeaderTitle>
@@ -31,10 +31,12 @@ const PublishCard: FC<Props> = ({ save, className }) => {
                 </div>
             </Header>
 
-            <CategoryPicker />
-            <ArticleVolume />
+            <div className="flex flex-col gap-8 p-4 py-8">
+                <CategoryPicker />
+                <ArticleVolume />
+            </div>
 
-            <FooterBar className="-mx-4 -mb-4">
+            <FooterBar>
                 <PublishActions save={save} />
             </FooterBar>
         </Card>
