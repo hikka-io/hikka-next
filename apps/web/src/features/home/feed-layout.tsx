@@ -110,7 +110,7 @@ const SidebarWidgetChips: FC<{
                         onClick={onOpenSettings}
                         aria-label="Налаштувати макет"
                         className={cn(
-                            'w-8 justify-center border border-transparent px-0',
+                            'w-8 justify-center border border-transparent px-0 backdrop-blur',
                             CHIP_IDLE,
                         )}
                     >
