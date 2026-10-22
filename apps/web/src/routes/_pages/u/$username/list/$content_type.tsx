@@ -8,7 +8,6 @@ import ContentTypeTabs from '@/components/content-type-tabs';
 import Block from '@/components/ui/block';
 import { Header, HeaderTitle } from '@/components/ui/header';
 import type { StackSize } from '@/components/ui/stack';
-import { useCatalogView } from '@/features/catalog';
 import {
     AnimeFilters,
     FiltersSidebarLayout,
@@ -24,6 +23,7 @@ import {
     userListOptions,
     userListStatsOptions,
 } from '@/features/users/queries';
+import { useViewPreference } from '@/services/hooks/use-view-preference';
 import { awaitOnServer } from '@/utils/api/loader-prefetch';
 import { generateHeadMeta } from '@/utils/metadata';
 
@@ -74,7 +74,7 @@ function ListPage() {
     const { visible: sidebarVisible } = useFiltersSidebar(
         USER_LIST_FILTERS_SIDEBAR_KEY,
     );
-    const { view } = useCatalogView('userlist');
+    const { view } = useViewPreference('userlist');
 
     const extendedSize: StackSize = sidebarVisible ? 5 : 7;
 

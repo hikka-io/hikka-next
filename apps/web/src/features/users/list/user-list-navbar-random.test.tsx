@@ -37,7 +37,7 @@ vi.mock('@tanstack/react-router', async (importOriginal) => ({
     useRouter: () => ({ navigate: mocks.navigate }),
 }));
 
-vi.mock('@/features/catalog', () => ({ ViewToggle: () => null }));
+vi.mock('@/components/view-toggle', () => ({ default: () => null }));
 
 vi.mock('@/features/filters', () => ({
     FiltersButton: () => null,

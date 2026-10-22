@@ -4,12 +4,10 @@ import {
 } from '@/services/ui-preferences-store';
 import type { View } from '@/utils/cookies';
 
-import { CATALOG_VIEW_KEY } from './queries';
-
 const DEFAULT_VIEW: View = 'grid';
 
-/** Persisted view mode for a catalog page (grid | list | table). */
-export function useCatalogView(key: string = CATALOG_VIEW_KEY) {
+/** Persisted view mode of a list page (grid | list | table), by its preference key. */
+export function useViewPreference(key: string) {
     const view = useUiPreferences(
         (state) =>
             state.views[key] ?? UI_PREFS_DEFAULTS.views[key] ?? DEFAULT_VIEW,

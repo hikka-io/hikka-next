@@ -5,13 +5,13 @@ import { getTitle } from '@hikka/core';
 
 import { AnimeCard, MangaCard, NovelCard } from '@/components/content-card';
 import type { StackSize } from '@/components/ui/stack';
+import { useViewPreference } from '@/services/hooks/use-view-preference';
 import { useSessionUI } from '@/services/session';
 
 import CatalogListItem from './catalog-list-item';
 import CatalogListView from './catalog-list-view';
 import { CATALOG_VIEW_KEY, type CatalogItems } from './queries';
 import { useCatalogSearchQuery } from './use-catalog-search-query';
-import { useCatalogView } from './use-catalog-view';
 
 type CatalogItemRenderers<T> = {
     renderGridItem(item: T): ReactNode;
@@ -79,7 +79,7 @@ const CatalogList: FC<Props> = ({
     } = useCatalogSearchQuery(contentType, pageSize);
 
     const { preferences: prefs } = useSessionUI();
-    const { view } = useCatalogView(CATALOG_VIEW_KEY);
+    const { view } = useViewPreference(CATALOG_VIEW_KEY);
 
     const renderers: CatalogItemRenderers<CatalogItems[MainContentTypeEnum]> =
         CATALOG_ITEM_RENDERERS[contentType];

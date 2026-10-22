@@ -25,6 +25,7 @@ import {
 } from '@hikka/core';
 
 import { useFiltersSidebar } from '@/features/filters';
+import { useViewPreference } from '@/services/hooks/use-view-preference';
 import {
     UiPreferencesProvider,
     useUiPreferences,
@@ -42,7 +43,6 @@ import {
     catalogSearchOptions,
     catalogSearchQuery,
 } from './queries';
-import { useCatalogView } from './use-catalog-view';
 
 const BASE_URL = 'https://api.example.test';
 
@@ -190,7 +190,7 @@ describe('catalog page size', () => {
             };
 
             function Probe() {
-                const { view } = useCatalogView(CATALOG_VIEW_KEY);
+                const { view } = useViewPreference(CATALOG_VIEW_KEY);
                 const { visible } = useFiltersSidebar();
                 const size = useUiPreferences((state) =>
                     catalogPageSize(state, CATALOG_VIEW_KEY),

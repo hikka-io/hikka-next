@@ -9,7 +9,8 @@ import type { UserlistSearch } from '@hikka/core';
 
 import LoadMoreButton from '@/components/load-more-button';
 import type { StackSize } from '@/components/ui/stack';
-import { CatalogSummary, useCatalogView } from '@/features/catalog';
+import { CatalogSummary } from '@/features/catalog';
+import { useViewPreference } from '@/services/hooks/use-view-preference';
 import { useRouteSearch } from '@/utils/navigation';
 
 import GridView from './components/grid-view';
@@ -25,7 +26,7 @@ type Props = {
 
 const UserList: FC<Props> = ({ content_type, extendedSize }) => {
     const search = useRouteSearch<Pick<UserlistSearch, 'status'>>();
-    const { view } = useCatalogView('userlist');
+    const { view } = useViewPreference('userlist');
 
     const status = search.status as ReadStatusEnum | WatchStatusEnum | 'all';
 

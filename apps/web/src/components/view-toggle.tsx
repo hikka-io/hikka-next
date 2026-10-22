@@ -8,9 +8,8 @@ import {
     TooltipContent,
     TooltipTrigger,
 } from '@/components/ui/tooltip';
+import { useViewPreference } from '@/services/hooks/use-view-preference';
 import type { View } from '@/utils/cookies';
-
-import { useCatalogView } from './use-catalog-view';
 
 const VIEW_OPTIONS = {
     grid: { label: 'Сітка', icon: MaterialSymbolsGridViewRounded },
@@ -24,7 +23,7 @@ type Props = {
 };
 
 const ViewToggle: FC<Props> = ({ viewKey, views }) => {
-    const { view, setView } = useCatalogView(viewKey);
+    const { view, setView } = useViewPreference(viewKey);
 
     const handleChangeView = ([value]: string[]) => {
         if (!value) return;

@@ -77,8 +77,8 @@ vi.mock('./catalog-summary', () => ({
     },
 }));
 
-vi.mock('./use-catalog-view', () => ({
-    useCatalogView: (key: unknown) => {
+vi.mock('@/services/hooks/use-view-preference', () => ({
+    useViewPreference: (key: unknown) => {
         mocks.viewKeys.push(key);
         return { view: mocks.view, setView: () => {} };
     },

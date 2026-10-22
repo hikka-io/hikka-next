@@ -38,7 +38,10 @@ vi.mock('@/features/catalog', () => ({
     CatalogSummary: ({ isLoading }: { isLoading: boolean }) => (
         <div data-summary={isLoading ? 'loading' : 'ready'} />
     ),
-    useCatalogView: () => ({ view: 'grid' }),
+}));
+
+vi.mock('@/services/hooks/use-view-preference', () => ({
+    useViewPreference: () => ({ view: 'grid' }),
 }));
 
 vi.mock('./components/grid-view', () => ({

@@ -35,7 +35,7 @@ import {
     TooltipContent,
     TooltipTrigger,
 } from '@/components/ui/tooltip';
-import { ViewToggle } from '@/features/catalog';
+import ViewToggle from '@/components/view-toggle';
 import {
     FiltersButton,
     FiltersSidebarToggle,

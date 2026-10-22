@@ -4,6 +4,7 @@ import type { ContentTypeEnum } from '@hikka/api';
 import type { SortType } from '@hikka/core';
 
 import { Separator } from '@/components/ui/separator';
+import ViewToggle from '@/components/view-toggle';
 import {
     FilterPresetButton,
     FilterPresets,
@@ -13,8 +14,6 @@ import {
     SearchInput,
     Sort,
 } from '@/features/filters';
-
-import ViewToggle from './view-toggle';
 
 type Props = {
     sort_type: SortType;
