@@ -56,10 +56,7 @@ const ListEntryRow: FC<Props> = ({ entry, contentType, owner, showStatus }) => {
     const { color: starColor } = useResolveClassNames('text-yellow-400');
     const content = entryContent(entry);
     const repeats = entryRepeats(entry);
-    const note =
-        owner && entry.note
-            ? parseTextFromMarkDown(entry.note).replace(/\s+/g, ' ').trim()
-            : '';
+    const note = owner && entry.note ? parseTextFromMarkDown(entry.note) : '';
     const meta = [getMediaTypeLabel(content.media_type), entryProgress(entry)]
         .filter(Boolean)
         .join(' · ');

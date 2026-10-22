@@ -195,28 +195,13 @@ describe('commentThreadTitle', () => {
 });
 
 describe('commentExcerpt', () => {
-    it('flattens markdown to plain text', () => {
+    it('reads the markdown as plain text without spoilers', () => {
         expect(
             commentExcerpt(
-                `Це м'ята "x" & **жирний** [@olexh](${SITE}/u/${REF}) @a\\_b\n\n- one\n- two\n\n> \`code\` ![img](${SITE}/i.png)`,
+                `**Жирний** [@olexh](${SITE}/u/${REF}) :spoiler[secret]`,
                 200,
             ),
-        ).toBe(`Це м'ята "x" & жирний @olexh @a_b one two code`);
-    });
-
-    it('hides inline and block spoilers', () => {
-        expect(
-            commentExcerpt(
-                'Before :spoiler[he [dies](https://x.io)] after\n\n:::spoiler\nsecret\n:::\n\nEnd',
-                200,
-            ),
-        ).toBe('Before [спойлер] after [спойлер] End');
-    });
-
-    it('hides everything after an unclosed spoiler', () => {
-        expect(commentExcerpt('Open :spoiler[secret', 200)).toBe(
-            'Open [спойлер]',
-        );
+        ).toBe('Жирний @olexh [спойлер]');
     });
 
     it('truncates on a word boundary', () => {

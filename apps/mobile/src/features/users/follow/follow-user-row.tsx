@@ -23,9 +23,7 @@ type Props = {
 /** The web's `FollowUserItem`: avatar, name and the first line of the bio, follow action outside the row. */
 const FollowUserRow: FC<Props> = ({ user }) => {
     const username = user.username ?? '';
-    const bio = user.description
-        ? parseTextFromMarkDown(user.description).replace(/\s+/g, ' ').trim()
-        : '';
+    const bio = parseTextFromMarkDown(user.description ?? '');
 
     return (
         <HorizontalCard
