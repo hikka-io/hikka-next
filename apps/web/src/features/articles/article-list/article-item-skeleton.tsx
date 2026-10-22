@@ -31,9 +31,9 @@ const ArticleItemSkeleton = () => {
                 </div>
             </div>
             <div className="flex gap-1 py-4">
+                <Skeleton className="h-8 w-22 rounded-lg" />
                 <Skeleton className="h-8 w-12 rounded-lg" />
-                <Skeleton className="h-8 w-12 rounded-lg" />
-                <Skeleton className="h-8 w-12 rounded-lg" />
+                <Skeleton className="h-8 w-13 rounded-lg" />
             </div>
         </div>
     );

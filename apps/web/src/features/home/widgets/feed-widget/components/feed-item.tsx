@@ -11,13 +11,13 @@ import {
 } from '@hikka/api';
 import { getFeedItemCommentsPath, getFeedItemPath } from '@hikka/core';
 
+import { VoteCommentsFooter } from '@/components/action-buttons';
 import { HorizontalCardImage } from '@/components/horizontal-card';
 import { useTitle } from '@/services/session';
 
 import FeedItemArticle from './feed-item-article';
 import FeedItemCollection from './feed-item-collection';
 import FeedItemComment from './feed-item-comment';
-import FeedItemFooter from './feed-item-footer';
 import FeedItemHeader from './feed-item-header';
 
 // The getFeed response union; each member carries a literal `data_type`
@@ -152,7 +152,7 @@ const FeedItem: FC<Props> = ({ item }) => {
                     )}
                 </div>
 
-                <FeedItemFooter
+                <VoteCommentsFooter
                     commentsCount={stats.commentsCount}
                     voteScore={stats.voteScore}
                     commentsHref={stats.commentsHref}

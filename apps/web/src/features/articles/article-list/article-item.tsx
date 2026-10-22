@@ -1,14 +1,15 @@
 import type { FC } from 'react';
 
-import { ArrowBigUp, Eye, MessageCircle } from 'lucide-react';
+import { Eye } from 'lucide-react';
 import type { Value } from 'platejs';
 
-import type { ArticlePreviewResponse } from '@hikka/api';
+import { type ArticlePreviewResponse, ContentTypeEnum } from '@hikka/api';
 import { CONTENT_TYPE_LINKS } from '@hikka/core';
 
+import { VoteCommentsFooter } from '@/components/action-buttons';
 import { StaticViewer } from '@/components/plate/editor/static-viewer';
 import { Badge } from '@/components/ui/badge';
-import { StatItem, StatItemGroup } from '@/components/ui/stat-item';
+import { StatItem } from '@/components/ui/stat-item';
 import { cn } from '@/utils/cn';
 import { Link } from '@/utils/navigation';
 
@@ -60,28 +61,22 @@ const ArticleItem: FC<Props> = ({ article, className }) => {
                 )}
                 <StaticViewer value={document} />
             </div>
-            <div className="flex items-center justify-between py-4">
-                <StatItemGroup>
-                    {article.views > 0 && (
-                        <StatItem className="pointer-events-none">
-                            <Eye />
-                            {article.views}
-                        </StatItem>
-                    )}
-                    <StatItem
-                        render={
-                            <Link to={`/comments/article/${article.slug}`} />
-                        }
-                    >
-                        <MessageCircle />
-                        {article.comments_count}
-                    </StatItem>
+            <VoteCommentsFooter
+                className="py-4"
+                commentsCount={article.comments_count}
+                commentsHref={`/comments/article/${article.slug}`}
+                voteScore={article.vote_score}
+                myScore={article.my_score}
+                contentType={ContentTypeEnum.ARTICLE}
+                slug={article.slug}
+            >
+                {article.views > 0 && (
                     <StatItem className="pointer-events-none">
-                        <ArrowBigUp className="size-5!" />
-                        {article.vote_score}
+                        <Eye />
+                        {article.views}
                     </StatItem>
-                </StatItemGroup>
-            </div>
+                )}
+            </VoteCommentsFooter>
         </article>
     );
 };

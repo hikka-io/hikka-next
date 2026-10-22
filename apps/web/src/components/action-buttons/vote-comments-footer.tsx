@@ -1,10 +1,9 @@
-import type { FC } from 'react';
+import type { FC, ReactNode } from 'react';
 
 import { MessageCircle } from 'lucide-react';
 
 import type { VoteContentTypeEnum } from '@hikka/api';
 
-import { VoteButton } from '@/components/action-buttons';
 import {
     StatItem,
     StatItemGroup,
@@ -13,6 +12,8 @@ import {
 import { cn } from '@/utils/cn';
 import { Link } from '@/utils/navigation';
 
+import VoteButton from './vote-button';
+
 type Props = {
     commentsCount: number;
     voteScore: number;
@@ -20,18 +21,23 @@ type Props = {
     contentType?: VoteContentTypeEnum;
     slug?: string;
     myScore?: number;
+    /** Extra stats after the comments, e.g. an article's views. */
+    children?: ReactNode;
+    className?: string;
 };
 
-const FeedItemFooter: FC<Props> = ({
+const VoteCommentsFooter: FC<Props> = ({
     commentsCount,
     voteScore,
     commentsHref,
     contentType,
     slug,
     myScore,
+    children,
+    className,
 }) => {
     return (
-        <div className="flex items-center justify-between">
+        <div className={cn('flex items-center justify-between', className)}>
             <StatItemGroup>
                 {contentType && slug !== undefined && myScore !== undefined && (
                     // VoteButton renders a fragment, so it can't be a
@@ -57,9 +63,10 @@ const FeedItemFooter: FC<Props> = ({
                         {commentsCount > 0 && commentsCount}
                     </StatItem>
                 )}
+                {children}
             </StatItemGroup>
         </div>
     );
 };
 
-export default FeedItemFooter;
+export default VoteCommentsFooter;
