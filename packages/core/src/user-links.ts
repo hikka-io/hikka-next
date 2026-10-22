@@ -16,7 +16,7 @@ const decodePath = (path: string): string => {
     }
 };
 
-export function getUserLinkDisplayUrl(url: string): string {
+export function getLinkDisplayUrl(url: string): string {
     const parsed = parseUrl(url);
     if (!parsed) return url;
 
@@ -37,7 +37,7 @@ export function getUserLinkLabel(link: UserLinkResponse): string {
     return parsed ? getUserLinkHost(parsed) : link.url;
 }
 
-// Previews the backend's host check (exact host without `www.`); the saved icon always comes from the backend.
+// Previews the backend's user-link host check (exact host without `www.`); content links reuse it for their fallback icon.
 const HOST_ICONS: Record<string, UserLinkIconEnum> = {
     'bsky.app': UserLinkIconEnum.BLUESKY,
     'bsky.social': UserLinkIconEnum.BLUESKY,

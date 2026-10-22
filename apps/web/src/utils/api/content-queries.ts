@@ -9,7 +9,10 @@ import {
     characterMangaInfiniteOptions,
     characterNovelInfiniteOptions,
     characterVoicesInfiniteOptions,
+    type ExternalResponse,
     getArticleOptions,
+    getAuthToken,
+    getBrowserClient,
     getCollectionOptions,
     getEditOptions,
     mangaInfoOptions,
@@ -24,15 +27,51 @@ import {
 } from '@hikka/api';
 import { favouriteEntryOptions, listEntryOptions } from '@hikka/core';
 
+import { stripRestrictedExternal } from './strip-restricted-external';
+
 export { favouriteEntryOptions, listEntryOptions };
+
+// SSR request clients are stripped by the detail loader, which knows the session.
+const isAnonymousBrowserFetch = (client?: Client) =>
+    (!client || client === getBrowserClient()) && !getAuthToken();
+
+type WithExternal = { external: ExternalResponse[] };
+
+function withoutAnonymousRestrictedExternal<
+    O extends {
+        queryFn?: (context: never) => WithExternal | Promise<WithExternal>;
+    },
+>(options: O, client?: Client): O {
+    const { queryFn } = options;
+    if (!queryFn) return options;
+
+    return {
+        ...options,
+        queryFn: async (context: Parameters<typeof queryFn>[0]) => {
+            const data = await queryFn(context);
+            return isAnonymousBrowserFetch(client)
+                ? stripRestrictedExternal(data)
+                : data;
+        },
+    };
+}
 
 const CONTENT_INFO_OPTIONS = {
     [ContentTypeEnum.ANIME]: (slug: string, client?: Client) =>
-        animeSlugOptions({ path: { slug }, client }),
+        withoutAnonymousRestrictedExternal(
+            animeSlugOptions({ path: { slug }, client }),
+            client,
+        ),
     [ContentTypeEnum.MANGA]: (slug: string, client?: Client) =>
-        mangaInfoOptions({ path: { slug }, client }),
+        withoutAnonymousRestrictedExternal(
+            mangaInfoOptions({ path: { slug }, client }),
+            client,
+        ),
     [ContentTypeEnum.NOVEL]: (slug: string, client?: Client) =>
-        novelInfoOptions({ path: { slug }, client }),
+        withoutAnonymousRestrictedExternal(
+            novelInfoOptions({ path: { slug }, client }),
+            client,
+        ),
     [ContentTypeEnum.CHARACTER]: (slug: string, client?: Client) =>
         characterInfoOptions({ path: { slug }, client }),
     [ContentTypeEnum.PERSON]: (slug: string, client?: Client) =>

@@ -2,13 +2,14 @@ import { type FC, useState } from 'react';
 
 import { useQuery } from '@tanstack/react-query';
 
-import { animeSlugOptions } from '@hikka/api';
+import { ContentTypeEnum } from '@hikka/api';
 
 import MaterialSymbolsLibraryMusicRounded from '@/components/icons/material-symbols/MaterialSymbolsLibraryMusicRounded';
 import Block from '@/components/ui/block';
 import EmptyState from '@/components/ui/empty-state';
 import { Header, HeaderTitle } from '@/components/ui/header';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { contentInfoOptions } from '@/utils/api/content-queries';
 import { useParams } from '@/utils/navigation';
 
 import Ost from './components/ost';
@@ -21,7 +22,7 @@ type Props = {
 const ContentMedia: FC<Props> = ({ extended }) => {
     const params = useParams();
     const { data: anime } = useQuery(
-        animeSlugOptions({ path: { slug: String(params.slug) } }),
+        contentInfoOptions(ContentTypeEnum.ANIME, String(params.slug)),
     );
     const [active, setActive] = useState<'video' | 'music'>('video');
 

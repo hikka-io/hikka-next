@@ -2,27 +2,27 @@ import { describe, expect, it } from 'vitest';
 
 import {
     detectLinkIcon,
-    getUserLinkDisplayUrl,
+    getLinkDisplayUrl,
     getUserLinkLabel,
 } from './user-links';
 
-describe('getUserLinkDisplayUrl', () => {
+describe('getLinkDisplayUrl', () => {
     it('drops the scheme, www and a trailing slash', () => {
-        expect(getUserLinkDisplayUrl('https://www.github.com/hikka/')).toBe(
+        expect(getLinkDisplayUrl('https://www.github.com/hikka/')).toBe(
             'github.com/hikka',
         );
     });
 
     it('decodes a percent-encoded path', () => {
         expect(
-            getUserLinkDisplayUrl(
+            getLinkDisplayUrl(
                 'https://uk.wikipedia.org/wiki/%D0%A5%D1%96%D0%BA%D0%BA%D0%B0',
             ),
         ).toBe('uk.wikipedia.org/wiki/Хікка');
     });
 
     it('returns an unparsable value as is', () => {
-        expect(getUserLinkDisplayUrl('hikka')).toBe('hikka');
+        expect(getLinkDisplayUrl('hikka')).toBe('hikka');
     });
 });
 

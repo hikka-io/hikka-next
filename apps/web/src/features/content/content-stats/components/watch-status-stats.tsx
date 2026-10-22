@@ -2,14 +2,11 @@ import { createElement } from 'react';
 
 import { useQuery } from '@tanstack/react-query';
 
-import {
-    animeSlugOptions,
-    ContentTypeEnum,
-    type WatchStatusEnum,
-} from '@hikka/api';
+import { ContentTypeEnum, type WatchStatusEnum } from '@hikka/api';
 import { contentStatusStats } from '@hikka/core';
 
 import { WATCH_STATUS_ICONS } from '@/components/icons/list-status-icons';
+import { contentInfoOptions } from '@/utils/api/content-queries';
 import { useParams } from '@/utils/navigation';
 
 import type { ListStat } from '../types';
@@ -18,7 +15,7 @@ import Stats from './stats';
 const WatchStatusStats = () => {
     const params = useParams();
     const { data } = useQuery(
-        animeSlugOptions({ path: { slug: String(params.slug) } }),
+        contentInfoOptions(ContentTypeEnum.ANIME, String(params.slug)),
     );
 
     if (!data) {

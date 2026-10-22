@@ -41,7 +41,10 @@ const ContentDetailPage: FC<Props> = ({
     const { data: content } = useQuery(contentInfoOptions(contentType, slug));
 
     return (
-        <div className="grid grid-cols-1 gap-x-10 gap-y-8 lg:grid-cols-4 lg:grid-rows-[auto_1fr]">
+        <div
+            key={slug}
+            className="grid grid-cols-1 gap-x-10 gap-y-8 lg:grid-cols-4 lg:grid-rows-[auto_1fr]"
+        >
             {content && (
                 <JsonLd data={contentJsonLd({ content, contentType })} />
             )}

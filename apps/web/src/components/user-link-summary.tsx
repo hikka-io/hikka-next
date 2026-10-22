@@ -1,9 +1,10 @@
 import type { FC } from 'react';
 
 import type { UserLinkResponse } from '@hikka/api';
-import { getUserLinkDisplayUrl, getUserLinkLabel } from '@hikka/core';
+import { getUserLinkLabel } from '@hikka/core';
 
 import { USER_LINK_ICONS } from '@/components/icons/user-link-icons';
+import LinkSummary from '@/components/link-summary';
 
 type Props = {
     link: UserLinkResponse;
@@ -13,19 +14,11 @@ const UserLinkSummary: FC<Props> = ({ link }) => {
     const Icon = USER_LINK_ICONS[link.icon];
 
     return (
-        <>
-            <span className="flex size-10 shrink-0 items-center justify-center rounded-md border border-border bg-secondary/40 [&_svg]:size-5">
-                <Icon />
-            </span>
-            <span className="flex min-w-0 flex-1 flex-col">
-                <span className="line-clamp-2 whitespace-normal break-words font-medium text-sm">
-                    {getUserLinkLabel(link)}
-                </span>
-                <span className="truncate font-normal text-muted-foreground text-xs">
-                    {getUserLinkDisplayUrl(link.url)}
-                </span>
-            </span>
-        </>
+        <LinkSummary
+            icon={<Icon />}
+            label={getUserLinkLabel(link)}
+            url={link.url}
+        />
     );
 };
 

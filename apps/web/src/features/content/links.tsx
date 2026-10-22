@@ -3,63 +3,66 @@ import { type FC, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 
 import {
+    ContentTypeEnum,
     type ExternalResponse,
     ExternalTypeEnum,
     type MainContentTypeEnum,
 } from '@hikka/api';
-import { getPlatformIcon, groupExternalLinks } from '@hikka/core';
-
 import {
-    HorizontalCard,
-    HorizontalCardContainer,
-    HorizontalCardImage,
-    HorizontalCardTitle,
-} from '@/components/horizontal-card';
+    detectLinkIcon,
+    getPlatformIcon,
+    groupExternalLinks,
+} from '@hikka/core';
+
 import MaterialSymbolsInfoIRounded from '@/components/icons/material-symbols/MaterialSymbolsInfoIRounded';
+import MaterialSymbolsOpenInNewRounded from '@/components/icons/material-symbols/MaterialSymbolsOpenInNewRounded';
 import MaterialSymbolsPlayArrowRounded from '@/components/icons/material-symbols/MaterialSymbolsPlayArrowRounded';
+import { USER_LINK_ICONS } from '@/components/icons/user-link-icons';
+import LinkSummary from '@/components/link-summary';
 import ShowMoreTrigger from '@/components/show-more-trigger';
 import Block from '@/components/ui/block';
+import { buttonVariants } from '@/components/ui/button';
 import { Collapsible, CollapsibleContent } from '@/components/ui/collapsible';
 import { Header, HeaderTitle } from '@/components/ui/header';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useSession } from '@/services/session';
 import { contentInfoOptions } from '@/utils/api/content-queries';
+import { cn } from '@/utils/cn';
 import { useParams } from '@/utils/navigation';
 
 const PREVIEW_ROWS = 3;
 
-const LinkRow: FC<{ link: ExternalResponse }> = ({ link }) => {
-    const icon = getPlatformIcon(link.url);
+type LinkRowProps = {
+    link: ExternalResponse;
+};
 
+const linkIcon = (url: string) => {
+    const platformIcon = getPlatformIcon(url);
+    if (platformIcon) return <img src={platformIcon} alt="" />;
+
+    const Icon = USER_LINK_ICONS[detectLinkIcon(url)];
+    return <Icon />;
+};
+
+const LinkRow: FC<LinkRowProps> = ({ link }) => {
     return (
-        <HorizontalCard>
-            <HorizontalCardImage
-                imageRatio={1}
-                className="w-10"
-                image={
-                    icon ? (
-                        <img
-                            src={icon}
-                            alt={link.text}
-                            className="size-full object-contain"
-                        />
-                    ) : (
-                        <p>{link.text[0]}</p>
-                    )
-                }
-                to={link.url}
-                referrerPolicy="origin"
+        <a
+            href={link.url}
+            target="_blank"
+            referrerPolicy="origin"
+            className={cn(
+                buttonVariants({ variant: 'ghost' }),
+                'group -mx-2 h-auto justify-start gap-3 p-2 text-left',
+            )}
+            rel="noopener"
+        >
+            <LinkSummary
+                icon={linkIcon(link.url)}
+                label={link.text}
+                url={link.url}
             />
-            <HorizontalCardContainer>
-                <HorizontalCardTitle
-                    href={link.url}
-                    target="_blank"
-                    referrerPolicy="origin"
-                >
-                    {link.text}
-                </HorizontalCardTitle>
-            </HorizontalCardContainer>
-        </HorizontalCard>
+            <MaterialSymbolsOpenInNewRounded className="text-muted-foreground opacity-0 group-hover:opacity-100" />
+        </a>
     );
 };
 
@@ -82,21 +85,24 @@ const ContentLinks: FC<Props> = ({ content_type }) => {
         return null;
     }
 
-    if (content.external.length === 0) {
-        return null;
-    }
-
     const { general: generalLinksData, watch: watchLinksData } =
         groupExternalLinks(content.external, { withWatch: !!user });
 
-    const hasWatchLinks = watchLinksData.length > 0;
-    const linksData =
-        active === ExternalTypeEnum.WATCH && hasWatchLinks
-            ? watchLinksData
-            : generalLinksData;
+    if (generalLinksData.length === 0 && watchLinksData.length === 0) {
+        return null;
+    }
+
+    const hasTabs = generalLinksData.length > 0 && watchLinksData.length > 0;
+    const showWatch =
+        watchLinksData.length > 0 &&
+        (active === ExternalTypeEnum.WATCH || generalLinksData.length === 0);
+    const linksData = showWatch ? watchLinksData : generalLinksData;
 
     const preview = linksData.slice(0, PREVIEW_ROWS);
     const rest = linksData.slice(PREVIEW_ROWS);
+
+    const watchLabel =
+        content_type === ContentTypeEnum.ANIME ? 'Перегляд' : 'Читання';
 
     const handleChangeActive = (value: string) => {
         setActive(value as ExternalTypeEnum);
@@ -107,7 +113,7 @@ const ContentLinks: FC<Props> = ({ content_type }) => {
         <Block variant="card" id="content-links">
             <Header>
                 <HeaderTitle>Посилання</HeaderTitle>
-                {hasWatchLinks && (
+                {hasTabs && (
                     <Tabs value={active} onValueChange={handleChangeActive}>
                         <TabsList size="sm">
                             <TabsTrigger
@@ -118,9 +124,12 @@ const ContentLinks: FC<Props> = ({ content_type }) => {
                             </TabsTrigger>
                             <TabsTrigger
                                 value={ExternalTypeEnum.WATCH}
-                                aria-label="Посилання для перегляду"
+                                aria-label={watchLabel}
                             >
                                 <MaterialSymbolsPlayArrowRounded />
+                                <span className="lg:max-xl:hidden">
+                                    {watchLabel}
+                                </span>
                             </TabsTrigger>
                         </TabsList>
                     </Tabs>
@@ -129,14 +138,14 @@ const ContentLinks: FC<Props> = ({ content_type }) => {
             <Collapsible
                 open={isExpanded}
                 onOpenChange={setIsExpanded}
-                className="flex flex-col gap-4"
+                className="flex flex-col gap-1"
             >
                 {preview.map((link) => (
                     <LinkRow key={link.url} link={link} />
                 ))}
                 {rest.length > 0 && (
                     <>
-                        <CollapsibleContent className="flex flex-col gap-4">
+                        <CollapsibleContent className="flex flex-col gap-1">
                             {rest.map((link) => (
                                 <LinkRow key={link.url} link={link} />
                             ))}
