@@ -9,7 +9,7 @@ import {
     WORD_FORMS,
 } from '@hikka/core';
 
-import { Label } from '@/components/ui/label';
+import PanelSection from '@/components/panel-section';
 import { Progress } from '@/components/ui/progress';
 import { cn } from '@/utils/cn';
 
@@ -33,11 +33,7 @@ const ArticleVolume: FC = () => {
     const near = !over && share >= NEAR_LIMIT;
 
     return (
-        <div className="flex flex-col gap-3">
-            <div className="flex items-center gap-2 text-muted-foreground">
-                <TextCursorInput className="size-4 shrink-0" />
-                <Label id={labelId}>Обсяг</Label>
-            </div>
+        <PanelSection icon={TextCursorInput} title="Обсяг" labelId={labelId}>
             <div className="flex items-baseline justify-between gap-2">
                 <span
                     className={cn(
@@ -81,7 +77,7 @@ const ArticleVolume: FC = () => {
                     , щоб зберегти статтю.
                 </p>
             )}
-        </div>
+        </PanelSection>
     );
 };
 

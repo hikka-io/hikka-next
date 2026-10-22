@@ -1,12 +1,6 @@
-import type { ArticleStore } from '../article-store';
+import type { SaveTone } from '@/components/save-indicator';
 
-export type SaveTone =
-    | 'saving'
-    | 'error'
-    | 'unsaved'
-    | 'published'
-    | 'saved'
-    | 'draft';
+import type { ArticleStore } from '../article-store';
 
 type Source = Pick<ArticleStore, 'save' | 'draft' | 'slug'>;
 

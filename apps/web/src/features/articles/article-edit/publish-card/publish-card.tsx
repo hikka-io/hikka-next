@@ -1,14 +1,15 @@
 import type { FC } from 'react';
 
+import PreviewButton from '@/components/preview-button';
 import Card from '@/components/ui/card';
 import { FooterBar } from '@/components/ui/footer-bar';
 import { Header, HeaderTitle } from '@/components/ui/header';
 import { cn } from '@/utils/cn';
 
-import type { ArticleSave } from '../use-article-save';
+import { useArticleContext } from '../article-provider';
+import { type ArticleSave, selectPreviewUrl } from '../use-article-save';
 import ArticleVolume from './article-volume';
 import CategoryPicker from './category-picker';
-import PreviewButton from './preview-button';
 import PublishActions from './publish-actions';
 
 type Props = {
@@ -16,24 +17,28 @@ type Props = {
     className?: string;
 };
 
-const PublishCard: FC<Props> = ({ save, className }) => (
-    <Card className={cn('gap-6', className)}>
-        <Header>
-            <HeaderTitle as="h2" size="subsection">
-                Публікація
-            </HeaderTitle>
-            <div className="ml-auto">
-                <PreviewButton />
-            </div>
-        </Header>
+const PublishCard: FC<Props> = ({ save, className }) => {
+    const previewUrl = useArticleContext(selectPreviewUrl);
 
-        <CategoryPicker />
-        <ArticleVolume />
+    return (
+        <Card className={cn('gap-6', className)}>
+            <Header>
+                <HeaderTitle as="h2" size="subsection">
+                    Публікація
+                </HeaderTitle>
+                <div className="ml-auto">
+                    <PreviewButton to={previewUrl} />
+                </div>
+            </Header>
 
-        <FooterBar className="-mx-4 -mb-4">
-            <PublishActions save={save} />
-        </FooterBar>
-    </Card>
-);
+            <CategoryPicker />
+            <ArticleVolume />
+
+            <FooterBar className="-mx-4 -mb-4">
+                <PublishActions save={save} />
+            </FooterBar>
+        </Card>
+    );
+};
 
 export default PublishCard;

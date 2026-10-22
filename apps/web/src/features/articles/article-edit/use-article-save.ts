@@ -16,6 +16,7 @@ import {
     MUTATION_META_SKIP_ERROR_TOAST,
 } from '@hikka/core';
 
+import { useSaveShortcut } from '@/services/hooks/use-save-shortcut';
 import { invalidateArticles } from '@/utils/api/invalidate-content-state';
 import { useRouter } from '@/utils/navigation';
 
@@ -34,10 +35,6 @@ const SAVE_ERROR = 'Не вдалося зберегти статтю.';
 
 const articleUrl = (slug: string) => contentPath(ContentTypeEnum.ARTICLE, slug);
 
-// `code`, not `key`: on a Cyrillic layout the S key types another letter.
-const isSaveShortcut = (event: KeyboardEvent) =>
-    (event.metaKey || event.ctrlKey) && event.code === 'KeyS';
-
 /** History state the `new` entry keeps once its article exists, see `readCreatedArticle`. */
 const CREATED_ARTICLE_KEY = 'createdArticle';
 
@@ -50,6 +47,9 @@ export const readCreatedArticle = (state: unknown): string | undefined => {
 };
 
 export const selectUnsavedBlocking = (state: ArticleStore) => state.save.dirty;
+
+export const selectPreviewUrl = (state: ArticleStore) =>
+    state.slug ? articleUrl(state.slug) : undefined;
 
 export const selectSaveDisabled = (state: ArticleStore) =>
     !state.save.dirty ||
@@ -213,23 +213,9 @@ export function useArticleSave() {
         }
     };
 
-    const saveRef = useRef(save);
-
-    useEffect(() => {
-        saveRef.current = save;
+    useSaveShortcut(() => {
+        if (!selectSaveDisabled(store.getState())) save();
     });
-
-    useEffect(() => {
-        const onKeyDown = (event: KeyboardEvent) => {
-            if (!isSaveShortcut(event) || event.repeat) return;
-
-            event.preventDefault();
-            if (!selectSaveDisabled(store.getState())) saveRef.current();
-        };
-
-        window.addEventListener('keydown', onKeyDown);
-        return () => window.removeEventListener('keydown', onKeyDown);
-    }, [store]);
 
     const publish = async () => {
         try {

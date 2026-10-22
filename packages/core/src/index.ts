@@ -53,6 +53,7 @@ export * from './season';
 export * from './session-cache';
 export * from './session-ui';
 export * from './sort';
+export * from './tags';
 export * from './text';
 export * from './title-length';
 export * from './tracking-args';

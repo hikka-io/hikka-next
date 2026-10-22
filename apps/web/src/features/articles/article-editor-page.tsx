@@ -13,6 +13,7 @@ import { useRouterState } from '@tanstack/react-router';
 import { ContentTypeEnum, getArticleOptions } from '@hikka/api';
 import { CONTENT_TYPE_LINKS, contentPath } from '@hikka/core';
 
+import UnsavedChangesDialog from '@/components/unsaved-changes-dialog';
 import { usePageHeader } from '@/features/app-shell';
 import { usePreventUnsavedClose } from '@/services/hooks/use-prevent-unsaved-close';
 import { useSession } from '@/services/session';
@@ -33,7 +34,6 @@ import HeaderActions from './article-edit/publish-card/header-actions';
 import PublishCard from './article-edit/publish-card/publish-card';
 import PublishDrawer from './article-edit/publish-card/publish-drawer';
 import { describeSave } from './article-edit/publish-card/save-status-label';
-import UnsavedChangesDialog from './article-edit/unsaved-changes-dialog';
 import {
     type ArticleSave,
     readCreatedArticle,
