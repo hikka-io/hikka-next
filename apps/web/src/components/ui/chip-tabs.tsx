@@ -3,7 +3,7 @@ import { type ComponentType, useEffect, useRef } from 'react';
 import { Tabs as TabsPrimitive } from '@base-ui/react/tabs';
 
 import { chipVariants } from '@/components/ui/chip';
-import { SELECTED_TINT } from '@/components/ui/selected-tint';
+import { CHIP_IDLE, SELECTED_TINT } from '@/components/ui/selected-tint';
 import { useScrollGradientMask } from '@/services/hooks/use-scroll-position';
 import { cn } from '@/utils/cn';
 import { Link } from '@/utils/navigation';
@@ -34,9 +34,7 @@ const chipClassName = <T extends string>(
     cn(
         chipVariants(),
         'border border-transparent px-3.5 text-sm',
-        isActive
-            ? (option.activeClass ?? SELECTED_TINT)
-            : 'bg-secondary/40 text-muted-foreground hover:bg-accent',
+        isActive ? (option.activeClass ?? SELECTED_TINT) : CHIP_IDLE,
     );
 
 // An explicit aria-label replaces the name computed from the content, so the

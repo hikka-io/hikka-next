@@ -16,7 +16,7 @@ import type { UiFeedWidget } from '@hikka/api';
 import { BlockFlushOnMobileContext } from '@/components/ui/block';
 import { Button } from '@/components/ui/button';
 import { Chip } from '@/components/ui/chip';
-import { SELECTED_TINT } from '@/components/ui/selected-tint';
+import { CHIP_IDLE, SELECTED_TINT } from '@/components/ui/selected-tint';
 import { FIRST_BLOCK_BLUR_CLASS_NAME } from '@/components/ui/surface';
 import { useSession } from '@/services/session';
 import { cn } from '@/utils/cn';
@@ -57,9 +57,6 @@ const WidgetColumn: FC<{ widgets: UiFeedWidget[]; className?: string }> = ({
         ))}
     </div>
 );
-
-const CHIP_IDLE =
-    'bg-secondary/40 text-muted-foreground hover:bg-accent backdrop-blur';
 
 const SidebarWidgetChips: FC<{
     widgets: UiFeedWidget[];
