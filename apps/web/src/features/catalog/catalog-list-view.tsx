@@ -7,6 +7,8 @@ import FiltersNotFound from '@/components/filters-not-found';
 import LoadMoreButton from '@/components/load-more-button';
 import PagePagination from '@/components/page-pagination';
 import Stack, { type StackSize } from '@/components/ui/stack';
+import { FLUSH_SURFACE_LIST_CLASS_NAME } from '@/components/ui/surface';
+import { cn } from '@/utils/cn';
 import type { View } from '@/utils/cookies';
 
 import CatalogListItemSkeleton from './catalog-list-item-skeleton';
@@ -47,7 +49,12 @@ function CatalogListView<T>({
     if (isLoading && !isFetchingNextPage) {
         if (view === 'list') {
             return (
-                <div className="flex flex-col max-md:[&>*+*]:-mt-px md:gap-6">
+                <div
+                    className={cn(
+                        'flex flex-col',
+                        FLUSH_SURFACE_LIST_CLASS_NAME,
+                    )}
+                >
                     {range(0, pageSize).map((v) => (
                         <CatalogListItemSkeleton key={v} />
                     ))}
@@ -66,7 +73,12 @@ function CatalogListView<T>({
     return (
         <div className="isolate flex flex-col gap-6">
             {view === 'list' ? (
-                <div className="flex flex-col max-md:[&>*+*]:-mt-px md:gap-6">
+                <div
+                    className={cn(
+                        'flex flex-col',
+                        FLUSH_SURFACE_LIST_CLASS_NAME,
+                    )}
+                >
                     {list.map(renderListItem)}
                 </div>
             ) : (

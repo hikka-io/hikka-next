@@ -247,8 +247,7 @@ const ReadingTracker = ({
                 icon={<MaterialSymbolsBookmarkOutline />}
                 title={
                     <span>
-                        Список <span className="font-extrabold">Читаю</span>{' '}
-                        порожній
+                        Список <span className="font-bold">Читаю</span> порожній
                     </span>
                 }
                 description={config.emptyDescription}

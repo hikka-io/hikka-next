@@ -24,7 +24,7 @@ const FeedItemArticle: FC<Props> = ({ data }) => {
                 to={`/articles/${data.slug}`}
                 className="w-fit hover:underline"
             >
-                <h3 className="font-bold text-base">{data.title}</h3>
+                <h3 className="font-semibold text-base">{data.title}</h3>
             </Link>
 
             {data.tags.length > 0 && (
@@ -51,7 +51,7 @@ const FeedItemArticle: FC<Props> = ({ data }) => {
                             <div className="h-20 animate-pulse rounded bg-muted" />
                         }
                     >
-                        <StaticViewer value={data.preview as Value} />
+                        <StaticViewer value={data.preview as Value} preview />
                     </Suspense>
                 )}
             </div>

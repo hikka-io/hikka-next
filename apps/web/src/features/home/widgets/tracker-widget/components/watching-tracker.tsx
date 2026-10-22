@@ -213,7 +213,7 @@ const WatchingTracker = ({
                 icon={<StatusWatching />}
                 title={
                     <span>
-                        Список <span className="font-extrabold">Дивлюсь</span>{' '}
+                        Список <span className="font-bold">Дивлюсь</span>{' '}
                         порожній
                     </span>
                 }

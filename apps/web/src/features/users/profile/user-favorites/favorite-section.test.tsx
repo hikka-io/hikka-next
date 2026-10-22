@@ -147,7 +147,7 @@ const LEGACY: {
         icon: <MaterialSymbolsLiveTvRounded />,
         title: (
             <span>
-                У списку <span className="font-black">Аніме</span> пусто
+                У списку <span className="font-bold">Аніме</span> пусто
             </span>
         ),
         description:
@@ -161,7 +161,7 @@ const LEGACY: {
         icon: <MaterialSymbolsMenuBookRounded />,
         title: (
             <span>
-                У списку <span className="font-black">Манґа</span> пусто
+                У списку <span className="font-bold">Манґа</span> пусто
             </span>
         ),
         description:
@@ -174,7 +174,7 @@ const LEGACY: {
         icon: <MaterialSymbolsMenuBookRounded />,
         title: (
             <span>
-                У списку <span className="font-black">Ранобе</span> пусто
+                У списку <span className="font-bold">Ранобе</span> пусто
             </span>
         ),
         description:
@@ -197,7 +197,7 @@ const LEGACY: {
         icon: <MaterialSymbolsPerson2OutlineRounded />,
         title: (
             <span>
-                У списку <span className="font-black">Персонажі</span> пусто
+                У списку <span className="font-bold">Персонажі</span> пусто
             </span>
         ),
         description:
@@ -220,7 +220,7 @@ const LEGACY: {
         icon: <MaterialSymbolsPerson />,
         title: (
             <span>
-                У списку <span className="font-black">Люди</span> пусто
+                У списку <span className="font-bold">Люди</span> пусто
             </span>
         ),
         description:
@@ -245,7 +245,7 @@ const LEGACY: {
         icon: <MaterialSymbolsGridViewRounded />,
         title: (
             <span>
-                У списку <span className="font-black">Колекції</span> пусто
+                У списку <span className="font-bold">Колекції</span> пусто
             </span>
         ),
         description:

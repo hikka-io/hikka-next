@@ -933,6 +933,12 @@ td:last-child {
     @apply text-sm font-semibold;
 }
 
+/* A list preview sits under its document's title, so its headings read as body text. */
+.prose-preview :is(h3, h4, h5, .slate-h3, .slate-h4, .slate-h5) {
+    font-size: inherit;
+    line-height: inherit;
+}
+
 /* Lists — visual styles for semantic HTML (MDViewer + PlateStatic) */
 .prose ul {
     @apply ml-6 list-disc;

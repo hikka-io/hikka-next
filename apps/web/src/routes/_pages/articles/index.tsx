@@ -13,6 +13,7 @@ import {
     ArticleListPopularTags,
 } from '@/features/articles';
 import { articleListOptions } from '@/features/articles/queries';
+import { FiltersSidebar } from '@/features/filters';
 import { generateHeadMeta } from '@/utils/metadata';
 import { SITE_ORIGIN } from '@/utils/url';
 
@@ -54,9 +55,9 @@ function ArticlesPage() {
                 <ArticleListPopularTags />
             </div>
             <ArticleList />
-            <div className="sticky top-20 hidden max-h-[calc(100vh-9rem)] w-full self-start overflow-hidden rounded-lg border border-border surface sm:flex">
+            <FiltersSidebar className="self-start md:flex">
                 <ArticleListFilters />
-            </div>
+            </FiltersSidebar>
         </div>
     );
 }

@@ -5,8 +5,10 @@ import type { EditSearch } from '@hikka/core';
 import FiltersNotFound from '@/components/filters-not-found';
 import PagePagination from '@/components/page-pagination';
 import Block from '@/components/ui/block';
+import { FLUSH_SURFACE_CLASS_NAME } from '@/components/ui/surface';
 import { Table, TableBody } from '@/components/ui/table';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
+import { cn } from '@/utils/cn';
 import { useRouteSearch } from '@/utils/navigation';
 
 import { editListOptions } from '../queries';
@@ -31,7 +33,7 @@ const EditList: FC<Props> = () => {
 
     return (
         <Block>
-            <div className="-mx-4 overflow-hidden rounded-none border border-x-0 surface md:mx-0 md:rounded-lg md:border-x">
+            <div className={cn('overflow-hidden', FLUSH_SURFACE_CLASS_NAME)}>
                 <Table className="max-md:table-fixed max-md:[&_td]:px-2 max-md:[&_th]:px-2 max-md:[&_td:nth-child(2)]:pl-4 max-md:[&_th:nth-child(2)]:pl-4 max-md:[&_td:last-child]:pr-4 max-md:[&_th:last-child]:pr-4">
                     <EditHead />
                     <TableBody>

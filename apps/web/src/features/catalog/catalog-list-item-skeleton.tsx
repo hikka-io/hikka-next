@@ -3,10 +3,14 @@ import type { FC } from 'react';
 import { AspectRatio } from '@/components/ui/aspect-ratio';
 import { Separator } from '@/components/ui/separator';
 import { Skeleton } from '@/components/ui/skeleton';
+import { FLUSH_SURFACE_CLASS_NAME } from '@/components/ui/surface';
+import { cn } from '@/utils/cn';
 
 const CatalogListItemSkeleton: FC = () => {
     return (
-        <div className="surface -mx-4 flex flex-col gap-4 rounded-none border border-border border-x-0 p-4 md:mx-0 md:rounded-(--base-radius) md:border-x">
+        <div
+            className={cn('flex flex-col gap-4 p-4', FLUSH_SURFACE_CLASS_NAME)}
+        >
             <div className="flex gap-4">
                 <div className="w-24 shrink-0 md:w-16">
                     <AspectRatio ratio={0.7}>

@@ -1,3 +1,4 @@
+import { FLUSH_ON_MOBILE_CLASS_NAME } from '@/components/ui/surface';
 import { cn } from '@/utils/cn';
 
 import type { EditParam } from '../types';
@@ -13,8 +14,6 @@ type Props = {
     defaultOpen?: boolean;
     bleed?: boolean;
 };
-
-const BLEED = '-mx-4 rounded-none border-x-0 md:mx-0 md:rounded-lg md:border-x';
 
 /**
  * Shared field body for the create and view/update edit forms: renders each
@@ -36,7 +35,7 @@ const EditFormFields = ({
                     key={group}
                     className={cn(
                         index === 0 && 'backdrop-blur',
-                        bleed && BLEED,
+                        bleed && FLUSH_ON_MOBILE_CLASS_NAME,
                     )}
                     title={groups[group]}
                     groupKey={group}
@@ -53,7 +52,7 @@ const EditFormFields = ({
 
             <EditDescription
                 mode={mode === 'update' ? 'edit' : mode}
-                className={bleed ? BLEED : undefined}
+                className={bleed ? FLUSH_ON_MOBILE_CLASS_NAME : undefined}
             />
         </div>
     );

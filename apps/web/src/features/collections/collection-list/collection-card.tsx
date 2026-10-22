@@ -32,7 +32,7 @@ const CollectionCard: FC<Props> = ({ collection, className }) => {
     const isDesktop = useIsDesktop();
 
     return (
-        <article className={cn('isolate flex flex-col p-4 sm:px-0', className)}>
+        <article className={cn('isolate flex flex-col py-4', className)}>
             <HorizontalCard
                 className={cn(CARD_ROWS.author, STRIP_CONTAINER_CLASS_NAME)}
             >
@@ -67,7 +67,7 @@ const CollectionCard: FC<Props> = ({ collection, className }) => {
                 to={`/collections/${collection.reference}`}
                 className={cn('block', CARD_ROWS.title)}
             >
-                <h3 className="line-clamp-2 font-bold text-lg">
+                <h3 className="line-clamp-2 font-semibold text-lg">
                     {collection.title}
                 </h3>
             </Link>

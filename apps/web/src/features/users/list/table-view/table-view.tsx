@@ -12,6 +12,7 @@ import {
 } from '@hikka/api';
 import type { UserlistSearch } from '@hikka/core';
 
+import { FLUSH_SURFACE_CLASS_NAME } from '@/components/ui/surface';
 import {
     Table,
     TableBody,
@@ -20,6 +21,7 @@ import {
     TableRow,
 } from '@/components/ui/table';
 import { useSession } from '@/services/session';
+import { cn } from '@/utils/cn';
 import { useParams, useRouteSearch } from '@/utils/navigation';
 
 import { DEFAULT_PAGE_SIZE } from '../../queries';
@@ -81,7 +83,7 @@ const TableView: FC<Props> = ({ data, content_type }) => {
     };
 
     return (
-        <div className="-mx-4 overflow-hidden rounded-none border border-x-0 surface md:mx-0 md:rounded-lg md:border-x">
+        <div className={cn('overflow-hidden', FLUSH_SURFACE_CLASS_NAME)}>
             <Table className="max-md:table-fixed max-md:[&_td]:px-2 max-md:[&_th]:px-2 max-md:[&_td:first-child]:pl-4 max-md:[&_th:first-child]:pl-4">
                 <TableHeader className="[&_tr]:border-b">
                     <TableRow className="hover:bg-transparent">

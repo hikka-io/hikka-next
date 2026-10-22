@@ -25,9 +25,7 @@ const ArticleItem: FC<Props> = ({ article, className }) => {
     const document = article.preview as Value;
 
     return (
-        <article
-            className={cn('isolate flex flex-col px-4 sm:px-0', className)}
-        >
+        <article className={cn('isolate flex flex-col', className)}>
             <ArticleAuthorCard article={article} className="px-0" />
             <div className="relative flex flex-col gap-4">
                 <Link
@@ -41,7 +39,7 @@ const ArticleItem: FC<Props> = ({ article, className }) => {
                             className="relative z-10 self-start"
                         />
                     )}
-                    <h2 className="font-bold text-lg leading-7">
+                    <h2 className="font-semibold text-lg leading-7">
                         {article.title}
                     </h2>
                 </div>
@@ -59,7 +57,7 @@ const ArticleItem: FC<Props> = ({ article, className }) => {
                         )}
                     </div>
                 )}
-                <StaticViewer value={document} />
+                <StaticViewer value={document} preview />
             </div>
             <VoteCommentsFooter
                 className="py-4"

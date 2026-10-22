@@ -13,6 +13,7 @@ export {
     type RenderFiltersModal,
 } from './filters-button';
 export { default as FiltersModal } from './filters-modal';
+export { default as FiltersSidebar } from './filters-sidebar';
 export { default as FiltersSidebarLayout } from './filters-sidebar-layout';
 export { default as FiltersSidebarToggle } from './filters-sidebar-toggle';
 export { default as Genre } from './genre';

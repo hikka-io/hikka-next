@@ -2,6 +2,7 @@ import type { FC, ReactNode } from 'react';
 
 import { cn } from '@/utils/cn';
 
+import FiltersSidebar from './filters-sidebar';
 import { useFiltersSidebar } from './use-filters-sidebar';
 
 type Props = {
@@ -38,9 +39,9 @@ const FiltersSidebarLayout: FC<Props> = ({
             <div className={contentClassName}>{children}</div>
 
             {sidebarVisible && (
-                <div className="sticky top-20 order-1 hidden max-h-[calc(100vh-9rem)] w-full overflow-hidden rounded-lg border border-border surface lg:order-2 lg:flex">
+                <FiltersSidebar className="order-1 lg:order-2 lg:flex">
                     {sidebar}
-                </div>
+                </FiltersSidebar>
             )}
         </div>
     );

@@ -9,7 +9,11 @@ import {
 } from 'react';
 
 import { Header } from '@/components/ui/header';
-import { SURFACE_CLASS_NAME, SURFACE_VARIANTS } from '@/components/ui/surface';
+import {
+    FLUSH_ON_MOBILE_CLASS_NAME,
+    SURFACE_CLASS_NAME,
+    SURFACE_VARIANTS,
+} from '@/components/ui/surface';
 import { cn } from '@/utils/cn';
 
 type Variant = 'open' | 'card';
@@ -25,9 +29,6 @@ const CARD_CLASS_NAME = cn(
     SURFACE_CLASS_NAME,
     SURFACE_VARIANTS.surface,
 );
-
-const FLUSH_ON_MOBILE_CLASS_NAME =
-    '-mx-4 rounded-none border-x-0 sm:mx-0 sm:rounded-lg sm:border-x';
 
 const VARIANTS: Record<Variant, string> = {
     open: 'gap-5',

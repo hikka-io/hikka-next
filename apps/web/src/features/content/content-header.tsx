@@ -48,7 +48,7 @@ const ContentHeader: FC<Props> = ({
                 headerInside
                 className={cn(
                     'backdrop-blur',
-                    hasTabs && 'rounded-b-none sm:rounded-b-none',
+                    hasTabs && 'rounded-b-none md:rounded-b-none',
                 )}
             >
                 <Header className="gap-4">
@@ -94,7 +94,7 @@ const ContentHeader: FC<Props> = ({
                 <Block
                     variant="card"
                     flushOnMobile
-                    className="rounded-t-none border-t-0 px-4 py-3 backdrop-blur sm:rounded-t-none md:sticky md:top-16 md:z-40"
+                    className="rounded-t-none border-t-0 px-4 py-3 backdrop-blur md:sticky md:rounded-t-none md:top-16 md:z-40"
                 >
                     <ChipTabs
                         options={routes.map((route) => ({

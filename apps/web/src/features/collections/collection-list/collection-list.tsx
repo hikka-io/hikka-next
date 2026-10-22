@@ -6,6 +6,7 @@ import type { CollectionsSearch } from '@hikka/core';
 
 import FiltersNotFound from '@/components/filters-not-found';
 import PagePagination from '@/components/page-pagination';
+import DividedList from '@/components/ui/divided-list';
 import { useViewPreference } from '@/services/hooks/use-view-preference';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 
@@ -22,20 +23,12 @@ type Props = {
 type View = 'list' | 'grid';
 
 const LAYOUTS = {
-    list: {
-        className:
-            '-mx-4 flex flex-col divide-y divide-border border-t sm:mx-0',
-        itemClassName: undefined,
-        skeletons: 3,
-    },
-    // Each row ends with its own line, since a two-column row has no single last item.
-    grid: {
-        className:
-            '-mx-4 grid grid-cols-1 divide-y divide-border border-t sm:mx-0 sm:grid-cols-2 sm:gap-x-12 sm:[&>*]:border-b',
-        itemClassName: GRID_CELL_CLASS_NAME,
-        skeletons: 4,
-    },
-} satisfies Record<View, Record<string, unknown>>;
+    list: { columns: 1, itemClassName: undefined, skeletons: 3 },
+    grid: { columns: 2, itemClassName: GRID_CELL_CLASS_NAME, skeletons: 4 },
+} satisfies Record<
+    View,
+    { columns: 1 | 2; itemClassName?: string; skeletons: number }
+>;
 
 const CollectionList: FC<Props> = ({ search }) => {
     const { view } = useViewPreference(COLLECTIONS_VIEW_KEY);
@@ -45,14 +38,14 @@ const CollectionList: FC<Props> = ({ search }) => {
 
     if (!list) {
         return (
-            <div className={layout.className}>
+            <DividedList columns={layout.columns}>
                 {range(0, layout.skeletons).map((index) => (
                     <CollectionCardSkeleton
                         key={index}
                         className={layout.itemClassName}
                     />
                 ))}
-            </div>
+            </DividedList>
         );
     }
 
@@ -63,7 +56,7 @@ const CollectionList: FC<Props> = ({ search }) => {
                     search={{ page: 1, content_type: search.content_type }}
                 />
             ) : (
-                <div className={layout.className}>
+                <DividedList columns={layout.columns}>
                     {list.map((collection) => (
                         <CollectionCard
                             key={collection.reference}
@@ -71,7 +64,7 @@ const CollectionList: FC<Props> = ({ search }) => {
                             className={layout.itemClassName}
                         />
                     ))}
-                </div>
+                </DividedList>
             )}
             {pagination && <PagePagination pagination={pagination} />}
         </>

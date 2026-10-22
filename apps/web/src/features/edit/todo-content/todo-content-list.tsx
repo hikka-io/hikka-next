@@ -7,14 +7,18 @@ import { ContentTypeEnum } from '@hikka/api';
 import FiltersNotFound from '@/components/filters-not-found';
 import LoadMoreButton from '@/components/load-more-button';
 import PagePagination from '@/components/page-pagination';
+import { FLUSH_SURFACE_LIST_CLASS_NAME } from '@/components/ui/surface';
+import { cn } from '@/utils/cn';
 
 import { TodoContentCard } from './todo-content-card';
 import TodoContentCardSkeleton from './todo-content-card-skeleton';
 import { TODO_PAGE_SIZE, useTodoContentQuery } from './use-todo-content-query';
 import { useTodoFilters } from './use-todo-filters';
 
-const LIST_CLASSNAME =
-    'grid grid-cols-1 max-md:[&>*+*]:-mt-px md:grid-cols-2 md:gap-6';
+const LIST_CLASSNAME = cn(
+    'grid grid-cols-1 md:grid-cols-2',
+    FLUSH_SURFACE_LIST_CLASS_NAME,
+);
 
 const TodoContentList: FC = () => {
     const { contentType } = useTodoFilters();

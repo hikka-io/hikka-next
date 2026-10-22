@@ -19,7 +19,9 @@ import InlineScores from '@/components/inline-scores';
 import MagazineTitleLink from '@/components/magazine-title-link';
 import { TrackingButtonsGroup } from '@/components/tracking';
 import { Separator } from '@/components/ui/separator';
+import { FLUSH_SURFACE_CLASS_NAME } from '@/components/ui/surface';
 import { useTitle } from '@/services/session';
+import { cn } from '@/utils/cn';
 
 type Props =
     | {
@@ -67,7 +69,9 @@ export default function CatalogListItem(props: Props) {
         : undefined;
 
     return (
-        <div className="surface -mx-4 flex flex-col gap-4 rounded-none border border-border border-x-0 p-4 md:mx-0 md:rounded-(--base-radius) md:border-x">
+        <div
+            className={cn('flex flex-col gap-4 p-4', FLUSH_SURFACE_CLASS_NAME)}
+        >
             <div className="flex gap-4">
                 <PosterCard
                     className="w-24 shrink-0 md:w-16"
@@ -77,7 +81,10 @@ export default function CatalogListItem(props: Props) {
                 />
                 <div className="flex min-w-0 flex-1 flex-col gap-4 md:flex-row md:items-stretch md:gap-4">
                     <div className="flex min-w-0 flex-1 flex-col justify-start gap-3 md:justify-center">
-                        <HorizontalCardTitle to={href} className="min-w-0">
+                        <HorizontalCardTitle
+                            to={href}
+                            className="min-w-0 font-semibold"
+                        >
                             {title}
                         </HorizontalCardTitle>
                         <HorizontalCardDescription className="flex-wrap">

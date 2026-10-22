@@ -16,6 +16,14 @@ export function HeadingElementStatic({
     );
 }
 
+export function HeadingTextElementStatic(props: SlateElementProps) {
+    return (
+        <SlateElement as="p" className="relative" {...props}>
+            {props.children}
+        </SlateElement>
+    );
+}
+
 export function H1ElementStatic(props: SlateElementProps) {
     return <HeadingElementStatic variant="h1" {...props} />;
 }

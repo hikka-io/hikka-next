@@ -6,7 +6,7 @@ const PREVIEW_LINES = 7;
 
 const ArticleItemSkeleton = () => {
     return (
-        <div className="flex flex-col px-4 sm:px-0">
+        <div className="flex flex-col">
             <div className="flex items-center gap-4 py-4">
                 <Skeleton className="size-12 shrink-0" />
                 <div className="flex min-w-0 flex-1 flex-col gap-1">

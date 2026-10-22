@@ -7,9 +7,11 @@ import { CONTENT_TYPE_LINKS } from '@hikka/core';
 
 import FiltersNotFound from '@/components/filters-not-found';
 import MaterialSymbolsAddRounded from '@/components/icons/material-symbols/MaterialSymbolsAddRounded';
+import LoadError from '@/components/load-error';
 import LoadMoreButton from '@/components/load-more-button';
 import Block from '@/components/ui/block';
 import { Button } from '@/components/ui/button';
+import DividedList from '@/components/ui/divided-list';
 import { Header, HeaderActions, HeaderTitle } from '@/components/ui/header';
 import {
     Tooltip,
@@ -43,7 +45,9 @@ const ArticleList: FC<Props> = () => {
         fetchNextPage,
         isFetchingNextPage,
         isPending,
+        isError,
         hasNextPage,
+        refetch,
     } = useInfiniteList(articleListOptions(search));
 
     return (
@@ -78,7 +82,7 @@ const ArticleList: FC<Props> = () => {
                 </HeaderActions>
             </Header>
             <ArticleCategoryChips />
-            <div className="-mx-4 flex flex-col divide-y divide-border border-t sm:mx-0">
+            <DividedList>
                 {isPending &&
                     range(0, SKELETON_COUNT).map((index) => (
                         <ArticleItemSkeleton key={index} />
@@ -86,23 +90,23 @@ const ArticleList: FC<Props> = () => {
                 {list?.map((article) => (
                     <ArticleItem article={article} key={article.slug} />
                 ))}
-                {(!list || list.length === 0) && !isPending && (
-                    <div className="px-4 py-4 sm:px-0">
-                        <FiltersNotFound
-                            search={{ categories: search.categories }}
-                        />
-                    </div>
-                )}
-                {hasNextPage && (
-                    <div className="px-4 py-4 sm:px-0">
-                        <LoadMoreButton
-                            ref={ref}
-                            isFetchingNextPage={isFetchingNextPage}
-                            fetchNextPage={fetchNextPage}
-                        />
-                    </div>
-                )}
-            </div>
+            </DividedList>
+            {isError && !list && (
+                <LoadError
+                    title="Не вдалося завантажити статті"
+                    onRetry={() => refetch()}
+                />
+            )}
+            {list?.length === 0 && (
+                <FiltersNotFound search={{ categories: search.categories }} />
+            )}
+            {hasNextPage && (
+                <LoadMoreButton
+                    ref={ref}
+                    isFetchingNextPage={isFetchingNextPage}
+                    fetchNextPage={fetchNextPage}
+                />
+            )}
         </Block>
     );
 };

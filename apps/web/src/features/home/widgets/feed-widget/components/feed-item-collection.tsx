@@ -19,7 +19,7 @@ const FeedItemCollection: FC<Props> = ({ data }) => {
                 to={`/collections/${data.reference}`}
                 className="w-fit hover:underline"
             >
-                <h3 className="font-bold text-base">{data.title}</h3>
+                <h3 className="font-semibold text-base">{data.title}</h3>
             </Link>
             <CollectionBadges collection={data} />
             <CollectionPreviewStrip collection={data} />

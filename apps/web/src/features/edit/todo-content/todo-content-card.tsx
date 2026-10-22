@@ -32,6 +32,7 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { FLUSH_SURFACE_CLASS_NAME } from '@/components/ui/surface';
 import { useSession, useTitle } from '@/services/session';
 import { cn } from '@/utils/cn';
 import { Link } from '@/utils/navigation';
@@ -229,7 +230,9 @@ export function TodoContentCard(props: Props) {
     }
 
     return (
-        <div className="surface -mx-4 flex flex-col gap-4 rounded-none border border-border border-x-0 p-4 md:mx-0 md:rounded-(--base-radius) md:border-x">
+        <div
+            className={cn('flex flex-col gap-4 p-4', FLUSH_SURFACE_CLASS_NAME)}
+        >
             <div className="flex gap-4">
                 <EntityCard
                     entity={contentEntity(item)}
@@ -241,7 +244,7 @@ export function TodoContentCard(props: Props) {
                 <div className="flex min-w-0 flex-1 flex-col gap-3">
                     <HorizontalCardTitle
                         to={href}
-                        className="min-w-0"
+                        className="min-w-0 font-semibold"
                         titleMeta={
                             isMedia && (
                                 <CardActions

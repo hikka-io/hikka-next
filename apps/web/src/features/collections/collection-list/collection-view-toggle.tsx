@@ -5,7 +5,7 @@ import ViewToggle from '@/components/view-toggle';
 import { COLLECTIONS_VIEW_KEY } from './constants';
 
 const CollectionViewToggle: FC = () => (
-    <div className="hidden sm:block">
+    <div className="hidden md:block">
         <ViewToggle viewKey={COLLECTIONS_VIEW_KEY} views={['list', 'grid']} />
     </div>
 );

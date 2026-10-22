@@ -23,6 +23,7 @@ export const editorVariants = cva(
             },
             variant: {
                 default: 'text-[0.9375rem]',
+                preview: 'prose-preview text-[0.9375rem]',
             },
         },
     },

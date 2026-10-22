@@ -4,6 +4,7 @@ import type { ContentTypeEnum } from '@hikka/api';
 import type { SortType } from '@hikka/core';
 
 import { Separator } from '@/components/ui/separator';
+import { FLUSH_SURFACE_CLASS_NAME } from '@/components/ui/surface';
 import ViewToggle from '@/components/view-toggle';
 import {
     FilterPresetButton,
@@ -14,6 +15,7 @@ import {
     SearchInput,
     Sort,
 } from '@/features/filters';
+import { cn } from '@/utils/cn';
 
 type Props = {
     sort_type: SortType;
@@ -30,7 +32,12 @@ const CatalogNavbar: FC<Props> = ({
 }) => {
     return (
         <>
-            <div className="surface -mx-4 flex flex-col gap-4 rounded-none border border-x-0 p-4 md:mx-0 md:flex-row md:items-center md:rounded-md md:border-x">
+            <div
+                className={cn(
+                    'flex flex-col gap-4 p-4 md:flex-row md:items-center',
+                    FLUSH_SURFACE_CLASS_NAME,
+                )}
+            >
                 <div className="min-w-0 flex-1">
                     <Suspense>
                         <SearchInput placeholder={searchPlaceholder} />

@@ -18,7 +18,7 @@ const html = (node: ReactNode, collapsibles: Record<string, boolean> = {}) =>
     );
 
 const LEGACY_PANEL =
-    'sticky top-20 order-1 hidden max-h-[calc(100vh-9rem)] w-full overflow-hidden rounded-lg border border-border surface lg:order-2 lg:flex';
+    'sticky top-20 hidden max-h-[calc(100vh-9rem)] w-full overflow-hidden rounded-lg border border-border surface order-1 lg:order-2 lg:flex';
 
 const LegacyCatalog = ({ visible }: { visible: boolean }) => (
     <div

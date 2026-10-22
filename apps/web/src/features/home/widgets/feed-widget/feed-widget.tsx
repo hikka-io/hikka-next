@@ -7,9 +7,11 @@ import { ContentTypeEnum } from '@hikka/api';
 import { buildFeedArgs, isFeedDisabled } from '@hikka/core';
 
 import MaterialSymbolsDynamicFeedRounded from '@/components/icons/material-symbols/MaterialSymbolsDynamicFeedRounded';
+import LoadError from '@/components/load-error';
 import LoadMoreButton from '@/components/load-more-button';
 import Block from '@/components/ui/block';
 import { Checkbox } from '@/components/ui/checkbox';
+import DividedList from '@/components/ui/divided-list';
 import EmptyState from '@/components/ui/empty-state';
 import { Field, FieldLabel, FieldTitle } from '@/components/ui/field';
 import { Header, HeaderActions, HeaderTitle } from '@/components/ui/header';
@@ -94,9 +96,11 @@ const FeedWidget: FC<WidgetProps> = ({ isLast }) => {
     const {
         data: feedData,
         isPending,
+        isError,
         hasNextPage,
         isFetchingNextPage,
         fetchNextPage,
+        refetch,
     } = feedQuery;
 
     const feedList: FeedItemResponse[] | undefined = useMemo(() => {
@@ -150,7 +154,7 @@ const FeedWidget: FC<WidgetProps> = ({ isLast }) => {
 
             <FeedQuickFilters value={filters} onChange={handleFiltersChange} />
 
-            <div className="-mx-4 flex flex-col divide-y divide-border border-t sm:mx-0">
+            <DividedList>
                 {isPending && !allSectionsDisabled
                     ? Array.from({ length: 3 }).map((_, i) => (
                           <FeedItemSkeleton key={i} />
@@ -159,35 +163,38 @@ const FeedWidget: FC<WidgetProps> = ({ isLast }) => {
                       feedList?.map((item) => (
                           <FeedItem key={getFeedItemKey(item)} item={item} />
                       ))}
+            </DividedList>
 
-                {(allSectionsDisabled ||
-                    (!isPending && feedList?.length === 0)) && (
-                    <div className="px-4 py-4 sm:px-0">
-                        <EmptyState
-                            icon={<MaterialSymbolsDynamicFeedRounded />}
-                            title="Стрічка порожня"
-                            description={
-                                allSectionsDisabled
-                                    ? 'Усі розділи стрічки вимкнено. Увімкніть хоча б один розділ у фільтрах.'
-                                    : onlyFollowed
-                                      ? 'У вашій персональній стрічці поки немає записів. Підпишіться на інших користувачів, щоб бачити їхню активність.'
-                                      : 'Наразі тут немає записів. Спробуйте змінити фільтри або повернутися пізніше.'
-                            }
-                        />
-                    </div>
-                )}
+            {!allSectionsDisabled && isError && !feedList && (
+                <LoadError
+                    title="Не вдалося завантажити стрічку"
+                    onRetry={() => refetch()}
+                />
+            )}
 
-                {!allSectionsDisabled && hasNextPage && (
-                    <div className="px-4 py-4 sm:px-0">
-                        <LoadMoreButton
-                            className="w-full"
-                            isFetchingNextPage={isFetchingNextPage}
-                            fetchNextPage={fetchNextPage}
-                            ref={isLast !== false ? feedRef : undefined}
-                        />
-                    </div>
-                )}
-            </div>
+            {(allSectionsDisabled ||
+                (!isPending && feedList?.length === 0)) && (
+                <EmptyState
+                    icon={<MaterialSymbolsDynamicFeedRounded />}
+                    title="Стрічка порожня"
+                    description={
+                        allSectionsDisabled
+                            ? 'Усі розділи стрічки вимкнено. Увімкніть хоча б один розділ у фільтрах.'
+                            : onlyFollowed
+                              ? 'У вашій персональній стрічці поки немає записів. Підпишіться на інших користувачів, щоб бачити їхню активність.'
+                              : 'Наразі тут немає записів. Спробуйте змінити фільтри або повернутися пізніше.'
+                    }
+                />
+            )}
+
+            {!allSectionsDisabled && hasNextPage && (
+                <LoadMoreButton
+                    className="w-full"
+                    isFetchingNextPage={isFetchingNextPage}
+                    fetchNextPage={fetchNextPage}
+                    ref={isLast !== false ? feedRef : undefined}
+                />
+            )}
         </Block>
     );
 };

@@ -35,7 +35,7 @@ const RecordsNotFound = ({ status, content_type }: Props) => {
                 statusTitle ? (
                     <span>
                         У списку{' '}
-                        <span className="font-black">{statusTitle}</span> пусто
+                        <span className="font-bold">{statusTitle}</span> пусто
                     </span>
                 ) : (
                     <span>Список пустий</span>

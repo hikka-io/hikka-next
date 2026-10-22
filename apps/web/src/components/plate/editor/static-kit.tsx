@@ -3,7 +3,10 @@ import {
     BaseParagraphKit,
 } from './plugins/basic-blocks-base-kit';
 import { BaseBasicMarksKit } from './plugins/basic-marks-base-kit';
-import { BaseHeadingsKit } from './plugins/headings-base-kit';
+import {
+    BaseHeadingsKit,
+    BaseHeadingsTextKit,
+} from './plugins/headings-base-kit';
 import { BaseImageGroupKit } from './plugins/image-group-base-kit';
 import { BaseLinkKit } from './plugins/link-base-kit';
 import { BaseListKit } from './plugins/list-classic-base-kit';
@@ -26,4 +29,11 @@ export const StaticKit = [
     ...BaseBasicMarksKit,
     ...BaseStrikethroughKit,
     ...BaseListKit,
+];
+
+const HEADING_KEYS = new Set(BaseHeadingsKit.map((plugin) => plugin.key));
+
+export const PreviewStaticKit = [
+    ...StaticKit.filter((plugin) => !HEADING_KEYS.has(plugin.key)),
+    ...BaseHeadingsTextKit,
 ];

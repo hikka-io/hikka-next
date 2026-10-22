@@ -12,6 +12,7 @@ import {
     H3ElementStatic,
     H4ElementStatic,
     H5ElementStatic,
+    HeadingTextElementStatic,
 } from '@/components/plate/ui/heading-node-static';
 
 export const BaseHeadingsKit = [
@@ -20,4 +21,12 @@ export const BaseHeadingsKit = [
     BaseH3Plugin.withComponent(H3ElementStatic),
     BaseH4Plugin.withComponent(H4ElementStatic),
     BaseH5Plugin.withComponent(H5ElementStatic),
+];
+
+export const BaseHeadingsTextKit = [
+    BaseH1Plugin.withComponent(HeadingTextElementStatic),
+    BaseH2Plugin.withComponent(HeadingTextElementStatic),
+    BaseH3Plugin.withComponent(HeadingTextElementStatic),
+    BaseH4Plugin.withComponent(HeadingTextElementStatic),
+    BaseH5Plugin.withComponent(HeadingTextElementStatic),
 ];

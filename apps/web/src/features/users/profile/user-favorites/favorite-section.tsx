@@ -230,7 +230,7 @@ const FavoriteSection: FC<Props> = ({ type, extended, total }) => {
                     title={
                         <span>
                             У списку{' '}
-                            <span className="font-black">
+                            <span className="font-bold">
                                 {section.labels.nominative}
                             </span>{' '}
                             пусто
