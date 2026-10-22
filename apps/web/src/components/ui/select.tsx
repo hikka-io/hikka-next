@@ -551,7 +551,9 @@ const SelectSearch = React.forwardRef<
 >((props, ref) => {
     const { onSearch } = useSelect();
 
-    return <CommandInput ref={ref} {...props} onValueChange={onSearch} />;
+    return (
+        <CommandInput ref={ref} clearable {...props} onValueChange={onSearch} />
+    );
 });
 
 SelectSearch.displayName = 'SelectSearch';

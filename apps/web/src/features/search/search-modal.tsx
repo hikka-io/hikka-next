@@ -7,12 +7,10 @@ import {
     useState,
 } from 'react';
 
-import { CircleX } from 'lucide-react';
-
 import type { ContentTypeEnum, UserResponse } from '@hikka/api';
 import { API_LIMITS } from '@hikka/api';
 
-import { Button } from '@/components/ui/button';
+import ClearInputButton from '@/components/ui/clear-input-button';
 import { CommandDialog, CommandInput } from '@/components/ui/command';
 import { DEBOUNCE_MS, useDebounce } from '@/services/hooks/use-debounce';
 
@@ -162,18 +160,13 @@ const SearchModal: FC<Props> = ({
                         />
                     }
                 >
-                    <Button
+                    <ClearInputButton
                         onClick={() => {
                             setSearchValue('');
                             inputRef.current?.focus();
                         }}
-                        size="icon-sm"
-                        variant="ghost"
-                        disabled={!searchValue || searchValue?.length === 0}
-                        className="shrink-0 text-muted-foreground"
-                    >
-                        <CircleX />
-                    </Button>
+                        disabled={!searchValue}
+                    />
                 </CommandInput>
 
                 {showHistory ? (

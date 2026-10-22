@@ -4,6 +4,7 @@ import { useNavigate } from '@tanstack/react-router';
 
 import type { TextSearch } from '@hikka/core';
 
+import ClearInputButton from '@/components/ui/clear-input-button';
 import { Input } from '@/components/ui/input';
 import { DEBOUNCE_MS, useDebounce } from '@/services/hooks/use-debounce';
 import { useRouteSearch } from '@/utils/navigation';
@@ -16,6 +17,7 @@ const SearchInput: FC<Props> = ({ placeholder }) => {
     const navigate = useNavigate();
     const { search: query } = useRouteSearch<TextSearch>();
 
+    const inputRef = useRef<HTMLInputElement>(null);
     const [search, setSearch] = useState(query);
     const [debouncedSearch] = useDebounce({
         value: search,
@@ -54,13 +56,24 @@ const SearchInput: FC<Props> = ({ placeholder }) => {
     }, [query]);
 
     return (
-        <Input
-            className="w-full"
-            value={search || ''}
-            onChange={(event) => setSearch(event.target.value)}
-            type="text"
-            placeholder={placeholder}
-        />
+        <div className="relative w-full">
+            <Input
+                ref={inputRef}
+                className="w-full pr-11"
+                value={search || ''}
+                onChange={(event) => setSearch(event.target.value)}
+                type="text"
+                placeholder={placeholder}
+            />
+            <ClearInputButton
+                disabled={!search}
+                className="absolute top-1/2 right-1 -translate-y-1/2"
+                onClick={() => {
+                    setSearch('');
+                    inputRef.current?.focus();
+                }}
+            />
+        </div>
     );
 };
 

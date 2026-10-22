@@ -1,4 +1,4 @@
-import { type FC, useState } from 'react';
+import { type FC, useRef, useState } from 'react';
 
 import { range } from '@antfu/utils';
 import { keepPreviousData } from '@tanstack/react-query';
@@ -15,6 +15,7 @@ import MaterialSymbolsStack from '@/components/icons/material-symbols/MaterialSy
 import { AspectRatio } from '@/components/ui/aspect-ratio';
 import BlockBleed from '@/components/ui/block-bleed';
 import { buttonVariants } from '@/components/ui/button';
+import ClearInputButton from '@/components/ui/clear-input-button';
 import EmptyState from '@/components/ui/empty-state';
 import { Skeleton } from '@/components/ui/skeleton';
 import { DEBOUNCE_MS, useDebounce } from '@/services/hooks/use-debounce';
@@ -46,6 +47,7 @@ const CollectionPickerItemSkeleton: FC = () => (
 );
 
 const CollectionPicker: FC<Props> = ({ content_type, slug }) => {
+    const queryInputRef = useRef<HTMLInputElement>(null);
     const [query, setQuery] = useState('');
     const [selected, setSelected] = useState<UserCollectionResponse | null>(
         null,
@@ -120,6 +122,7 @@ const CollectionPicker: FC<Props> = ({ content_type, slug }) => {
                         <label className="flex h-9 items-center gap-2 rounded-md border bg-secondary/20 px-3 text-muted-foreground">
                             <Search className="size-4" />
                             <input
+                                ref={queryInputRef}
                                 value={query}
                                 onChange={(event) =>
                                     setQuery(event.target.value)
@@ -127,6 +130,14 @@ const CollectionPicker: FC<Props> = ({ content_type, slug }) => {
                                 placeholder="Пошук колекцій"
                                 aria-label="Пошук колекцій"
                                 className="min-w-0 flex-1 bg-transparent text-foreground text-sm outline-none placeholder:text-muted-foreground"
+                            />
+                            <ClearInputButton
+                                disabled={!query}
+                                className="-mr-2.5 size-7"
+                                onClick={() => {
+                                    setQuery('');
+                                    queryInputRef.current?.focus();
+                                }}
                             />
                         </label>
                     )}

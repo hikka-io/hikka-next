@@ -111,6 +111,7 @@ const SearchBody: FC<BodyProps> = ({
             placeholder={PLACEHOLDER}
             aria-label={PLACEHOLDER}
             autoFocus
+            clearable
             containerClassName={cn(closeButton && 'pr-1')}
         >
             {closeButton ? (

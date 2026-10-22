@@ -1,8 +1,10 @@
 import type * as React from 'react';
+import { useRef, useState } from 'react';
 
 import { Command as CommandPrimitive } from 'cmdk';
 import { SearchIcon } from 'lucide-react';
 
+import ClearInputButton from '@/components/ui/clear-input-button';
 import {
     Dialog,
     DialogContent,
@@ -73,15 +75,34 @@ function CommandInput({
     children,
     leftSideNode,
     containerClassName,
+    clearable,
+    value,
+    onValueChange,
     ...props
 }: React.ComponentProps<typeof CommandPrimitive.Input> & {
     leftSideNode?: React.ReactNode;
 } & {
     children?: React.ReactNode;
     containerClassName?: string;
+    clearable?: boolean;
 }) {
+    const wrapperRef = useRef<HTMLDivElement>(null);
+    const [uncontrolledValue, setUncontrolledValue] = useState('');
+    const search = value ?? uncontrolledValue;
+
+    const handleValueChange = (next: string) => {
+        setUncontrolledValue(next);
+        onValueChange?.(next);
+    };
+
+    const handleClear = () => {
+        handleValueChange('');
+        wrapperRef.current?.querySelector('input')?.focus();
+    };
+
     return (
         <div
+            ref={wrapperRef}
             data-slot="command-input-wrapper"
             className={cn(
                 'flex items-center gap-3 border-b px-3',
@@ -98,8 +119,17 @@ function CommandInput({
                     'flex h-11 w-full bg-transparent px-0 py-3 text-sm outline-hidden placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50',
                     className,
                 )}
+                value={clearable ? search : value}
+                onValueChange={clearable ? handleValueChange : onValueChange}
                 {...props}
             />
+            {clearable && (
+                <ClearInputButton
+                    disabled={!search}
+                    className="-mr-2"
+                    onClick={handleClear}
+                />
+            )}
             {children}
         </div>
     );
