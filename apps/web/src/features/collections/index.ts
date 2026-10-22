@@ -1,4 +1,5 @@
 export { default as AddToCollectionButton } from './add-to-collection/add-to-collection-button';
+export { default as AddToCollectionDrawer } from './add-to-collection/add-to-collection-drawer';
 export { default as CollectionEditorPage } from './collection-editor-page';
 export { default as CollectionList } from './collection-list';
 export { default as CollectionBadges } from './collection-list/collection-badges';

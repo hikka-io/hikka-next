@@ -1,13 +1,15 @@
-import type { FC } from 'react';
+import { type FC, useState } from 'react';
 
-import { Zap } from 'lucide-react';
+import { CopyPlus, Zap } from 'lucide-react';
 
 import type { EditContentTypeEnum } from '@hikka/api';
 
 import MaterialSymbolsEditRounded from '@/components/icons/material-symbols/MaterialSymbolsEditRounded';
 import PageActionsMenu from '@/components/page-actions-menu';
 import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
+import { AddToCollectionDrawer } from '@/features/collections';
 import { useQuickEdit } from '@/features/edit';
+import { useCloseOnRouteChange } from '@/services/hooks/use-close-on-route-change';
 import { useSession } from '@/services/session';
 import { Link } from '@/utils/navigation';
 
@@ -20,12 +22,21 @@ type Props = {
 const ContentActionsMenu: FC<Props> = ({ url, slug, contentType }) => {
     const { user: loggedUser } = useSession();
     const quickEdit = useQuickEdit(contentType, slug);
+    const [collectionOpen, setCollectionOpen] = useState(false);
+    useCloseOnRouteChange(setCollectionOpen);
+
+    // Defer so a closing menu releases its `pointer-events: none` on <body>.
+    const openCollection = () => setTimeout(() => setCollectionOpen(true), 0);
 
     return (
         <>
             <PageActionsMenu url={url}>
                 {loggedUser && (
                     <>
+                        <DropdownMenuItem onClick={openCollection}>
+                            <CopyPlus />
+                            Додати до колекції
+                        </DropdownMenuItem>
                         <DropdownMenuItem
                             render={
                                 <Link
@@ -50,6 +61,14 @@ const ContentActionsMenu: FC<Props> = ({ url, slug, contentType }) => {
                 )}
             </PageActionsMenu>
             {quickEdit.modal}
+            {loggedUser && (
+                <AddToCollectionDrawer
+                    content_type={contentType}
+                    slug={slug}
+                    open={collectionOpen}
+                    onOpenChange={setCollectionOpen}
+                />
+            )}
         </>
     );
 };

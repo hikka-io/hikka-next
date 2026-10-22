@@ -6,7 +6,6 @@ import { CopyPlus } from 'lucide-react';
 import type { CollectionContentTypeEnum } from '@hikka/api';
 
 import { Button } from '@/components/ui/button';
-import { Drawer, DrawerContent } from '@/components/ui/drawer';
 import {
     Popover,
     PopoverContent,
@@ -22,6 +21,7 @@ import { useIsDesktop } from '@/services/hooks/use-media-query';
 import { useSession } from '@/services/session';
 
 import { userCollectionsOptions } from '../queries';
+import AddToCollectionDrawer from './add-to-collection-drawer';
 import AnimatedHeight from './animated-height';
 import CollectionPicker from './collection-picker';
 import { COLLECTION_PICKER_TITLE as TITLE } from './constants';
@@ -88,14 +88,12 @@ const AddToCollectionButton: FC<Props> = ({ content_type, slug }) => {
     return (
         <>
             {button}
-            <Drawer open={open} onOpenChange={setOpen}>
-                <DrawerContent
-                    aria-label={TITLE}
-                    className="max-h-[85dvh] overflow-hidden p-0 pb-[var(--safe-area-bottom)]"
-                >
-                    <AnimatedHeight className="p-4">{picker}</AnimatedHeight>
-                </DrawerContent>
-            </Drawer>
+            <AddToCollectionDrawer
+                content_type={content_type}
+                slug={slug}
+                open={open}
+                onOpenChange={setOpen}
+            />
         </>
     );
 };
