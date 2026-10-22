@@ -15,6 +15,10 @@ type Options = { queryKey: readonly unknown[] };
 
 const mocks = vi.hoisted(() => ({ calls: [] as Options[] }));
 
+vi.mock('@/services/hooks/use-view-preference', () => ({
+    useViewPreference: () => ({ view: 'list' }),
+}));
+
 vi.mock('@/utils/api/use-infinite-list', () => ({
     useInfiniteList: (options: Options) => {
         mocks.calls.push(options);

@@ -19,6 +19,7 @@ import {
 export const UI_PREFS_DEFAULTS = {
     views: {
         userlist: 'table',
+        collections: 'list',
     } as Record<string, View>,
 };
 

@@ -1,9 +1,12 @@
 export { default as AddToCollectionButton } from './add-to-collection/add-to-collection-button';
 export { default as CollectionEditorPage } from './collection-editor-page';
 export { default as CollectionList } from './collection-list';
+export { default as CollectionBadges } from './collection-list/collection-badges';
 export { default as CollectionListFilters } from './collection-list/collection-filters';
 export { default as CollectionFiltersButton } from './collection-list/collection-filters-button';
+export { default as CollectionPreviewStrip } from './collection-list/collection-preview-strip';
 export { default as CollectionTypeChips } from './collection-list/collection-type-chips';
+export { default as CollectionViewToggle } from './collection-list/collection-view-toggle';
 export { default as CollectionListModal } from './collection-list-modal';
 export { default as CollectionViewActionsMenu } from './collection-view/collection-actions-menu';
 export { default as CollectionViewAuthor } from './collection-view/collection-author';

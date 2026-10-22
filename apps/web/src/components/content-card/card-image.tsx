@@ -72,6 +72,8 @@ const CardImage: FC<Props> = ({
                 )}
                 alt="Poster"
                 loading="lazy"
+                // A blur would smear the placeholder colour into the poster's edges.
+                background="transparent"
             />
         );
     }

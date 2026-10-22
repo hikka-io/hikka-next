@@ -23,6 +23,10 @@ const mocks = vi.hoisted(() => ({
     pagination: undefined as { page: number; pages: number } | undefined,
 }));
 
+vi.mock('@/services/hooks/use-view-preference', () => ({
+    useViewPreference: () => ({ view: 'list' }),
+}));
+
 vi.mock('@/utils/api/use-infinite-list', () => ({
     useInfiniteList: () => ({ list: [], pagination: mocks.pagination }),
 }));

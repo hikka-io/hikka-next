@@ -1,14 +1,8 @@
 import type { FC } from 'react';
 
-import { ArrowBigUp, MessageCircle } from 'lucide-react';
+import { type CollectionResponse, ContentTypeEnum } from '@hikka/api';
 
-import type { CollectionResponse } from '@hikka/api';
-import { getTitle } from '@hikka/core';
-
-import { FollowButton } from '@/components/action-buttons';
-import { contentEntity } from '@/components/content-card';
-import EntityCard from '@/components/content-card/entity-card';
-import PosterCard from '@/components/content-card/poster-card';
+import { FollowButton, VoteCommentsFooter } from '@/components/action-buttons';
 import {
     HorizontalCard,
     HorizontalCardContainer,
@@ -17,43 +11,35 @@ import {
     HorizontalCardTitle,
 } from '@/components/horizontal-card';
 import RelativeTime from '@/components/relative-time';
-import { Badge } from '@/components/ui/badge';
-import Image from '@/components/ui/image';
-import Stack, { type StackSize } from '@/components/ui/stack';
-import { StatItem, StatItemGroup } from '@/components/ui/stat-item';
 import { useIsDesktop } from '@/services/hooks/use-media-query';
-import { useSessionUI } from '@/services/session';
 import { cn } from '@/utils/cn';
 import { Link } from '@/utils/navigation';
+
+import CollectionBadges from './collection-badges';
+import CollectionPreviewStrip from './collection-preview-strip';
+import {
+    CARD_ROWS,
+    FOLLOW_LABEL_CLASS_NAME,
+    STRIP_CONTAINER_CLASS_NAME,
+} from './collection-strip';
 
 type Props = {
     collection: CollectionResponse;
     className?: string;
-    maxPreviewItems: number;
 };
 
-const CollectionCard: FC<Props> = ({
-    collection,
-    className,
-    maxPreviewItems = 6,
-}) => {
+const CollectionCard: FC<Props> = ({ collection, className }) => {
     const isDesktop = useIsDesktop();
-    const { preferences } = useSessionUI();
-    const previewItems = collection.collection.slice(0, maxPreviewItems);
-    const remainingCount = collection.entries - maxPreviewItems;
-    const previewItem =
-        collection.collection.length > maxPreviewItems
-            ? collection.collection[maxPreviewItems]
-            : collection.collection[collection.collection.length - 1];
 
     return (
-        <article
-            className={cn('isolate flex flex-col gap-4 p-4 sm:px-0', className)}
-        >
-            <HorizontalCard>
+        <article className={cn('isolate flex flex-col p-4 sm:px-0', className)}>
+            <HorizontalCard
+                className={cn(CARD_ROWS.author, STRIP_CONTAINER_CLASS_NAME)}
+            >
                 <HorizontalCardImage
                     className="w-12"
                     image={collection.author.avatar}
+                    imageClassName="sm:rounded-lg"
                     imageRatio={1}
                     to={`/u/${collection.author.username}`}
                 />
@@ -71,103 +57,40 @@ const CollectionCard: FC<Props> = ({
                 </HorizontalCardContainer>
                 <FollowButton
                     iconOnly={!isDesktop}
-                    size={!isDesktop ? 'icon-md' : 'md'}
+                    size={isDesktop ? 'md' : 'icon-md'}
+                    labelClassName={FOLLOW_LABEL_CLASS_NAME}
                     user={collection.author}
                 />
             </HorizontalCard>
 
-            <Link to={`/collections/${collection.reference}`} className="block">
-                <h3 className="font-bold text-lg">{collection.title}</h3>
+            <Link
+                to={`/collections/${collection.reference}`}
+                className={cn('block', CARD_ROWS.title)}
+            >
+                <h3 className="line-clamp-2 font-bold text-lg">
+                    {collection.title}
+                </h3>
             </Link>
 
-            {(collection.tags.length > 0 ||
-                collection.spoiler ||
-                collection.nsfw) && (
-                <div className="flex gap-2">
-                    {collection?.spoiler && (
-                        <Badge variant="warning">Спойлери</Badge>
-                    )}
-                    {collection?.nsfw && (
-                        <Badge variant="destructive">+18</Badge>
-                    )}
-                    {collection.tags.length > 0 && (
-                        <Badge variant="secondary">{collection.tags[0]}</Badge>
-                    )}
-                    {collection.tags.slice(1).map((tag) => (
-                        <Badge
-                            key={tag}
-                            className="hidden md:block"
-                            variant="secondary"
-                        >
-                            {tag}
-                        </Badge>
-                    ))}
-                    {collection.tags.length > 2 && (
-                        <Badge variant="outline" className="block md:hidden">
-                            +{collection.tags.length - 1}
-                        </Badge>
-                    )}
-                </div>
-            )}
+            <CollectionBadges
+                collection={collection}
+                className={CARD_ROWS.tags}
+            />
 
-            <Stack
-                size={(maxPreviewItems + 1) as StackSize}
-                gap="md"
-                imagePreset="cardSm"
-            >
-                {previewItems.map((item) => (
-                    <EntityCard
-                        key={item.content.slug}
-                        entity={contentEntity(item.content)}
-                        title={getTitle(
-                            item.content,
-                            preferences.title_language,
-                            preferences.name_language,
-                        )}
-                        titleBlur={collection.spoiler}
-                        imageBlur={collection.nsfw || collection.spoiler}
-                    />
-                ))}
-                {remainingCount > 0 && (
-                    <PosterCard
-                        to={`/collections/${collection.reference}`}
-                        image={
-                            <div className="isolate flex items-center justify-center">
-                                {previewItem.content.image && (
-                                    <Image
-                                        className="absolute -z-10 size-full blur-lg"
-                                        src={previewItem.content.image ?? ''}
-                                        alt="Third element"
-                                    />
-                                )}
+            <CollectionPreviewStrip
+                collection={collection}
+                className={CARD_ROWS.posters}
+            />
 
-                                <span className="font-bold text-2xl text-white drop-shadow-lg">
-                                    +{remainingCount}
-                                </span>
-                            </div>
-                        }
-                    />
-                )}
-            </Stack>
-
-            <div className="flex items-center justify-between">
-                <StatItemGroup>
-                    <StatItem
-                        render={
-                            <Link
-                                to={`/comments/collection/${collection.reference}`}
-                            />
-                        }
-                    >
-                        <MessageCircle />
-                        {collection.comments_count}
-                    </StatItem>
-                    <StatItem className="pointer-events-none">
-                        <ArrowBigUp className="size-5!" />
-                        {collection.vote_score}
-                    </StatItem>
-                </StatItemGroup>
-            </div>
+            <VoteCommentsFooter
+                className={CARD_ROWS.stats}
+                commentsCount={collection.comments_count}
+                commentsHref={`/comments/collection/${collection.reference}`}
+                voteScore={collection.vote_score}
+                myScore={collection.my_score}
+                contentType={ContentTypeEnum.COLLECTION}
+                slug={collection.reference}
+            />
         </article>
     );
 };

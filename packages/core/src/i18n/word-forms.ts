@@ -1,3 +1,5 @@
+import type { ContentTypeEnum } from '@hikka/api';
+
 import type { WordForms } from './declension';
 
 export const EPISODE_FORMS = [
@@ -80,6 +82,42 @@ export const TITLE_FORMS = [
     'тайтлів',
 ] as const satisfies WordForms;
 
+export const ANIME_FORMS = [
+    'аніме',
+    'аніме',
+    'аніме',
+] as const satisfies WordForms;
+
+export const MANGA_FORMS = [
+    'манґа',
+    'манґи',
+    'манґ',
+] as const satisfies WordForms;
+
+export const NOVEL_FORMS = [
+    'ранобе',
+    'ранобе',
+    'ранобе',
+] as const satisfies WordForms;
+
+export const CHARACTER_FORMS = [
+    'персонаж',
+    'персонажі',
+    'персонажів',
+] as const satisfies WordForms;
+
+export const PERSON_FORMS = [
+    'людина',
+    'людини',
+    'людей',
+] as const satisfies WordForms;
+
+export const COLLECTION_FORMS = [
+    'колекція',
+    'колекції',
+    'колекцій',
+] as const satisfies WordForms;
+
 export const RELATION_FORMS = [
     'зв’язок',
     'зв’язки',
@@ -93,3 +131,13 @@ export const WORD_FORMS = [
     'слова',
     'слів',
 ] as const satisfies WordForms;
+
+/** The noun a count of each kind of content takes, e.g. "205 манґ". */
+export const CONTENT_COUNT_FORMS = {
+    anime: ANIME_FORMS,
+    manga: MANGA_FORMS,
+    novel: NOVEL_FORMS,
+    character: CHARACTER_FORMS,
+    person: PERSON_FORMS,
+    collection: COLLECTION_FORMS,
+} as const satisfies Partial<Record<ContentTypeEnum, WordForms>>;

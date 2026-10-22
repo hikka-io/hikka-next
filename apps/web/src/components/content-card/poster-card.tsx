@@ -56,6 +56,8 @@ export type PosterCardProps = {
     imageClassName?: string;
     containerClassName?: string;
     titleClassName?: string;
+    /** The title and subtitles under the poster. */
+    metaClassName?: string;
     className?: string;
     /** Rendered over the poster, inside the link. */
     children?: ReactNode;
@@ -118,6 +120,7 @@ const PosterCard: FC<PosterCardProps> = ({
     containerClassName,
     containerRatio = DEFAULT_CONTAINER_RATIO,
     titleClassName,
+    metaClassName,
     className,
     children,
     overlay,
@@ -210,9 +213,10 @@ const PosterCard: FC<PosterCardProps> = ({
                     target={target}
                     linkProps={linkProps}
                     onClick={revealClick}
-                    className={
-                        leftSubtitle || rightSubtitle ? 'truncate' : undefined
-                    }
+                    className={cn(
+                        (leftSubtitle || rightSubtitle) && 'truncate',
+                        metaClassName,
+                    )}
                 >
                     <CardMeta
                         title={title}

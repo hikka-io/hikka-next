@@ -24,6 +24,8 @@ type Props = {
     username?: string;
     user?: UserResponseFollowed;
     iconOnly?: boolean;
+    /** Hides the label by CSS, e.g. in a narrow container. */
+    labelClassName?: string;
     size?: VariantProps<typeof buttonVariants>['size'];
 };
 
@@ -32,6 +34,7 @@ const FollowButton: FC<Props> = ({
     user: userProp,
     username,
     iconOnly,
+    labelClassName,
     size,
 }) => {
     const { user: loggedUser } = useSession();
@@ -87,7 +90,9 @@ const FollowButton: FC<Props> = ({
                 render={<Link to="/login" />}
             >
                 <MaterialSymbolsPersonAddOutlineRounded />
-                {!iconOnly && 'Відстежувати'}
+                {!iconOnly && (
+                    <span className={labelClassName}>Відстежувати</span>
+                )}
             </Button>
         );
     }
@@ -111,7 +116,11 @@ const FollowButton: FC<Props> = ({
             ) : (
                 <MaterialSymbolsPersonAddOutlineRounded />
             )}
-            {!iconOnly && (user.is_followed ? 'Не стежити' : 'Відстежувати')}
+            {!iconOnly && (
+                <span className={labelClassName}>
+                    {user.is_followed ? 'Не стежити' : 'Відстежувати'}
+                </span>
+            )}
         </Button>
     );
 };

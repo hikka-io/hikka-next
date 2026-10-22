@@ -18,6 +18,7 @@ import {
     CollectionList,
     CollectionListFilters,
     CollectionTypeChips,
+    CollectionViewToggle,
 } from '@/features/collections';
 import { collectionListOptions } from '@/features/collections/queries';
 import { FiltersSidebarLayout } from '@/features/filters';
@@ -92,8 +93,9 @@ function CollectionsPage() {
                         </TooltipTrigger>
                         <TooltipContent>Нова колекція</TooltipContent>
                     </Tooltip>
-                    <HeaderActions className="lg:hidden">
-                        <CollectionFiltersButton />
+                    <HeaderActions>
+                        <CollectionViewToggle />
+                        <CollectionFiltersButton className="lg:hidden" />
                     </HeaderActions>
                 </Header>
                 <CollectionTypeChips />
