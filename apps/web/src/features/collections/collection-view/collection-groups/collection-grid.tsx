@@ -1,6 +1,4 @@
-import { type FC, memo, useRef } from 'react';
-
-import { Info } from 'lucide-react';
+import { type FC, memo } from 'react';
 
 import type { CollectionContentResponse } from '@hikka/api';
 import { DEFAULT_CONTAINER_RATIO, getTitle } from '@hikka/core';
@@ -8,70 +6,12 @@ import { DEFAULT_CONTAINER_RATIO, getTitle } from '@hikka/core';
 import { contentEntity } from '@/components/content-card';
 import EntityCard from '@/components/content-card/entity-card';
 import { Header, HeaderTitle } from '@/components/ui/header';
-import {
-    Popover,
-    PopoverContent,
-    PopoverTrigger,
-} from '@/components/ui/popover';
 import Stack from '@/components/ui/stack';
-import {
-    Tooltip,
-    TooltipContent,
-    TooltipPortal,
-    TooltipTrigger,
-} from '@/components/ui/tooltip';
-import { useIsDesktop } from '@/services/hooks/use-media-query';
-import { useScrollGradientMask } from '@/services/hooks/use-scroll-position';
 import { useSessionUI } from '@/services/session';
 
+import CollectionCommentPill from '../../collection-comment-pill';
+
 const ASPECT_RATIO = String(DEFAULT_CONTAINER_RATIO);
-
-const ScrollableComment: FC<{ comment: string }> = ({ comment }) => {
-    const ref = useRef<HTMLDivElement>(null);
-    const { gradientClassName } = useScrollGradientMask(ref);
-
-    return (
-        <div
-            ref={ref}
-            className={`max-h-48 max-w-64 overflow-y-auto p-4 py-3 ${gradientClassName}`}
-        >
-            {comment}
-        </div>
-    );
-};
-
-const CommentButton: FC<{ comment: string }> = ({ comment }) => {
-    const isDesktop = useIsDesktop();
-
-    const trigger = (
-        <button
-            type="button"
-            className="flex size-7 items-center justify-center rounded-md bg-secondary/80 backdrop-blur transition-colors hover:bg-accent"
-        >
-            <Info className="size-4" />
-        </button>
-    );
-
-    if (isDesktop) {
-        return (
-            <Tooltip>
-                <TooltipTrigger render={trigger} />
-                <TooltipContent side="top" className="p-0">
-                    <ScrollableComment comment={comment} />
-                </TooltipContent>
-            </Tooltip>
-        );
-    }
-
-    return (
-        <Popover>
-            <PopoverTrigger render={trigger} />
-            <PopoverContent side="top" className="p-0 text-sm">
-                <ScrollableComment comment={comment} />
-            </PopoverContent>
-        </Popover>
-    );
-};
 
 type Props = {
     group?: string;
@@ -106,9 +46,10 @@ const CollectionDisplayGrid: FC<Props> = ({ group, items }) => {
                                 className="pointer-events-none absolute top-0 left-0 w-full"
                                 style={{ aspectRatio: ASPECT_RATIO }}
                             >
-                                <div className="pointer-events-auto absolute right-2 bottom-2 z-1">
-                                    <CommentButton comment={item.comment} />
-                                </div>
+                                <CollectionCommentPill
+                                    comment={item.comment}
+                                    className="pointer-events-auto absolute right-2 bottom-2 z-1"
+                                />
                                 <div className="pointer-events-none absolute bottom-0 left-0 z-0 h-12 w-full rounded-b-md bg-linear-to-t from-background/60 to-transparent" />
                             </div>
                         )}

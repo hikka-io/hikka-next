@@ -2,20 +2,16 @@ import { type FC, type MouseEvent, memo } from 'react';
 
 import { pointerIntersection } from '@dnd-kit/collision';
 import { useSortable } from '@dnd-kit/react/sortable';
-import { Info } from 'lucide-react';
 
 import PosterCard from '@/components/content-card/poster-card';
 import MaterialSymbolsAddCommentRounded from '@/components/icons/material-symbols/MaterialSymbolsAddCommentRounded';
 import MaterialSymbolsCloseRounded from '@/components/icons/material-symbols/MaterialSymbolsCloseRounded';
 import MaterialSymbolsDragIndicator from '@/components/icons/material-symbols/MaterialSymbolsDragIndicator';
-import {
-    Tooltip,
-    TooltipContent,
-    TooltipTrigger,
-} from '@/components/ui/tooltip';
 import { useTitle } from '@/services/session';
 import { cn } from '@/utils/cn';
 
+import CardOverlayPill from '../../card-overlay-pill';
+import CollectionCommentPill from '../../collection-comment-pill';
 import { useCollectionContext } from '../collection-provider';
 import { isCommentTooShort } from '../collection-rules';
 import type { Item } from '../collection-store';
@@ -57,7 +53,7 @@ const CollectionItemCard: FC<Props> = ({ item, index, groupId }) => {
             className={cn(isDragSource && 'opacity-30')}
             overlay={
                 <>
-                    <div className="surface-glass absolute top-2 right-2 z-1 flex gap-0.5 rounded-lg border p-0.5 opacity-0 pointer-coarse:opacity-100 transition-opacity focus-within:opacity-100 group-hover:opacity-100">
+                    <CardOverlayPill className="absolute top-2 right-2 z-1 flex gap-0.5 opacity-0 pointer-coarse:opacity-100 transition-opacity focus-within:opacity-100 group-hover:opacity-100">
                         <HintButton
                             hint="Перетягніть, щоб змінити порядок"
                             className="cursor-grab touch-none text-muted-foreground"
@@ -75,31 +71,14 @@ const CollectionItemCard: FC<Props> = ({ item, index, groupId }) => {
                         >
                             <MaterialSymbolsCloseRounded />
                         </HintButton>
-                    </div>
+                    </CardOverlayPill>
                     {item.comment && (
-                        <Tooltip>
-                            <TooltipTrigger
-                                render={
-                                    <button
-                                        type="button"
-                                        aria-label="Коментар"
-                                        onClick={own(open)}
-                                        className={cn(
-                                            'absolute right-2 bottom-2 z-1 flex size-7 items-center justify-center rounded-md bg-secondary/80 backdrop-blur transition-colors hover:bg-accent',
-                                            isCommentTooShort(item.comment) &&
-                                                'text-destructive-foreground',
-                                        )}
-                                    />
-                                }
-                            >
-                                <Info className="size-4" />
-                            </TooltipTrigger>
-                            <TooltipContent className="max-w-64">
-                                <p className="line-clamp-6 whitespace-pre-line">
-                                    {item.comment}
-                                </p>
-                            </TooltipContent>
-                        </Tooltip>
+                        <CollectionCommentPill
+                            comment={item.comment}
+                            warning={isCommentTooShort(item.comment)}
+                            onClick={own(open)}
+                            className="absolute right-2 bottom-2 z-1"
+                        />
                     )}
                 </>
             }

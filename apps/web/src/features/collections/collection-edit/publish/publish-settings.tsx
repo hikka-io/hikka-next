@@ -107,7 +107,7 @@ const FlagsSection: FC = () => {
     const id = useId();
 
     return (
-        <div className="flex flex-col gap-4">
+        <>
             <PanelSection
                 icon={EyeOff}
                 title="Спойлери"
@@ -132,7 +132,7 @@ const FlagsSection: FC = () => {
                     />
                 }
             />
-        </div>
+        </>
     );
 };
 
