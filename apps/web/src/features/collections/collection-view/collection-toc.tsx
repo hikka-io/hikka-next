@@ -19,65 +19,69 @@ function CollectionToc({ className }: Props) {
     const { data: collection } = useQuery(
         getCollectionOptions({ path: { reference: String(params.reference) } }),
     );
-    const scrollRef = useRef(0);
     const tocScrollRef = useRef<HTMLUListElement>(null);
+    const pinnedRef = useRef<string | null>(null);
     const [activeId, setActiveId] = useState<string | null>(null);
     const { gradientClassName } = useScrollGradientMask(tocScrollRef);
+    const labels = collection?.labels_order;
 
     useEffect(() => {
-        const headingsObserver = new IntersectionObserver(
-            (entries) => {
-                entries.forEach((entry) => {
-                    const id = entry.target.getAttribute('id');
+        if (!labels?.length) return;
 
-                    if (entry.isIntersecting) {
-                        setActiveId(id);
-                        scrollRef.current = window.scrollY;
-                    } else {
-                        const diff = scrollRef.current - window.scrollY;
-                        const isScrollingUp = diff > 0;
-                        const currentIndex = collection?.labels_order.findIndex(
-                            (heading) => heading === id,
-                        );
-                        const prevEntry =
-                            collection?.labels_order[currentIndex! - 1];
-                        const prevId = prevEntry;
+        let frame = 0;
 
-                        if (isScrollingUp && prevId) {
-                            setActiveId(prevId);
-                        }
-                    }
-                });
-            },
-            {
-                rootMargin: '0px 0px -90% 0px',
-            },
-        );
+        // The last group whose top has reached the line a TOC jump lands it on: the page's scroll padding plus its own scroll margin.
+        const update = () => {
+            frame = 0;
+            if (pinnedRef.current) return;
 
-        const observeHeadings = () => {
-            collection?.labels_order.forEach((heading) => {
-                const currentHeading = document.getElementById(heading);
+            const padding =
+                Number.parseFloat(
+                    getComputedStyle(document.documentElement).scrollPaddingTop,
+                ) || 0;
+            let current = labels[0];
+            for (const label of labels) {
+                const heading = document.getElementById(label);
+                if (!heading) continue;
 
-                if (currentHeading) {
-                    headingsObserver.observe(currentHeading);
+                const margin =
+                    Number.parseFloat(
+                        getComputedStyle(heading).scrollMarginTop,
+                    ) || 0;
+                if (
+                    heading.getBoundingClientRect().top >
+                    padding + margin + 1
+                ) {
+                    break;
                 }
-            });
+                current = label;
+            }
+            setActiveId(current);
         };
 
-        if (collection?.labels_order.length) {
-            observeHeadings();
+        const onScroll = () => {
+            if (!frame) frame = requestAnimationFrame(update);
+        };
+
+        // A clicked group stays active through its jump, even when the page cannot scroll it to the top.
+        const unpin = () => {
+            pinnedRef.current = null;
+        };
+
+        update();
+        window.addEventListener('scroll', onScroll, { passive: true });
+        for (const type of ['wheel', 'pointerdown', 'keydown'] as const) {
+            window.addEventListener(type, unpin, { passive: true });
         }
 
         return () => {
-            collection?.labels_order.forEach((heading) => {
-                const currentHeading = document.getElementById(heading);
-
-                if (currentHeading) {
-                    headingsObserver.unobserve(currentHeading);
-                }
-            });
+            cancelAnimationFrame(frame);
+            window.removeEventListener('scroll', onScroll);
+            for (const type of ['wheel', 'pointerdown', 'keydown'] as const) {
+                window.removeEventListener(type, unpin);
+            }
         };
-    }, [collection?.labels_order]);
+    }, [labels]);
 
     if (collection?.labels_order.length === 0) return null;
 
@@ -97,6 +101,10 @@ function CollectionToc({ className }: Props) {
                         <li key={`${index}-${label}`}>
                             <TextLink
                                 to={`#${label}`}
+                                onClick={() => {
+                                    pinnedRef.current = label;
+                                    setActiveId(label);
+                                }}
                                 className={cn(
                                     'line-clamp-2 text-muted-foreground',
                                     activeId === label &&
