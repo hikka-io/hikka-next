@@ -54,11 +54,11 @@ const convert = (item: HistoryResponse) => convertHistory(item);
 
 describe('convertHistory: list status', () => {
     it.each([
-        ['planned', 'Додано в Заплановано'],
-        ['watching', 'Додано в Дивлюсь'],
-        ['completed', 'Додано в Завершено'],
-        ['on_hold', 'Додано у Відкладено'],
-        ['dropped', 'Додано в Закинуто'],
+        ['planned', 'Заплановано'],
+        ['watching', 'Дивлюсь'],
+        ['completed', 'Завершено'],
+        ['on_hold', 'Відкладено'],
+        ['dropped', 'Закинуто'],
     ])('adds a new %s entry', (status, text) => {
         const entry = convert(
             watch(null, { status }, ANIME, { new_watch: true }),
@@ -108,7 +108,7 @@ describe('convertHistory: list status', () => {
 
     it('treats a missing before status as a new entry', () => {
         expect(lines(convert(watch(null, { status: 'planned' })))).toEqual([
-            'Додано в Заплановано',
+            'Заплановано',
         ]);
     });
 });
@@ -244,7 +244,7 @@ describe('convertHistory: progress', () => {
                     ),
                 ),
             ),
-        ).toEqual(['Додано в Завершено']);
+        ).toEqual(['Завершено']);
         expect(
             lines(
                 convert(
@@ -372,7 +372,7 @@ describe('convertHistory: score', () => {
                     }),
                 ),
             ),
-        ).toEqual(['Додано в Заплановано']);
+        ).toEqual(['Заплановано']);
     });
 });
 

@@ -14,7 +14,7 @@ import {
     type WordForms,
 } from '../i18n';
 import { LIST_STATUS } from '../labels';
-import { fact, into, joinFacts, status, value } from './fact-builder';
+import { fact, joinFacts, status, value } from './fact-builder';
 import type { HistoryFact, HistoryIcon, HistoryMedium } from './types';
 
 type Unit = 'episodes' | 'chapters' | 'volumes';
@@ -77,18 +77,13 @@ function describeStatus(
     medium: HistoryMedium,
     before: ListEntryState,
     after: ListEntryState,
-    { isNew, withProgress }: { isNew: boolean; withProgress: boolean },
 ): Step | null {
     if (!after.status || after.status === before.status) return null;
 
-    const icon: HistoryIcon = { kind: 'status', status: after.status };
-    const next = statusLabel(medium, after.status);
-
-    if (isNew && !withProgress) {
-        return { fact: fact`додано ${into(next)} ${status(next)}`, icon };
-    }
-
-    return { fact: fact`${status(next)}`, icon };
+    return {
+        fact: fact`${status(statusLabel(medium, after.status))}`,
+        icon: { kind: 'status', status: after.status },
+    };
 }
 
 function describeProgress(
@@ -220,10 +215,7 @@ export function convertListEntry(
     );
 
     const steps = [
-        describeStatus(medium, before, after, {
-            isNew,
-            withProgress: progress.length > 0,
-        }),
+        describeStatus(medium, before, after),
         ...(isNew ? joinNewProgress(progress, config.verb) : progress),
         reset
             ? {

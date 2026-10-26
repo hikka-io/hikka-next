@@ -80,5 +80,3 @@ export const capitalizeFirst = (facts: HistoryFact[]): HistoryFact[] =>
             ...rest,
         ];
     });
-
-export const into = (word: string) => (/^[вф]/iu.test(word) ? 'у' : 'в');
