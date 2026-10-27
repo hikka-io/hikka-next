@@ -8,6 +8,8 @@ type Props = {
     person: Pick<PersonResponse, 'name_native' | 'name_en' | 'name_ua'>;
 };
 
+const SMALL_KANA = /^[ぁぃぅぇぉゃゅょァィゥェォャュョ]/;
+
 const PersonPlaceholder: FC<Props> = ({ person }) => {
     const name = (
         person.name_native ||
@@ -15,7 +17,12 @@ const PersonPlaceholder: FC<Props> = ({ person }) => {
         person.name_ua ||
         ''
     ).trim();
-    const glyph = Array.from(name)[0]?.toLocaleUpperCase();
+    const chars = Array.from(name);
+    const first = chars[0]?.toLocaleUpperCase();
+    const glyph =
+        first && chars[1] && SMALL_KANA.test(chars[1])
+            ? first + chars[1]
+            : first;
 
     if (!glyph) {
         return (
