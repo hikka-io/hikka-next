@@ -39,7 +39,10 @@ export async function createRouter() {
     });
     applyQueryDefaults(queryClient);
 
-    const authToken = await getAuthTokenFn();
+    // In the browser this is an RPC that crawlers may skip; a rejection here blanks the whole page.
+    const authToken = isServer()
+        ? await getAuthTokenFn()
+        : await getAuthTokenFn().catch(() => null);
     const clientIp = isServer() ? await getClientIpFn() : null;
 
     configureBrowserClient({
