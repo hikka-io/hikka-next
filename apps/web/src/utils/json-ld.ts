@@ -27,6 +27,12 @@ const SCHEMA_CONFIG: Record<
     },
 };
 
+const toIsoDateTime = (seconds: number | null) =>
+    seconds ? new Date(seconds * 1000).toISOString() : undefined;
+
+const toIsoDate = (seconds: number | null) =>
+    toIsoDateTime(seconds)?.slice(0, 10);
+
 export const serializeJsonLd = (data: object): string =>
     JSON.stringify(data).replace(
         /[<\u2028\u2029]/g,
@@ -72,8 +78,8 @@ export const articleJsonLd = (article: ArticleDocumentResponse) => ({
             url: `${SITE_ORIGIN}/logo-icon.png`,
         },
     },
-    datePublished: article.created,
-    dateModified: article.updated || article.created,
+    datePublished: toIsoDateTime(article.created),
+    dateModified: toIsoDateTime(article.updated || article.created),
 });
 
 /** JSON-LD (schema.org) document for an anime/manga/novel detail page. */
@@ -90,19 +96,14 @@ export const contentJsonLd = ({
     ];
     const title = content.title_ua || content.title_en || subtitle;
 
-    const entityDetails =
-        contentType === 'anime'
-            ? {
-                  numberOfEpisodes: (content as AnimeInfoResponse)
-                      .episodes_total,
-                  musicBy: null,
-                  timeRequired: 'PT24M',
-              }
-            : {
-                  numberOfPages: (
-                      content as MangaInfoResponse | NovelInfoResponse
-                  ).chapters,
-              };
+    const anime =
+        contentType === 'anime' ? (content as AnimeInfoResponse) : null;
+    const entityDetails = anime
+        ? {
+              numberOfEpisodes: anime.episodes_total,
+              timeRequired: anime.duration ? `PT${anime.duration}M` : undefined,
+          }
+        : {};
 
     return {
         '@context': 'http://schema.org',
@@ -139,8 +140,8 @@ export const contentJsonLd = ({
             description: parseTextFromMarkDown(
                 content.synopsis_ua || content.synopsis_en || '',
             ),
-            startDate: content.start_date,
-            endDate: content.end_date,
+            startDate: toIsoDate(content.start_date),
+            endDate: toIsoDate(content.end_date),
             genre: content.genres.map((genre) => genre.name_ua),
             keywords: content.synonyms,
             countryOfOrigin: 'JP',

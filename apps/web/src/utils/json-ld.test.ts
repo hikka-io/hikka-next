@@ -76,6 +76,7 @@ const ANIME = {
     synopsis_en: 'English synopsis',
     start_date: 584150400,
     end_date: 584150400,
+    duration: 124,
     genres: [{ name_ua: 'Екшн' }, { name_ua: 'Фантастика' }],
     score: 8.1,
     scored_by: 12345,
@@ -168,7 +169,7 @@ describe('articleJsonLd', () => {
                 ),
             ),
         ).toBe(
-            String.raw`{"@context":"https://schema.org","@type":"Article","headline":"У пошуках \"детективів\" \u003c/script>","author":{"@type":"Person","name":"m__ka"},"publisher":{"@type":"Organization","name":"Hikka","logo":{"@type":"ImageObject","url":"https://hikka.io/logo-icon.png"}},"datePublished":1789207221,"dateModified":1789240015}`,
+            String.raw`{"@context":"https://schema.org","@type":"Article","headline":"У пошуках \"детективів\" \u003c/script>","author":{"@type":"Person","name":"m__ka"},"publisher":{"@type":"Organization","name":"Hikka","logo":{"@type":"ImageObject","url":"https://hikka.io/logo-icon.png"}},"datePublished":"2026-09-12T10:00:21.000Z","dateModified":"2026-09-12T19:06:55.000Z"}`,
         );
     });
 
@@ -185,7 +186,7 @@ describe('articleJsonLd', () => {
                 ),
             ),
         ).toBe(
-            '{"@context":"https://schema.org","@type":"Article","headline":"Правила сайту","author":{"@type":"Person","name":"olexh"},"publisher":{"@type":"Organization","name":"Hikka","logo":{"@type":"ImageObject","url":"https://hikka.io/logo-icon.png"}},"datePublished":1700000000,"dateModified":1700000000}',
+            '{"@context":"https://schema.org","@type":"Article","headline":"Правила сайту","author":{"@type":"Person","name":"olexh"},"publisher":{"@type":"Organization","name":"Hikka","logo":{"@type":"ImageObject","url":"https://hikka.io/logo-icon.png"}},"datePublished":"2023-11-14T22:13:20.000Z","dateModified":"2023-11-14T22:13:20.000Z"}',
         );
     });
 });
@@ -197,7 +198,7 @@ describe('contentJsonLd', () => {
                 contentJsonLd({ content: ANIME, contentType: 'anime' }),
             ),
         ).toBe(
-            String.raw`{"@context":"http://schema.org","@type":"WebPage","breadcrumb":{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https://hikka.io/anime","url":"https://hikka.io/anime","name":"Аніме"}},{"@type":"ListItem","position":2,"item":{"@id":"https://hikka.io/anime/akira-8e242d","url":"https://hikka.io/anime/akira-8e242d","name":"Акіра \u003cb>","image":"https://cdn.hikka.io/content/anime/akira.jpg"}}]},"mainEntity":{"@type":"TVSeries","name":"Акіра \u003cb>","alternateName":["Akira 1988","アキラ"],"image":"https://cdn.hikka.io/content/anime/akira.jpg","description":"Минув 31 рік після війни. Нео-Токіо & \"лапки\"","startDate":584150400,"endDate":584150400,"genre":["Екшн","Фантастика"],"keywords":["Akira 1988","アキラ"],"countryOfOrigin":"JP","aggregateRating":{"@type":"AggregateRating","ratingValue":8.1,"ratingCount":12345,"bestRating":10,"worstRating":1},"numberOfEpisodes":1,"musicBy":null,"timeRequired":"PT24M"}}`,
+            String.raw`{"@context":"http://schema.org","@type":"WebPage","breadcrumb":{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https://hikka.io/anime","url":"https://hikka.io/anime","name":"Аніме"}},{"@type":"ListItem","position":2,"item":{"@id":"https://hikka.io/anime/akira-8e242d","url":"https://hikka.io/anime/akira-8e242d","name":"Акіра \u003cb>","image":"https://cdn.hikka.io/content/anime/akira.jpg"}}]},"mainEntity":{"@type":"TVSeries","name":"Акіра \u003cb>","alternateName":["Akira 1988","アキラ"],"image":"https://cdn.hikka.io/content/anime/akira.jpg","description":"Минув 31 рік після війни. Нео-Токіо & \"лапки\"","startDate":"1988-07-06","endDate":"1988-07-06","genre":["Екшн","Фантастика"],"keywords":["Akira 1988","アキラ"],"countryOfOrigin":"JP","aggregateRating":{"@type":"AggregateRating","ratingValue":8.1,"ratingCount":12345,"bestRating":10,"worstRating":1},"numberOfEpisodes":1,"timeRequired":"PT124M"}}`,
         );
     });
 
@@ -210,7 +211,7 @@ describe('contentJsonLd', () => {
                 }),
             ),
         ).toBe(
-            '{"@context":"http://schema.org","@type":"WebPage","breadcrumb":{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https://hikka.io/anime","url":"https://hikka.io/anime","name":"Аніме"}},{"@type":"ListItem","position":2,"item":{"@id":"https://hikka.io/anime/no-title-abc123","url":"https://hikka.io/anime/no-title-abc123","name":"タイトル","image":null}}]},"mainEntity":{"@type":"TVSeries","name":"タイトル","alternateName":[],"image":null,"description":"","startDate":null,"endDate":null,"genre":[],"keywords":[],"countryOfOrigin":"JP","numberOfEpisodes":null,"musicBy":null,"timeRequired":"PT24M"}}',
+            '{"@context":"http://schema.org","@type":"WebPage","breadcrumb":{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https://hikka.io/anime","url":"https://hikka.io/anime","name":"Аніме"}},{"@type":"ListItem","position":2,"item":{"@id":"https://hikka.io/anime/no-title-abc123","url":"https://hikka.io/anime/no-title-abc123","name":"タイトル","image":null}}]},"mainEntity":{"@type":"TVSeries","name":"タイトル","alternateName":[],"image":null,"description":"","genre":[],"keywords":[],"countryOfOrigin":"JP","numberOfEpisodes":null}}',
         );
     });
 
@@ -220,7 +221,7 @@ describe('contentJsonLd', () => {
                 contentJsonLd({ content: MANGA, contentType: 'manga' }),
             ),
         ).toBe(
-            '{"@context":"http://schema.org","@type":"WebPage","breadcrumb":{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https://hikka.io/manga","url":"https://hikka.io/manga","name":"Манґа"}},{"@type":"ListItem","position":2,"item":{"@id":"https://hikka.io/manga/berserk-fb9fbd","url":"https://hikka.io/manga/berserk-fb9fbd","name":"Berserk","image":"https://cdn.hikka.io/content/manga/berserk.jpg"}}]},"mainEntity":{"@type":"Book","name":"Berserk","alternateName":["Берсерк"],"image":"https://cdn.hikka.io/content/manga/berserk.jpg","description":"Guts, a former mercenary.","startDate":619315200,"endDate":null,"genre":["Фентезі"],"keywords":["Берсерк"],"countryOfOrigin":"JP","numberOfPages":380}}',
+            '{"@context":"http://schema.org","@type":"WebPage","breadcrumb":{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https://hikka.io/manga","url":"https://hikka.io/manga","name":"Манґа"}},{"@type":"ListItem","position":2,"item":{"@id":"https://hikka.io/manga/berserk-fb9fbd","url":"https://hikka.io/manga/berserk-fb9fbd","name":"Berserk","image":"https://cdn.hikka.io/content/manga/berserk.jpg"}}]},"mainEntity":{"@type":"Book","name":"Berserk","alternateName":["Берсерк"],"image":"https://cdn.hikka.io/content/manga/berserk.jpg","description":"Guts, a former mercenary.","startDate":"1989-08-17","genre":["Фентезі"],"keywords":["Берсерк"],"countryOfOrigin":"JP"}}',
         );
     });
 
@@ -230,7 +231,7 @@ describe('contentJsonLd', () => {
                 contentJsonLd({ content: NOVEL, contentType: 'novel' }),
             ),
         ).toBe(
-            '{"@context":"http://schema.org","@type":"WebPage","breadcrumb":{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https://hikka.io/novel","url":"https://hikka.io/novel","name":"Ранобе"}},{"@type":"ListItem","position":2,"item":{"@id":"https://hikka.io/novel/omniscient-readers-viewpoint-03471e","url":"https://hikka.io/novel/omniscient-readers-viewpoint-03471e","name":"전지적 독자 시점","image":"https://cdn.hikka.io/content/novel/orv.jpg"}}]},"mainEntity":{"@type":"Book","name":"전지적 독자 시점","alternateName":["ORV"],"image":"https://cdn.hikka.io/content/novel/orv.jpg","description":"Заголовок пункт один пункт два","startDate":1517443200,"endDate":1580515200,"genre":["Екшн","Драма"],"keywords":["ORV"],"countryOfOrigin":"JP","aggregateRating":{"@type":"AggregateRating","ratingValue":8.9,"ratingCount":4321,"bestRating":10,"worstRating":1},"numberOfPages":null}}',
+            '{"@context":"http://schema.org","@type":"WebPage","breadcrumb":{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https://hikka.io/novel","url":"https://hikka.io/novel","name":"Ранобе"}},{"@type":"ListItem","position":2,"item":{"@id":"https://hikka.io/novel/omniscient-readers-viewpoint-03471e","url":"https://hikka.io/novel/omniscient-readers-viewpoint-03471e","name":"전지적 독자 시점","image":"https://cdn.hikka.io/content/novel/orv.jpg"}}]},"mainEntity":{"@type":"Book","name":"전지적 독자 시점","alternateName":["ORV"],"image":"https://cdn.hikka.io/content/novel/orv.jpg","description":"Заголовок пункт один пункт два","startDate":"2018-02-01","endDate":"2020-02-01","genre":["Екшн","Драма"],"keywords":["ORV"],"countryOfOrigin":"JP","aggregateRating":{"@type":"AggregateRating","ratingValue":8.9,"ratingCount":4321,"bestRating":10,"worstRating":1}}}',
         );
     });
 });
