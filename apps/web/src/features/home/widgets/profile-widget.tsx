@@ -30,7 +30,11 @@ const ProfileWidget: FC<WidgetProps> = () => {
 
     if (!user || !followStats) {
         return (
-            <Card className="items-center" id="sidebar-profile">
+            <Card
+                className="items-center"
+                id="sidebar-profile"
+                data-slot="block-surface"
+            >
                 <div className="flex w-full flex-col gap-2">
                     <p className="font-bold text-sm">Приєднуйся до hikka</p>
                     <p className="text-muted-foreground text-xs">
@@ -45,7 +49,11 @@ const ProfileWidget: FC<WidgetProps> = () => {
 
     return (
         <>
-            <Card className="items-center" id="sidebar-profile">
+            <Card
+                className="items-center"
+                id="sidebar-profile"
+                data-slot="block-surface"
+            >
                 <div className="flex w-full items-center justify-between gap-2">
                     <div className="flex items-center gap-4">
                         <Link to={`/u/${user.username}`}>
