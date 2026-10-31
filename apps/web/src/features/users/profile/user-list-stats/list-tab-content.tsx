@@ -137,7 +137,7 @@ const ListTabContent: FC<Props> = ({ type, username }) => {
                         };
 
                         return (
-                            <Tooltip key={status}>
+                            <Tooltip key={status} disableHoverablePopup>
                                 <TooltipTrigger
                                     render={
                                         <Link
