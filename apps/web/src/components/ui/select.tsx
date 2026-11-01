@@ -153,6 +153,14 @@ const Select: React.FC<SelectProps> = ({
         onChange: onOpenChange,
     });
 
+    const handleOpenChange = React.useCallback(
+        (nextOpen: boolean) => {
+            if (disabled && nextOpen) return;
+            setOpen(nextOpen);
+        },
+        [disabled, setOpen],
+    );
+
     const getTriState = React.useCallback(
         (itemValue: string): TriState => {
             if (!triState || !value) return 'neutral';
@@ -298,7 +306,7 @@ const Select: React.FC<SelectProps> = ({
             <PopoverPrimitive.Root
                 {...popoverProps}
                 open={open}
-                onOpenChange={setOpen}
+                onOpenChange={handleOpenChange}
             />
         </SelectContext.Provider>
     );
