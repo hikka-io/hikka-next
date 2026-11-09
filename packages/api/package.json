@@ -5,9 +5,9 @@
     "description": "Generated TypeScript API layer for Hikka (client + TanStack Query)",
     "types": "./dist/index.d.mts",
     "scripts": {
-        "build": "tsup --tsconfig tsconfig.build.json",
+        "build": "tsdown",
         "clean": "rimraf dist",
-        "dev": "tsup --watch",
+        "dev": "tsdown --watch",
         "api:generate": "openapi-ts && biome format --write src/gen",
         "test": "vitest run",
         "typecheck": "tsc --noEmit"
@@ -31,7 +31,7 @@
         "@hey-api/openapi-ts": "^0.99.0",
         "@types/node": "^22.12.0",
         "rimraf": "^5.0.1",
-        "tsup": "^8.4.0",
+        "tsdown": "^0.23.7",
         "typescript": "6.0.3",
         "vitest": "^4.1.9"
     }
