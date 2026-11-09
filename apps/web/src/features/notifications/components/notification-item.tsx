@@ -17,9 +17,10 @@ import NotificationLeadingVisual from './notification-leading-visual';
 type Props = {
     data: Notification;
     onNavigate?: () => void;
+    className?: string;
 };
 
-const NotificationItem: FC<Props> = ({ data, onNavigate }) => {
+const NotificationItem: FC<Props> = ({ data, onNavigate, className }) => {
     const queryClient = useQueryClient();
     const { mutate: markSeen } = useMutation({
         ...notificationSeenMutation(),
@@ -49,6 +50,7 @@ const NotificationItem: FC<Props> = ({ data, onNavigate }) => {
                     ? 'border-l-transparent'
                     : 'border-l-primary-foreground/60 bg-primary-foreground/10',
                 'hover:bg-muted',
+                className,
             )}
         >
             {data.actor?.href ? (

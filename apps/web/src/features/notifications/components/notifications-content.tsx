@@ -1,12 +1,17 @@
 import { type FC, Fragment, type Ref } from 'react';
 
-import { type GroupedNotifications, NOTIFICATION_SECTIONS } from '@hikka/core';
+import {
+    type GroupedNotifications,
+    groupSimilarNotifications,
+    NOTIFICATION_SECTIONS,
+} from '@hikka/core';
 
 import LoadMoreButton from '@/components/load-more-button';
 import { SkeletonText } from '@/components/ui/skeleton';
 
 import type { Notification } from '../types';
 import NotFoundNotifications from './not-found-notifications';
+import NotificationGroup from './notification-group';
 import NotificationItem from './notification-item';
 import NotificationItemSkeleton from './notification-item-skeleton';
 
@@ -54,13 +59,21 @@ const NotificationsContent: FC<Props> = ({
                             <div className={SECTION_LABEL_CLASSNAME}>
                                 {label}
                             </div>
-                            {items.map((item) => (
-                                <NotificationItem
-                                    key={item.reference}
-                                    data={item}
-                                    onNavigate={onNavigate}
-                                />
-                            ))}
+                            {groupSimilarNotifications(items).map((entry) =>
+                                entry.kind === 'group' ? (
+                                    <NotificationGroup
+                                        key={entry.key}
+                                        items={entry.items}
+                                        onNavigate={onNavigate}
+                                    />
+                                ) : (
+                                    <NotificationItem
+                                        key={entry.item.reference}
+                                        data={entry.item}
+                                        onNavigate={onNavigate}
+                                    />
+                                ),
+                            )}
                         </Fragment>
                     );
                 })

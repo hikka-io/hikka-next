@@ -37,6 +37,7 @@ export * from './movie-banners';
 export * from './mutation-meta';
 export * from './new-id';
 export * from './notification-cache';
+export * from './notification-groups';
 export * from './notification-settings';
 export * from './notifications';
 export * from './oklch';
