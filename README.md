@@ -41,7 +41,7 @@ packages/core/        → Runtime-agnostic logic shared by web and mobile (@hikk
 
 **Package manager**: pnpm 12.14.0  
 **Build orchestration**: Turborepo  
-**Library builds**: tsup
+**Library builds**: tsdown
 
 ## Getting Started
 
